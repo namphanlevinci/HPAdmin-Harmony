@@ -6,34 +6,8 @@ import {Redirect, Route, Switch} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {IntlProvider} from 'react-intl'
 import "assets/vendors/style"
-import indigoTheme from './themes/indigoTheme';
-import cyanTheme from './themes/cyanTheme';
-import orangeTheme from './themes/orangeTheme';
-import amberTheme from './themes/amberTheme';
-import pinkTheme from './themes/pinkTheme';
-import blueTheme from './themes/blueTheme';
-import purpleTheme from './themes/purpleTheme';
-import greenTheme from './themes/greenTheme';
-import darkTheme from './themes/darkTheme';
+import defaultTheme from './themes/defaultTheme';
 import AppLocale from '../lngProvider';
-import {
-  AMBER,
-  BLUE,
-  CYAN,
-  DARK_AMBER,
-  DARK_BLUE,
-  DARK_CYAN,
-  DARK_DEEP_ORANGE,
-  DARK_DEEP_PURPLE,
-  DARK_GREEN,
-  DARK_INDIGO,
-  DARK_PINK,
-  DEEP_ORANGE,
-  DEEP_PURPLE,
-  GREEN,
-  INDIGO,
-  PINK
-} from 'constants/ThemeColors';
 
 import MainApp from 'app/index';
 import SignIn from './SignIn';
@@ -65,95 +39,19 @@ class App extends Component {
     }
   }
 
-  getColorTheme(themeColor, applyTheme) {
-    switch (themeColor) {
-      case INDIGO: {
-        applyTheme = createMuiTheme(indigoTheme);
-        break;
-      }
-      case CYAN: {
-        applyTheme = createMuiTheme(cyanTheme);
-        break;
-      }
-      case AMBER: {
-        applyTheme = createMuiTheme(amberTheme);
-        break;
-      }
-      case DEEP_ORANGE: {
-        applyTheme = createMuiTheme(orangeTheme);
-        break;
-      }
-      case PINK: {
-        applyTheme = createMuiTheme(pinkTheme);
-        break;
-      }
-      case BLUE: {
-        applyTheme = createMuiTheme(blueTheme);
-        break;
-      }
-      case DEEP_PURPLE: {
-        applyTheme = createMuiTheme(purpleTheme);
-        break;
-      }
-      case GREEN: {
-        applyTheme = createMuiTheme(greenTheme);
-        break;
-      }
-      case DARK_INDIGO: {
-        applyTheme = createMuiTheme(indigoTheme);
-        break;
-      }
-      case DARK_CYAN: {
-        applyTheme = createMuiTheme(cyanTheme);
-        break;
-      }
-      case DARK_AMBER: {
-        applyTheme = createMuiTheme(amberTheme);
-        break;
-      }
-      case DARK_DEEP_ORANGE: {
-        applyTheme = createMuiTheme(orangeTheme);
-        break;
-      }
-      case DARK_PINK: {
-        applyTheme = createMuiTheme(pinkTheme);
-        break;
-      }
-      case DARK_BLUE: {
-        applyTheme = createMuiTheme(blueTheme);
-        break;
-      }
-      case DARK_DEEP_PURPLE: {
-        applyTheme = createMuiTheme(purpleTheme);
-        break;
-      }
-      case DARK_GREEN: {
-        applyTheme = createMuiTheme(greenTheme);
-        break;
-      }
-      default : createMuiTheme(indigoTheme);
-    }
-    return applyTheme;
-  }
-
   render() {
-    const {match, location, themeColor, isDarkTheme, locale, authUser, initURL, isDirectionRTL} = this.props;
-    let applyTheme = createMuiTheme(indigoTheme);
-    if (isDarkTheme) {
-      document.body.classList.add('dark-theme');
-      applyTheme = createMuiTheme(darkTheme)
-    } else {
-      applyTheme = this.getColorTheme(themeColor, applyTheme);
-    }
+    const {match, location, locale, authUser, initURL, isDirectionRTL} = this.props;
     if (location.pathname === '/') {
       if (authUser === null) {
         return ( <Redirect to={'/signin'}/> );
       } else if (initURL === '' || initURL === '/' || initURL === '/signin') {
-        return ( <Redirect to={'/app/dashboard/crypto'}/> );
+        return ( <Redirect to={'/app/sample-page'}/> );
       } else {
         return ( <Redirect to={initURL}/> );
       }
     }
+    const applyTheme = createMuiTheme(defaultTheme);
+
     if (isDirectionRTL) {
       applyTheme.direction = 'rtl';
       document.body.classList.add('rtl')
@@ -177,7 +75,7 @@ class App extends Component {
                   <Route path='/signin' component={SignIn}/>
                   <Route path='/signup' component={SignUp}/>
                   <Route
-                    component={asyncComponent(() => import('app/routes/extraPages/routes/404'))}/>
+                    component={asyncComponent(() => import('components/Error404'))}/>
                 </Switch>
               </div>
             </RTL>
@@ -189,9 +87,10 @@ class App extends Component {
 }
 
 const mapStateToProps = ({settings, auth}) => {
-  const {themeColor, sideNavColor, darkTheme, locale, isDirectionRTL} = settings;
+  const {sideNavColor, locale, isDirectionRTL} = settings;
   const {authUser, initURL} = auth;
-  return {themeColor, sideNavColor, isDarkTheme: darkTheme, locale, isDirectionRTL, authUser, initURL}
+  return {sideNavColor, locale, isDirectionRTL, authUser, initURL}
 };
 
 export default connect(mapStateToProps, {setInitUrl})(App);
+
