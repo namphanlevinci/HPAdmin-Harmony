@@ -241,14 +241,14 @@ class Header extends React.Component {
                 isOpen={this.state.appNotification}
                 toggle={this.onAppNotificationSelect.bind(this)}>
 
-                <DropdownToggle
+                {/* <DropdownToggle
                   className="d-inline-block"
                   tag="span"
                   data-toggle="dropdown">
                   <IconButton className="icon-btn">
                     <i className="zmdi zmdi-notifications-none icon-alert animated infinite wobble"/>
                   </IconButton>
-                </DropdownToggle>
+                </DropdownToggle> */}
 
                 <DropdownMenu right>
                   <CardHeader styleName="align-items-center"
@@ -263,7 +263,7 @@ class Header extends React.Component {
                 isOpen={this.state.mailNotification}
                 toggle={this.onMailNotificationSelect.bind(this)}
               >
-                <DropdownToggle
+                {/* <DropdownToggle
                   className="d-inline-block"
                   tag="span"
                   data-toggle="dropdown">
@@ -271,7 +271,7 @@ class Header extends React.Component {
                   <IconButton className="icon-btn">
                     <i className="zmdi zmdi-comment-alt-text zmdi-hc-fw"/>
                   </IconButton>
-                </DropdownToggle>
+                </DropdownToggle> */}
 
 
                 <DropdownMenu right>
