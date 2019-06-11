@@ -21,8 +21,8 @@ class SignIn extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: 'demo@example.com',
-      password: 'demo#123'
+      email: 'harmonypayadmin@gmail.com',
+      password: ''
     }
   }
 
@@ -50,7 +50,7 @@ class SignIn extends React.Component {
 
           <div className="app-logo-content d-flex align-items-center justify-content-center">
             <Link className="logo-lg" to="/" title="Jambo">
-              <img src={require("assets/images/logo.png")} alt="jambo" title="jambo"/>
+              <img src={require("assets/images/logo-blue.png")} alt="HarmonyPay" title="HarmonyPay"/>
             </Link>
           </div>
 
@@ -88,15 +88,15 @@ class SignIn extends React.Component {
                       <IntlMessages id="appModule.signIn"/>
                     </Button>
 
-                    <Link to="/signup">
+                    {/* <Link to="/signup">
                       <IntlMessages id="signIn.signUp"/>
-                    </Link>
+                    </Link> */}
                   </div>
 
                   <div className="app-social-block my-1 my-sm-3">
-                    <IntlMessages
-                      id="signIn.connectWith"/>
-                    <ul className="social-link">
+                    {/* <IntlMessages */}
+                      {/* id="signIn.connectWith"/> */}
+                    {/* <ul className="social-link">
                       <li>
                         <IconButton className="icon"
                                     onClick={() => {
@@ -137,7 +137,7 @@ class SignIn extends React.Component {
                           <i className="zmdi zmdi-github"/>
                         </IconButton>
                       </li>
-                    </ul>
+                    </ul> */}
                   </div>
 
                 </fieldset>

@@ -158,7 +158,7 @@ class Header extends React.Component {
           }
 
           <Link className="app-logo mr-2 d-none d-sm-block" to="/">
-            <img src={require("assets/images/logo.png")} alt="Jambo" title="Jambo"/>
+            <img src={require("assets/images/logo-blue.png")} alt="HarmonyPay" title="HarmonyPay"/>
           </Link>
 
 
@@ -218,14 +218,14 @@ class Header extends React.Component {
                 isOpen={this.state.langSwitcher}
                 toggle={this.onLangSwitcherSelect.bind(this)}>
 
-                <DropdownToggle
+                {/* <DropdownToggle
                   className="d-inline-block"
                   tag="span"
                   data-toggle="dropdown">
                   <IconButton className="icon-btn">
                     <i className={`flag flag-24 flag-${locale.icon}`}/>
                   </IconButton>
-                </DropdownToggle>
+                </DropdownToggle> */}
 
                 <DropdownMenu right className="w-50">
                   <LanguageSwitcher switchLanguage={this.props.switchLanguage}
