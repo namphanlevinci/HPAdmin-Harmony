@@ -1,6 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import {userSignOut} from 'actions/Auth';
 import IntlMessages from 'util/IntlMessages';
 
 class UserInfoPopup extends React.Component {
@@ -24,10 +22,8 @@ class UserInfoPopup extends React.Component {
           <i className="zmdi zmdi-settings zmdi-hc-fw mr-1"/>
           <IntlMessages id="popup.setting"/>
         </span>
-        <span className="jr-link dropdown-item text-muted" onClick={() => {
-          console.log("Try to logoput");
-          this.props.userSignOut()
-        }}>
+        <span className="jr-link dropdown-item text-muted" onClick={() => console.log("Try to logoput")
+        }>
           <i className="zmdi zmdi-sign-in zmdi-hc-fw mr-1"/>
           <IntlMessages id="popup.logout"/>
         </span>
@@ -36,6 +32,6 @@ class UserInfoPopup extends React.Component {
   }
 }
 
-export default connect(null, {userSignOut})(UserInfoPopup);
+export default UserInfoPopup;
 
 

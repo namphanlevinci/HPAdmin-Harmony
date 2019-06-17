@@ -7,15 +7,7 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {Link} from 'react-router-dom';
 import IntlMessages from 'util/IntlMessages';
-import {
-  hideMessage,
-  showAuthLoader,
-  userFacebookSignIn,
-  userGithubSignIn,
-  userGoogleSignIn,
-  userSignUp,
-  userTwitterSignIn
-} from 'actions/Auth';
+
 
 class SignUp extends React.Component {
   constructor() {
@@ -179,12 +171,4 @@ const mapStateToProps = ({auth}) => {
   return {loader, alertMessage, showMessage, authUser}
 };
 
-export default connect(mapStateToProps, {
-  userSignUp,
-  hideMessage,
-  showAuthLoader,
-  userFacebookSignIn,
-  userGoogleSignIn,
-  userGithubSignIn,
-  userTwitterSignIn
-})(SignUp);
+export default connect(mapStateToProps)(SignUp);

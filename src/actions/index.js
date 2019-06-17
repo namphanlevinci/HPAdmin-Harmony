@@ -1,2 +1,11 @@
 export * from './Setting';
-export * from './Auth';
+
+const REQUEST_LOGIN = 'REQUEST_LOGIN';
+
+
+export const requestLogin = (payload) => {
+    return {
+        type: REQUEST_LOGIN,
+        payload,
+    };
+}

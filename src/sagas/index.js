@@ -1,8 +1,7 @@
-import {all} from 'redux-saga/effects';
-import authSagas from './Auth';
+import {fork} from 'redux-saga/effects'
 
-export default function* rootSaga(getState) {
-    yield all([
-        authSagas()
-    ]);
+import {login_Agent_Saga} from "../sagas/sagaFunction/user"
+
+export default function* rootSaga(){
+    yield fork(login_Agent_Saga);
 }

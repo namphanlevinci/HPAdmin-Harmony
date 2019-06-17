@@ -1,10 +1,11 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar'
-import {connect} from 'react-redux'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import {userSignOut} from 'actions/Auth';
 import IntlMessages from 'util/IntlMessages';
+import {connect} from 'react-redux';
+import { logout_Agent } from '../../actions/user/actions'
+
 
 class UserInfo extends React.Component {
 
@@ -21,6 +22,10 @@ class UserInfo extends React.Component {
     this.setState({open: false});
   };
 
+  onLogout = () => {
+    this.props.logout_Agent()
+  }
+
   render() {
     return (
       <div className="user-profile d-flex flex-row align-items-center">
@@ -30,7 +35,7 @@ class UserInfo extends React.Component {
           className="user-avatar "
         />
         <div className="user-detail">
-          <h4 className="user-name" onClick={this.handleClick}>HarmonyPay Admin<i
+          <h4 className="user-name" onClick={this.handleClick}>Harmony Admin<i
             className="zmdi zmdi-caret-down zmdi-hc-fw align-middle"/>
           </h4>
         </div>
@@ -45,8 +50,7 @@ class UserInfo extends React.Component {
                   paddingTop: 0,
                   paddingBottom: 0
                 }
-              }}
-        >
+              }}>
           <MenuItem onClick={this.handleRequestClose}>
             <i className="zmdi zmdi-account zmdi-hc-fw mr-2"/>
             <IntlMessages id="popup.profile"/>
@@ -55,12 +59,12 @@ class UserInfo extends React.Component {
             <i className="zmdi zmdi-settings zmdi-hc-fw mr-2"/>
             <IntlMessages id="popup.setting"/>
           </MenuItem>
-          <MenuItem onClick={() => {
-            this.handleRequestClose();
-            this.props.userSignOut()
-          }}>
-            <i className="zmdi zmdi-sign-in zmdi-hc-fw mr-2"/>
-
+          <MenuItem onClick={
+            this.onLogout
+          }>
+            <i className="zmdi zmdi-sign-in zmdi-hc-fw mr-2"
+            // onClick={}
+            />
             <IntlMessages id="popup.logout"/>
           </MenuItem>
         </Menu>
@@ -69,10 +73,9 @@ class UserInfo extends React.Component {
   }
 }
 
-const mapStateToProps = ({settings}) => {
-  const {locale} = settings;
-  return {locale}
-};
-export default connect(mapStateToProps, {userSignOut})(UserInfo);
-
-
+const mapDispatchToProps = (dispatch) => ({
+  logout_Agent: (agent_info) => {
+      dispatch(logout_Agent(agent_info));
+  }
+});
+export default connect(null, mapDispatchToProps)(UserInfo);

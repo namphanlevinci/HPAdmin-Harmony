@@ -30,3 +30,4 @@ export default function configureStore(initialState) {
   return store;
 }
 export {history};
+

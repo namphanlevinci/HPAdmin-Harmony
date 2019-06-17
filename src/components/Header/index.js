@@ -157,8 +157,8 @@ class Header extends React.Component {
             </IconButton>
           }
 
-          <Link className="app-logo mr-2 d-none d-sm-block" to="/">
-            <img src={require("assets/images/logo-blue.png")} alt="HarmonyPay" title="HarmonyPay"/>
+          <Link className="app-logo mr-2 d-none d-sm-block" to="/app/merchants">
+            <img src={require("assets/images/logo-blue.png")} alt="Jambo" title="Jambo"/>
           </Link>
 
 
@@ -168,7 +168,7 @@ class Header extends React.Component {
           {(navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === INSIDE_THE_HEADER) &&
           <Menu/>}
 
-          <ul className="header-notifications list-inline ml-auto">
+          {/* <ul className="header-notifications list-inline ml-auto">
             <li className="list-inline-item">
               <Dropdown
                 className="quick-menu app-notification"
@@ -218,14 +218,14 @@ class Header extends React.Component {
                 isOpen={this.state.langSwitcher}
                 toggle={this.onLangSwitcherSelect.bind(this)}>
 
-                {/* <DropdownToggle
+                <DropdownToggle
                   className="d-inline-block"
                   tag="span"
                   data-toggle="dropdown">
                   <IconButton className="icon-btn">
                     <i className={`flag flag-24 flag-${locale.icon}`}/>
                   </IconButton>
-                </DropdownToggle> */}
+                </DropdownToggle>
 
                 <DropdownMenu right className="w-50">
                   <LanguageSwitcher switchLanguage={this.props.switchLanguage}
@@ -241,14 +241,14 @@ class Header extends React.Component {
                 isOpen={this.state.appNotification}
                 toggle={this.onAppNotificationSelect.bind(this)}>
 
-                {/* <DropdownToggle
+                <DropdownToggle
                   className="d-inline-block"
                   tag="span"
                   data-toggle="dropdown">
                   <IconButton className="icon-btn">
                     <i className="zmdi zmdi-notifications-none icon-alert animated infinite wobble"/>
                   </IconButton>
-                </DropdownToggle> */}
+                </DropdownToggle>
 
                 <DropdownMenu right>
                   <CardHeader styleName="align-items-center"
@@ -263,7 +263,7 @@ class Header extends React.Component {
                 isOpen={this.state.mailNotification}
                 toggle={this.onMailNotificationSelect.bind(this)}
               >
-                {/* <DropdownToggle
+                <DropdownToggle
                   className="d-inline-block"
                   tag="span"
                   data-toggle="dropdown">
@@ -271,7 +271,7 @@ class Header extends React.Component {
                   <IconButton className="icon-btn">
                     <i className="zmdi zmdi-comment-alt-text zmdi-hc-fw"/>
                   </IconButton>
-                </DropdownToggle> */}
+                </DropdownToggle>
 
 
                 <DropdownMenu right>
@@ -307,7 +307,7 @@ class Header extends React.Component {
                 </DropdownMenu>
               </Dropdown>
             </li>}
-          </ul>
+          </ul> */}
           
           <div className="ellipse-shape"></div>
         </Toolbar>
