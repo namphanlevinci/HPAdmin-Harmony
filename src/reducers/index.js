@@ -7,5 +7,5 @@ import UserLogin from "./UserLogin"
 export default (history) => combineReducers({
   router: connectRouter(history),
   settings: Settings,
-  user: UserLogin
+  User: UserLogin
 });

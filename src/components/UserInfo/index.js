@@ -27,6 +27,8 @@ class UserInfo extends React.Component {
   }
 
   render() {
+    const  User = this.props.InfoUser_Login
+    console.log(User)
     return (
       <div className="user-profile d-flex flex-row align-items-center">
         <Avatar
@@ -35,7 +37,7 @@ class UserInfo extends React.Component {
           className="user-avatar "
         />
         <div className="user-detail">
-          <h4 className="user-name" onClick={this.handleClick}>Harmony Admin<i
+          <h4 className="user-name" onClick={this.handleClick}>{User.User.Name}<i
             className="zmdi zmdi-caret-down zmdi-hc-fw align-middle"/>
           </h4>
         </div>
@@ -72,10 +74,12 @@ class UserInfo extends React.Component {
     );
   }
 }
-
+const mapStateToProps = (state) => ({
+  InfoUser_Login: state.User,
+});
 const mapDispatchToProps = (dispatch) => ({
   logout_Agent: (agent_info) => {
       dispatch(logout_Agent(agent_info));
   }
 });
-export default connect(null, mapDispatchToProps)(UserInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);

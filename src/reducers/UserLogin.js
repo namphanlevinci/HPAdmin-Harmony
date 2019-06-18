@@ -3,7 +3,7 @@ import * as typeAgent from '../actions/user/types'
 
 
 const initialState = {
-    agent: JSON.parse(localStorage.getItem('agent_login')) ? JSON.parse(localStorage.getItem('agent_login')) : '',
+    User: JSON.parse(localStorage.getItem('User_login')) ? JSON.parse(localStorage.getItem('User_login')) : '',
     message_error: '',
 }
 
@@ -14,7 +14,7 @@ const UserLogin = (state = initialState, action) => {
             state.agent = action.payload;
             console.log(action.payload)
             localStorage.setItem('timeout_agentLogin', Date.now());
-            localStorage.setItem('agent_login', JSON.stringify(action.payload));
+            localStorage.setItem('User_login', JSON.stringify(action.payload));
             window.location.href = '/app/merchants'
             return { ...state }
 
@@ -24,7 +24,7 @@ const UserLogin = (state = initialState, action) => {
 
         case typeAgent.logout_Agent:
             state.agent = '';
-            localStorage.removeItem('agent_login');
+            localStorage.removeItem('User_login');
             window.location.href = "/signin";
             return { ...state }
         default:

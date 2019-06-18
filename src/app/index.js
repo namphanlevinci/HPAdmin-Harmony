@@ -14,7 +14,6 @@ import {
 import {isIOS, isMobile} from 'react-device-detect';
 import asyncComponent from '../util/asyncComponent';
 import TopNav from 'components/TopNav';
-
 class App extends React.Component {
 
   render() {
@@ -42,12 +41,9 @@ class App extends React.Component {
             {(navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER) &&
             <TopNav/>}
           </div>
-
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
-                  {/* <Route path={`${match.url}/sample-page`}
-                         component={asyncComponent(() => import('./routes/SamplePage'))}/> */}
                          <Route path={`${match.url}/merchants`}
                          component={asyncComponent(() => import('./routes/Merchants/Merchants'))}/>
                          <Route path={`${match.url}/customers`}
@@ -62,7 +58,6 @@ class App extends React.Component {
     );
   }
 }
-
 
 const mapStateToProps = ({settings}) => {
   const {drawerType, navigationStyle, horizontalNavPosition} = settings;

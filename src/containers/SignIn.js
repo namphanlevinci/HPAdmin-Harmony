@@ -16,21 +16,33 @@ class SignIn extends React.Component {
     super();
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      loading: false,
+      isRight: false
     }
   }
   
-  componentWillReceiveProps(nextProps) { 
-
-   }
 
   onSubmit = async (e) => {
+    this.setState({  loading: true })
     await e.preventDefault();
     const { email, password } = await this.state;
     await this.props.checkLogin_Agent({ email, password })
-}
+} 
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.InfoUser_Login.message_error) {
+        if (this.props.InfoUser_Login.message_error !== "") {
+            this.setState({ loading: false, isRight: true })
+        }
+        else {
+            this.setState({ loading: true, isRight: true })
+        }
+    }
+  }
 
   render() {
+    console.log(this.props.InfoUser_Login)
     const {
       email,
       password
@@ -90,18 +102,21 @@ class SignIn extends React.Component {
           </div>
 
         </div>
-        {/* {
-          loader &&
+        {
+          this.state.loading === true ? 
           <div className="loader-view">
             <CircularProgress/>
-          </div>
-        } */}
+          </div> : <div></div>
+        }
+        {this.state.loading && NotificationManager.error('Wrong email or password please try again!')}
         <NotificationContainer/>
       </div>
     );
   }
 }
-
+const mapStateToProps = (state) => ({
+  InfoUser_Login: state.User,
+});
 const mapDispatchToProps = (dispatch) => ({
   checkLogin_Agent: (agent_info) => {
       dispatch(checkLogin_Agent(agent_info));
@@ -111,4 +126,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

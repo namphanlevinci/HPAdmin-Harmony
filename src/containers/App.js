@@ -14,7 +14,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import RTL from 'util/RTL';
 import asyncComponent from 'util/asyncComponent';
-
+import { ProtectedRoute } from './ProtectedRoute'
 class App extends Component {
 
   componentWillMount() {
@@ -35,7 +35,7 @@ class App extends Component {
       document.body.classList.remove('rtl');
       applyTheme.direction = 'ltr';
     }
-
+    console.log(this.props.User)
     const currentAppLocale = AppLocale[locale.locale];
     return (
       <MuiThemeProvider theme={applyTheme}>
@@ -46,10 +46,10 @@ class App extends Component {
             <RTL>
               <div className="app-main">
                 <Switch>
-                  <Route path={`${match.url}app`} component={MainApp}/>
+                  <ProtectedRoute path={`${match.url}app`} component={MainApp}/>
                   <Route path='/signin' component={SignIn}/>
                   <Route path='/signup' component={SignUp}/>
-                  <Route
+                  <ProtectedRoute
                     component={asyncComponent(() => import('components/Error404'))}/>
                 </Switch>
               </div>
@@ -62,8 +62,8 @@ class App extends Component {
 }
 
 const mapStateToProps = ({settings}) => {
-  const {sideNavColor, locale, isDirectionRTL} = settings;
-  return {sideNavColor, locale, isDirectionRTL}
+  const {sideNavColor, locale, isDirectionRTL, User} = settings;
+  return {sideNavColor, locale, isDirectionRTL, User}
 };
 
 export default connect(mapStateToProps)(App);
