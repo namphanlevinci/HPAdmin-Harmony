@@ -1,38 +1,16 @@
 import React from 'react';
-import ContainerHeader from 'components/ContainerHeader/index';
-import IntlMessages from 'util/IntlMessages';
-import {connect} from 'react-redux';
-import { Redirect } from 'react-router-dom'
+import {Redirect, Route, Switch} from 'react-router-dom';
+import asyncComponent from '../../../util/asyncComponent';
 
-class Merchants extends React.Component {
+const Merchants = ({match}) => (
+  <div className="app-wrapper">
+    <Switch>
+      <Redirect exact from={`${match.url}/`} to={`${match.url}/list`}/>
+      <Route path={`${match.url}/list`} component={asyncComponent(() => import('./MerchantsList/merchantsList'))}/>
+      <Route path={`${match.url}/profile`} component={asyncComponent(() => import('./MerchantProfile/MerchantProfile'))}/>
+      <Route path={`${match.url}/requests`} component={asyncComponent(() => import('./MerchantsRequest/MerchantsRequest'))}/>
+    </Switch>
+  </div>
+);
 
-  render() {
-    const Role = this.props.InfoUser_Login.User.Role
-    if (Role === 2) {
-      return (
-        <div className="app-wrapper">
-            <h4>Why do we use it?
-    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</h4>
-            <h4>Where can I get some?
-    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</h4>
-       </div>
-      )
-    } else if (Role === 1) {
-      return (
-         <Redirect to='/app/404' />
-      )
-    } else {
-      return (
-        <div className="app-wrapper">
-          <h2>hahahaa</h2>
-        </div>
-      )
-    }
-  }
-}
-
-
-const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
-});
-export default connect(mapStateToProps)(Merchants);
+export default Merchants;

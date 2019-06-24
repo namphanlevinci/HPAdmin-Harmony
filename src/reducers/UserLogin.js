@@ -12,7 +12,6 @@ const UserLogin = (state = initialState, action) => {
 
         case typeAgent.checkLogin_Agent_Success:
             state.agent = action.payload;
-            console.log(action.payload)
             localStorage.setItem('timeout_agentLogin', Date.now());
             localStorage.setItem('User_login', JSON.stringify(action.payload));
             window.location.href = '/app/merchants'

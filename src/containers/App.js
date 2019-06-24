@@ -35,7 +35,6 @@ class App extends Component {
       document.body.classList.remove('rtl');
       applyTheme.direction = 'ltr';
     }
-    console.log(this.props.User)
     const currentAppLocale = AppLocale[locale.locale];
     return (
       <MuiThemeProvider theme={applyTheme}>

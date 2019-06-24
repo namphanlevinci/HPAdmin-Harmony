@@ -108,7 +108,7 @@ class SignIn extends React.Component {
             <CircularProgress/>
           </div> : <div></div>
         }
-        {this.state.loading && NotificationManager.error('Wrong email or password please try again!')}
+        {this.state.loading  && NotificationManager.error('Wrong email or password please try again!')}
         <NotificationContainer/>
       </div>
     );

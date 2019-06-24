@@ -162,14 +162,14 @@ class Header extends React.Component {
           </Link>
 
 
-          <SearchBox styleName="d-none d-lg-block" placeholder=""
+          {/* <SearchBox styleName="d-none d-lg-block" placeholder=""
                      onChange={this.updateSearchText.bind(this)}
-                     value={this.state.searchText}/>
+                     value={this.state.searchText}/> */}
           {(navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === INSIDE_THE_HEADER) &&
           <Menu/>}
 
-          {/* <ul className="header-notifications list-inline ml-auto">
-            <li className="list-inline-item">
+          <ul className="header-notifications list-inline ml-auto">
+            {/* <li className="list-inline-item">
               <Dropdown
                 className="quick-menu app-notification"
                 isOpen={this.state.apps}
@@ -189,8 +189,8 @@ class Header extends React.Component {
                   {this.Apps()}
                 </DropdownMenu>
               </Dropdown>
-            </li>
-            <li className="d-inline-block d-lg-none list-inline-item">
+            </li> */}
+            {/* <li className="d-inline-block d-lg-none list-inline-item">
               <Dropdown
                 className="quick-menu nav-searchbox"
                 isOpen={this.state.searchBox}
@@ -211,8 +211,8 @@ class Header extends React.Component {
                              value={this.state.searchText}/>
                 </DropdownMenu>
               </Dropdown>
-            </li>
-            <li className="list-inline-item">
+            </li> */}
+            {/* <li className="list-inline-item">
               <Dropdown
                 className="quick-menu"
                 isOpen={this.state.langSwitcher}
@@ -234,7 +234,7 @@ class Header extends React.Component {
               </Dropdown>
 
 
-            </li>
+            </li> */}
             <li className="list-inline-item app-tour">
               <Dropdown
                 className="quick-menu"
@@ -250,14 +250,14 @@ class Header extends React.Component {
                   </IconButton>
                 </DropdownToggle>
 
-                <DropdownMenu right>
+                {/* <DropdownMenu right>
                   <CardHeader styleName="align-items-center"
                               heading={<IntlMessages id="appNotification.title"/>}/>
                   <AppNotification/>
-                </DropdownMenu>
+                </DropdownMenu> */}
               </Dropdown>
             </li>
-            <li className="list-inline-item mail-tour">
+            {/* <li className="list-inline-item mail-tour">
               <Dropdown
                 className="quick-menu"
                 isOpen={this.state.mailNotification}
@@ -280,7 +280,7 @@ class Header extends React.Component {
                   <MailNotification/>
                 </DropdownMenu>
               </Dropdown>
-            </li>
+            </li> */}
 
             {navigationStyle === HORIZONTAL_NAVIGATION &&
             <li className="list-inline-item user-nav">
@@ -307,7 +307,7 @@ class Header extends React.Component {
                 </DropdownMenu>
               </Dropdown>
             </li>}
-          </ul> */}
+          </ul>
           
           <div className="ellipse-shape"></div>
         </Toolbar>

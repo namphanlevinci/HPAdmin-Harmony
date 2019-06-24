@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {NavLink, withRouter} from 'react-router-dom';
-
+import Button from '@material-ui/core/Button';
 import IntlMessages from 'util/IntlMessages';
 import CustomScrollbars from 'util/CustomScrollbars';
 
@@ -88,16 +88,31 @@ class SidenavContent extends Component {
     return (
       <CustomScrollbars className=" scrollbar">
         <ul className="nav-menu">
-
           <li className="nav-header">
             <IntlMessages id="sidebar.main"/>
           </li>
-          <li className="menu no-arrow">
-            <NavLink to="/app/merchants">
+                    {/* YEET */}
+          <li className="menu collapse-box">
+            <Button>
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
-              <span className="nav-text"><IntlMessages id="Merchants"/> </span>
-            </NavLink>
+              <span className="nav-text">
+                <IntlMessages id="Merchant"/>
+              </span>
+            </Button>
+            <ul className="sub-menu">
+            <li>
+                <NavLink className="prepend-icon" to="/app/merchants/requests">
+                  <span className="nav-text"><IntlMessages id="Merchants Request"/></span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/merchants/list">
+                  <span className="nav-text"><IntlMessages id="Merchants List"/></span>
+                </NavLink>
+              </li>
+            </ul>
           </li>
+          {/* END YEET */}
           <li className="menu no-arrow">
             <NavLink to="/app/customers">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>

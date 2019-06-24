@@ -14,6 +14,8 @@ import {
 import {isIOS, isMobile} from 'react-device-detect';
 import asyncComponent from '../util/asyncComponent';
 import TopNav from 'components/TopNav';
+/////////////
+import Merchants from "./routes/Merchants/Merchants"
 class App extends React.Component {
 
   render() {
@@ -44,9 +46,10 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
-                         <Route path={`${match.url}/merchants`}
-                         component={asyncComponent(() => import('./routes/Merchants/Merchants'))}/>
-                         <Route path={`${match.url}/customers`}
+                <Route path={`${match.url}/merchants`} component={Merchants}/>
+                <Route path={`${match.url}/profile`} component={asyncComponent(() => import('components/profile/profile'))}/>
+                <Route path={`${match.url}/settings`} component={asyncComponent(() => import('components/Settings/settings'))}/>
+                <Route path={`${match.url}/customers`}
                          component={asyncComponent(() => import('./routes/Customers/Customers'))}/>
                 <Route component={asyncComponent(() => import('components/Error404'))}/>
               </Switch>

@@ -1,12 +1,11 @@
 import axios from 'axios'
 
 export function* login_Agent_api({email,password}){
-    const kq = yield axios.post("http://localhost:4001/login",{
+    const kq = yield axios.post("http://api2.levincidemo.com/api/adminuser/login",{
         email,password
     })
     .then((result) => {
         return result.data;
-        console.log(result)
     }).catch((err) => {
         console.log(err);
     });
