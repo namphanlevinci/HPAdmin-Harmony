@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-// import {connect} from 'react-redux';
-// import { withRouter } from 'react-router-dom';
+import "./Setting.css"
 
 
 class setting extends Component {
@@ -10,8 +9,62 @@ class setting extends Component {
     }
     render() { 
         return (  
-            <div className="container ProfileCSS">
-                <h2>SETTING SETTING SOMETHINGS.</h2>
+            <div className="container Setting">
+                <div className="row">
+                    <div clasName="col-md-5">
+                        <form class="form-style-7">
+                        <h1>CHANGE MAIL SERVER</h1>
+                            <ul>
+                            <li>
+                                <label for="HOST">HOST</label>
+                                <input type="text" name="HOST" maxlength="100" value="127.0.0.1" />
+                            </li>
+                            <li>
+                                <label for="USERNAME">USERNAME</label>
+                                <input type="text" name="USERNAME" maxlength="100" value="Tu123"/>
+                            </li>
+                            <li>
+                                <label for="PASSWORD">PASSWORD</label>
+                                <input type="password" name="PASSWORD" maxlength="100" value="12312312312312"/>
+                            </li>
+                            <li>
+                                <label for="EMAIL">ADMIN EMAIL</label>
+                                <input type="email" name="EMAIL" maxlength="100" value="tu.tran@levincigroup21.com"/>
+                            </li>
+                            <li>
+                                <label for="PORT">PORT</label>
+                                <input type="text" name="PORT" maxlength="100" value="578"/>
+                            </li>
+                            <li>
+                                <input style={{cursor: "pointer"}} type="submit" value="UPDATE" />
+                            </li>
+                            </ul>
+                        </form>
+                    </div>
+                    <div className="col-md-1"></div>
+                    <div clasName="col-md-5">
+                    <form class="form-style-7">
+                        <h1>CHANGE TWILIO ACCOUNT</h1>
+                            <ul>
+                            <li>
+                                <label for="PHONE">PHONE</label>
+                                <input type="text" name="PHONE" maxlength="100" value="+112415784" />
+                            </li>
+                            <li>
+                                <label for="ACCOUNTID">ACCOUNT ID</label>
+                                <input type="text" name="ACCOUNTID" maxlength="100" value="123123123123"/>
+                            </li>
+                            <li>
+                                <label for="TOKEN">TOKEN</label>
+                                <input type="text" name="TOKEN" maxlength="100" value="12312312312312"/>
+                            </li>
+                            <li>
+                                <input style={{cursor: "pointer"}} type="submit" value="UPDATE" />
+                            </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
             </div>
          );
     }
