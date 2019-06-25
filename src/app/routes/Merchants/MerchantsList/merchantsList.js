@@ -78,12 +78,13 @@ class MerchantsList extends React.Component {
     
         }
     }
-    console.log(MerList)
+    // console.log(MerList)
     const renderMerList = MerList.slice(startIndex, endIndex + 1).map((merchant) => {
         return (
             <tr key={merchant.merchantId} onClick={() => this._merchantsProfile(merchant)}>
+                <td>{merchant.merchantId}</td>
                 {merchant.principals !== null ? <td>{merchant.principals.firstName + ' ' + merchant.principals.lastName}</td> : <td></td>}
-                <td>{merchant.principals.ssn}</td>
+                {merchant.principals !== null ? <td>{merchant.principals.ssn}</td> : <td></td>}
                 <td>{merchant.taxId}</td>
                 <td>{merchant.routingNumber}</td>
                 <td>{merchant.accountNumber}</td>
@@ -106,9 +107,10 @@ class MerchantsList extends React.Component {
                 <table style={{ width:'100%' }}>
                     <thead>
                         <tr>
+                            <th style={{ width:'10%' }}><span className="Mlist_table">ID</span></th>
                             <th style={{ width:'20%' }}><span className="Mlist_table">OWNER NAME</span></th>
                             <th style={{ width:'20%' }}><span className="Mlist_table">SSN</span></th>
-                            <th style={{ width:'20%' }}><span className="Mlist_table">TAX ID</span></th>
+                            <th style={{ width:'10%' }}><span className="Mlist_table">TAX ID</span></th>
                             <th style={{ width:'20%' }}><span className="Mlist_table">ABA</span></th>
                             <th style={{ width:'20%' }}><span className="Mlist_table">DDA</span></th>
                         </tr>

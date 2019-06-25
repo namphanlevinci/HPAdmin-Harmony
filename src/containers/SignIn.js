@@ -28,6 +28,12 @@ class SignIn extends React.Component {
     await e.preventDefault();
     const { email, password } = await this.state;
     await this.props.checkLogin_Agent({ email, password })
+    if (this.props.InfoUser_Login.message_error === "Your Email is not exists.") {
+      NotificationManager.error('Your Email is not exists.')
+      console.log(this.props.InfoUser_Login.message_error)
+    } else {
+      
+    }
 } 
 
   componentWillReceiveProps(nextProps) {
@@ -42,7 +48,6 @@ class SignIn extends React.Component {
   }
 
   render() {
-    console.log(this.props.InfoUser_Login)
     const {
       email,
       password
@@ -108,7 +113,7 @@ class SignIn extends React.Component {
             <CircularProgress/>
           </div> : <div></div>
         }
-        {this.state.loading  && NotificationManager.error('Wrong email or password please try again!')}
+        {/* {this.props.InfoUser_Login.User === "" && NotificationManager.error('Wrong email or password please try again!')} */}
         <NotificationContainer/>
       </div>
     );

@@ -9,7 +9,7 @@ const initialState = {
 
 const UserLogin = (state = initialState, action) => {
     switch (action.type) {
-
+        
         case typeAgent.checkLogin_Agent_Success:
             state.agent = action.payload;
             localStorage.setItem('timeout_agentLogin', Date.now());

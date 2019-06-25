@@ -7,13 +7,11 @@ export function* login_Agent_Saga() {
         try {
             const { email, password } = action.payload
             const check = yield login_Agent_api({ email, password });
-            console.log("CHECK", check.data)
-            if (check.data.userAdmin) {
-                // yield put({ type: typeAgent.checkLogin_Agent_Success, payload: check.data.userAdmin });
+            if (check.data !== null) {
                 yield put({ type: typeAgent.checkLogin_Agent_Success, payload: check.data });
             }
-            if (check.error) {
-                yield put({ type: typeAgent.checkLogin_Agent_Error, payload: check.error })
+            if (check.data === null) {
+                yield put({ type: typeAgent.checkLogin_Agent_Error, payload: check.message })
             }
         } catch (error) {
             yield put({ type: typeAgent.checkLogin_Agent_Error, payload: error })

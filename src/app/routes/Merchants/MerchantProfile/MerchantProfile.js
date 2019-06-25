@@ -39,7 +39,6 @@ class merchantProfile extends Component {
             </div>
           )
         })
-        console.log(Merchant)
         return ( 
             <div className="container MerList MerProfile">
                 <div className="row">
@@ -67,7 +66,9 @@ class merchantProfile extends Component {
             </div>
             <div className="col">
               <div className="collapse multi-collapse" id="multiCollapseExample2">
-                <div className="card card-body">
+              <div className="card card-body">
+                      {Merchant.principals != null ? 
+                      <div>
                       <h3>Name: {Merchant.principals.firstName + Merchant.principals.lastName}</h3>
                       <h3>Birthday: {Merchant.principals.birthDate}</h3>
                       <h3>Address: {Merchant.principals.address}</h3>
@@ -77,7 +78,8 @@ class merchantProfile extends Component {
                       <h3>Home Number: {Merchant.principals.homePhone}</h3>
                       <h3>Title: {Merchant.principals.title}</h3>
                       <h3>SSN: {Merchant.principals.ssn}</h3>
-                </div>
+                      </div> : "Something something try again later!"}
+                      </div>
               </div>
             </div>
             </div>

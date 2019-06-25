@@ -41,9 +41,8 @@ class setting extends Component {
                             </ul>
                         </form>
                     </div>
-                    <div className="col-md-1"></div>
-                    <div clasName="col-md-5">
-                    <form class="form-style-7">
+                    <div className="col-md-5">
+                    <form className="form-style-7">
                         <h1>CHANGE TWILIO ACCOUNT</h1>
                             <ul>
                             <li>
