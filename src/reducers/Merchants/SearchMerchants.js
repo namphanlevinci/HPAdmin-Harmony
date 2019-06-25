@@ -5,10 +5,10 @@ const initialState = []
 const SearchMerchants = (state = initialState, action) => {
     switch (action.type) {
         case typeMerchants.SearchMerchants: 
-            const { MerchantsList, email } = action.payload;
-            if (email) {
+            const { MerchantsList, businessName } = action.payload;
+            if (businessName) {
                 state = MerchantsList ? MerchantsList.filter((merchant, index) => {
-                    return merchant.email.toLowerCase().indexOf(email.toLowerCase()) !== -1;
+                    return merchant.businessName.toLowerCase().indexOf(businessName.toLowerCase()) !== -1;
                 }) : []
             } else {
                 state = []

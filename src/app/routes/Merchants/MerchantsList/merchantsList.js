@@ -69,8 +69,8 @@ class MerchantsList extends React.Component {
             MerList = MerList.filter((e) => {
             let name = e.businessName;
             return (
-              e.email.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
-              name.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
+              e.businessName.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
+              // name.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
               parseInt(e.merchantId) === parseInt(this.state.search)
             ) 
           })
@@ -78,7 +78,7 @@ class MerchantsList extends React.Component {
     
         }
     }
-    // console.log(MerList)
+    console.log(MerList)
     const renderMerList = MerList.slice(startIndex, endIndex + 1).map((merchant) => {
         return (
             <tr key={merchant.merchantId} onClick={() => this._merchantsProfile(merchant)}>
