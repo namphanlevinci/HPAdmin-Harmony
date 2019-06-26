@@ -2,7 +2,7 @@
 	font-family: 'Work Sans', sans-serif;
 	text-align: center;
 }
-.MReq a.btn {
+.MReq button.btn {
 	display: inline-block;
 	color: #666;
 	background-color: #eee;
@@ -18,45 +18,45 @@
     font-weight: 900;
 }
 
-.MReq a.btn:hover {
+.MReq button.btn:hover {
     background-color: #32CD32;
     border-color: rgba(0,0,0,0.5);
 }
 
-.MReq a.btn:active {
+.MReq button.btn:active {
     background-color: #CCC;
     border-color: rgba(0,0,0,0.9);
 }
-.MReq a.btn.btn-green {
+.MReq button.btn.btn-green {
 	background-color: #7CFC00;
 	border-color: rgba(0,0,0,0.3);
 	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
 	color: #FFF;
 }
 
-.MReq a.btn.btn-green:hover {
+.MReq button.btn.btn-green:hover {
 		background-color: #7FFF00;
 		border-color: rgba(0,0,0,0.5);
 	}
 	
-.MReq a.btn.btn-green:active {
+.MReq button.btn.btn-green:active {
 		background-color: #ADFF2F;
 		border-color: rgba(0,0,0,0.9);
 	}
 /* RED BUTTON */
-.MReq a.btn.btn-red {
+.MReq button.btn.btn-red {
 	background-color: #E48681;
 	border-color: rgba(0,0,0,0.3);
 	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
 	color: #FFF;
 }
 
-.MReq	a.btn.btn-red:hover {
+.MReq	button.btn.btn-red:hover {
 		background-color: #DA4F49;
 		border-color: rgba(0,0,0,0.5);
 	}
 	
-.MReq	a.btn.btn-red:active {
+.MReq	button.btn.btn-red:active {
 		background-color: #B32C24;
 		border-color: rgba(0,0,0,0.9);
 	}

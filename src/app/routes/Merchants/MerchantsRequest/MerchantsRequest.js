@@ -39,8 +39,8 @@ class MerchantsRequest extends Component {
                 <div key={e.merchantId} className="ReqContainer">
                     <p>MERCHANT ID: {e.merchantId}</p>
                     <h4><span>Business Name: {e.businessName}</span>
-                    <a href='#' className="btn btn-green" onClick={() => this._approve(e)}>ACCEPT</a>
-                    <a href='#' className="btn btn-red" onClick={() => this._reject(e)}>REJECT</a></h4>
+                    <button className="btn btn-green" onClick={() => this._approve(e)}>ACCEPT</button>
+                    <button href="#" className="btn btn-red" onClick={() => this._reject(e)}>REJECT</button></h4>
                 </div>
             )
         })
