@@ -10,7 +10,7 @@ class proFile extends Component {
     }
     render() { 
         const  User = this.props.InfoUser_Login.User.userAdmin
-        console.log("YEET", this.props.InfoUser_Login.User)
+        // console.log("YEET", this.props.InfoUser_Login.User)
         return (  
             <div className="container ProfileCSS">
                <h2>Name: {User.firstName + ' ' + User.lastName}</h2>

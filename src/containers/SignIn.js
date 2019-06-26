@@ -18,7 +18,8 @@ class SignIn extends React.Component {
       email: '',
       password: '',
       loading: false,
-      isRight: false
+      isRight: false,
+      error: false
     }
   }
   
@@ -27,19 +28,15 @@ class SignIn extends React.Component {
     this.setState({  loading: true })
     await e.preventDefault();
     const { email, password } = await this.state;
-    await this.props.checkLogin_Agent({ email, password })
-    if (this.props.InfoUser_Login.message_error === "Your Email is not exists.") {
-      NotificationManager.error('Your Email is not exists.')
-      console.log(this.props.InfoUser_Login.message_error)
-    } else {
-      
-    }
-} 
+    await this.props.checkLogin_Agent({ email, password })  
+    console.log(this.props.InfoUser_Login.message_error)
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.InfoUser_Login.message_error) {
-        if (this.props.InfoUser_Login.message_error !== "") {
-            this.setState({ loading: false, isRight: true })
+        if (this.props.InfoUser_Login.message_error === "Wrong email or password please try again!") {
+            this.setState({ loading: false, isRight: true, error: true })
+            NotificationManager.error(this.props.InfoUser_Login.message_error)
         }
         else {
             this.setState({ loading: true, isRight: true })
@@ -113,7 +110,7 @@ class SignIn extends React.Component {
             <CircularProgress/>
           </div> : <div></div>
         }
-        {/* {this.props.InfoUser_Login.User === "" && NotificationManager.error('Wrong email or password please try again!')} */}
+        {/* {this.state.error === true && NotificationManager.error(this.props.InfoUser_Login.message_error)} */}
         <NotificationContainer/>
       </div>
     );

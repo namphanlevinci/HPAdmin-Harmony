@@ -12,25 +12,25 @@ class MerchantsRequest extends Component {
     componentWillMount() {
         this.props.getAll_Merchant_Requests();
       }
-    _approve = (e) => {
+    _approve = async (e) => {
         const ID = e.merchantId
-        axios.put('http://api2.levincidemo.com/api/merchant/approve/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+      await  axios.put('http://api2.levincidemo.com/api/merchant/approve/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
-            console.log(res)
+            // console.log(res)
         }).catch((err) => {
             console.log(err)
         })
-        window.location.reload();
+      await  this.props.getAll_Merchant_Requests();
     }
-    _reject = (e) => {
+    _reject = async (e) => {
         const ID = e.merchantId
-        axios.put('http://api2.levincidemo.com/api/merchant/reject/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+       await  axios.put('http://api2.levincidemo.com/api/merchant/reject/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
-            console.log(res)
+            // console.log(res)
         }).catch((err) => {
             console.log(err)
         })
-        window.location.reload();
+       await this.props.getAll_Merchant_Requests();
     }
     render() { 
         const ReqList = this.props.MerchantRequests_List

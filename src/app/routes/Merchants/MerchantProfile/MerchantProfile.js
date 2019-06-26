@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import "bootstrap/js/src/collapse.js";
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import "./MerchantProfile.css"
 
 
@@ -12,7 +12,7 @@ class merchantProfile extends Component {
     }
     render() { 
         const Merchant = this.props.MerchantProfile
-        const MerchantStaff = this.props.MerchantProfile.staffs.map((e) => {
+        const Staff = this.props.MerchantProfile.staffs !== undefined ? this.props.MerchantProfile.staffs.map((e) => {
           return (
             <div className="MerStaffList" key={e.staffId}>
                 <h2>Info</h2>
@@ -36,9 +36,9 @@ class merchantProfile extends Component {
                 <h3>- Friday: From {e.workingTimes.Friday.timeStart} To {e.workingTimes.Friday.timeEnd}</h3>
                 <h3>- Sarturday: From {e.workingTimes.Sarturday.timeStart} To {e.workingTimes.Sarturday.timeEnd}</h3>
                 <h3>- Sunday: From {e.workingTimes.Sunday.timeStart} To {e.workingTimes.Sunday.timeEnd}</h3>
-            </div>
+            </div> 
           )
-        })
+        }) : <Redirect to="/app/merchants/list" />
         return ( 
             <div className="container MerList MerProfile">
                 <div className="row">
@@ -60,7 +60,7 @@ class merchantProfile extends Component {
             <div className="col">
               <div className="collapse multi-collapse" id="multiCollapseExample1">
                 <div className="card card-body">
-                    {this.props.MerchantProfile.staffs.length === 0 ? "This Merchant Doesn't Have Any Staff Members" : MerchantStaff}
+                    {Staff.length === 0 ? "This Merchant Doesn't Have Any Staff Members" : Staff}
                 </div>
               </div>
             </div>
@@ -68,21 +68,21 @@ class merchantProfile extends Component {
               <div className="collapse multi-collapse" id="multiCollapseExample2">
               <div className="card card-body">
                       {Merchant.principals != null ? 
-                      <div>
-                      <h3>Name: {Merchant.principals.firstName + Merchant.principals.lastName}</h3>
-                      <h3>Birthday: {Merchant.principals.birthDate}</h3>
-                      <h3>Address: {Merchant.principals.address}</h3>
-                      <h3>City: {Merchant.principals.city}</h3>
-                      <h3>Driver Number:{Merchant.principals.driverNumber}</h3>
-                      <h3>Cellphone Number: {Merchant.principals.mobilePhone}</h3>
-                      <h3>Home Number: {Merchant.principals.homePhone}</h3>
-                      <h3>Title: {Merchant.principals.title}</h3>
-                      <h3>SSN: {Merchant.principals.ssn}</h3>
-                      </div> : "Something something try again later!"}
+                        <div>
+                          <h3>Name: {Merchant.principals.firstName + Merchant.principals.lastName}</h3>
+                          <h3>Birthday: {Merchant.principals.birthDate}</h3>
+                          <h3>Address: {Merchant.principals.address}</h3>
+                          <h3>City: {Merchant.principals.city}</h3>
+                          <h3>Driver Number:{Merchant.principals.driverNumber}</h3>
+                          <h3>Cellphone Number: {Merchant.principals.mobilePhone}</h3>
+                          <h3>Home Number: {Merchant.principals.homePhone}</h3>
+                          <h3>Title: {Merchant.principals.title}</h3>
+                          <h3>SSN: {Merchant.principals.ssn}</h3>
+                            </div> : "Something something try again later!"}
                       </div>
-              </div>
-            </div>
-            </div>
+                        </div>
+                      </div>
+                    </div>
                     </div>
                 </div>
             </div>
