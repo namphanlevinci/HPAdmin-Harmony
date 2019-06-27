@@ -53,26 +53,7 @@ class MerchantsRequest extends Component {
           this.setState({ PaginationFilter: false });
         }, 300);
       }
-    _approve = async (e) => {
-        const ID = e.merchantId
-      await  axios.put('http://api2.levincidemo.com/api/merchant/approve/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-        .then((res) => {
-            // console.log(res)
-        }).catch((err) => {
-            console.log(err)
-        })
-      await  this.props.getAll_Merchant_Requests();
-    }
-    _reject = async (e) => {
-        const ID = e.merchantId
-       await  axios.put('http://api2.levincidemo.com/api/merchant/reject/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-        .then((res) => {
-            // console.log(res)
-        }).catch((err) => {
-            console.log(err)
-        })
-       await this.props.getAll_Merchant_Requests();
-    }
+   
 
     //goto merchant profile
     _merchantReqProfile = (e) => {

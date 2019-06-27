@@ -83,14 +83,13 @@ class MerchantsList extends React.Component {
     // console.log(MerList)
     const renderMerList = MerList.slice(startIndex, endIndex + 1).map((merchant) => {
         return (
-            <tr key={merchant.merchantId} onClick={() => this._merchantsProfile(merchant)}>
-                <td>{merchant.merchantId}</td>
-                {merchant.principals !== null ? <td>{merchant.principals.firstName + ' ' + merchant.principals.lastName}</td> : <td></td>}
-                {merchant.principals !== null ? <td>{merchant.principals.ssn}</td> : <td></td>}
-                <td>{merchant.taxId}</td>
-                <td>{merchant.routingNumber}</td>
-                <td>{merchant.accountNumber}</td>
-            </tr>
+          <tr key={merchant.merchantId} onClick={() => this._merchantsProfile(merchant)}>
+            <td>{merchant.merchantId}</td>
+            {merchant.businessName !== null ? <td>{merchant.businessName}</td> : <td></td>}
+            {merchant.principals !== null ? <td>{merchant.principals.firstName + ' ' + merchant.principals.lastName}</td> : <td></td>}
+            <td>{merchant.email}</td>
+            <td>{merchant.phone}</td>
+          </tr>
         )
     })
     return (
@@ -125,14 +124,13 @@ class MerchantsList extends React.Component {
             <div className="MListContainer">
                 <table style={{ width:'100%' }}>
                     <thead>
-                        <tr>
-                            <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i class="fa fa-unsorted"></i></th>
-                            <th style={{ width:'20%' }}><span className="Mlist_table">OWNER NAME</span> <i class="fa fa-unsorted"></i></th>
-                            <th style={{ width:'20%' }}><span className="Mlist_table">SSN</span> <i class="fa fa-unsorted"></i></th>
-                            <th style={{ width:'10%' }}><span className="Mlist_table">TAX ID</span> <i class="fa fa-unsorted"></i></th>
-                            <th style={{ width:'20%' }}><span className="Mlist_table">ABA</span> <i class="fa fa-unsorted"></i></th>
-                            <th style={{ width:'20%' }}><span className="Mlist_table">DDA</span> <i class="fa fa-unsorted"></i></th>
-                        </tr>
+                    <tr style={{borderBottom: '1px solid black'}}>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i class="fa fa-unsorted"/></th>
+                                <th style={{ width:'25%' }}><span className="Mlist_table">Business name</span> <i class="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Owner</span> <i class="fa fa-unsorted"/></th>
+                                <th style={{ width:'25%' }}><span className="Mlist_table">Email</span> <i class="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Phone number</span> <i class="fa fa-unsorted"/></th>
+                            </tr>
                     </thead>
                     <tbody>
                         {renderMerList}

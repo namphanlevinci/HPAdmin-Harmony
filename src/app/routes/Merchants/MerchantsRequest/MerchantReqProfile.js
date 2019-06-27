@@ -11,7 +11,9 @@ import axios from "axios";
 class MerchantReqProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = { 
+            showPopup: false
+         }
     }
 
     _approve = async () => {
@@ -35,6 +37,11 @@ class MerchantReqProfile extends Component {
         })
         
     }
+    _togglePopup = () => {
+        this.setState({
+          showPopup: !this.state.showPopup
+        });
+      }
 
     render() { 
         console.log("HAHA", this.props.PendingProfile)
@@ -47,8 +54,18 @@ class MerchantReqProfile extends Component {
                             <h3>HP000001</h3>
                             <span>
                                 <button href="#" className="btn btn-red" onClick={() => this._reject()}>REJECT</button>
-                                <button className="btn btn-green" onClick={() => this._approve()}>ACCEPT</button>
+                                <button className="btn btn-green" onClick={this._togglePopup}>ACCEPT</button>
                             </span>
+                            
+                            {/* POP UP BUTTON */}
+                            {this.state.showPopup !== false ? <div className="POPUP">
+                                <div className="POPUP-INNER">
+                                    <h2>ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2>
+                                    <button href="#" className="btn btn-red" onClick={this._togglePopup}>NO</button>
+                                    <button className="btn btn-green" onClick={() => this._approve()}>YES</button>
+                                </div>
+                            </div> : null }
+                            {/* ==================== */}
                         </div>
                         <hr/>
                         <div className="content">

@@ -3,93 +3,190 @@ import { connect } from 'react-redux'
 import "bootstrap/js/src/collapse.js";
 import { withRouter, Redirect } from 'react-router-dom';
 import "./MerchantProfile.css"
-
-
+import { Checkbox } from '@material-ui/core';
+import IntlMessages from 'util/IntlMessages';
+import ContainerHeader from 'components/ContainerHeader/index';
+import "../MerchantsRequest/MerchantReqProfile.css"
+import "../MerchantsRequest/MerchantsRequest.css"
 class merchantProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
     render() { 
-        const Merchant = this.props.MerchantProfile
-        const Staff = this.props.MerchantProfile.staffs !== undefined ? this.props.MerchantProfile.staffs.map((e) => {
-          return (
-            <div className="MerStaffList" key={e.staffId}>
-                <h2>Info</h2>
-                <h3>Name: {e.firstName + ' ' + e.lastName}</h3>
-                <h3>ID: {e.staffId}</h3>
-                <h3>Display Name: {e.displayName}</h3>
-                <h3>Email: {e.email}</h3>
-                <h3>Phone: {e.phone}</h3>
-                <h3>Driver License: {e.driverLicense}</h3>
-                <h3>SSN: {e.ssn}</h3>
-                <h3>Role: {e.roles.name}</h3>
-                <h2>Salaries</h2>
-                <h3>- Per Hours: ${e.salaries.perHour.value}</h3>
-                <h3>- Commission: {e.salaries.commission.value}</h3>
-                <h3>- Tips(%) : {e.tipFees.percent.value}</h3>
-                <h2>Work Schedule</h2>
-                <h3>- Monday: From {e.workingTimes.Monday.timeStart} To {e.workingTimes.Monday.timeEnd}</h3>
-                <h3>- Tuesday: From {e.workingTimes.Tuesday.timeStart} To {e.workingTimes.Tuesday.timeEnd}</h3>
-                <h3>- Wednesday: From {e.workingTimes.Wednesday.timeStart} To {e.workingTimes.Wednesday.timeEnd}</h3>
-                <h3>- Thursday: From {e.workingTimes.Thursday.timeStart} To {e.workingTimes.Thursday.timeEnd}</h3>
-                <h3>- Friday: From {e.workingTimes.Friday.timeStart} To {e.workingTimes.Friday.timeEnd}</h3>
-                <h3>- Sarturday: From {e.workingTimes.Sarturday.timeStart} To {e.workingTimes.Sarturday.timeEnd}</h3>
-                <h3>- Sunday: From {e.workingTimes.Sunday.timeStart} To {e.workingTimes.Sunday.timeEnd}</h3>
-            </div> 
-          )
-        }) : <Redirect to="/app/merchants/list" />
-        return ( 
-            <div className="container MerList MerProfile">
-                <div className="row">
-                    <div className="col-md-4">
-                        <h3> Account Number: {Merchant.accountNumber}</h3>
-                        <h3> Address: {Merchant.address}</h3>
-                        <h3> Business Name: {Merchant.businessName}</h3>
-                        <h3> City: {Merchant.city}</h3>
-                        <h3> Email: {Merchant.email}</h3>
-                        <h3> Phone: {Merchant.phone}</h3>
-                        <h3> Tax ID: {Merchant.taxId}</h3>
-                    </div>
-                    <div className="col-md-8">
-                    <p>
-          <a className="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Staff</a>
-          <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Principals</button>
-          </p>
-          <div className="row">
-            <div className="col">
-              <div className="collapse multi-collapse" id="multiCollapseExample1">
-                <div className="card card-body">
-                    {Staff.length === 0 ? "This Merchant Doesn't Have Any Staff Members" : Staff}
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="collapse multi-collapse" id="multiCollapseExample2">
-              <div className="card card-body">
-                      {Merchant.principals != null ? 
-                        <div>
-                          <h3>Name: {Merchant.principals.firstName + Merchant.principals.lastName}</h3>
-                          <h3>Birthday: {Merchant.principals.birthDate}</h3>
-                          <h3>Address: {Merchant.principals.address}</h3>
-                          <h3>City: {Merchant.principals.city}</h3>
-                          <h3>Driver Number:{Merchant.principals.driverNumber}</h3>
-                          <h3>Cellphone Number: {Merchant.principals.mobilePhone}</h3>
-                          <h3>Home Number: {Merchant.principals.homePhone}</h3>
-                          <h3>Title: {Merchant.principals.title}</h3>
-                          <h3>SSN: {Merchant.principals.ssn}</h3>
-                            </div> : "Something something try again later!"}
-                      </div>
+        const e = this.props.MerchantProfile
+        console.log("YEET", e)
+        const renderMerchantProfile = e.merchantId !== undefined ? 
+        <div className="container-fluid PendingList">
+        <ContainerHeader match={this.props.match} title={<IntlMessages id="Merchant Profile"/>}/>
+        <div className="PendingLBody">
+            <hr/>
+            <div className="content">
+                <div className="container">
+                <h2>General Information</h2>
+                    <div className="row justify-content-between">
+                        <div className="col-md-4">
+                            <h4>Legal Business Name*</h4>
+                            <p>{e.businessName}</p>
                         </div>
-                      </div>
+                        <div className="col-md-4">
+                            <h4>Doing Business As (DBA)*</h4>
+                            <p>Legal Business Name*</p>
+                        </div>
+                        <div className="col-md-4">
+                            <h4>Federal Tax ID*</h4>
+                            <p>{e.taxId}</p>
+                        </div>
+                        <div className="col-md-4">
+                            <h4>DBA Business Address*</h4>
+                            <p>DBA Business Address</p>
+                        </div>
+                        <div className="col-md-4">
+                            <h4>Zip Code*</h4>
+                            <p>{e.zip}</p>
+                        </div>
+                        <div className="col-md-4">
+                            <h4>Business Phone Number*</h4>
+                            <p>{e.phone}</p>
+                        </div>
+                        <div className="col-md-4">
+                            <h4>Contact Email Address*</h4>
+                            <p>{e.email}</p>
+                        </div>
+                        </div>
+                <h2>Representative Information</h2>
+                    <div className="row">
+                        <div className="col-md-4">
+                            <h4>Contact Name*</h4>
+                            <p>James M.Smit</p>
+                        </div>
+                        <div className="col-md-4">
+                            <h4>Title/Position*</h4>
+                            <p>Manager</p>
+                        </div>
+                        <div className="col-md-4">
+                            <h4>Contact Phone Number*</h4>
+                            <p>892-123-2921</p>
+                        </div>
                     </div>
+                <h2>Business Information</h2>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <h4>Have You Ever Accepted Credit/Debit Cards Before?</h4>
+                                <Checkbox />No <Checkbox/> Yes
+                                <h5>Processor: ?</h5>
+                        </div>
+                        <div className="col-md-6">
+                            <h4>Has a Processor Ever Terminated Your Merchant Account?</h4>
+                                <Checkbox />No <Checkbox/> Yes
+                                <h5>Processor: ?</h5>
+                        </div>
+                        <div className="col-md-6">
+                            <h4>Has Merchant or any associated principal and/or owners disclosed below filed bankruptcy 
+                                or been subject to any involuntary bankruptcy?
+                            </h4>
+                                <Checkbox />No <Checkbox/> Yes
+                                <h5>Date: ?</h5>
+                        </div>
+                        <div className="col-md-6">
+                            <h4>Has a Merchant been previously identified by Visa/Mastercard Risk Programs?</h4>
+                                <Checkbox />No <Checkbox/> Yes
+                                <h5>When And Why: ?</h5>
+                        </div>
+                        <div className="col-md-6">
+                            <h4>Will Product(s) or Service(s) Be Sold Outside of the U.S?</h4>
+                                <Checkbox />No <Checkbox/> Yes
+                        </div>
                     </div>
-                </div>
+                    <h2>Bank Information</h2>
+                        <div className="row">
+                            <div className="col-md-4">
+                                <h4>Bank Name*</h4>
+                                <p>Western Union MTCN</p>
+                            </div>
+                            <div className="col-md-4">
+                                <h4>ABA Routing Number*</h4>
+                                <p>{e.routingNumber}</p>
+                            </div>
+                            <div className="col-md-4">
+                                <h4>Checking Account Number (DDA)*</h4>
+                                <p>{e.accountNumber}</p>
+                            </div>
+                            <div className="col-md-4">
+                                <h4>Void Check*</h4>
+                                <img src={require("../../../../assets/images/voidcheck.png")} alt="void check"/>
+                            </div>
+                        </div>
+                    <h2>Principal Information</h2>
+                      {e.principals !== null ? 
+                          <div className="row">
+                          <div className="col-md-4">
+                              <h4>Name*</h4>
+                              <p>{e.principals.firstName + ' ' + e.principals.lastName}</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Title/Position*</h4>
+                              <p>{e.principals.title}</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Ownership(%)*</h4>
+                              <p>{e.principals.ownerShip}%</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Home Phone*</h4>
+                              <p>{e.principals.homePhone}</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Mobile Phone*</h4>
+                              <p>{e.principals.mobilePhone}</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Address*</h4>
+                              <p>{e.principals.address}</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Years at This Address*</h4>
+                              <p>{e.principals.yearAddress}</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Social Security Number (SSN)*</h4>
+                              <p>{e.principals.ssn}</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Date of Birth (mm/dd/yy)*</h4>
+                              <p>{e.principals.birthDate}</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Email Address*</h4>
+                              <p>Jameswag@gmail.com</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Driver License Number*</h4>
+                              <p>B9282022</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>State Issued*</h4>
+                              <p>California (CA)</p>
+                          </div>
+                          <div className="col-md-4">
+                              <h4>Driver License Picture</h4>
+                              <img src={require("../../../../assets/images/driverlicense.jpg")} alt="void check"/>
+                          </div>
+                      </div> : <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
+                      }
+                      <h2>Staff Information</h2>
+                      {e.staffs.length > 1 ? <div></div> : <h4>&nbsp; - NO STAFF INFORMATION</h4>}
+
+
+                </div>   
             </div>
-         );
-    }
+        </div>
+</div> : <Redirect to="/app/merchants/list" />
+        return ( 
+            renderMerchantProfile
+        )
 }
- 
+}
 const mapStateToProps = (state) => ({
     MerchantProfile: state.ViewProfile_Merchants
 })
