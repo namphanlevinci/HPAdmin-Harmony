@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import { getAll_Merchants, SearchMerchants, ViewProfile_Merchants } from '../../../../actions/merchants/actions'
 import Pagination from './Pagination'
 import './merchantsList.css'
+import IntlMessages from 'util/IntlMessages';
+import ContainerHeader from 'components/ContainerHeader/index';
 class MerchantsList extends React.Component {
   constructor(props) {
     super(props);
@@ -92,27 +94,44 @@ class MerchantsList extends React.Component {
         )
     })
     return (
-        <div className="container MerList">
-            <div className="search">
-                <form>
-                    <input title="Search" value="" className="button" readOnly/>
-                    <input type="text"
-                    className="textbox"
-                    placeholder="Search.."
-                    value={this.state.search}
-                    onChange={this._SearchMerchants} />
-                </form>
-            </div>
+        <div className="container-fluid MerList">
+            <ContainerHeader match={this.props.match} title={<IntlMessages id="MERCHANT LIST"/>}/>
+                <div className="MReqSP">
+                    {/* SEARCH */}
+                    <div className="search">
+                        <form>
+                            <input title="Search" value="" className="button" readOnly/>
+                            <input type="text"
+                            className="textbox"
+                            placeholder="Search.."
+                            value={this.state.search}
+                            onChange={this._SearchMerchants} />
+                        </form>
+                    </div>
+                    {/* THANH CHUYỂN TRANG */}
+                    <div className="paginating-table">
+                        <Pagination
+                        totalRecords={MerList.length}
+                        pageLimit={pageLimit || 10}
+                        initialPage={1}
+                        pagesToShow={10}
+                        onChangePage={this.onChangePage}
+                        PaginationFilter={this.state.PaginationFilter}
+                        />
+                </div>
+              </div>
+
+
             <div className="MListContainer">
                 <table style={{ width:'100%' }}>
                     <thead>
                         <tr>
-                            <th style={{ width:'10%' }}><span className="Mlist_table">ID</span></th>
-                            <th style={{ width:'20%' }}><span className="Mlist_table">OWNER NAME</span></th>
-                            <th style={{ width:'20%' }}><span className="Mlist_table">SSN</span></th>
-                            <th style={{ width:'10%' }}><span className="Mlist_table">TAX ID</span></th>
-                            <th style={{ width:'20%' }}><span className="Mlist_table">ABA</span></th>
-                            <th style={{ width:'20%' }}><span className="Mlist_table">DDA</span></th>
+                            <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i class="fa fa-unsorted"></i></th>
+                            <th style={{ width:'20%' }}><span className="Mlist_table">OWNER NAME</span> <i class="fa fa-unsorted"></i></th>
+                            <th style={{ width:'20%' }}><span className="Mlist_table">SSN</span> <i class="fa fa-unsorted"></i></th>
+                            <th style={{ width:'10%' }}><span className="Mlist_table">TAX ID</span> <i class="fa fa-unsorted"></i></th>
+                            <th style={{ width:'20%' }}><span className="Mlist_table">ABA</span> <i class="fa fa-unsorted"></i></th>
+                            <th style={{ width:'20%' }}><span className="Mlist_table">DDA</span> <i class="fa fa-unsorted"></i></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,16 +139,6 @@ class MerchantsList extends React.Component {
                     </tbody>
                 </table>
             </div>
-            <div className="paginating-table">
-            <Pagination
-              totalRecords={MerList.length}
-              pageLimit={pageLimit || 10}
-              initialPage={1}
-              pagesToShow={10}
-              onChangePage={this.onChangePage}
-              PaginationFilter={this.state.PaginationFilter}
-            />
-          </div>
         </div>
     )
   }

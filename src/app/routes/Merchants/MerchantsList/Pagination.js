@@ -108,46 +108,58 @@ class Pagination extends Component {
     return (
       <ul className="pagination">
         <li>
-          <button
-            disabled={pager.currentPage === 1 ? true : false}
-            onClick={() => this.setPage(1)}
-          >
-            First
-          </button>
+          {pager.currentPage === 1 ? 
+          <a style={{cursor: 'context-menu'}} onClick={() => this.setPage(1)}>
+              <img src={require("../../../../assets/images/pagination/first-disable.png")} alt="First" title="First"/>
+          </a> :
+          <a 
+           onClick={() => this.setPage(1)}>
+              <img src={require("../../../../assets/images/pagination/first.png")} alt="First" title="First"/>
+          </a>
+        }
         </li>
         <li>
-          <button
-            disabled={pager.currentPage === 1 ? true : false}
-            onClick={() => this.setPage(pager.currentPage - 1)}
-          >
-            Prev
-          </button>
+          {pager.currentPage === 1 ? 
+          <a style={{cursor: 'context-menu'}} onClick={() => this.setPage(pager.currentPage - 1)}>
+            <img src={require("../../../../assets/images/pagination/back-disable.png")} alt="Back" title="Back"/>
+          </a> : 
+          <a 
+          onClick={() => this.setPage(pager.currentPage - 1)}>
+            <img src={require("../../../../assets/images/pagination/back.png")} alt="Back" title="Back"/>
+          </a>
+          }
         </li>
         {pager.pages.map((page, index) => (
           <li key={index}>
-            <button
+            <a
               className={pager.currentPage === page ? "isActiveP" : ""}
               onClick={() => this.setPage(page)}
             >
               {page}
-            </button>
+            </a>
           </li>
         ))}
         <li>
-          <button
-            disabled={pager.currentPage === pager.totalPages ? true : false}
-            onClick={() => this.setPage(pager.currentPage + 1)}
-          >
-            Next
-          </button>
+          { pager.currentPage === pager.totalPages ? 
+            <a style={{cursor: 'context-menu'}} onClick={() => this.setPage(pager.currentPage + 1)}>
+            <img src={require("../../../../assets/images/pagination/next-disable.png")} alt="Next" title="Next"/>
+            </a> : 
+            <a 
+            onClick={() => this.setPage(pager.currentPage + 1)}>
+            <img src={require("../../../../assets/images/pagination/next.png")} alt="Next" title="Next"/>
+          </a>
+          } 
         </li>
         <li>
-          <button
-            disabled={pager.currentPage === pager.totalPages ? true : false}
-            onClick={() => this.setPage(pager.totalPages)}
-          >
-            Last
-          </button>
+          {pager.currentPage === pager.totalPages ? 
+              <a style={{cursor: 'context-menu'}} onClick={() => this.setPage(pager.totalPages)}>
+             <img src={require("../../../../assets/images/pagination/last-disable.png")} alt="Last" title="Last"/>
+            </a> : 
+              <a 
+              onClick={() => this.setPage(pager.totalPages)}>
+             <img src={require("../../../../assets/images/pagination/last.png")} alt="Last" title="Last"/>
+            </a>
+          }
         </li>
       </ul>
     );

@@ -15,7 +15,6 @@ import SignUp from './SignUp';
 import RTL from 'util/RTL';
 import asyncComponent from 'util/asyncComponent';
 import { ProtectedRoute } from './ProtectedRoute'
-import MerchantProfile from "../app/routes/Merchants/MerchantProfile/MerchantProfile"
 class App extends Component {
 
   componentWillMount() {

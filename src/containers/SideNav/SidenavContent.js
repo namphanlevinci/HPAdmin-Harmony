@@ -91,7 +91,7 @@ class SidenavContent extends Component {
           <li className="nav-header">
             <IntlMessages id="sidebar.main"/>
           </li>
-                    {/* YEET */}
+                    {/* MERCHANT */}
           <li className="menu collapse-box">
             <Button>
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
@@ -112,12 +112,31 @@ class SidenavContent extends Component {
               </li>
             </ul>
           </li>
-          {/* END YEET */}
-          <li className="menu no-arrow">
-            <NavLink to="/app/customers">
+          {/* ACCOUNTS */}
+          <li className="menu collapse-box">
+            <Button>
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
-              <span className="nav-text"><IntlMessages id="Customer"/> </span>
-            </NavLink>
+              <span className="nav-text">
+                <IntlMessages id="Accounts"/>
+              </span>
+            </Button>
+            <ul className="sub-menu">
+            <li>
+                <NavLink className="prepend-icon" to="/app/accounts/users">
+                  <span className="nav-text"><IntlMessages id="Users"/></span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/accounts/roles">
+                  <span className="nav-text"><IntlMessages id="Roles"/></span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/accounts/logs">
+                  <span className="nav-text"><IntlMessages id="Audit logs"/></span>
+                </NavLink>
+              </li>
+            </ul>
           </li>
         </ul>
       </CustomScrollbars>

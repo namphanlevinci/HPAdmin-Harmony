@@ -14,3 +14,12 @@ export const getAll_Merchant_Requests_Error = (payload) => ({
     type: types.getAll_Merchant_Requests_Error,
     payload: payload
 });
+export const SearchMerchants = (payload) => ({
+    type: types.SearchMerchant_Request,
+    payload: payload
+})
+
+export const ViewMerchant_Request = (payload) => ({
+    type: types.ViewMerchant_Request,
+    payload
+})
