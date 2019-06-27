@@ -18,7 +18,8 @@ class MerchantReqProfile extends Component {
         const ID = this.props.PendingProfile.merchantId
       await  axios.put('http://api2.levincidemo.com/api/merchant/approve/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
-            console.log(res)
+            // console.log(res)
+            this.props.history.push('/app/merchants/requests')
         }).catch((err) => {
             console.log(err)
         })
@@ -27,23 +28,26 @@ class MerchantReqProfile extends Component {
         const ID = this.props.PendingProfile.merchantId
        await  axios.put('http://api2.levincidemo.com/api/merchant/reject/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
-            console.log(res)
+            // console.log(res)
+            this.props.history.push('/app/merchants/requests')
         }).catch((err) => {
             console.log(err)
         })
+        
     }
 
     render() { 
-        console.log("HAHA", this.props.PendingProfile.merchantId)
-        const renderPendingProfile = this.props.PendingProfile !== undefined ? 
+        console.log("HAHA", this.props.PendingProfile)
+        const e = this.props.PendingProfile
+        const renderPendingProfile = e.merchantId !== undefined ? 
             <div className="container-fluid PendingList">
                     <ContainerHeader match={this.props.match} title={<IntlMessages id="Request Details"/>}/>
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
                             <h3>HP000001</h3>
                             <span>
-                                <button className="btn btn-green" onClick={() => this._approve()}>ACCEPT</button>
                                 <button href="#" className="btn btn-red" onClick={() => this._reject()}>REJECT</button>
+                                <button className="btn btn-green" onClick={() => this._approve()}>ACCEPT</button>
                             </span>
                         </div>
                         <hr/>
@@ -53,7 +57,7 @@ class MerchantReqProfile extends Component {
                                 <div className="row justify-content-between">
                                     <div className="col-md-4">
                                         <h4>Legal Business Name*</h4>
-                                        <p>Legal Business Name*</p>
+                                        <p>{e.businessName}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Doing Business As (DBA)*</h4>
@@ -61,7 +65,7 @@ class MerchantReqProfile extends Component {
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Federal Tax ID*</h4>
-                                        <p>Legal Business Name*</p>
+                                        <p>{e.taxId}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>DBA Business Address*</h4>
@@ -69,15 +73,15 @@ class MerchantReqProfile extends Component {
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Zip Code*</h4>
-                                        <p>123456712</p>
+                                        <p>{e.zip}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Business Phone Number*</h4>
-                                        <p>731-321-3212</p>
+                                        <p>{e.phone}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Contact Email Address*</h4>
-                                        <p>johnWick@gmail.com</p>
+                                        <p>{e.email}</p>
                                     </div>
                                     </div>
                             <h2>Representative Information</h2>
@@ -132,11 +136,11 @@ class MerchantReqProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>ABA Routing Number*</h4>
-                                            <p>082929292912</p>
+                                            <p>{e.routingNumber}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Checking Account Number (DDA)*</h4>
-                                            <p>7373732</p>
+                                            <p>{e.accountNumber}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Void Check*</h4>
