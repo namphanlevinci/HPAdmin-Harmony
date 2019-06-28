@@ -109,10 +109,10 @@ class Pagination extends Component {
       <ul className="pagination">
         <li>
           {pager.currentPage === 1 ? 
-          <a style={{cursor: 'context-menu'}} onClick={() => this.setPage(1)}>
+          <a href="/#" style={{cursor: 'context-menu'}} onClick={() => this.setPage(1)}>
               <img src={require("../../../../assets/images/pagination/first-disable.png")} alt="First" title="First"/>
           </a> :
-          <a 
+          <a href="/#"
            onClick={() => this.setPage(1)}>
               <img src={require("../../../../assets/images/pagination/first.png")} alt="First" title="First"/>
           </a>
@@ -120,10 +120,10 @@ class Pagination extends Component {
         </li>
         <li>
           {pager.currentPage === 1 ? 
-          <a style={{cursor: 'context-menu'}} onClick={() => this.setPage(pager.currentPage - 1)}>
+          <a href="/#" style={{cursor: 'context-menu'}} onClick={() => this.setPage(pager.currentPage - 1)}>
             <img src={require("../../../../assets/images/pagination/back-disable.png")} alt="Back" title="Back"/>
           </a> : 
-          <a 
+          <a href="/#"
           onClick={() => this.setPage(pager.currentPage - 1)}>
             <img src={require("../../../../assets/images/pagination/back.png")} alt="Back" title="Back"/>
           </a>
@@ -131,7 +131,7 @@ class Pagination extends Component {
         </li>
         {pager.pages.map((page, index) => (
           <li key={index}>
-            <a
+            <a href="/#"
               className={pager.currentPage === page ? "isActiveP" : ""}
               onClick={() => this.setPage(page)}
             >
@@ -141,10 +141,10 @@ class Pagination extends Component {
         ))}
         <li>
           { pager.currentPage === pager.totalPages ? 
-            <a style={{cursor: 'context-menu'}} onClick={() => this.setPage(pager.currentPage + 1)}>
+            <a href="/#" style={{cursor: 'context-menu'}} onClick={() => this.setPage(pager.currentPage + 1)}>
             <img src={require("../../../../assets/images/pagination/next-disable.png")} alt="Next" title="Next"/>
             </a> : 
-            <a 
+            <a href="/#"
             onClick={() => this.setPage(pager.currentPage + 1)}>
             <img src={require("../../../../assets/images/pagination/next.png")} alt="Next" title="Next"/>
           </a>
@@ -152,10 +152,10 @@ class Pagination extends Component {
         </li>
         <li>
           {pager.currentPage === pager.totalPages ? 
-              <a style={{cursor: 'context-menu'}} onClick={() => this.setPage(pager.totalPages)}>
+              <a href="/#" style={{cursor: 'context-menu'}} onClick={() => this.setPage(pager.totalPages)}>
              <img src={require("../../../../assets/images/pagination/last-disable.png")} alt="Last" title="Last"/>
             </a> : 
-              <a 
+              <a href="/#"
               onClick={() => this.setPage(pager.totalPages)}>
              <img src={require("../../../../assets/images/pagination/last.png")} alt="Last" title="Last"/>
             </a>

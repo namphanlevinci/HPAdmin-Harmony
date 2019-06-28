@@ -12,7 +12,8 @@ class MerchantReqProfile extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            showPopup: false
+            showPopupAccept: false,
+            showPopupReject: false
          }
     }
 
@@ -37,12 +38,16 @@ class MerchantReqProfile extends Component {
         })
         
     }
-    _togglePopup = () => {
+    _togglePopupAccept = () => {
         this.setState({
-          showPopup: !this.state.showPopup
+            showPopupAccept: !this.state.showPopupAccept
         });
       }
-
+      _togglePopupReject = () => {
+        this.setState({
+            showPopupReject: !this.state.showPopupReject
+        });
+      }
     render() { 
         console.log("HAHA", this.props.PendingProfile)
         const e = this.props.PendingProfile
@@ -53,19 +58,29 @@ class MerchantReqProfile extends Component {
                         <div className="PDL-Btn col-md-12">
                             <h3>HP000001</h3>
                             <span>
-                                <button href="#" className="btn btn-red" onClick={() => this._reject()}>REJECT</button>
-                                <button className="btn btn-green" onClick={this._togglePopup}>ACCEPT</button>
+                                <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>REJECT</button>
+                                <button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</button>
                             </span>
                             
-                            {/* POP UP BUTTON */}
-                            {this.state.showPopup !== false ? <div className="POPUP">
+                            {/* POP UP ACCEPT */}
+                            {this.state.showPopupAccept !== false ? <div className="POPUP">
                                 <div className="POPUP-INNER">
                                     <h2>ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2>
-                                    <button href="#" className="btn btn-red" onClick={this._togglePopup}>NO</button>
+                                    <button href="#" className="btn btn-red" onClick={this._togglePopupAccept}>NO</button>
                                     <button className="btn btn-green" onClick={() => this._approve()}>YES</button>
                                 </div>
                             </div> : null }
-                            {/* ==================== */}
+                            {/* POP UP REJECT */}
+                            {this.state.showPopupReject !== false ? <div className="POPUP">
+                                <div className="POPUP-INNER" style={{paddingTop: '30px'}}>
+                                    <h2>WHY?</h2>
+                                    <form>
+                                        <textarea  style={{width: '350px', height: '100px'}} placeholder="Please enter your reason."></textarea>
+                                    </form>
+                                    <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>BACK</button>
+                                    <button className="btn btn-green" onClick={() => this._reject()}>COMFIRM</button>
+                                </div>
+                            </div> : null }
                         </div>
                         <hr/>
                         <div className="content">

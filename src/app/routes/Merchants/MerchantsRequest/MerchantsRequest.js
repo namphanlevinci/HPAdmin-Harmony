@@ -3,7 +3,6 @@ import "./MerchantsRequest.css"
 import "../MerchantsList/merchantsList.css"
 import { getAll_Merchant_Requests, ViewMerchant_Request } from '../../../../actions/merchant-requests/actions'
 import {connect} from 'react-redux';
-import axios from "axios"
 import Pagination from "../MerchantsList/Pagination"
 //
 import IntlMessages from 'util/IntlMessages';
@@ -84,13 +83,6 @@ class MerchantsRequest extends Component {
         console.log("PENDING LIST", ReqList)
         const renderReqList = ReqList.slice(startIndex, endIndex + 1).map((e) => {
             return (
-                // <div key={e.merchantId} className="ReqContainer">
-                //     <p>MERCHANT ID: {e.merchantId}</p>
-                //     <h4><span>Business Name: {e.businessName}</span>
-                //     <button className="btn btn-green" onClick={() => this._approve(e)}>ACCEPT</button>
-                //     <button href="#" className="btn btn-red" onClick={() => this._reject(e)}>REJECT</button></h4>
-                // </div>
-                
                 <tr key={e.merchantId} onClick={() => this._merchantReqProfile(e)}>
                 <td>{e.merchantId}</td>
                 {e.businessName !== null ? <td>{e.businessName}</td> : <td></td>}
@@ -101,11 +93,6 @@ class MerchantsRequest extends Component {
             )
         })
         return ( 
-            // <div className="container MReq">
-            //     <ContainerHeader match={this.props.match} title={<IntlMessages id="MERCHANT REQUEST"/>}/>
-            //     {renderReqList}
-            // </div>
-            
             <div className="container-fluid MerList">
                 <ContainerHeader match={this.props.match} title={<IntlMessages id="MERCHANT REQUEST"/>}/>
                 <div className="MReqSP">

@@ -17,6 +17,7 @@ import TopNav from 'components/TopNav';
 /////////////
 import Merchants from "./routes/Merchants/Merchants"
 import Accounts from "./routes/Accounts/Accounts"
+import Settings from "./routes/AdminSettings/Settings"
 class App extends React.Component {
 
   render() {
@@ -48,6 +49,7 @@ class App extends React.Component {
             <div className="app-main-content">
               <Switch>
                 <Route path={`${match.url}/merchants`} component={Merchants}/>
+                <Route path={`${match.url}/adsettings`} component={Settings}/>
                 <Route path={`${match.url}/accounts`} component={Accounts}/>
                 <Route path={`${match.url}/profile`} component={asyncComponent(() => import('components/profile/profile'))}/>
                 <Route path={`${match.url}/settings`} component={asyncComponent(() => import('components/Settings/settings'))}/>

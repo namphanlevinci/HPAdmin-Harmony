@@ -1,20 +1,35 @@
-import * as typeAgent from '../../actions/user/types'
-import { login_Agent_api } from '../api/user'
+import * as typeUser from '../../actions/user/types'
+import { login_User_api, getAll_User_api } from '../api/user'
 import { takeLatest, put } from 'redux-saga/effects'
 
-export function* login_Agent_Saga() {
-    yield takeLatest(typeAgent.checkLogin_Agent, function* (action) {
+export function* login_User_Saga() {
+    yield takeLatest(typeUser.checkLogin_User, function* (action) {
         try {
             const { email, password } = action.payload
-            const check = yield login_Agent_api({ email, password });
+            const check = yield login_User_api({ email, password });
             if (check.data !== null) {
-                yield put({ type: typeAgent.checkLogin_Agent_Success, payload: check.data });
+                yield put({ type: typeUser.checkLogin_User_Success, payload: check.data });
             }
             if (check.data === null) {
-                yield put({ type: typeAgent.checkLogin_Agent_Error, payload: check.message })
+                yield put({ type: typeUser.checkLogin_User_Error, payload: check.message })
             }
         } catch (error) {
-            yield put({ type: typeAgent.checkLogin_Agent_Error, payload: error })
+            yield put({ type: typeUser.checkLogin_User_Error, payload: error })
         }
     })
+}
+
+export function* getAll_User_Saga() {
+    yield takeLatest(typeUser.getAll_User, function* () {
+        try {
+            const UserList = yield getAll_User_api();
+            if (UserList.data !== null) {
+                yield put({ type: typeUser.getAll_User_Success, payload: UserList });
+            } else {
+                yield put({ type: typeUser.getAll_User_Error, payload: 'Something went wrong, please try again later!' })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    });
 }

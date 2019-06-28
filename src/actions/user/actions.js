@@ -1,20 +1,37 @@
 
 import * as types from './types'
-export const checkLogin_Agent = (payload) => ({
-    type: types.checkLogin_Agent,
+
+export const checkLogin_User = (payload) => ({
+    type: types.checkLogin_User,
     payload: payload
   });
-  export const checkLogin_Agent_Success = (payload) => ({
-    type: types.checkLogin_Agent_Success,
-    payload: payload
-  });
-  
-  export const checkLogin_Agent_Error = (payload) => ({
-    type: types.checkLogin_Agent_Error,
+export const checkLogin_User_Success = (payload) => ({
+    type: types.checkLogin_User_Success,
     payload: payload
   });
   
-  export const logout_Agent = (payload) => ({
-    type: types.logout_Agent,
+export const checkLogin_User_Error = (payload) => ({
+    type: types.checkLogin_User_Error,
+    payload: payload
+  });
+  
+export const logout_User = (payload) => ({
+    type: types.logout_User,
+    payload: payload
+  })
+export const getAll_User = (payload) => ({
+    type: types.getAll_User,
+    payload: payload
+  });
+export const getAll_User_Success = (payload) => ({
+    type: types.getAll_User_Success,
+    payload: payload
+  });
+export const getAll_User_Error = (payload) => ({
+    type: types.getAll_User_Error,
+    payload: payload
+  });
+export const ViewProfile_User = (payload) => ({
+    type: types.ViewProfile_User,
     payload: payload
   })

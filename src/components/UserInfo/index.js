@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IntlMessages from 'util/IntlMessages';
 import {connect} from 'react-redux';
-import { logout_Agent } from '../../actions/user/actions'
+import { logout_User } from '../../actions/user/actions'
 import { withRouter } from 'react-router-dom';
 
 class UserInfo extends React.Component {
@@ -23,7 +23,7 @@ class UserInfo extends React.Component {
   // };
 
   onLogout = () => {
-    this.props.logout_Agent()
+    this.props.logout_User()
   }
   _gotoSetting = () => {
     this.setState({open: false});
@@ -81,8 +81,8 @@ const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  logout_Agent: (agent_info) => {
-      dispatch(logout_Agent(agent_info));
+  logout_User: (agent_info) => {
+      dispatch(logout_User(agent_info));
   }
 });
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserInfo));

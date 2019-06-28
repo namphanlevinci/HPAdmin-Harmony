@@ -2,12 +2,12 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import IntlMessages from 'util/IntlMessages';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { checkLogin_Agent, checkLogin_Agent_Error } from '../actions/user/actions'
+import { checkLogin_User, checkLogin_User_Error } from '../actions/user/actions'
 
 
 
@@ -28,7 +28,7 @@ class SignIn extends React.Component {
     this.setState({  loading: true })
     await e.preventDefault();
     const { email, password } = await this.state;
-    await this.props.checkLogin_Agent({ email, password })  
+    await this.props.checkLogin_User({ email, password })  
     console.log(this.props.InfoUser_Login.message_error)
   }
 
@@ -120,11 +120,11 @@ const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  checkLogin_Agent: (agent_info) => {
-      dispatch(checkLogin_Agent(agent_info));
+  checkLogin_User: (user_info) => {
+      dispatch(checkLogin_User(user_info));
   },
-  checkLogin_Agent_Error: (mess) => {
-      dispatch(checkLogin_Agent_Error(mess))
+  checkLogin_User_Error: (mess) => {
+      dispatch(checkLogin_User_Error(mess))
   }
 });
 

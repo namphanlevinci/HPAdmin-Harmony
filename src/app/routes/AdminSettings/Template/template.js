@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import IntlMessages from 'util/IntlMessages';
 import ContainerHeader from 'components/ContainerHeader/index';
-
-class Logs extends Component {
+class Template extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
@@ -10,10 +9,11 @@ class Logs extends Component {
     render() { 
         return ( 
             <div className="container-fluid">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="Logs"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="Template"/>}/>
+                <h1>TEMPLATE</h1>
             </div>
          );
     }
 }
  
-export default Logs;
+export default Template;

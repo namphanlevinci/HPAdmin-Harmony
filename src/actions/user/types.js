@@ -1,4 +1,9 @@
-export const checkLogin_Agent = 'checkLogin_Agent';
-export const checkLogin_Agent_Success = 'checkLogin_Agent_Success';
-export const checkLogin_Agent_Error = 'checkLogin_Agent_Error';
-export const logout_Agent = 'logout_Agent';
+export const checkLogin_User = 'checkLogin_User';
+export const checkLogin_User_Success = 'checkLogin_User_Success';
+export const checkLogin_User_Error = 'checkLogin_User_Error';
+export const logout_User = 'logout_User';
+
+export const getAll_User = 'getAll_User'
+export const getAll_User_Success = 'getAll_User_Success'
+export const getAll_User_Error = 'getAll_User_Error'
+export const ViewProfile_User = 'ViewProfile_User';

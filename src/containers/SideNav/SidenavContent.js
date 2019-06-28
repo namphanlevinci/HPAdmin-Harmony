@@ -138,6 +138,32 @@ class SidenavContent extends Component {
               </li>
             </ul>
           </li>
+          {/* SETTING */}
+          <li className="menu collapse-box">
+            <Button>
+              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
+              <span className="nav-text">
+                <IntlMessages id="Settings"/>
+              </span>
+            </Button>
+            <ul className="sub-menu">
+            <li>
+                <NavLink className="prepend-icon" to="/app/adsettings/smtp">
+                  <span className="nav-text"><IntlMessages id="SMTP"/></span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/adsettings/template">
+                  <span className="nav-text"><IntlMessages id="Template"/></span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/adsettings/twilio">
+                  <span className="nav-text"><IntlMessages id="Twilio"/></span>
+                </NavLink>
+              </li>
+            </ul>
+          </li>
         </ul>
       </CustomScrollbars>
     );
