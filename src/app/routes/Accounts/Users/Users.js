@@ -112,12 +112,12 @@ class Users extends Component {
                 <table style={{ width:'100%' }}>
                     <thead>
                     <tr style={{borderBottom: '1px solid black'}}>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i class="fa fa-unsorted"/></th>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">Status</span> <i class="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Name</span> <i class="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Email</span> <i class="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Phone</span> <i class="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Role</span> <i class="fa fa-unsorted"/></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">Status</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Name</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Email</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Phone</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Role</span> <i className="fa fa-unsorted"/></th>
                             </tr>
                     </thead>
                     <tbody>

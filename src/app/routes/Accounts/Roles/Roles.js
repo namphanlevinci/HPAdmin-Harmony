@@ -9,11 +9,24 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import "./Roles.css"
+
+///
+const signalR = require("@aspnet/signalr");
+
 class Roles extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = { 
+            hubConnection: null
+         }
     }
+    // SIGNALR
+    componentDidMount = () => {
+        let connection = new signalR.HubConnectionBuilder()
+        .withUrl("http://api2.levincidemo.com/notification/", { accessTokenFactory: () => '212312' })
+        .build();
+        connection.start();
+      };
     render() { 
         return ( 
             <div className="container-fluid RoleUI">

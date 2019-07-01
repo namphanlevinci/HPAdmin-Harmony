@@ -6,6 +6,7 @@ import IntlMessages from 'util/IntlMessages';
 import {connect} from 'react-redux';
 import { logout_User } from '../../actions/user/actions'
 import { withRouter } from 'react-router-dom';
+const signalR = require("@aspnet/signalr");
 
 class UserInfo extends React.Component {
 
@@ -22,6 +23,14 @@ class UserInfo extends React.Component {
   //   this.setState({open: false});
   // };
 
+  // signalR
+  componentDidMount = () => {
+    const token = this.props.InfoUser_Login.User.token
+    let connection = new signalR.HubConnectionBuilder()
+    .withUrl("http://api2.levincidemo.com/notification/", { accessTokenFactory: () => token })
+    .build();
+    connection.start();
+  };
   onLogout = () => {
     this.props.logout_User()
   }
@@ -35,7 +44,6 @@ class UserInfo extends React.Component {
   }
   render() {
     const  User = this.props.InfoUser_Login.User.userAdmin
-    // console.log("YEET", User)
     return (
       <div className="user-profile d-flex flex-row align-items-center">
         <Avatar
