@@ -83,10 +83,10 @@
 } 
 
 /* CHUYỂN TRANG */
-.paginating-table {
+/* .paginating-table {
   /* margin-top: 20px; */
   /* float: right; */
-}
+
 
 .pagination a.isActiveP {
   color: #000000;

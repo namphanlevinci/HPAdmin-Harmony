@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import "./Roles.css"
 
 ///
-const signalR = require("@aspnet/signalr");
+// const signalR = require("@aspnet/signalr");
 
 class Roles extends Component {
     constructor(props) {
@@ -21,12 +21,12 @@ class Roles extends Component {
          }
     }
     // SIGNALR
-    componentDidMount = () => {
-        let connection = new signalR.HubConnectionBuilder()
-        .withUrl("http://api2.levincidemo.com/notification/", { accessTokenFactory: () => '212312' })
-        .build();
-        connection.start();
-      };
+    // componentDidMount = () => {
+    //     let connection = new signalR.HubConnectionBuilder()
+    //     .withUrl("http://api2.levincidemo.com/notification/", { accessTokenFactory: () => '212312' })
+    //     .build();
+    //     connection.start();
+    //   };
     render() { 
         return ( 
             <div className="container-fluid RoleUI">
