@@ -5,6 +5,7 @@ import { getAll_User, ViewProfile_User } from "../../../../actions/user/actions"
 import {connect} from 'react-redux';
 import Pagination from '../../Merchants/MerchantsList/Pagination'
 import "../../Merchants/MerchantsList/merchantsList.css"
+import "./User.css"
 class Users extends Component {
     constructor(props) {
         super(props);
@@ -47,7 +48,6 @@ class Users extends Component {
       _userProfile = (e) => {
         this.props.ViewProfile_User(e)
         this.props.history.push('/app/accounts/user-profile')
-        // console.log(this.props.ViewProfile_User(e))
       }
     render() { 
         var {
@@ -82,7 +82,7 @@ class Users extends Component {
         return ( 
             <div className="container-fluid MerList">
             <ContainerHeader match={this.props.match} title={<IntlMessages id="Users"/>}/>
-                <div className="MReqSP">
+                <div className="UserSearchBox">
                     {/* SEARCH */}
                     <div className="search">
                         <form>

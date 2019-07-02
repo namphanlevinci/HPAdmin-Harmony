@@ -1,3 +1,7 @@
 .UserProfile {
     font-family: 'Work Sans', sans-serif;
 }
+.UserSearchBox {
+    display: flex;
+	justify-content: space-between;
+}

@@ -8,19 +8,111 @@ import IntlMessages from 'util/IntlMessages';
 import ContainerHeader from 'components/ContainerHeader/index';
 import "../MerchantsRequest/MerchantReqProfile.css"
 import "../MerchantsRequest/MerchantsRequest.css"
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import axios from 'axios'
 class merchantProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = { 
+            edit: false,
+            businessName: '',
+            email: '',
+            cellphone: '',
+            address: '',
+            city: '',
+            stateId: ''
+         }
+         this._handleChange = this._handleChange.bind(this)
+    }
+    componentDidMount() {
+        const data = this.props.MerchantProfile 
+        this.setState({
+            businessName: data.businessName,
+            email: data.email,
+            cellphone: data.cellPhone,
+            address: data.address,
+            city: data.city,
+            stateId: data.stateId
+        })
+    }
+    _handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+            this.setState({
+                [name]: value
+            })
+    }
+    _toggleEdit = () => {
+        this.setState({ edit: this.edit = !this.edit })
+    }
+    _update = () => {
+        const ID = this.props.MerchantProfile.merchantId
+        const { businessName, email, cellphone, address, city, stateId } = this.state
+        axios.put('http://api2.levincidemo.com/api/merchant/' + ID, { businessName, email, cellphone, address, city, stateId }, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+            .then((res) => {
+                if(res.data.message === 'Success') {
+                    // console.log(res)
+                    NotificationManager.success(res.data.message)
+                    setTimeout(() => {
+                        this.setState({ edit: false });
+                      }, 3000);
+                }
+                else {
+                    NotificationManager.error('Something went wrong, please try again.')
+                }
+            })
     }
     render() { 
         const e = this.props.MerchantProfile
-        console.log("YEET", e)
         const renderMerchantProfile = e.merchantId !== undefined ? 
         <div className="container-fluid PendingList">
         <ContainerHeader match={this.props.match} title={<IntlMessages id="Merchant Profile"/>}/>
         <div className="PendingLBody">
+            <div className="PDL-Btn col-md-12">
+                <h3>ID: {e.merchantId}</h3>
+                            <span>
+                                <button className="btn btn-green" onClick={this._toggleEdit}>EDIT</button>
+                            </span>
+                            {this.state.edit !== false ? <div className="POPUP">
+                                <div className="POPUP-INNER2" style={{paddingTop: '30px'}}>
+                                    <h2 style={{color: '#3f51b5'}}>EDIT</h2>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><label>Legal Business Name:</label></td>
+                                                    <td><input name="businessName" value={this.state.businessName} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Email:</label></td>
+                                                    <td><input name="email" value={this.state.email} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Phone:</label></td>
+                                                    <td><input name="cellphone" type="number" value={this.state.cellphone} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Address:</label></td>
+                                                    <td><input name="address" value={this.state.address} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                                <tr>
+                                                    <td><label>City:</label></td>
+                                                    <td><input name="city" value={this.state.city} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                                <tr>
+                                                    <td><label>State:</label></td>
+                                                    <td><input name="stateId" type="number" value={this.state.stateId} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr />
+                                    <button href="#" className="btn btn-red" onClick={this._toggleEdit}>BACK</button>
+                                    <button className="btn btn-green" onClick={this._update}>UPDATE</button>
+                                </div>
+                            </div> : null }
+            </div>
             <hr/>
+            <NotificationContainer/>
             <div className="content">
                 <div className="container">
                 <h2>General Information</h2>
@@ -39,11 +131,11 @@ class merchantProfile extends Component {
                         </div>
                         <div className="col-md-4">
                             <h4>DBA Business Address*</h4>
-                            <p>DBA Business Address</p>
+                            <p>{e.address + ' ' + e.city + ' ' + e.stateId}</p>
                         </div>
                         <div className="col-md-4">
-                            <h4>Zip Code*</h4>
-                            <p>{e.zip}</p>
+                            <h4>Phone*</h4>
+                            <p>{e.phone}</p>
                         </div>
                         <div className="col-md-4">
                             <h4>Business Phone Number*</h4>
@@ -58,15 +150,15 @@ class merchantProfile extends Component {
                     <div className="row">
                         <div className="col-md-4">
                             <h4>Contact Name*</h4>
-                            <p>James M.Smit</p>
+                            <p></p>
                         </div>
                         <div className="col-md-4">
                             <h4>Title/Position*</h4>
-                            <p>Manager</p>
+                            <p></p>
                         </div>
                         <div className="col-md-4">
                             <h4>Contact Phone Number*</h4>
-                            <p>892-123-2921</p>
+                            <p></p>
                         </div>
                     </div>
                 <h2>Business Information</h2>
@@ -162,7 +254,7 @@ class merchantProfile extends Component {
                           </div>
                           <div className="col-md-4">
                               <h4>Driver License Number*</h4>
-                              <p>B9282022</p>
+                              <p></p>
                           </div>
                           <div className="col-md-4">
                               <h4>State Issued*</h4>
@@ -188,7 +280,8 @@ class merchantProfile extends Component {
 }
 }
 const mapStateToProps = (state) => ({
-    MerchantProfile: state.ViewProfile_Merchants
+    MerchantProfile: state.ViewProfile_Merchants,
+    InfoUser_Login: state.User,
 })
 
 export default withRouter(connect(mapStateToProps)(merchantProfile));
