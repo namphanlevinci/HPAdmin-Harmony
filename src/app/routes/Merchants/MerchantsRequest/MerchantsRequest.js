@@ -80,7 +80,7 @@ class MerchantsRequest extends Component {
       
           }
       }
-        console.log("PENDING LIST", ReqList)
+        // console.log("PENDING LIST", ReqList)
         const renderReqList = ReqList.slice(startIndex, endIndex + 1).map((e) => {
             return (
                 <tr key={e.merchantId} onClick={() => this._merchantReqProfile(e)}>

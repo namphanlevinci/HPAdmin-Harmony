@@ -250,11 +250,11 @@ class Header extends React.Component {
                   </IconButton>
                 </DropdownToggle>
 
-                {/* <DropdownMenu right>
+                <DropdownMenu right>
                   <CardHeader styleName="align-items-center"
                               heading={<IntlMessages id="appNotification.title"/>}/>
                   <AppNotification/>
-                </DropdownMenu> */}
+                </DropdownMenu>
               </Dropdown>
             </li>
             {/* <li className="list-inline-item mail-tour">

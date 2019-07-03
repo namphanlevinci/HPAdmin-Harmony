@@ -1,21 +1,24 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button';
-
+import Moment from 'react-moment';
+import avatar from './avatar.png'
 
 const NotificationItem = ({notification}) => {
-  const {icon, image, title, time} = notification;
+  const {icon, title, receiveDate} = notification;
+  const time = receiveDate
   return (
     <li className="media">
       <Avatar
-        alt={image}
-        src={image}
+        alt={avatar}
+        src={avatar}
         className=" mr-2"
       />
       <div className="media-body align-self-center">
         <p className="sub-heading mb-0">{title}</p>
         <Button size="small" className="jr-btn jr-btn-xs mb-0"><i
-          className={`zmdi ${icon} zmdi-hc-fw`}/></Button> <span className="meta-date"><small>{time}</small></span>
+          className={`zmdi ${icon} zmdi-hc-fw`}/></Button> <span className="meta-date">
+            <small><Moment format="dddd, MMMM Do YYYY, h:mm:ss a" >{time}</Moment></small></span>
       </div>
     </li>
   );

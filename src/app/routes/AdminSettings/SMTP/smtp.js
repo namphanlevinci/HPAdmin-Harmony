@@ -11,7 +11,7 @@ class SMTP extends Component {
         return ( 
             <div className="container-fluid">
                 <ContainerHeader match={this.props.match} title={<IntlMessages id="SMTP"/>}/>
-                        <form class="form-style-7">
+                        <form className="form-style-7">
                         <h1>CHANGE MAIL SERVER</h1>
                             <ul>
                             <li>

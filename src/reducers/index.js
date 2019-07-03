@@ -12,6 +12,9 @@ import ViewProfile_Merchants from "./Merchants/ViewProfile_Merchants";
 // MERCHANT REQUEST
 import MerchantRequests_List from "./Merchant-Request/Request_List";
 import ViewMerchant_Request from "./Merchant-Request/ViewMerchant_Request"
+// NOTIFICATIONS
+import getAll_Notifications from "./notifications/getAll_Notifications";
+
 export default (history) => combineReducers({
   router: connectRouter(history),
   settings: Settings,
@@ -22,5 +25,6 @@ export default (history) => combineReducers({
   MerchantsList,
   SearchMerchants,
   MerchantRequests_List,
-  ViewMerchant_Request
+  ViewMerchant_Request,
+  getNoti : getAll_Notifications
 });
