@@ -65,6 +65,87 @@ class merchantProfile extends Component {
     }
     render() { 
         const e = this.props.MerchantProfile
+        console.log(e)
+        const renderStaff = e.staffs !==  undefined ? e.staffs.map((e) => {
+            const ID = e.staffId
+            return (
+                <div key={e.staffId} className="StaffContent">
+                        <button type="button" class="StaffBtn btn btn-primary" data-toggle="collapse" data-target={'#demo' + ID}>Staff {' ' + e.firstName + ' ' + e.lastName}</button>
+                        <div id={'demo' + ID} class="collapse">
+                            <div className='container'>
+                                <h2>Staff (ID: {e.staffId})</h2>
+                                <div className="row justify-content-between">
+                                <div className="col-md-3">
+                                        <img className="avatar" src={require("./avatar.png")} alt="avatar"/>
+                                        <h4>Full Name*</h4>
+                                            <p>{e.firstName + ' ' + e.lastName}</p>
+                                        <h4>Email*</h4>
+                                            <p>{e.email}</p>
+                                        <h4>Phone*</h4>
+                                            <p>Phone: {e.phone}</p>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <h4>Display Name</h4>
+                                            <p>{e.displayName}</p>
+                                        <h4>City</h4>
+                                            <p>{e.city}</p>
+                                        <h4>Pin</h4>
+                                            <p>{e.pin}</p>
+                                        <h4>Driverlicense</h4>
+                                            <p>Null</p>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <h4>State</h4>
+                                            <p>{e.stateId}</p>
+                                        <h4>Role*</h4>
+                                            <p>{e.roles.name}</p>
+                                        <h4>Code</h4>
+                                            <p>Null</p>
+                                    </div>
+                                    <div className="col-md-3">
+                                    <h2>Salaries</h2>
+                                        <h4>Commission(%)</h4>
+                                            <p>{e.salaries.commission.value}%</p>
+                                        <h4>per Hour($)</h4>
+                                            <p>${e.salaries.perHour.value}</p>
+                                        <h4>Tip Fee</h4>
+                                            <p>Null</p>
+                                    </div>
+                                </div>
+                                <h2>Work Schedule</h2>
+                                <div className="row justify-content-between">
+                                    <div className="col-md-12">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Monday</th>
+                                                    <th>Tuesday</th>
+                                                    <th>Wednesday</th>
+                                                    <th>Thursday</th>
+                                                    <th>Friday</th>
+                                                    <th>Saturday</th>
+                                                    <th>Sunday</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Monday.timeStart} To: {e.workingTimes.Monday.timeEnd}</td>
+                                                    <td>From: {e.workingTimes.Tuesday.timeStart} To: {e.workingTimes.Tuesday.timeEnd}</td>
+                                                    <td>From: {e.workingTimes.Wednesday.timeStart} To: {e.workingTimes.Wednesday.timeEnd}</td>
+                                                    <td>From: {e.workingTimes.Thursday.timeStart} To: {e.workingTimes.Thursday.timeEnd}</td>
+                                                    <td>From: {e.workingTimes.Friday.timeStart} To: {e.workingTimes.Friday.timeEnd}</td>
+                                                    <td>From: {e.workingTimes.Sarturday.timeStart} To: {e.workingTimes.Sarturday.timeEnd}</td>
+                                                    <td>From: {e.workingTimes.Sunday.timeStart} To: {e.workingTimes.Sunday.timeEnd}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>    
+            )
+        }) : <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
         const renderMerchantProfile = e.merchantId !== undefined ? 
         <div className="container-fluid PendingList">
         <ContainerHeader match={this.props.match} title={<IntlMessages id="Merchant Profile"/>}/>
@@ -123,7 +204,7 @@ class merchantProfile extends Component {
                         </div>
                         <div className="col-md-4">
                             <h4>Doing Business As (DBA)*</h4>
-                            <p>Legal Business Name*</p>
+                            <p>{e.general.doBusinessName}</p>
                         </div>
                         <div className="col-md-4">
                             <h4>Federal Tax ID*</h4>
@@ -150,59 +231,59 @@ class merchantProfile extends Component {
                     <div className="row">
                         <div className="col-md-4">
                             <h4>Contact Name*</h4>
-                            <p></p>
+                            <p>{e.general.firstName + ' ' + e.general.lastName}</p>
                         </div>
                         <div className="col-md-4">
                             <h4>Title/Position*</h4>
-                            <p></p>
+                            <p>{e.general.title}</p>
                         </div>
                         <div className="col-md-4">
                             <h4>Contact Phone Number*</h4>
-                            <p></p>
+                            <p>{e.general.phoneContact}</p>
                         </div>
                     </div>
                 <h2>Business Information</h2>
                     <div className="row">
                         <div className="col-md-6">
                             <h4>Have You Ever Accepted Credit/Debit Cards Before?</h4>
-                                <Checkbox />No <Checkbox/> Yes
+                                <Checkbox checked/>No <Checkbox/> Yes
                                 <h5>Processor: ?</h5>
                         </div>
                         <div className="col-md-6">
                             <h4>Has a Processor Ever Terminated Your Merchant Account?</h4>
-                                <Checkbox />No <Checkbox/> Yes
+                                <Checkbox />No <Checkbox checked/> Yes
                                 <h5>Processor: ?</h5>
                         </div>
                         <div className="col-md-6">
                             <h4>Has Merchant or any associated principal and/or owners disclosed below filed bankruptcy 
                                 or been subject to any involuntary bankruptcy?
                             </h4>
-                                <Checkbox />No <Checkbox/> Yes
+                                <Checkbox />No <Checkbox checked/> Yes
                                 <h5>Date: ?</h5>
                         </div>
                         <div className="col-md-6">
                             <h4>Has a Merchant been previously identified by Visa/Mastercard Risk Programs?</h4>
-                                <Checkbox />No <Checkbox/> Yes
+                                <Checkbox checked/>No <Checkbox/> Yes
                                 <h5>When And Why: ?</h5>
                         </div>
                         <div className="col-md-6">
                             <h4>Will Product(s) or Service(s) Be Sold Outside of the U.S?</h4>
-                                <Checkbox />No <Checkbox/> Yes
+                                <Checkbox checked/>No <Checkbox/> Yes
                         </div>
                     </div>
                     <h2>Bank Information</h2>
                         <div className="row">
                             <div className="col-md-4">
                                 <h4>Bank Name*</h4>
-                                <p>Western Union MTCN</p>
+                                <p>{e.businessBank.name}</p>
                             </div>
                             <div className="col-md-4">
                                 <h4>ABA Routing Number*</h4>
-                                <p>{e.routingNumber}</p>
+                                <p>{e.businessBank.routingNumber}</p>
                             </div>
                             <div className="col-md-4">
                                 <h4>Checking Account Number (DDA)*</h4>
-                                <p>{e.accountNumber}</p>
+                                <p>{e.businessBank.accountNumber}</p>
                             </div>
                             <div className="col-md-4">
                                 <h4>Void Check*</h4>
@@ -250,15 +331,15 @@ class merchantProfile extends Component {
                           </div>
                           <div className="col-md-4">
                               <h4>Email Address*</h4>
-                              <p>Jameswag@gmail.com</p>
-                          </div>
-                          <div className="col-md-4">
-                              <h4>Driver License Number*</h4>
                               <p></p>
                           </div>
                           <div className="col-md-4">
+                              <h4>Driver License Number*</h4>
+                              <p>{e.principals.driverNumber}</p>
+                          </div>
+                          <div className="col-md-4">
                               <h4>State Issued*</h4>
-                              <p>California (CA)</p>
+                              <p>{e.principals.stateId}</p>
                           </div>
                           <div className="col-md-4">
                               <h4>Driver License Picture</h4>
@@ -267,7 +348,7 @@ class merchantProfile extends Component {
                       </div> : <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
                       }
                       <h2>Staff Information</h2>
-                      {e.staffs.length > 1 ? <div></div> : <h4>&nbsp; - NO STAFF INFORMATION</h4>}
+                    {e.staffs.length > 1 ? renderStaff : <h4>&nbsp;- NO STAFF INFORMATION</h4>}
 
 
                 </div>   

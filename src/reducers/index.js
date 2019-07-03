@@ -11,9 +11,11 @@ import SearchMerchants from './Merchants/SearchMerchants';
 import ViewProfile_Merchants from "./Merchants/ViewProfile_Merchants";
 // MERCHANT REQUEST
 import MerchantRequests_List from "./Merchant-Request/Request_List";
-import ViewMerchant_Request from "./Merchant-Request/ViewMerchant_Request"
+import ViewMerchant_Request from "./Merchant-Request/ViewMerchant_Request";
 // NOTIFICATIONS
 import getAll_Notifications from "./notifications/getAll_Notifications";
+// LOGS
+import getAll_Logs from "./Logs/getAll_Logs";
 
 export default (history) => combineReducers({
   router: connectRouter(history),
@@ -26,5 +28,6 @@ export default (history) => combineReducers({
   SearchMerchants,
   MerchantRequests_List,
   ViewMerchant_Request,
-  getNoti : getAll_Notifications
+  getNoti : getAll_Notifications,
+  getLogs: getAll_Logs
 });

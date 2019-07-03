@@ -125,11 +125,11 @@ class MerchantsList extends React.Component {
                 <table style={{ width:'100%' }}>
                     <thead>
                     <tr style={{borderBottom: '1px solid black'}}>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i class="fa fa-unsorted"/></th>
-                                <th style={{ width:'25%' }}><span className="Mlist_table">Business name</span> <i class="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Owner</span> <i class="fa fa-unsorted"/></th>
-                                <th style={{ width:'25%' }}><span className="Mlist_table">Email</span> <i class="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Phone number</span> <i class="fa fa-unsorted"/></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'25%' }}><span className="Mlist_table">Business name</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Owner</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'25%' }}><span className="Mlist_table">Email</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Phone number</span> <i className="fa fa-unsorted"/></th>
                             </tr>
                     </thead>
                     <tbody>
