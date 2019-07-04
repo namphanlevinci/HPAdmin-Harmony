@@ -34,7 +34,7 @@ class Roles extends Component {
                 <div>
                 <ExpansionPanel>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography component="h2" variant=""><span className="roletitle">Administrator</span></Typography>
+                    <Typography component="h2"><span className="roletitle">Administrator</span></Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                     <Typography gutterBottom noWrap>
@@ -45,7 +45,7 @@ class Roles extends Component {
                 </ExpansionPanel>
                 <ExpansionPanel>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography component="h2" variant=""><span className="roletitle">Manager</span></Typography>
+                    <Typography component="h2"><span className="roletitle">Manager</span></Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                     <Typography gutterBottom noWrap>
@@ -56,7 +56,7 @@ class Roles extends Component {
                 </ExpansionPanel>
                 <ExpansionPanel>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography component="h2" variant=""><span className="roletitle">Staff Level I</span></Typography>
+                    <Typography component="h2"><span className="roletitle">Staff Level I</span></Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                     <Typography gutterBottom noWrap>
@@ -67,7 +67,7 @@ class Roles extends Component {
                 </ExpansionPanel>
                 <ExpansionPanel>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography component="h2" variant=""><span className="roletitle">Staff Level II</span></Typography>
+                    <Typography component="h2"><span className="roletitle">Staff Level II</span></Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                     <Typography gutterBottom noWrap>

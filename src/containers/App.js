@@ -45,7 +45,7 @@ class App extends Component {
             <RTL>
               <div className="app-main">
                 <Switch>
-                  <ProtectedRoute path={`${match.url}app`} component={MainApp}/>
+                <ProtectedRoute path={`${match.url}app`} component={MainApp}/>
                   <Route path='/signin' component={SignIn}/>
                   <Route path='/signup' component={SignUp}/>
                   <ProtectedRoute

@@ -88,12 +88,12 @@
   /* float: right; */
 
 
-.pagination a.isActiveP {
+.pagination p.isActiveP {
   color: #000000;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 17px;
 }
-.pagination a {
+.pagination p {
   cursor: pointer;
   padding: 0px 10px;  
 }

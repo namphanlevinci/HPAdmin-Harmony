@@ -113,9 +113,9 @@ class merchantProfile extends Component {
                                     </div>
                                 </div>
                                 <h2>Work Schedule</h2>
-                                <div className="row justify-content-between">
+                                <div className="row align-items-center">
                                     <div className="col-md-12">
-                                        <table>
+                                        <table style={{width: '100%'}}>
                                             <thead>
                                                 <tr>
                                                     <th>Monday</th>
@@ -129,13 +129,13 @@ class merchantProfile extends Component {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Monday.timeStart} To: {e.workingTimes.Monday.timeEnd}</td>
-                                                    <td>From: {e.workingTimes.Tuesday.timeStart} To: {e.workingTimes.Tuesday.timeEnd}</td>
-                                                    <td>From: {e.workingTimes.Wednesday.timeStart} To: {e.workingTimes.Wednesday.timeEnd}</td>
-                                                    <td>From: {e.workingTimes.Thursday.timeStart} To: {e.workingTimes.Thursday.timeEnd}</td>
-                                                    <td>From: {e.workingTimes.Friday.timeStart} To: {e.workingTimes.Friday.timeEnd}</td>
-                                                    <td>From: {e.workingTimes.Sarturday.timeStart} To: {e.workingTimes.Sarturday.timeEnd}</td>
-                                                    <td>From: {e.workingTimes.Sunday.timeStart} To: {e.workingTimes.Sunday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Monday.timeStart} <br/>To: {e.workingTimes.Monday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Tuesday.timeStart}<br/>T To: {e.workingTimes.Tuesday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Wednesday.timeStart}<br/>T To: {e.workingTimes.Wednesday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Thursday.timeStart}<br/>T To: {e.workingTimes.Thursday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Friday.timeStart}<br/>T To: {e.workingTimes.Friday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Sarturday.timeStart} <br/>TTo: {e.workingTimes.Sarturday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Sunday.timeStart} <br/>TTo: {e.workingTimes.Sunday.timeEnd}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
