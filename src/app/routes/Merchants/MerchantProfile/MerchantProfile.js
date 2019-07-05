@@ -44,8 +44,11 @@ class merchantProfile extends Component {
             })
     }
     _toggleEdit = () => {
-        this.setState({ edit: this.edit = !this.edit })
+        this.setState({ edit: true })
+    }
+    _turnOff = () => {
         const data = this.props.MerchantProfile 
+        this.setState({ edit: false })
         this.setState({
             businessName: data.businessName,
             email: data.email,
@@ -196,7 +199,7 @@ class merchantProfile extends Component {
                                             </tbody>
                                         </table>
                                         <hr />
-                                    <button href="#" className="btn btn-red" onClick={this._toggleEdit}>BACK</button>
+                                    <button href="#" className="btn btn-red" onClick={this._turnOff}>BACK</button>
                                     <button className="btn btn-green" onClick={this._update}>UPDATE</button>
                                 </div>
                             </div> : null }
@@ -225,7 +228,7 @@ class merchantProfile extends Component {
                         </div>
                         <div className="col-md-4">
                             <h4>Phone*</h4>
-                            <p>{e.phone}</p>
+                            <p>{this.state.cellphone}</p>
                         </div>
                         <div className="col-md-4">
                             <h4>Business Phone Number*</h4>
