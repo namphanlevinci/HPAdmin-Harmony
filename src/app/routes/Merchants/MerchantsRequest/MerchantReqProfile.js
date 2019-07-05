@@ -13,7 +13,9 @@ class MerchantReqProfile extends Component {
         super(props);
         this.state = { 
             showPopupAccept: false,
-            showPopupReject: false
+            showPopupReject: false,
+            merchantID: '',
+            merchantToken: '',
          }
     }
 
@@ -37,6 +39,14 @@ class MerchantReqProfile extends Component {
             console.log(err)
         })
         
+    }
+    _handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+            this.setState({
+                [name]: value
+            })
     }
     _togglePopupAccept = () => {
         this.setState({
@@ -66,7 +76,20 @@ class MerchantReqProfile extends Component {
                             {this.state.showPopupAccept !== false ? <div className="POPUP">
                                 <div className="POPUP-INNER">
                                     <h2>ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2>
-                                    <button href="#" className="btn btn-red" onClick={this._togglePopupAccept}>NO</button>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><label>MERCHANT ID:</label></td>
+                                                    <td><input name="merchantID" value={this.state.merchantID} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                                <tr>
+                                                    <td><label>MERCHANT TOKEN:</label></td>
+                                                    <td><input name="merchantToken" value={this.state.merchantToken} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <br/>
+                                    <button className="btn btn-red" onClick={this._togglePopupAccept}>NO</button>
                                     <button className="btn btn-green" onClick={() => this._approve()}>YES</button>
                                 </div>
                             </div> : null }

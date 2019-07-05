@@ -31,6 +31,7 @@ class Logs extends Component {
       }
       handleResetClick = () => {
         this.setState(this.getInitialState());
+        this.setState({ search_user: ''})
       }
     componentDidMount() {
         this.props.getAll_Logs()
@@ -55,11 +56,20 @@ class Logs extends Component {
         let UserList = this.props.LogList
         if (this.state.from) {
             dataList = dataList.filter((datez) => {
-                const date = moment(datez.createdDate).format('dddd, MMMM Do YYYY')
-                const from = moment(this.state.from).format('dddd, MMMM Do YYYY')
-                const to = moment(this.state.to).format('dddd, MMMM Do YYYY')
-                return (date === from && date === to) || date === from || date === to;
+                // const date = moment(datez.createdDate).format('Do')
+                // const from = moment(valuez.start).format('Do')
+                // const to = moment(valuez.end).format('Do')
+                // // DIDNT WORK "RIGHT" YET
+                // return (date >= from && date <= to)
 
+                let date = moment(datez.createdDate).subtract(10, 'days').calendar();
+                let from = moment(valuez.start).subtract(10, 'days').calendar();
+                let to = moment(valuez.end).subtract(10, 'days').calendar();
+                
+                const date2 = new Date(date)
+                const from2 = new Date(from)
+                const to2 = new Date(to)
+                return (date2 >= from2 && date2 <= to2)
             })
         }
 
@@ -105,7 +115,7 @@ class Logs extends Component {
                             <button className="link" onClick={this.handleResetClick}>Reset</button>
                             <span><DayPicker
                                 className="Selectable"
-                                numberOfMonths={2}
+                                numberOfMonths={1}
                                 selectedDays={[from, { from, to }]}
                                 value={valuez}
                                 modifiers={modifiers}
@@ -117,7 +127,6 @@ class Logs extends Component {
                                 <option value="">ALL </option>
                                     {renderUser}
                             </select>
-                        <button><i className="fa fas fa-filter"/> Apply </button>
                             </div>
                            
                         {/* <span>From<DayPickerInput formatDate={formatDate}

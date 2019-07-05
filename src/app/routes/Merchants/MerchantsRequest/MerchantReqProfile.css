@@ -108,7 +108,19 @@
 	left: 30%;
 	right: 30%;
 	top: 25%;
-	bottom: 45%;
+	bottom: 40%;
 	margin: auto;
 	background: white;
-}	
+}
+.PendingList .PendingLBody .POPUP .POPUP-INNER input{
+	width: 250px;
+	text-align: center;
+}
+.PendingList .PendingLBody .POPUP .POPUP-INNER label{
+	display: inline-block;
+    width: 274px;
+    text-align: right;
+    line-height: 28pt;
+    font-weight: 400;
+    font-size: 17px;
+}

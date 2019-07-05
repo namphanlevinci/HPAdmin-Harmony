@@ -7,7 +7,7 @@
 	background:#fff;
 	border-radius:2px;
     padding:20px;
-    font-family: 'Work Sans', sans-serif;
+    /* font-family: 'Work Sans', sans-serif; */
 }
 .form-style-7 h1{
 	display: block;
@@ -109,4 +109,29 @@
 .form-style-7 input[type="button"]:hover{
 	background: #6B9FFF;
 	color:#fff;
+}
+
+.form-style-7 button.btn {
+	display: inline-block;
+	color: #666;
+	background-color: #eee;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 12px;
+	padding: 10px 30px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgba(0,0,0,0.3);
+    border-bottom-width: 3px;
+    font-weight: 900;
+}
+.form-style-7 button.btn.btn-green {
+	background-color: #3f51b5;
+	border-color: rgba(0,0,0,0.3);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: #FFF;
+}
+.form-style-7 button .toggleEdit {
+	display: none;
 }

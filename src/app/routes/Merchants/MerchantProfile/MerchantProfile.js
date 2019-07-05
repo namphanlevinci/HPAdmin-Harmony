@@ -45,6 +45,15 @@ class merchantProfile extends Component {
     }
     _toggleEdit = () => {
         this.setState({ edit: this.edit = !this.edit })
+        const data = this.props.MerchantProfile 
+        this.setState({
+            businessName: data.businessName,
+            email: data.email,
+            cellphone: data.cellPhone,
+            address: data.address,
+            city: data.city,
+            stateId: data.stateId
+        })
     }
     _update = () => {
         const ID = this.props.MerchantProfile.merchantId
@@ -130,12 +139,12 @@ class merchantProfile extends Component {
                                             <tbody>
                                                 <tr>
                                                     <td style={{width: '12%'}}>From: {e.workingTimes.Monday.timeStart} <br/>To: {e.workingTimes.Monday.timeEnd}</td>
-                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Tuesday.timeStart}<br/>T To: {e.workingTimes.Tuesday.timeEnd}</td>
-                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Wednesday.timeStart}<br/>T To: {e.workingTimes.Wednesday.timeEnd}</td>
-                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Thursday.timeStart}<br/>T To: {e.workingTimes.Thursday.timeEnd}</td>
-                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Friday.timeStart}<br/>T To: {e.workingTimes.Friday.timeEnd}</td>
-                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Sarturday.timeStart} <br/>TTo: {e.workingTimes.Sarturday.timeEnd}</td>
-                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Sunday.timeStart} <br/>TTo: {e.workingTimes.Sunday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Tuesday.timeStart}<br/>To: {e.workingTimes.Tuesday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Wednesday.timeStart}<br/>To: {e.workingTimes.Wednesday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Thursday.timeStart}<br/>To: {e.workingTimes.Thursday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Friday.timeStart}<br/>To: {e.workingTimes.Friday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Sarturday.timeStart} <br/>To: {e.workingTimes.Sarturday.timeEnd}</td>
+                                                    <td style={{width: '12%'}}>From: {e.workingTimes.Sunday.timeStart} <br/>To: {e.workingTimes.Sunday.timeEnd}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -200,7 +209,7 @@ class merchantProfile extends Component {
                     <div className="row justify-content-between">
                         <div className="col-md-4">
                             <h4>Legal Business Name*</h4>
-                            <p>{e.businessName}</p>
+                            <p>{this.state.businessName}</p>
                         </div>
                         <div className="col-md-4">
                             <h4>Doing Business As (DBA)*</h4>
@@ -212,7 +221,7 @@ class merchantProfile extends Component {
                         </div>
                         <div className="col-md-4">
                             <h4>DBA Business Address*</h4>
-                            <p>{e.address + ' ' + e.city + ' ' + e.stateId}</p>
+                            <p>{this.state.address + ' ' + this.state.city + ' ' + this.state.stateId}</p>
                         </div>
                         <div className="col-md-4">
                             <h4>Phone*</h4>
@@ -220,11 +229,11 @@ class merchantProfile extends Component {
                         </div>
                         <div className="col-md-4">
                             <h4>Business Phone Number*</h4>
-                            <p>{e.phone}</p>
+                            <p>{this.state.phone}</p>
                         </div>
                         <div className="col-md-4">
                             <h4>Contact Email Address*</h4>
-                            <p>{e.email}</p>
+                            <p>{this.state.email}</p>
                         </div>
                         </div>
                 <h2>Representative Information</h2>
