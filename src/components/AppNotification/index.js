@@ -36,7 +36,7 @@ class AppNotification  extends Component {
   }
   render() { 
       let Notidata =  this.props.Noti_List
-      const renderNoti = Notidata.map((e) => {
+      const renderNoti = Notidata.slice(0, 7).map((e) => {
         const {icon, title, receiveDate, notificationId} = e;
         const time = moment(receiveDate).format('MMMM Do YYYY, h:mm:ss a')
         return (

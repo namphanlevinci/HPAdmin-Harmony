@@ -94,7 +94,7 @@ class MerchantsList extends React.Component {
     })
     return (
         <div className="container-fluid MerList">
-            <ContainerHeader match={this.props.match} title={<IntlMessages id="MERCHANT LIST"/>}/>
+            <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.MList"/>}/>
                 <div className="MReqSP">
                     {/* SEARCH */}
                     <div className="search">

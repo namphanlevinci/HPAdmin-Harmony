@@ -9,7 +9,7 @@ class Template extends Component {
     render() { 
         return ( 
             <div className="container-fluid">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="Template"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.Template"/>}/>
                 <h1>TEMPLATE</h1>
             </div>
          );

@@ -53,7 +53,7 @@ class Twilio extends Component {
     render() { 
         return ( 
             <div className="container-fluid">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="Twilio"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.twilio"/>}/>
                     <form className="form-style-7">
                         <h1>CHANGE TWILIO ACCOUNT</h1>
                             <ul>

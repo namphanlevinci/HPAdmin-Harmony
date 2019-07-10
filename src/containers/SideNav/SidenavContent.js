@@ -96,18 +96,18 @@ class SidenavContent extends Component {
             <Button>
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
               <span className="nav-text">
-                <IntlMessages id="Merchant"/>
+                <IntlMessages id="sidebar.dashboard.merchant"/>
               </span>
             </Button>
             <ul className="sub-menu">
             <li>
                 <NavLink className="prepend-icon" to="/app/merchants/requests">
-                  <span className="nav-text"><IntlMessages id="Merchants Request"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.merchantreq"/></span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className="prepend-icon" to="/app/merchants/list">
-                  <span className="nav-text"><IntlMessages id="Merchants List"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.merchantList"/></span>
                 </NavLink>
               </li>
             </ul>
@@ -117,23 +117,23 @@ class SidenavContent extends Component {
             <Button>
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
               <span className="nav-text">
-                <IntlMessages id="Accounts"/>
+                <IntlMessages id="sidebar.dashboard.accounts"/>
               </span>
             </Button>
             <ul className="sub-menu">
             <li>
                 <NavLink className="prepend-icon" to="/app/accounts/users">
-                  <span className="nav-text"><IntlMessages id="Users"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.users"/></span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className="prepend-icon" to="/app/accounts/roles">
-                  <span className="nav-text"><IntlMessages id="Roles"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.roles"/></span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className="prepend-icon" to="/app/accounts/logs">
-                  <span className="nav-text"><IntlMessages id="Audit logs"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.Logs"/></span>
                 </NavLink>
               </li>
             </ul>
@@ -143,23 +143,23 @@ class SidenavContent extends Component {
             <Button>
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
               <span className="nav-text">
-                <IntlMessages id="Settings"/>
+                <IntlMessages id="sidebar.dashboard.settings"/>
               </span>
             </Button>
             <ul className="sub-menu">
             <li>
                 <NavLink className="prepend-icon" to="/app/adsettings/smtp">
-                  <span className="nav-text"><IntlMessages id="SMTP"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.smtp"/></span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className="prepend-icon" to="/app/adsettings/template">
-                  <span className="nav-text"><IntlMessages id="Template"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.Template"/></span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className="prepend-icon" to="/app/adsettings/twilio">
-                  <span className="nav-text"><IntlMessages id="Twilio"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.Twilio"/></span>
                 </NavLink>
               </li>
             </ul>

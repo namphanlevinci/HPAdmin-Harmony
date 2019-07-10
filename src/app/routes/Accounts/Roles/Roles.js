@@ -30,7 +30,7 @@ class Roles extends Component {
     render() { 
         return ( 
             <div className="container-fluid RoleUI">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="Roles"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.roles"/>}/>
                 <div>
                 <ExpansionPanel>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>

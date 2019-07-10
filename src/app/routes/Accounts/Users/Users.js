@@ -81,7 +81,7 @@ class Users extends Component {
         })
         return ( 
             <div className="container-fluid MerList">
-            <ContainerHeader match={this.props.match} title={<IntlMessages id="Users"/>}/>
+            <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.users"/>}/>
                 <div className="UserSearchBox">
                     {/* SEARCH */}
                     <div className="search">

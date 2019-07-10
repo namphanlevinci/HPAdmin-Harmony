@@ -54,7 +54,7 @@ class SMTP extends Component {
     render() { 
         return ( 
             <div className="container-fluid">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="SMTP"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.smtp"/>}/>
                         <form className="form-style-7">
                         <h1>CHANGE MAIL SERVER</h1>
                             <ul>

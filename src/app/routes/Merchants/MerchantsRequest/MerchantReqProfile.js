@@ -63,7 +63,7 @@ class MerchantReqProfile extends Component {
         const e = this.props.PendingProfile
         const renderPendingProfile = e.merchantId !== undefined ? 
             <div className="container-fluid PendingList">
-                    <ContainerHeader match={this.props.match} title={<IntlMessages id="Request Details"/>}/>
+                    <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.merchantreq"/>}/>
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
                             <h3>HP000001</h3>

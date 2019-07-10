@@ -106,7 +106,7 @@ class Logs extends Component {
         }))
         return ( 
             <div className="container-fluid ">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="Logs"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.Logs"/>}/>
                 <div className="LogContainer">
                     <div >
                         <h3>

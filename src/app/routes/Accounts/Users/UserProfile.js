@@ -22,7 +22,7 @@ class UserProfile extends Component {
             </div> : <Redirect to="/app/accounts/users" />
         return ( 
             <div className="container-fluid UserProfile">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="USER PROFILE"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.userProfile"/>}/>
                      {renderProfile}
             </div>
          );

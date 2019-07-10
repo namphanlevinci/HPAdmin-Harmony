@@ -94,7 +94,7 @@ class MerchantsRequest extends Component {
         })
         return ( 
             <div className="container-fluid MerList">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="MERCHANT REQUEST"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.merchantreq"/>}/>
                 <div className="MReqSP">
                     {/* SEARCH */}
                     <div className="search">

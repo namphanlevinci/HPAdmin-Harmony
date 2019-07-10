@@ -22,7 +22,6 @@ class NotificationItem extends Component {
   }
   render() { 
     const {icon, title, receiveDate, notificationId} = this.props.notification;
-    console.log('data', this.props.notification)
     const time = moment(receiveDate).format('MMMM Do YYYY, h:mm:ss a')
     return ( 
       <li className="media">
