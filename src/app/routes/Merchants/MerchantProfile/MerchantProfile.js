@@ -77,7 +77,7 @@ class merchantProfile extends Component {
     }
     render() { 
         const e = this.props.MerchantProfile
-        console.log(e)
+        // console.log(e)
         const renderStaff = e.staffs !==  undefined ? e.staffs.map((e) => {
             const ID = e.staffId
             return (

@@ -9,7 +9,7 @@ export function* getAll_Logs_api(){
           'Authorization': 'Bearer ' + infoLogin.User.token
         }
       }
-    const kq = yield axios.get('http://api2.levincidemo.com/api/merchantapprovallog', config)
+    const kq = yield axios.get('https://api2.levincidemo.com/api/merchantapprovallog', config)
     .then((result) => {
       return result.data.data;
   }).catch((err) => {
