@@ -26,7 +26,7 @@ class AppNotification  extends Component {
     this._handleDelete(e)
   }
   _handleDelete = (e) => {
-    axios.delete('http://api2.levincidemo.com/api/notification/' + e, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+    axios.delete('https://api2.levincidemo.com/api/notification/' + e, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
     .then((res) => {
       // console.log(res)
       this.props.getAll_Notifications();
@@ -52,7 +52,7 @@ class AppNotification  extends Component {
               className={`zmdi ${icon} zmdi-hc-fw`}/></Button> <span className="meta-date">
                 <small>{time}</small>            </span>
           </div>
-          <Avatar className="notiDele"><i onClick={() => this._handleDelete(notificationId)} class="fa fa-trash"></i></Avatar>
+          <Avatar className="notiDele"><i onClick={() => this._handleDelete(notificationId)} className="fa fa-trash"></i></Avatar>
           </li>
         )
       })

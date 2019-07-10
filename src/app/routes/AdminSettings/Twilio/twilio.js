@@ -20,7 +20,7 @@ class Twilio extends Component {
          }
     }
     async componentDidMount() {
-        await Axios.get('http://api2.levincidemo.com/api/adminsetting', { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+        await Axios.get('https://api2.levincidemo.com/api/adminsetting', { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
             const twilio = res.data.data.twilio
             const smtp = res.data.data.smtp
@@ -42,7 +42,7 @@ class Twilio extends Component {
         const { accountSid, auToken, phoneSender, email, host, password, userSmtp} = this.state
         let twilio = {'accountSid' : accountSid, 'auToken': auToken, 'phoneSender' : phoneSender};
         let smtp = { email, host, password, userSmtp}
-        Axios.post('http://api2.levincidemo.com/api/adminsetting', { twilio, smtp },{ headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} } )
+        Axios.post('https://api2.levincidemo.com/api/adminsetting', { twilio, smtp },{ headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} } )
         .then((res) => {
             NotificationManager.success(res.data.message)
         }).catch((error) => {
@@ -58,17 +58,17 @@ class Twilio extends Component {
                         <h1>CHANGE TWILIO ACCOUNT</h1>
                             <ul>
                             <li>
-                                <label for="PHONE">PHONE</label>
+                                <label htmlFor="PHONE">PHONE</label>
                                 <input type="text" name="phoneSender" maxLength="100"
                                  value={this.state.phoneSender} onChange={this._handleChange}/>
                             </li>
                             <li>
-                                <label for="ACCOUNTID">ACCOUNT TOKEN</label>
+                                <label htmlFor="ACCOUNTID">ACCOUNT TOKEN</label>
                                 <input type="text" name="auToken" maxLength="100" 
                                 value={this.state.auToken} onChange={this._handleChange}/>
                             </li>
                             <li>
-                                <label for="TOKEN">ACCOUNT SID</label>
+                                <label htmlFor="TOKEN">ACCOUNT SID</label>
                                 <input type="text" name="accountSid" maxLength="100"
                                  value={this.state.accountSid} onChange={this._handleChange}/>
                             </li>

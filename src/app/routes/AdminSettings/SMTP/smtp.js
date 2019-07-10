@@ -21,11 +21,11 @@ class SMTP extends Component {
     }
 
     async componentDidMount() {
-        await Axios.get('http://api2.levincidemo.com/api/adminsetting', { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+        await Axios.get('https://api2.levincidemo.com/api/adminsetting', { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
             const twilio = res.data.data.twilio
             const smtp = res.data.data.smtp
-          this.setState({ accountSid : twilio.accountSid, auToken: twilio.auToken, phoneSender: twilio.phoneSender,
+            this.setState({ accountSid : twilio.accountSid, auToken: twilio.auToken, phoneSender: twilio.phoneSender,
                             email : smtp.email, host : smtp.host, port : smtp.port, password: smtp.password, userSmtp: smtp.userSmtp
                         })
         })
@@ -43,7 +43,7 @@ class SMTP extends Component {
         const { accountSid, auToken, phoneSender, email, host, password, userSmtp, port} = this.state
         let twilio = {'accountSid' : accountSid, 'auToken': auToken, 'phoneSender' : phoneSender};
         let smtp = { email, host, password, userSmtp, port}
-        Axios.post('http://api2.levincidemo.com/api/adminsetting', { twilio, smtp },{ headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} } )
+        Axios.post('https://api2.levincidemo.com/api/adminsetting', { twilio, smtp },{ headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} } )
         .then((res) => {
             NotificationManager.success(res.data.message)
         }).catch((error) => {
@@ -59,24 +59,24 @@ class SMTP extends Component {
                         <h1>CHANGE MAIL SERVER</h1>
                             <ul>
                             <li>
-                                <label for="HOST">HOST</label>
-                                <input type="text" name="host" maxlength="100" value={this.state.host} onChange={this._handleChange} />
+                                <label htmlFor="HOST">HOST</label>
+                                <input type="text" name="host" maxLength="100" value={this.state.host} onChange={this._handleChange} />
                             </li>
                             <li>
-                                <label for="USERNAME">USERNAME</label>
-                                <input type="text" name="userSmtp" maxlength="100" value={this.state.userSmtp} onChange={this._handleChange} />
+                                <label htmlFor="USERNAME">USERNAME</label>
+                                <input type="text" name="userSmtp" maxLength="100" value={this.state.userSmtp} onChange={this._handleChange} />
                             </li>
                             <li>
-                                <label for="PASSWORD">PASSWORD</label>
-                                <input type="password" name="password" maxlength="100" value={this.state.password}  onChange={this._handleChange} />
+                                <label htmlFor="PASSWORD">PASSWORD</label>
+                                <input type="password" name="password" maxLength="100" value={this.state.password}  onChange={this._handleChange} />
                             </li>
                             <li>
-                                <label for="EMAIL">EMAIL</label>
-                                <input type="email" name="email" maxlength="100" value={this.state.email}  onChange={this._handleChange} />
+                                <label htmlFor="EMAIL">EMAIL</label>
+                                <input type="email" name="email" maxLength="100" value={this.state.email}  onChange={this._handleChange} />
                             </li>
                             <li>
-                                <label for="PORT">PORT</label>
-                                <input type="text" name="port" maxlength="100" value={this.state.port}  onChange={this._handleChange} />
+                                <label htmlFor="PORT">PORT</label>
+                                <input type="text" name="port" maxLength="100" value={this.state.port}  onChange={this._handleChange} />
                             </li>
                             <li>
                                 {/* <input style={{cursor: "pointer"}} type="submit" value="UPDATE" onChange={this._handleChange} /> */}
