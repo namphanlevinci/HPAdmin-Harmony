@@ -36,23 +36,24 @@ class AppNotification  extends Component {
   }
   render() { 
       let Notidata =  this.props.Noti_List
+      // console.log('Notidata', Notidata)
       const renderNoti = Notidata.slice(0, 7).map((e) => {
-        const {icon, title, receiveDate, notificationId} = e;
+        const {icon, title, receiveDate, waNotificationId} = e;
         const time = moment(receiveDate).format('MMMM Do YYYY, h:mm:ss a')
         return (
-          <li className="media" key={e.notificationId} >
+          <li className="media" key={e.waNotificationId} >
           <Avatar
             alt={avatar}
             src={avatar}
             className=" mr-2"
           />
-          <div onClick={() => this._gotoList(notificationId)} className="media-body align-self-center">
+          <div onClick={() => this._gotoList(waNotificationId)} className="media-body align-self-center">
             <p className="sub-heading mb-0">{title}</p>
             <Button size="small" className="jr-btn jr-btn-xs mb-0"><i
               className={`zmdi ${icon} zmdi-hc-fw`}/></Button> <span className="meta-date">
                 <small>{time}</small>            </span>
           </div>
-          <Avatar className="notiDele"><i onClick={() => this._handleDelete(notificationId)} className="fa fa-trash"></i></Avatar>
+          <Avatar className="notiDele"><i onClick={() => this._handleDelete(waNotificationId)} className="fa fa-trash"></i></Avatar>
           </li>
         )
       })

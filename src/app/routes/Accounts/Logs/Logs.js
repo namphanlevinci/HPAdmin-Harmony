@@ -97,8 +97,16 @@ class Logs extends Component {
             return (
                 <tr key={e.approvalLogId} >
                         <td className="inside-table"><Moment format="dddd, MMMM Do YYYY, h:mm:ss a" >{e.createdDate}</Moment></td>
-                        <td><span className="dot"></span></td>
-                        <td className="box"><span className="arrow-left"></span><h3>Approve merchant request</h3> {e.isApproved === 1 ? 'Yes' : 'No'} </td>
+                        {/* <td><span className="dot"></span></td> */}
+                        <td>
+                        <ul>
+                            <li>
+                                <div className="first">
+                                </div>
+                            </li>
+                        </ul>
+                        </td>
+                        <td className="box"><h3><span className="arrow-left"></span>Approve merchant request</h3> {e.isApproved === 1 ? 'Yes' : 'No'} </td>
                         <td className="box"><h3>merchant request from:</h3> {e.merchant.email}</td>
                         <td className="box"><h3>User</h3> {e.adminUser.firstName + ' ' +e.adminUser.lastName}</td>
                 </tr>
@@ -128,14 +136,6 @@ class Logs extends Component {
                                     {renderUser}
                             </select>
                             </div>
-                           
-                        {/* <span>From<DayPickerInput formatDate={formatDate}
-                                        parseDate={parseDate}
-                                        placeholder="Date from" format="DD/MM/YYYY"/></span> */}
-                        {/* <span>To <DayPickerInput formatDate={formatDate}
-                                        parseDate={parseDate}
-                                        placeholder="Date to" format="DD/MM/YYYY" /></span> */}
-                        
                         </h3>        
                     </div>
                     <hr style={{borderBottom: '1px solid #3f51b5'}}></hr>
@@ -146,14 +146,14 @@ class Logs extends Component {
                            <thead>
                                <tr>
                                     <th style={{ width:'10%' }}></th>
-                                    <th style={{ width:'7%' }}></th>
+                                    <th style={{ width:'10%' }}></th>
                                     <th style={{ width:'30%' }}></th>
                                     <th style={{ width:'25%' }}></th>
                                     <th style={{ width:'20%' }}></th>
                                </tr>   
                            </thead>
                            <tbody>
-                               {renderDataList}
+                                    {renderDataList}
                            </tbody>
                         </table>
                         </div>

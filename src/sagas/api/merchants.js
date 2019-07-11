@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { select } from 'redux-saga/effects'
+import URL  from '../../url/url'
 
 export function* getAll_Merchants_api(){
     const getInfoLogin = (state) => state.User
@@ -9,7 +10,7 @@ export function* getAll_Merchants_api(){
           'Authorization': 'Bearer ' + infoLogin.User.token
         }
       }
-    const kq = yield axios.get('https://api2.levincidemo.com/api/merchant/', config)
+    const kq = yield axios.get(URL + '/merchant/', config)
     .then((result) => {
       return result.data.data;
   }).catch((err) => {

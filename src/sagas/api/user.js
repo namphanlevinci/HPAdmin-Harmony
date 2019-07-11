@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { select } from 'redux-saga/effects'
-const url = 'https://api2.levincidemo.com/api'
+import URL  from '../../url/url'
 
 export function* login_User_api({email,password}){
-    const kq = yield axios.post(url + "/adminuser/login",{
+    const kq = yield axios.post(URL + "/adminuser/login",{
         email,password
     })
     .then((result) => {
@@ -22,7 +22,7 @@ export function* getAll_User_api(){
           'Authorization': 'Bearer ' + infoLogin.User.token
         }
       }
-    const kq = yield axios.get("https://api2.levincidemo.com/api/adminuser", config)
+    const kq = yield axios.get(URL + "/adminuser", config)
     .then((result) => {
         return result.data.data;
     }).catch((err) => {
