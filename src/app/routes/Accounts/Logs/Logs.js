@@ -140,7 +140,7 @@ class Logs extends Component {
                     </div>
                     <hr style={{borderBottom: '1px solid #3f51b5'}}></hr>
                     <div>
-                        <h2>Server Time</h2>
+                        <h2>Server Time <i className="fa fa-hourglass"/></h2>
                         <div className="LogContainerBody">
                         <table style={{ width:'95%' }}>
                            <thead>

@@ -16,12 +16,22 @@ class MerchantReqProfile extends Component {
             showPopupReject: false,
             merchantID: '',
             merchantToken: '',
+            rejectReason: ''
          }
     }
-
+    _handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+            this.setState({
+                [name]: value
+            })
+    }
     _approve = async () => {
         const ID = this.props.PendingProfile.merchantId
-      await  axios.put('http://api2.levincidemo.com/api/merchant/approve/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+        const merchantCode = this.state.merchantID
+        const merchantToken = this.state.merchantToken
+      await  axios.put('https://api2.levincidemo.com/api/merchant/approve/' + ID, {merchantCode,  merchantToken}, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
             // console.log(res)
             this.props.history.push('/app/merchants/requests')
@@ -31,7 +41,8 @@ class MerchantReqProfile extends Component {
     }
     _reject = async () => {
         const ID = this.props.PendingProfile.merchantId
-       await  axios.put('http://api2.levincidemo.com/api/merchant/reject/' + ID, null, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+        const reason = this.state.rejectReason
+        await  axios.put('https://api2.levincidemo.com/api/merchant/reject/' + ID,  {reason} , { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
             // console.log(res)
             this.props.history.push('/app/merchants/requests')
@@ -40,7 +51,7 @@ class MerchantReqProfile extends Component {
         })
         
     }
-    _handleChange(event) {
+    _handleChange = (event) => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -59,11 +70,11 @@ class MerchantReqProfile extends Component {
         });
       }
     render() { 
-        console.log("HAHA", this.props.PendingProfile)
+        // console.log("HAHA", this.props.PendingProfile)
         const e = this.props.PendingProfile
         const renderPendingProfile = e.merchantId !== undefined ? 
             <div className="container-fluid PendingList">
-                    <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.merchantreq"/>}/>
+                    <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.pendingList"/>}/>
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
                             <h3>HP000001</h3>
@@ -98,7 +109,7 @@ class MerchantReqProfile extends Component {
                                 <div className="POPUP-INNER" style={{paddingTop: '30px'}}>
                                     <h2>WHY?</h2>
                                     <form>
-                                        <textarea  style={{width: '350px', height: '100px'}} placeholder="Please enter your reason."></textarea>
+                                        <input name="rejectReason" value={this.state.rejectReason} onChange={this._handleChange}  style={{width: '350px', height: '100px'}} placeholder="Please enter your reason." required />
                                     </form>
                                     <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>BACK</button>
                                     <button className="btn btn-green" onClick={() => this._reject()}>COMFIRM</button>

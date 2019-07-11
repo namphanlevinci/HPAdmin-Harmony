@@ -102,12 +102,17 @@ class SidenavContent extends Component {
             <ul className="sub-menu">
             <li>
                 <NavLink className="prepend-icon" to="/app/merchants/requests">
-                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.merchantreq"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.pendingList"/></span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className="prepend-icon" to="/app/merchants/list">
-                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.merchantList"/></span>
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.acceptedList"/></span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/merchants/rejected-list">
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.rejectedList"/></span>
                 </NavLink>
               </li>
             </ul>

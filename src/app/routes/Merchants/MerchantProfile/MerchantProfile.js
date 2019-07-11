@@ -61,7 +61,7 @@ class merchantProfile extends Component {
     _update = () => {
         const ID = this.props.MerchantProfile.merchantId
         const { businessName, email, cellphone, address, city, stateId } = this.state
-        axios.put('http://api2.levincidemo.com/api/merchant/' + ID, { businessName, email, cellphone, address, city, stateId }, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+        axios.put('https://api2.levincidemo.com/api/merchant/' + ID, { businessName, email, cellphone, address, city, stateId }, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
             .then((res) => {
                 if(res.data.message === 'Success') {
                     // console.log(res)
