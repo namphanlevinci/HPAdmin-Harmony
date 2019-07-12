@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import "./MerchantsRequest.css"
+import "../MerchantsRequest/MerchantsRequest.css"
 import "../MerchantsList/merchantsList.css"
-import { getAll_Merchant_Requests, ViewMerchant_Request } from '../../../../actions/merchants/actions'
+import { getAll_Rejected_Merchants, ViewMerchant_Rejected_Merchants } from '../../../../actions/merchants/actions'
 import {connect} from 'react-redux';
 import Pagination from "../MerchantsList/Pagination"
 //
@@ -33,11 +33,11 @@ class MerchantsRequest extends Component {
       };
       componentDidMount() {
         this.setState({
-            totalRecords: this.props.MerchantRequests_List.length
+            totalRecords: this.props.RejectedList.length
           });
       }
     componentWillMount() {
-        this.props.getAll_Merchant_Requests();
+        this.props.getAll_Rejected_Merchants();
       }
       _SearchMerchants = async (e) => {
         await this.setState({ search: e.target.value });
@@ -56,8 +56,8 @@ class MerchantsRequest extends Component {
 
     //goto merchant profile
     _merchantReqProfile = (e) => {
-      this.props.ViewMerchant_Request(e)
-      this.props.history.push('/app/merchants/pending-profile')
+      this.props.ViewMerchant_Rejected_Merchants(e)
+      this.props.history.push('/app/merchants/rejected-profile')
     }
     render() { 
         var {
@@ -65,7 +65,7 @@ class MerchantsRequest extends Component {
             startIndex,
             endIndex
           } = this.state;
-        let ReqList = this.props.MerchantRequests_List
+        let ReqList = this.props.RejectedList
         if (ReqList) {
           if (this.state.search) {
             ReqList = ReqList.filter((e) => {
@@ -80,7 +80,6 @@ class MerchantsRequest extends Component {
       
           }
       }
-        // console.log("PENDING LIST", ReqList)
         const renderReqList = ReqList.slice(startIndex, endIndex + 1).map((e) => {
             return (
                 <tr key={e.merchantId} onClick={() => this._merchantReqProfile(e)}>
@@ -145,14 +144,14 @@ class MerchantsRequest extends Component {
 
 const mapStateToProps = (state) => ({
     InfoUser_Login: state.User,
-    MerchantRequests_List : state.MerchantRequests_List
+    RejectedList : state.Merchants_RejectedList
   });
   const mapDispatchToProps = (dispatch) => ({
-    getAll_Merchant_Requests: () => {
-      dispatch(getAll_Merchant_Requests())
+    getAll_Rejected_Merchants: () => {
+      dispatch(getAll_Rejected_Merchants())
     },
-    ViewMerchant_Request: (payload) => {
-      dispatch(ViewMerchant_Request(payload))
+    ViewMerchant_Rejected_Merchants: (payload) => {
+      dispatch(ViewMerchant_Rejected_Merchants(payload))
     },
   });
   export default connect(mapStateToProps,mapDispatchToProps)(MerchantsRequest);

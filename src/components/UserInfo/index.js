@@ -13,6 +13,7 @@ class UserInfo extends React.Component {
   state = {
     anchorEl: null,
     open: false,
+    yeet: []
   };
 
   handleClick = event => {
@@ -27,9 +28,13 @@ class UserInfo extends React.Component {
   // componentDidMount = () => {
   //   const token = this.props.InfoUser_Login.User.token
   //   let connection = new signalR.HubConnectionBuilder()
-  //   .withUrl("http://api2.levincidemo.com/notification/", { accessTokenFactory: () => token })
+  //   .withUrl("https://localhost:44339/notification/", { accessTokenFactory: () => token })
   //   .build();
   //   connection.start();
+  //     connection.on("ListWaNotification", data => {
+  //       // console.log("DATA", JSON.parse(data));
+  //       this.setState({ yeet: JSON.parse(data)})
+  //   });
   // };
   onLogout = () => {
     this.props.logout_User()
@@ -43,6 +48,7 @@ class UserInfo extends React.Component {
     this.props.history.push('/app/profile')
   }
   render() {
+    // console.log('YEET', this.state.yeet)
     const  User = this.props.InfoUser_Login.User.userAdmin
     return (
       <div className="user-profile d-flex flex-row align-items-center">

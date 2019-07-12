@@ -10,6 +10,8 @@ const Merchants = ({match}) => (
       <Route path={`${match.url}/profile`} component={asyncComponent(() => import('./MerchantProfile/MerchantProfile'))}/>
       <Route path={`${match.url}/requests`} component={asyncComponent(() => import('./MerchantsRequest/MerchantsRequest'))}/>
       <Route path={`${match.url}/pending-profile`} component={asyncComponent(() => import('./MerchantsRequest/MerchantReqProfile'))}/>
+      <Route path={`${match.url}/rejected-profile`} component={asyncComponent(() => import('./MerchantRejectList/MerchantRejectedProfile'))}/>
+      <Route path={`${match.url}/rejected-list`} component={asyncComponent(() => import('./MerchantRejectList/MerchantsRejectedList'))}/>
     </Switch>
   </div>
 );

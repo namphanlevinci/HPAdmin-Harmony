@@ -6,12 +6,13 @@ import {getAll_Merchants_Saga} from "../sagas/sagaFunction/merchants"
 import {getAll_Merchant_Request_Saga} from "../sagas/sagaFunction/merchant-requests.js"
 import {getAll_Notifications_Saga} from "../sagas/sagaFunction/notifications"
 import {getAll_Logs_Saga} from "../sagas/sagaFunction/logs"
-
+import {getAll_Rejected_Merchant_Saga} from '../sagas/sagaFunction/merchant-rejected'
 export default function* rootSaga(){
     yield fork(login_User_Saga);
     yield fork(getAll_Merchants_Saga);
     yield fork(getAll_Merchant_Request_Saga);
     yield fork(getAll_User_Saga);
     yield fork(getAll_Notifications_Saga);
-    yield fork(getAll_Logs_Saga)
+    yield fork(getAll_Logs_Saga);
+    yield fork(getAll_Rejected_Merchant_Saga)
 }

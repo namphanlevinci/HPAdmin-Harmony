@@ -5,13 +5,16 @@ import Settings from './Settings';
 import UserLogin from "./User/UserLogin";
 import ViewProfile_User from "./User/ViewUserProfile"
 import getAllUser from "./User/getAllUser"
-// MERCHANT LIST
+// MERCHANT ACCEPTED LIST
 import MerchantsList from "./Merchants/Merchants_List";
 import SearchMerchants from './Merchants/SearchMerchants';
 import ViewProfile_Merchants from "./Merchants/ViewProfile_Merchants";
-// MERCHANT REQUEST
-import MerchantRequests_List from "./Merchant-Request/Request_List";
-import ViewMerchant_Request from "./Merchant-Request/ViewMerchant_Request";
+// MERCHANT REJECTED LIST 
+import Merchants_RejectedList from "./Merchants/Merchants_RejectList";
+import ViewProfile_Rejected from "./Merchants/ViewProfile_Rejected";
+// MERCHANT PENDING LIST
+import MerchantRequests_List from "./Merchants/MerchantsPending_List";
+import ViewMerchant_Request from "./Merchants/ViewMerchant_Pending";
 // NOTIFICATIONS
 import getAll_Notifications from "./notifications/getAll_Notifications";
 // LOGS
@@ -28,6 +31,8 @@ export default (history) => combineReducers({
   SearchMerchants,
   MerchantRequests_List,
   ViewMerchant_Request,
+  ViewProfile_Rejected,
+  Merchants_RejectedList,
   getNoti : getAll_Notifications,
   getLogs: getAll_Logs
 });

@@ -4,11 +4,11 @@ import "bootstrap/js/src/collapse.js";
 import { withRouter, Redirect } from 'react-router-dom';
 import IntlMessages from 'util/IntlMessages';
 import ContainerHeader from 'components/ContainerHeader/index';
-import "./MerchantReqProfile.css"
-import "./MerchantsRequest.css"
+import "../MerchantsRequest/MerchantReqProfile.css"
+import "../MerchantsRequest/MerchantsRequest.css"
 import { Checkbox } from '@material-ui/core';
 import axios from "axios";
-class MerchantReqProfile extends Component {
+class MerchantRejectedProfile extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -27,30 +27,30 @@ class MerchantReqProfile extends Component {
                 [name]: value
             })
     }
-    _approve = async () => {
-        const ID = this.props.PendingProfile.merchantId
-        const merchantCode = this.state.merchantID
-        const merchantToken = this.state.merchantToken
-      await  axios.put('https://api2.levincidemo.com/api/merchant/approve/' + ID, {merchantCode,  merchantToken}, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-        .then((res) => {
-            // console.log(res)
-            this.props.history.push('/app/merchants/requests')
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
-    _reject = async () => {
-        const ID = this.props.PendingProfile.merchantId
-        const reason = this.state.rejectReason
-        await  axios.put('https://api2.levincidemo.com/api/merchant/reject/' + ID,  {reason} , { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-        .then((res) => {
-            // console.log(res)
-            this.props.history.push('/app/merchants/requests')
-        }).catch((err) => {
-            console.log(err)
-        })
+    // _approve = async () => {
+    //     const ID = this.props.PendingProfile.merchantId
+    //     const merchantCode = this.state.merchantID
+    //     const merchantToken = this.state.merchantToken
+    //   await  axios.put('https://api2.levincidemo.com/api/merchant/approve/' + ID, {merchantCode,  merchantToken}, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+    //     .then((res) => {
+    //         // console.log(res)
+    //         this.props.history.push('/app/merchants/requests')
+    //     }).catch((err) => {
+    //         console.log(err)
+    //     })
+    // }
+    // _reject = async () => {
+    //     const ID = this.props.PendingProfile.merchantId
+    //     const reason = this.state.rejectReason
+    //     await  axios.put('https://api2.levincidemo.com/api/merchant/reject/' + ID,  {reason} , { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+    //     .then((res) => {
+    //         // console.log(res)
+    //         this.props.history.push('/app/merchants/requests')
+    //     }).catch((err) => {
+    //         console.log(err)
+    //     })
         
-    }
+    // }
     _handleChange = (event) => {
         const target = event.target;
         const value = target.value;
@@ -71,20 +71,22 @@ class MerchantReqProfile extends Component {
       }
     render() { 
         // console.log("HAHA", this.props.PendingProfile)
-        const e = this.props.PendingProfile
+        const e = this.props.RejectedProfile
+        // console.log("DATA", this.props.RejectedProfile)
         const renderPendingProfile = e.merchantId !== undefined ? 
             <div className="container-fluid PendingList">
                     <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.pendingList"/>}/>
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
-                            <h3>HP000001</h3>
-                            <span>
-                                <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>REJECT</button>
-                                <button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</button>
-                            </span>
+                            <h3>ID: {e.merchantId}</h3>
+                            <h3>Rejected Reason: {e.reason}</h3>
+                            {/* <span> */}
+                                {/* <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>REJECT</button>
+                                <button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</button> */}
+                            {/* </span> */}
                             
                             {/* POP UP ACCEPT */}
-                            {this.state.showPopupAccept !== false ? <div className="POPUP">
+                            {/* {this.state.showPopupAccept !== false ? <div className="POPUP">
                                 <div className="POPUP-INNER">
                                     <h2>ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2>
                                         <table>
@@ -103,9 +105,9 @@ class MerchantReqProfile extends Component {
                                     <button className="btn btn-red" onClick={this._togglePopupAccept}>NO</button>
                                     <button className="btn btn-green" onClick={() => this._approve()}>YES</button>
                                 </div>
-                            </div> : null }
+                            </div> : null } */}
                             {/* POP UP REJECT */}
-                            {this.state.showPopupReject !== false ? <div className="POPUP">
+                            {/* {this.state.showPopupReject !== false ? <div className="POPUP">
                                 <div className="POPUP-INNER" style={{paddingTop: '30px'}}>
                                     <h2>WHY?</h2>
                                     <form>
@@ -114,7 +116,7 @@ class MerchantReqProfile extends Component {
                                     <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>BACK</button>
                                     <button className="btn btn-green" onClick={() => this._reject()}>COMFIRM</button>
                                 </div>
-                            </div> : null }
+                            </div> : null } */}
                         </div>
                         <hr/>
                         <div className="content">
@@ -198,7 +200,7 @@ class MerchantReqProfile extends Component {
                                     <div className="row">
                                         <div className="col-md-4">
                                             <h4>Bank Name*</h4>
-                                            <p>Western Union MTCN</p>
+                                            <p>{e.bankName}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>ABA Routing Number*</h4>
@@ -271,7 +273,7 @@ class MerchantReqProfile extends Component {
                             </div>   
                         </div>
                     </div>
-            </div> : <Redirect to="/app/merchants/requests" />
+            </div> : <Redirect to="/app/merchants/rejected-list" />
         return ( 
            renderPendingProfile
          );
@@ -279,8 +281,8 @@ class MerchantReqProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    PendingProfile: state.ViewMerchant_Request,
+    RejectedProfile: state.ViewProfile_Rejected,
     InfoUser_Login: state.User,
 })
 
-export default withRouter(connect(mapStateToProps)(MerchantReqProfile));
+export default withRouter(connect(mapStateToProps)(MerchantRejectedProfile));

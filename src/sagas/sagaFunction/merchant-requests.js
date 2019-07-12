@@ -1,6 +1,6 @@
 import { takeLatest, put } from 'redux-saga/effects';
 import { getAll_Merchant_Requests_api } from '../api/merchant-requests'
-import * as typeMerchantRequests from "../../actions/merchant-requests/types"
+import * as typeMerchantRequests from "../../actions/merchants/types"
 
 export function* getAll_Merchant_Request_Saga() {
     yield takeLatest(typeMerchantRequests.getAll_Merchant_Requests, function* () {
