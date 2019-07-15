@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import CustomScrollbars from 'util/CustomScrollbars';
 import { getAll_Notifications } from "../../actions/notifications/actions"
 import {  withRouter} from 'react-router-dom';
+// import  playMessageAudio  from '../../util/sound'
 //
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button';
@@ -14,55 +15,42 @@ import "./Noti.css"
 class AppNotification  extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      noti : []
-     }
+    this.state = { }
   }
-  componentWillMount() {
-    this.props.getAll_Notifications();
-  }
-  _gotoList = (e) => {
-    this.props.history.push('/app/merchants/requests');
-    this._handleDelete(e)
-  }
-  _handleDelete = (e) => {
-    axios.delete('https://api2.levincidemo.com/api/notification/' + e, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-    .then((res) => {
-      // console.log(res)
-      this.props.getAll_Notifications();
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
+
   render() { 
-      let Notidata =  this.props.Noti_List
-      // console.log('Notidata', Notidata)
-      const renderNoti = Notidata.slice(0, 7).map((e) => {
-        const {icon, title, receiveDate, waNotificationId} = e;
-        const time = moment(receiveDate).format('MMMM Do YYYY, h:mm:ss a')
+    if (this.props.e !== undefined) {
+      let Notidata =  this.props.e
+      const renderNoti = Notidata.map((e) => {
+        const { Title, CreatedDate, WaNotificationId, Content} = e;
+        const time = moment(CreatedDate).format('MMMM Do YYYY, h:mm:ss a')
         return (
-          <li className="media" key={e.waNotificationId} >
+          <li className="media" key={WaNotificationId} >
           <Avatar
             alt={avatar}
             src={avatar}
             className=" mr-2"
           />
-          <div onClick={() => this._gotoList(waNotificationId)} className="media-body align-self-center">
-            <p className="sub-heading mb-0">{title}</p>
+          <div onClick={() => this.props.gotoList(e)} className="media-body align-self-center">
+            <p className="sub-heading mb-0">{Content}</p>
             <Button size="small" className="jr-btn jr-btn-xs mb-0"><i
-              className={`zmdi ${icon} zmdi-hc-fw`}/></Button> <span className="meta-date">
-                <small>{time}</small>            </span>
+              className={`zmdi  zmdi-hc-fw`}/></Button> <span className="meta-date">
+                <small>{time}</small></span>
           </div>
-          <Avatar className="notiDele"><i onClick={() => this._handleDelete(waNotificationId)} className="fa fa-trash"></i></Avatar>
+          <Avatar className="notiDele"><i onClick={() => this.props.handleDelete(e)} className="fa fa-trash"></i></Avatar>
           </li>
         )
       })
-    return ( 
-          <CustomScrollbars className="messages-list scrollbar" style={{height: 280}}>
-            <ul className="list-unstyled">
-              {renderNoti}
-            </ul>
-        </CustomScrollbars> );
+        return ( 
+              <CustomScrollbars className="messages-list scrollbar" style={{height: 280}}>
+                <ul className="list-unstyled">
+                  {renderNoti}
+                </ul>
+          </CustomScrollbars> );
+    }
+    else {
+      return null;
+    }
   }
 }
 

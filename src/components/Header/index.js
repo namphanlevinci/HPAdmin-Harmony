@@ -22,8 +22,51 @@ import IntlMessages from 'util/IntlMessages';
 import LanguageSwitcher from 'components/LanguageSwitcher/index';
 import Menu from 'components/TopNav/Menu';
 import UserInfoPopup from 'components/UserInfo/UserInfoPopup';
-
+import axios from 'axios'
 class Header extends React.Component {
+
+  //load signalR 
+  async componentDidMount() {
+    const User = localStorage.getItem("User_login")
+   await this.setState({User : User})
+    let data = JSON.parse(this.state.User)
+    let ID = data.userAdmin
+    let rID = ID.waUserId
+      const signalR = require("@aspnet/signalr");
+      let connection = new signalR.HubConnectionBuilder()
+     .withUrl("https://api2.levincidemo.com/notification/?title=Administrator&&adminId="+ rID) 
+      .build();
+      connection.start();
+        connection.on("ListWaNotification", data => { 
+          if (data.length > 0) {
+            // console.log(JSON.parse(data))
+            let newData = JSON.parse(data);
+            this.setState({ noti: newData.json }) 
+          }
+      });
+
+  }
+
+  gotoList = (e) => {
+    this.props.history.push('/app/merchants/requests');
+    this.handleDelete(e)
+    this.setState({
+      noti: this.state.noti.filter(el => el.WaNotificationId !== e.WaNotificationId)
+    })
+  }
+  handleDelete = (e) => {
+    let data = JSON.parse(this.state.User)
+    const UserToken =  data.token
+    this.setState({
+      noti: this.state.noti.filter(el => el.WaNotificationId !== e.WaNotificationId)
+    })
+    axios.delete('https://api2.levincidemo.com/api/notification/' + e.WaNotificationId, { headers: {"Authorization" : `Bearer ${UserToken}`} })
+    .then((res) => {
+      // console.log(res)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
 
   onAppNotificationSelect = () => {
     this.setState({
@@ -80,6 +123,7 @@ class Header extends React.Component {
       userInfo: false,
       langSwitcher: false,
       appNotification: false,
+      User: [],
     }
   }
 
@@ -246,14 +290,17 @@ class Header extends React.Component {
                   tag="span"
                   data-toggle="dropdown">
                   <IconButton className="icon-btn">
-                    <i className="zmdi zmdi-notifications-none icon-alert animated infinite wobble"/>
+
+
+                    <i className='zmdi zmdi-notifications-none icon-alert animated infinite wobble'/>
+                    {/* <i className="zmdi zmdi-notifications-none icon-alert animated infinite wobble"/> */}
                   </IconButton>
                 </DropdownToggle>
 
                 <DropdownMenu right>
                   <CardHeader styleName="align-items-center"
                               heading={<IntlMessages id="appNotification.title"/>}/>
-                  <AppNotification/>
+                  <AppNotification e={this.state.noti} handleDelete={this.handleDelete} gotoList={this.gotoList}/>
                 </DropdownMenu>
               </Dropdown>
             </li>
@@ -319,8 +366,8 @@ class Header extends React.Component {
 
 
 const mapStateToProps = ({settings}) => {
-  const {drawerType, locale, navigationStyle, horizontalNavPosition} = settings;
-  return {drawerType, locale, navigationStyle, horizontalNavPosition}
+  const {drawerType, locale, navigationStyle, horizontalNavPosition, User} = settings;
+  return {drawerType, locale, navigationStyle, horizontalNavPosition, User}
 };
 
 export default withRouter(connect(mapStateToProps, {toggleCollapsedNav, switchLanguage})(Header));

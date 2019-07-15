@@ -106,7 +106,7 @@ class SidenavContent extends Component {
                 </NavLink>
               </li>
               <li>
-                <NavLink className="prepend-icon" to="/app/merchants/list">
+                <NavLink className="prepend-icon" to="/app/merchants/accepted-list">
                   <span className="nav-text"><IntlMessages id="sidebar.dashboard.acceptedList"/></span>
                 </NavLink>
               </li>
