@@ -64,7 +64,6 @@ class merchantProfile extends Component {
         axios.put('https://api2.levincidemo.com/api/merchant/' + ID, { businessName, email, cellphone, address, city, stateId }, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
             .then((res) => {
                 if(res.data.message === 'Success') {
-                    // console.log(res)
                     NotificationManager.success(res.data.message)
                     setTimeout(() => {
                         this.setState({ edit: false });
@@ -77,7 +76,17 @@ class merchantProfile extends Component {
     }
     render() { 
         const e = this.props.MerchantProfile
-        // console.log(e)
+        // console.log("Fix something", e)
+        //render questions
+        const renderQuestion = e.business !== undefined ? e.business.map((e) => {
+            return (
+                <div className="col-md-6" key={e.businessId}>
+                <h4>{e.question}</h4>
+                    <Checkbox checked={e.answer === false}/>No <Checkbox checked={e.answer === true}/> Yes
+                <h5>Answer: {e.answerReply} </h5>
+            </div>
+            ) }) : <h4>&nbsp;- NO BUSINESS INFORMATION</h4>
+        // render staff
         const renderStaff = e.staffs !==  undefined ? e.staffs.map((e) => {
             const ID = e.staffId
             return (
@@ -168,7 +177,7 @@ class merchantProfile extends Component {
                                 <button className="btn btn-green" onClick={this._toggleEdit}>EDIT</button>
                             </span>
                             {this.state.edit !== false ? <div className="POPUP">
-                                <div className="POPUP-INNER2" style={{paddingTop: '30px'}}>
+                                <div className="POPUP-INNER2">
                                     <h2 style={{color: '#3f51b5'}}>EDIT</h2>
                                         <table>
                                             <tbody>
@@ -216,7 +225,7 @@ class merchantProfile extends Component {
                         </div>
                         <div className="col-md-4">
                             <h4>Doing Business As (DBA)*</h4>
-                            <p>{e.general.doBusinessName}</p>
+                            <p>{e.general !== null ? e.general.doBusinessName : null}</p>
                         </div>
                         <div className="col-md-4">
                             <h4>Federal Tax ID*</h4>
@@ -242,60 +251,35 @@ class merchantProfile extends Component {
                 <h2>Representative Information</h2>
                     <div className="row">
                         <div className="col-md-4">
-                            <h4>Contact Name*</h4>
-                            <p>{e.general.firstName + ' ' + e.general.lastName}</p>
-                        </div>
-                        <div className="col-md-4">
-                            <h4>Title/Position*</h4>
-                            <p>{e.general.title}</p>
-                        </div>
-                        <div className="col-md-4">
-                            <h4>Contact Phone Number*</h4>
-                            <p>{e.general.phoneContact}</p>
+                                <h4>Contact Name*</h4>
+                                <p>{e.principals !== null ? e.principals.firstName + ' ' + e.principals.lastName : null}</p>
+                            </div>
+                            <div className="col-md-4">
+                                <h4>Title/Position*</h4>
+                                <p>{e.principals !== null ? e.principals.title : null}</p>
+                            </div>
+                            <div className="col-md-4">
+                                <h4>Contact Phone Number*</h4>
+                                <p>{e.principals !== null ? e.principals.mobilePhone : null}</p>
                         </div>
                     </div>
                 <h2>Business Information</h2>
                     <div className="row">
-                        <div className="col-md-6">
-                            <h4>Have You Ever Accepted Credit/Debit Cards Before?</h4>
-                                <Checkbox checked/>No <Checkbox/> Yes
-                                <h5>Processor: ?</h5>
-                        </div>
-                        <div className="col-md-6">
-                            <h4>Has a Processor Ever Terminated Your Merchant Account?</h4>
-                                <Checkbox />No <Checkbox checked/> Yes
-                                <h5>Processor: ?</h5>
-                        </div>
-                        <div className="col-md-6">
-                            <h4>Has Merchant or any associated principal and/or owners disclosed below filed bankruptcy 
-                                or been subject to any involuntary bankruptcy?
-                            </h4>
-                                <Checkbox />No <Checkbox checked/> Yes
-                                <h5>Date: ?</h5>
-                        </div>
-                        <div className="col-md-6">
-                            <h4>Has a Merchant been previously identified by Visa/Mastercard Risk Programs?</h4>
-                                <Checkbox checked/>No <Checkbox/> Yes
-                                <h5>When And Why: ?</h5>
-                        </div>
-                        <div className="col-md-6">
-                            <h4>Will Product(s) or Service(s) Be Sold Outside of the U.S?</h4>
-                                <Checkbox checked/>No <Checkbox/> Yes
-                        </div>
+                        {renderQuestion}
                     </div>
                     <h2>Bank Information</h2>
                         <div className="row">
                             <div className="col-md-4">
                                 <h4>Bank Name*</h4>
-                                <p>{e.businessBank.name}</p>
+                                <p>{e.businessBank !== null ? e.businessBank.name : null}</p>
                             </div>
                             <div className="col-md-4">
                                 <h4>ABA Routing Number*</h4>
-                                <p>{e.businessBank.routingNumber}</p>
+                                <p>{e.businessBank !== null ? e.businessBank.routingNumber : null}</p>
                             </div>
                             <div className="col-md-4">
                                 <h4>Checking Account Number (DDA)*</h4>
-                                <p>{e.businessBank.accountNumber}</p>
+                                <p>{e.businessBank !== null ? e.businessBank.accountNumber : null}</p>
                             </div>
                             <div className="col-md-4">
                                 <h4>Void Check*</h4>
@@ -343,7 +327,7 @@ class merchantProfile extends Component {
                           </div>
                           <div className="col-md-4">
                               <h4>Email Address*</h4>
-                              <p></p>
+                              <p>{e.general !== null ? e.general.emailContact : null}</p>
                           </div>
                           <div className="col-md-4">
                               <h4>Driver License Number*</h4>
@@ -366,7 +350,7 @@ class merchantProfile extends Component {
                 </div>   
             </div>
         </div>
-</div> : <Redirect to="/app/merchants/list" />
+</div> : <Redirect to="/app/merchants/accepted-list" />
         return ( 
             renderMerchantProfile
         )

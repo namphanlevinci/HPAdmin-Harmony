@@ -13,16 +13,17 @@ import {
     HORIZONTAL_NAVIGATION,
     INSIDE_THE_HEADER
 } from 'constants/ActionTypes';
-import SearchBox from 'components/SearchBox';
-import MailNotification from '../MailNotification/index';
+// import SearchBox from 'components/SearchBox';
+// import MailNotification from '../MailNotification/index';
 import AppNotification from '../AppNotification/index';
 import CardHeader from 'components/dashboard/Common/CardHeader/index';
 import {switchLanguage, toggleCollapsedNav} from 'actions/Setting';
 import IntlMessages from 'util/IntlMessages';
-import LanguageSwitcher from 'components/LanguageSwitcher/index';
+// import LanguageSwitcher from 'components/LanguageSwitcher/index';
 import Menu from 'components/TopNav/Menu';
 import UserInfoPopup from 'components/UserInfo/UserInfoPopup';
 import axios from 'axios'
+import  playMessageAudio  from '../../util/sound'
 class Header extends React.Component {
 
   //load signalR 
@@ -39,12 +40,11 @@ class Header extends React.Component {
       connection.start();
         connection.on("ListWaNotification", data => { 
           if (data.length > 0) {
-            // console.log(JSON.parse(data))
+            playMessageAudio()
             let newData = JSON.parse(data);
-            this.setState({ noti: newData.json }) 
+            this.setState({ noti: newData.json,  appNotificationIcon: false, }) 
           }
       });
-
   }
 
   gotoList = (e) => {
@@ -70,7 +70,8 @@ class Header extends React.Component {
 
   onAppNotificationSelect = () => {
     this.setState({
-      appNotification: !this.state.appNotification
+      appNotification: !this.state.appNotification,
+      appNotificationIcon: true,
     })
   };
   onMailNotificationSelect = () => {
@@ -105,7 +106,7 @@ class Header extends React.Component {
       mailNotification: false,
       appNotification: false,
       searchBox: false,
-      apps: false
+      apps: false,
     });
   };
   onToggleCollapsedNav = (e) => {
@@ -123,6 +124,7 @@ class Header extends React.Component {
       userInfo: false,
       langSwitcher: false,
       appNotification: false,
+      appNotificationIcon: false,
       User: [],
     }
   }
@@ -181,9 +183,9 @@ class Header extends React.Component {
   };
 
   render() {
-    const {drawerType, locale, navigationStyle, horizontalNavPosition} = this.props;
+    const {drawerType, navigationStyle, horizontalNavPosition} = this.props;
     const drawerStyle = drawerType.includes(FIXED_DRAWER) ? 'd-block d-xl-none' : drawerType.includes(COLLAPSED_DRAWER) ? 'd-block' : 'd-none';
-
+    const Notify = this.state.appNotificationIcon === false ? 'zmdi zmdi-notifications-none icon-alert animated infinite wobble' : 'zmdi zmdi-notifications-none'
     return (
       <AppBar
         className={`app-main-header ${(navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER) ? 'app-main-header-top' : ''}`}>
@@ -292,7 +294,7 @@ class Header extends React.Component {
                   <IconButton className="icon-btn">
 
 
-                    <i className='zmdi zmdi-notifications-none icon-alert animated infinite wobble'/>
+                    <i className={Notify}/>
                     {/* <i className="zmdi zmdi-notifications-none icon-alert animated infinite wobble"/> */}
                   </IconButton>
                 </DropdownToggle>

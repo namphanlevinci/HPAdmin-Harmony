@@ -7,7 +7,7 @@ import ContainerHeader from 'components/ContainerHeader/index';
 import "../MerchantsRequest/MerchantReqProfile.css"
 import "../MerchantsRequest/MerchantsRequest.css"
 import { Checkbox } from '@material-ui/core';
-import axios from "axios";
+// import axios from "axios";
 class MerchantRejectedProfile extends Component {
     constructor(props) {
         super(props);
@@ -70,9 +70,18 @@ class MerchantRejectedProfile extends Component {
         });
       }
     render() { 
-        // console.log("HAHA", this.props.PendingProfile)
+        // console.log("REJECTED", this.props.RejectedProfile)
         const e = this.props.RejectedProfile
-        // console.log("DATA", this.props.RejectedProfile)
+        //render questions
+        const renderQuestion = e.business !== undefined ? e.business.map((e) => {
+            return (
+                <div className="col-md-6" key={e.businessId}>
+                <h4>{e.question}</h4>
+                    <Checkbox checked={e.answer === false}/>No <Checkbox checked={e.answer === true}/> Yes
+                <h5>Answer: {e.answerReply} </h5>
+            </div>
+            ) }) : <h4>&nbsp;- NO BUSINESS INFORMATION</h4>
+        //render rejected list
         const renderPendingProfile = e.merchantId !== undefined ? 
             <div className="container-fluid PendingList">
                     <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.pendingList"/>}/>
@@ -129,7 +138,7 @@ class MerchantRejectedProfile extends Component {
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Doing Business As (DBA)*</h4>
-                                        <p></p>
+                                        <p>{e.general !== null ? e.general.doBusinessName : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Federal Tax ID*</h4>
@@ -137,7 +146,7 @@ class MerchantRejectedProfile extends Component {
                                     </div>
                                     <div className="col-md-4">
                                         <h4>DBA Business Address*</h4>
-                                        <p></p>
+                                        <p>{e.general !== null ? e.general.address : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Zip Code*</h4>
@@ -154,53 +163,28 @@ class MerchantRejectedProfile extends Component {
                                     </div>
                             <h2>Representative Information</h2>
                                 <div className="row">
-                                    <div className="col-md-4">
+                                <div className="col-md-4">
                                         <h4>Contact Name*</h4>
-                                        <p></p>
+                                        <p>{e.principals !== null ? e.principals.firstName + ' ' + e.principals.lastName : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Title/Position*</h4>
-                                        <p></p>
+                                        <p>{e.principals !== null ? e.principals.title : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Contact Phone Number*</h4>
-                                        <p></p>
+                                        <p>{e.principals !== null ? e.principals.mobilePhone : null}</p>
                                     </div>
                                 </div>
                             <h2>Business Information</h2>
                                 <div className="row">
-                                    <div className="col-md-6">
-                                        <h4>Have You Ever Accepted Credit/Debit Cards Before?</h4>
-                                            <Checkbox />No <Checkbox/> Yes
-                                            <h5>Processor: ?</h5>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <h4>Has a Processor Ever Terminated Your Merchant Account?</h4>
-                                            <Checkbox />No <Checkbox/> Yes
-                                            <h5>Processor: ?</h5>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <h4>Has Merchant or any associated principal and/or owners disclosed below filed bankruptcy 
-                                            or been subject to any involuntary bankruptcy?
-                                        </h4>
-                                            <Checkbox />No <Checkbox/> Yes
-                                            <h5>Date: ?</h5>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <h4>Has a Merchant been previously identified by Visa/Mastercard Risk Programs?</h4>
-                                            <Checkbox />No <Checkbox/> Yes
-                                            <h5>When And Why: ?</h5>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <h4>Will Product(s) or Service(s) Be Sold Outside of the U.S?</h4>
-                                            <Checkbox />No <Checkbox/> Yes
-                                    </div>
+                                    {renderQuestion}
                                 </div>
                                 <h2>Bank Information</h2>
                                     <div className="row">
                                         <div className="col-md-4">
                                             <h4>Bank Name*</h4>
-                                            <p>{e.bankName}</p>
+                                            <p>{e.businessBank !== null ? e.businessBank.name : null }</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>ABA Routing Number*</h4>
@@ -219,51 +203,51 @@ class MerchantRejectedProfile extends Component {
                                     <div className="row">
                                         <div className="col-md-4">
                                             <h4>Name*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.firstName + ' ' + e.principals.lastName : null }</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Title/Position*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.title : null }</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Ownership(%)*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.ownerShip : null }%</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Home Phone*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.homePhone : null }</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Mobile Phone*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.mobilePhone : null }</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Address*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.address : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Years at This Address*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.yearAddress : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Social Security Number (SSN)*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.ssn : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Date of Birth (mm/dd/yy)*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.birthDate : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Email Address*</h4>
-                                            <p></p>
+                                            <p>{e.general !== null ? e.general.emailContact : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Driver License Number*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.driverNumber : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>State Issued*</h4>
-                                            <p></p>
+                                            <p>{e.principals !== null ? e.principals.stateId : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Driver License Picture</h4>

@@ -4,11 +4,9 @@ import { connect } from 'react-redux'
 import CustomScrollbars from 'util/CustomScrollbars';
 import { getAll_Notifications } from "../../actions/notifications/actions"
 import {  withRouter} from 'react-router-dom';
-// import  playMessageAudio  from '../../util/sound'
 //
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button';
-import axios from "axios"
 import avatar from './avatar.png'
 import moment from 'moment';
 import "./Noti.css"
@@ -22,7 +20,7 @@ class AppNotification  extends Component {
     if (this.props.e !== undefined) {
       let Notidata =  this.props.e
       const renderNoti = Notidata.map((e) => {
-        const { Title, CreatedDate, WaNotificationId, Content} = e;
+        const { CreatedDate, WaNotificationId, Content} = e;
         const time = moment(CreatedDate).format('MMMM Do YYYY, h:mm:ss a')
         return (
           <li className="media" key={WaNotificationId} >

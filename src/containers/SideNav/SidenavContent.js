@@ -3,7 +3,7 @@ import {NavLink, withRouter} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import IntlMessages from 'util/IntlMessages';
 import CustomScrollbars from 'util/CustomScrollbars';
-
+import { connect } from 'react-redux'
 
 class SidenavContent extends Component {
   componentDidMount() {
@@ -38,7 +38,6 @@ class SidenavContent extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
     const {history} = nextProps;
     const pathname = `${history.location.pathname}`;// get current path
 
@@ -85,6 +84,7 @@ class SidenavContent extends Component {
   }
 
   render() {
+    const UserAdmin = this.props.InfoUser_Login.User.userAdmin.waRoleId
     return (
       <CustomScrollbars className=" scrollbar">
         <ul className="nav-menu">
@@ -144,7 +144,7 @@ class SidenavContent extends Component {
             </ul>
           </li>
           {/* SETTING */}
-          <li className="menu collapse-box">
+          {UserAdmin === 1 ?  <li className="menu collapse-box">
             <Button>
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
               <span className="nav-text">
@@ -168,11 +168,14 @@ class SidenavContent extends Component {
                 </NavLink>
               </li>
             </ul>
-          </li>
+          </li>: null }
         </ul>
       </CustomScrollbars>
     );
   }
 }
-
-export default withRouter(SidenavContent);
+const mapStateToProps = (state) => ({
+  PendingProfile: state.ViewMerchant_Request,
+  InfoUser_Login: state.User,
+})
+export default withRouter(connect(mapStateToProps)(SidenavContent));

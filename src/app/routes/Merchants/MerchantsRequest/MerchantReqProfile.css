@@ -102,7 +102,7 @@
 	text-align: center;
 }
 .PendingList .PendingLBody .POPUP .POPUP-INNER {
-	padding-top:80px;
+	padding-top:60px;
 	background-color: rgba(0,0,0, 0.5);
 	position: absolute;
 	left: 30%;
@@ -118,9 +118,52 @@
 }
 .PendingList .PendingLBody .POPUP .POPUP-INNER label{
 	display: inline-block;
-    width: 274px;
+    width: 199px;
     text-align: right;
     line-height: 28pt;
     font-weight: 400;
     font-size: 17px;
 }
+@media (min-width: 1024px) and (max-width: 1280px) {
+	.POPUP-INNER h2 {
+		font-size: 17px;
+	}
+	.PendingList .PendingLBody .POPUP .POPUP-INNER {
+		padding-top:30px;
+	}
+	.PendingList .PendingLBody .POPUP .POPUP-INNER input{
+		width: 190px;
+	}
+	.PendingList .PendingLBody .POPUP .POPUP-INNER label{
+		width: 180px;
+	}
+	
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+	.POPUP-INNER h2 {
+		font-size: 16px;
+	}
+		.PendingList .PendingLBody .POPUP .POPUP-INNER {
+			padding-top:30px;
+			background-color: rgba(0,0,0, 0.5);
+			position: absolute;
+			left: 25%;
+			right: 25%;
+			top: 25%;
+			bottom: 40%;
+			margin: auto;
+			background: white;
+		}
+		.PendingList .PendingLBody .POPUP .POPUP-INNER input{
+			width: 150px;
+			text-align: center;
+		}
+		.PendingList .PendingLBody .POPUP .POPUP-INNER label{
+			display: inline-block;
+			width: 125px;
+			text-align: right;
+			line-height: 28pt;
+			font-weight: 400;
+			font-size: 13px;
+		}
+  }
