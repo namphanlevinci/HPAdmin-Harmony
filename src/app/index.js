@@ -18,6 +18,7 @@ import TopNav from 'components/TopNav';
 import Merchants from "./routes/Merchants/Merchants"
 import Accounts from "./routes/Accounts/Accounts"
 import Settings from "./routes/AdminSettings/Settings"
+import Business from "./routes/Business/Business"
 class App extends React.Component {
 
   render() {
@@ -53,6 +54,7 @@ class App extends React.Component {
                 <Route path={`${match.url}/accounts`} component={Accounts}/>
                 <Route path={`${match.url}/profile`} component={asyncComponent(() => import('components/profile/profile'))}/>
                 <Route path={`${match.url}/settings`} component={asyncComponent(() => import('components/Settings/settings'))}/>
+                <Route path={`${match.url}/business`} component={Business}/>
                 <Route component={asyncComponent(() => import('components/Error404'))}/>
               </Switch>
             </div>

@@ -108,7 +108,7 @@
 	left: 30%;
 	right: 30%;
 	top: 25%;
-	bottom: 40%;
+	bottom: 38%;
 	margin: auto;
 	background: white;
 }
@@ -125,6 +125,9 @@
     font-size: 17px;
 }
 @media (min-width: 1024px) and (max-width: 1280px) {
+	.PendingList .PendingLBody .POPUP .POPUP-INNER {
+		bottom: 35%;
+	}
 	.POPUP-INNER h2 {
 		font-size: 17px;
 	}

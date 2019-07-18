@@ -19,6 +19,8 @@ import ViewMerchant_Request from "./Merchants/ViewMerchant_Pending";
 import getAll_Notifications from "./notifications/getAll_Notifications";
 // LOGS
 import getAll_Logs from "./Logs/getAll_Logs";
+//BUSINESS 
+import getAll_Questions from "./Business/getAll_Questions"
 
 export default (history) => combineReducers({
   router: connectRouter(history),
@@ -34,5 +36,6 @@ export default (history) => combineReducers({
   ViewProfile_Rejected,
   Merchants_RejectedList,
   getNoti : getAll_Notifications,
-  getLogs: getAll_Logs
+  getLogs: getAll_Logs,
+  getQuestions: getAll_Questions
 });

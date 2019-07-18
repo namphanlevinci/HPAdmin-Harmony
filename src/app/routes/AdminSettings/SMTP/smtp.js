@@ -56,7 +56,7 @@ class SMTP extends Component {
             <div className="container-fluid">
                 <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.smtp"/>}/>
                         <form className="form-style-7">
-                        <h1>CHANGE MAIL SERVER</h1>
+                        <h1>MAIL SERVER</h1>
                             <ul>
                             <li>
                                 <label htmlFor="HOST">HOST</label>

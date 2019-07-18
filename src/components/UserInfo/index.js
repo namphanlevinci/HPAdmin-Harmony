@@ -23,18 +23,7 @@ class UserInfo extends React.Component {
   // handleRequestClose = () => {
   //   this.setState({open: false});
   // };
-
-  // signalR
-  // componentDidMount = () => {
-  //   const token = this.props.InfoUser_Login.User.token
-  //   let connection = new signalR.HubConnectionBuilder()
-  //   .withUrl("https://api2.levincidemo.com/notification/", { accessTokenFactory: () => token })
-  //   .build();
-  //   connection.start();
-  //     connection.on("ListWaNotification", data => {
-  //       console.log("DATA", JSON.parse(data));
-  //   });
-  // };
+  
   onLogout = () => {
     this.props.logout_User()
   }

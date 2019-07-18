@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import "../Setting.css"
 import Axios from 'axios';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-class Twilio extends Component {
+class General extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -16,16 +16,19 @@ class Twilio extends Component {
             host: '',
             port: '',
             password: '',
-            userSmtp: ''
+            userSmtp: '',
+            transactionFee: '',
          }
     }
     async componentDidMount() {
         await Axios.get('https://api2.levincidemo.com/api/adminsetting', { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
+            const general = res.data.data.general
             const twilio = res.data.data.twilio
             const smtp = res.data.data.smtp
           this.setState({ accountSid : twilio.accountSid, auToken: twilio.auToken, phoneSender: twilio.phoneSender,
-                            email : smtp.email, host : smtp.host, port : smtp.port, password: smtp.password, userSmtp: smtp.userSmtp
+                            email : smtp.email, host : smtp.host, port : smtp.port, password: smtp.password, userSmtp: smtp.userSmtp,
+                            transactionFee: general.transactionFee
                         })
         })
     }
@@ -37,14 +40,16 @@ class Twilio extends Component {
                 [name]: value
             })
     }
-    _updateTwilio = (e) => {
+    _updateFee = (e) => {
         e.preventDefault()
-        const { accountSid, auToken, phoneSender, email, host, password, userSmtp} = this.state
+        const { accountSid, auToken, phoneSender, email, host, password, userSmtp, transactionFee} = this.state
         let twilio = {'accountSid' : accountSid, 'auToken': auToken, 'phoneSender' : phoneSender};
         let smtp = { email, host, password, userSmtp}
-        Axios.post('https://api2.levincidemo.com/api/adminsetting', { twilio, smtp },{ headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} } )
+        let general = { transactionFee }
+        Axios.post('https://api2.levincidemo.com/api/adminsetting', { twilio, smtp, general},{ headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} } )
         .then((res) => {
             NotificationManager.success(res.data.message)
+            // console.log('UPDATE', res)
         }).catch((error) => {
             console.log('ERROR', error)
             NotificationManager.error(error.data.message)
@@ -53,29 +58,17 @@ class Twilio extends Component {
     render() { 
         return ( 
             <div className="container-fluid">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.Twilio"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.General"/>}/>
                     <form className="form-style-7">
-                        <h1>TWILIO ACCOUNT</h1>
+                        <h1>TRANSACTIONS FEE</h1>
                             <ul>
                             <li>
-                                <label htmlFor="PHONE">PHONE</label>
-                                <input type="text" name="phoneSender" maxLength="100"
-                                 value={this.state.phoneSender} onChange={this._handleChange}/>
+                                <label htmlFor="PHONE">Fee (%)</label>
+                                <input type="text" name="transactionFee" maxLength="100"
+                                 value={this.state.transactionFee} onChange={this._handleChange}  style={{textAlign: 'center'}} />
                             </li>
                             <li>
-                                <label htmlFor="ACCOUNTID">ACCOUNT TOKEN</label>
-                                <input type="text" name="auToken" maxLength="100" 
-                                value={this.state.auToken} onChange={this._handleChange}/>
-                            </li>
-                            <li>
-                                <label htmlFor="TOKEN">ACCOUNT SID</label>
-                                <input type="text" name="accountSid" maxLength="100"
-                                 value={this.state.accountSid} onChange={this._handleChange}/>
-                            </li>
-                            <li>
-                                {/* <button className="btn btn-green">EDIT </button>
-                                <button className="btn btn-green">BACK</button> */}
-                                <button className="btn btn-green" onClick={this._updateTwilio}>UPDATE</button>
+                                <button className="btn btn-green" onClick={this._updateFee}>UPDATE</button>
                             </li>
                             </ul>
                     </form>
@@ -90,4 +83,4 @@ const mapStateToProps = (state) => ({
     InfoUser_Login: state.User,
   });
 
-export default connect(mapStateToProps)(Twilio);
+export default connect(mapStateToProps)(General);

@@ -69,13 +69,15 @@ class MerchantReqProfile extends Component {
                                 <div className="POPUP-INNER">
                                     <h2>ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2>
                                     <Formik
-                                        initialValues={{ merchantID: '', merchantToken: '' }}
+                                        initialValues={{ merchantID: '', merchantToken: '', fee: '' }}
                                         validate={values => {
                                             let errors = {};
                                             if (!values.merchantID) {
                                             errors.merchantID = 'Required';
                                             } else if (!values.merchantToken) {
-                                            errors.merchantToken = 'Required Too';
+                                            errors.merchantToken = 'Required';
+                                            } else if (!values.fee) {
+                                                errors.merchantToken = 'Required';
                                             }
                                             return errors;
                                         }}
@@ -86,7 +88,8 @@ class MerchantReqProfile extends Component {
                                                 const ID = this.props.PendingProfile.merchantId
                                                 const merchantCode = values.merchantID
                                                 const merchantToken = values.merchantToken
-                                                axios.put('https://api2.levincidemo.com/api/merchant/approve/' + ID, {merchantCode,  merchantToken}, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+                                                const transactionsFee = values.fee
+                                                axios.put('https://api2.levincidemo.com/api/merchant/approve/' + ID, {merchantCode,  merchantToken, transactionsFee}, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
                                                 .then((res) => {
                                                     // console.log(res)
                                                 }).catch((err) => {
@@ -104,6 +107,9 @@ class MerchantReqProfile extends Component {
                                             <label>MERCHANT TOKEN:</label>
                                             <Field type="text" name="merchantToken" />
                                             <ErrorMessage name="merchantToken" component="div" />
+                                            <label>TRANSACTION FEE:</label>
+                                            <Field type="text" name="fee" />
+                                            <ErrorMessage name="fee" component="div" />
                                             <div style={{textAlign: 'center', paddingTop: '10px'}}>
                                             <button type='submit' className="btn btn-red" onClick={this._togglePopupAccept}>NO</button>
                                             <button type='submit' className="btn btn-green">YES</button>

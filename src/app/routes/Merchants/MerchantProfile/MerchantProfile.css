@@ -16,6 +16,10 @@
 	margin: auto;
 	background: white;
 }
+/* settings pop up */
+.POPUP .SettingsPopup {
+	bottom: 50%;
+}
  .POPUP-INNER2 label{
     display: inline-block;
     width: 274px;

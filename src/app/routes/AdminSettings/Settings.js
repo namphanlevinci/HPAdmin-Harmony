@@ -9,6 +9,7 @@ const Accounts = ({match}) => (
       <Route path={`${match.url}/smtp`} component={asyncComponent(() => import('./SMTP/smtp'))}/>
       <Route path={`${match.url}/template`} component={asyncComponent(() => import('./Template/template'))}/>
       <Route path={`${match.url}/twilio`} component={asyncComponent(() => import('./Twilio/twilio'))}/>
+      <Route path={`${match.url}/general`} component={asyncComponent(() => import('./General/general'))}/>
     </Switch>
   </div>
 );

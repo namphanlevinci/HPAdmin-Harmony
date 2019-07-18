@@ -20,7 +20,12 @@ class merchantProfile extends Component {
             cellphone: '',
             address: '',
             city: '',
-            stateId: ''
+            stateId: '',
+            settings: false,
+            fee: '',
+            merchantCode: '',
+            merchantToken: '',
+            transactionsFee: ''
          }
          this._handleChange = this._handleChange.bind(this)
     }
@@ -32,7 +37,10 @@ class merchantProfile extends Component {
             cellphone: data.cellPhone,
             address: data.address,
             city: data.city,
-            stateId: data.stateId
+            stateId: data.stateId,
+            merchantCode: data.merchantCode,
+            merchantToken: data.merchantToken,
+            transactionsFee: data.transactionsFee
         })
     }
     _handleChange(event) {
@@ -46,10 +54,22 @@ class merchantProfile extends Component {
     _toggleEdit = () => {
         this.setState({ edit: true })
     }
+    _toggleSettings = () => {
+        this.setState({ settings: true })
+    }
+    _turnOffSettings = () => {
+        const data = this.props.MerchantProfile 
+        this.setState({ 
+            settings: false,
+            merchantCode: data.merchantCode,
+            merchantToken: data.merchantToken,
+            transactionsFee: data.transactionsFee
+         })
+    }
     _turnOff = () => {
         const data = this.props.MerchantProfile 
-        this.setState({ edit: false })
         this.setState({
+            edit: false,
             businessName: data.businessName,
             email: data.email,
             cellphone: data.cellPhone,
@@ -67,12 +87,29 @@ class merchantProfile extends Component {
                     NotificationManager.success(res.data.message)
                     setTimeout(() => {
                         this.setState({ edit: false });
-                      }, 3000);
+                      }, 2000);
                 }
                 else {
                     NotificationManager.error('Something went wrong, please try again.')
                 }
             })
+    }
+    _updateSettings = () => {
+        const ID = this.props.MerchantProfile.merchantId
+        const  {  merchantCode, merchantToken, transactionsFee} = this.state
+        axios.put('https://api2.levincidemo.com/api/merchant/updatesetting/' + ID, { merchantCode, merchantToken, transactionsfee : transactionsFee   }, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
+        .then((res) => {
+            console.log('res', res)
+            if(res.data.message === 'Success') {
+                NotificationManager.success(res.data.message)
+                setTimeout(() => {
+                    this.setState({ settings: false });
+                  }, 2000);
+            }
+            else {
+                NotificationManager.error('Something went wrong, please try again.')
+            }
+        })
     }
     render() { 
         const e = this.props.MerchantProfile
@@ -174,6 +211,7 @@ class merchantProfile extends Component {
             <div className="PDL-Btn col-md-12">
                 <h3>ID: {e.merchantId}</h3>
                             <span>
+                                <button className="btn btn-green" onClick={this._toggleSettings}>SETTINGS</button>
                                 <button className="btn btn-green" onClick={this._toggleEdit}>EDIT</button>
                             </span>
                             {this.state.edit !== false ? <div className="POPUP">
@@ -210,6 +248,30 @@ class merchantProfile extends Component {
                                         <hr />
                                     <button href="#" className="btn btn-red" onClick={this._turnOff}>BACK</button>
                                     <button className="btn btn-green" onClick={this._update}>UPDATE</button>
+                                </div>
+                            </div> : null }
+                            {this.state.settings !== false ? <div className="POPUP">
+                                <div className="POPUP-INNER2 SettingsPopup">
+                                    <h2 style={{color: '#3f51b5'}}>SETTINGS</h2>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><label>Transactions Fee (%):</label></td>
+                                                    <td><input name="transactionsFee" value={this.state.transactionsFee} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Merchant ID:</label></td>
+                                                    <td><input name="merchantCode" value={this.state.merchantCode} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Merchant Token:</label></td>
+                                                    <td><input name="merchantToken" value={this.state.merchantToken} onChange={this._handleChange}></input></td> 
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr />
+                                    <button href="#" className="btn btn-red" onClick={this._turnOffSettings}>BACK</button>
+                                    <button className="btn btn-green" onClick={this._updateSettings}>UPDATE</button>
                                 </div>
                             </div> : null }
             </div>
