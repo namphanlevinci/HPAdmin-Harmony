@@ -5,3 +5,7 @@
     display: flex;
     justify-content: space-between;
 }
+.Transactions .bigshot {
+    font-weight: 600;
+	color: red;
+}

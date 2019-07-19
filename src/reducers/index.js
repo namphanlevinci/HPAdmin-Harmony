@@ -22,6 +22,7 @@ import getAll_Logs from "./Logs/getAll_Logs";
 //BUSINESS 
 import getAll_Questions from "./Business/getAll_Questions"
 import getAll_Transactions from "./Transactions/getTransactions"
+import getAll_ConsumerUsers from "./Business/getAll_ConsumerUsers"
 export default (history) => combineReducers({
   router: connectRouter(history),
   settings: Settings,
@@ -38,5 +39,6 @@ export default (history) => combineReducers({
   getNoti : getAll_Notifications,
   getLogs: getAll_Logs,
   getQuestions: getAll_Questions,
-  getTransactions: getAll_Transactions
+  getTransactions: getAll_Transactions,
+  getConsumerUsers: getAll_ConsumerUsers
 });

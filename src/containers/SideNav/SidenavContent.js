@@ -162,6 +162,11 @@ class SidenavContent extends Component {
                   <span className="nav-text"><IntlMessages id="sidebar.dashboard.Transactions"/></span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/business/users">
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.Users"/></span>
+                </NavLink>
+              </li>
             </ul>
           </li>
           {/* SETTING */}

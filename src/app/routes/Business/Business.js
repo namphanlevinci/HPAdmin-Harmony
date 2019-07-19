@@ -8,6 +8,8 @@ const Business = ({match}) => (
       <Redirect exact from={`${match.url}/`} to={`${match.url}`}/>
       <Route path={`${match.url}/questions`} component={asyncComponent(() => import('./Questions/Questions'))}/>
       <Route path={`${match.url}/transactions`} component={asyncComponent(() => import('./Transactions/Transactions'))}/>
+      <Route path={`${match.url}/users`} component={asyncComponent(() => import('./Users/User'))}/>
+
     </Switch>
   </div>
 );

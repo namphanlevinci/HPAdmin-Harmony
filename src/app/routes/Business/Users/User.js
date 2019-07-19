@@ -1,14 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { getAll_Transactions } from '../../../../actions/transactions/actions'
+import { getAll_ConsumerUsers } from "../../../../actions/business/actions"
 import Pagination from '../../Merchants/MerchantsList/Pagination'
 import '../../Merchants/MerchantsList/merchantsList.css'
 import IntlMessages from 'util/IntlMessages';
 import ContainerHeader from 'components/ContainerHeader/index';
 import moment from 'moment';
-import "./Transactions.css"
+import "../Transactions/Transactions.css"
 
-class Transactions extends React.Component {
+class Users extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,11 +33,11 @@ class Transactions extends React.Component {
     });
   };
   componentWillMount() {
-    this.props.getAll_Transactions()
+    this.props.getAll_ConsumerUsers()
   }
   componentDidMount() {
     this.setState({
-        totalRecords: this.props.TransactionList.length
+        totalRecords: this.props.ConsumerList.length
       });
   }
 
@@ -62,10 +63,10 @@ class Transactions extends React.Component {
       } = this.state;
     
 
-    let  TransactionsList  = this.props.TransactionList
-    if (TransactionsList) {
+    let  ConsumerList  = this.props.ConsumerList
+    if (ConsumerList) {
         if (this.state.search) {
-          TransactionsList = TransactionsList.filter((e) => {
+            ConsumerList = ConsumerList.filter((e) => {
             return (
               e.user.firstName.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
               e.user.phone.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
@@ -74,18 +75,16 @@ class Transactions extends React.Component {
           })
         } else { }
     }
-    const renderTransactionsList = TransactionsList.slice(startIndex, endIndex + 1).map((e) => {
-        const date = moment(e.createDate).format('DD/MM/YYYY');
+    const renderConsumerList = ConsumerList.slice(startIndex, endIndex + 1).map((e) => {
+        const birthday = moment(e.birthDate).format('DD/MM/YYYY');
         return (
-          <tr key={e.paymentTransactionId}>
-            <td>{date}</td>
-            <td>{'HP-' + e.paymentTransactionId}</td>
-            <td>{e.user.firstName + ' ' + e.user.lastName}</td>
-            <td>{e.user.phone}</td>
-            <td>{e.paymentData.method}</td>
-            <td>{e.paymentData.token.token_data.type}</td>
-            <td>{e.amount + '$'}</td>
-            <td>{e.paymentData.validation_status}</td>
+          <tr key={e.userId}>
+            <td>{e.userId}</td>
+            <td>{e.firstName + ' ' + e.lastName}</td>
+            <td>{e.phone}</td>
+            <td>{e.email}</td>
+            <td>{birthday}</td>
+            {e.totalAmount > 10000 ? <td className="bigshot">{'$' + e.totalAmount}</td> : <td>{'$' + e.totalAmount}</td>}
           </tr>
         )
     })
@@ -107,7 +106,7 @@ class Transactions extends React.Component {
                     {/* THANH CHUYỂN TRANGz */}
                     <div className="paginating-table">
                         <Pagination
-                        totalRecords={TransactionsList.length}
+                        totalRecords={ConsumerList.length}
                         pageLimit={pageLimit || 10}
                         initialPage={1}
                         pagesToShow={10}
@@ -122,18 +121,16 @@ class Transactions extends React.Component {
                 <table style={{ width:'100%' }}>
                     <thead>
                             <tr>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">Date</span></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Transaction ID</span></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Customer</span></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Phone Number</span></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Payment Method</span></th>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">Card Type</span></th>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">Amount</span></th>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">Status</span></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">ID</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Name</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Phone</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Email</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Birthday</span></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">Total Amount</span></th>
                             </tr>
                     </thead>
                     <tbody>
-                        {renderTransactionsList}
+                        {renderConsumerList}
                     </tbody>
                 </table>
             </div>
@@ -145,11 +142,11 @@ class Transactions extends React.Component {
 
 const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  TransactionList: state.getTransactions,
+  ConsumerList: state.getConsumerUsers,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Transactions: () => {
-    dispatch(getAll_Transactions())
+  getAll_ConsumerUsers: () => {
+    dispatch(getAll_ConsumerUsers())
   }
 });
-export default connect(mapStateToProps,mapDispatchToProps)(Transactions);
+export default connect(mapStateToProps,mapDispatchToProps)(Users);

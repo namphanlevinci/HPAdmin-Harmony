@@ -58,7 +58,7 @@ class MerchantReqProfile extends Component {
                     <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.pendingList"/>}/>
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
-                            <h3>HP000001</h3>
+                            <h3>{'HP-' + e.merchantId}</h3>
                             <span>
                                 <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>REJECT</button>
                                 <button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</button>
