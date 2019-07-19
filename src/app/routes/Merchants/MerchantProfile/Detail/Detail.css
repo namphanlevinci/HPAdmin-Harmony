@@ -1,0 +1,159 @@
+.SettingsContent input {
+    text-align: center;
+}
+.SettingsContent button {
+    margin-top: 10px;
+    margin-left: 100px;
+    display: inline-block;
+	color: #666;
+	background-color: #eee;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 12px;
+	padding: 10px 30px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgba(0,0,0,0.3);
+    border-bottom-width: 3px;
+    font-weight: 900;
+}
+.SettingsContent button:hover {
+    background-color: #3f51b5;
+    border-color: rgba(0,0,0,0.5);
+}
+
+.SettingsContent button:active {
+    background-color: #CCC;
+    border-color: rgba(0,0,0,0.9);
+}
+.SettingsContent button {
+	background-color: #3f51b5;
+	border-color: rgba(0,0,0,0.3);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: #FFF;
+}
+.container .input-group .btn.btn-green {
+	margin-bottom: 0px;
+	margin-left: 10px;
+	height: 40px;
+	background-color: #3f51b5;
+	border-color: rgba(0,0,0,0.3);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: #FFF;
+}
+.container .input-group {
+	padding: 10px 0px 20px 0px;
+}
+.GeneralContent button {
+	margin-left: 0px;
+}
+.GeneralContent button.btn:hover {
+    background-color: #3f51b5;
+    border-color: rgba(0,0,0,0.5);
+}
+
+.GeneralContent button.btn:active {
+    background-color: #CCC;
+    border-color: rgba(0,0,0,0.9);
+}
+.GeneralContent button.btn.btn-green {
+	background-color: #3f51b5;
+	border-color: rgba(0,0,0,0.3);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: #FFF;
+}
+
+.GeneralContent button.btn.btn-green:hover {
+		background-color: #3849a2;
+		border-color: rgba(0,0,0,0.5);
+	}
+	
+.GeneralContent button.btn.btn-green:active {
+		background-color: #31408f;
+		border-color: rgba(0,0,0,0.9);
+	}
+/* RED BUTTON */
+.GeneralContent button.btn.btn-red {
+	background-color: #fff;
+	border-color: rgba(0,0,0,0.3);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: #3f51b5;
+}
+
+.GeneralContent	button.btn.btn-red:hover {
+		background-color: #fcfcfc;
+		border-color: rgba(0,0,0,0.5);
+	}
+	
+.GeneralContent	button.btn.btn-red:active {
+		background-color: #f4f4f4;
+		border-color: rgba(0,0,0,0.9);
+}
+/* end test */
+@media (min-width: 1024px) and (max-width: 1280px) {
+	.POPUP-INNER2 {
+	padding-top: 20px;
+	  left: 25%;
+	  right: 25%;
+	  top: 15%;
+	  bottom: 30%;
+  }
+  .POPUP .SettingsPopup {
+	  bottom: 48%;
+  }
+   .POPUP-INNER2 label{
+	  width: 210px;
+  } 
+  .POPUP-INNER2 input {
+	width: 250px;
+  }
+}
+  @media (min-width: 768px) and (max-width: 1023px) {
+	.PendingLBody .content .container h2 {
+		padding-top: 5px;
+	}
+	.POPUP-INNER2 {
+	  padding-top: 10px;
+	  background-color: rgba(0,0,0, 0.5);
+	  position: absolute;
+	  left: 25%;
+	  right: 25%;
+	  top: 15%;
+	  bottom: 33%;
+	  margin: auto;
+	  background: white;
+	}
+	 .POPUP-INNER2 label{
+		display: inline-block;
+		width: 159px;
+		text-align: right;
+		line-height: 28pt;
+		font-weight: 500;
+		font-size: 14px;
+	} 
+	.POPUP-INNER2 input {
+	  width: 200px;
+	  text-align: center;
+	}
+  }
+  @media (min-width: 320px) and (max-width: 480px) {
+	.POPUP-INNER2 {
+	  padding-top: 10px;
+	  background-color: rgba(0,0,0, 0.5);
+	  position: absolute;
+	  left: 17%;
+	  right: 17%;
+	  top: 15%;
+	  bottom: 33%;
+	  background: white;
+	}
+	 .POPUP-INNER2 label{
+		width: 143px;
+		font-size: 13px;
+	} 
+	.POPUP-INNER2 input {
+	  width: 120px;
+	}
+	
+  }

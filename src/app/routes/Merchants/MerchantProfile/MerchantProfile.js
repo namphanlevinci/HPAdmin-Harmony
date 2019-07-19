@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import "bootstrap/js/src/collapse.js";
 import { withRouter, Redirect } from 'react-router-dom';
-import "./MerchantProfile.css"
 import { Checkbox } from '@material-ui/core';
 import IntlMessages from 'util/IntlMessages';
 import ContainerHeader from 'components/ContainerHeader/index';
+import "./MerchantProfile.css"
 import "../MerchantsRequest/MerchantReqProfile.css"
 import "../MerchantsRequest/MerchantsRequest.css"
 import {NotificationContainer, NotificationManager} from 'react-notifications';

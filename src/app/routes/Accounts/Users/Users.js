@@ -47,7 +47,7 @@ class Users extends Component {
       }
       _userProfile = (e) => {
         this.props.ViewProfile_User(e)
-        this.props.history.push('/app/accounts/user-profile')
+        this.props.history.push('/app/accounts/admin-user-profile')
       }
     render() { 
         var {
@@ -81,7 +81,7 @@ class Users extends Component {
         })
         return ( 
             <div className="container-fluid MerList">
-            <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.users"/>}/>
+            <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.adminUsers"/>}/>
                 <div className="UserSearchBox">
                     {/* SEARCH */}
                     <div className="search">

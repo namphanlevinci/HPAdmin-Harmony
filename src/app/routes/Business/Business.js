@@ -7,6 +7,7 @@ const Business = ({match}) => (
     <Switch>
       <Redirect exact from={`${match.url}/`} to={`${match.url}`}/>
       <Route path={`${match.url}/questions`} component={asyncComponent(() => import('./Questions/Questions'))}/>
+      <Route path={`${match.url}/transactions`} component={asyncComponent(() => import('./Transactions/Transactions'))}/>
     </Switch>
   </div>
 );

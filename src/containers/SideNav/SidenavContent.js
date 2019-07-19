@@ -127,8 +127,8 @@ class SidenavContent extends Component {
             </Button>
             <ul className="sub-menu">
             <li>
-                <NavLink className="prepend-icon" to="/app/accounts/users">
-                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.users"/></span>
+                <NavLink className="prepend-icon" to="/app/accounts/admin-users">
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.adminUsers"/></span>
                 </NavLink>
               </li>
               <li>
@@ -152,9 +152,14 @@ class SidenavContent extends Component {
               </span>
             </Button>
             <ul className="sub-menu">
-            <li>
+              <li>
                 <NavLink className="prepend-icon" to="/app/business/questions">
                   <span className="nav-text"><IntlMessages id="sidebar.dashboard.Questions"/></span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/business/transactions">
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.Transactions"/></span>
                 </NavLink>
               </li>
             </ul>

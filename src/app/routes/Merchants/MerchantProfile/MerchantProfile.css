@@ -57,64 +57,36 @@ input[type=number]::-webkit-outer-spin-button {
 .StaffContent {
   display: inline;
 }
-
-@media (min-width: 1024px) and (max-width: 1280px) {
-  .POPUP-INNER2 {
-  padding-top: 20px;
-	left: 25%;
-	right: 25%;
-	top: 15%;
-	bottom: 30%;
+/* test */
+.profile-nav ul {
+  display: flex;
+  background-color: #3f51b5;
 }
- .POPUP-INNER2 label{
-    width: 210px;
-} 
-.POPUP-INNER2 input {
-  width: 250px;
+.detail-content {
+  padding-top: 10px;
 }
+ul.detail-tab li {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0;
 }
-@media (min-width: 768px) and (max-width: 1023px) {
-  .POPUP-INNER2 {
-    padding-top: 10px;
-    background-color: rgba(0,0,0, 0.5);
-    position: absolute;
-    left: 25%;
-    right: 25%;
-    top: 15%;
-    bottom: 33%;
-    margin: auto;
-    background: white;
-  }
-   .POPUP-INNER2 label{
-      display: inline-block;
-      width: 159px;
-      text-align: right;
-      line-height: 28pt;
-      font-weight: 500;
-      font-size: 14px;
-  } 
-  .POPUP-INNER2 input {
-    width: 200px;
-    text-align: center;
-  }
+ul.detail-tab li a {
+  opacity: 0.5;
+  font-weight: 300;
+  display: block;
+  padding: 10px 25px 5px 25px;
+  background: #3f51b5;
+  color: white;
+  font-size: 19px;
+  border: none;
+  margin-right: 5px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
-@media (min-width: 320px) and (max-width: 480px) {
-  .POPUP-INNER2 {
-    padding-top: 10px;
-    background-color: rgba(0,0,0, 0.5);
-    position: absolute;
-    left: 17%;
-    right: 17%;
-    top: 15%;
-    bottom: 33%;
-    background: white;
-  }
-   .POPUP-INNER2 label{
-      width: 143px;
-      font-size: 13px;
-  } 
-  .POPUP-INNER2 input {
-    width: 120px;
-  }
-  
+ul.detail-tab .active {
+  opacity: 1;
+  font-weight: 400;
+  color: white;
+  border-bottom: 3px solid red;
+  background: #3f51b5;
 }

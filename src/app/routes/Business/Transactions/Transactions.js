@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { getAll_Merchants, SearchMerchants, ViewProfile_Merchants } from '../../../../actions/merchants/actions'
-import Pagination from './Pagination'
-import './merchantsList.css'
+import Pagination from '../../Merchants/MerchantsList/Pagination'
+import '../../Merchants/MerchantsList/merchantsList.css'
 import IntlMessages from 'util/IntlMessages';
 import ContainerHeader from 'components/ContainerHeader/index';
-class MerchantsList extends React.Component {
+class Transactions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,14 +28,14 @@ class MerchantsList extends React.Component {
       endIndex: data.endIndex
     });
   };
-  componentWillMount() {
-    this.props.getAll_Merchants();
-  }
-  componentDidMount() {
-    this.setState({
-        totalRecords: this.props.Merchants_List.length
-      });
-  }
+//   componentWillMount() {
+    
+//   }
+//   componentDidMount() {
+//     this.setState({
+//         totalRecords: this.props.Merchants_List.length
+//       });
+//   }
 
   _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
@@ -51,10 +51,11 @@ class MerchantsList extends React.Component {
     }, 300);
   }
 
-  _merchantsProfile = (merchant) => {
-    this.props.ViewProfile_Merchants(merchant)
-    this.props.history.push('/app/merchants/profile/general')
-  }
+//   _merchantsProfile = (merchant) => {
+//     this.props.ViewProfile_Merchants(merchant)
+//     this.props.history.push('/app/merchants/profile')
+//     // console.log(this.props.ViewProfile_Merchants(merchant))
+//   }
   render() {
 
     var {
@@ -64,36 +65,36 @@ class MerchantsList extends React.Component {
       } = this.state;
     
 
-    let  MerList  = this.props.Merchants_List
-    if (MerList) {
-        if (this.state.search) {
-            MerList = MerList.filter((e) => {
-            // let name = e.businessName;
-            return (
-              e.businessName.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
-              // name.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
-              parseInt(e.merchantId) === parseInt(this.state.search)
-            ) 
-          })
-        } else {
+    // let  MerList  = this.props.Merchants_List
+    // if (MerList) {
+    //     if (this.state.search) {
+    //         MerList = MerList.filter((e) => {
+    //         // let name = e.businessName;
+    //         return (
+    //           e.businessName.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
+    //           // name.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
+    //           parseInt(e.merchantId) === parseInt(this.state.search)
+    //         ) 
+    //       })
+    //     } else {
     
-        }
-    }
+    //     }
+    // }
     // console.log(MerList)
-    const renderMerList = MerList.slice(startIndex, endIndex + 1).map((merchant) => {
-        return (
-          <tr key={merchant.merchantId} onClick={() => this._merchantsProfile(merchant)}>
-            <td>{merchant.merchantId}</td>
-            {merchant.businessName !== null ? <td>{merchant.businessName}</td> : <td></td>}
-            {merchant.principals !== null ? <td>{merchant.principals.firstName + ' ' + merchant.principals.lastName}</td> : <td></td>}
-            <td>{merchant.email}</td>
-            <td>{merchant.phone}</td>
-          </tr>
-        )
-    })
+    // const renderMerList = MerList.slice(startIndex, endIndex + 1).map((merchant) => {
+    //     return (
+    //       <tr key={merchant.merchantId} onClick={() => this._merchantsProfile(merchant)}>
+    //         <td>{merchant.merchantId}</td>
+    //         {merchant.businessName !== null ? <td>{merchant.businessName}</td> : <td></td>}
+    //         {merchant.principals !== null ? <td>{merchant.principals.firstName + ' ' + merchant.principals.lastName}</td> : <td></td>}
+    //         <td>{merchant.email}</td>
+    //         <td>{merchant.phone}</td>
+    //       </tr>
+    //     )
+    // })
     return (
         <div className="container-fluid MerList">
-            <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.MList"/>}/>
+            <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.Transactions"/>}/>
                 <div className="MReqSP">
                     {/* SEARCH */}
                     <div className="search">
@@ -106,16 +107,16 @@ class MerchantsList extends React.Component {
                             onChange={this._SearchMerchants} />
                         </form>
                     </div>
-                    {/* THANH CHUYỂN TRANG */}
+                    {/* THANH CHUYỂN TRANGz */}
                     <div className="paginating-table">
-                        <Pagination
+                        {/* <Pagination
                         totalRecords={MerList.length}
                         pageLimit={pageLimit || 10}
                         initialPage={1}
                         pagesToShow={10}
                         onChangePage={this.onChangePage}
                         PaginationFilter={this.state.PaginationFilter}
-                        />
+                        /> */}
                 </div>
               </div>
 
@@ -132,7 +133,7 @@ class MerchantsList extends React.Component {
                             </tr>
                     </thead>
                     <tbody>
-                        {renderMerList}
+                        {/* {renderMerList} */}
                     </tbody>
                 </table>
             </div>
@@ -157,4 +158,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ViewProfile_Merchants(payload))
   },
 });
-export default connect(mapStateToProps,mapDispatchToProps)(MerchantsList);
+export default connect(mapStateToProps,mapDispatchToProps)(Transactions);

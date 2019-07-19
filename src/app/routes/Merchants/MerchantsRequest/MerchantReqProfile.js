@@ -83,8 +83,7 @@ class MerchantReqProfile extends Component {
                                         }}
                                         onSubmit={(values, { setSubmitting }) => {
                                             setTimeout(() => {
-                                                
-                                                this.props.history.push('/app/merchants/accepted-list')
+                                                this.props.history.push('/app/merchants/requests')
                                                 const ID = this.props.PendingProfile.merchantId
                                                 const merchantCode = values.merchantID
                                                 const merchantToken = values.merchantToken

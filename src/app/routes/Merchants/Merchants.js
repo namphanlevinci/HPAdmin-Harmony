@@ -7,7 +7,7 @@ const Merchants = ({match}) => (
     <Switch>
       <Redirect exact from={`${match.url}/`} to={`${match.url}`}/>
       <Route path={`${match.url}/accepted-list`} component={asyncComponent(() => import('./MerchantsList/merchantsList'))}/>
-      <Route path={`${match.url}/profile`} component={asyncComponent(() => import('./MerchantProfile/MerchantProfile'))}/>
+      <Route path={`${match.url}/profile`} component={asyncComponent(() => import('./MerchantProfile/MerchantProfile2'))}/>
       <Route path={`${match.url}/requests`} component={asyncComponent(() => import('./MerchantsRequest/MerchantsRequest'))}/>
       <Route path={`${match.url}/pending-profile`} component={asyncComponent(() => import('./MerchantsRequest/MerchantReqProfile'))}/>
       <Route path={`${match.url}/rejected-profile`} component={asyncComponent(() => import('./MerchantRejectList/MerchantRejectedProfile'))}/>
