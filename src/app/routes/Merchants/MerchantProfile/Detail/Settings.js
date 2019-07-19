@@ -27,7 +27,6 @@ class Settings extends Component {
     }
     componentDidMount() {
         const data = this.props.MerchantProfile 
-        console.log('data', data)
         this.setState({
             merchantCode: data.merchantCode,
             merchantToken: data.merchantToken,
@@ -39,7 +38,6 @@ class Settings extends Component {
         const  {  merchantCode, merchantToken, transactionsFee} = this.state
         axios.put('https://api2.levincidemo.com/api/merchant/updatesetting/' + ID, { merchantCode, merchantToken, transactionsfee : transactionsFee   }, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
         .then((res) => {
-            console.log('res', res)
             if(res.data.message === 'Success') {
                 NotificationManager.success(res.data.message)
                 setTimeout(() => {
