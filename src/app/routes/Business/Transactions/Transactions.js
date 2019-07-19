@@ -1,10 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { getAll_Merchants, SearchMerchants, ViewProfile_Merchants } from '../../../../actions/merchants/actions'
+import { getAll_Transactions } from '../../../../actions/transactions/actions'
 import Pagination from '../../Merchants/MerchantsList/Pagination'
 import '../../Merchants/MerchantsList/merchantsList.css'
 import IntlMessages from 'util/IntlMessages';
 import ContainerHeader from 'components/ContainerHeader/index';
+import moment from 'moment';
+import "./Transactions.css"
+
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
@@ -28,14 +31,14 @@ class Transactions extends React.Component {
       endIndex: data.endIndex
     });
   };
-//   componentWillMount() {
-    
-//   }
-//   componentDidMount() {
-//     this.setState({
-//         totalRecords: this.props.Merchants_List.length
-//       });
-//   }
+  componentWillMount() {
+    this.props.getAll_Transactions()
+  }
+  componentDidMount() {
+    this.setState({
+        totalRecords: this.props.TransactionList.length
+      });
+  }
 
   _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
@@ -50,14 +53,8 @@ class Transactions extends React.Component {
       this.setState({ PaginationFilter: false });
     }, 300);
   }
-
-//   _merchantsProfile = (merchant) => {
-//     this.props.ViewProfile_Merchants(merchant)
-//     this.props.history.push('/app/merchants/profile')
-//     // console.log(this.props.ViewProfile_Merchants(merchant))
-//   }
+  
   render() {
-
     var {
         pageLimit,
         startIndex,
@@ -65,37 +62,37 @@ class Transactions extends React.Component {
       } = this.state;
     
 
-    // let  MerList  = this.props.Merchants_List
-    // if (MerList) {
-    //     if (this.state.search) {
-    //         MerList = MerList.filter((e) => {
-    //         // let name = e.businessName;
-    //         return (
-    //           e.businessName.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
-    //           // name.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
-    //           parseInt(e.merchantId) === parseInt(this.state.search)
-    //         ) 
-    //       })
-    //     } else {
-    
-    //     }
-    // }
-    // console.log(MerList)
-    // const renderMerList = MerList.slice(startIndex, endIndex + 1).map((merchant) => {
-    //     return (
-    //       <tr key={merchant.merchantId} onClick={() => this._merchantsProfile(merchant)}>
-    //         <td>{merchant.merchantId}</td>
-    //         {merchant.businessName !== null ? <td>{merchant.businessName}</td> : <td></td>}
-    //         {merchant.principals !== null ? <td>{merchant.principals.firstName + ' ' + merchant.principals.lastName}</td> : <td></td>}
-    //         <td>{merchant.email}</td>
-    //         <td>{merchant.phone}</td>
-    //       </tr>
-    //     )
-    // })
+    let  TransactionsList  = this.props.TransactionList
+    if (TransactionsList) {
+        if (this.state.search) {
+          TransactionsList = TransactionsList.filter((e) => {
+            return (
+              e.user.firstName.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
+              e.user.phone.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
+              parseInt(e.merchantId) === parseInt(this.state.search)
+            ) 
+          })
+        } else { }
+    }
+    const renderTransactionsList = TransactionsList.slice(startIndex, endIndex + 1).map((e) => {
+        const date = moment(e.createDate).format('DD/MM/YYYY');
+        return (
+          <tr key={e.paymentTransactionId}>
+            <td>{date}</td>
+            <td>{'HP' + e.paymentTransactionId}</td>
+            <td>{e.user.firstName + ' ' + e.user.lastName}</td>
+            <td>{e.user.phone}</td>
+            <td>{e.paymentData.method}</td>
+            <td>{e.paymentData.token.token_data.type}</td>
+            <td>{e.amount}</td>
+            <td>{e.paymentData.validation_status}</td>
+          </tr>
+        )
+    })
     return (
         <div className="container-fluid MerList">
             <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.Transactions"/>}/>
-                <div className="MReqSP">
+                <div className="MReqSP TransactionsBox">
                     {/* SEARCH */}
                     <div className="search">
                         <form>
@@ -109,31 +106,34 @@ class Transactions extends React.Component {
                     </div>
                     {/* THANH CHUYỂN TRANGz */}
                     <div className="paginating-table">
-                        {/* <Pagination
-                        totalRecords={MerList.length}
+                        <Pagination
+                        totalRecords={TransactionsList.length}
                         pageLimit={pageLimit || 10}
                         initialPage={1}
                         pagesToShow={10}
                         onChangePage={this.onChangePage}
                         PaginationFilter={this.state.PaginationFilter}
-                        /> */}
+                        />
                 </div>
               </div>
 
 
-            <div className="MListContainer">
+            <div className="MListContainer Transactions">
                 <table style={{ width:'100%' }}>
                     <thead>
-                    <tr style={{borderBottom: '1px solid black'}}>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'25%' }}><span className="Mlist_table">Business name</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Owner</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'25%' }}><span className="Mlist_table">Email</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Phone number</span> <i className="fa fa-unsorted"/></th>
+                            <tr>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">Date</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Transaction ID</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Customer</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Phone Number</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Payment Method</span></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">Card Type</span></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">Amount ($)</span></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">Status</span></th>
                             </tr>
                     </thead>
                     <tbody>
-                        {/* {renderMerList} */}
+                        {renderTransactionsList}
                     </tbody>
                 </table>
             </div>
@@ -145,17 +145,11 @@ class Transactions extends React.Component {
 
 const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  Merchants_List: state.MerchantsList,
+  TransactionList: state.getTransactions,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Merchants: () => {
-    dispatch(getAll_Merchants())
-  },
-  SearchMerchants: (payload) => {
-    dispatch(SearchMerchants(payload))
-  },
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload))
-  },
+  getAll_Transactions: () => {
+    dispatch(getAll_Transactions())
+  }
 });
 export default connect(mapStateToProps,mapDispatchToProps)(Transactions);

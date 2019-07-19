@@ -1,0 +1,7 @@
+.Transactions table tr td {
+    cursor: context-menu;
+}
+.TransactionsBox {
+    display: flex;
+    justify-content: space-between;
+}

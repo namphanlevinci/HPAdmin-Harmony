@@ -21,7 +21,7 @@ import getAll_Notifications from "./notifications/getAll_Notifications";
 import getAll_Logs from "./Logs/getAll_Logs";
 //BUSINESS 
 import getAll_Questions from "./Business/getAll_Questions"
-
+import getAll_Transactions from "./Transactions/getTransactions"
 export default (history) => combineReducers({
   router: connectRouter(history),
   settings: Settings,
@@ -37,5 +37,6 @@ export default (history) => combineReducers({
   Merchants_RejectedList,
   getNoti : getAll_Notifications,
   getLogs: getAll_Logs,
-  getQuestions: getAll_Questions
+  getQuestions: getAll_Questions,
+  getTransactions: getAll_Transactions
 });
