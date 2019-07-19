@@ -89,7 +89,7 @@ class Settings extends Component {
                         <div class="input-group">
                             <input type="text" class="col-4 form-control" name="limit" value={this.state.limit} onChange={this._handleChange}/>
                             <span class="input-group-btn">
-                            <button className="btn btn-green" onClick={this._updateSettings}>UPDATE</button>
+                            <button className="btn btn-green">UPDATE</button>
                             </span>
                         </div>
                 </div>          
