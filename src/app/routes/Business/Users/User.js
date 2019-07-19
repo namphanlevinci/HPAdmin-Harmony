@@ -68,9 +68,9 @@ class Users extends React.Component {
         if (this.state.search) {
             ConsumerList = ConsumerList.filter((e) => {
             return (
-              e.user.firstName.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
-              e.user.phone.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
-              parseInt(e.merchantId) === parseInt(this.state.search)
+              e.firstName.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
+              e.phone.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
+              parseInt(e.userId) === parseInt(this.state.search)
             ) 
           })
         } else { }
