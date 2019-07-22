@@ -91,10 +91,17 @@ class SidenavContent extends Component {
           <li className="nav-header">
             <IntlMessages id="sidebar.main"/>
           </li>
+          {/* DASHBOARD */}
+          <li className="menu no-arrow">
+              <NavLink to="/app/dashboard">
+                <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                <span className="nav-text"><IntlMessages id="sidebar.dashboard.dashboard"/></span>
+              </NavLink>
+          </li>
                     {/* MERCHANT */}
           <li className="menu collapse-box">
             <Button>
-              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
+              <i className="zmdi zmdi-account-box zmdi-hc-fw"/>
               <span className="nav-text">
                 <IntlMessages id="sidebar.dashboard.merchant"/>
               </span>
@@ -120,7 +127,7 @@ class SidenavContent extends Component {
           {/* ACCOUNTS */}
           <li className="menu collapse-box">
             <Button>
-              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
+              <i className="zmdi zmdi-accounts-alt zmdi-hc-fw"/>
               <span className="nav-text">
                 <IntlMessages id="sidebar.dashboard.accounts"/>
               </span>
@@ -146,7 +153,7 @@ class SidenavContent extends Component {
           {/* BUSINESS */}
           <li className="menu collapse-box">
             <Button>
-              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
+              <i className="zmdi zmdi-card zmdi-hc-fw"/>
               <span className="nav-text">
                 <IntlMessages id="sidebar.dashboard.Business"/>
               </span>
@@ -172,7 +179,7 @@ class SidenavContent extends Component {
           {/* SETTING */}
           {UserAdmin === 1 ?  <li className="menu collapse-box">
             <Button>
-              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
+              <i className="zmdi zmdi-settings zmdi-hc-fw"/>
               <span className="nav-text">
                 <IntlMessages id="sidebar.dashboard.settings"/>
               </span>

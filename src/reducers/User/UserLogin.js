@@ -13,7 +13,7 @@ const UserLogin = (state = initialState, action) => {
         case typeUser.checkLogin_User_Success:
             state.User = action.payload;
             localStorage.setItem('User_login', JSON.stringify(action.payload));
-            window.location.href = '/app/merchants'
+            window.location.href = '/app/dashboard'
             return { ...state }
 
         case typeUser.checkLogin_User_Error:

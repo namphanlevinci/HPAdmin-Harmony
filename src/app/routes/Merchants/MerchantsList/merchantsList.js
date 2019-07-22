@@ -68,10 +68,8 @@ class MerchantsList extends React.Component {
     if (MerList) {
         if (this.state.search) {
             MerList = MerList.filter((e) => {
-            // let name = e.businessName;
             return (
               e.businessName.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
-              // name.trim().toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 ||
               parseInt(e.merchantId) === parseInt(this.state.search)
             ) 
           })

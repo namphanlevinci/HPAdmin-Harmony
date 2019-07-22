@@ -7,15 +7,15 @@ import rootSaga from '../sagas/index';
 
 
 
-//test
-import signalRMiddleware from "./signalRmiddleware"
-//test
+
+// import signalRMiddleware from "./signalRmiddleware"
+
 
 const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
 const sagaMiddleware = createSagaMiddleware();
 
-const middlewares = [sagaMiddleware, routeMiddleware, signalRMiddleware];
+const middlewares = [sagaMiddleware, routeMiddleware];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export default function configureStore(initialState) {
   const store = createStore(reducers(history), initialState,

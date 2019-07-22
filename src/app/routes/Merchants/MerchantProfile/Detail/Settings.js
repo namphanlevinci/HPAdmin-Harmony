@@ -84,9 +84,9 @@ class Settings extends Component {
                         <label>a) More than $10,000 in total from either cash-in or cash-out.</label><br/>
                         <label>b) Is conducted by the same person.</label><br/>
                         <label>c) Is conducted on the same business day.</label><br/>
-                        <div class="input-group">
-                            <input type="text" class="col-4 form-control" name="limit" value={this.state.limit} onChange={this._handleChange}/>
-                            <span class="input-group-btn">
+                        <div className="input-group">
+                            <input type="text" className="col-4 form-control" name="limit" value={this.state.limit} onChange={this._handleChange}/>
+                            <span className="input-group-btn">
                             <button className="btn btn-green">UPDATE</button>
                             </span>
                         </div>

@@ -572,6 +572,7 @@
   "sidebar.dashboard.Questions": "Questions",
   "sidebar.dashboard.Twilio": "Twilio",
   "sidebar.dashboard.users": "Users",
+  "sidebar.dashboard.dashboard": "Dashboard",
   "sidebar.dashboard.adminUsers" : "Admin Users",
   "sidebar.dashboard.adminUserProfile" : "Admin User Profile",
   "sidebar.dashboard.userProfile": "User Profile",

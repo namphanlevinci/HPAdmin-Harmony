@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { getAll_Transactions } from '../../../../actions/transactions/actions'
+// import { getAll_Transactions } from '../../../../actions/transactions/actions'
 import { getAll_ConsumerUsers } from "../../../../actions/business/actions"
 import Pagination from '../../Merchants/MerchantsList/Pagination'
 import '../../Merchants/MerchantsList/merchantsList.css'

@@ -33,9 +33,9 @@ class merchantProfile2 extends Component {
         <div className="PendingLBody">
             <div className="PDL-Btn col-md-12">
                 <h3>ID: {e.merchantId}</h3>
-                            <span>
-                                <button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</button>
-                            </span>
+                        <span>
+                            <button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</button>
+                        </span>
                 </div>
                 <hr/>
             <NotificationContainer/>

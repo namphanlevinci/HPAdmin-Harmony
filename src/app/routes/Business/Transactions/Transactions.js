@@ -79,13 +79,12 @@ class Transactions extends React.Component {
         return (
           <tr key={e.paymentTransactionId}>
             <td>{date}</td>
-            <td>{'HP-' + e.paymentTransactionId}</td>
-            <td>{e.user.firstName + ' ' + e.user.lastName}</td>
-            <td>{e.user.phone}</td>
-            <td>{e.paymentData.method}</td>
             <td>{e.paymentData.token.token_data.type}</td>
+            <td>{e.user.firstName + ' ' + e.user.lastName}</td>
+            <td>NULL</td>
+            <td>{e.paymentData.token.token_data.value.slice(12)}</td>
+            <td>NULL</td>
             <td>{e.amount + '$'}</td>
-            <td>{e.paymentData.validation_status}</td>
           </tr>
         )
     })
@@ -122,14 +121,13 @@ class Transactions extends React.Component {
                 <table style={{ width:'100%' }}>
                     <thead>
                             <tr>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">Date</span></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Transaction ID</span></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Customer</span></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Phone Number</span></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Payment Method</span></th>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">Card Type</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Transaction date</span></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">Card type</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Card holder name</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Authuorization code</span></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">Last 4 digits</span></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Settled date</span></th>
                                 <th style={{ width:'10%' }}><span className="Mlist_table">Amount</span></th>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">Status</span></th>
                             </tr>
                     </thead>
                     <tbody>

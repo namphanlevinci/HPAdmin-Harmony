@@ -10,7 +10,9 @@ class Template extends Component {
         return ( 
             <div className="container-fluid">
                 <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.Template"/>}/>
-                <h1>TEMPLATE</h1>
+                <div style={{textAlign: 'center'}}>
+                    <h1>COMING SOON</h1>
+                </div>  
             </div>
          );
     }

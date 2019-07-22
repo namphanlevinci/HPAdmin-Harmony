@@ -37,7 +37,7 @@ class Header extends React.Component {
     let rID = ID.waUserId
       const signalR = require("@aspnet/signalr");
       let connection = new signalR.HubConnectionBuilder()
-     .withUrl("https://api2.levincidemo.com/notification/?title=Administrator&&adminId="+ rID) 
+     .withUrl("https://api2.levincidemo.com/notification/?title=Administrator&adminId="+ rID) 
       .build();
       connection.start();
         connection.on("ListWaNotification", data => { 
