@@ -63,7 +63,8 @@ class Principal extends Component {
             </div>
             <div className="col-md-4">
                 <h4>Driver License Picture</h4>
-                <img src={require("../../../../../assets/images/driverlicense.jpg")} alt="void check"/>
+                {/* <img src={require("../../../../../assets/images/driverlicense.jpg")} alt="void check"/> */}
+                <img className="bankVoid" src={`${e.principals.imageUrl}`} alt="driver license" />
             </div>
         </div> : <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
         return ( 

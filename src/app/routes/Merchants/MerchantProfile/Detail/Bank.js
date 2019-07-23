@@ -29,7 +29,8 @@ class Bank extends Component {
                         </div>
                         <div className="col-md-4">
                             <h4>Void Check*</h4>
-                            <img src={require('../../../../../assets/images/voidcheck.png')} alt="void check"/>
+                            {/* <img src={require('../../../../../assets/images/voidcheck.png')} alt="void check"/> */}
+                            <img className="bankVoid" src={`${e.businessBank.imageUrl}`} alt='void check' />
                         </div>
                     </div>
                 </div>

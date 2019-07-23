@@ -16,8 +16,8 @@ const data = (canvas) => {
   };
   return {
     labels: [
-      'Approved',
       'Rejected',
+      'Approved',
     ],
     datasets: [{
       data: [100, 300],

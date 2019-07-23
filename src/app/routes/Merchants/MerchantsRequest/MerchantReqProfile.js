@@ -77,7 +77,7 @@ class MerchantReqProfile extends Component {
                                             } else if (!values.merchantToken) {
                                             errors.merchantToken = 'Required';
                                             } else if (!values.fee) {
-                                                errors.merchantToken = 'Required';
+                                                errors.fee = 'Required';
                                             }
                                             return errors;
                                         }}
@@ -100,16 +100,23 @@ class MerchantReqProfile extends Component {
                                         >
                                         {({ lol }) => (
                                             <Form style={{textAlign: 'center'}}>
-                                            <label>MERCHANT ID:</label>
-                                            <Field type="text" name="merchantID" />
-                                            <ErrorMessage name="merchantID" component="div" />
-                                            <label>MERCHANT TOKEN:</label>
-                                            <Field type="text" name="merchantToken" />
-                                            <ErrorMessage name="merchantToken" component="div" />
-                                            <label>TRANSACTION FEE:</label>
-                                            <Field type="text" name="fee" />
-                                            <ErrorMessage name="fee" component="div" />
-                                            <div style={{textAlign: 'center', paddingTop: '10px'}}>
+                                                    <div>
+                                                        <label>MERCHANT ID:</label>
+                                                        <Field type="text" name="merchantID" />
+                                                        <ErrorMessage name="merchantID" component="div" />
+                                                    </div>
+                                                    <div>
+                                                        <label>MERCHANT TOKEN:</label>
+                                                        <Field type="text" name="merchantToken" />
+                                                        <ErrorMessage name="merchantToken" component="div" />
+                                                    </div>
+                                                    <div>
+                                                        <label>TRANSACTION FEE:</label>
+                                                        <Field type="text" name="fee" />
+                                                        <ErrorMessage name="fee" component="div" />
+                                                    </div>
+                                                <br/>
+                                                <div style={{textAlign: 'center', paddingTop: '10px'}}>
                                             <button type='submit' className="btn btn-red" onClick={this._togglePopupAccept}>NO</button>
                                             <button type='submit' className="btn btn-green">YES</button>
                                             </div>

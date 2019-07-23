@@ -14,7 +14,8 @@ class Settings extends Component {
             transactionsFee: '',
             merchantCode: '',
             merchantToken: '',
-            limit: '10000'
+            limit: '10000',
+            update: false,
          }
     }
     _handleChange = (event) =>  {
@@ -33,6 +34,9 @@ class Settings extends Component {
             transactionsFee: data.transactionsFee
         })
     }
+    _toggleConfirm = () => {
+        this.setState({ update: !this.state.update})
+    }
     _updateSettings = () => {
         const ID = this.props.MerchantProfile.merchantId
         const  {  merchantCode, merchantToken, transactionsFee} = this.state
@@ -41,8 +45,8 @@ class Settings extends Component {
             if(res.data.message === 'Success') {
                 NotificationManager.success(res.data.message)
                 setTimeout(() => {
-                    this.setState({ settings: false });
-                  }, 2000);
+                    this.setState({ update: false });
+                  }, 1500);
             }
             else {
                 NotificationManager.error('Something went wrong, please try again.')
@@ -53,6 +57,18 @@ class Settings extends Component {
         return ( 
             <div className="container">
                 <NotificationContainer/>
+                {this.state.update !== false ? <div className="POPUP">
+                                <div className="POPUP-INNER2 SettingsPopup2">
+                                    <div className="SettingsInner2">
+                                        <h3>Confirmation</h3>
+                                    </div>
+                                        <div className="settingText">
+                                            <h4>Do you want to change the charged percent fee of credit card for this merchant?</h4>
+                                        </div>
+                                    <button className="btn btn-red" onClick={this._toggleConfirm}>NO</button>
+                                    <button className="btn btn-green" onClick={this._updateSettings}>YES</button>
+                                </div>
+                            </div> : null }
                 <h2>Settings</h2>
                 <div className="container">
                     <div className="SettingsContent">
@@ -76,7 +92,7 @@ class Settings extends Component {
                         </table>
                     </div>
                         <div>
-                            <button className="btn btn-green" onClick={this._updateSettings}>UPDATE</button>
+                            <button className="btn btn-green" onClick={this._toggleConfirm}>UPDATE</button>
                         </div>        
                     </div>
                     <h3>Daily transactions limit (unit $)</h3>
