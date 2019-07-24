@@ -117,7 +117,7 @@
 	color: white !important;
 }
 .POPUP .SettingsPopup2 {
-	padding-top: 0px !;
+	padding-top: 0px !important;
 	width: 400px;
 	left: 25%;
 	right: 25%;

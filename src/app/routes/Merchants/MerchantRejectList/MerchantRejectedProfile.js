@@ -8,7 +8,7 @@ import "../MerchantsRequest/MerchantReqProfile.css"
 import "../MerchantsRequest/MerchantsRequest.css"
 import { Checkbox } from '@material-ui/core';
 import moment from 'moment';
-// import axios from "axios";
+
 class MerchantRejectedProfile extends Component {
     constructor(props) {
         super(props);
@@ -28,30 +28,6 @@ class MerchantRejectedProfile extends Component {
                 [name]: value
             })
     }
-    // _approve = async () => {
-    //     const ID = this.props.PendingProfile.merchantId
-    //     const merchantCode = this.state.merchantID
-    //     const merchantToken = this.state.merchantToken
-    //   await  axios.put('https://api2.levincidemo.com/api/merchant/approve/' + ID, {merchantCode,  merchantToken}, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-    //     .then((res) => {
-    //         // console.log(res)
-    //         this.props.history.push('/app/merchants/requests')
-    //     }).catch((err) => {
-    //         console.log(err)
-    //     })
-    // }
-    // _reject = async () => {
-    //     const ID = this.props.PendingProfile.merchantId
-    //     const reason = this.state.rejectReason
-    //     await  axios.put('https://api2.levincidemo.com/api/merchant/reject/' + ID,  {reason} , { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-    //     .then((res) => {
-    //         // console.log(res)
-    //         this.props.history.push('/app/merchants/requests')
-    //     }).catch((err) => {
-    //         console.log(err)
-    //     })
-        
-    // }
     _handleChange = (event) => {
         const target = event.target;
         const value = target.value;
@@ -85,49 +61,19 @@ class MerchantRejectedProfile extends Component {
         //!! render rejected list
         const renderPendingProfile = e.merchantId !== undefined ? 
             <div className="container-fluid PendingList">
-                    <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.pendingList"/>}/>
+                    <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.requestDetail"/>}/>
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
                             <h3>ID: {e.merchantId}</h3>
-                            <h3>Rejected Reason: {e.reason}</h3>
-                            {/* <span> */}
-                                {/* <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>REJECT</button>
-                                <button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</button> */}
-                            {/* </span> */}
-                            
-                            {/* POP UP ACCEPT */}
-                            {/* {this.state.showPopupAccept !== false ? <div className="POPUP">
-                                <div className="POPUP-INNER">
-                                    <h2>ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2>
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td><label>MERCHANT ID:</label></td>
-                                                    <td><input name="merchantID" value={this.state.merchantID} onChange={this._handleChange}></input></td> 
-                                                </tr>
-                                                <tr>
-                                                    <td><label>MERCHANT TOKEN:</label></td>
-                                                    <td><input name="merchantToken" value={this.state.merchantToken} onChange={this._handleChange}></input></td> 
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <br/>
-                                    <button className="btn btn-red" onClick={this._togglePopupAccept}>NO</button>
-                                    <button className="btn btn-green" onClick={() => this._approve()}>YES</button>
-                                </div>
-                            </div> : null } */}
-                            {/* POP UP REJECT */}
-                            {/* {this.state.showPopupReject !== false ? <div className="POPUP">
-                                <div className="POPUP-INNER" style={{paddingTop: '30px'}}>
-                                    <h2>WHY?</h2>
-                                    <form>
-                                        <input name="rejectReason" value={this.state.rejectReason} onChange={this._handleChange}  style={{width: '350px', height: '100px'}} placeholder="Please enter your reason." required />
-                                    </form>
-                                    <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>BACK</button>
-                                    <button className="btn btn-green" onClick={() => this._reject()}>COMFIRM</button>
-                                </div>
-                            </div> : null } */}
                         </div>
+                        <hr/>
+                            <div className="container requestStatus">
+                                <div className="title">REJECTED</div>
+                                <h4>By {e.adminUser.first_name + ' ' + e.adminUser.last_name}</h4>
+                                <h4>Date/Time: {moment(e.adminUser.created_date).format('HH:mm A - DD/MM/YYYY')}</h4>
+                                <h4 style={{fontWeight: 600}}>Reason:</h4>
+                                <p>{e.reason}</p>
+                            </div>
                         <hr/>
                         <div className="content">
                             <div className="container">
@@ -197,7 +143,7 @@ class MerchantRejectedProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Void Check*</h4>
-                                            <img style={{width: '300px'}} src={`${e.businessBank.imageUrl}`} alt="void check" />
+                                            {e.businessBank !== null ? <img style={{width: '300px'}} src={`${e.businessBank.imageUrl}`} alt="void check" /> : null}
                                         </div>
                                     </div>
                                 <h2>Principal Information</h2>

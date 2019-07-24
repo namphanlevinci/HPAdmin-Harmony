@@ -92,8 +92,6 @@ class General extends Component {
                         </form>
                     </div>
                 </div>
-                   
-                  
                     <NotificationContainer/>
                 </div>
          );

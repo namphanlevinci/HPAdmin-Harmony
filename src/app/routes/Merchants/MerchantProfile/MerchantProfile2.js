@@ -22,7 +22,7 @@ class merchantProfile2 extends Component {
     }
 
     _goBack = () => {
-        this.props.history.push('/app/merchants/accepted-list')
+        this.props.history.push('/app/merchants/list')
     }
     render() { 
         // render staff
@@ -44,27 +44,27 @@ class merchantProfile2 extends Component {
                 <div className="">
                  <div className="profile-nav PendingLBody">
                             <ul className="detail-tab">
-                                <li><NavLink to="/app/merchants/profile/general">General</NavLink></li>
-                                <li><NavLink to="/app/merchants/profile/business">Business</NavLink></li>
-                                <li><NavLink to="/app/merchants/profile/bank">Bank</NavLink></li>
-                                <li><NavLink to="/app/merchants/profile/pincipal">Principal</NavLink></li>
-                                <li><NavLink to="/app/merchants/profile/staff">Staff</NavLink></li>
-                                <li><NavLink to="/app/merchants/profile/merchant-settings">Settings</NavLink></li>
+                                <li><NavLink to="/app/merchants/merchant-profile/general">General</NavLink></li>
+                                <li><NavLink to="/app/merchants/merchant-profile/business">Business</NavLink></li>
+                                <li><NavLink to="/app/merchants/merchant-profile/bank">Bank</NavLink></li>
+                                <li><NavLink to="/app/merchants/merchant-profile/pincipal">Principal</NavLink></li>
+                                <li><NavLink to="/app/merchants/merchant-profile/staff">Staff</NavLink></li>
+                                <li><NavLink to="/app/merchants/merchant-profile/merchant-settings">Settings</NavLink></li>
                             </ul>
                             <div className="detail-content">
-                                <Route path="/app/merchants/profile/general"  component={General}/>
-                                <Route path="/app/merchants/profile/business" component={Business}/>
-                                <Route path="/app/merchants/profile/bank" component={Bank} />
-                                <Route path="/app/merchants/profile/pincipal" component={Principal} />
-                                <Route path="/app/merchants/profile/staff" component={Staff} />
-                                <Route path="/app/merchants/profile/merchant-settings"  component={Settings}/>
+                                <Route path="/app/merchants/merchant-profile/general"  component={General}/>
+                                <Route path="/app/merchants/merchant-profile/business" component={Business}/>
+                                <Route path="/app/merchants/merchant-profile/bank" component={Bank} />
+                                <Route path="/app/merchants/merchant-profile/pincipal" component={Principal} />
+                                <Route path="/app/merchants/merchant-profile/staff" component={Staff} />
+                                <Route path="/app/merchants/merchant-profile/merchant-settings"  component={Settings}/>
                             </div>
                     </div>
                 </div>
                 </div>   
             </div>
         </div>
-</div> : <Redirect to="/app/merchants/accepted-list" />
+</div> : <Redirect to="/app/merchants/list" />
         return (
             <div>
                 {renderMerchantProfile}

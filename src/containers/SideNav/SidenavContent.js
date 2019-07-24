@@ -98,31 +98,38 @@ class SidenavContent extends Component {
                 <span className="nav-text"><IntlMessages id="sidebar.dashboard.dashboard"/></span>
               </NavLink>
           </li>
-                    {/* MERCHANT */}
+                    {/*REQUEST MANAGEMENT */}
           <li className="menu collapse-box">
             <Button>
               <i className="zmdi zmdi-account-box zmdi-hc-fw"/>
               <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.merchant"/>
+                <IntlMessages id="sidebar.dashboard.requestManagement"/>
               </span>
             </Button>
             <ul className="sub-menu">
             <li>
-                <NavLink className="prepend-icon" to="/app/merchants/requests">
-                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.pendingList"/></span>
+                <NavLink className="prepend-icon" to="/app/merchants/pending-request">
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.pendingRequest"/></span>
                 </NavLink>
               </li>
               <li>
-                <NavLink className="prepend-icon" to="/app/merchants/accepted-list">
-                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.acceptedList"/></span>
+                <NavLink className="prepend-icon" to="/app/merchants/approved-request">
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.approvedRequest"/></span>
                 </NavLink>
               </li>
               <li>
-                <NavLink className="prepend-icon" to="/app/merchants/rejected-list">
-                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.rejectedList"/></span>
+                <NavLink className="prepend-icon" to="/app/merchants/rejected-request">
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.rejectedRequest"/></span>
                 </NavLink>
               </li>
             </ul>
+          </li>
+          {/* MERCHANT  */}
+          <li className="menu no-arrow">
+              <NavLink to="/app/merchants/list">
+                <i className="zmdi zmdi-account zmdi-hc-fw" />
+                <span className="nav-text"><IntlMessages id="sidebar.dashboard.merchant"/></span>
+              </NavLink>
           </li>
           {/* ACCOUNTS */}
           <li className="menu collapse-box">

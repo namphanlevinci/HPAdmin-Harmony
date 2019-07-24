@@ -6,12 +6,14 @@ const Merchants = ({match}) => (
   <div className="app-wrapper">
     <Switch>
       <Redirect exact from={`${match.url}/`} to={`${match.url}`}/>
-      <Route path={`${match.url}/accepted-list`} component={asyncComponent(() => import('./MerchantsList/merchantsList'))}/>
-      <Route path={`${match.url}/profile`} component={asyncComponent(() => import('./MerchantProfile/MerchantProfile2'))}/>
-      <Route path={`${match.url}/requests`} component={asyncComponent(() => import('./MerchantsRequest/MerchantsRequest'))}/>
+      <Route path={`${match.url}/approved-request`} component={asyncComponent(() => import('./MerchantsList/merchantsList'))}/>
+      <Route path={`${match.url}/list`} component={asyncComponent(() => import('./MerchantsList/Merchants'))}/>
+      <Route path={`${match.url}/merchant-profile`} component={asyncComponent(() => import('./MerchantProfile/MerchantProfile2'))}/>
+      <Route path={`${match.url}/approved-profile`} component={asyncComponent(() => import('./MerchantRejectList/MerchantApprovedProfile'))}/>
+      <Route path={`${match.url}/pending-request`} component={asyncComponent(() => import('./MerchantsRequest/MerchantsRequest'))}/>
       <Route path={`${match.url}/pending-profile`} component={asyncComponent(() => import('./MerchantsRequest/MerchantReqProfile'))}/>
       <Route path={`${match.url}/rejected-profile`} component={asyncComponent(() => import('./MerchantRejectList/MerchantRejectedProfile'))}/>
-      <Route path={`${match.url}/rejected-list`} component={asyncComponent(() => import('./MerchantRejectList/MerchantsRejectedList'))}/>
+      <Route path={`${match.url}/rejected-request`} component={asyncComponent(() => import('./MerchantRejectList/MerchantsRejectedList'))}/>
     </Switch>
   </div>
 );

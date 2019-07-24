@@ -5,7 +5,7 @@ import Pagination from './Pagination'
 import './merchantsList.css'
 import IntlMessages from 'util/IntlMessages';
 import ContainerHeader from 'components/ContainerHeader/index';
-class MerchantsList extends React.Component {
+class Merchants extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +53,7 @@ class MerchantsList extends React.Component {
 
   _merchantsProfile = (merchant) => {
     this.props.ViewProfile_Merchants(merchant)
-    this.props.history.push('/app/merchants/approved-profile')
+    this.props.history.push('/app/merchants/merchant-profile/general')
   }
   render() {
 
@@ -157,4 +157,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ViewProfile_Merchants(payload))
   },
 });
-export default connect(mapStateToProps,mapDispatchToProps)(MerchantsList);
+export default connect(mapStateToProps,mapDispatchToProps)(Merchants);

@@ -85,7 +85,7 @@ class MerchantsRequest extends Component {
             return (
                 <tr key={e.merchantId} onClick={() => this._merchantReqProfile(e)}>
                 <td>{e.merchantId}</td>
-                {e.businessName !== null ? <td>{e.businessName}</td> : <td></td>}
+                {e.businessName !== null ? <td style={{fontWeight: 600}}>{e.businessName}</td> : <td></td>}
                 {e.principals !== null ? <td>{e.principals.firstName + ' ' + e.principals.lastName}</td> : <td></td>}
                 <td>{e.email}</td>
                 <td>{e.phone}</td>
@@ -94,7 +94,7 @@ class MerchantsRequest extends Component {
         })
         return ( 
             <div className="container-fluid MerList">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.pendingList"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.pendingRequest"/>}/>
                 <div className="MReqSP">
                     {/* SEARCH */}
                     <div className="search">

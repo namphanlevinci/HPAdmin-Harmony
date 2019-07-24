@@ -162,7 +162,7 @@ class General extends Component {
                 <Button className="btn btn-green" onClick={this._toggleEdit}>EDIT</Button>
             </div>
         </div>
-        </div> : <Redirect to="/app/merchants/accepted-list" />
+        </div> : <Redirect to="/app/merchants/list" />
         return ( 
             <div className="content GeneralContent">
                     {renderGeneral}

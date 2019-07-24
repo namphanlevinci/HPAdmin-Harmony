@@ -101,6 +101,20 @@
 	background-color: rgba(0,0,0, 0.5);
 	text-align: center;
 }
+.requestStatus .title {
+	background-color: red;
+	color: white;
+	width: 15%;
+	padding: 10px;
+	font-size: 18px;
+	font-weight: 600;
+	text-align: center;
+	margin-bottom: 20px;
+}
+.requestStatus h4 {
+	color: #3f51b5;
+	font-size: 17px;
+}
 .PendingList .PendingLBody .POPUP .POPUP-INNER {
 	padding-top:15px;
 	background-color: rgba(0,0,0, 0.5);

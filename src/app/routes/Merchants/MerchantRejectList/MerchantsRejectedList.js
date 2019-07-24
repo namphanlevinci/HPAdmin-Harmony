@@ -79,21 +79,23 @@ class MerchantsRequest extends Component {
           } else {
       
           }
-      }
+      } 
+      // console.log('ReqList', ReqList)
         const renderReqList = ReqList.slice(startIndex, endIndex + 1).map((e) => {
             return (
                 <tr key={e.merchantId} onClick={() => this._merchantReqProfile(e)}>
                 <td>{e.merchantId}</td>
-                {e.businessName !== null ? <td>{e.businessName}</td> : <td></td>}
+                {e.businessName !== null ? <td style={{fontWeight: 600}}>{e.businessName}</td> : <td></td>}
                 {e.principals !== null ? <td>{e.principals.firstName + ' ' + e.principals.lastName}</td> : <td></td>}
                 <td>{e.email}</td>
                 <td>{e.phone}</td>
+                {e.adminUser !== null ? <td style={{color: '#3f51b5', fontWeight: 600}}>{e.adminUser.first_name + ' ' + e.adminUser.last_name}</td> : <td>null</td>}
             </tr>
             )
         })
         return ( 
             <div className="container-fluid MerList">
-                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.rejectedList"/>}/>
+                <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.rejectedRequest"/>}/>
                 <div className="MReqSP">
                     {/* SEARCH */}
                     <div className="search">
@@ -123,10 +125,11 @@ class MerchantsRequest extends Component {
                         <thead>
                             <tr style={{borderBottom: '1px solid black'}}>
                                 <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'25%' }}><span className="Mlist_table">Business name</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Owner</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Business name</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Owner</span> <i className="fa fa-unsorted"/></th>
                                 <th style={{ width:'25%' }}><span className="Mlist_table">Email</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Phone number</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Phone number</span> <i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">Rejected by</span> <i className="fa fa-unsorted"/></th>
                             </tr>
                         </thead>
                         <tbody>
