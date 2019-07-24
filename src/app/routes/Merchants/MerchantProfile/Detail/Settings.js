@@ -6,7 +6,7 @@ import '../../MerchantsRequest/MerchantsRequest.css'
 import "./Detail.css"
 import axios from 'axios'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-
+import Button from '@material-ui/core/Button';
 class Settings extends Component {
     constructor(props) {
         super(props);
@@ -65,8 +65,8 @@ class Settings extends Component {
                                         <div className="settingText">
                                             <h4>Do you want to change the charged percent fee of credit card for this merchant?</h4>
                                         </div>
-                                    <button className="btn btn-red" onClick={this._toggleConfirm}>NO</button>
-                                    <button className="btn btn-green" onClick={this._updateSettings}>YES</button>
+                                    <Button className="btn btn-red" onClick={this._toggleConfirm}>NO</Button>
+                                    <Button className="btn btn-green" onClick={this._updateSettings}>YES</Button>
                                 </div>
                             </div> : null }
                 <h2>Settings</h2>
@@ -92,7 +92,7 @@ class Settings extends Component {
                         </table>
                     </div>
                         <div>
-                            <button className="btn btn-green" onClick={this._toggleConfirm}>UPDATE</button>
+                            <Button className="btn btn-green" onClick={this._toggleConfirm}>UPDATE</Button>
                         </div>        
                     </div>
                     <h3>Daily transactions limit (unit $)</h3>
@@ -103,7 +103,7 @@ class Settings extends Component {
                         <div className="input-group">
                             <input type="text" className="col-4 form-control" name="limit" value={this.state.limit} onChange={this._handleChange}/>
                             <span className="input-group-btn">
-                            <button className="btn btn-green">UPDATE</button>
+                            <Button className="btn btn-green">UPDATE</Button>
                             </span>
                         </div>
                 </div>          

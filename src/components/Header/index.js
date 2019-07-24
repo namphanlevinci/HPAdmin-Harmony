@@ -23,6 +23,8 @@ import IntlMessages from 'util/IntlMessages';
 import Menu from 'components/TopNav/Menu';
 import UserInfoPopup from 'components/UserInfo/UserInfoPopup';
 import axios from 'axios'
+import { ViewMerchant_Request } from '../../actions/merchants/actions'
+
 import  playMessageAudio  from '../../util/sound'
 class Header extends React.Component {
 
@@ -49,11 +51,15 @@ class Header extends React.Component {
       });
   }
 
-  gotoList = (e) => {
-    this.props.history.push('/app/merchants/requests');
+   gotoList =  async (e) => {
+    let data = JSON.parse(this.state.User)
+    const UserToken =  data.token
     this.handleDelete(e)
-    this.setState({
-      noti: this.state.noti.filter(el => el.WaNotificationId !== e.WaNotificationId)
+    await axios.get('https://api2.levincidemo.com/api/merchant/' + e.SenderId,{ headers: {"Authorization" : `Bearer ${UserToken}`} })
+    .then((res) => {
+      this.setState({appNotification: false})
+      this.props.ViewMerchant_Request(res.data.data)
+      this.props.history.push('/app/merchants/pending-profile');
     })
   }
   handleDelete = (e) => {
@@ -369,9 +375,19 @@ class Header extends React.Component {
 }
 
 
+
+
+
 const mapStateToProps = ({settings}) => {
   const {drawerType, locale, navigationStyle, horizontalNavPosition, User} = settings;
-  return {drawerType, locale, navigationStyle, horizontalNavPosition, User}
+  return {drawerType, locale, navigationStyle, horizontalNavPosition, User} 
 };
 
-export default withRouter(connect(mapStateToProps, {toggleCollapsedNav, switchLanguage})(Header));
+
+const mapDispatchToProps = (dispatch) => ({
+  ViewMerchant_Request: (payload) => {
+    dispatch(ViewMerchant_Request(payload))
+  },
+});
+// export default withRouter(connect(mapStateToProps, {mapDispatchToProps,toggleCollapsedNav, switchLanguage} )(Header));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Header));

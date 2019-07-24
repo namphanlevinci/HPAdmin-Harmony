@@ -16,7 +16,9 @@ class SMTP extends Component {
             host: '',
             port: '',
             password: '',
-            userSmtp: ''
+            userSmtp: '',
+            creditFree: '',
+            transactionFee: ','
          }
     }
 
@@ -25,8 +27,10 @@ class SMTP extends Component {
         .then((res) => {
             const twilio = res.data.data.twilio
             const smtp = res.data.data.smtp
+            const general = res.data.data.general
             this.setState({ accountSid : twilio.accountSid, auToken: twilio.auToken, phoneSender: twilio.phoneSender,
-                            email : smtp.email, host : smtp.host, port : smtp.port, password: smtp.password, userSmtp: smtp.userSmtp
+                            email : smtp.email, host : smtp.host, port : smtp.port, password: smtp.password, userSmtp: smtp.userSmtp,
+                            creditFree: general.creditFree, transactionFee: general.transactionFee
                         })
         })
     }
@@ -40,11 +44,13 @@ class SMTP extends Component {
     }
     _updateSMTP = (e) => {
         e.preventDefault()
-        const { accountSid, auToken, phoneSender, email, host, password, userSmtp, port} = this.state
+        const { accountSid, auToken, phoneSender, email, host, password, userSmtp, port, creditFree, transactionFee} = this.state
         let twilio = {'accountSid' : accountSid, 'auToken': auToken, 'phoneSender' : phoneSender};
         let smtp = { email, host, password, userSmtp, port}
-        Axios.post('https://api2.levincidemo.com/api/adminsetting', { twilio, smtp },{ headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} } )
+        let general = { transactionFee, creditFree}
+        Axios.post('https://api2.levincidemo.com/api/adminsetting', { twilio, smtp, general },{ headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} } )
         .then((res) => {
+            // console.log('res', res)
             NotificationManager.success(res.data.message)
         }).catch((error) => {
             console.log('ERROR', error)

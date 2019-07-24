@@ -8,7 +8,7 @@ import ContainerHeader from 'components/ContainerHeader/index';
 import "../MerchantsRequest/MerchantReqProfile.css"
 import "../MerchantsRequest/MerchantsRequest.css"
 import {NotificationContainer} from 'react-notifications';
-
+import Button from '@material-ui/core/Button';
 import  General  from "./Detail/General"
 import Business from "./Detail/Business"
 import Bank from "./Detail/Bank"
@@ -34,7 +34,7 @@ class merchantProfile2 extends Component {
             <div className="PDL-Btn col-md-12">
                 <h3>ID: {e.merchantId}</h3>
                         <span>
-                            <button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</button>
+                            <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</Button>
                         </span>
                 </div>
                 <hr/>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import '../MerchantProfile.css'
 import '../../MerchantsRequest/MerchantReqProfile.css'
 import '../../MerchantsRequest/MerchantsRequest.css'
-
+import moment from 'moment';
 class Principal extends Component {
     constructor(props) {
         super(props);
@@ -47,7 +47,7 @@ class Principal extends Component {
             </div>
             <div className="col-md-4">
                 <h4>Date of Birth (mm/dd/yy)*</h4>
-                <p>{e.principals.birthDate}</p>
+                <p>{moment(e.principals.birthDate).format('MM/DD/YYYY')}</p>
             </div>
             <div className="col-md-4">
                 <h4>Email Address*</h4>

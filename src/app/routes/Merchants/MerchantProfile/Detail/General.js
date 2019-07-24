@@ -6,6 +6,8 @@ import '../../MerchantsRequest/MerchantReqProfile.css'
 import '../../MerchantsRequest/MerchantsRequest.css'
 import axios from 'axios'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import Button from '@material-ui/core/Button';
+
 class General extends Component {
     constructor(props) {
         super(props);
@@ -105,8 +107,8 @@ class General extends Component {
                                             </tbody>
                                         </table>
                                         <hr />
-                                    <button className="btn btn-red" onClick={this._turnOff}>BACK</button>
-                                    <button className="btn btn-green" onClick={this._update}>UPDATE</button>
+                                    <Button className="btn btn-red" onClick={this._turnOff}>BACK</Button>
+                                    <Button className="btn btn-green" onClick={this._update}>UPDATE</Button>
                                 </div>
                             </div> : null }
         <h2>General Information</h2>
@@ -157,7 +159,7 @@ class General extends Component {
             </div>
         </div>
             <div className="SettingsContent GeneralContent">
-                <button className="btn btn-green" onClick={this._toggleEdit}>EDIT</button>
+                <Button className="btn btn-green" onClick={this._toggleEdit}>EDIT</Button>
             </div>
         </div>
         </div> : <Redirect to="/app/merchants/accepted-list" />

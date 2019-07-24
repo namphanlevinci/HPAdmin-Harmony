@@ -9,7 +9,8 @@ import "./MerchantsRequest.css"
 import { Checkbox } from '@material-ui/core';
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-
+import moment from 'moment';
+import Button from '@material-ui/core/Button';
 class MerchantReqProfile extends Component {
     constructor(props) {
         super(props);
@@ -41,7 +42,6 @@ class MerchantReqProfile extends Component {
         });
       }
     render() { 
-        // console.log("HAHA", this.props.PendingProfile)
         const e = this.props.PendingProfile
         //render question
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
@@ -60,8 +60,8 @@ class MerchantReqProfile extends Component {
                         <div className="PDL-Btn col-md-12">
                             <h3>{'HP-' + e.merchantId}</h3>
                             <span>
-                                <button href="#" className="btn btn-red" onClick={this._togglePopupReject}>REJECT</button>
-                                <button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</button>
+                                <Button className="btn btn-red" onClick={this._togglePopupReject}>REJECT</Button>
+                                <Button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</Button>
                             </span>
                             
                             {/* POP UP ACCEPT */}
@@ -117,8 +117,8 @@ class MerchantReqProfile extends Component {
                                                     </div>
                                                 <br/>
                                                 <div style={{textAlign: 'center', paddingTop: '10px'}}>
-                                            <button type='submit' className="btn btn-red" onClick={this._togglePopupAccept}>NO</button>
-                                            <button type='submit' className="btn btn-green">YES</button>
+                                            <Button type='submit' className="btn btn-red" onClick={this._togglePopupAccept}>NO</Button>
+                                            <Button type='submit' className="btn btn-green">YES</Button>
                                             </div>
                                             </Form>
                                         )}
@@ -159,8 +159,8 @@ class MerchantReqProfile extends Component {
                                             <Field type="textarea" name="rejectReason" component="textarea"  style={{width: '350px', height: '100px'}} placeholder="Please enter your reason."/>
                                             <ErrorMessage name="rejectReason" component="div" />
                                             <div>
-                                                <button type="submit" className="btn btn-red" onClick={this._togglePopupReject}>BACK</button>
-                                                <button type="submit" className="btn btn-green">COMFIRM</button>
+                                                <Button type="submit" className="btn btn-red" onClick={this._togglePopupReject}>BACK</Button>
+                                                <Button type="submit" className="btn btn-green">COMFIRM</Button>
                                             </div>
                                             </Form>
                                             </div>
@@ -238,7 +238,7 @@ class MerchantReqProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Void Check*</h4>
-                                            <img src={require("../../../../assets/images/voidcheck.png")} alt="void check"/>
+                                            <img style={{width: '300px'}} src={`${e.businessBank.imageUrl}`} alt="void check" />
                                         </div>
                                     </div>
                                 <h2>Principal Information</h2>
@@ -277,7 +277,7 @@ class MerchantReqProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Date of Birth (mm/dd/yy)*</h4>
-                                            <p>{e.principals !== null ? e.principals.birthDate : null}</p>
+                                            <p>{e.principals !== null ? moment(e.principals.birthDate).format('MM/DD/YYYY') : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Email Address*</h4>
@@ -293,7 +293,7 @@ class MerchantReqProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Driver License Picture</h4>
-                                            <img src={require("../../../../assets/images/driverlicense.jpg")} alt="void check"/>
+                                            <img style={{width: '300px'}}  src={`${e.principals.imageUrl}`} alt="void check" />
                                         </div>
                                     </div>
                             </div>   

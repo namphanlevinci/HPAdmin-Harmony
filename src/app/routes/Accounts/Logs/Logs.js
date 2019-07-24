@@ -11,6 +11,7 @@ import DayPicker, { DateUtils } from 'react-day-picker';
 import 'moment/locale/it';
 import Moment from 'react-moment';
 import moment from 'moment';
+import Button from '@material-ui/core/Button';
 class Logs extends Component {
     constructor(props) {
         super(props);
@@ -56,12 +57,6 @@ class Logs extends Component {
         let UserList = this.props.LogList
         if (this.state.from) {
             dataList = dataList.filter((datez) => {
-                // const date = moment(datez.createdDate).format('Do')
-                // const from = moment(valuez.start).format('Do')
-                // const to = moment(valuez.end).format('Do')
-                // // DIDNT WORK "RIGHT" YET
-                // return (date >= from && date <= to)
-
                 let date = moment(datez.createdDate).subtract(10, 'days').calendar();
                 let from = moment(valuez.start).subtract(10, 'days').calendar();
                 let to = moment(valuez.end).subtract(10, 'days').calendar();
@@ -118,9 +113,9 @@ class Logs extends Component {
                 <div className="LogContainer">
                     <div >
                         <h3>
-                        <button data-toggle="collapse" data-target="#demo">FILTER</button>
+                        <Button variant="contained" color="primary" data-toggle="collapse" data-target="#demo">FILTER</Button>
                             <div id="demo" className="collapse">
-                            <button className="link" onClick={this.handleResetClick}>Reset</button>
+                            <Button className="link" onClick={this.handleResetClick}>Reset</Button>
                             <span><DayPicker
                                 className="Selectable"
                                 numberOfMonths={1}

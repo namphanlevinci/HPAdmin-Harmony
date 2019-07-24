@@ -29,7 +29,7 @@ class AppNotification  extends Component {
             src={avatar}
             className=" mr-2"
           />
-          <div onClick={() => this.props.gotoList(e)} className="media-body align-self-center">
+          <div style={{cursor: 'pointer'}} onClick={() => this.props.gotoList(e)} className="media-body align-self-center">
             <p className="sub-heading mb-0">{Content}</p>
             <Button size="small" className="jr-btn jr-btn-xs mb-0"><i
               className={`zmdi  zmdi-hc-fw`}/></Button> <span className="meta-date">

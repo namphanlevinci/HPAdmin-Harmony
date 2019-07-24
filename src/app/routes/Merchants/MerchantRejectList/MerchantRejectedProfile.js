@@ -7,6 +7,7 @@ import ContainerHeader from 'components/ContainerHeader/index';
 import "../MerchantsRequest/MerchantReqProfile.css"
 import "../MerchantsRequest/MerchantsRequest.css"
 import { Checkbox } from '@material-ui/core';
+import moment from 'moment';
 // import axios from "axios";
 class MerchantRejectedProfile extends Component {
     constructor(props) {
@@ -72,7 +73,7 @@ class MerchantRejectedProfile extends Component {
     render() { 
         // console.log("REJECTED", this.props.RejectedProfile)
         const e = this.props.RejectedProfile
-        //render questions
+        //!! render questions
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (
                 <div className="col-md-6" key={e.businessId}>
@@ -81,7 +82,7 @@ class MerchantRejectedProfile extends Component {
                 <h5>Answer: {e.answerReply} </h5>
             </div>
             ) }) : <h4>&nbsp;- NO BUSINESS INFORMATION</h4>
-        //render rejected list
+        //!! render rejected list
         const renderPendingProfile = e.merchantId !== undefined ? 
             <div className="container-fluid PendingList">
                     <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.pendingList"/>}/>
@@ -196,7 +197,7 @@ class MerchantRejectedProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Void Check*</h4>
-                                            <img src={require("../../../../assets/images/voidcheck.png")} alt="void check"/>
+                                            <img style={{width: '300px'}} src={`${e.businessBank.imageUrl}`} alt="void check" />
                                         </div>
                                     </div>
                                 <h2>Principal Information</h2>
@@ -235,7 +236,7 @@ class MerchantRejectedProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Date of Birth (mm/dd/yy)*</h4>
-                                            <p>{e.principals !== null ? e.principals.birthDate : null}</p>
+                                            <p>{e.principals !== null ? moment(e.principals.birthDate).format('MM/DD/YYYY') : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Email Address*</h4>
@@ -251,6 +252,7 @@ class MerchantRejectedProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Driver License Picture</h4>
+                                            {/* <img style={{width: '300px'}} src={`${e.principals.imageUrl}`} alt="void check" /> */}
                                             <img src={require("../../../../assets/images/driverlicense.jpg")} alt="void check"/>
                                         </div>
                                     </div>
