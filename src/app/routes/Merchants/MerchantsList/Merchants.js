@@ -86,7 +86,6 @@ class Merchants extends React.Component {
             {merchant.principals !== null ? <td>{merchant.principals.firstName + ' ' + merchant.principals.lastName}</td> : <td></td>}
             <td>{merchant.email}</td>
             <td>{merchant.phone}</td>
-            {merchant.adminUser !== null ? <td style={{color: '#3f51b5', fontWeight: 600}}>{merchant.adminUser.first_name + ' ' + merchant.adminUser.last_name}</td> : <td>null</td>}
           </tr>
         )
     })
@@ -122,14 +121,13 @@ class Merchants extends React.Component {
             <div className="MListContainer">
                 <table style={{ width:'100%' }}>
                     <thead>
-                    <tr style={{borderBottom: '1px solid black'}}>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">ID</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'20%' }}><span className="Mlist_table">Business name</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Owner</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'25%' }}><span className="Mlist_table">Email</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'15%' }}><span className="Mlist_table">Phone number</span> <i className="fa fa-unsorted"/></th>
-                                <th style={{ width:'10%' }}><span className="Mlist_table">Approved by</span> <i className="fa fa-unsorted"/></th>
-                            </tr>
+                        <tr style={{borderBottom: '1px solid black'}}>
+                                <th style={{ width:'10%' }}><span className="Mlist_table">ID</span><i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'20%' }}><span className="Mlist_table">Business name</span><i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Owner</span><i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'25%' }}><span className="Mlist_table">Email</span><i className="fa fa-unsorted"/></th>
+                                <th style={{ width:'15%' }}><span className="Mlist_table">Phone number</span><i className="fa fa-unsorted"/></th>                            
+                          </tr>
                     </thead>
                     <tbody>
                         {renderMerList}

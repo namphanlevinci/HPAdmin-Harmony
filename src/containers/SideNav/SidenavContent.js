@@ -98,10 +98,10 @@ class SidenavContent extends Component {
                 <span className="nav-text"><IntlMessages id="sidebar.dashboard.dashboard"/></span>
               </NavLink>
           </li>
-                    {/*REQUEST MANAGEMENT */}
+            {/*REQUEST MANAGEMENT */}
           <li className="menu collapse-box">
             <Button>
-              <i className="zmdi zmdi-account-box zmdi-hc-fw"/>
+              <i className="zmdi zmdi-account-add zmdi-hc-fw"/>
               <span className="nav-text">
                 <IntlMessages id="sidebar.dashboard.requestManagement"/>
               </span>
@@ -131,10 +131,17 @@ class SidenavContent extends Component {
                 <span className="nav-text"><IntlMessages id="sidebar.dashboard.merchant"/></span>
               </NavLink>
           </li>
+          {/* CONSUMERS */}
+          <li className="menu no-arrow">
+              <NavLink to="/app/consumers/list">
+                <i className="zmdi zmdi-accounts-alt  zmdi-hc-fw" />
+                <span className="nav-text"><IntlMessages id="sidebar.dashboard.consumers"/></span>
+              </NavLink>
+          </li>
           {/* ACCOUNTS */}
           <li className="menu collapse-box">
             <Button>
-              <i className="zmdi zmdi-accounts-alt zmdi-hc-fw"/>
+              <i className="zmdi zmdi-account-box zmdi-hc-fw"/>
               <span className="nav-text">
                 <IntlMessages id="sidebar.dashboard.accounts"/>
               </span>
@@ -153,6 +160,27 @@ class SidenavContent extends Component {
               <li>
                 <NavLink className="prepend-icon" to="/app/accounts/logs">
                   <span className="nav-text"><IntlMessages id="sidebar.dashboard.Logs"/></span>
+                </NavLink>
+              </li>
+            </ul>
+          </li>
+          {/* REPORTS */}
+          <li className="menu collapse-box">
+            <Button>
+              <i className="zmdi zmdi-file-text zmdi-hc-fw"/>
+              <span className="nav-text">
+                <IntlMessages id="sidebar.dashboard.reports"/>
+              </span>
+            </Button>
+            <ul className="sub-menu">
+              <li>
+                <NavLink className="prepend-icon" to="/app/4042">
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.generalreport"/></span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/4043">
+                  <span className="nav-text"><IntlMessages id="sidebar.dashboard.transactionreport"/></span>
                 </NavLink>
               </li>
             </ul>

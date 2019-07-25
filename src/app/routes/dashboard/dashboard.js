@@ -36,7 +36,8 @@ class Dashboard extends Component {
       {name: 'J', amt: 1000},
       {name: 'A', amt: 1400},
     ];
-      return ( 
+      return (
+        <div className="app-wrapper">
         <div className="container-fluid">
             <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.Template"/>}/>
             <div className='row'>
@@ -151,8 +152,9 @@ class Dashboard extends Component {
                               </div>
                             </div>
                           </div>
-                          </div>
+                        </div>
                     </div>
+                  </div>
        );
   }
 }

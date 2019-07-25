@@ -20,6 +20,7 @@ import Accounts from "./routes/Accounts/Accounts"
 import Settings from "./routes/AdminSettings/Settings"
 import Business from "./routes/Business/Business"
 import Dashboard from "./routes/dashboard/dashboard"
+import Consumers from './routes/Consumers/index';
 class App extends React.Component {
 
   render() {
@@ -57,6 +58,7 @@ class App extends React.Component {
                 <Route path={`${match.url}/settings`} component={asyncComponent(() => import('components/Settings/settings'))}/>
                 <Route path={`${match.url}/business`} component={Business}/>
                 <Route path={`${match.url}/dashboard`} component={Dashboard}/>
+                <Route path={`${match.url}/consumers`} component={Consumers}/>
                 <Route component={asyncComponent(() => import('components/Error404'))}/>
               </Switch>
             </div>

@@ -54,7 +54,7 @@ class Header extends React.Component {
    gotoList =  async (e) => {
     let data = JSON.parse(this.state.User)
     const UserToken =  data.token
-    this.handleDelete(e)
+    // this.handleDelete(e)
     await axios.get('https://api2.levincidemo.com/api/merchant/' + e.SenderId,{ headers: {"Authorization" : `Bearer ${UserToken}`} })
     .then((res) => {
       this.setState({appNotification: false})
@@ -388,6 +388,12 @@ const mapDispatchToProps = (dispatch) => ({
   ViewMerchant_Request: (payload) => {
     dispatch(ViewMerchant_Request(payload))
   },
+  toggleCollapsedNav: (payload) => {
+    dispatch(toggleCollapsedNav(payload))
+  },
+  switchLanguage: (payload) => {
+    dispatch(switchLanguage(payload))
+  }
 });
-// export default withRouter(connect(mapStateToProps, {mapDispatchToProps,toggleCollapsedNav, switchLanguage} )(Header));
+
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Header));
