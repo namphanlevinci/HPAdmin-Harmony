@@ -4,4 +4,27 @@
     padding: 10px 20px;
     font-weight: 400;
     font-size: 16px;
+    border: 1px solid #3f51b5;
+}
+.TransactionTable tbody tr td {
+    padding: 10px 20px;
+    font-weight: 400;
+    font-size: 16px;
+    border: 1px solid grey;
+}
+.TransactionTable tbody tr td:first-letter {
+    text-transform:capitalize;
+}
+.resetBtn {
+    font-size: 14px;
+    padding: 10px 20px;
+    color: #fff;
+    margin-left: 35px;
+    border: none;
+    background-color: #3f51b5;
+    font-weight: 500;
+}
+.resetBtn:hover {
+    color: #fff;
+    background: #3c37ab;
 }

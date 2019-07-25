@@ -51,7 +51,6 @@ class MerchantRejectedProfile extends Component {
         });
       }
     render() { 
-        // console.log("REJECTED", this.props.RejectedProfile)
         const e = this.props.RejectedProfile
         //!! render questions
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
@@ -205,8 +204,7 @@ class MerchantRejectedProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Driver License Picture</h4>
-                                            {/* <img style={{width: '300px'}} src={`${e.principals.imageUrl}`} alt="void check" /> */}
-                                            <img src={require("../../../../assets/images/driverlicense.jpg")} alt="void check"/>
+                                            {e.principals !== null ? <img style={{width: '300px'}} src={`${e.principals.imageUrl}`} alt="void check"/> : null }
                                         </div>
                                     </div>
                             </div>   

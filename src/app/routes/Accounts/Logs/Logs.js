@@ -12,12 +12,13 @@ import 'moment/locale/it';
 import Moment from 'react-moment';
 import moment from 'moment';
 import Button from '@material-ui/core/Button';
+// import TextField from '@material-ui/core/TextField';
 class Logs extends Component {
     constructor(props) {
         super(props);
         this.state = { 
             User : '',
-            search_user: ''
+            search_user: '',
          }
     }
     getInitialState = () => {
@@ -111,11 +112,11 @@ class Logs extends Component {
             <div className="container-fluid ">
                 <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.Logs"/>}/>
                 <div className="LogContainer">
-                    <div >
-                        <h3>
+                    <div className="row">
+                     <h3>
                         <Button variant="contained" color="primary" data-toggle="collapse" data-target="#demo">FILTER</Button>
                             <div id="demo" className="collapse">
-                            <Button className="link" onClick={this.handleResetClick}>Reset</Button>
+                             <Button className="link" onClick={this.handleResetClick}>Reset</Button>
                             <span><DayPicker
                                 className="Selectable"
                                 numberOfMonths={1}
@@ -131,7 +132,7 @@ class Logs extends Component {
                                     {renderUser}
                             </select>
                             </div>
-                        </h3>        
+                         </h3>       
                     </div>
                     <hr style={{borderBottom: '1px solid #3f51b5'}}></hr>
                     <div>

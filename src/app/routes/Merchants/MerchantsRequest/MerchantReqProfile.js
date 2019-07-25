@@ -30,9 +30,7 @@ class MerchantReqProfile extends Component {
                 [name]: value
             })
     }
-    _goBack = () => {
-        this.props.history.push('/app/merchants/rejected-request')
-    }
+
     _togglePopupAccept = () => {
         this.setState({
             showPopupAccept: !this.state.showPopupAccept
@@ -62,9 +60,6 @@ class MerchantReqProfile extends Component {
                         <div className="PDL-Btn col-md-12">
                             <h3>{'HP-' + e.merchantId}</h3>
                             <span>
-                                <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</Button>
-                            </span>
-                            <span>
                                 <Button className="btn btn-red" onClick={this._togglePopupReject}>REJECT</Button>
                                 <Button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</Button>
                             </span>
@@ -88,7 +83,7 @@ class MerchantReqProfile extends Component {
                                         }}
                                         onSubmit={(values, { setSubmitting }) => {
                                             setTimeout(() => {
-                                                this.props.history.push('/app/merchants/requests')
+                                                this.props.history.push('/app/merchants/pending-request')
                                                 const ID = this.props.PendingProfile.merchantId
                                                 const merchantCode = values.merchantID
                                                 const merchantToken = values.merchantToken
@@ -106,7 +101,7 @@ class MerchantReqProfile extends Component {
                                         {({ lol }) => (
                                             <Form style={{textAlign: 'center'}}>
                                                     <div>
-                                                        <label>MERCHANT ID:</label>
+                                                        <label>MERCHANT CODE:</label>
                                                         <Field type="text" name="merchantID" />
                                                         <ErrorMessage name="merchantID" component="div" />
                                                     </div>
@@ -146,7 +141,7 @@ class MerchantReqProfile extends Component {
                                             setTimeout(() => {
                                             setSubmitting(false);
                                             const reason = values.rejectReason
-                                            this.props.history.push('/app/merchants/requests')
+                                            this.props.history.push('/app/merchants/pending-request')
                                             const ID = this.props.PendingProfile.merchantId
                                             axios.put('https://api2.levincidemo.com/api/merchant/reject/' + ID,  {reason} , { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
                                             .then((res) => {
@@ -304,7 +299,7 @@ class MerchantReqProfile extends Component {
                             </div>   
                         </div>
                     </div>
-            </div> : <Redirect to="/app/merchants/requests" />
+            </div> : <Redirect to="/app/merchants/pending-request" />
         return ( 
            renderPendingProfile
          );

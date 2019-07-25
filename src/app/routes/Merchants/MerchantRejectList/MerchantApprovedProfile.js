@@ -45,7 +45,7 @@ class MerchantApprovedProfile extends Component {
                         </div>
                         <hr/>
                             <div className="container requestStatus">
-                                <div className="title" style={{backgroundColor: '#00FF00'}}>REJECTED</div>
+                                <div className="title" style={{backgroundColor: '#00FF00'}}>APPROVED</div>
                                 <h4>By {e.adminUser !== null ? e.adminUser.first_name + ' ' + e.adminUser.last_name : null}</h4>
                                 <h4>Date/Time: {e.adminUser !== null ? moment(e.adminUser.created_date).format('HH:mm A - DD/MM/YYYY') : null}</h4>
                             </div>
@@ -118,7 +118,7 @@ class MerchantApprovedProfile extends Component {
                             </div>
                             <div className="col-md-4">
                                 <h4>Void Check*</h4>
-                                <img src={require("../../../../assets/images/voidcheck.png")} alt="void check"/>
+                                {e.businessBank !== null ? <img style={{width: '300px'}} src={`${e.businessBank.imageUrl}`} alt="void check" /> : null}
                             </div>
                         </div>
                     <h2>Principal Information</h2>
@@ -174,7 +174,7 @@ class MerchantApprovedProfile extends Component {
                           </div>
                           <div className="col-md-4">
                               <h4>Driver License Picture</h4>
-                              <img src={require("../../../../assets/images/driverlicense.jpg")} alt="void check"/>
+                              {e.principals !== null ? <img style={{width: '300px'}} src={`${e.principals.imageUrl}`} alt="void check"/> : null }
                           </div>
                       </div> : <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
                       }
