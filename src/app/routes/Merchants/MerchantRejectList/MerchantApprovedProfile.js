@@ -9,12 +9,16 @@ import ContainerHeader from 'components/ContainerHeader/index';
 import "../MerchantsRequest/MerchantReqProfile.css"
 import "../MerchantsRequest/MerchantsRequest.css"
 import moment from 'moment';
+import Button from '@material-ui/core/Button';
 class MerchantApprovedProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
 
+    _goBack = () => {
+        this.props.history.push('/app/merchants/approved-request')
+    }
     render() { 
         const e = this.props.MerchantProfile
         // console.log("Fix something", e)
@@ -35,6 +39,9 @@ class MerchantApprovedProfile extends Component {
         <div className="PendingLBody">
             <div className="PDL-Btn col-md-12">
                             <h3>ID: {e.merchantId}</h3>
+                            <span>
+                                <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</Button>
+                            </span>
                         </div>
                         <hr/>
                             <div className="container requestStatus">

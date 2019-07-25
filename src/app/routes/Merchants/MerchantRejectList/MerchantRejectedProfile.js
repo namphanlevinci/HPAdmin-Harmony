@@ -8,6 +8,7 @@ import "../MerchantsRequest/MerchantReqProfile.css"
 import "../MerchantsRequest/MerchantsRequest.css"
 import { Checkbox } from '@material-ui/core';
 import moment from 'moment';
+import Button from '@material-ui/core/Button';
 
 class MerchantRejectedProfile extends Component {
     constructor(props) {
@@ -35,6 +36,9 @@ class MerchantRejectedProfile extends Component {
             this.setState({
                 [name]: value
             })
+    }
+    _goBack = () => {
+        this.props.history.push('/app/merchants/rejected-request')
     }
     _togglePopupAccept = () => {
         this.setState({
@@ -65,6 +69,9 @@ class MerchantRejectedProfile extends Component {
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
                             <h3>ID: {e.merchantId}</h3>
+                            <span>
+                                <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</Button>
+                            </span>
                         </div>
                         <hr/>
                             <div className="container requestStatus">

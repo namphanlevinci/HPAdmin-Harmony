@@ -30,7 +30,9 @@ class MerchantReqProfile extends Component {
                 [name]: value
             })
     }
-
+    _goBack = () => {
+        this.props.history.push('/app/merchants/rejected-request')
+    }
     _togglePopupAccept = () => {
         this.setState({
             showPopupAccept: !this.state.showPopupAccept
@@ -59,6 +61,9 @@ class MerchantReqProfile extends Component {
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
                             <h3>{'HP-' + e.merchantId}</h3>
+                            <span>
+                                <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</Button>
+                            </span>
                             <span>
                                 <Button className="btn btn-red" onClick={this._togglePopupReject}>REJECT</Button>
                                 <Button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</Button>
