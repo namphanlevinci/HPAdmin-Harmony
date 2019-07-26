@@ -72,13 +72,7 @@ class Logs extends Component {
         if (this.state.search_user) {
             dataList = dataList.filter((e) => {
                 let name = e.adminUser.firstName + ' ' + e.adminUser.lastName
-                if (name === 'Tu123 Tran') {
                     return name === this.state.search_user
-                } else if (name === 'Cuong Le') {
-                    return name === this.state.search_user
-                } else {
-                    return name === this.state.search_user
-                }
             })
         }
         let user = this.getUnique(UserList,"adminUserId")

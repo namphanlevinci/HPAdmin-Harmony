@@ -15,6 +15,7 @@ import Bank from "./Detail/Bank"
 import Principal from "./Detail/Principal"
 import Settings from './Detail/Settings'
 import Staff from './Detail/Staff'
+import Transactions from './Detail/Transactions'
 class merchantProfile2 extends Component {
     constructor(props) {
         super(props);
@@ -49,6 +50,7 @@ class merchantProfile2 extends Component {
                                 <li><NavLink to="/app/merchants/merchant-profile/bank">Bank</NavLink></li>
                                 <li><NavLink to="/app/merchants/merchant-profile/pincipal">Principal</NavLink></li>
                                 <li><NavLink to="/app/merchants/merchant-profile/staff">Staff</NavLink></li>
+                                <li><NavLink to="/app/merchants/merchant-profile/transactions">Transactions</NavLink></li>
                                 <li><NavLink to="/app/merchants/merchant-profile/merchant-settings">Settings</NavLink></li>
                             </ul>
                             <div className="detail-content">
@@ -57,6 +59,7 @@ class merchantProfile2 extends Component {
                                 <Route path="/app/merchants/merchant-profile/bank" component={Bank} />
                                 <Route path="/app/merchants/merchant-profile/pincipal" component={Principal} />
                                 <Route path="/app/merchants/merchant-profile/staff" component={Staff} />
+                                <Route path="/app/merchants/merchant-profile/transactions" component={Transactions} />
                                 <Route path="/app/merchants/merchant-profile/merchant-settings"  component={Settings}/>
                             </div>
                     </div>

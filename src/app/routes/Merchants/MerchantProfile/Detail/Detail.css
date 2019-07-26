@@ -156,7 +156,27 @@
 	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
 	color: #FFF;
 }
-
+.TransactionTable thead tr th {
+    color: white;
+    background-color: #3f51b5;
+    padding: 10px 20px;
+    font-weight: 400;
+    font-size: 16px;
+    border: 1px solid #3f51b5;
+}
+.TransactionTable tbody tr td {
+    padding: 10px 12px;
+    font-weight: 400;
+    font-size: 16px;
+    border: 1px solid grey;
+}
+.TransactionTable tbody tr td:first-letter {
+    text-transform:capitalize;
+}
+/* MERCHANT TRANSACTIONS  */
+.MuiSelect-root-427 .MuiSelect-selectMenu-431 {
+	width: 120px !important;
+}
 @media (min-width: 1024px) and (max-width: 1280px) {
 	.POPUP-INNER2 {
 	padding-top: 20px;

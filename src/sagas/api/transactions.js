@@ -1,15 +1,16 @@
 import axios from 'axios'
 import URL  from '../../url/url'
+import { select } from 'redux-saga/effects'
 
 export function* getAll_Transactions_api(){
-    // const getInfoLogin = (state) => state.User
-    // const infoLogin = yield select(getInfoLogin);
-    // let config = {
-    //     headers: {
-    //       'Authorization': 'Bearer ' + infoLogin.User.token
-    //     }
-    //   }
-    const kq = yield axios.get(URL + '/paymenttransaction')
+    const getInfoLogin = (state) => state.User
+    const infoLogin = yield select(getInfoLogin);
+    let config = {
+        headers: {
+          'Authorization': 'Bearer ' + infoLogin.User.token
+        }
+      }
+    const kq = yield axios.get(URL + '/paymenttransaction', config)
     .then((result) => {
       return result.data;
   }).catch((err) => {
