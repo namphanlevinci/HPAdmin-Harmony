@@ -20,8 +20,6 @@ const UserLogin = (state = initialState, action) => {
         "Message",
         "Wrong email or password please try again!"
       );
-      //   state.message_error = "Wrong email or password please try again!";
-      //   state.message_error = action.payload;
       return { ...state };
 
     case typeUser.logout_User:

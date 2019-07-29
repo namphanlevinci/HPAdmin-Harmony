@@ -36,7 +36,6 @@ class SignIn extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const Message = localStorage.getItem("Message");
-    console.log("Message", Message);
     this.setState({ loading: false, isRight: true });
     if (Message !== null) {
       NotificationManager.error(Message);
@@ -118,7 +117,6 @@ class SignIn extends React.Component {
         ) : (
           <div></div>
         )}
-        {/* {this.state.error === true && NotificationManager.error(this.props.InfoUser_Login.message_error)} */}
         <NotificationContainer />
       </div>
     );

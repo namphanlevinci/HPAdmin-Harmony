@@ -84,17 +84,18 @@ class Transactions extends React.Component {
       return (
         <tr key={e.paymentTransactionId}>
           <td>{date}</td>
-          <td>
-            {e.paymentData !== null
+          <td></td>
+          {/* <td>
+            {e.paymentData.token !== null
               ? e.paymentData.token.token_data.type
               : null}
-          </td>
+          </td> */}
           <td>{e.user.firstName + " " + e.user.lastName}</td>
           <td></td>
           <td>
-            {e.paymentData !== null
+            {/* {e.paymentData.token !== null
               ? e.paymentData.token.token_data.value.slice(12)
-              : null}
+              : null} */}
           </td>
           <td></td>
           <td>{e.amount + "$"}</td>
