@@ -69,12 +69,12 @@ class Twilio extends Component {
                             </li>
                             <li>
                                 <label htmlFor="ACCOUNTID">ACCOUNT TOKEN</label>
-                                <input type="text" name="auToken" maxLength="100" 
+                                <input type="password" name="auToken" maxLength="100" 
                                 value={this.state.auToken} onChange={this._handleChange}/>
                             </li>
                             <li>
                                 <label htmlFor="TOKEN">ACCOUNT SID</label>
-                                <input type="text" name="accountSid" maxLength="100"
+                                <input type="password" name="accountSid" maxLength="100"
                                  value={this.state.accountSid} onChange={this._handleChange}/>
                             </li>
                             <li>
