@@ -76,6 +76,7 @@ class Transactions extends React.Component {
       } else {
       }
     }
+    console.log("TransactionsList", TransactionsList);
     const renderTransactionsList = TransactionsList.slice(
       startIndex,
       endIndex + 1
@@ -84,7 +85,8 @@ class Transactions extends React.Component {
         <tr key={e.paymentTransactionId}>
           <td>{moment(e.createDate).format("DD/MM/YYYY")}</td>
           <td>{e.paymentTransactionId}</td>
-          <td>{e.paymentData.transaction_type}</td>
+          <td>{e.user.firstName + " " + e.user.lastName}</td>
+          <td>{e.user.phone}</td>
           <td>{e.paymentData.method}</td>
           <td>{e.paymentData.card_type}</td>
           <td>{"$" + e.amount}</td>
@@ -130,9 +132,10 @@ class Transactions extends React.Component {
           <table style={{ width: "100%" }}>
             <thead>
               <tr>
-                <th>Date/time</th>
+                <th>Date</th>
                 <th>Transaction ID</th>
-                <th>Activity</th>
+                <th>Customer</th>
+                <th>Phone number</th>
                 <th>Payment method</th>
                 <th>Card type</th>
                 <th>Amount</th>
