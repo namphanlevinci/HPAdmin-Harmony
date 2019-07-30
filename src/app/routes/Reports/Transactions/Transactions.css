@@ -1,0 +1,34 @@
+.Transactions table tr td {
+  cursor: context-menu;
+}
+.TransactionsBox {
+  display: flex;
+  justify-content: space-between;
+}
+.Transactions .bigshot {
+  font-weight: 600;
+  color: red;
+}
+.Transactions thead tr th {
+  color: white;
+  background-color: #3f51b5;
+  padding: 10px 20px;
+  font-weight: 400;
+  font-size: 16px;
+  border: 1px solid #3f51b5;
+}
+.Transactions tbody tr td {
+  padding: 10px 20px;
+  font-weight: 400;
+  font-size: 16px;
+  border: 1px solid grey;
+}
+/* .Transactions tbody tr td:first-child {
+  border-left: 1px solid grey;
+}
+.Transactions tbody tr td:last-child {
+  border-right: 1px solid grey;
+} */
+.Transactions tbody tr td:first-letter {
+  text-transform: capitalize;
+}

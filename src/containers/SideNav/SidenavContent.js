@@ -214,7 +214,10 @@ class SidenavContent extends Component {
                 </NavLink>
               </li>
               <li>
-                <NavLink className="prepend-icon" to="/app/4043">
+                <NavLink
+                  className="prepend-icon"
+                  to="/app/reports/transactions"
+                >
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.transactionreport" />
                   </span>
@@ -236,16 +239,6 @@ class SidenavContent extends Component {
                 <NavLink className="prepend-icon" to="/app/business/questions">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.Questions" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  className="prepend-icon"
-                  to="/app/business/transactions"
-                >
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.Transactions" />
                   </span>
                 </NavLink>
               </li>

@@ -51,7 +51,7 @@ class General extends Component {
               </div>
               <div className="col-md-4">
                 <h4>Zip code*</h4>
-                <p>{e.general.zip}</p>
+                <p>{e.general !== null ? e.general.zip : null}</p>
               </div>
               <div className="col-md-4">
                 <h4>Business Phone Number*</h4>

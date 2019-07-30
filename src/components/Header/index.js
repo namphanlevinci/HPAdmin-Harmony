@@ -1,111 +1,129 @@
-import React from 'react';
-import {Link,withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import {Dropdown, DropdownMenu, DropdownToggle} from 'reactstrap';
+import React from "react";
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import AppBar from "@material-ui/core/AppBar";
+import Avatar from "@material-ui/core/Avatar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import { Dropdown, DropdownMenu, DropdownToggle } from "reactstrap";
 import {
-    BELOW_THE_HEADER,
-    COLLAPSED_DRAWER,
-    FIXED_DRAWER,
-    HORIZONTAL_NAVIGATION,
-    INSIDE_THE_HEADER
-} from 'constants/ActionTypes';
+  BELOW_THE_HEADER,
+  COLLAPSED_DRAWER,
+  FIXED_DRAWER,
+  HORIZONTAL_NAVIGATION,
+  INSIDE_THE_HEADER
+} from "constants/ActionTypes";
 // import SearchBox from 'components/SearchBox';
 // import MailNotification from '../MailNotification/index';
-import AppNotification from '../AppNotification/index';
-import CardHeader from 'components/dashboard/Common/CardHeader/index';
-import {switchLanguage, toggleCollapsedNav} from 'actions/Setting';
-import IntlMessages from 'util/IntlMessages';
+import AppNotification from "../AppNotification/index";
+import CardHeader from "components/dashboard/Common/CardHeader/index";
+import { switchLanguage, toggleCollapsedNav } from "actions/Setting";
+import IntlMessages from "util/IntlMessages";
 // import LanguageSwitcher from 'components/LanguageSwitcher/index';
-import Menu from 'components/TopNav/Menu';
-import UserInfoPopup from 'components/UserInfo/UserInfoPopup';
-import axios from 'axios'
-import { ViewMerchant_Request } from '../../actions/merchants/actions'
+import Menu from "components/TopNav/Menu";
+import UserInfoPopup from "components/UserInfo/UserInfoPopup";
+import axios from "axios";
+import { ViewMerchant_Request } from "../../actions/merchants/actions";
 
-import  playMessageAudio  from '../../util/sound'
+import playMessageAudio from "../../util/sound";
 class Header extends React.Component {
-
-  //load signalR 
+  //load signalR
   async componentDidMount() {
     // logout user after 30minutes
     setTimeout(() => localStorage.removeItem("User_login"), 1800000);
-    const User = localStorage.getItem("User_login")
-   await this.setState({User : User})
-    let data = JSON.parse(this.state.User)
-    let ID = data.userAdmin
-    let rID = ID.waUserId
-      const signalR = require("@aspnet/signalr");
-      let connection = new signalR.HubConnectionBuilder()
-     .withUrl("https://api2.levincidemo.com/notification/?title=Administrator&adminId="+ rID) 
+    const User = localStorage.getItem("User_login");
+    await this.setState({ User: User });
+    let data = JSON.parse(this.state.User);
+    let ID = data.userAdmin;
+    let rID = ID.waUserId;
+    const signalR = require("@aspnet/signalr");
+    let connection = new signalR.HubConnectionBuilder()
+      .withUrl(
+        "https://api2.levincidemo.com/notification/?title=Administrator&adminId=" +
+          rID
+      )
       .build();
-      connection.start();
-        connection.on("ListWaNotification", data => { 
-          if (data.length > 0) {
-            playMessageAudio()
-            let newData = JSON.parse(data);
-            this.setState({ noti: newData.json,  appNotificationIcon: false, }) 
-          }
-      });
+    connection.start();
+    connection.on("ListWaNotification", data => {
+      if (data.length > 0) {
+        playMessageAudio();
+        let newData = JSON.parse(data);
+        this.setState({ noti: newData.json, appNotificationIcon: false });
+      }
+    });
   }
 
-   gotoList =  async (e) => {
-    let data = JSON.parse(this.state.User)
-    const UserToken =  data.token
+  gotoList = async e => {
+    let data = JSON.parse(this.state.User);
+    const UserToken = data.token;
     // this.handleDelete(e)
-    await axios.get('https://api2.levincidemo.com/api/merchant/' + e.SenderId,{ headers: {"Authorization" : `Bearer ${UserToken}`} })
-    .then((res) => {
-      this.setState({appNotification: false})
-      this.props.ViewMerchant_Request(res.data.data)
-      this.props.history.push('/app/merchants/pending-profile');
-    })
-  }
-  handleDelete = (e) => {
-    let data = JSON.parse(this.state.User)
-    const UserToken =  data.token
+    await axios
+      .get("https://api2.levincidemo.com/api/merchant/" + e.SenderId, {
+        headers: { Authorization: `Bearer ${UserToken}` }
+      })
+      .then(res => {
+        if (res.data.data.isApproved === 0 && res.data.data.isRejected === 0) {
+          this.setState({ appNotification: false });
+          this.props.ViewMerchant_Request(res.data.data);
+          this.props.history.push("/app/merchants/pending-profile");
+          this.handleDelete(e);
+        } else {
+          this.handleDelete(e);
+        }
+      });
+  };
+  handleDelete = e => {
+    let data = JSON.parse(this.state.User);
+    const UserToken = data.token;
     this.setState({
-      noti: this.state.noti.filter(el => el.WaNotificationId !== e.WaNotificationId)
-    })
-    axios.delete('https://api2.levincidemo.com/api/notification/' + e.WaNotificationId, { headers: {"Authorization" : `Bearer ${UserToken}`} })
-    .then((res) => {
-      // console.log(res)
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
+      noti: this.state.noti.filter(
+        el => el.WaNotificationId !== e.WaNotificationId
+      )
+    });
+    axios
+      .delete(
+        "https://api2.levincidemo.com/api/notification/" + e.WaNotificationId,
+        { headers: { Authorization: `Bearer ${UserToken}` } }
+      )
+      .then(res => {
+        // console.log(res)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   onAppNotificationSelect = () => {
     this.setState({
       appNotification: !this.state.appNotification,
-      appNotificationIcon: true,
-    })
+      appNotificationIcon: true
+    });
   };
   onMailNotificationSelect = () => {
     this.setState({
       mailNotification: !this.state.mailNotification
-    })
+    });
   };
-  onLangSwitcherSelect = (event) => {
+  onLangSwitcherSelect = event => {
     this.setState({
-      langSwitcher: !this.state.langSwitcher, anchorEl: event.currentTarget
-    })
+      langSwitcher: !this.state.langSwitcher,
+      anchorEl: event.currentTarget
+    });
   };
   onSearchBoxSelect = () => {
     this.setState({
       searchBox: !this.state.searchBox
-    })
+    });
   };
   onAppsSelect = () => {
     this.setState({
       apps: !this.state.apps
-    })
+    });
   };
   onUserInfoSelect = () => {
     this.setState({
       userInfo: !this.state.userInfo
-    })
+    });
   };
   handleRequestClose = () => {
     this.setState({
@@ -114,10 +132,10 @@ class Header extends React.Component {
       mailNotification: false,
       appNotification: false,
       searchBox: false,
-      apps: false,
+      apps: false
     });
   };
-  onToggleCollapsedNav = (e) => {
+  onToggleCollapsedNav = e => {
     const val = !this.props.navCollapsed;
     this.props.toggleCollapsedNav(val);
   };
@@ -127,19 +145,19 @@ class Header extends React.Component {
     this.state = {
       anchorEl: undefined,
       searchBox: false,
-      searchText: '',
+      searchText: "",
       mailNotification: false,
       userInfo: false,
       langSwitcher: false,
       appNotification: false,
       appNotificationIcon: false,
-      User: [],
-    }
+      User: []
+    };
   }
 
   updateSearchText(evt) {
     this.setState({
-      searchText: evt.target.value,
+      searchText: evt.target.value
     });
   }
 
@@ -147,80 +165,113 @@ class Header extends React.Component {
     return (
       <ul className="jr-list jr-list-half">
         <li className="jr-list-item">
-            <Link className="jr-list-link" to="/app/calendar/basic">
-                <i className="zmdi zmdi-calendar zmdi-hc-fw"/>
-                <span className="jr-list-text"><IntlMessages id="sidebar.calendar.basic"/></span>
-            </Link>
+          <Link className="jr-list-link" to="/app/calendar/basic">
+            <i className="zmdi zmdi-calendar zmdi-hc-fw" />
+            <span className="jr-list-text">
+              <IntlMessages id="sidebar.calendar.basic" />
+            </span>
+          </Link>
         </li>
 
         <li className="jr-list-item">
           <Link className="jr-list-link" to="/app/to-do">
-            <i className="zmdi zmdi-check-square zmdi-hc-fw"/>
-            <span className="jr-list-text"><IntlMessages id="sidebar.appModule.toDo"/></span>
+            <i className="zmdi zmdi-check-square zmdi-hc-fw" />
+            <span className="jr-list-text">
+              <IntlMessages id="sidebar.appModule.toDo" />
+            </span>
           </Link>
         </li>
 
         <li className="jr-list-item">
           <Link className="jr-list-link" to="/app/mail">
-            <i className="zmdi zmdi-email zmdi-hc-fw"/>
-            <span className="jr-list-text"><IntlMessages id="sidebar.appModule.mail"/></span>
+            <i className="zmdi zmdi-email zmdi-hc-fw" />
+            <span className="jr-list-text">
+              <IntlMessages id="sidebar.appModule.mail" />
+            </span>
           </Link>
         </li>
 
         <li className="jr-list-item">
-            <Link className="jr-list-link" to="/app/chat">
-                <i className="zmdi zmdi-comment zmdi-hc-fw"/>
-                <span className="jr-list-text"><IntlMessages id="sidebar.appModule.chat"/></span>
-            </Link>
+          <Link className="jr-list-link" to="/app/chat">
+            <i className="zmdi zmdi-comment zmdi-hc-fw" />
+            <span className="jr-list-text">
+              <IntlMessages id="sidebar.appModule.chat" />
+            </span>
+          </Link>
         </li>
 
         <li className="jr-list-item">
-            <Link className="jr-list-link" to="/app/contact">
-                <i className="zmdi zmdi-account-box zmdi-hc-fw"/>
-                <span className="jr-list-text"><IntlMessages id="sidebar.appModule.contact"/></span>
-            </Link>
+          <Link className="jr-list-link" to="/app/contact">
+            <i className="zmdi zmdi-account-box zmdi-hc-fw" />
+            <span className="jr-list-text">
+              <IntlMessages id="sidebar.appModule.contact" />
+            </span>
+          </Link>
         </li>
 
         <li className="jr-list-item">
-            <Link className="jr-list-link" to="/">
-                <i className="zmdi zmdi-plus-circle-o zmdi-hc-fw"/>
-                <span className="jr-list-text">Add New</span>
-            </Link>
+          <Link className="jr-list-link" to="/">
+            <i className="zmdi zmdi-plus-circle-o zmdi-hc-fw" />
+            <span className="jr-list-text">Add New</span>
+          </Link>
         </li>
-      </ul>)
+      </ul>
+    );
   };
 
   render() {
-    const {drawerType, navigationStyle, horizontalNavPosition} = this.props;
-    const drawerStyle = drawerType.includes(FIXED_DRAWER) ? 'd-block d-xl-none' : drawerType.includes(COLLAPSED_DRAWER) ? 'd-block' : 'd-none';
-    const Notify = this.state.appNotificationIcon === false ? 'zmdi zmdi-notifications-none icon-alert animated infinite wobble' : 'zmdi zmdi-notifications-none'
+    const { drawerType, navigationStyle, horizontalNavPosition } = this.props;
+    const drawerStyle = drawerType.includes(FIXED_DRAWER)
+      ? "d-block d-xl-none"
+      : drawerType.includes(COLLAPSED_DRAWER)
+      ? "d-block"
+      : "d-none";
+    const Notify =
+      this.state.appNotificationIcon === false
+        ? "zmdi zmdi-notifications-none icon-alert animated infinite wobble"
+        : "zmdi zmdi-notifications-none";
     return (
       <AppBar
-        className={`app-main-header ${(navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER) ? 'app-main-header-top' : ''}`}>
+        className={`app-main-header ${
+          navigationStyle === HORIZONTAL_NAVIGATION &&
+          horizontalNavPosition === BELOW_THE_HEADER
+            ? "app-main-header-top"
+            : ""
+        }`}
+      >
         <Toolbar className="app-toolbar" disableGutters={false}>
-          {navigationStyle === HORIZONTAL_NAVIGATION ?
-            <div className="d-block d-md-none pointer mr-3" onClick={this.onToggleCollapsedNav}>
-                            <span className="jr-menu-icon">
-                              <span className="menu-icon"/>
-                            </span>
+          {navigationStyle === HORIZONTAL_NAVIGATION ? (
+            <div
+              className="d-block d-md-none pointer mr-3"
+              onClick={this.onToggleCollapsedNav}
+            >
+              <span className="jr-menu-icon">
+                <span className="menu-icon" />
+              </span>
             </div>
-            :
-            <IconButton className={`jr-menu-icon mr-3 ${drawerStyle}`} aria-label="Menu"
-                        onClick={this.onToggleCollapsedNav}>
-              <span className="menu-icon"/>
+          ) : (
+            <IconButton
+              className={`jr-menu-icon mr-3 ${drawerStyle}`}
+              aria-label="Menu"
+              onClick={this.onToggleCollapsedNav}
+            >
+              <span className="menu-icon" />
             </IconButton>
-          }
+          )}
 
           <Link className="app-logo mr-2 d-none d-sm-block" to="/app/merchants">
-            <img src={require("assets/images/logo-white.png")} alt="Jambo" title="Jambo"/>
+            <img
+              src={require("assets/images/logo-white.png")}
+              alt="Jambo"
+              title="Jambo"
+            />
           </Link>
-
 
           {/* <SearchBox styleName="d-none d-lg-block" placeholder=""
                      onChange={this.updateSearchText.bind(this)}
                      value={this.state.searchText}/> */}
-          {(navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === INSIDE_THE_HEADER) &&
-          <Menu/>}
+          {navigationStyle === HORIZONTAL_NAVIGATION &&
+            horizontalNavPosition === INSIDE_THE_HEADER && <Menu />}
 
           <ul className="header-notifications list-inline ml-auto">
             {/* <li className="list-inline-item">
@@ -293,24 +344,29 @@ class Header extends React.Component {
               <Dropdown
                 className="quick-menu"
                 isOpen={this.state.appNotification}
-                toggle={this.onAppNotificationSelect.bind(this)}>
-
+                toggle={this.onAppNotificationSelect.bind(this)}
+              >
                 <DropdownToggle
                   className="d-inline-block"
                   tag="span"
-                  data-toggle="dropdown">
+                  data-toggle="dropdown"
+                >
                   <IconButton className="icon-btn">
-
-
-                    <i className={Notify}/>
+                    <i className={Notify} />
                     {/* <i className="zmdi zmdi-notifications-none icon-alert animated infinite wobble"/> */}
                   </IconButton>
                 </DropdownToggle>
 
                 <DropdownMenu right>
-                  <CardHeader styleName="align-items-center"
-                              heading={<IntlMessages id="appNotification.title"/>}/>
-                  <AppNotification e={this.state.noti} handleDelete={this.handleDelete} gotoList={this.gotoList}/>
+                  <CardHeader
+                    styleName="align-items-center"
+                    heading={<IntlMessages id="appNotification.title" />}
+                  />
+                  <AppNotification
+                    e={this.state.noti}
+                    handleDelete={this.handleDelete}
+                    gotoList={this.gotoList}
+                  />
                 </DropdownMenu>
               </Dropdown>
             </li>
@@ -339,61 +395,68 @@ class Header extends React.Component {
               </Dropdown>
             </li> */}
 
-            {navigationStyle === HORIZONTAL_NAVIGATION &&
-            <li className="list-inline-item user-nav">
-              <Dropdown
-                className="quick-menu"
-                isOpen={this.state.userInfo}
-                toggle={this.onUserInfoSelect.bind(this)}>
+            {navigationStyle === HORIZONTAL_NAVIGATION && (
+              <li className="list-inline-item user-nav">
+                <Dropdown
+                  className="quick-menu"
+                  isOpen={this.state.userInfo}
+                  toggle={this.onUserInfoSelect.bind(this)}
+                >
+                  <DropdownToggle
+                    className="d-inline-block"
+                    tag="span"
+                    data-toggle="dropdown"
+                  >
+                    <IconButton className="icon-btn size-30">
+                      <Avatar
+                        alt="..."
+                        src={"https://via.placeholder.com/150x150"}
+                        className="size-30"
+                      />
+                    </IconButton>
+                  </DropdownToggle>
 
-                <DropdownToggle
-                  className="d-inline-block"
-                  tag="span"
-                  data-toggle="dropdown">
-                  <IconButton className="icon-btn size-30">
-                    <Avatar
-                      alt='...'
-                      src={'https://via.placeholder.com/150x150'}
-                      className="size-30"
-                    />
-                  </IconButton>
-                </DropdownToggle>
-
-                <DropdownMenu right>
-                  <UserInfoPopup/>
-                </DropdownMenu>
-              </Dropdown>
-            </li>}
+                  <DropdownMenu right>
+                    <UserInfoPopup />
+                  </DropdownMenu>
+                </Dropdown>
+              </li>
+            )}
           </ul>
-          
+
           <div className="ellipse-shape"></div>
         </Toolbar>
       </AppBar>
     );
   }
-
 }
 
-
-
-
-
-const mapStateToProps = ({settings}) => {
-  const {drawerType, locale, navigationStyle, horizontalNavPosition, User} = settings;
-  return {drawerType, locale, navigationStyle, horizontalNavPosition, User} 
+const mapStateToProps = ({ settings }) => {
+  const {
+    drawerType,
+    locale,
+    navigationStyle,
+    horizontalNavPosition,
+    User
+  } = settings;
+  return { drawerType, locale, navigationStyle, horizontalNavPosition, User };
 };
 
-
-const mapDispatchToProps = (dispatch) => ({
-  ViewMerchant_Request: (payload) => {
-    dispatch(ViewMerchant_Request(payload))
+const mapDispatchToProps = dispatch => ({
+  ViewMerchant_Request: payload => {
+    dispatch(ViewMerchant_Request(payload));
   },
-  toggleCollapsedNav: (payload) => {
-    dispatch(toggleCollapsedNav(payload))
+  toggleCollapsedNav: payload => {
+    dispatch(toggleCollapsedNav(payload));
   },
-  switchLanguage: (payload) => {
-    dispatch(switchLanguage(payload))
+  switchLanguage: payload => {
+    dispatch(switchLanguage(payload));
   }
 });
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Header));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Header)
+);

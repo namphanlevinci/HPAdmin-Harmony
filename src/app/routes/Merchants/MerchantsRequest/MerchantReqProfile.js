@@ -238,7 +238,7 @@ class MerchantReqProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Void Check*</h4>
-                                            <img style={{width: '300px'}} src={`${e.businessBank.imageUrl}`} alt="void check" />
+                                            {e.businessBank !== null ? <img style={{width: '250px', height: '200px'}} src={`${e.businessBank.imageUrl}`} alt="void check" /> : null}
                                         </div>
                                     </div>
                                 <h2>Principal Information</h2>
@@ -293,7 +293,7 @@ class MerchantReqProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Driver License Picture</h4>
-                                            <img style={{width: '300px'}}  src={`${e.principals.imageUrl}`} alt="void check" />
+                                            {e.principals !== null ? <img style={{width: '250px', height: '200px'}}  src={`${e.principals.imageUrl}`} alt="void check" /> : null}
                                         </div>
                                     </div>
                             </div>   

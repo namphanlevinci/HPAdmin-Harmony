@@ -1,134 +1,173 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import "./Consumer.css"
-import '../../../Merchants/MerchantProfile/MerchantProfile.css'
-import '../../../Merchants/MerchantsRequest/MerchantReqProfile.css'
-import '../../../Merchants/MerchantsRequest/MerchantsRequest.css'
-import {NotificationContainer} from 'react-notifications';
-import Button from '@material-ui/core/Button';
-import DayPicker, { DateUtils } from 'react-day-picker';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import "./Consumer.css";
+import "../../../Merchants/MerchantProfile/MerchantProfile.css";
+import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
+import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
+import { NotificationContainer } from "react-notifications";
+import Button from "@material-ui/core/Button";
 import "react-day-picker/lib/style.css";
-import axios from 'axios'
-import moment from 'moment';
-import 'moment/locale/it';
-import "../../../Accounts/Logs/Logs.css"
+import axios from "axios";
+import moment from "moment";
+import "moment/locale/it";
+import "../../../Accounts/Logs/Logs.css";
+import TextField from "@material-ui/core/TextField";
+import Select from "react-select";
+
 class Transactions extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { 
-            data: [],
-            from: undefined,
-            to: undefined,
-         }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      from: undefined,
+      to: undefined,
+      selectedOption: null
+    };
+  }
 
-    componentDidMount() {
-        const ID = this.props.MerchantProfile.userId
-        axios.get('https://api2.levincidemo.com/api/paymenttransaction/' + ID, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-        .then((res) => {
-            // console.log(res.data.data)
-            this.setState({ data: res.data.data })
-        }).catch((error) => {
-            console.log(error)
-        })
-    }
-
-      handleResetClick = () => {
-        this.setState({
-            from: undefined,
-            to: undefined,
-        })}
-        handleDayClick = (day) => {
-            const range = DateUtils.addDayToRange(day, this.state);
-            this.setState(range);
+  componentDidMount() {
+    const ID = this.props.MerchantProfile.userId;
+    axios
+      .get("https://api2.levincidemo.com/api/paymenttransaction/" + ID, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
         }
-    render() { 
-        const { from , to} = this.state;
-        const modifiers = { start: from, end: to}
-        const valuez = { start: this.state.from, end: this.state.to}
-        let renderTable = this.state.data
-        if (this.state.from) {
-            renderTable = renderTable.filter((e) => {
-                let datex = moment(e.createDate).format();
-                let from = moment(valuez.start).format();
-                let to = moment(valuez.end).format();
+      })
+      .then(res => {
+        this.setState({ data: res.data.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
-                const date = moment(datex).isBetween(from, to) || moment(datex).isSame(from, to)
-                return date
-                // let date = moment(e.createDate).subtract(10, 'days').calendar();
-                // let from = moment(valuez.start).subtract(10, 'days').calendar();
-                // let to = moment(valuez.end).subtract(10, 'days').calendar();
-                
-                // const date2 = new Date(date)
-                // const from2 = new Date(from)
-                // const to2 = new Date(to)
-                // return (date2 >= from2 && date2 <= to2)
-            })
-        }
-        let renderContent = renderTable.map(e => {
-            return (
-                <tr key={e.paymentTransactionId}>
-                    <td>{moment(e.createDate).format('DD/MM/YYYY')}</td>
-                    <td>{e.paymentTransactionId}</td>
-                    <td>{e.paymentData.transaction_type}</td>
-                    <td>{e.paymentData.method}</td>
-                    <td>{e.paymentData.token.token_data.type}</td>
-                    <td>{'$' + e.paymentData.amount}</td>
-                    <td>{e.paymentData.validation_status}</td>
-                </tr>
-            )
-        })
-        return ( 
-            <div className="content GeneralContent">
-                <div>
-                <div className="container">
-                <h2>Transactions Management</h2>
-                <div className="row">
-                    <h3>
-                        <Button style={{padding: '10px 20px', color: '#3f51b5', backgroundColor: '#fff', fontWeight: '600'}} variant="contained" color="primary" data-toggle="collapse" data-target="#demo">FILTER</Button>
-                            <div id="demo" className="collapse">
-                             <Button className="resetBtn" onClick={this.handleResetClick}>Reset</Button>
-                             <span><DayPicker
-                                className="Selectable"
-                                numberOfMonths={1}
-                                selectedDays={[from, { from, to }]}
-                                value={valuez}
-                                modifiers={modifiers}
-                                onDayClick={this.handleDayClick}
-                                /></span>
-                            </div>
-                         </h3>
-                </div>
-                    <div className="TransactionTable">
-                    <h2>Summary Data</h2>
-                                <table style={{width:'100%'}}>
-                                    <thead>
-                                        <tr>
-                                            <th>Date/time</th>
-                                            <th>Transaction ID</th>
-                                            <th>Activity</th>
-                                            <th>Payment method</th>
-                                            <th>Card type</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                            {renderContent}
-                                    </tbody>
-                                </table>
-                    </div>
-                </div>
-            </div>
-                    <NotificationContainer />
-            </div>
-         );
+  handleResetClick = () => {
+    this.setState({
+      from: undefined,
+      to: undefined,
+      selectedOption: null
+    });
+  };
+
+  fromDate = e => {
+    this.setState({ from: e.target.value });
+  };
+  toDate = e => {
+    this.setState({ to: e.target.value });
+  };
+  handleTimeRange = e => {
+    this.setState({ range: e.target.value });
+  };
+  handleChange = selectedOption => {
+    this.setState({ selectedOption });
+    // console.log(`Option selected:`, selectedOption);
+  };
+  render() {
+    const { from, to } = this.state;
+    let renderTable = this.state.data;
+    if (this.state.from) {
+      renderTable = renderTable.filter(e => {
+        let date = moment(e.createDate).format("YYYY-MM-DD");
+        return date >= from && date <= to;
+      });
     }
+    let renderContent = renderTable.map(e => {
+      return (
+        <tr key={e.paymentTransactionId}>
+          <td>{moment(e.createDate).format("DD/MM/YYYY")}</td>
+          <td>{e.paymentTransactionId}</td>
+          <td>{e.paymentData.transaction_type}</td>
+          <td>{e.paymentData.method}</td>
+          <td>{e.paymentData.card_type}</td>
+          <td>{"$" + e.amount}</td>
+          <td>{e.ip}</td>
+          <td>{e.paymentData.validation_status}</td>
+        </tr>
+      );
+    });
+    const options = [
+      { value: "chocolate", label: "This week" },
+      { value: "strawberry", label: "This year" },
+      { value: "vanilla", label: "This month" }
+    ];
+    const { selectedOption } = this.state;
+    return (
+      <div className="content GeneralContent">
+        <div>
+          <div className="container">
+            <h2>Transactions Management</h2>
+            <div className="row">
+              <div className="col-md-4">
+                <form noValidate>
+                  <TextField
+                    id="date"
+                    label="From"
+                    type="date"
+                    // defaultValue={newToday}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    onChange={this.fromDate}
+                  />
+                </form>
+              </div>
+              <div className="col-md-4">
+                <form noValidate>
+                  <TextField
+                    id="date"
+                    label="To"
+                    type="date"
+                    // defaultValue={this.state.to}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    onChange={this.toDate}
+                  />
+                </form>
+              </div>
+              <div className="col-md-4">
+                <h5>Time range</h5>
+                <Select
+                  value={selectedOption}
+                  onChange={this.handleChange}
+                  options={options}
+                />
+              </div>
+              <div className="col-md-12">
+                <Button className="resetBtn" onClick={this.handleResetClick}>
+                  Reset
+                </Button>
+              </div>
+            </div>
+            <div className="TransactionTable">
+              <h2>Summary Data</h2>
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <tr>
+                    <th>Date/time</th>
+                    <th>Transaction ID</th>
+                    <th>Activity</th>
+                    <th>Payment method</th>
+                    <th>Card type</th>
+                    <th>Amount</th>
+                    <th>IP</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>{renderContent}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <NotificationContainer />
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = (state) => ({
-    MerchantProfile: state.ViewProfile_Merchants,
-    InfoUser_Login: state.User,
-})
+const mapStateToProps = state => ({
+  MerchantProfile: state.ViewProfile_Merchants,
+  InfoUser_Login: state.User
+});
 
-export default (connect(mapStateToProps)(Transactions));
+export default connect(mapStateToProps)(Transactions);

@@ -80,25 +80,16 @@ class Transactions extends React.Component {
       startIndex,
       endIndex + 1
     ).map(e => {
-      const date = moment(e.createDate).format("DD/MM/YYYY");
       return (
         <tr key={e.paymentTransactionId}>
-          <td>{date}</td>
-          <td></td>
-          {/* <td>
-            {e.paymentData.token !== null
-              ? e.paymentData.token.token_data.type
-              : null}
-          </td> */}
-          <td>{e.user.firstName + " " + e.user.lastName}</td>
-          <td></td>
-          <td>
-            {/* {e.paymentData.token !== null
-              ? e.paymentData.token.token_data.value.slice(12)
-              : null} */}
-          </td>
-          <td></td>
-          <td>{e.amount + "$"}</td>
+          <td>{moment(e.createDate).format("DD/MM/YYYY")}</td>
+          <td>{e.paymentTransactionId}</td>
+          <td>{e.paymentData.transaction_type}</td>
+          <td>{e.paymentData.method}</td>
+          <td>{e.paymentData.card_type}</td>
+          <td>{"$" + e.amount}</td>
+          <td>{e.ip}</td>
+          <td>{e.paymentData.validation_status}</td>
         </tr>
       );
     });
@@ -139,27 +130,14 @@ class Transactions extends React.Component {
           <table style={{ width: "100%" }}>
             <thead>
               <tr>
-                <th style={{ width: "15%" }}>
-                  <span className="Mlist_table">Transaction date</span>
-                </th>
-                <th style={{ width: "10%" }}>
-                  <span className="Mlist_table">Card type</span>
-                </th>
-                <th style={{ width: "15%" }}>
-                  <span className="Mlist_table">Card holder name</span>
-                </th>
-                <th style={{ width: "15%" }}>
-                  <span className="Mlist_table">Authuorization code</span>
-                </th>
-                <th style={{ width: "10%" }}>
-                  <span className="Mlist_table">Last 4 digits</span>
-                </th>
-                <th style={{ width: "15%" }}>
-                  <span className="Mlist_table">Settled date</span>
-                </th>
-                <th style={{ width: "10%" }}>
-                  <span className="Mlist_table">Amount</span>
-                </th>
+                <th>Date/time</th>
+                <th>Transaction ID</th>
+                <th>Activity</th>
+                <th>Payment method</th>
+                <th>Card type</th>
+                <th>Amount</th>
+                <th>IP</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>{renderTransactionsList}</tbody>
