@@ -7,7 +7,6 @@ import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import Button from "@material-ui/core/Button";
 import "react-day-picker/lib/style.css";
 import moment from "moment";
-import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 
 class Acti extends Component {
@@ -20,21 +19,6 @@ class Acti extends Component {
     };
   }
 
-  componentDidMount() {
-    const ID = this.props.MerchantProfile.userId;
-    axios
-      .get("https://api2.levincidemo.com/api/useractivity/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
-      })
-      .then(res => {
-        this.setState({ data: res.data.data });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
   handleResetClick = () => {
     this.setState({
       from: undefined,
@@ -50,7 +34,7 @@ class Acti extends Component {
   };
   render() {
     const { from, to } = this.state;
-    let renderTable = this.state.data;
+    let renderTable = this.props.userActivity;
     if (this.state.from) {
       renderTable = renderTable.filter(e => {
         let date = moment(e.createDate).format("YYYY-MM-DD");
@@ -105,13 +89,13 @@ class Acti extends Component {
                 </Button>
               </div>
             </div>
-            <div className="TransactionTable">
+            <div className="TransactionTable ActivityTable">
               <h2>Summary Data</h2>
               <table style={{ width: "100%" }}>
                 <thead>
                   <tr>
                     <th style={{ width: "20%" }}>Date/time</th>
-                    <th>Activity</th>
+                    <th style={{ width: "80%" }}>Activity</th>
                   </tr>
                 </thead>
                 <tbody>{renderContent}</tbody>
@@ -126,7 +110,8 @@ class Acti extends Component {
 
 const mapStateToProps = state => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
+  userActivity: state.userActivity
 });
 
 export default connect(mapStateToProps)(Acti);

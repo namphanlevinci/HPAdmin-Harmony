@@ -22,7 +22,9 @@ class MerchantsRequest extends Component {
       currentPage: "",
       startIndex: "",
       endIndex: "",
-      PaginationFilter: false
+      PaginationFilter: false,
+      sortedName: false,
+      sortedEmail: false
     };
   }
   onChangePage = data => {
@@ -56,7 +58,6 @@ class MerchantsRequest extends Component {
     }, 300);
   }
 
-  //goto merchant profile
   _merchantReqProfile = e => {
     this.props.ViewMerchant_Request(e);
     this.props.history.push("/app/merchants/pending-profile");
@@ -67,7 +68,6 @@ class MerchantsRequest extends Component {
     if (ReqList) {
       if (this.state.search) {
         ReqList = ReqList.filter(e => {
-          // let name = e.businessName;
           return (
             e.businessName
               .trim()
@@ -80,7 +80,34 @@ class MerchantsRequest extends Component {
             parseInt(e.merchantId) === parseInt(this.state.search)
           );
         });
-      } else {
+      }
+      if (this.state.sortedName === true) {
+        ReqList.sort(function(a, b) {
+          if (
+            a.businessName.trim().toLowerCase() <
+            b.businessName.trim().toLowerCase()
+          ) {
+            return -1;
+          }
+          if (
+            a.businessName.trim().toLowerCase() >
+            b.businessName.trim().toLowerCase()
+          ) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+      if (this.state.sortedEmail) {
+        ReqList.sort(function(a, b) {
+          if (a.email.trim().toLowerCase() < b.email.trim().toLowerCase()) {
+            return -1;
+          }
+          if (a.email.trim().toLowerCase() > b.email.trim().toLowerCase()) {
+            return 1;
+          }
+          return 0;
+        });
       }
     }
     const renderReqList = ReqList.slice(startIndex, endIndex + 1).map(e => {
@@ -139,24 +166,37 @@ class MerchantsRequest extends Component {
             <thead>
               <tr style={{ borderBottom: "1px solid black" }}>
                 <th style={{ width: "10%" }}>
-                  <span className="Mlist_table">ID</span>{" "}
-                  <i className="fa fa-unsorted" />
+                  <span className="Mlist_table">ID</span>
+                  {/* <i className="fa fa-unsorted" /> */}
                 </th>
                 <th style={{ width: "25%" }}>
-                  <span className="Mlist_table">Business name</span>{" "}
-                  <i className="fa fa-unsorted" />
+                  <span className="Mlist_table">Business name</span>
+                  <i
+                    className="fa fa-unsorted"
+                    onClick={e =>
+                      this.setState({ sortedName: !this.state.sortedName })
+                    }
+                  />
                 </th>
                 <th style={{ width: "20%" }}>
-                  <span className="Mlist_table">Owner</span>{" "}
-                  <i className="fa fa-unsorted" />
+                  <span className="Mlist_table">Owner</span>
+                  {/* <i className="fa fa-unsorted" /> */}
                 </th>
                 <th style={{ width: "25%" }}>
-                  <span className="Mlist_table">Email</span>{" "}
-                  <i className="fa fa-unsorted" />
+                  <span className="Mlist_table">Email</span>
+                  <i
+                    className="fa fa-unsorted"
+                    onClick={e =>
+                      this.setState({
+                        sortedEmail: !this.state.sortedEmail,
+                        sortedName: false
+                      })
+                    }
+                  />
                 </th>
                 <th style={{ width: "20%" }}>
-                  <span className="Mlist_table">Phone number</span>{" "}
-                  <i className="fa fa-unsorted" />
+                  <span className="Mlist_table">Phone number</span>
+                  {/* <i className="fa fa-unsorted" /> */}
                 </th>
               </tr>
             </thead>

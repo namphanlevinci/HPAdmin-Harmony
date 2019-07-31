@@ -20,7 +20,9 @@ class Merchants extends React.Component {
       currentPage: "",
       startIndex: "",
       endIndex: "",
-      PaginationFilter: false
+      PaginationFilter: false,
+      sortedName: false,
+      sortedEmail: false
     };
   }
   onChangePage = data => {
@@ -74,10 +76,37 @@ class Merchants extends React.Component {
             parseInt(e.merchantId) === parseInt(this.state.search)
           );
         });
-      } else {
+      }
+      if (this.state.sortedName) {
+        MerList.sort(function(a, b) {
+          if (
+            a.businessName.trim().toLowerCase() <
+            b.businessName.trim().toLowerCase()
+          ) {
+            return -1;
+          }
+          if (
+            a.businessName.trim().toLowerCase() >
+            b.businessName.trim().toLowerCase()
+          ) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+      if (this.state.sortedEmail) {
+        MerList.sort(function(a, b) {
+          if (a.email.trim().toLowerCase() < b.email.trim().toLowerCase()) {
+            return -1;
+          }
+          if (a.email.trim().toLowerCase() > b.email.trim().toLowerCase()) {
+            return 1;
+          }
+          return 0;
+        });
       }
     }
-    // console.log(MerList)
+
     const renderMerList = MerList.slice(startIndex, endIndex + 1).map(
       merchant => {
         return (
@@ -145,23 +174,33 @@ class Merchants extends React.Component {
               <tr style={{ borderBottom: "1px solid black" }}>
                 <th style={{ width: "10%" }}>
                   <span className="Mlist_table">ID</span>
-                  <i className="fa fa-unsorted" />
+                  {/* <i className="fa fa-unsorted" /> */}
                 </th>
                 <th style={{ width: "20%" }}>
                   <span className="Mlist_table">Business name</span>
-                  <i className="fa fa-unsorted" />
+                  <i
+                    className="fa fa-unsorted"
+                    onClick={e =>
+                      this.setState({ sortedName: !this.state.sortedName })
+                    }
+                  />
                 </th>
                 <th style={{ width: "15%" }}>
                   <span className="Mlist_table">Owner</span>
-                  <i className="fa fa-unsorted" />
+                  {/* <i className="fa fa-unsorted" /> */}
                 </th>
                 <th style={{ width: "25%" }}>
                   <span className="Mlist_table">Email</span>
-                  <i className="fa fa-unsorted" />
+                  <i
+                    className="fa fa-unsorted"
+                    onClick={e =>
+                      this.setState({ sortedEmail: !this.state.sortedEmail })
+                    }
+                  />
                 </th>
                 <th style={{ width: "15%" }}>
                   <span className="Mlist_table">Phone number</span>
-                  <i className="fa fa-unsorted" />
+                  {/* <i className="fa fa-unsorted" /> */}
                 </th>
               </tr>
             </thead>

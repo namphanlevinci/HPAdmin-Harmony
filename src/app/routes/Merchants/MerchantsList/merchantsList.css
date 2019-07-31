@@ -1,92 +1,93 @@
 /* SEARCH FORM */
 .MerList {
-    font-family: 'Work Sans', sans-serif;
-    background-color:  #fff;
+  font-family: "Work Sans", sans-serif;
+  background-color: #fff;
 }
 /* FONTAWESOME */
 .MerList .fa-unsorted {
   font-size: 12px;
 }
 .search form {
-    outline: 0;
-    float: left;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-  }
-  
+  outline: 0;
+  float: left;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
 .search form > .textbox {
-    outline: 0;
-    height: 42px;
-    width: 244px;
-    line-height: 42px;
-    padding: 0 16px;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #212121;
-    border: 0;
-    float: left;
-    -webkit-border-radius: 4px 0 0 4px;
-    border-radius: 4px 0 0 4px;
-  }
-  
-.search  form > .textbox:focus {
-    outline: 0;
-    background-color: #FFF;
-  }
-  
-.search  form > .button {
-    outline: 0;
-    background: none;
-    background-color: rgba(255, 255, 255, 0.8);
-    float: left;
-    height: 42px;
-    width: 42px;
-    text-align: center;
-    line-height: 42px;
-    border: 0;
-    color: #C0C0C0;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: 16px;
-    text-rendering: auto;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    -webkit-transition: background-color .4s ease;
-    transition: background-color .4s ease;
-    -webkit-border-radius: 0 4px 4px 0;
-    border-radius: 0 4px 4px 0;
-  }
-  
+  outline: 0;
+  height: 42px;
+  width: 244px;
+  line-height: 42px;
+  padding: 0 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #212121;
+  border: 0;
+  float: left;
+  -webkit-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.search form > .textbox:focus {
+  outline: 0;
+  background-color: #fff;
+}
+
+.search form > .button {
+  outline: 0;
+  background: none;
+  background-color: rgba(255, 255, 255, 0.8);
+  float: left;
+  height: 42px;
+  width: 42px;
+  text-align: center;
+  line-height: 42px;
+  border: 0;
+  color: #c0c0c0;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 16px;
+  text-rendering: auto;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-transition: background-color 0.4s ease;
+  transition: background-color 0.4s ease;
+  -webkit-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+
 .search form > .button:hover {
-    background-color: #3f51b5;
-  }
+  background-color: #3f51b5;
+}
 
 /* MERCHANTS LIST TABLE */
 .MListContainer {
-    padding-top: 25px;
+  padding-top: 25px;
 }
 .MListContainer .Mlist_table {
-    letter-spacing: 0.1em;
-    font-size: 14px;
-    font-weight: 900;
-    color: #000000;
+  letter-spacing: 0.1em;
+  font-size: 14px;
+  font-weight: 900;
+  color: #000000;
 }
 .MListContainer table tr th {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid #3f51b5;
 }
 .MListContainer table tr td {
   cursor: pointer;
   padding: 15px 0;
 }
 
-.MListContainer table tr:nth-child(2n+2){
+.MListContainer table tr:nth-child(2n + 2) {
   background-color: #fff;
-} 
+}
 
 /* CHUYỂN TRANG */
 /* .paginating-table {
   /* margin-top: 20px; */
-  /* float: right; */
-  
+/* float: right; */
+
 .pagination p.isActiveP {
   color: #000000;
   font-weight: 700;
@@ -94,5 +95,5 @@
 }
 .pagination p {
   cursor: pointer;
-  padding: 0px 10px;  
+  padding: 0px 10px;
 }

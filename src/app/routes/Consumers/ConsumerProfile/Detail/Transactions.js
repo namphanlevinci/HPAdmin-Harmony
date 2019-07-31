@@ -7,7 +7,6 @@ import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import { NotificationContainer } from "react-notifications";
 import Button from "@material-ui/core/Button";
 import "react-day-picker/lib/style.css";
-import axios from "axios";
 import moment from "moment";
 import "moment/locale/it";
 import "../../../Accounts/Logs/Logs.css";
@@ -24,23 +23,6 @@ class Transactions extends Component {
       selectedOption: null
     };
   }
-
-  componentDidMount() {
-    const ID = this.props.MerchantProfile.userId;
-    axios
-      .get("https://api2.levincidemo.com/api/paymenttransaction/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
-      })
-      .then(res => {
-        this.setState({ data: res.data.data });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
   handleResetClick = () => {
     this.setState({
       from: undefined,
@@ -63,8 +45,8 @@ class Transactions extends Component {
     // console.log(`Option selected:`, selectedOption);
   };
   render() {
+    let renderTable = this.props.TransactionsList;
     const { from, to } = this.state;
-    let renderTable = this.state.data;
     if (this.state.from) {
       renderTable = renderTable.filter(e => {
         let date = moment(e.createDate).format("YYYY-MM-DD");
@@ -167,7 +149,8 @@ class Transactions extends Component {
 
 const mapStateToProps = state => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
+  TransactionsList: state.userTransaction
 });
 
 export default connect(mapStateToProps)(Transactions);
