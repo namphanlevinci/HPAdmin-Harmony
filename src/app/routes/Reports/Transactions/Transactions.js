@@ -7,6 +7,8 @@ import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import moment from "moment";
 import "./Transactions.css";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 class Transactions extends React.Component {
   constructor(props) {
@@ -19,7 +21,13 @@ class Transactions extends React.Component {
       currentPage: "",
       startIndex: "",
       endIndex: "",
-      PaginationFilter: false
+      PaginationFilter: false,
+      from: undefined,
+      to: undefined,
+      amount: "",
+      amountFrom: "",
+      amountTo: "",
+      range: ""
     };
   }
   onChangePage = data => {
@@ -31,10 +39,28 @@ class Transactions extends React.Component {
       endIndex: data.endIndex
     });
   };
-  componentWillMount() {
-    this.props.getAll_Transactions();
-  }
+  handleResetClick = () => {
+    this.setState({
+      from: undefined,
+      to: undefined,
+      amount: "",
+      amountFrom: "",
+      amountTo: "",
+      range: ""
+    });
+  };
+  fromDate = e => {
+    this.setState({ from: e.target.value });
+  };
+  toDate = e => {
+    this.setState({ to: e.target.value });
+  };
+  handleChange = selectedOption => {
+    this.setState({ selectedOption });
+    // console.log(`Option selected:`, selectedOption);
+  };
   componentDidMount() {
+    this.props.getAll_Transactions();
     this.setState({
       totalRecords: this.props.TransactionList.length
     });
@@ -46,6 +72,9 @@ class Transactions extends React.Component {
       this.PaginationFilter();
     }
   };
+  _SearchAmount = async e => {
+    await this.setState({ amount: e.target.value });
+  };
 
   PaginationFilter() {
     this.setState({ PaginationFilter: true });
@@ -53,10 +82,22 @@ class Transactions extends React.Component {
       this.setState({ PaginationFilter: false });
     }, 300);
   }
-
+  _handleChange = event => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  };
+  _TimeRange = async e => {
+    await this.setState({
+      range: e.target.value
+    });
+  };
   render() {
     var { pageLimit, startIndex, endIndex } = this.state;
-
+    const { from, to } = this.state;
     let TransactionsList = this.props.TransactionList;
     if (TransactionsList) {
       if (this.state.search) {
@@ -73,10 +114,29 @@ class Transactions extends React.Component {
             parseInt(e.merchantId) === parseInt(this.state.search)
           );
         });
-      } else {
+      }
+      if (this.state.from) {
+        TransactionsList = TransactionsList.filter(e => {
+          let date = moment(e.createDate).format("YYYY-MM-DD");
+          return date >= from && date <= to;
+        });
+      }
+      if (this.state.amount) {
+        TransactionsList = TransactionsList.filter(e => {
+          const A = parseInt(e.amount);
+          const B = parseInt(this.state.amount);
+          return A === B;
+        });
+      }
+      if (this.state.amountFrom) {
+        TransactionsList = TransactionsList.filter(e => {
+          const Amount = parseInt(e.amount);
+          const AmountFrom = parseInt(this.state.amountFrom);
+          const AmountTo = parseInt(this.state.amountTo);
+          return Amount >= AmountFrom && Amount <= AmountTo;
+        });
       }
     }
-    console.log("TransactionsList", TransactionsList);
     const renderTransactionsList = TransactionsList.slice(
       startIndex,
       endIndex + 1
@@ -95,6 +155,7 @@ class Transactions extends React.Component {
         </tr>
       );
     });
+
     return (
       <div className="container-fluid MerList">
         <ContainerHeader
@@ -127,7 +188,107 @@ class Transactions extends React.Component {
             />
           </div>
         </div>
-
+        <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
+          <div className="col-md-4">
+            <form noValidate>
+              <TextField
+                id="date"
+                label="From"
+                type="date"
+                // defaultValue={newToday}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                onChange={this.fromDate}
+              />
+            </form>
+          </div>
+          <div className="col-md-4">
+            <form noValidate>
+              <TextField
+                id="date"
+                label="To"
+                type="date"
+                // defaultValue={this.state.to}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                onChange={this.toDate}
+              />
+            </form>
+          </div>
+          <div className="col-md-4">
+            <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
+              Time range
+            </h6>
+            <select
+              className="search"
+              value={this.state.range}
+              onChange={this._TimeRange}
+            >
+              <option value="">ALL </option>
+              <option>This week</option>
+              <option>This month</option>
+            </select>
+          </div>
+          <div className="col-md-4">
+            <div className="search">
+              <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
+                Amount ($)
+              </h6>
+              <form>
+                <input
+                  type="text"
+                  name="amount"
+                  className="textbox"
+                  placeholder="Amount ($)"
+                  value={this.state.amount}
+                  onChange={this._handleChange}
+                />
+              </form>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="search">
+              <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
+                Amount From:
+              </h6>
+              <form>
+                <input
+                  type="text"
+                  className="textbox"
+                  name="amountFrom"
+                  placeholder="Amount From"
+                  value={this.state.amountFrom}
+                  onChange={this._handleChange}
+                />
+              </form>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="search">
+              <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
+                Amount To:
+              </h6>
+              <form>
+                <input
+                  type="text"
+                  className="textbox"
+                  name="amountTo"
+                  placeholder="Amount To"
+                  value={this.state.amountTo}
+                  onChange={this._handleChange}
+                />
+              </form>
+            </div>
+          </div>
+          <div className="col-md-12">
+            <Button variant="contained" onClick={this.handleResetClick}>
+              RESET
+            </Button>
+          </div>
+        </div>
+        {/* //! yeet */}
         <div className="MListContainer Transactions">
           <table style={{ width: "100%" }}>
             <thead>

@@ -5,9 +5,10 @@ import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import {
   getAll_Merchants,
-  ViewProfile_Merchants
+  ViewProfile_Merchants,
+  UpdateMerchant_Infor,
+  GetMerchant_byID
 } from "../../../../../actions/merchants/actions";
-import axios from "axios";
 import {
   NotificationContainer,
   NotificationManager
@@ -41,34 +42,19 @@ class General extends Component {
       city,
       stateId
     } = this.state;
-    axios
-      .put(
-        "https://api2.levincidemo.com/api/merchant/" + ID,
-        { businessName, email, cellphone, address, city, stateId },
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
-        }
-      )
-      .then(res => {
-        if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message);
-          const UserToken = this.props.InfoUser_Login.User.token;
-          axios
-            .get("https://api2.levincidemo.com/api/merchant/" + ID, {
-              headers: { Authorization: `Bearer ${UserToken}` }
-            })
-            .then(res => {
-              this.props.ViewProfile_Merchants(res.data.data);
-              this.props.history.push(
-                "/app/merchants/merchant-profile/general"
-              );
-            });
-        } else {
-          NotificationManager.error("Something went wrong, please try again.");
-        }
-      });
+    const payload = {
+      ID,
+      businessName,
+      email,
+      cellphone,
+      address,
+      city,
+      stateId
+    };
+    this.props.updateMerchant(payload);
+    setTimeout(() => {
+      this.props.GetMerchant_byID(ID);
+    }, 1000);
   };
   _handleChange = event => {
     const target = event.target;
@@ -91,6 +77,15 @@ class General extends Component {
       city: data.city,
       stateId: data.stateId
     });
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UpdateStatus !== this.props.UpdateStatus) {
+      NotificationManager.success(this.props.UpdateStatus.Data.message);
+    }
+    if (nextProps.getMerchant !== this.props.getMerchant) {
+      this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
+      this.props.history.push("/app/merchants/merchant-profile/general");
+    }
   }
   render() {
     const e = this.props.MerchantProfile;
@@ -185,9 +180,10 @@ class General extends Component {
             <div className="col-md-4">
               <h4>Business Phone Number*</h4>
               <input
-                name="email"
+                name="cellphone"
                 value={e.general.phoneBusiness}
                 onChange={this._handleChange}
+                disabled
               ></input>
             </div>
             <div className="col-md-4">
@@ -250,16 +246,26 @@ class General extends Component {
 
 const mapStateToProps = state => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
+  UpdateStatus: state.updateMerchant_Infor,
+  getMerchant: state.getMerchant
 });
-const mapDispatchToProps = dispatch => ({
-  getAll_Merchants: () => {
-    dispatch(getAll_Merchants());
-  },
-  ViewProfile_Merchants: payload => {
-    dispatch(ViewProfile_Merchants(payload));
-  }
-});
+const mapDispatchToProps = dispatch => {
+  return {
+    getAll_Merchants: () => {
+      dispatch(getAll_Merchants());
+    },
+    ViewProfile_Merchants: payload => {
+      dispatch(ViewProfile_Merchants(payload));
+    },
+    updateMerchant: payload => {
+      dispatch(UpdateMerchant_Infor(payload));
+    },
+    GetMerchant_byID: ID => {
+      dispatch(GetMerchant_byID(ID));
+    }
+  };
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps

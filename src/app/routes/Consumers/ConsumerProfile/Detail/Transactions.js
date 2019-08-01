@@ -37,13 +37,13 @@ class Transactions extends Component {
   toDate = e => {
     this.setState({ to: e.target.value });
   };
-  handleTimeRange = e => {
-    this.setState({ range: e.target.value });
-  };
+
+  //! filter theo tuần/tháng chưa làm
   handleChange = selectedOption => {
     this.setState({ selectedOption });
     // console.log(`Option selected:`, selectedOption);
   };
+
   render() {
     let renderTable = this.props.TransactionsList;
     const { from, to } = this.state;
