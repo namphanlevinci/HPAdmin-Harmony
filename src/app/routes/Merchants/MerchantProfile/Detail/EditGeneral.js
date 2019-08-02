@@ -29,8 +29,8 @@ class General extends Component {
     };
   }
   _goBack = () => {
-    this.props.history.push("/app/merchants/merchant-profile/general");
     this.props.getAll_Merchants();
+    this.props.history.push("/app/merchants/merchant-profile/general");
   };
   _update = () => {
     const ID = this.props.MerchantProfile.merchantId;

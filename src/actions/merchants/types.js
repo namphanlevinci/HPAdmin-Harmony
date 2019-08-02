@@ -27,3 +27,11 @@ export const UpdateMerchant_Infor_Error = "UpdateMerchant_Infor_Error";
 export const GetMerchant_byID = "GetMerchant_byID";
 export const GetMerchant_byID_Success = "GetMerchant_byID_Success";
 export const GetMerchant_byID_Error = "GetMerchant_byID_Success";
+//! SEND APPROVAL REQUEST
+export const MERCHANT_APPROVAL = "MERCHANT_APPROVAL";
+export const MERCHANT_APPROVAL_SUCCESS = "MERCHANT_APPROVAL_SUCCESS";
+export const MERCHANT_APPROVAL_ERROR = "MERCHANT_APPROVAL_ERROR";
+//! SEND REJECT REQUEST
+export const MERCHANT_REJECT = "MERCHANT_REJECT";
+export const MERCHANT_REJECT_SUCCESS = "MERCHANT_REJECT_SUCCESS";
+export const MERCHANT_REJECT_ERROR = "MERCHANT_REJECT_ERROR";

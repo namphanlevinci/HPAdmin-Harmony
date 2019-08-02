@@ -15,6 +15,9 @@ import ViewProfile_Rejected from "./Merchants/ViewProfile_Rejected";
 //! MERCHANT PENDING LIST
 import MerchantRequests_List from "./Merchants/MerchantsPending_List";
 import ViewMerchant_Request from "./Merchants/ViewMerchant_Pending";
+//! SEND APPROVAL & REJECT REQUEST
+import Approval from "./Merchants/Approval";
+import Reject from "./Merchants/Reject";
 //! EDIT MERCHANT INFOR (GENERAL)
 import updateMerchant_Infor from "./Merchants/updateMerchant_Infor";
 //! GET MERCHANT BY ID
@@ -54,5 +57,7 @@ export default history =>
     userTransaction: getUser_Transaction,
     userActivity: getUser_Activity,
     updateMerchant_Infor,
-    getMerchant: getMerchant_byID
+    getMerchant: getMerchant_byID,
+    Approval,
+    Reject
   });

@@ -11,7 +11,6 @@ import moment from "moment";
 import "moment/locale/it";
 import "../../../Accounts/Logs/Logs.css";
 import TextField from "@material-ui/core/TextField";
-import Select from "react-select";
 
 class Transactions extends Component {
   constructor(props) {
@@ -20,14 +19,15 @@ class Transactions extends Component {
       data: [],
       from: undefined,
       to: undefined,
-      selectedOption: null
+      selectedOption: null,
+      range: ""
     };
   }
   handleResetClick = () => {
     this.setState({
       from: undefined,
       to: undefined,
-      selectedOption: null
+      range: ""
     });
   };
 
@@ -37,13 +37,11 @@ class Transactions extends Component {
   toDate = e => {
     this.setState({ to: e.target.value });
   };
-
-  //! filter theo tuần/tháng chưa làm
-  handleChange = selectedOption => {
-    this.setState({ selectedOption });
-    // console.log(`Option selected:`, selectedOption);
+  _TimeRange = async e => {
+    await this.setState({
+      range: e.target.value
+    });
   };
-
   render() {
     let renderTable = this.props.TransactionsList;
     const { from, to } = this.state;
@@ -52,6 +50,25 @@ class Transactions extends Component {
         let date = moment(e.createDate).format("YYYY-MM-DD");
         return date >= from && date <= to;
       });
+    }
+    if (this.state.range) {
+      if (this.state.range === "week") {
+        const today = moment();
+        const from_date = today.startOf("week").format("YYYY-MM-DD");
+        const to_date = today.endOf("week").format("YYYY-MM-DD");
+        renderTable = renderTable.filter(e => {
+          let date = moment(e.createDate).format("YYYY-MM-DD");
+          return date >= from_date && date <= to_date;
+        });
+      } else {
+        const today = moment();
+        const from_month = today.startOf("month").format("YYYY-MM-DD");
+        const to_month = today.endOf("month").format("YYYY-MM-DD");
+        renderTable = renderTable.filter(e => {
+          let date = moment(e.createDate).format("YYYY-MM-DD");
+          return date >= from_month && date <= to_month;
+        });
+      }
     }
     let renderContent = renderTable.map(e => {
       return (
@@ -67,14 +84,9 @@ class Transactions extends Component {
         </tr>
       );
     });
-    const options = [
-      { value: "chocolate", label: "This week" },
-      { value: "strawberry", label: "This year" },
-      { value: "vanilla", label: "This month" }
-    ];
-    const { selectedOption } = this.state;
+
     return (
-      <div className="content GeneralContent">
+      <div className="content GeneralContent ConsumerTransactions">
         <div>
           <div className="container">
             <h2>Transactions Management</h2>
@@ -108,12 +120,20 @@ class Transactions extends Component {
                 </form>
               </div>
               <div className="col-md-4">
-                <h5>Time range</h5>
-                <Select
-                  value={selectedOption}
-                  onChange={this.handleChange}
-                  options={options}
-                />
+                <h6
+                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
+                >
+                  Time range
+                </h6>
+                <select
+                  className="search"
+                  value={this.state.range}
+                  onChange={this._TimeRange}
+                >
+                  <option value="">ALL </option>
+                  <option value="week">This week</option>
+                  <option value="month">This month</option>
+                </select>
               </div>
               <div className="col-md-12">
                 <Button className="resetBtn" onClick={this.handleResetClick}>

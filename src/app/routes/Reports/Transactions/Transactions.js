@@ -213,6 +213,7 @@ class Transactions extends React.Component {
                 id="date"
                 label="From"
                 type="date"
+                className="datePicker"
                 // defaultValue={newToday}
                 InputLabelProps={{
                   shrink: true

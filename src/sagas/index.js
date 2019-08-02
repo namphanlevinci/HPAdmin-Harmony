@@ -7,7 +7,11 @@ import {
   UpdateMerchant_Infor_Saga,
   getMerchant_byID_Saga
 } from "../sagas/sagaFunction/merchants";
-import { getAll_Merchant_Request_Saga } from "../sagas/sagaFunction/merchant-requests.js";
+import {
+  getAll_Merchant_Request_Saga,
+  Send_Approval_Saga,
+  Send_Reject_Saga
+} from "../sagas/sagaFunction/merchant-requests.js";
 import { getAll_Notifications_Saga } from "../sagas/sagaFunction/notifications";
 import { getAll_Logs_Saga } from "../sagas/sagaFunction/logs";
 import { getAll_Rejected_Merchant_Saga } from "../sagas/sagaFunction/merchant-rejected";
@@ -33,4 +37,6 @@ export default function* rootSaga() {
   yield fork(getUser_Activity_Saga);
   yield fork(UpdateMerchant_Infor_Saga);
   yield fork(getMerchant_byID_Saga);
+  yield fork(Send_Approval_Saga);
+  yield fork(Send_Reject_Saga);
 }

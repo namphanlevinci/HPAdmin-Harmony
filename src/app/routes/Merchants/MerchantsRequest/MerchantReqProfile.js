@@ -7,10 +7,17 @@ import ContainerHeader from 'components/ContainerHeader/index';
 import "./MerchantReqProfile.css"
 import "./MerchantsRequest.css"
 import { Checkbox } from '@material-ui/core';
-import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import moment from 'moment';
 import Button from '@material-ui/core/Button';
+import { MERCHANT_APPROVAL, MERCHANT_REJECT} from '../../../../actions/merchants/actions';
+import {
+    getAll_Merchants
+  } from "../../../../actions/merchants/actions";
+import {
+    NotificationContainer,
+    NotificationManager
+  } from "react-notifications";
 class MerchantReqProfile extends Component {
     constructor(props) {
         super(props);
@@ -40,6 +47,28 @@ class MerchantReqProfile extends Component {
         this.setState({
             showPopupReject: !this.state.showPopupReject
         });
+      }
+      componentWillReceiveProps(nextProps) {
+          if (nextProps.ApprovalStatus !== this.props.ApprovalStatus) {
+            this.props.getAll_Merchants()
+            if (nextProps.ApprovalStatus.message  === "Merchant code is exist!") {
+                NotificationManager.error("MERCHANT CODE IS ALREADY EXIST!")
+            } else {
+                this.setState({showPopupAccept: false})
+                NotificationManager.success('SUCCESS');
+                setTimeout(() => {
+                    this.props.history.push('/app/merchants/pending-request')
+                }, 1000)
+            }
+          }
+          if (nextProps.RejectStatus !== this.props.RejectStatus) {
+            this.props.getAll_Merchants()
+            this.setState({showPopupReject: false})
+            NotificationManager.success('SUCCESS');
+            setTimeout(() => {
+                this.props.history.push('/app/merchants/pending-request')
+            }, 1000)
+          }
       }
     render() { 
         const e = this.props.PendingProfile
@@ -82,20 +111,12 @@ class MerchantReqProfile extends Component {
                                             return errors;
                                         }}
                                         onSubmit={(values, { setSubmitting }) => {
-                                            setTimeout(() => {
-                                                this.props.history.push('/app/merchants/pending-request')
-                                                const ID = this.props.PendingProfile.merchantId
+                                            const ID = this.props.PendingProfile.merchantId
                                                 const merchantCode = values.merchantID
                                                 const merchantToken = values.merchantToken
                                                 const transactionsFee = values.fee
-                                                axios.put('https://api2.levincidemo.com/api/merchant/approve/' + ID, {merchantCode,  merchantToken, transactionsFee}, { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-                                                .then((res) => {
-                                                    // console.log(res)
-                                                }).catch((err) => {
-                                                    console.log(err)
-                                                })
-                                                setSubmitting(false);
-                                                }, 400);
+                                                const data = { transactionsFee, merchantToken, merchantCode, ID}
+                                                this.props.sendApproval(data)
                                         }}
                                         >
                                         {({ lol }) => (
@@ -138,18 +159,10 @@ class MerchantReqProfile extends Component {
                                             return errors;
                                         }}
                                         onSubmit={(values, { setSubmitting }) => {
-                                            setTimeout(() => {
-                                            setSubmitting(false);
                                             const reason = values.rejectReason
-                                            this.props.history.push('/app/merchants/pending-request')
                                             const ID = this.props.PendingProfile.merchantId
-                                            axios.put('https://api2.levincidemo.com/api/merchant/reject/' + ID,  {reason} , { headers: {"Authorization" : `Bearer ${this.props.InfoUser_Login.User.token}`} })
-                                            .then((res) => {
-                                                // console.log(res)
-                                            }).catch((err) => {
-                                                console.log(err)
-                                            })
-                                            }, 200);
+                                            const data = { reason, ID}
+                                            this.props.sendReject(data)
                                         }}
                                         >
                                         {({ values, _handleChange, isSubmitting }) => (
@@ -298,6 +311,7 @@ class MerchantReqProfile extends Component {
                                     </div>
                             </div>   
                         </div>
+                        <NotificationContainer/>
                     </div>
             </div> : <Redirect to="/app/merchants/pending-request" />
         return ( 
@@ -309,6 +323,22 @@ class MerchantReqProfile extends Component {
 const mapStateToProps = (state) => ({
     PendingProfile: state.ViewMerchant_Request,
     InfoUser_Login: state.User,
+    ApprovalStatus: state.Approval,
+    RejectStatus: state.Reject
 })
+const mapDispatchToProps = dispatch => {
+    return {
+        sendApproval: payload => {
+            dispatch(MERCHANT_APPROVAL(payload))
+        },
+        getAll_Merchants: payload => {
+            dispatch(getAll_Merchants())
+        },
+        sendReject: payload => {
+            dispatch(MERCHANT_REJECT(payload))
+        }
 
-export default withRouter(connect(mapStateToProps)(MerchantReqProfile));
+    }
+}
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(MerchantReqProfile));

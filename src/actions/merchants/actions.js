@@ -94,3 +94,29 @@ export const GetMerchant_byID_Error = payload => ({
   type: types.GetMerchant_byID_Error,
   payload: payload
 });
+//! Send approval request
+export const MERCHANT_APPROVAL = payload => ({
+  type: types.MERCHANT_APPROVAL,
+  payload: payload
+});
+export const MERCHANT_APPROVAL_SUCCESS = payload => ({
+  type: types.MERCHANT_APPROVAL_SUCCESS,
+  payload: payload
+});
+export const MERCHANT_APPROVAL_ERROR = payload => ({
+  type: types.MERCHANT_APPROVAL_ERROR,
+  payload: payload
+});
+//! Send reject request
+export const MERCHANT_REJECT = payload => ({
+  type: types.MERCHANT_REJECT,
+  payload: payload
+});
+export const MERCHANT_REJECT_SUCCESS = payload => ({
+  type: types.MERCHANT_REJECT_SUCCESS,
+  payload: payload
+});
+export const MERCHANT_REJECT_ERROR = payload => ({
+  type: types.MERCHANT_REJECT_ERROR,
+  payload: payload
+});
