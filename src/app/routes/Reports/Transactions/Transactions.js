@@ -55,10 +55,7 @@ class Transactions extends React.Component {
   toDate = e => {
     this.setState({ to: e.target.value });
   };
-  handleChange = selectedOption => {
-    this.setState({ selectedOption });
-    // console.log(`Option selected:`, selectedOption);
-  };
+
   componentDidMount() {
     this.props.getAll_Transactions();
     this.setState({
@@ -136,6 +133,25 @@ class Transactions extends React.Component {
           return Amount >= AmountFrom && Amount <= AmountTo;
         });
       }
+      if (this.state.range) {
+        if (this.state.range === "week") {
+          const today = moment();
+          const from_date = today.startOf("week").format("YYYY-MM-DD");
+          const to_date = today.endOf("week").format("YYYY-MM-DD");
+          TransactionsList = TransactionsList.filter(e => {
+            let date = moment(e.createDate).format("YYYY-MM-DD");
+            return date >= from_date && date <= to_date;
+          });
+        } else {
+          const today = moment();
+          const from_month = today.startOf("month").format("YYYY-MM-DD");
+          const to_month = today.endOf("month").format("YYYY-MM-DD");
+          TransactionsList = TransactionsList.filter(e => {
+            let date = moment(e.createDate).format("YYYY-MM-DD");
+            return date >= from_month && date <= to_month;
+          });
+        }
+      }
     }
     const renderTransactionsList = TransactionsList.slice(
       startIndex,
@@ -144,8 +160,10 @@ class Transactions extends React.Component {
       return (
         <tr key={e.paymentTransactionId}>
           <td>{moment(e.createDate).format("DD/MM/YYYY")}</td>
-          <td>{e.paymentTransactionId}</td>
-          <td>{e.user.firstName + " " + e.user.lastName}</td>
+          <td style={{ width: "10%" }}>{e.paymentTransactionId}</td>
+          <td style={{ width: "13%" }}>
+            {e.user.firstName + " " + e.user.lastName}
+          </td>
           <td>{e.user.phone}</td>
           <td>{e.paymentData.method}</td>
           <td>{e.paymentData.card_type}</td>
@@ -227,8 +245,8 @@ class Transactions extends React.Component {
               onChange={this._TimeRange}
             >
               <option value="">ALL </option>
-              <option>This week</option>
-              <option>This month</option>
+              <option value="week">This week</option>
+              <option value="month">This month</option>
             </select>
           </div>
           <div className="col-md-4">
@@ -288,13 +306,12 @@ class Transactions extends React.Component {
             </Button>
           </div>
         </div>
-        {/* //! yeet */}
         <div className="MListContainer Transactions">
           <table style={{ width: "100%" }}>
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Transaction ID</th>
+                <th style={{ textAlign: "center" }}>Transaction ID</th>
                 <th>Customer</th>
                 <th>Phone number</th>
                 <th>Payment method</th>
