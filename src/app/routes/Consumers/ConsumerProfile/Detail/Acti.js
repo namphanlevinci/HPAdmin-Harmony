@@ -40,7 +40,7 @@ class Acti extends Component {
         id: "createDate",
         Header: "Date/time",
         accessor: e => {
-          return moment(e.createDate).format("MM-DD-YYYY HH:mm:ss A");
+          return moment(e.createDate).format("MM-DD-YYYY HH:mm A");
         }
       },
       {

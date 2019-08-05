@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getAll_Transactions } from "../../../../actions/transactions/actions";
-import Pagination from "../../Merchants/MerchantsList/Pagination";
 import "../../Merchants/MerchantsList/merchantsList.css";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
@@ -9,19 +8,14 @@ import moment from "moment";
 import "./Transactions.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       search: "",
-      totalRecords: "",
-      totalPages: "",
-      pageLimit: "",
-      currentPage: "",
-      startIndex: "",
-      endIndex: "",
-      PaginationFilter: false,
       from: undefined,
       to: undefined,
       amount: "",
@@ -30,15 +24,7 @@ class Transactions extends React.Component {
       range: ""
     };
   }
-  onChangePage = data => {
-    this.setState({
-      pageLimit: data.pageLimit,
-      totalPages: data.totalPages,
-      currentPage: data.page,
-      startIndex: data.startIndex,
-      endIndex: data.endIndex
-    });
-  };
+
   handleResetClick = () => {
     this.setState({
       from: undefined,
@@ -58,27 +44,15 @@ class Transactions extends React.Component {
 
   componentDidMount() {
     this.props.getAll_Transactions();
-    this.setState({
-      totalRecords: this.props.TransactionList.length
-    });
   }
 
   _SearchMerchants = async e => {
     await this.setState({ search: e.target.value });
-    if (this.state.search.length === 1) {
-      this.PaginationFilter();
-    }
   };
   _SearchAmount = async e => {
     await this.setState({ amount: e.target.value });
   };
 
-  PaginationFilter() {
-    this.setState({ PaginationFilter: true });
-    setTimeout(() => {
-      this.setState({ PaginationFilter: false });
-    }, 300);
-  }
   _handleChange = event => {
     const target = event.target;
     const value = target.value;
@@ -93,7 +67,6 @@ class Transactions extends React.Component {
     });
   };
   render() {
-    var { pageLimit, startIndex, endIndex } = this.state;
     const { from, to } = this.state;
     let TransactionsList = this.props.TransactionList;
     if (TransactionsList) {
@@ -142,6 +115,13 @@ class Transactions extends React.Component {
             let date = moment(e.createDate).format("YYYY-MM-DD");
             return date >= from_date && date <= to_date;
           });
+        }
+        if (this.state.range === "today") {
+          const today = moment().format("YYYY-MM-DD");
+          TransactionsList = TransactionsList.filter(e => {
+            let date = moment(e.createDate).format("YYYY-MM-DD");
+            return date === today;
+          });
         } else {
           const today = moment();
           const from_month = today.startOf("month").format("YYYY-MM-DD");
@@ -153,27 +133,55 @@ class Transactions extends React.Component {
         }
       }
     }
-    const renderTransactionsList = TransactionsList.slice(
-      startIndex,
-      endIndex + 1
-    ).map(e => {
-      return (
-        <tr key={e.paymentTransactionId}>
-          <td>{moment(e.createDate).format("DD/MM/YYYY")}</td>
-          <td style={{ width: "10%" }}>{e.paymentTransactionId}</td>
-          <td style={{ width: "13%" }}>
-            {e.user.firstName + " " + e.user.lastName}
-          </td>
-          <td>{e.user.phone}</td>
-          <td>{e.paymentData.method}</td>
-          <td>{e.paymentData.card_type}</td>
-          <td>{"$" + e.amount}</td>
-          <td>{e.ip}</td>
-          <td>{e.paymentData.validation_status}</td>
-        </tr>
-      );
-    });
 
+    const columns = [
+      {
+        id: "createDate",
+        Header: "Date/time",
+        width: 200,
+        accessor: e => {
+          return moment(e.createDate).format("MM-DD-YYYY HH:mm A");
+        }
+      },
+      {
+        Header: "Transaction ID",
+        accessor: "paymentTransactionId"
+      },
+      {
+        id: "Customer",
+        Header: "Customer",
+        accessor: e => e.user.fullName
+      },
+      {
+        id: "phone",
+        Header: "Phone number",
+        accessor: e => e.user.phone
+      },
+      {
+        id: "Paymentmethod",
+        Header: "Payment mothod",
+        accessor: e => e.paymentData.method
+      },
+      {
+        id: "Cardtype",
+        Header: "Card type",
+        accessor: e => e.paymentData.card_type
+      },
+      {
+        id: "Amount",
+        Header: "Amount",
+        accessor: e => e.amount
+      },
+      {
+        Header: "IP",
+        accessor: "ip"
+      },
+      {
+        id: "status",
+        Header: "Status",
+        accessor: e => e.paymentData.validation_status
+      }
+    ];
     return (
       <div className="container-fluid MerList">
         <ContainerHeader
@@ -195,16 +203,6 @@ class Transactions extends React.Component {
             </form>
           </div>
           {/* THANH CHUYỂN TRANGz */}
-          <div className="paginating-table">
-            <Pagination
-              totalRecords={TransactionsList.length}
-              pageLimit={pageLimit || 10}
-              initialPage={1}
-              pagesToShow={10}
-              onChangePage={this.onChangePage}
-              PaginationFilter={this.state.PaginationFilter}
-            />
-          </div>
         </div>
         <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
           <div className="col-md-4">
@@ -246,6 +244,7 @@ class Transactions extends React.Component {
               onChange={this._TimeRange}
             >
               <option value="">ALL </option>
+              <option value="today">Today</option>
               <option value="week">This week</option>
               <option value="month">This month</option>
             </select>
@@ -308,22 +307,12 @@ class Transactions extends React.Component {
           </div>
         </div>
         <div className="MListContainer Transactions">
-          <table style={{ width: "100%" }}>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th style={{ textAlign: "center" }}>Transaction ID</th>
-                <th>Customer</th>
-                <th>Phone number</th>
-                <th>Payment method</th>
-                <th>Card type</th>
-                <th>Amount</th>
-                <th>IP</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>{renderTransactionsList}</tbody>
-          </table>
+          <ReactTable
+            data={TransactionsList}
+            columns={columns}
+            defaultPageSize={10}
+            minRows={1}
+          />
         </div>
       </div>
     );

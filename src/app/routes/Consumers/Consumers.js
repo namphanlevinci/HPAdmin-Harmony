@@ -8,7 +8,7 @@ import ContainerHeader from "components/ContainerHeader/index";
 import "../Reports/Transactions/Transactions.css";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-
+import "./ConsumerProfile/Detail/Consumer.css";
 class Consumers extends React.Component {
   constructor(props) {
     super(props);
@@ -30,9 +30,6 @@ class Consumers extends React.Component {
 
   _SearchMerchants = async e => {
     await this.setState({ search: e.target.value });
-    if (this.state.search.length === 1) {
-      this.PaginationFilter();
-    }
   };
   _ConsumerProfile = e => {
     this.props.ViewProfile_Merchants(e);
@@ -62,8 +59,10 @@ class Consumers extends React.Component {
         accessor: "email"
       },
       {
+        id: "totalAmount",
         Header: "Money spent/Daily",
-        accessor: "totalAmount"
+        accessor: e => e.totalAmount,
+        Cell: e => <span className={e.value > 0 ? "BIG" : ""}>${e.value}</span>
       }
     ];
 
@@ -90,6 +89,7 @@ class Consumers extends React.Component {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: e => {
+          console.log("rowInfo.row", rowInfo.row);
           this._ConsumerProfile(rowInfo.row);
         }
       };

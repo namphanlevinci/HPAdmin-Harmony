@@ -77,8 +77,9 @@ class Transactions extends Component {
       {
         id: "createDate",
         Header: "Date/time",
+        width: 200,
         accessor: e => {
-          return moment(e.createDate).format("MM-DD-YYYY HH:mm:ss A");
+          return moment(e.createDate).format("MM-DD-YYYY HH:mm A");
         }
       },
       {
@@ -173,28 +174,12 @@ class Transactions extends Component {
             </div>
             <div className="TransactionTable">
               <h2>Summary Data</h2>
-              {/* //! TABLE AND SHIT */}
               <ReactTable
                 data={renderTable}
                 columns={columns}
                 defaultPageSize={10}
                 minRows={1}
               />
-              {/* <table style={{ width: "100%" }}>
-                <thead>
-                  <tr>
-                    <th>Date/time</th>
-                    <th>Transaction ID</th>
-                    <th>Activity</th>
-                    <th>Payment method</th>
-                    <th>Card type</th>
-                    <th>Amount</th>
-                    <th>IP</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>{renderContent}</tbody>
-              </table> */}
             </div>
           </div>
         </div>
