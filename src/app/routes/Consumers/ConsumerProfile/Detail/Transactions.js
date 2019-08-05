@@ -103,8 +103,9 @@ class Transactions extends Component {
       },
       {
         id: "amount",
-        Header: "Amount ($)",
-        accessor: "amount"
+        Header: "Amount",
+        accessor: "amount",
+        Cell: e => <span className="">${e.value}</span>
       },
       {
         Header: "IP",
