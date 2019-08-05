@@ -62,7 +62,9 @@ class Consumers extends React.Component {
         id: "totalAmount",
         Header: "Money spent/Daily",
         accessor: e => e.totalAmount,
-        Cell: e => <span className={e.value > 0 ? "BIG" : ""}>${e.value}</span>
+        Cell: e => (
+          <span className={e.value > 10000 ? "BIG" : ""}>${e.value}</span>
+        )
       }
     ];
 
