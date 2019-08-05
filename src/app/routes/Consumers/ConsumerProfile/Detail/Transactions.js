@@ -11,6 +11,8 @@ import moment from "moment";
 import "moment/locale/it";
 import "../../../Accounts/Logs/Logs.css";
 import TextField from "@material-ui/core/TextField";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 class Transactions extends Component {
   constructor(props) {
@@ -70,21 +72,49 @@ class Transactions extends Component {
         });
       }
     }
-    let renderContent = renderTable.map(e => {
-      return (
-        <tr key={e.paymentTransactionId}>
-          <td>{moment(e.createDate).format("DD/MM/YYYY")}</td>
-          <td>{e.paymentTransactionId}</td>
-          <td>{e.paymentData.transaction_type}</td>
-          <td>{e.paymentData.method}</td>
-          <td>{e.paymentData.card_type}</td>
-          <td>{"$" + e.amount}</td>
-          <td>{e.ip}</td>
-          <td>{e.paymentData.validation_status}</td>
-        </tr>
-      );
-    });
 
+    const columns = [
+      {
+        id: "createDate",
+        Header: "Date/time",
+        accessor: e => {
+          return moment(e.createDate).format("MM-DD-YYYY HH:mm:ss A");
+        }
+      },
+      {
+        Header: "Transaction ID",
+        accessor: "paymentTransactionId"
+      },
+      {
+        id: "Activity",
+        Header: "Activity",
+        accessor: e => e.paymentData.transaction_type
+      },
+      {
+        id: "PaymentMethod",
+        Header: "Payment Method",
+        accessor: e => e.paymentData.method
+      },
+      {
+        id: "cardtype",
+        Header: "Card type",
+        accessor: e => e.paymentData.card_type
+      },
+      {
+        id: "amount",
+        Header: "Amount ($)",
+        accessor: "amount"
+      },
+      {
+        Header: "IP",
+        accessor: "ip"
+      },
+      {
+        id: "status",
+        Header: "Status",
+        accessor: e => e.paymentData.validation_status
+      }
+    ];
     return (
       <div className="content GeneralContent ConsumerTransactions">
         <div>
@@ -143,7 +173,14 @@ class Transactions extends Component {
             </div>
             <div className="TransactionTable">
               <h2>Summary Data</h2>
-              <table style={{ width: "100%" }}>
+              {/* //! TABLE AND SHIT */}
+              <ReactTable
+                data={renderTable}
+                columns={columns}
+                defaultPageSize={10}
+                minRows={1}
+              />
+              {/* <table style={{ width: "100%" }}>
                 <thead>
                   <tr>
                     <th>Date/time</th>
@@ -157,7 +194,7 @@ class Transactions extends Component {
                   </tr>
                 </thead>
                 <tbody>{renderContent}</tbody>
-              </table>
+              </table> */}
             </div>
           </div>
         </div>

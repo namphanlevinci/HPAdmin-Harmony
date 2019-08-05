@@ -50,3 +50,24 @@
   border-radius: 4px;
 }
 /* //! Activity */
+.ReactTable .rt-thead .rt-th.-sort-asc,
+.ReactTable .rt-thead .rt-td.-sort-asc {
+  box-shadow: inset 0 3px 0 0 #3c37ab !important;
+}
+.ReactTable .rt-resizable-header-content {
+  font-weight: 500;
+  font-size: 16px;
+  padding: 10px;
+  color: black;
+}
+.ReactTable .rt-tbody .rt-td {
+  text-align: center;
+  color: #212121;
+  font-weight: 400;
+  font-size: 15px;
+  cursor: pointer;
+}
+.ReactTable .-pagination .-btn:not([disabled]):hover {
+  background: #3c37ab !important;
+  color: white;
+}

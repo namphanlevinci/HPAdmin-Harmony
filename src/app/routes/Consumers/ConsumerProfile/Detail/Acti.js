@@ -8,6 +8,8 @@ import Button from "@material-ui/core/Button";
 import "react-day-picker/lib/style.css";
 import moment from "moment";
 import TextField from "@material-ui/core/TextField";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 class Acti extends Component {
   constructor(props) {
@@ -33,6 +35,19 @@ class Acti extends Component {
     this.setState({ to: e.target.value });
   };
   render() {
+    const columns = [
+      {
+        id: "createDate",
+        Header: "Date/time",
+        accessor: e => {
+          return moment(e.createDate).format("MM-DD-YYYY HH:mm:ss A");
+        }
+      },
+      {
+        Header: "Activity",
+        accessor: "action"
+      }
+    ];
     const { from, to } = this.state;
     let renderTable = this.props.userActivity;
     if (this.state.from) {
@@ -41,14 +56,6 @@ class Acti extends Component {
         return date >= from && date <= to;
       });
     }
-    let renderContent = renderTable.map(e => {
-      return (
-        <tr key={e.userActivityId}>
-          <td>{moment(e.createDate).format("DD/MM/YYYY")}</td>
-          <td>{e.action}</td>
-        </tr>
-      );
-    });
     return (
       <div className="content GeneralContent">
         <div>
@@ -91,15 +98,12 @@ class Acti extends Component {
             </div>
             <div className="TransactionTable ActivityTable">
               <h2>Summary Data</h2>
-              <table style={{ width: "100%" }}>
-                <thead>
-                  <tr>
-                    <th style={{ width: "20%" }}>Date/time</th>
-                    <th style={{ width: "80%" }}>Activity</th>
-                  </tr>
-                </thead>
-                <tbody>{renderContent}</tbody>
-              </table>
+              <ReactTable
+                data={renderTable}
+                columns={columns}
+                defaultPageSize={10}
+                minRows={1}
+              />
             </div>
           </div>
         </div>
