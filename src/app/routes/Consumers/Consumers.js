@@ -91,7 +91,6 @@ class Consumers extends React.Component {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: e => {
-          console.log("rowInfo.row", rowInfo.row);
           this._ConsumerProfile(rowInfo.row);
         }
       };
