@@ -23,8 +23,7 @@ import IntlMessages from "util/IntlMessages";
 import Menu from "components/TopNav/Menu";
 import UserInfoPopup from "components/UserInfo/UserInfoPopup";
 import axios from "axios";
-import { ViewMerchant_Request } from "../../actions/merchants/actions";
-
+import { ViewProfile_Merchants } from "../../actions/merchants/actions";
 import playMessageAudio from "../../util/sound";
 class Header extends React.Component {
   //load signalR
@@ -56,21 +55,36 @@ class Header extends React.Component {
   gotoList = async e => {
     let data = JSON.parse(this.state.User);
     const UserToken = data.token;
-    // this.handleDelete(e)
-    await axios
-      .get("https://api2.levincidemo.com/api/merchant/" + e.SenderId, {
-        headers: { Authorization: `Bearer ${UserToken}` }
-      })
-      .then(res => {
-        if (res.data.data.isApproved === 0 && res.data.data.isRejected === 0) {
+    if (e.Type === "payment") {
+      await axios
+        .get("https://api2.levincidemo.com/api/merchant/" + e.SenderId, {
+          headers: { Authorization: `Bearer ${UserToken}` }
+        })
+        .then(res => {
+          if (
+            res.data.data.isApproved === 0 &&
+            res.data.data.isRejected === 0
+          ) {
+            this.setState({ appNotification: false });
+            this.props.ViewMerchant_Request(res.data.data);
+            this.props.history.push("/app/merchants/pending-profile");
+            this.handleDelete(e);
+          } else {
+            this.handleDelete(e);
+          }
+        });
+    } else {
+      axios
+        .get("https://api2.levincidemo.com/api/user/" + e.SenderId, {
+          headers: { Authorization: `Bearer ${UserToken}` }
+        })
+        .then(res => {
+          this.props.ViewProfile_Merchants(res.data.data);
           this.setState({ appNotification: false });
-          this.props.ViewMerchant_Request(res.data.data);
-          this.props.history.push("/app/merchants/pending-profile");
+          this.props.history.push("/app/consumers/profile/general");
           this.handleDelete(e);
-        } else {
-          this.handleDelete(e);
-        }
-      });
+        });
+    }
   };
   handleDelete = e => {
     let data = JSON.parse(this.state.User);
@@ -443,8 +457,8 @@ const mapStateToProps = ({ settings }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  ViewMerchant_Request: payload => {
-    dispatch(ViewMerchant_Request(payload));
+  ViewProfile_Merchants: payload => {
+    dispatch(ViewProfile_Merchants(payload));
   },
   toggleCollapsedNav: payload => {
     dispatch(toggleCollapsedNav(payload));

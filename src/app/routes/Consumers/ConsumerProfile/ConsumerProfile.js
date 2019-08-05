@@ -34,7 +34,6 @@ class ConsumerProfile extends Component {
   render() {
     // render staff
     const e = this.props.MerchantProfile;
-    // console.log('eee', e)
     const renderConsumer =
       e.firstName !== undefined ? (
         <div className="container-fluid PendingList">
