@@ -5,6 +5,7 @@ import Settings from "./Settings";
 import UserLogin from "./User/UserLogin";
 import ViewProfile_User from "./User/ViewUserProfile";
 import getAllUser from "./User/getAllUser";
+import Verify from "./User/Verify";
 //! MERCHANT ACCEPTED LIST
 import MerchantsList from "./Merchants/Merchants_List";
 import SearchMerchants from "./Merchants/SearchMerchants";
@@ -59,5 +60,6 @@ export default history =>
     updateMerchant_Infor,
     getMerchant: getMerchant_byID,
     Approval,
-    Reject
+    Reject,
+    Verify_User: Verify
   });

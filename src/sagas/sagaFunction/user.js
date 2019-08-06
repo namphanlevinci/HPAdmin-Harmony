@@ -1,35 +1,64 @@
-import * as typeUser from '../../actions/user/types'
-import { login_User_api, getAll_User_api } from '../api/user'
-import { takeLatest, put } from 'redux-saga/effects'
+import * as typeUser from "../../actions/user/types";
+import { login_User_api, getAll_User_api, Verify_User_api } from "../api/user";
+import { takeLatest, put } from "redux-saga/effects";
 
+//! login user admin
 export function* login_User_Saga() {
-    yield takeLatest(typeUser.checkLogin_User, function* (action) {
-        try {
-            const { email, password } = action.payload
-            const check = yield login_User_api({ email, password });
-            if (check.data !== null) {
-                yield put({ type: typeUser.checkLogin_User_Success, payload: check.data });
-            }
-            if (check.data === null) {
-                yield put({ type: typeUser.checkLogin_User_Error, payload: check.message })
-            }
-        } catch (error) {
-            yield put({ type: typeUser.checkLogin_User_Error, payload: error })
-        }
-    })
+  yield takeLatest(typeUser.checkLogin_User, function*(action) {
+    try {
+      const { email, password } = action.payload;
+      const check = yield login_User_api({ email, password });
+      if (check.data !== null) {
+        yield put({
+          type: typeUser.checkLogin_User_Success,
+          payload: check.data
+        });
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeUser.checkLogin_User_Error,
+          payload: check.message
+        });
+      }
+    } catch (error) {
+      yield put({ type: typeUser.checkLogin_User_Error, payload: error });
+    }
+  });
 }
 
+//! Verify user admin
+export function* Verify_User_Saga() {
+  yield takeLatest(typeUser.Verify, function*(action) {
+    try {
+      const { SERIAL, code } = action.payload;
+      const check = yield Verify_User_api({ SERIAL, code });
+      if (check.data !== null) {
+        yield put({ type: typeUser.Verify_Success, payload: check.data });
+      }
+      if (check.data === null) {
+        yield put({ type: typeUser.Verify_Error, payload: check.message });
+      }
+    } catch (error) {
+      yield put({ type: typeUser.Verify_Error, payload: error });
+    }
+  });
+}
+
+//! get all user admin
 export function* getAll_User_Saga() {
-    yield takeLatest(typeUser.getAll_User, function* () {
-        try {
-            const UserList = yield getAll_User_api();
-            if (UserList.data !== null) {
-                yield put({ type: typeUser.getAll_User_Success, payload: UserList });
-            } else {
-                yield put({ type: typeUser.getAll_User_Error, payload: 'Something went wrong, please try again later!' })
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    });
+  yield takeLatest(typeUser.getAll_User, function*() {
+    try {
+      const UserList = yield getAll_User_api();
+      if (UserList.data !== null) {
+        yield put({ type: typeUser.getAll_User_Success, payload: UserList });
+      } else {
+        yield put({
+          type: typeUser.getAll_User_Error,
+          payload: "Something went wrong, please try again later!"
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 }

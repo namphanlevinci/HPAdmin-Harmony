@@ -1,7 +1,9 @@
 import { fork } from "redux-saga/effects";
-
-import { login_User_Saga, getAll_User_Saga } from "../sagas/sagaFunction/user";
-
+import {
+  login_User_Saga,
+  getAll_User_Saga,
+  Verify_User_Saga
+} from "../sagas/sagaFunction/user";
 import {
   getAll_Merchants_Saga,
   UpdateMerchant_Infor_Saga,
@@ -39,4 +41,5 @@ export default function* rootSaga() {
   yield fork(getMerchant_byID_Saga);
   yield fork(Send_Approval_Saga);
   yield fork(Send_Reject_Saga);
+  yield fork(Verify_User_Saga);
 }

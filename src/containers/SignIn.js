@@ -10,10 +10,7 @@ import {
 } from "react-notifications";
 import IntlMessages from "util/IntlMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {
-  checkLogin_User,
-  checkLogin_User_Error
-} from "../actions/user/actions";
+import { checkLogin_User } from "../actions/user/actions";
 
 class SignIn extends React.Component {
   constructor() {
@@ -128,9 +125,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   checkLogin_User: user_info => {
     dispatch(checkLogin_User(user_info));
-  },
-  checkLogin_User_Error: mess => {
-    dispatch(checkLogin_User_Error(mess));
   }
 });
 
