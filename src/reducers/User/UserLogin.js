@@ -16,10 +16,7 @@ const UserLogin = (state = initialState, action) => {
       return { ...state };
 
     case typeUser.checkLogin_User_Error:
-      localStorage.setItem(
-        "Message",
-        "Wrong email or password please try again!"
-      );
+      localStorage.setItem("Message", action.payload);
       return { ...state };
 
     case typeUser.logout_User:

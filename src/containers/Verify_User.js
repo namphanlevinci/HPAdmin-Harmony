@@ -51,6 +51,7 @@ class Verify_User extends React.Component {
             <p>
               <IntlMessages id="appModule.enterYourVerifyCode" />
             </p>
+            <p>Your account will be locked if u don't verify after 5 times!</p>
           </div>
           <form>
             <TextField
