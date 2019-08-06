@@ -138,14 +138,15 @@ class Transactions extends React.Component {
       {
         id: "createDate",
         Header: "Date/time",
-        width: 200,
+        maxWidth: 200,
         accessor: e => {
           return moment(e.createDate).format("MM-DD-YYYY HH:mm A");
         }
       },
       {
         Header: "Transaction ID",
-        accessor: "paymentTransactionId"
+        accessor: "paymentTransactionId",
+        width: 100
       },
       {
         id: "Customer",
@@ -153,19 +154,32 @@ class Transactions extends React.Component {
         accessor: e => e.user.fullName
       },
       {
-        id: "phone",
-        Header: "Phone number",
-        accessor: e => e.user.phone
+        id: "Title",
+        Header: "Title",
+        accessor: "title"
       },
       {
-        id: "Paymentmethod",
-        Header: "Payment mothod",
-        accessor: e => e.paymentData.method
+        id: "Cardtype ",
+        Header: "Card /Last 4 Digit",
+        width: 180,
+        accessor: e =>
+          e.paymentData.card_type.length > 1 ? (
+            <span>
+              {e.paymentData.card_type}
+              <br /> {" **** **** ****" + " " + e.paymentData.card_number}
+            </span>
+          ) : null
       },
       {
-        id: "Cardtype",
-        Header: "Card type",
-        accessor: e => e.paymentData.card_type
+        id: "receiver",
+        Header: "Receiver",
+        accessor: e => (e.receiver !== null ? e.receiver.merchant_name : null)
+      },
+      {
+        id: "Merchantcode",
+        Header: "Merchant ID",
+        width: 180,
+        accessor: e => (e.receiver !== null ? e.receiver.merchant_code : null)
       },
       {
         id: "Amount",

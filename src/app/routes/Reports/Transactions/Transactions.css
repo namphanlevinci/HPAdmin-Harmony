@@ -94,3 +94,6 @@
   padding: 0px;
   background: #3f51b5;
 }
+.rt-td {
+  white-space: normal !important;
+}

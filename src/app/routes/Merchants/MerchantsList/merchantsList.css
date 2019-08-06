@@ -83,11 +83,6 @@
   background-color: #fff;
 }
 
-/* CHUYỂN TRANG */
-/* .paginating-table {
-  /* margin-top: 20px; */
-/* float: right; */
-
 .pagination p.isActiveP {
   color: #000000;
   font-weight: 700;
@@ -96,4 +91,35 @@
 .pagination p {
   cursor: pointer;
   padding: 0px 10px;
+}
+
+.ReactTable .rt-thead .rt-th.-sort-asc,
+.ReactTable .rt-thead .rt-td.-sort-asc {
+  box-shadow: inset 0 3px 0 0 red !important;
+}
+.ReactTable .rt-thead .rt-th.-sort-desc,
+.ReactTable .rt-thead .rt-td.-sort-desc {
+  box-shadow: inset 0 -3px 0 0 red !important;
+}
+.ReactTable .rt-resizable-header-content {
+  font-weight: 500;
+  font-size: 16px;
+  padding: 10px;
+  color: #fff;
+}
+.ReactTable .rt-tbody .rt-td {
+  text-align: center;
+  color: #212121;
+  font-weight: 400;
+  font-size: 15px;
+  cursor: pointer;
+}
+.ReactTable .-pagination .-btn:not([disabled]):hover {
+  background: #3c37ab !important;
+  color: white;
+}
+.ReactTable .rt-thead .rt-th,
+.ReactTable .rt-thead .rt-td {
+  padding: 0px;
+  background: #3f51b5;
 }

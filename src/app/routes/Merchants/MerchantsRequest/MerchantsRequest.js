@@ -6,64 +6,31 @@ import {
   ViewMerchant_Request
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import Pagination from "../MerchantsList/Pagination";
-//
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 class MerchantsRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
-      totalRecords: "",
-      totalPages: "",
-      pageLimit: "",
-      currentPage: "",
-      startIndex: "",
-      endIndex: "",
-      PaginationFilter: false,
-      sortedName: false,
-      sortedEmail: false
+      search: ""
     };
   }
-  onChangePage = data => {
-    this.setState({
-      pageLimit: data.pageLimit,
-      totalPages: data.totalPages,
-      currentPage: data.page,
-      startIndex: data.startIndex,
-      endIndex: data.endIndex
-    });
-  };
-  componentDidMount() {
-    this.setState({
-      totalRecords: this.props.MerchantRequests_List.length
-    });
-  }
+
   componentWillMount() {
     this.props.getAll_Merchant_Requests();
   }
   _SearchMerchants = async e => {
     await this.setState({ search: e.target.value });
-    if (this.state.search.length === 1) {
-      this.PaginationFilter();
-    }
   };
-
-  PaginationFilter() {
-    this.setState({ PaginationFilter: true });
-    setTimeout(() => {
-      this.setState({ PaginationFilter: false });
-    }, 300);
-  }
 
   _merchantReqProfile = e => {
     this.props.ViewMerchant_Request(e);
     this.props.history.push("/app/merchants/pending-profile");
   };
   render() {
-    var { pageLimit, startIndex, endIndex } = this.state;
     let ReqList = this.props.MerchantRequests_List;
     if (ReqList) {
       if (this.state.search) {
@@ -81,54 +48,47 @@ class MerchantsRequest extends Component {
           );
         });
       }
-      if (this.state.sortedName === true) {
-        ReqList.sort(function(a, b) {
-          if (
-            a.businessName.trim().toLowerCase() <
-            b.businessName.trim().toLowerCase()
-          ) {
-            return -1;
-          }
-          if (
-            a.businessName.trim().toLowerCase() >
-            b.businessName.trim().toLowerCase()
-          ) {
-            return 1;
-          }
-          return 0;
-        });
-      }
-      if (this.state.sortedEmail) {
-        ReqList.sort(function(a, b) {
-          if (a.email.trim().toLowerCase() < b.email.trim().toLowerCase()) {
-            return -1;
-          }
-          if (a.email.trim().toLowerCase() > b.email.trim().toLowerCase()) {
-            return 1;
-          }
-          return 0;
-        });
-      }
     }
-    const renderReqList = ReqList.slice(startIndex, endIndex + 1).map(e => {
-      return (
-        <tr key={e.merchantId} onClick={() => this._merchantReqProfile(e)}>
-          <td>{e.merchantId}</td>
-          {e.businessName !== null ? (
-            <td style={{ fontWeight: 600 }}>{e.businessName}</td>
-          ) : (
-            <td></td>
-          )}
-          {e.principals !== null ? (
-            <td>{e.principals.firstName + " " + e.principals.lastName}</td>
-          ) : (
-            <td></td>
-          )}
-          <td>{e.email}</td>
-          <td>{e.phone}</td>
-        </tr>
-      );
-    });
+    const columns = [
+      {
+        Header: "ID",
+        accessor: "merchantId",
+        width: 100
+      },
+      {
+        Header: "Bussiness name",
+        accessor: "businessName"
+      },
+      {
+        id: "principals",
+        Header: "Owner",
+        width: 150,
+        accessor: "principals",
+        Cell: e => (
+          <span>
+            {e.value !== null
+              ? e.value.firstName + " " + e.value.lastName
+              : null}
+          </span>
+        )
+      },
+      {
+        Header: "Email",
+        accessor: "email",
+        width: 300
+      },
+      {
+        Header: "Phone number",
+        accessor: "phone"
+      }
+    ];
+    const onRowClick = (state, rowInfo, column, instance) => {
+      return {
+        onClick: e => {
+          this._merchantReqProfile(rowInfo.original);
+        }
+      };
+    };
     return (
       <div className="container-fluid MerList">
         <ContainerHeader
@@ -149,59 +109,15 @@ class MerchantsRequest extends Component {
               />
             </form>
           </div>
-          {/* THANH CHUYỂN TRANG */}
-          <div className="paginating-table">
-            <Pagination
-              totalRecords={ReqList.length}
-              pageLimit={pageLimit || 10}
-              initialPage={1}
-              pagesToShow={10}
-              onChangePage={this.onChangePage}
-              PaginationFilter={this.state.PaginationFilter}
-            />
-          </div>
         </div>
         <div className="MListContainer">
-          <table style={{ width: "100%" }}>
-            <thead>
-              <tr style={{ borderBottom: "1px solid black" }}>
-                <th style={{ width: "10%" }}>
-                  <span className="Mlist_table">ID</span>
-                  {/* <i className="fa fa-unsorted" /> */}
-                </th>
-                <th style={{ width: "25%" }}>
-                  <span className="Mlist_table">Business name</span>
-                  <i
-                    className="fa fa-unsorted"
-                    onClick={e =>
-                      this.setState({ sortedName: !this.state.sortedName })
-                    }
-                  />
-                </th>
-                <th style={{ width: "20%" }}>
-                  <span className="Mlist_table">Owner</span>
-                  {/* <i className="fa fa-unsorted" /> */}
-                </th>
-                <th style={{ width: "25%" }}>
-                  <span className="Mlist_table">Email</span>
-                  <i
-                    className="fa fa-unsorted"
-                    onClick={e =>
-                      this.setState({
-                        sortedEmail: !this.state.sortedEmail,
-                        sortedName: false
-                      })
-                    }
-                  />
-                </th>
-                <th style={{ width: "20%" }}>
-                  <span className="Mlist_table">Phone number</span>
-                  {/* <i className="fa fa-unsorted" /> */}
-                </th>
-              </tr>
-            </thead>
-            <tbody>{renderReqList}</tbody>
-          </table>
+          <ReactTable
+            data={ReqList}
+            columns={columns}
+            defaultPageSize={10}
+            minRows={1}
+            getTdProps={onRowClick}
+          />
         </div>
       </div>
     );
