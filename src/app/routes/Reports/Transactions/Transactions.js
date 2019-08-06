@@ -140,7 +140,10 @@ class Transactions extends React.Component {
         Header: "Date/time",
         maxWidth: 200,
         accessor: e => {
-          return moment(e.createDate).format("MM-DD-YYYY HH:mm A");
+          return moment
+            .utc(e.createDate)
+            .local()
+            .format("MM-DD-YYYY HH:mm A");
         }
       },
       {
