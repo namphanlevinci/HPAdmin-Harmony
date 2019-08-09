@@ -38,12 +38,13 @@ class Users extends Component {
       {
         Header: "Status",
         accessor: "e",
+        width: 100,
         Cell: e => <span>Online</span>
       },
       {
         id: "Name",
         Header: "Full name",
-        width: 150,
+        width: 200,
         accessor: row => `${row.firstName} ${row.lastName}`
       },
       {

@@ -117,6 +117,7 @@ class MerchantsRequest extends Component {
             defaultPageSize={10}
             minRows={0}
             getTdProps={onRowClick}
+            noDataText="NO DATA!"
           />
         </div>
       </div>

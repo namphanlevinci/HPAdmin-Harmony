@@ -43,23 +43,28 @@ class Consumers extends React.Component {
     const columns = [
       {
         Header: "ID",
-        accessor: "userId"
+        accessor: "userId",
+        width: 100
       },
       {
         Header: "First name",
-        accessor: "firstName"
+        accessor: "firstName",
+        width: 150
       },
       {
         Header: "Last name",
-        accessor: "lastName"
+        accessor: "lastName",
+        width: 150
       },
       {
         Header: "Phone number",
-        accessor: "phone"
+        accessor: "phone",
+        width: 200
       },
       {
         Header: "Email",
-        accessor: "email"
+        accessor: "email",
+        width: 300
       },
       {
         id: "totalAmount",

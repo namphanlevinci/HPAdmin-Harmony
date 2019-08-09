@@ -53,16 +53,17 @@ class Merchants extends React.Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 100
+        width: 150
       },
       {
         Header: "Bussiness name",
-        accessor: "businessName"
+        accessor: "businessName",
+        width: 250
       },
       {
         id: "principals",
         Header: "Owner",
-        width: 150,
+        width: 250,
         accessor: "principals",
         Cell: e => (
           <span>
@@ -75,7 +76,7 @@ class Merchants extends React.Component {
       {
         Header: "Email",
         accessor: "email",
-        width: 300
+        width: 350
       },
       {
         Header: "Phone number",

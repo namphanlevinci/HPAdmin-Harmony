@@ -8,7 +8,6 @@ import "bootstrap/js/src/collapse.js";
 //DATE PICKER & MOMENT
 import "react-day-picker/lib/style.css";
 import "moment/locale/it";
-import Moment from "react-moment";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -86,12 +85,14 @@ class Logs extends Component {
       );
     });
     const renderDataList = dataList.map(e => {
+      const time = moment
+        .utc(e.CreatedDate)
+        .local()
+        .format("MM/DD/YYYY HH:mm A");
       return (
         <tr key={e.approvalLogId}>
-          <td className="inside-table">
-            <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
-              {e.createdDate}
-            </Moment>
+          <td className="inside-table" style={{ width: "13%" }}>
+            {time}
           </td>
           <td>
             <ul>

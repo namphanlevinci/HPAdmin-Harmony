@@ -67,7 +67,13 @@
 .rt-td {
   white-space: normal !important;
 }
-
+.ReactTable .rt-tbody .rt-td {
+  text-align: start;
+  padding: 10px;
+}
+.ReactTable .rt-thead .rt-tr {
+  text-align: start !important;
+}
 .ReactTable .rt-resizer:before {
   display: inline-block;
   position: absolute;

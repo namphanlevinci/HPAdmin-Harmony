@@ -182,7 +182,10 @@ class Transactions extends React.Component {
         id: "Merchantcode",
         Header: "Merchant ID",
         width: 180,
-        accessor: e => (e.receiver !== null ? e.receiver.merchant_code : null)
+        accessor: e =>
+          e.receiver !== null ? (
+            <span>{` **** **** **** ${e.receiver.merchant_code}`}</span>
+          ) : null
       },
       {
         id: "Amount",
