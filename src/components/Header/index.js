@@ -24,12 +24,13 @@ import Menu from "components/TopNav/Menu";
 import UserInfoPopup from "components/UserInfo/UserInfoPopup";
 import axios from "axios";
 import { ViewProfile_Merchants } from "../../actions/merchants/actions";
-import playMessageAudio from "../../util/sound";
+// import playMessageAudio from "../../util/sound";
+import URL, { SignalURL } from "../../url/url";
 class Header extends React.Component {
   //load signalR
   async componentDidMount() {
     // logout user after 30minutes
-    setTimeout(() => localStorage.removeItem("User_login"), 1800000);
+    // setTimeout(() => localStorage.removeItem("User_login"), 1800000);
     const User = localStorage.getItem("User_login");
     await this.setState({ User: User });
     let data = JSON.parse(this.state.User);
@@ -37,15 +38,12 @@ class Header extends React.Component {
     let rID = ID.waUserId;
     const signalR = require("@aspnet/signalr");
     let connection = new signalR.HubConnectionBuilder()
-      .withUrl(
-        "https://api2.levincidemo.com/notification/?title=Administrator&adminId=" +
-          rID
-      )
+      .withUrl(SignalURL + "/notification/?title=Administrator&adminId=" + rID)
       .build();
     connection.start();
     connection.on("ListWaNotification", data => {
       if (data.length > 0) {
-        playMessageAudio();
+        // playMessageAudio();
         let newData = JSON.parse(data);
         this.setState({ noti: newData.json, appNotificationIcon: false });
       }
@@ -57,17 +55,17 @@ class Header extends React.Component {
     const UserToken = data.token;
     if (e.Type === "payment") {
       await axios
-        .get("https://api2.levincidemo.com/api/merchant/" + e.SenderId, {
+        .get(URL + "/merchant/" + e.SenderId, {
           headers: { Authorization: `Bearer ${UserToken}` }
         })
-        .then(res => {
+        .then(async res => {
           if (
             res.data.data.isApproved === 0 &&
             res.data.data.isRejected === 0
           ) {
-            this.setState({ appNotification: false });
-            this.props.ViewMerchant_Request(res.data.data);
-            this.props.history.push("/app/merchants/pending-profile");
+            await this.setState({ appNotification: false });
+            await this.props.ViewMerchant_Request(res.data.data);
+            await this.props.history.push("/app/merchants/pending-profile");
             this.handleDelete(e);
           } else {
             this.handleDelete(e);
@@ -75,13 +73,13 @@ class Header extends React.Component {
         });
     } else {
       axios
-        .get("https://api2.levincidemo.com/api/user/" + e.SenderId, {
+        .get(URL + "/user/" + e.SenderId, {
           headers: { Authorization: `Bearer ${UserToken}` }
         })
-        .then(res => {
-          this.props.ViewProfile_Merchants(res.data.data);
-          this.setState({ appNotification: false });
-          this.props.history.push("/app/consumers/profile/general");
+        .then(async res => {
+          await this.props.ViewProfile_Merchants(res.data.data);
+          await this.setState({ appNotification: false });
+          await this.props.history.push("/app/consumers/profile/general");
           this.handleDelete(e);
         });
     }
@@ -95,10 +93,9 @@ class Header extends React.Component {
       )
     });
     axios
-      .delete(
-        "https://api2.levincidemo.com/api/notification/" + e.WaNotificationId,
-        { headers: { Authorization: `Bearer ${UserToken}` } }
-      )
+      .delete(URL + "/notification/" + e.WaNotificationId, {
+        headers: { Authorization: `Bearer ${UserToken}` }
+      })
       .then(res => {
         // console.log(res)
       })

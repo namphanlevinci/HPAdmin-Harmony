@@ -16,6 +16,8 @@ import Verify_User from "./Verify_User";
 import RTL from "util/RTL";
 import asyncComponent from "util/asyncComponent";
 import { ProtectedRoute } from "./ProtectedRoute";
+// transitions
+import "./react-transitions.css";
 class App extends Component {
   componentWillMount() {
     window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
@@ -44,7 +46,7 @@ class App extends Component {
             messages={currentAppLocale.messages}
           >
             <RTL>
-              <div className="app-main">
+              <div className="app-main transition-container">
                 <Switch>
                   <ProtectedRoute
                     path={`${match.url}app`}

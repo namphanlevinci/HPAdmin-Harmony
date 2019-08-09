@@ -11,7 +11,7 @@ class Bank extends Component {
   render() {
     const e = this.props.MerchantProfile;
     return (
-      <div>
+      <div className="react-transition swipe-up">
         <h2>Bank Information</h2>
         <div className="container">
           <div className="row">
@@ -21,13 +21,13 @@ class Bank extends Component {
             </div>
             <div className="col-md-4">
               <h4>ABA Routing Number*</h4>
-              <p>
+              <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e.businessBank !== null ? e.businessBank.routingNumber : null}
               </p>
             </div>
             <div className="col-md-4">
               <h4>Checking Account Number (DDA)*</h4>
-              <p>
+              <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e.businessBank !== null ? e.businessBank.accountNumber : null}
               </p>
             </div>

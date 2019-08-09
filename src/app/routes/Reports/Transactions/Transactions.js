@@ -168,8 +168,8 @@ class Transactions extends React.Component {
         accessor: e =>
           e.paymentData.card_type.length > 1 ? (
             <span>
-              {e.paymentData.card_type}
-              <br /> {" **** **** ****" + " " + e.paymentData.card_number}
+              {e.paymentData.card_type} <br />
+              {` **** **** ****  ${e.paymentData.card_number}`}
             </span>
           ) : null
       },
@@ -201,7 +201,7 @@ class Transactions extends React.Component {
       }
     ];
     return (
-      <div className="container-fluid MerList">
+      <div className="container-fluid MerList react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}
@@ -329,7 +329,8 @@ class Transactions extends React.Component {
             data={TransactionsList}
             columns={columns}
             defaultPageSize={10}
-            minRows={1}
+            minRows={0}
+            noDataText="NO DATA!"
           />
         </div>
       </div>

@@ -9,6 +9,8 @@ import "../Reports/Transactions/Transactions.css";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./ConsumerProfile/Detail/Consumer.css";
+import ProgressLoading from "../../../util/progress";
+
 class Consumers extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +22,8 @@ class Consumers extends React.Component {
       currentPage: "",
       startIndex: "",
       endIndex: "",
-      PaginationFilter: false
+      PaginationFilter: false,
+      loading: false
     };
   }
 
@@ -123,8 +126,11 @@ class Consumers extends React.Component {
               data={ConsumerList}
               columns={columns}
               defaultPageSize={10}
-              minRows={1}
+              minRows={0}
               getTdProps={onRowClick}
+              loading={this.state.loading}
+              LoadingComponent={ProgressLoading}
+              noDataText="NO DATA!"
             />
           </div>
         </div>

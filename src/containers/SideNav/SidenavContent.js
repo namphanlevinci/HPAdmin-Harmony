@@ -207,7 +207,10 @@ class SidenavContent extends Component {
             </Button>
             <ul className="sub-menu">
               <li>
-                <NavLink className="prepend-icon" to="/app/4042">
+                <NavLink
+                  className="prepend-icon"
+                  to="/app/reports/general-reports"
+                >
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.generalreport" />
                   </span>
@@ -242,13 +245,13 @@ class SidenavContent extends Component {
                   </span>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink className="prepend-icon" to="/app/business/users">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.Users" />
                   </span>
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </li>
           {/* SETTING */}

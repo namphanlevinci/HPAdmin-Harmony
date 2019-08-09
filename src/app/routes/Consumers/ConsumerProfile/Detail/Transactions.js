@@ -118,7 +118,7 @@ class Transactions extends Component {
       }
     ];
     return (
-      <div className="content GeneralContent ConsumerTransactions">
+      <div className="content GeneralContent ConsumerTransactions react-transition swipe-right">
         <div>
           <div className="container">
             <h2>Transactions Management</h2>
@@ -179,7 +179,8 @@ class Transactions extends Component {
                 data={renderTable}
                 columns={columns}
                 defaultPageSize={10}
-                minRows={1}
+                minRows={0}
+                noDataText="NO DATA!"
               />
             </div>
           </div>

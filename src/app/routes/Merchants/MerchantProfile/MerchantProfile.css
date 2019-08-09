@@ -1,41 +1,41 @@
 .MerStaffList {
-    border-bottom: 1px solid black;
-    margin-bottom: 10px;
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
 }
 .MerStaffList h2 {
-    font-weight: 800;
+  font-weight: 800;
 }
 .POPUP-INNER2 {
   padding-top: 25px;
-	background-color: rgba(0,0,0, 0.5);
-	position: absolute;
-	left: 30%;
-	right: 30%;
-	top: 15%;
-	bottom: 35%;
-	margin: auto;
-	background: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  top: 15%;
+  bottom: 35%;
+  margin: auto;
+  background: white;
 }
 /* settings pop up */
 .POPUP .SettingsPopup {
-	bottom: 50%;
+  bottom: 50%;
 }
- .POPUP-INNER2 label{
-    display: inline-block;
-    width: 274px;
-    text-align: right;
-    line-height: 28pt;
-    font-weight: 500;
-    font-size: 18px;
-} 
+.POPUP-INNER2 label {
+  display: inline-block;
+  width: 274px;
+  text-align: right;
+  line-height: 28pt;
+  font-weight: 500;
+  font-size: 18px;
+}
 .POPUP-INNER2 input {
   width: 250px;
   text-align: center;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 /* .StaffContent {
   

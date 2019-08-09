@@ -90,7 +90,7 @@ class General extends Component {
   render() {
     const e = this.props.MerchantProfile;
     return (
-      <div className="content GeneralContent">
+      <div className="content GeneralContent react-transition swipe-right">
         <h2>General Information</h2>
         <div className="container">
           <div className="row">

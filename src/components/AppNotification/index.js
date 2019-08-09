@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import NotificationItem from './NotificationItem';
 import CustomScrollbars from "util/CustomScrollbars";
 import { getAll_Notifications } from "../../actions/notifications/actions";
 import { withRouter } from "react-router-dom";
-//
+import DeleteIcon from "@material-ui/icons/Delete";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import avatar from "./avatar.png";
 import moment from "moment";
 import "./Noti.css";
+import IconButton from "@material-ui/core/IconButton";
+
 class AppNotification extends Component {
   constructor(props) {
     super(props);
@@ -42,12 +43,9 @@ class AppNotification extends Component {
                 <small>{time}</small>
               </span>
             </div>
-            <Avatar className="notiDele">
-              <i
-                onClick={() => this.props.handleDelete(e)}
-                className="fa fa-trash"
-              ></i>
-            </Avatar>
+            <IconButton onClick={() => this.props.handleDelete(e)}>
+              <DeleteIcon fontSize="small" />
+            </IconButton>
           </li>
         );
       });

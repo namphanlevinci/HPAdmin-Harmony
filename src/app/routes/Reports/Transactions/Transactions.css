@@ -64,36 +64,28 @@
   border-radius: 4px;
 }
 /* REACT TABLE */
-.ReactTable .rt-thead .rt-th.-sort-asc,
-.ReactTable .rt-thead .rt-td.-sort-asc {
-  box-shadow: inset 0 3px 0 0 red !important;
-}
-.ReactTable .rt-thead .rt-th.-sort-desc,
-.ReactTable .rt-thead .rt-td.-sort-desc {
-  box-shadow: inset 0 -3px 0 0 red !important;
-}
-.ReactTable .rt-resizable-header-content {
-  font-weight: 500;
-  font-size: 16px;
-  padding: 10px;
-  color: #fff;
-}
-.ReactTable .rt-tbody .rt-td {
-  text-align: center;
-  color: #212121;
-  font-weight: 400;
-  font-size: 15px;
-  cursor: pointer;
-}
-.ReactTable .-pagination .-btn:not([disabled]):hover {
-  background: #3c37ab !important;
-  color: white;
-}
-.ReactTable .rt-thead .rt-th,
-.ReactTable .rt-thead .rt-td {
-  padding: 0px;
-  background: #3f51b5;
-}
 .rt-td {
   white-space: normal !important;
 }
+
+.ReactTable .rt-resizer:before {
+  display: inline-block;
+  position: absolute;
+  right: 22px;
+  top: 15px;
+  height: 18px;
+  width: 18px;
+  color: transparent;
+  content: ".";
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  opacity: 1;
+}
+
+/* .ReactTable .rt-th.-sort-asc .rt-resizer:before {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAgMTVWNmw0IDQgMS0xLTYtNi02IDYgMSAxIDQtNHY5eiIgZmlsbD0iIzMzMyIvPjwvc3ZnPg==);
+}
+
+.ReactTable .rt-th.-sort-desc .rt-resizer:before {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOCAzdjkuMTNMNCA4IDMgOWw2IDYgNi02LTEtMS00IDQuMTNWM3oiIGZpbGw9IiMzMzMiLz48L3N2Zz4=);
+} */

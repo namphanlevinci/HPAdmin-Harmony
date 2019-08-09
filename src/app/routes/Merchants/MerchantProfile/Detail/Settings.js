@@ -66,7 +66,7 @@ class Settings extends Component {
   };
   render() {
     return (
-      <div className="container">
+      <div className="container react-transition swipe-up">
         <NotificationContainer />
         {this.state.update !== false ? (
           <div className="POPUP">

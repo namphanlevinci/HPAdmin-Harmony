@@ -104,12 +104,12 @@ class MerchantsList extends React.Component {
       };
     };
     return (
-      <div className="container-fluid MerList">
+      <div className="container-fluid MerList react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.MList" />}
         />
-        <div className="MReqSP">
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           {/* SEARCH */}
           <div className="search">
             <form>
@@ -130,8 +130,9 @@ class MerchantsList extends React.Component {
             data={MerList}
             columns={columns}
             defaultPageSize={10}
-            minRows={1}
+            minRows={0}
             getTdProps={onRowClick}
+            noDataText="NO DATA!"
           />
         </div>
       </div>

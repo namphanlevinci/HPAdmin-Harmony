@@ -18,12 +18,15 @@ import {
     NotificationContainer,
     NotificationManager
   } from "react-notifications";
+//POPUP
+import Popup from "reactjs-popup";
+
 class MerchantReqProfile extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            showPopupAccept: false,
-            showPopupReject: false,
+            isOpenAccept: false,
+            isOpenReject: false,
             merchantID: '',
             merchantToken: '',
             rejectReason: ''
@@ -38,16 +41,20 @@ class MerchantReqProfile extends Component {
             })
     }
 
-    _togglePopupAccept = () => {
-        this.setState({
-            showPopupAccept: !this.state.showPopupAccept
-        });
-      }
-      _togglePopupReject = () => {
-        this.setState({
-            showPopupReject: !this.state.showPopupReject
-        });
-      }
+        handleOpenAccept = () => {
+            this.setState({ isOpenAccept: true });
+        }
+    
+        handleCloseAccept = () => {
+            this.setState({ isOpenAccept: false });
+        }
+        handleOpenReject = () => {
+            this.setState({ isOpenReject: true });
+        }
+    
+        handleCloseReject = () => {
+            this.setState({ isOpenReject: false });
+        }
       componentWillReceiveProps(nextProps) {
           if (nextProps.ApprovalStatus !== this.props.ApprovalStatus) {
             this.props.getAll_Merchants()
@@ -89,15 +96,56 @@ class MerchantReqProfile extends Component {
                         <div className="PDL-Btn col-md-12">
                             <h3>{'HP-' + e.merchantId}</h3>
                             <span>
-                                <Button className="btn btn-red" onClick={this._togglePopupReject}>REJECT</Button>
-                                <Button className="btn btn-green" onClick={this._togglePopupAccept}>ACCEPT</Button>
-                            </span>
-                            
-                            {/* POP UP ACCEPT */}
-                            {this.state.showPopupAccept !== false ? <div className="POPUP">
-                                <div className="POPUP-INNER">
-                                    <h2>ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2>
-                                    <Formik
+                                    {/* REJECT BTN */}
+                                    <Popup
+                                        trigger={<Button className="btn btn-red">REJECT</Button>}
+                                        modal
+                                        on='click'
+                                        open={this.state.isOpenReject}
+                                        onOpen={this.handleOpenReject}
+                                        closeOnDocumentClick
+                                    >
+                                        <span> <Formik
+                                        initialValues={{ rejectReason: ''}}
+                                        validate={values => {
+                                            let errors = {};
+                                            if (!values.rejectReason) {
+                                            errors.rejectReason = 'Required';
+                                            }
+                                            return errors;
+                                        }}
+                                        onSubmit={(values, { setSubmitting }) => {
+                                            const reason = values.rejectReason
+                                            const ID = this.props.PendingProfile.merchantId
+                                            const data = { reason, ID}
+                                            this.props.sendReject(data)
+                                        }}
+                                        >
+                                        {({ values, _handleChange, isSubmitting }) => (
+                                            <div className="rejectInput">
+                                            <h2 className="title">REASONS FOR REJECTION</h2>
+                                            <Form>
+                                            <Field type="textarea" name="rejectReason" component="textarea" placeholder="Please enter your reason."/>
+                                            <ErrorMessage name="rejectReason" component="div" />
+                                            <div>
+                                                <Button type="submit" className="btn btn-red" onClick={this.handleCloseReject}>BACK</Button>
+                                                <Button type="submit" className="btn btn-green">COMFIRM</Button>
+                                            </div>
+                                            </Form>
+                                            </div>
+                                        )}
+                                        </Formik></span>
+                                    </Popup>
+                                    {/* ACCEPT BTN */}
+                                    <Popup
+                                        trigger={<Button className="btn btn-green"> ACCEPT </Button>}
+                                        modal
+                                        on='click'
+                                        open={this.state.isOpenAccept}
+                                        onOpen={this.handleOpenAccept}
+                                        closeOnDocumentClick
+                                    >
+                                        <span> <h2 className="title">ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2><Formik
                                         initialValues={{ merchantID: '', merchantToken: '', fee: '' }}
                                         validate={values => {
                                             let errors = {};
@@ -138,52 +186,17 @@ class MerchantReqProfile extends Component {
                                                     </div>
                                                 <br/>
                                                 <div style={{textAlign: 'center', paddingTop: '10px'}}>
-                                            <Button type='submit' className="btn btn-red" onClick={this._togglePopupAccept}>NO</Button>
-                                            <Button type='submit' className="btn btn-green">YES</Button>
-                                            </div>
+                                                    <Button type='submit' className="btn btn-red" onClick={this.handleCloseAccept}>NO</Button>
+                                                    <Button type='submit' className="btn btn-green">YES</Button>
+                                                </div>
                                             </Form>
                                         )}
-                                        </Formik>
-                                </div>
-                            </div> : null }
-                            {/* POP UP REJECT */}
-                            {this.state.showPopupReject !== false ? <div className="POPUP">
-                                <div className="POPUP-INNER" style={{paddingTop: '30px'}}>
-                                <Formik
-                                        initialValues={{ rejectReason: ''}}
-                                        validate={values => {
-                                            let errors = {};
-                                            if (!values.rejectReason) {
-                                            errors.rejectReason = 'Required';
-                                            }
-                                            return errors;
-                                        }}
-                                        onSubmit={(values, { setSubmitting }) => {
-                                            const reason = values.rejectReason
-                                            const ID = this.props.PendingProfile.merchantId
-                                            const data = { reason, ID}
-                                            this.props.sendReject(data)
-                                        }}
-                                        >
-                                        {({ values, _handleChange, isSubmitting }) => (
-                                            <div>
-                                            <h2>WHY?</h2>
-                                            <Form>
-                                            <Field type="textarea" name="rejectReason" component="textarea"  style={{width: '350px', height: '100px'}} placeholder="Please enter your reason."/>
-                                            <ErrorMessage name="rejectReason" component="div" />
-                                            <div>
-                                                <Button type="submit" className="btn btn-red" onClick={this._togglePopupReject}>BACK</Button>
-                                                <Button type="submit" className="btn btn-green">COMFIRM</Button>
-                                            </div>
-                                            </Form>
-                                            </div>
-                                        )}
-                                        </Formik>
-                                </div>
-                            </div> : null }
+                                        </Formik></span>
+                                </Popup>
+                            </span>
                         </div>
                         <hr/>
-                        <div className="content">
+                        <div className="content react-transition swipe-right">
                             <div className="container">
                             <h2>General Information</h2>
                                 <div className="row justify-content-between">

@@ -1,19 +1,13 @@
 .MReq {
-	font-family: 'Work Sans', sans-serif;
-	text-align: center;
-	background-color:  #fff;
+  font-family: "Work Sans", sans-serif;
+  text-align: center;
+  background-color: #fff;
 }
 .MReq span {
-	font-weight: 600;
-	/* font-size: 18px; */
-	margin-right: 40px;
+  font-weight: 600;
+  /* font-size: 18px; */
+  margin-right: 40px;
 }
-.MReq  div:nth-child(2n+2){
-	background-color: #fff;
-  }
-
-/* SEARCH BOX & PAGAGITION  */
-.MReqSP {
-	display: flex;
-	justify-content: space-between;
+.MReq div:nth-child(2n + 2) {
+  background-color: #fff;
 }

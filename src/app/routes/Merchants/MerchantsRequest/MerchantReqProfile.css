@@ -1,187 +1,184 @@
+/* model */
+/* .modal {
+  font-size: 12px;
+}
+.modal > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+}
+.modal > .content {
+  width: 100%;
+  padding: 10px 5px;
+}
+.modal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.modal > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
+} */
+/* / model */
 .PendingLBody {
-    background-color: #fff;
-    font-family: 'Work Sans', sans-serif;
+  background-color: #fff;
+  font-family: "Work Sans", sans-serif;
 }
 .PendingLBody .PDL-Btn {
-    display: flex;
-    justify-content: space-between;
-    align-items: center
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .PendingLBody hr {
-        height: 1px;
-        border: 0;
-        border-top: 2px solid #3f51b5;
-        align-content: center;
-        width: 92%
+  height: 1px;
+  border: 0;
+  border-top: 2px solid #3f51b5;
+  align-content: center;
+  width: 92%;
 }
 .PendingLBody .PDL-Btn button.btn {
-	display: inline-block;
-	color: #666;
-	background-color: #eee;
-	text-transform: uppercase;
-	letter-spacing: 2px;
-	font-size: 12px;
-	padding: 10px 30px;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border: 1px solid rgba(0,0,0,0.3);
-    border-bottom-width: 3px;
-    font-weight: 900;
+  display: inline-block;
+  color: #666;
+  background-color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
 }
-
 
 /* GREEN BTN */
 .PendingLBody .PDL-Btn button.btn:hover {
-    background-color: #3f51b5;
-    border-color: rgba(0,0,0,0.5);
+  background-color: #3f51b5;
+  border-color: rgba(0, 0, 0, 0.5);
 }
 
 .PendingLBody .PDL-Btn button.btn:active {
-    background-color: #CCC;
-    border-color: rgba(0,0,0,0.9);
+  background-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.9);
 }
 .PendingLBody .PDL-Btn button.btn.btn-green {
-	background-color: #3f51b5;
-	border-color: rgba(0,0,0,0.3);
-	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
-	color: #FFF;
+  background-color: #3f51b5;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #fff;
 }
 
 .PendingLBody .PDL-Btn button.btn.btn-green:hover {
-		background-color: #3849a2;
-		border-color: rgba(0,0,0,0.5);
-	}
-	
+  background-color: #3849a2;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
 .PendingLBody .PDL-Btn button.btn.btn-green:active {
-		background-color: #31408f;
-		border-color: rgba(0,0,0,0.9);
-	}
+  background-color: #31408f;
+  border-color: rgba(0, 0, 0, 0.9);
+}
 /* RED BUTTON */
 .PendingLBody .PDL-Btn button.btn.btn-red {
-	background-color: #fff;
-	border-color: rgba(0,0,0,0.3);
-	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
-	color: #3f51b5;
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #3f51b5;
 }
 
-.PendingLBody .PDL-Btn	button.btn.btn-red:hover {
-		background-color: #fcfcfc;
-		border-color: rgba(0,0,0,0.5);
-	}
-	
-.PendingLBody .PDL-Btn	button.btn.btn-red:active {
-		background-color: #f4f4f4;
-		border-color: rgba(0,0,0,0.9);
-	}
+.PendingLBody .PDL-Btn button.btn.btn-red:hover {
+  background-color: #fcfcfc;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.PendingLBody .PDL-Btn button.btn.btn-red:active {
+  background-color: #f4f4f4;
+  border-color: rgba(0, 0, 0, 0.9);
+}
 
 .PendingList .PendingLBody {
-	padding-top: 20px;
+  padding-top: 20px;
 }
 .PendingLBody .content .container h2 {
-	color: #3f51b5;
-	padding: 10px 0px;
+  color: #3f51b5;
+  padding: 10px 0px;
 }
 .PendingLBody .content .container p {
-	padding-bottom: 10px;
-	font-weight: 600;
-	color: black;
+  padding-bottom: 10px;
+  font-weight: 600;
+  color: black;
 }
 /* POP UP  */
-.PendingList .PendingLBody .POPUP{
-	z-index: 9999;
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: auto;
-	background-color: rgba(0,0,0, 0.5);
-	text-align: center;
+.PendingList .PendingLBody .POPUP {
+  z-index: 9999;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
 }
 .requestStatus .title {
-	background-color: red;
-	color: white;
-	width: 15%;
-	padding: 10px;
-	font-size: 18px;
-	font-weight: 600;
-	text-align: center;
-	margin-bottom: 20px;
+  background-color: red;
+  color: white;
+  width: 15%;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
 }
 .requestStatus h4 {
-	color: #3f51b5;
-	font-size: 17px;
+  color: #3f51b5;
+  font-size: 17px;
 }
-.PendingList .PendingLBody .POPUP .POPUP-INNER {
-	padding-top:15px;
-	background-color: rgba(0,0,0, 0.5);
-	position: absolute;
-	left: 29%;
-	right: 29%;
-	top: 25%;
-	bottom: 42%;
-	margin: auto;
-	background: white;
+.PendingList .PendingLBody form {
+  text-align: center;
 }
-.PendingList .PendingLBody .POPUP .POPUP-INNER input{
-	width: 250px;
-	text-align: center;
+.PendingList .PendingLBody .title {
+  color: #3f51b5;
+  text-align: center;
 }
-.PendingList .PendingLBody .POPUP .POPUP-INNER label{
-	display: inline-block;
-    width: 169px;
-    text-align: right;
-    line-height: 28pt;
-    font-weight: 400;
-    font-size: 17px;
+.PendingList .PendingLBody input {
+  width: auto;
+  text-align: center;
+}
+.PendingList .PendingLBody label {
+  display: inline-block;
+  width: auto;
+  text-align: right;
+  line-height: 28pt;
+  font-weight: 400;
+  font-size: 17px;
+}
+.rejectInput textarea {
+  width: 550px;
+  height: 100px;
 }
 @media (min-width: 1024px) and (max-width: 1280px) {
-	.PendingList .PendingLBody .POPUP .POPUP-INNER {
-		bottom: 35%;
-	}
-	.POPUP-INNER h2 {
-		font-size: 17px;
-	}
-	.PendingList .PendingLBody .POPUP .POPUP-INNER {
-		padding-top: 20px;
-		bottom: 35%;
-	}
-	.PendingList .PendingLBody .POPUP .POPUP-INNER input{
-		width: 190px;
-	}
-	.PendingList .PendingLBody .POPUP .POPUP-INNER label{
-		width: 180px;
-	}
-	
+  .rejectInput textarea {
+    width: 450px;
   }
-  @media (min-width: 768px) and (max-width: 1023px) {
-	.POPUP-INNER h2 {
-		font-size: 16px;
-	}
-		.PendingList .PendingLBody .POPUP .POPUP-INNER {
-			padding-top:10px;
-			background-color: rgba(0,0,0, 0.5);
-			position: absolute;
-			left: 25%;
-			right: 25%;
-			top: 25%;
-			bottom: 37%;
-			margin: auto;
-			background: white;
-		}
-		.PendingList .PendingLBody .POPUP .POPUP-INNER input{
-			width: 150px;
-			text-align: center;
-		}
-		.PendingList .PendingLBody .POPUP .POPUP-INNER label{
-			display: inline-block;
-			width: 125px;
-			text-align: right;
-			line-height: 28pt;
-			font-weight: 400;
-			font-size: 13px;
-		}
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .rejectInput textarea {
+    width: 350px;
   }
+}

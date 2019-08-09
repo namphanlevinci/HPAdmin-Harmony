@@ -10,6 +10,30 @@ const Reports = ({ match }) => (
         path={`${match.url}/transactions`}
         component={asyncComponent(() => import("./Transactions/Transactions"))}
       />
+      <Route
+        path={`${match.url}/general-reports`}
+        component={asyncComponent(() =>
+          import("./GeneralReport/GeneralReport")
+        )}
+      />
+      <Route
+        path={`${match.url}/approved-reports`}
+        component={asyncComponent(() =>
+          import("./GeneralReport/Statistics/ApprovedReport")
+        )}
+      />
+      <Route
+        path={`${match.url}/download-reports`}
+        component={asyncComponent(() =>
+          import("./GeneralReport/Statistics/DownloadReport")
+        )}
+      />
+      <Route
+        path={`${match.url}/harmonyApp-accounts`}
+        component={asyncComponent(() =>
+          import("./GeneralReport/Statistics/HarmonyAccount")
+        )}
+      />
     </Switch>
   </div>
 );

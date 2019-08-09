@@ -29,7 +29,7 @@ class General extends Component {
     const e = this.props.MerchantProfile;
     const renderGeneral =
       e.general !== undefined ? (
-        <div>
+        <div className="react-transition swipe-up">
           <h2>General Information</h2>
           <div className="container">
             <div className="row justify-content-between">

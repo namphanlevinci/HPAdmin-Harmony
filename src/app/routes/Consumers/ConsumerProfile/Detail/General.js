@@ -28,7 +28,7 @@ class General extends Component {
     const e = this.props.MerchantProfile;
     const renderGeneral =
       e.email !== undefined ? (
-        <div>
+        <div className="react-transition swipe-right">
           <div className="container">
             <h2>General Information</h2>
             <div className="row">

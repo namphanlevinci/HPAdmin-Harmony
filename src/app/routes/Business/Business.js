@@ -10,10 +10,10 @@ const Business = ({ match }) => (
         path={`${match.url}/questions`}
         component={asyncComponent(() => import("./Questions/Questions"))}
       />
-      <Route
+      {/* <Route
         path={`${match.url}/users`}
         component={asyncComponent(() => import("./Users/User"))}
-      />
+      /> */}
     </Switch>
   </div>
 );

@@ -89,7 +89,7 @@ class Users extends Component {
       };
     };
     return (
-      <div className="container-fluid MerList">
+      <div className="container-fluid MerList react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUsers" />}
@@ -115,8 +115,9 @@ class Users extends Component {
             data={UserList}
             columns={columns}
             defaultPageSize={10}
-            minRows={1}
+            minRows={0}
             getTdProps={onRowClick}
+            noDataText="NO DATA!"
           />
         </div>
       </div>

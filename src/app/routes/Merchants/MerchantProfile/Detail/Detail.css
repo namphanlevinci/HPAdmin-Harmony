@@ -107,16 +107,16 @@
 .GeneralContent .paginating-table ul li {
   background-color: white !important;
 }
-.GeneralContent input {
+/* .GeneralContent input {
   padding: 5px;
   width: 250px;
   font-weight: 600;
   color: #000000;
   margin-bottom: 10px;
-}
+} */
 /* bank img */
 .bankVoid {
-  width: 350px;
+  width: 250px;
   height: 200px;
 }
 /* pop up confirm */

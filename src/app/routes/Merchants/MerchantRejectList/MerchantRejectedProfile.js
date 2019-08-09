@@ -63,7 +63,7 @@ class MerchantRejectedProfile extends Component {
             ) }) : <h4>&nbsp;- NO BUSINESS INFORMATION</h4>
         //!! render rejected list
         const renderPendingProfile = e.merchantId !== undefined ? 
-            <div className="container-fluid PendingList">
+            <div className="container-fluid PendingList react-transition swipe-right">
                     <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.requestDetail"/>}/>
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
@@ -74,7 +74,7 @@ class MerchantRejectedProfile extends Component {
                         </div>
                         <hr/>
                             <div className="container requestStatus">
-                                <div className="title">REJECTED</div>
+                                <div className="title" style={{color: 'white'}}>REJECTED</div>
                                 <h4>By {e.adminUser.first_name + ' ' + e.adminUser.last_name}</h4>
                                 <h4>Date/Time: {moment(e.adminUser.created_date).format('HH:mm A - DD/MM/YYYY')}</h4>
                                 <h4 style={{fontWeight: 600}}>Reason:</h4>
@@ -210,7 +210,7 @@ class MerchantRejectedProfile extends Component {
                             </div>   
                         </div>
                     </div>
-            </div> : <Redirect to="/app/merchants/rejected-list" />
+            </div> : <Redirect to="/app/merchants/rejected-request" />
         return ( 
            renderPendingProfile
          );
