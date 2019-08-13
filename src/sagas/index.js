@@ -17,13 +17,17 @@ import {
 import { getAll_Notifications_Saga } from "../sagas/sagaFunction/notifications";
 import { getAll_Logs_Saga } from "../sagas/sagaFunction/logs";
 import { getAll_Rejected_Merchant_Saga } from "../sagas/sagaFunction/merchant-rejected";
-import { getAll_Questions_Saga } from "./sagaFunction/questions";
+import {
+  getAll_Questions_Saga,
+  update_Questions_Saga,
+  getAll_ConsumerUsers_Saga
+} from "./sagaFunction/questions";
 import {
   getAll_Transactions_Saga,
   getUser_Transaction_Saga,
   getUser_Activity_Saga
 } from "./sagaFunction/transactions";
-import { getAll_ConsumerUsers_Saga } from "./sagaFunction/questions";
+import { GET_APPROVED_SAGA } from "./sagaFunction/reports";
 export default function* rootSaga() {
   yield fork(login_User_Saga);
   yield fork(getAll_Merchants_Saga);
@@ -42,4 +46,6 @@ export default function* rootSaga() {
   yield fork(Send_Approval_Saga);
   yield fork(Send_Reject_Saga);
   yield fork(Verify_User_Saga);
+  yield fork(update_Questions_Saga);
+  yield fork(GET_APPROVED_SAGA);
 }

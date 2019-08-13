@@ -12,14 +12,17 @@ class GeneralReport extends Component {
   }
   render() {
     return (
-      <div className="container-fluid react-transition swipe-left">
+      <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.generalReport" />}
         />
-        <div className="MerList" style={{ padding: "20px" }}>
+        <div
+          className="MerList"
+          style={{ padding: "20px", background: "white" }}
+        >
           <div className="TransactionsBox GeneralReportBox ">
-            <h2>Statistics</h2>
+            <h1>Statistics</h1>
           </div>
           <div className="Link">
             <Link to="/app/reports/approved-reports">
@@ -34,7 +37,7 @@ class GeneralReport extends Component {
               Amount Of Harmony App Accounts
             </Link>
             <br />
-            <Link to="/app/reports/transactions">
+            <Link to="/app/reports/harmonyPayApp-accounts">
               Amount Of Harmony App Pay Accounts
             </Link>
             <br />

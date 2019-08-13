@@ -10,6 +10,7 @@ import "../../Merchants/MerchantsList/merchantsList.css";
 import "./User.css";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+
 class Users extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +38,7 @@ class Users extends Component {
       },
       {
         Header: "Status",
-        accessor: "e",
+        accessor: "nope",
         width: 100,
         Cell: e => <span>Online</span>
       },
@@ -45,7 +46,8 @@ class Users extends Component {
         id: "Name",
         Header: "Full name",
         width: 200,
-        accessor: row => `${row.firstName} ${row.lastName}`
+        accessor: row => `${row.firstName} ${row.lastName}`,
+        Cell: e => <p>{e.value}</p>
       },
       {
         Header: "Email",

@@ -3,10 +3,12 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
-import { getAll_Questions } from "../../../../actions/business/actions";
+import {
+  getAll_Questions,
+  UPDATE_QUESTIONS
+} from "../../../../actions/business/actions";
 import "./Questions.css";
 import "../../Merchants/MerchantProfile/MerchantProfile.css";
-import axios from "axios";
 import {
   NotificationContainer,
   NotificationManager
@@ -23,7 +25,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 // import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import URL from "../../../../url/url";
 class Questions extends Component {
   constructor(props) {
     super(props);
@@ -51,31 +52,22 @@ class Questions extends Component {
     this.setState({ edit: false, qID: "", question: "" });
   };
   _update = () => {
-    const qID = this.state.qID;
+    const ID = this.state.qID;
     const value = this.state.question;
-    axios
-      .put(
-        URL + "/question/" + qID,
-        { value },
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
-        }
-      )
-      .then(res => {
-        if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message);
-          this.props.getAll_Questions();
-          setTimeout(() =>
-            this.setState({ edit: false, qID: "", question: "" })
-          );
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    const data = { ID, value };
+    this.props.UPDATE_QUESTIONS(data);
   };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.uQuestions !== this.props.uQuestions) {
+      if (this.props.uQuestions.message === "Success") {
+        this.props.getAll_Questions();
+        NotificationManager.success(this.props.uQuestions.message);
+        this.setState({ edit: false });
+      } else {
+        NotificationManager.error(this.props.uQuestions.message);
+      }
+    }
+  }
   render() {
     const q = this.props.Questions;
     const renderQuestions = q.map(e => {
@@ -152,11 +144,15 @@ class Questions extends Component {
 
 const mapStateToProps = state => ({
   InfoUser_Login: state.User,
-  Questions: state.getQuestions
+  Questions: state.getQuestions,
+  uQuestions: state.uQuestions
 });
 const mapDispatchToProps = dispatch => ({
   getAll_Questions: () => {
     dispatch(getAll_Questions());
+  },
+  UPDATE_QUESTIONS: payload => {
+    dispatch(UPDATE_QUESTIONS(payload));
   }
 });
 

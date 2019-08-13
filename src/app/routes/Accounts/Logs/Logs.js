@@ -117,7 +117,7 @@ class Logs extends Component {
       );
     });
     return (
-      <div className="container-fluid ">
+      <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Logs" />}

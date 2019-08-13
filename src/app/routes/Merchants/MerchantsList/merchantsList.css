@@ -107,8 +107,10 @@
   padding: 10px;
   color: #fff;
 }
+.ReactTable .rt-thead .rt-tr {
+  text-align: start !important;
+}
 .ReactTable .rt-tbody .rt-td {
-  text-align: center;
   color: #212121;
   font-weight: 400;
   font-size: 15px;

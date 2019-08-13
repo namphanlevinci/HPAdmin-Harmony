@@ -34,6 +34,12 @@ const Reports = ({ match }) => (
           import("./GeneralReport/Statistics/HarmonyAccount")
         )}
       />
+      <Route
+        path={`${match.url}/harmonyPayApp-accounts`}
+        component={asyncComponent(() =>
+          import("./GeneralReport/Statistics/HarmonyPayAccount")
+        )}
+      />
     </Switch>
   </div>
 );

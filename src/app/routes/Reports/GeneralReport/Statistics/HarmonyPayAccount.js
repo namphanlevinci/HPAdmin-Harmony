@@ -6,15 +6,15 @@ import Button from "@material-ui/core/Button";
 import "../GeneralReport.css";
 import TextField from "@material-ui/core/TextField";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
-import { APPROVED_STATICS } from "../../../../../actions/static/actions";
 import moment from "moment";
+import { APPROVED_STATICS } from "../../../../../actions/static/actions";
 
-class ApprovedReport extends Component {
+import "react-table/react-table.css";
+class HarmonyPayAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ApprovedTotal: [],
+      HarmonyPayApp: [],
       fromDate: undefined,
       toDate: undefined,
       range: ""
@@ -38,7 +38,7 @@ class ApprovedReport extends Component {
     setTimeout(() => {
       const Content = this.props.Approved.data;
       this.setState({
-        ApprovedTotal: Content.approveMerchant,
+        HarmonyPayApp: Content.amountHamonyAppPay,
         fromDate: fromDate,
         toDate: toDate
       });
@@ -47,7 +47,7 @@ class ApprovedReport extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.Approved !== this.props.Approved) {
       const Content = this.props.Approved.data;
-      this.setState({ ApprovedTotal: Content.approveMerchant });
+      this.setState({ HarmonyPayApp: Content.amountHamonyAppPay });
     }
   }
   _TimeRange = async e => {
@@ -89,7 +89,6 @@ class ApprovedReport extends Component {
       this.setState({ range: "", fromDate: fromDate, toDate: toDate });
     }
   };
-
   render() {
     const columns = [
       {
@@ -123,7 +122,7 @@ class ApprovedReport extends Component {
               BACK
             </Button>
           </span>
-          <h2>Approved Merchant Accounts</h2>
+          <h2>New Harmony Pay App Accounts</h2>
           <div className="container">
             <div className="row">
               <div className="col-md-3">
@@ -188,7 +187,7 @@ class ApprovedReport extends Component {
             <div>
               <h2>Result</h2>
               <h3 style={{ color: "#3f51b5" }}>
-                Approved Merchant Accounts From
+                New Harmony Pay App Accounts From
                 {" " + moment(this.state.fromDate).format("DD/MM/YYYY")} To
                 {" " + moment(this.state.toDate).format("DD/MM/YYYY")}
               </h3>
@@ -196,7 +195,7 @@ class ApprovedReport extends Component {
           </div>
           <div className="MListContainer">
             <ReactTable
-              data={this.state.ApprovedTotal}
+              data={this.state.HarmonyPayApp}
               columns={columns}
               defaultPageSize={10}
               minRows={0}
@@ -218,4 +217,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ApprovedReport);
+)(HarmonyPayAccount);
