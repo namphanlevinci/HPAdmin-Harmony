@@ -1,7 +1,12 @@
 .UserProfile {
-    font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 .UserSearchBox {
-    display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+}
+.UserSearchBox .addAdmin {
+  padding: 10px 20px;
+  background: #3f51b5;
+  color: white;
 }

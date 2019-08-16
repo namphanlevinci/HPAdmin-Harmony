@@ -1,5 +1,10 @@
 import * as typeUser from "../../actions/user/types";
-import { login_User_api, getAll_User_api, Verify_User_api } from "../api/user";
+import {
+  login_User_api,
+  getAll_User_api,
+  Verify_User_api,
+  add_Admin_api
+} from "../api/user";
 import { takeLatest, put } from "redux-saga/effects";
 
 //! login user admin
@@ -59,6 +64,26 @@ export function* getAll_User_Saga() {
       }
     } catch (error) {
       console.log(error);
+    }
+  });
+}
+
+//! ADD ADMIN USER
+export function* add_Admin_Saga() {
+  yield takeLatest(typeUser.ADD_ADMIN, function*(action) {
+    try {
+      const check = yield add_Admin_api(action.payload);
+      if (check.data !== null) {
+        yield put({
+          type: typeUser.ADD_ADMIN_SUCCESS,
+          payload: check.data.message
+        });
+      }
+      if (check.data === null) {
+        yield put({ type: typeUser.ADD_ADMIN_ERROR, payload: check.message });
+      }
+    } catch (error) {
+      yield put({ type: typeUser.ADD_ADMIN_ERROR, payload: error });
     }
   });
 }

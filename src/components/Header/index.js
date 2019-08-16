@@ -23,7 +23,10 @@ import IntlMessages from "util/IntlMessages";
 import Menu from "components/TopNav/Menu";
 import UserInfoPopup from "components/UserInfo/UserInfoPopup";
 import axios from "axios";
-import { ViewProfile_Merchants } from "../../actions/merchants/actions";
+import {
+  ViewProfile_Merchants,
+  ViewMerchant_Request
+} from "../../actions/merchants/actions";
 // import playMessageAudio from "../../util/sound";
 import URL, { SignalURL } from "../../url/url";
 class Header extends React.Component {
@@ -77,6 +80,7 @@ class Header extends React.Component {
           headers: { Authorization: `Bearer ${UserToken}` }
         })
         .then(async res => {
+          console.log("res", res);
           await this.props.ViewProfile_Merchants(res.data.data);
           await this.setState({ appNotification: false });
           await this.props.history.push("/app/consumers/profile/general");
@@ -454,6 +458,9 @@ const mapStateToProps = ({ settings }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  ViewMerchant_Request: payload => {
+    dispatch(ViewMerchant_Request(payload));
+  },
   ViewProfile_Merchants: payload => {
     dispatch(ViewProfile_Merchants(payload));
   },

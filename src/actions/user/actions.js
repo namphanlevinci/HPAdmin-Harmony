@@ -50,3 +50,16 @@ export const ViewProfile_User = payload => ({
   type: types.ViewProfile_User,
   payload: payload
 });
+//! ADD ADMIN USER
+export const ADD_ADMIN = payload => ({
+  type: types.ADD_ADMIN,
+  payload: payload
+});
+export const ADD_ADMIN_SUCCESS = payload => ({
+  type: types.ADD_ADMIN_SUCCESS,
+  payload: payload
+});
+export const ADD_ADMIN_ERROR = payload => ({
+  type: types.ADD_ADMIN_ERROR,
+  payload: payload
+});

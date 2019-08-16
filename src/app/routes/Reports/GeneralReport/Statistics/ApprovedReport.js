@@ -96,7 +96,11 @@ class ApprovedReport extends Component {
         Header: "Date",
         accessor: "date",
         width: 250,
-        Cell: e => moment(e.value).format("DD/MM/YYYY")
+        Cell: e => (
+          <span style={{ margin: "5px" }}>
+            {moment(e.value).format("DD/MM/YYYY")}
+          </span>
+        )
       },
       {
         Header: "Approved Merchant Accounts",

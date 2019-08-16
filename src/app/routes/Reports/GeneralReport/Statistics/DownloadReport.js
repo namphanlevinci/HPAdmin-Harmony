@@ -5,24 +5,111 @@ import ContainerHeader from "components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import "../GeneralReport.css";
 import TextField from "@material-ui/core/TextField";
-// import ReactTable from "react-table";
+import ReactTable from "react-table";
 import "react-table/react-table.css";
+import moment from "moment";
+import { APPROVED_STATICS } from "../../../../../actions/static/actions";
+
 class DownloadReport extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      DownloadStatics: [],
+      fromDate: undefined,
+      toDate: undefined,
+      range: ""
+    };
   }
+  fromDate = e => {
+    this.setState({ fromDate: e.target.value });
+  };
+  toDate = e => {
+    this.setState({ toDate: e.target.value });
+  };
+  async componentDidMount() {
+    const fromDate = moment()
+      .startOf("month")
+      .format("YYYY/MM/DD");
+    const toDate = moment()
+      .endOf("month")
+      .format("YYYY/MM/DD");
+    const Data = { fromDate, toDate };
+    this.props.APPROVED_STATICS(Data);
+    setTimeout(() => {
+      const Content = this.props.Approved.data;
+      this.setState({
+        DownloadStatics: Content.numberUserDowloaded,
+        fromDate: fromDate,
+        toDate: toDate
+      });
+    }, 500);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.Approved !== this.props.Approved) {
+      const Content = this.props.Approved.data;
+      this.setState({ DownloadStatics: Content.numberUserDowloaded });
+    }
+  }
+  _TimeRange = async e => {
+    await this.setState({
+      range: e.target.value
+    });
+  };
+  _Filter = () => {
+    const { range } = this.state;
+    if (range === "") {
+      let { fromDate, toDate } = this.state;
+      const Data = { fromDate, toDate };
+      this.props.APPROVED_STATICS(Data);
+    } else if (range === "today") {
+      const fromDate = moment(new Date()).format("YYYY/MM/DD");
+      const toDate = moment(new Date()).format("YYYY/MM/DD");
+      const Data = { fromDate, toDate };
+      this.props.APPROVED_STATICS(Data);
+      this.setState({ range: "", fromDate: fromDate, toDate: toDate });
+    } else if (range === "week") {
+      const fromDate = moment()
+        .startOf("week")
+        .format("YYYY/MM/DD");
+      const toDate = moment()
+        .endOf("week")
+        .format("YYYY/MM/DD");
+      const Data = { fromDate, toDate };
+      this.props.APPROVED_STATICS(Data);
+      this.setState({ range: "", fromDate: fromDate, toDate: toDate });
+    } else if (range === "month") {
+      const fromDate = moment()
+        .startOf("month")
+        .format("YYYY/MM/DD");
+      const toDate = moment()
+        .endOf("month")
+        .format("YYYY/MM/DD");
+      const Data = { fromDate, toDate };
+      this.props.APPROVED_STATICS(Data);
+      this.setState({ range: "", fromDate: fromDate, toDate: toDate });
+    }
+  };
   render() {
-    // const columns = [
-    //   {
-    //     Header: "ID",
-    //     accessor: "userId"
-    //   },
-    //   {
-    //     Header: "First name",
-    //     accessor: "firstName"
-    //   }
-    // ];
+    const columns = [
+      {
+        Header: "Date",
+        accessor: "date",
+        width: 350,
+        Cell: e => (
+          <span style={{ margin: "5px" }}>
+            {moment(e.value).format("DD/MM/YYYY")}
+          </span>
+        )
+      },
+      {
+        Header: "Apple Store",
+        accessor: "numberUserDowloadIOS"
+      },
+      {
+        Header: "Android Store",
+        accessor: "numberUserDowloaddAndroid"
+      }
+    ];
     return (
       <div className="react-transition scale-in-right">
         <div>
@@ -96,13 +183,12 @@ class DownloadReport extends Component {
             </div>
           </div>
           <div className="MListContainer">
-            {/* <ReactTable
-              data={ConsumerList}
+            <ReactTable
+              data={this.state.DownloadStatics}
               columns={columns}
               defaultPageSize={10}
-              minRows={1}
-              getTdProps={onRowClick}
-            /> */}
+              minRows={0}
+            />
           </div>
         </div>
       </div>
@@ -110,7 +196,15 @@ class DownloadReport extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  Approved: state.ApprovedStatic
+});
+const mapDispatchToProps = dispatch => ({
+  APPROVED_STATICS: payload => {
+    dispatch(APPROVED_STATICS(payload));
+  }
+});
 export default connect(
-  null,
-  null
+  mapStateToProps,
+  mapDispatchToProps
 )(DownloadReport);

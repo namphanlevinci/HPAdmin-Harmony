@@ -8,6 +8,9 @@ export function* login_User_api({ email, password }) {
       email,
       password
     })
+    // .post(URL + "/adminuser/login", {
+    //   withCredentials: true
+    // })
     .then(result => {
       return result.data;
     })
@@ -42,6 +45,44 @@ export function* getAll_User_api() {
     .get(URL + "/adminuser", config)
     .then(result => {
       return result.data.data;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  return kq;
+}
+
+//! ADD ADMIN USER
+export function* add_Admin_api(Data) {
+  const {
+    stateId,
+    WaRoleId,
+    firstname,
+    lastname,
+    email,
+    password,
+    address,
+    city,
+    zip,
+    BirthDate,
+    fullname
+  } = Data;
+  const kq = yield axios
+    .post(URL + "/adminuser", {
+      stateId,
+      WaRoleId,
+      firstname,
+      lastname,
+      email,
+      password,
+      address,
+      city,
+      zip,
+      BirthDate,
+      fullname
+    })
+    .then(result => {
+      return result;
     })
     .catch(err => {
       console.log(err);

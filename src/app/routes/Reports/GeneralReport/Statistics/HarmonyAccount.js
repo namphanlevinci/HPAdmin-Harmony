@@ -98,7 +98,7 @@ class HarmonyAccount extends Component {
         Cell: e => moment(e.value).format("DD/MM/YYYY")
       },
       {
-        Header: "Approved Merchant Accounts",
+        Header: "New Harmony App Accounts",
         accessor: "total"
       }
     ];

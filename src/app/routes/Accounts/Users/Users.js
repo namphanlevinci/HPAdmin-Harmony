@@ -10,6 +10,7 @@ import "../../Merchants/MerchantsList/merchantsList.css";
 import "./User.css";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import Button from "@material-ui/core/Button";
 
 class Users extends Component {
   constructor(props) {
@@ -28,13 +29,15 @@ class Users extends Component {
     this.props.ViewProfile_User(e);
     this.props.history.push("/app/accounts/admin-user-profile");
   };
-
+  addAdmin = () => {
+    this.props.history.push("/app/accounts/add-Admin");
+  };
   render() {
     const columns = [
       {
         Header: "ID",
         accessor: "waUserId",
-        width: 100
+        width: 50
       },
       {
         Header: "Status",
@@ -91,6 +94,7 @@ class Users extends Component {
         }
       };
     };
+
     return (
       <div className="container-fluid MerList react-transition swipe-right">
         <ContainerHeader
@@ -111,6 +115,9 @@ class Users extends Component {
               />
             </form>
           </div>
+          <Button className="addAdmin" onClick={this.addAdmin}>
+            ADD NEW USER
+          </Button>
         </div>
 
         <div className="MListContainer">

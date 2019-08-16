@@ -10,6 +10,7 @@ import {
   NotificationManager
 } from "react-notifications";
 import Button from "@material-ui/core/Button";
+import URL from "../../../../../url/url";
 class Settings extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +31,7 @@ class Settings extends Component {
     });
   };
   componentDidMount() {
+    // console.log("this.props.MerchantProfile", this.props.MerchantProfile);
     const data = this.props.MerchantProfile;
     this.setState({
       merchantCode: data.merchantCode,
@@ -45,7 +47,7 @@ class Settings extends Component {
     const { merchantCode, merchantToken, transactionsFee } = this.state;
     axios
       .put(
-        "https://api2.levincidemo.com/api/merchant/updatesetting/" + ID,
+        URL + "/merchant/updatesetting/" + ID,
         { merchantCode, merchantToken, transactionsfee: transactionsFee },
         {
           headers: {

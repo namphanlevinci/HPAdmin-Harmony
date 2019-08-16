@@ -2,7 +2,8 @@ import { fork } from "redux-saga/effects";
 import {
   login_User_Saga,
   getAll_User_Saga,
-  Verify_User_Saga
+  Verify_User_Saga,
+  add_Admin_Saga
 } from "../sagas/sagaFunction/user";
 import {
   getAll_Merchants_Saga,
@@ -48,4 +49,5 @@ export default function* rootSaga() {
   yield fork(Verify_User_Saga);
   yield fork(update_Questions_Saga);
   yield fork(GET_APPROVED_SAGA);
+  yield fork(add_Admin_Saga);
 }

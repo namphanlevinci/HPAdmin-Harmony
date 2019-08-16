@@ -6,6 +6,7 @@ import UserLogin from "./User/UserLogin";
 import ViewProfile_User from "./User/ViewUserProfile";
 import getAllUser from "./User/getAllUser";
 import Verify from "./User/Verify";
+import addAdminUser from "./User/addAdmin";
 //! MERCHANT ACCEPTED LIST
 import MerchantsList from "./Merchants/Merchants_List";
 import SearchMerchants from "./Merchants/SearchMerchants";
@@ -64,5 +65,6 @@ export default history =>
     Reject,
     Verify_User: Verify,
     uQuestions: Update_Questions,
-    ApprovedStatic: Approved_Static
+    ApprovedStatic: Approved_Static,
+    addAdminUser
   });
