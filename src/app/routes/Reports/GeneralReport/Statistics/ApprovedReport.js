@@ -9,6 +9,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { APPROVED_STATICS } from "../../../../../actions/static/actions";
 import moment from "moment";
+import _ from "lodash";
 
 class ApprovedReport extends Component {
   constructor(props) {
@@ -95,6 +96,7 @@ class ApprovedReport extends Component {
       {
         Header: "Date",
         accessor: "date",
+        Footer: <span className="Total">Total</span>,
         width: 250,
         Cell: e => (
           <span style={{ margin: "5px" }}>
@@ -104,7 +106,13 @@ class ApprovedReport extends Component {
       },
       {
         Header: "Approved Merchant Accounts",
-        accessor: "total"
+        accessor: "total",
+        id: "total",
+        Footer: (
+          <span className="Total">
+            {_.sum(_.map(this.state.ApprovedTotal, d => d.total))}
+          </span>
+        )
       }
     ];
     return (

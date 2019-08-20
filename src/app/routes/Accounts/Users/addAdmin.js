@@ -23,6 +23,8 @@ import Select from "react-select";
 import { ADD_ADMIN } from "../../../../actions/user/actions";
 // import { NotificationContainer } from "react-notifications";
 
+//? TODO: ADD FROM VALIDATE
+
 const stateId = [
   { value: "1", label: "New York" },
   { value: "2", label: "Florida" },

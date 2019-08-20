@@ -7,7 +7,6 @@ import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
-import { NotificationContainer } from "react-notifications";
 import Button from "@material-ui/core/Button";
 import General from "./Detail/General";
 import EditGeneral from "./Detail/EditGeneral";
@@ -15,6 +14,7 @@ import Business from "./Detail/Business";
 import Bank from "./Detail/Bank";
 import Principal from "./Detail/Principal";
 import Settings from "./Detail/Settings";
+import EditSettings from "./Detail/EditSettings";
 import Staff from "./Detail/Staff";
 // import Transactions from "./Detail/Transactions";
 class merchantProfile2 extends Component {
@@ -49,7 +49,6 @@ class merchantProfile2 extends Component {
               </span>
             </div>
             <hr />
-            <NotificationContainer />
             <div className="content">
               <div className="container">
                 <div className="">
@@ -123,6 +122,10 @@ class merchantProfile2 extends Component {
                       <Route
                         path="/app/merchants/merchant-profile/merchant-settings"
                         component={Settings}
+                      />
+                      <Route
+                        path="/app/merchants/merchant-profile/update-settings"
+                        component={EditSettings}
                       />
                     </div>
                   </div>

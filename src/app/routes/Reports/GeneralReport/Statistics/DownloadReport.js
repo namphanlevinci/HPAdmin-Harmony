@@ -9,7 +9,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import moment from "moment";
 import { APPROVED_STATICS } from "../../../../../actions/static/actions";
-
+import _ from "lodash";
 class DownloadReport extends Component {
   constructor(props) {
     super(props);
@@ -95,6 +95,7 @@ class DownloadReport extends Component {
         Header: "Date",
         accessor: "date",
         width: 350,
+        Footer: <span className="Total">Total</span>,
         Cell: e => (
           <span style={{ margin: "5px" }}>
             {moment(e.value).format("DD/MM/YYYY")}
@@ -103,11 +104,28 @@ class DownloadReport extends Component {
       },
       {
         Header: "Apple Store",
-        accessor: "numberUserDowloadIOS"
+        accessor: "numberUserDowloadIOS",
+        Footer: (
+          <span className="Total">
+            {_.sum(
+              _.map(this.state.DownloadStatics, d => d.numberUserDowloadIOS)
+            )}
+          </span>
+        )
       },
       {
         Header: "Android Store",
-        accessor: "numberUserDowloaddAndroid"
+        accessor: "numberUserDowloaddAndroid",
+        Footer: (
+          <span className="Total">
+            {_.sum(
+              _.map(
+                this.state.DownloadStatics,
+                d => d.numberUserDowloaddAndroid
+              )
+            )}
+          </span>
+        )
       }
     ];
     return (

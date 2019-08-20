@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import ReactTable from "react-table";
 import moment from "moment";
 import { APPROVED_STATICS } from "../../../../../actions/static/actions";
+import _ from "lodash";
 
 import "react-table/react-table.css";
 class HarmonyAccount extends Component {
@@ -95,11 +96,17 @@ class HarmonyAccount extends Component {
         Header: "Date",
         accessor: "date",
         width: 250,
+        Footer: <span className="Total">Total</span>,
         Cell: e => moment(e.value).format("DD/MM/YYYY")
       },
       {
         Header: "New Harmony App Accounts",
-        accessor: "total"
+        accessor: "total",
+        Footer: (
+          <span className="Total">
+            {_.sum(_.map(this.state.HarmonyApp, d => d.total))}
+          </span>
+        )
       }
     ];
     return (

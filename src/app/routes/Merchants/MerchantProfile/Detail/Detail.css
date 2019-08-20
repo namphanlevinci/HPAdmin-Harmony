@@ -1,7 +1,8 @@
-.SettingsContent input {
+.container .SettingsContent input {
   text-align: center;
-  width: 250px;
+  width: 300px;
 }
+
 .SettingsContent button {
   margin-top: 10px;
   margin-left: 100px;
