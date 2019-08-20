@@ -9,7 +9,7 @@ const addAdminUser = (state = initialState, { type, payload }) => {
     case typeUser.ADD_ADMIN_SUCCESS:
       state.message = payload;
       localStorage.setItem("ADD_STATUS", payload);
-      return state;
+      return { ...state };
     default:
       return state;
   }

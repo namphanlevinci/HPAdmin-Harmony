@@ -77,7 +77,7 @@ class EditSettings extends Component {
           }
         }
       )
-      .then(res => {
+      .then(async res => {
         if (res.data.message === "Success") {
           NotificationManager.success(res.data.message);
           setTimeout(() => {

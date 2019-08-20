@@ -65,7 +65,8 @@ export function* add_Admin_api(Data) {
     city,
     zip,
     BirthDate,
-    fullname
+    fullname,
+    phone
   } = Data;
   const kq = yield axios
     .post(URL + "/adminuser", {
@@ -79,7 +80,8 @@ export function* add_Admin_api(Data) {
       city,
       zip,
       BirthDate,
-      fullname
+      fullname,
+      phone
     })
     .then(result => {
       return result;

@@ -21,9 +21,6 @@ import DateFnsUtils from "@date-io/date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import { ADD_ADMIN } from "../../../../actions/user/actions";
-// import { NotificationContainer } from "react-notifications";
-
-//? TODO: ADD FROM VALIDATE
 
 const stateId = [
   { value: "1", label: "New York" },
@@ -95,7 +92,8 @@ class addAdmin extends Component {
       zip: "",
       stateID: undefined,
       BirthDate: undefined,
-      roles: undefined
+      roles: undefined,
+      phone: ""
     };
   }
 
@@ -108,43 +106,64 @@ class addAdmin extends Component {
   handleBirthDate = date => {
     this.setState({ BirthDate: date });
   };
-  _addAdmin = () => {
-    const WaRoleId = this.state.roles.value;
-    const stateId = this.state.stateID.value;
-    const {
-      firstname,
-      lastname,
-      email,
-      password,
-      address,
-      city,
-      zip,
-      BirthDate
-    } = this.state;
-    const fullname = `${firstname} ${lastname}`;
-    const Data = {
-      stateId,
-      WaRoleId,
-      firstname,
-      lastname,
-      email,
-      password,
-      address,
-      city,
-      zip,
-      BirthDate,
-      fullname
-    };
-    this.props.addAdmin(Data);
+  _addAdmin = e => {
+    if (this.state.roles && this.state.stateID) {
+      e.preventDefault();
+      const WaRoleId = this.state.roles.value;
+      const stateId = this.state.stateID.value;
+      const {
+        firstname,
+        lastname,
+        email,
+        password,
+        address,
+        city,
+        zip,
+        BirthDate,
+        phone
+      } = this.state;
+      const fullname = `${firstname} ${lastname}`;
+      const Data = {
+        stateId,
+        WaRoleId,
+        firstname,
+        lastname,
+        email,
+        password,
+        address,
+        city,
+        zip,
+        BirthDate,
+        fullname,
+        phone
+      };
+      this.props.addAdmin(Data);
+    }
   };
+
   componentWillReceiveProps(nextProps) {
-    const add_mess = localStorage.getItem("ADD_STATUS");
-    if (add_mess === "Success") {
-      NotificationManager.success(add_mess);
-      setTimeout(() => localStorage.removeItem("ADD_STATUS"), 500);
-    } else {
-      NotificationManager.error(add_mess);
-      setTimeout(() => localStorage.removeItem("ADD_STATUS"), 500);
+    if (nextProps.AddStatus !== this.props.AddStatus) {
+      const Message = localStorage.getItem("ADD_STATUS");
+      if (Message !== "Success") {
+        NotificationManager.error(Message);
+        setTimeout(() => localStorage.removeItem("ADD_STATUS"), 1000);
+      } else {
+        NotificationManager.success(Message);
+        setTimeout(() => localStorage.removeItem("ADD_STATUS"), 1000);
+        this.setState({
+          firstname: "",
+          lastname: "",
+          email: "",
+          password: "",
+          address: "",
+          city: "",
+          zip: "",
+          stateID: undefined,
+          BirthDate: undefined,
+          roles: undefined,
+          phone: ""
+        });
+      }
     }
   }
   render() {
@@ -163,39 +182,42 @@ class addAdmin extends Component {
           </div>
 
           <div className="login-form">
-            <div>
+            <form>
+              <div>
+                <TextField
+                  required
+                  type="text"
+                  id="signUpName"
+                  label="First name"
+                  value={this.state.firstname}
+                  onChange={event =>
+                    this.setState({ firstname: event.target.value })
+                  }
+                  fullWidth
+                  // defaultValue={name}
+                  margin="normal"
+                  className="mt-0 mb-2"
+                  style={{ width: 170 }}
+                />
+                <TextField
+                  required
+                  type="signUpEmail"
+                  value={this.state.lastname}
+                  onChange={event =>
+                    this.setState({ lastname: event.target.value })
+                  }
+                  id="required"
+                  label="Last name"
+                  fullWidth
+                  // defaultValue={email}
+                  margin="normal"
+                  className="mt-0 mb-2"
+                  style={{ width: 170, marginLeft: "10px" }}
+                />
+              </div>
               <TextField
-                required
                 type="text"
-                id="signUpName"
-                label="First name"
-                onChange={event =>
-                  this.setState({ firstname: event.target.value })
-                }
-                fullWidth
-                // defaultValue={name}
-                margin="normal"
-                className="mt-0 mb-2"
-                style={{ width: 170 }}
-              />
-              <TextField
-                required
-                type="signUpEmail"
-                onChange={event =>
-                  this.setState({ lastname: event.target.value })
-                }
-                id="required"
-                label="Last name"
-                fullWidth
-                // defaultValue={email}
-                margin="normal"
-                className="mt-0 mb-2"
-                style={{ width: 170, marginLeft: "10px" }}
-              />
-            </div>
-            <form method="post">
-              <TextField
-                type="text"
+                value={this.state.email}
                 onChange={event => this.setState({ email: event.target.value })}
                 // id="required1"
                 label="Email"
@@ -206,8 +228,21 @@ class addAdmin extends Component {
                 required
               />
               <TextField
+                type="number"
+                value={this.state.phone}
+                onChange={event => this.setState({ phone: event.target.value })}
+                // id="required1"
+                label="Phone"
+                fullWidth
+                // defaultValue={password}
+                margin="normal"
+                className="mt-0 mb-4"
+                required
+              />
+              <TextField
                 required
                 type="password"
+                value={this.state.password}
                 onChange={event =>
                   this.setState({ password: event.target.value })
                 }
@@ -221,6 +256,7 @@ class addAdmin extends Component {
               <TextField
                 required
                 type="text"
+                value={this.state.address}
                 onChange={event =>
                   this.setState({ address: event.target.value })
                 }
@@ -237,6 +273,7 @@ class addAdmin extends Component {
                   type="text"
                   // id="signUpName"
                   label="City"
+                  value={this.state.city}
                   onChange={event =>
                     this.setState({ city: event.target.value })
                   }
@@ -249,6 +286,7 @@ class addAdmin extends Component {
                 <TextField
                   required
                   type="signUpEmail"
+                  value={this.state.zip}
                   onChange={event => this.setState({ zip: event.target.value })}
                   // id="required"
                   label="Zip code"
@@ -261,6 +299,7 @@ class addAdmin extends Component {
               </div>
               <label>State</label>
               <Select
+                required
                 placeholder="State"
                 options={stateId}
                 onChange={value => this.setState({ stateID: value })}
@@ -269,6 +308,7 @@ class addAdmin extends Component {
               <br />
               <label>Role</label>
               <Select
+                required
                 placeholder="Role"
                 options={roles}
                 onChange={value => this.setState({ roles: value })}
@@ -296,6 +336,7 @@ class addAdmin extends Component {
               <br />
               <div className="mb-3">
                 <Button
+                  type="submit"
                   onClick={this._addAdmin}
                   color="primary"
                   variant="contained"
