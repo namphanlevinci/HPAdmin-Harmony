@@ -31,10 +31,10 @@ class ApprovedReport extends Component {
   async componentDidMount() {
     const fromDate = moment()
       .startOf("month")
-      .format("YYYY/MM/DD");
+      .format("YYYY-MM-DD");
     const toDate = moment()
       .endOf("month")
-      .format("YYYY/MM/DD");
+      .format("YYYY-MM-DD");
     const Data = { fromDate, toDate };
     this.props.APPROVED_STATICS(Data);
     setTimeout(() => {
@@ -202,8 +202,8 @@ class ApprovedReport extends Component {
               <h2>Result</h2>
               <h3 style={{ color: "#3f51b5" }}>
                 Approved Merchant Accounts From
-                {" " + moment(this.state.fromDate).format("DD/MM/YYYY")} To
-                {" " + moment(this.state.toDate).format("DD/MM/YYYY")}
+                {" " + moment(this.state.fromDate).format("DD-MM-YYYY")} To
+                {" " + moment(this.state.toDate).format("DD-MM-YYYY")}
                 <CSVLink
                   style={{ marginLeft: "30%" }}
                   data={this.state.ApprovedTotal}
