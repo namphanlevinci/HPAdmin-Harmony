@@ -100,13 +100,18 @@ class Questions extends Component {
       );
     });
     return (
-      <div className="container-fluid Questions react-transition swipe-down">
+      <div className="container-fluid react-transition swipe-down">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Questions" />}
         />
         <NotificationContainer />
-        <div className="text-center">{renderQuestions}</div>
+        <div
+          className="text-center MerList Questions"
+          style={{ padding: "10px" }}
+        >
+          {renderQuestions}
+        </div>
 
         {/* //yeet */}
         <Dialog

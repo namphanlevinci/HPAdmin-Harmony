@@ -204,137 +204,145 @@ class Transactions extends React.Component {
       }
     ];
     return (
-      <div className="container-fluid MerList react-transition swipe-right">
+      <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}
         />
-        <div className="MReqSP TransactionsBox">
-          {/* SEARCH */}
-          <div className="search">
-            <form>
-              <input title="Search" value="" className="button" readOnly />
-              <input
-                type="text"
-                className="textbox"
-                placeholder="Search.."
-                value={this.state.search}
-                onChange={this._SearchMerchants}
-              />
-            </form>
-          </div>
-          {/* THANH CHUYỂN TRANGz */}
-        </div>
-        <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
-          <div className="col-md-4">
-            <form noValidate>
-              <TextField
-                id="date"
-                label="From"
-                type="date"
-                className="datePicker"
-                // defaultValue={newToday}
-                InputLabelProps={{
-                  shrink: true
-                }}
-                onChange={this.fromDate}
-              />
-            </form>
-          </div>
-          <div className="col-md-4">
-            <form noValidate>
-              <TextField
-                id="date"
-                label="To"
-                type="date"
-                // defaultValue={this.state.to}
-                InputLabelProps={{
-                  shrink: true
-                }}
-                onChange={this.toDate}
-              />
-            </form>
-          </div>
-          <div className="col-md-4">
-            <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
-              Time range
-            </h6>
-            <select
-              className="search"
-              value={this.state.range}
-              onChange={this._TimeRange}
-            >
-              <option value="">ALL </option>
-              <option value="today">Today</option>
-              <option value="week">This week</option>
-              <option value="month">This month</option>
-            </select>
-          </div>
-          <div className="col-md-4">
+        <div className="MerList" style={{ padding: "10px" }}>
+          <div className="MReqSP TransactionsBox">
+            {/* SEARCH */}
             <div className="search">
-              <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
-                Amount ($)
-              </h6>
               <form>
-                <input
-                  type="text"
-                  name="amount"
-                  className="textbox"
-                  placeholder="Amount ($)"
-                  value={this.state.amount}
-                  onChange={this._handleChange}
-                />
-              </form>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="search">
-              <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
-                Amount From:
-              </h6>
-              <form>
+                <input title="Search" value="" className="button" readOnly />
                 <input
                   type="text"
                   className="textbox"
-                  name="amountFrom"
-                  placeholder="Amount From"
-                  value={this.state.amountFrom}
-                  onChange={this._handleChange}
+                  placeholder="Search.."
+                  value={this.state.search}
+                  onChange={this._SearchMerchants}
                 />
               </form>
             </div>
+            {/* THANH CHUYỂN TRANGz */}
           </div>
-          <div className="col-md-4">
-            <div className="search">
+          <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
+            <div className="col-md-4">
+              <form noValidate>
+                <TextField
+                  id="date"
+                  label="From"
+                  type="date"
+                  className="datePicker"
+                  // defaultValue={newToday}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  onChange={this.fromDate}
+                />
+              </form>
+            </div>
+            <div className="col-md-4">
+              <form noValidate>
+                <TextField
+                  id="date"
+                  label="To"
+                  type="date"
+                  // defaultValue={this.state.to}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  onChange={this.toDate}
+                />
+              </form>
+            </div>
+            <div className="col-md-4">
               <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
-                Amount To:
+                Time range
               </h6>
-              <form>
-                <input
-                  type="text"
-                  className="textbox"
-                  name="amountTo"
-                  placeholder="Amount To"
-                  value={this.state.amountTo}
-                  onChange={this._handleChange}
-                />
-              </form>
+              <select
+                className="search"
+                value={this.state.range}
+                onChange={this._TimeRange}
+              >
+                <option value="">ALL </option>
+                <option value="today">Today</option>
+                <option value="week">This week</option>
+                <option value="month">This month</option>
+              </select>
+            </div>
+            <div className="col-md-4">
+              <div className="search">
+                <h6
+                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
+                >
+                  Amount ($)
+                </h6>
+                <form>
+                  <input
+                    type="text"
+                    name="amount"
+                    className="textbox"
+                    placeholder="Amount ($)"
+                    value={this.state.amount}
+                    onChange={this._handleChange}
+                  />
+                </form>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="search">
+                <h6
+                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
+                >
+                  Amount From:
+                </h6>
+                <form>
+                  <input
+                    type="text"
+                    className="textbox"
+                    name="amountFrom"
+                    placeholder="Amount From"
+                    value={this.state.amountFrom}
+                    onChange={this._handleChange}
+                  />
+                </form>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="search">
+                <h6
+                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
+                >
+                  Amount To:
+                </h6>
+                <form>
+                  <input
+                    type="text"
+                    className="textbox"
+                    name="amountTo"
+                    placeholder="Amount To"
+                    value={this.state.amountTo}
+                    onChange={this._handleChange}
+                  />
+                </form>
+              </div>
+            </div>
+            <div className="col-md-12">
+              <Button variant="contained" onClick={this.handleResetClick}>
+                RESET
+              </Button>
             </div>
           </div>
-          <div className="col-md-12">
-            <Button variant="contained" onClick={this.handleResetClick}>
-              RESET
-            </Button>
+          <div className="MListContainer Transactions">
+            <ReactTable
+              data={TransactionsList}
+              columns={columns}
+              defaultPageSize={10}
+              minRows={0}
+              noDataText="NO DATA!"
+            />
           </div>
-        </div>
-        <div className="MListContainer Transactions">
-          <ReactTable
-            data={TransactionsList}
-            columns={columns}
-            defaultPageSize={10}
-            minRows={0}
-            noDataText="NO DATA!"
-          />
         </div>
       </div>
     );

@@ -96,39 +96,41 @@ class Users extends Component {
     };
 
     return (
-      <div className="container-fluid MerList react-transition swipe-right">
+      <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUsers" />}
         />
-        <div className="UserSearchBox">
-          {/* SEARCH */}
-          <div className="search">
-            <form>
-              <input title="Search" value="" className="button" readOnly />
-              <input
-                type="text"
-                className="textbox"
-                placeholder="Search.."
-                value={this.state.search}
-                onChange={this._SearchUsers}
-              />
-            </form>
+        <div className="MerList" style={{ padding: "10px" }}>
+          <div className="UserSearchBox">
+            {/* SEARCH */}
+            <div className="search">
+              <form>
+                <input title="Search" value="" className="button" readOnly />
+                <input
+                  type="text"
+                  className="textbox"
+                  placeholder="Search.."
+                  value={this.state.search}
+                  onChange={this._SearchUsers}
+                />
+              </form>
+            </div>
+            <Button className="addAdmin" onClick={this.addAdmin}>
+              ADD NEW USER
+            </Button>
           </div>
-          <Button className="addAdmin" onClick={this.addAdmin}>
-            ADD NEW USER
-          </Button>
-        </div>
 
-        <div className="MListContainer">
-          <ReactTable
-            data={UserList}
-            columns={columns}
-            defaultPageSize={10}
-            minRows={0}
-            getTdProps={onRowClick}
-            noDataText="NO DATA!"
-          />
+          <div className="MListContainer">
+            <ReactTable
+              data={UserList}
+              columns={columns}
+              defaultPageSize={10}
+              minRows={0}
+              getTdProps={onRowClick}
+              noDataText="NO DATA!"
+            />
+          </div>
         </div>
       </div>
     );

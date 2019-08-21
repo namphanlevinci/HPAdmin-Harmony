@@ -9,7 +9,7 @@ import ReactTable from "react-table";
 import moment from "moment";
 import { APPROVED_STATICS } from "../../../../../actions/static/actions";
 import _ from "lodash";
-
+import { CSVLink } from "react-csv";
 import "react-table/react-table.css";
 class HarmonyAccount extends Component {
   constructor(props) {
@@ -197,6 +197,16 @@ class HarmonyAccount extends Component {
                 New Harmony App Accounts From
                 {" " + moment(this.state.fromDate).format("DD/MM/YYYY")} To
                 {" " + moment(this.state.toDate).format("DD/MM/YYYY")}
+                <CSVLink
+                  style={{ marginLeft: "30%" }}
+                  data={this.state.HarmonyApp}
+                  filename={`report${this.state.fromDate}-${this.state.toDate}.csv`}
+                  className="btn btn-green"
+                  target="_blank"
+                  enclosingCharacter={`'`}
+                >
+                  EXPORT
+                </CSVLink>
               </h3>
             </div>
           </div>

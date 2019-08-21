@@ -10,6 +10,7 @@ import "react-table/react-table.css";
 import moment from "moment";
 import { APPROVED_STATICS } from "../../../../../actions/static/actions";
 import _ from "lodash";
+import { CSVLink } from "react-csv";
 class DownloadReport extends Component {
   constructor(props) {
     super(props);
@@ -199,6 +200,24 @@ class DownloadReport extends Component {
                 </form>
               </div>
             </div>
+          </div>
+          <div>
+            <h2>Result</h2>
+            <h3 style={{ color: "#3f51b5" }}>
+              New Harmony Pay App Accounts From
+              {" " + moment(this.state.fromDate).format("DD/MM/YYYY")} To
+              {" " + moment(this.state.toDate).format("DD/MM/YYYY")}
+              <CSVLink
+                style={{ marginLeft: "30%" }}
+                data={this.state.DownloadStatics}
+                filename={`report${this.state.fromDate}-${this.state.toDate}.csv`}
+                className="btn btn-green"
+                target="_blank"
+                enclosingCharacter={`'`}
+              >
+                EXPORT
+              </CSVLink>
+            </h3>
           </div>
           <div className="MListContainer">
             <ReactTable

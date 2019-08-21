@@ -10,6 +10,7 @@ import moment from "moment";
 import { APPROVED_STATICS } from "../../../../../actions/static/actions";
 import _ from "lodash";
 import "react-table/react-table.css";
+import { CSVLink } from "react-csv";
 class HarmonyPayAccount extends Component {
   constructor(props) {
     super(props);
@@ -196,6 +197,16 @@ class HarmonyPayAccount extends Component {
                 New Harmony Pay App Accounts From
                 {" " + moment(this.state.fromDate).format("DD/MM/YYYY")} To
                 {" " + moment(this.state.toDate).format("DD/MM/YYYY")}
+                <CSVLink
+                  style={{ marginLeft: "30%" }}
+                  data={this.state.HarmonyPayApp}
+                  filename={`report${this.state.fromDate}-${this.state.toDate}.csv`}
+                  className="btn btn-green"
+                  target="_blank"
+                  enclosingCharacter={`'`}
+                >
+                  EXPORT
+                </CSVLink>
               </h3>
             </div>
           </div>
