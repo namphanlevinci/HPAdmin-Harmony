@@ -44,10 +44,14 @@ class Dashboard extends Component {
         fromDate: fromDate,
         toDate: toDate
       });
-    }, 500);
+    }, 1000);
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log("Content", this.state.Dashboard);
   }
   render() {
-    // console.log("Content", this.state.Dashboard);
+    console.log("Content", this.state.Dashboard);
+
     const chartData = [
       { name: "J", amt: 600 },
       { name: "F", amt: 900 },
@@ -64,8 +68,11 @@ class Dashboard extends Component {
         amt: `${this.state.Dashboard.totalNumberDowloadOfIOS}`
       }
     ];
-    const ApprovedUser = _.sum(
+    const ApprovedMerchant = _.sum(
       _.map(this.state.Dashboard.approveMerchant, d => d.total)
+    );
+    const RejectedMerchant = _.sum(
+      _.map(this.state.Dashboard.rejectMerchant, d => d.total)
     );
     const NewUser =
       this.state.Dashboard.totalNumberDowloadOfAndroid +
@@ -110,7 +117,7 @@ class Dashboard extends Component {
             <div className="col-xl-4 col-sm-6">
               <SaleBox
                 heading="Approved Merchant account this week"
-                title={`${ApprovedUser}`}
+                title={`${ApprovedMerchant}`}
                 detail="This week"
               >
                 <BarChart data={chartData}>
@@ -246,7 +253,10 @@ class Dashboard extends Component {
                   </h3>
                 </div>
                 <ResponsiveContainer width="100%">
-                  <DoughnutChart />
+                  <DoughnutChart
+                    Approved={ApprovedMerchant}
+                    rejected={RejectedMerchant}
+                  />
                 </ResponsiveContainer>
                 <div className="row">
                   <div className="col-6">
@@ -258,7 +268,7 @@ class Dashboard extends Component {
                       <div className="media-body">
                         <h5 className="mb-0">Approved</h5>
                         <span className="jr-fs-sm text-muted">
-                          2038 request
+                          {`${ApprovedMerchant} request`}
                         </span>
                       </div>
                     </div>
@@ -271,7 +281,9 @@ class Dashboard extends Component {
                       />
                       <div className="media-body">
                         <h5 className="mb-0">Rejected</h5>
-                        <span className="jr-fs-sm text-muted">250 request</span>
+                        <span className="jr-fs-sm text-muted">
+                          {`${RejectedMerchant} request`}
+                        </span>
                       </div>
                     </div>
                   </div>
