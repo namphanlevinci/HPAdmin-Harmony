@@ -43,7 +43,6 @@ class DoughnutChart extends Component {
         ]
       };
     };
-    console.log(this.props);
     return <Doughnut data={data} options={options} height={250} />;
   }
 }

@@ -107,8 +107,8 @@ class MerchantApprovedProfile extends Component {
                     <p>{e.address + " " + e.city + " " + e.stateId}</p>
                   </div>
                   <div className="col-md-4">
-                    <h4>Phone*</h4>
-                    <p>{e.cellphone}</p>
+                    <h4>Zip Code*</h4>
+                    <p>{e.zip}</p>
                   </div>
                   <div className="col-md-4">
                     <h4>Business Phone Number*</h4>

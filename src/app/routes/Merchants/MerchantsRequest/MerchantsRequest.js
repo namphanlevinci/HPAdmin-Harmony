@@ -57,12 +57,13 @@ class MerchantsRequest extends Component {
       },
       {
         Header: "Bussiness name",
-        accessor: "businessName"
+        accessor: "businessName",
+        width: 280
       },
       {
         id: "principals",
         Header: "Owner",
-        width: 150,
+        width: 280,
         accessor: "principals",
         Cell: e => (
           <span>
@@ -75,7 +76,7 @@ class MerchantsRequest extends Component {
       {
         Header: "Email",
         accessor: "email",
-        width: 300
+        width: 350
       },
       {
         Header: "Phone number",

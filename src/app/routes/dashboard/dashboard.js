@@ -37,6 +37,7 @@ class Dashboard extends Component {
       .format("YYYY-MM-DD");
     const Data = { fromDate, toDate };
     this.props.APPROVED_STATICS(Data);
+
     const Content = this.props.Approved.data;
     setTimeout(() => {
       this.setState({
@@ -46,12 +47,8 @@ class Dashboard extends Component {
       });
     }, 1000);
   }
-  componentWillReceiveProps(nextProps) {
-    console.log("Content", this.state.Dashboard);
-  }
-  render() {
-    console.log("Content", this.state.Dashboard);
 
+  render() {
     const chartData = [
       { name: "J", amt: 600 },
       { name: "F", amt: 900 },
@@ -113,10 +110,10 @@ class Dashboard extends Component {
               </SaleBox>
             </div>
 
-            {/* //!! Approved Merchant account this week */}
+            {/* //! Approved Merchant account this week */}
             <div className="col-xl-4 col-sm-6">
               <SaleBox
-                heading="Approved Merchant account this week"
+                heading="Approved Merchant account"
                 title={`${ApprovedMerchant}`}
                 detail="This week"
               >

@@ -63,6 +63,9 @@
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
+.TStatus::first-letter {
+  text-transform: uppercase;
+}
 /* REACT TABLE */
 .rt-td {
   white-space: normal !important;

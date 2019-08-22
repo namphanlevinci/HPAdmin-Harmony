@@ -89,12 +89,20 @@ class Transactions extends Component {
       {
         id: "Activity",
         Header: "Activity",
-        accessor: e => e.paymentData.transaction_type
+        accessor: e => (
+          <p className="TStatus" style={{ fontWeight: 0 }}>
+            {e.paymentData.transaction_type}
+          </p>
+        )
       },
       {
         id: "PaymentMethod",
         Header: "Payment Method",
-        accessor: e => e.paymentData.method
+        accessor: e => (
+          <p className="TStatus" style={{ fontWeight: 0 }}>
+            {e.paymentData.method}
+          </p>
+        )
       },
       {
         id: "cardtype",
@@ -104,8 +112,8 @@ class Transactions extends Component {
       {
         id: "amount",
         Header: "Amount",
-        accessor: "amount",
-        Cell: e => <span className="">${e.value}</span>
+        accessor: e => e.amount,
+        Cell: e => <span className="">${Math.round(e.value * 100) / 100}</span>
       },
       {
         Header: "IP",
@@ -114,7 +122,11 @@ class Transactions extends Component {
       {
         id: "status",
         Header: "Status",
-        accessor: e => e.paymentData.validation_status
+        accessor: e => (
+          <p className="TStatus" style={{ fontWeight: 0 }}>
+            {e.paymentData.validation_status}
+          </p>
+        )
       }
     ];
     return (
@@ -178,7 +190,7 @@ class Transactions extends Component {
               <ReactTable
                 data={renderTable}
                 columns={columns}
-                defaultPageSize={10}
+                defaultPageSize={5}
                 minRows={0}
                 noDataText="NO DATA!"
               />

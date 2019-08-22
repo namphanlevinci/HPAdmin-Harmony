@@ -200,7 +200,9 @@ class Transactions extends React.Component {
       {
         id: "status",
         Header: "Status",
-        accessor: e => e.paymentData.validation_status
+        accessor: e => (
+          <p className="TStatus">{e.paymentData.validation_status}</p>
+        )
       }
     ];
     return (
