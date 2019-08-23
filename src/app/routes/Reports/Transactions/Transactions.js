@@ -229,7 +229,7 @@ class Transactions extends React.Component {
             {/* THANH CHUYỂN TRANGz */}
           </div>
           <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
-            <div className="col-md-4">
+            <div className="col-md-4" align="center">
               <form noValidate>
                 <TextField
                   id="date"
@@ -273,24 +273,25 @@ class Transactions extends React.Component {
                 <option value="month">This month</option>
               </select>
             </div>
-            <div className="col-md-4">
-              <div className="search">
-                <h6
-                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
-                >
-                  Amount ($)
-                </h6>
-                <form>
-                  <input
-                    type="text"
-                    name="amount"
-                    className="textbox"
-                    placeholder="Amount ($)"
-                    value={this.state.amount}
-                    onChange={this._handleChange}
-                  />
-                </form>
-              </div>
+            <div className="col-md-4 searchx" align="center">
+              <h6
+                style={{
+                  color: "rgba(0, 0, 0, 0.54)",
+                  fontSize: "0,7rem"
+                }}
+              >
+                Amount ($)
+              </h6>
+              <form>
+                <input
+                  type="text"
+                  name="amount"
+                  className="textbox"
+                  placeholder="Amount ($)"
+                  value={this.state.amount}
+                  onChange={this._handleChange}
+                />
+              </form>
             </div>
             <div className="col-md-4">
               <div className="search">

@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import {
-  Area,
-  AreaChart,
+  // Area,
+  // AreaChart,
   Bar,
   BarChart,
-  Line,
-  LineChart,
+  // Line,
+  // LineChart,
   ResponsiveContainer,
   XAxis
 } from "recharts";
@@ -15,11 +15,12 @@ import SaleBox from "components/SaleBox/index";
 import _ from "lodash";
 import DoughnutChart from "./DoughnutChart";
 import ChartCard from "./ChartCard";
-import { increamentData, lineData } from "./data";
+// import { increamentData, lineData } from "./data";
 import Portfolio from "./Portfolio";
 import { APPROVED_STATICS } from "../../../actions/static/actions";
 import { connect } from "react-redux";
 import moment from "moment";
+import "./dashboard.css";
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +40,7 @@ class Dashboard extends Component {
     this.props.APPROVED_STATICS(Data);
 
     const Content = this.props.Approved.data;
+    // console.log("Content", Content);
     setTimeout(() => {
       this.setState({
         Dashboard: Content,
@@ -74,6 +76,10 @@ class Dashboard extends Component {
     const NewUser =
       this.state.Dashboard.totalNumberDowloadOfAndroid +
       this.state.Dashboard.totalNumberDowloadOfIOS;
+    const HarmonyPayAccounts = this.state.Dashboard.totalNumberUserPaid;
+    const MerchantAccounts = _.sum(
+      _.map(this.state.Dashboard.totalMerchantAccounts, d => d.total)
+    );
     return (
       <div className="app-wrapper">
         <div className="container-fluid">
@@ -86,8 +92,8 @@ class Dashboard extends Component {
             <div className="col-xl-4 col-sm-6">
               <SaleBox
                 heading="Number of Merchant Account"
-                title="8535"
-                detail="Past 9 month data"
+                title={MerchantAccounts}
+                detail="this week"
               >
                 <BarChart data={chartData}>
                   <Bar dataKey="amt" fill="#3f51b5" />
@@ -95,7 +101,6 @@ class Dashboard extends Component {
                 </BarChart>
               </SaleBox>
             </div>
-
             {/* // !!  new users this week */}
             <div className="col-xl-4 col-lg-6 col-md-12 col-12">
               <SaleBox
@@ -109,7 +114,6 @@ class Dashboard extends Component {
                 </BarChart>
               </SaleBox>
             </div>
-
             {/* //! Approved Merchant account this week */}
             <div className="col-xl-4 col-sm-6">
               <SaleBox
@@ -133,33 +137,13 @@ class Dashboard extends Component {
                     width="100%"
                     height={135}
                   >
-                    <AreaChart
-                      data={increamentData}
-                      margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-                    >
-                      <defs>
-                        <linearGradient id="color3" x1="0" y1="0" x2="1" y2="0">
-                          <stop
-                            offset="5%"
-                            stopColor="#3f51b5"
-                            stopOpacity={1}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#1fb6fc"
-                            stopOpacity={1}
-                          />
-                        </linearGradient>
-                      </defs>
-                      <Area
-                        dataKey="pv"
-                        strokeWidth={0}
-                        stackId="2"
-                        stroke="#4D95F3"
-                        fill="url(#color3)"
-                        fillOpacity={1}
-                      />
-                    </AreaChart>
+                    <div className="middleBox">
+                      <h2>
+                        <span>{HarmonyPayAccounts} </span>
+                        <br />
+                        Total accounts
+                      </h2>
+                    </div>
                   </ResponsiveContainer>
                 }
                 styleName="up"
@@ -176,35 +160,13 @@ class Dashboard extends Component {
                     width="100%"
                     height={135}
                   >
-                    <AreaChart
-                      data={increamentData}
-                      margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-                    >
-                      <defs>
-                        <linearGradient id="color4" x1="0" y1="0" x2="1" y2="0">
-                          <stop
-                            offset="5%"
-                            stopColor="#aa3c6d"
-                            stopOpacity={1}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#ff9800"
-                            stopOpacity={1}
-                          />
-                        </linearGradient>
-                      </defs>
-
-                      <Area
-                        dataKey="pv"
-                        type="monotone"
-                        strokeWidth={0}
-                        stackId="2"
-                        stroke="#4D95F3"
-                        fill="url(#color4)"
-                        fillOpacity={1}
-                      />
-                    </AreaChart>
+                    <div className="middleBox">
+                      <h2>
+                        <span>{NewUser} </span>
+                        <br />
+                        Number of users using HarmonyPay App
+                      </h2>
+                    </div>
                   </ResponsiveContainer>
                 }
                 styleName="up"
@@ -214,27 +176,24 @@ class Dashboard extends Component {
             {/* //!! time spent */}
             <div className="col-xl-4 col-lg-3 col-md-6 col-sm-6 col-12">
               <ChartCard
-                title="44"
+                title="10"
                 children={
                   <ResponsiveContainer
                     className="card-img-bottom overflow-hidden"
                     width="100%"
                     height={135}
                   >
-                    <LineChart
-                      data={lineData}
-                      margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
-                    >
-                      <Line
-                        dataKey="pv"
-                        stroke="#3f51b5"
-                        dot={{ stroke: "#3f51b5", strokeWidth: 2 }}
-                      />
-                    </LineChart>
+                    <div className="middleBox">
+                      <h2>
+                        <span>{NewUser} </span>
+                        <br />
+                        Average amount of time spent per user
+                      </h2>
+                    </div>
                   </ResponsiveContainer>
                 }
-                styleName="up"
-                desc="Traffic raise from past year"
+                styleName="down"
+                desc="Time Statistics"
               />
             </div>
             {/* // !!  amount user by zipcode*/}
@@ -246,7 +205,7 @@ class Dashboard extends Component {
               <div className="jr-card">
                 <div className="jr-card-header">
                   <h3 className="card-heading">
-                    <IntlMessages id="Number of request" />
+                    Number of request (this week)
                   </h3>
                 </div>
                 <ResponsiveContainer width="100%">

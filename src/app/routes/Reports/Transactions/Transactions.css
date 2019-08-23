@@ -23,12 +23,24 @@
   font-size: 16px;
   border: 1px solid grey;
 }
-/* .Transactions tbody tr td:first-child {
-  border-left: 1px solid grey;
+.searchx input {
+  outline: 0;
+  height: 42px;
+  width: 244px;
+  line-height: 42px;
+  padding: 0 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #212121;
+  border: 0;
+  -webkit-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+  outline: 0;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
 }
-.Transactions tbody tr td:last-child {
-  border-right: 1px solid grey;
-} */
 .Transactions tbody tr td:first-letter {
   text-transform: capitalize;
 }

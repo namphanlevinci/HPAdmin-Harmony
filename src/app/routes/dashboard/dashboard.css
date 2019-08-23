@@ -1,0 +1,14 @@
+.recharts-responsive-container {
+  text-align: center;
+}
+.recharts-responsive-container .middleBox h2 {
+  color: #808080;
+  padding-top: 30px;
+  font-weight: 300;
+  font-size: 14px;
+}
+.recharts-responsive-container .middleBox span {
+  color: black;
+  font-weight: 300;
+  font-size: 30px;
+}
