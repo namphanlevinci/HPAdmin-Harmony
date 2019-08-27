@@ -273,8 +273,7 @@ class Header extends React.Component {
               <span className="menu-icon" />
             </IconButton>
           )}
-
-          <Link className="app-logo mr-2 d-none d-sm-block" to="/app/merchants">
+          <Link className="app-logo mr-2 d-none d-sm-block" to="/app/dashboard">
             <img
               src={require("assets/images/logo-white.png")}
               alt="Jambo"

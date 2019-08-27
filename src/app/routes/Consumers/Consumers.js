@@ -99,7 +99,9 @@ class Consumers extends React.Component {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: e => {
-          this._ConsumerProfile(rowInfo.row);
+          if (rowInfo !== undefined) {
+            this._ConsumerProfile(rowInfo.row);
+          }
         }
       };
     };
@@ -131,7 +133,7 @@ class Consumers extends React.Component {
               data={ConsumerList}
               columns={columns}
               defaultPageSize={10}
-              minRows={0}
+              minRows={1}
               getTdProps={onRowClick}
               loading={this.state.loading}
               LoadingComponent={ProgressLoading}

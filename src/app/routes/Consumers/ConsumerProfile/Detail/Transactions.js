@@ -191,7 +191,7 @@ class Transactions extends Component {
                 data={renderTable}
                 columns={columns}
                 defaultPageSize={5}
-                minRows={0}
+                minRows={1}
                 noDataText="NO DATA!"
               />
             </div>

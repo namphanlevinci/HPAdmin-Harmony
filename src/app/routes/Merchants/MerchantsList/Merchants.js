@@ -31,6 +31,7 @@ class Merchants extends React.Component {
   };
   render() {
     let MerList = this.props.Merchants_List;
+    console.log(MerList);
     if (MerList) {
       if (this.state.search) {
         MerList = MerList.filter(e => {
@@ -86,7 +87,9 @@ class Merchants extends React.Component {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: e => {
-          this._merchantsProfile(rowInfo.original);
+          if (rowInfo !== undefined) {
+            this._merchantsProfile(rowInfo.original);
+          }
         }
       };
     };
@@ -117,7 +120,7 @@ class Merchants extends React.Component {
               data={MerList}
               columns={columns}
               defaultPageSize={10}
-              minRows={0}
+              minRows={1}
               getTdProps={onRowClick}
               noDataText="NO DATA!"
             />

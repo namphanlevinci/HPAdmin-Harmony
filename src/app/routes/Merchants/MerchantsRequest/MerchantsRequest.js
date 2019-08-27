@@ -86,7 +86,9 @@ class MerchantsRequest extends Component {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: e => {
-          this._merchantReqProfile(rowInfo.original);
+          if (rowInfo !== undefined) {
+            this._merchantReqProfile(rowInfo.original);
+          }
         }
       };
     };
@@ -117,7 +119,7 @@ class MerchantsRequest extends Component {
               data={ReqList}
               columns={columns}
               defaultPageSize={10}
-              minRows={0}
+              minRows={1}
               getTdProps={onRowClick}
               noDataText="NO DATA!"
             />

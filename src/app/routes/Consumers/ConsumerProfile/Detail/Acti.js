@@ -102,7 +102,7 @@ class Acti extends Component {
                 data={renderTable}
                 columns={columns}
                 defaultPageSize={10}
-                minRows={0}
+                minRows={1}
                 noDataText="NO DATA!"
               />
             </div>

@@ -28,7 +28,6 @@ class Staff extends Component {
 
   render() {
     let e = this.props.MerchantProfile.staffs;
-    console.log("e", e);
     if (e) {
       if (this.state.search) {
         e = e.filter(e => {
@@ -99,7 +98,7 @@ class Staff extends Component {
               data={e}
               columns={columns}
               defaultPageSize={10}
-              minRows={0}
+              minRows={1}
               noDataText="NO DATA!"
             />
           </div>

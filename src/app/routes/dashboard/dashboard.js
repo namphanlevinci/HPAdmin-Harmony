@@ -39,9 +39,8 @@ class Dashboard extends Component {
     const Data = { fromDate, toDate };
     this.props.APPROVED_STATICS(Data);
 
-    const Content = this.props.Approved.data;
-    // console.log("Content", Content);
     setTimeout(() => {
+      const Content = this.props.Approved.data;
       this.setState({
         Dashboard: Content,
         fromDate: fromDate,

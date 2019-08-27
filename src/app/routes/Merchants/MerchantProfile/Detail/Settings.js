@@ -21,7 +21,6 @@ class Settings extends Component {
   componentDidMount() {
     // console.log("this.props.MerchantProfile", this.props.MerchantProfile);
     const data = this.props.MerchantProfile;
-    console.log("YEET", this.props.MerchantProfile);
     this.setState({
       merchantCode: data.merchantCode,
       merchantToken: data.merchantToken,

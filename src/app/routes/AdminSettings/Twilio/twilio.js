@@ -45,7 +45,8 @@ class Twilio extends Component {
         password: smtp.password,
         userSmtp: smtp.userSmtp,
         creditFree: general.creditFree,
-        transactionFee: general.transactionFee
+        transactionFee: general.transactionFee,
+        totalAmountLimit: general.totalAmountLimit
       });
     });
   }
@@ -68,7 +69,8 @@ class Twilio extends Component {
       password,
       userSmtp,
       creditFree,
-      transactionFee
+      transactionFee,
+      totalAmountLimit
     } = this.state;
     let twilio = {
       accountSid: accountSid,
@@ -76,7 +78,7 @@ class Twilio extends Component {
       phoneSender: phoneSender
     };
     let smtp = { email, host, password, userSmtp };
-    let general = { transactionFee, creditFree };
+    let general = { transactionFee, creditFree, totalAmountLimit };
     Axios.post(
       URL + "/adminsetting",
       { twilio, smtp, general },

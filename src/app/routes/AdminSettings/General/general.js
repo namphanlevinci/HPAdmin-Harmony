@@ -22,7 +22,8 @@ class General extends Component {
       password: "",
       userSmtp: "",
       transactionFee: "",
-      creditFree: ""
+      creditFree: "",
+      totalAmountLimit: ""
     };
   }
   async componentDidMount() {
@@ -44,7 +45,8 @@ class General extends Component {
         password: smtp.password,
         userSmtp: smtp.userSmtp,
         transactionFee: general.transactionFee,
-        creditFree: general.creditFree
+        creditFree: general.creditFree,
+        totalAmountLimit: general.totalAmountLimit
       });
     });
   }
@@ -67,7 +69,8 @@ class General extends Component {
       password,
       userSmtp,
       transactionFee,
-      creditFree
+      creditFree,
+      totalAmountLimit
     } = this.state;
     let twilio = {
       accountSid: accountSid,
@@ -75,7 +78,7 @@ class General extends Component {
       phoneSender: phoneSender
     };
     let smtp = { email, host, password, userSmtp };
-    let general = { transactionFee, creditFree };
+    let general = { transactionFee, creditFree, totalAmountLimit };
     Axios.post(
       URL + "/adminsetting",
       { twilio, smtp, general },
@@ -102,7 +105,7 @@ class General extends Component {
           title={<IntlMessages id="sidebar.dashboard.General" />}
         />
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <form className="form-style-7">
               <h1>TRANSACTIONS FEE</h1>
               <ul>
@@ -125,7 +128,30 @@ class General extends Component {
               </ul>
             </form>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
+            <form className="form-style-7">
+              <h1>TOTAL AMOUNT LIMIT</h1>
+              <ul>
+                <li>
+                  <label htmlFor="PHONE">AMOUNT ($)</label>
+                  <input
+                    type="NUMBER"
+                    name="totalAmountLimit"
+                    maxLength="100"
+                    value={this.state.totalAmountLimit}
+                    onChange={this._handleChange}
+                    style={{ textAlign: "center" }}
+                  />
+                </li>
+                <li>
+                  <button className="btn btn-green" onClick={this._updateFee}>
+                    UPDATE
+                  </button>
+                </li>
+              </ul>
+            </form>
+          </div>
+          <div className="col-md-4">
             <form className="form-style-7">
               <h1>CREDIT FEE</h1>
               <ul>

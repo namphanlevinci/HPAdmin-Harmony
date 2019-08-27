@@ -132,6 +132,7 @@ class EditSettings extends Component {
                     </td>
                     <td>
                       <input
+                        type="number"
                         name="transactionsFee"
                         value={this.state.transactionsFee}
                         onChange={this._handleChange}
@@ -144,7 +145,7 @@ class EditSettings extends Component {
                     </td>
                     <td>
                       <input
-                        type="password"
+                        type="text"
                         name="merchantCode"
                         value={this.state.merchantCode}
                         onChange={this._handleChange}
@@ -157,7 +158,7 @@ class EditSettings extends Component {
                     </td>
                     <td>
                       <input
-                        type="password"
+                        type="text"
                         name="merchantToken"
                         value={this.state.merchantToken}
                         onChange={this._handleChange}
@@ -189,7 +190,7 @@ class EditSettings extends Component {
           <br />
           <div className="input-group">
             <input
-              type="text"
+              type="number"
               className="col-4 form-control"
               name="totalAmountLimit"
               value={this.state.totalAmountLimit}
