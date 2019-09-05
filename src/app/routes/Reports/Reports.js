@@ -40,6 +40,10 @@ const Reports = ({ match }) => (
           import("./GeneralReport/Statistics/HarmonyPayAccount")
         )}
       />
+      <Route
+        path={`${match.url}/batchs`}
+        component={asyncComponent(() => import("./Batch/Batch"))}
+      />
     </Switch>
   </div>
 );

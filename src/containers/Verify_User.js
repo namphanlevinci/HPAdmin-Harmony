@@ -26,8 +26,19 @@ class Verify_User extends React.Component {
       }
     }
   }
+  componentWillMount() {
+    document.addEventListener("keypress", this.keyPressed);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keypress", this.keyPressed);
+  }
+  keyPressed = e => {
+    if (e.code === "Enter") {
+      this._Login();
+    }
+  };
   _Login = async e => {
-    await e.preventDefault();
+    // await e.preventDefault();
     const SERIAL = this.props.InfoUser_Login.User;
     const code = await this.state.verify_code;
     const data = { code, SERIAL };

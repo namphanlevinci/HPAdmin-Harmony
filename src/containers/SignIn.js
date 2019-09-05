@@ -26,11 +26,22 @@ class SignIn extends React.Component {
 
   onSubmit = async e => {
     this.setState({ loading: true });
-    await e.preventDefault();
+    // await e.preventDefault();
     const { email, password } = await this.state;
     await this.props.checkLogin_User({ email, password });
   };
+  componentWillMount() {
+    document.addEventListener("keypress", this.keyPressed);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keypress", this.keyPressed);
+  }
 
+  keyPressed = e => {
+    if (e.code === "Enter") {
+      this.onSubmit();
+    }
+  };
   componentWillReceiveProps(nextProps) {
     const Message = localStorage.getItem("Message");
     this.setState({ loading: false, isRight: true });
