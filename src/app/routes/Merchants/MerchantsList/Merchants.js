@@ -10,6 +10,8 @@ import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+// import { MdDone } from "react-icons/md";
+
 class Merchants extends React.Component {
   constructor(props) {
     super(props);
@@ -59,12 +61,12 @@ class Merchants extends React.Component {
       {
         Header: "Bussiness name",
         accessor: "businessName",
-        width: 250
+        width: 170
       },
       {
         id: "principals",
         Header: "Owner",
-        width: 250,
+        width: 200,
         accessor: "principals",
         Cell: e => (
           <span>
@@ -82,6 +84,11 @@ class Merchants extends React.Component {
       {
         Header: "Phone number",
         accessor: "phone"
+      },
+      {
+        Header: "Status",
+        accessor: "isDisabled",
+        Cell: e => <span>{e.value === 0 ? "Available" : "Disable"}</span>
       }
     ];
     const onRowClick = (state, rowInfo, column, instance) => {

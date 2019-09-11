@@ -116,6 +116,7 @@ class Settings extends Component {
           <Button className="btn btn-green" onClick={this._gotoEdit}>
             EDIT
           </Button>
+          <Button className="btn btn-green">DISABLE</Button>
         </div>
       </div>
     );
