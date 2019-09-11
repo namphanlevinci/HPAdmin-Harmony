@@ -33,9 +33,9 @@ class SignIn extends React.Component {
   componentWillMount() {
     document.addEventListener("keypress", this.keyPressed);
   }
-  componentWillUnmount() {
-    document.removeEventListener("keypress", this.keyPressed);
-  }
+  // componentWillUnmount() {
+  //   document.removeEventListener("keypress", this.keyPressed);
+  // }
 
   keyPressed = e => {
     if (e.code === "Enter") {

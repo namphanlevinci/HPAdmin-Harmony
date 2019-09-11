@@ -191,7 +191,11 @@ class Transactions extends React.Component {
         id: "Amount",
         Header: "Amount",
         accessor: e => e.amount,
-        Cell: e => <span className="">${Math.round(e.value * 100) / 100}</span>
+        Cell: e => (
+          <span className="">
+            ${(Math.round(e.value * 100) / 100).toFixed(2)}
+          </span>
+        )
       },
       {
         Header: "IP",

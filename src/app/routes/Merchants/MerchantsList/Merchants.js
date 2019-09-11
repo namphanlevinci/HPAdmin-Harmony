@@ -31,7 +31,7 @@ class Merchants extends React.Component {
   };
   render() {
     let MerList = this.props.Merchants_List;
-    console.log(MerList);
+    // console.log(MerList);
     if (MerList) {
       if (this.state.search) {
         MerList = MerList.filter(e => {

@@ -71,7 +71,9 @@ class Consumers extends React.Component {
         Header: "Money spent/Daily",
         accessor: e => e.totalAmount,
         Cell: e => (
-          <span className={e.value > 10000 ? "BIG" : ""}>${e.value}</span>
+          <span className={e.value > 10000 ? "BIG" : ""}>
+            ${e.value.toFixed(2)}
+          </span>
         )
       }
     ];
