@@ -39,7 +39,7 @@ class HarmonyAccount extends Component {
     setTimeout(() => {
       const Content = this.props.Approved.data;
       this.setState({
-        HarmonyApp: Content.amountHamonyApp,
+        HarmonyApp: Content.amountHarmonyApp,
         fromDate: fromDate,
         toDate: toDate
       });
@@ -48,7 +48,7 @@ class HarmonyAccount extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.Approved !== this.props.Approved) {
       const Content = this.props.Approved.data;
-      this.setState({ HarmonyApp: Content.amountHamonyApp });
+      this.setState({ HarmonyApp: Content.amountHarmonyApp });
     }
   }
   _TimeRange = async e => {

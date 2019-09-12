@@ -5,6 +5,12 @@ import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import "./Detail.css";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
+import URL from "../../../../../url/url";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
 class Settings extends Component {
   constructor(props) {
     super(props);
@@ -12,29 +18,58 @@ class Settings extends Component {
       transactionsFee: "",
       merchantCode: "",
       merchantToken: "",
-      totalAmountLimit: ""
+      totalAmountLimit: "",
+      ID: "",
+      User: ""
     };
   }
   _gotoEdit = () => {
     this.props.history.push("/app/merchants/merchant-profile/update-settings");
   };
   componentDidMount() {
-    // console.log("this.props.MerchantProfile", this.props.MerchantProfile);
     const data = this.props.MerchantProfile;
+    const User = localStorage.getItem("User_login");
     this.setState({
       merchantCode: data.merchantCode,
       merchantToken: data.merchantToken,
       transactionsFee: data.transactionsFee,
-      totalAmountLimit: data.totalAmountLimit
+      totalAmountLimit: data.totalAmountLimit,
+      ID: data.merchantId,
+      User: User
     });
   }
   _toggleConfirm = () => {
     this.setState({ update: !this.state.update });
   };
+  _disable = () => {
+    const { ID } = this.state;
+    let data = JSON.parse(this.state.User);
+    const UserToken = data.token;
+    axios
+      .delete(URL + "/merchant/" + ID, {
+        headers: { Authorization: `Bearer ${UserToken}` }
+      })
+      .then(res => {
+        NotificationManager.success(res.data.message);
+      });
+  };
 
+  _enable = () => {
+    const { ID } = this.state;
+    let data = JSON.parse(this.state.User);
+    const UserToken = data.token;
+    axios
+      .put(URL + "/merchant/enable/" + ID, null, {
+        headers: { Authorization: `Bearer ${UserToken}` }
+      })
+      .then(res => {
+        NotificationManager.success(res.data.message);
+      });
+  };
   render() {
     return (
       <div className="container react-transition swipe-up">
+        <NotificationContainer />
         <h2>Settings</h2>
         <div className="container">
           <div className="SettingsContent">
@@ -116,7 +151,16 @@ class Settings extends Component {
           <Button className="btn btn-green" onClick={this._gotoEdit}>
             EDIT
           </Button>
-          <Button className="btn btn-green">DISABLE</Button>
+
+          {this.props.MerchantProfile.isDisabled === 0 ? (
+            <Button className="btn btn-green" onClick={this._disable}>
+              DISABLE
+            </Button>
+          ) : (
+            <Button className="btn btn-green" onClick={this._enable}>
+              ENABLE
+            </Button>
+          )}
         </div>
       </div>
     );
