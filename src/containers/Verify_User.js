@@ -34,7 +34,7 @@ class Verify_User extends React.Component {
   }
   keyPressed = e => {
     if (e.code === "Enter") {
-      console.log("2");
+      // console.log("2");
       this._Login();
     }
   };

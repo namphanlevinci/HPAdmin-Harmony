@@ -79,6 +79,7 @@ class MerchantReqProfile extends Component {
       }
     render() { 
         const e = this.props.PendingProfile
+        console.log('EEEEEEEEEEEEEEEEEE', e)
         //render question
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (
@@ -256,11 +257,11 @@ class MerchantReqProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>ABA Routing Number*</h4>
-                                            <p>{e.routingNumber}</p>
+                                            <p>{e.businessBank !== null ? e.businessBank.routingNumber : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Checking Account Number (DDA)*</h4>
-                                            <p>{e.accountNumber}</p>
+                                            <p>{e.businessBank !== null ? e.businessBank.accountNumber : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Void Check*</h4>
