@@ -36,6 +36,7 @@ import Update_Questions from "./Business/update_Questions";
 //!CONSUMER
 import getUser_Transaction from "./Transactions/getUser_Transactions";
 import getUser_Activity from "./Transactions/getUser_Activity";
+import getAllBatch from "./Transactions/getBatch";
 //! REPORT STATICS
 import Approved_Static from "./Reports/Approved";
 export default history =>
@@ -66,5 +67,6 @@ export default history =>
     Verify_User: Verify,
     uQuestions: Update_Questions,
     ApprovedStatic: Approved_Static,
-    addAdminUser
+    addAdminUser,
+    getAllBatch
   });

@@ -2,7 +2,8 @@ import { takeLatest, put } from "redux-saga/effects";
 import {
   getAll_Transactions_api,
   getUser_Transaction_api,
-  getUser_Activity_api
+  getUser_Activity_api,
+  getAll_Batch_api
 } from "../api/transactions";
 import * as typeTransactions from "../../actions/transactions/types";
 
@@ -65,6 +66,29 @@ export function* getUser_Activity_Saga() {
       } else {
         yield put({
           type: typeTransactions.getUser_Activity_Error,
+          payload: "Something went wrong, please try again later!"
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+//! GET BATCH SETTLEMENT
+export function* getAll_Batch_Saga() {
+  yield takeLatest(typeTransactions.getBatch, function*(action) {
+    try {
+      const getBatchData = yield getAll_Batch_api();
+      if (getBatchData !== null) {
+        // console.log("=====================", getBatchData);
+        yield put({
+          type: typeTransactions.getBatch_Success,
+          payload: getBatchData.data
+        });
+      } else {
+        yield put({
+          type: typeTransactions.getBatch_Error,
           payload: "Something went wrong, please try again later!"
         });
       }

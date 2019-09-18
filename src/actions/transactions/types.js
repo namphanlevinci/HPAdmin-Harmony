@@ -12,3 +12,8 @@ export const getUser_Transaction_Error = "getUser_Transaction_Error";
 export const getUser_Activity = "getUser_Activity";
 export const getUser_Activity_Success = "getUser_Activity_Success";
 export const getUser_Activity_Error = "getUser_Activity_Error";
+
+//! GET BATCH SETTLEMENT
+export const getBatch = "getBatch";
+export const getBatch_Success = "getBatch_Success";
+export const getBatch_Error = "getBatch_Error";

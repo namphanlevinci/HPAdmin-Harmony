@@ -61,3 +61,24 @@ export function* getUser_Activity_api(IDUser) {
     });
   return kq;
 }
+
+//! GET BATCH SETTLEMENT
+export function* getAll_Batch_api() {
+  const getInfoLogin = state => state.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.User.token
+    }
+  };
+  const kq = yield axios
+    .get(URL + "/settlement", config)
+    .then(result => {
+      // console.log("======================", result);
+      return result.data;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  return kq;
+}

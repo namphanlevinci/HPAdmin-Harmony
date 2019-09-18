@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAll_Transactions } from "../../../../actions/transactions/actions";
+import { getBatch } from "../../../../actions/transactions/actions";
 import "../../Merchants/MerchantsList/merchantsList.css";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
@@ -10,81 +10,41 @@ import ContainerHeader from "components/ContainerHeader/index";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./Batch.css";
+import moment from "moment";
+
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      search: "",
-      from: undefined,
-      to: undefined,
-      amount: "",
-      amountFrom: "",
-      amountTo: "",
-      range: ""
-    };
+    this.state = {};
   }
-
-  handleResetClick = () => {
-    this.setState({
-      from: undefined,
-      to: undefined,
-      amount: "",
-      amountFrom: "",
-      amountTo: "",
-      range: ""
-    });
-  };
-  fromDate = e => {
-    this.setState({ from: e.target.value });
-  };
-  toDate = e => {
-    this.setState({ to: e.target.value });
-  };
 
   componentDidMount() {
-    this.props.getAll_Transactions();
+    this.props.getBatch();
+    // console.log("YEET", this.props.Batch);
   }
 
-  _SearchMerchants = async e => {
-    await this.setState({ search: e.target.value });
-  };
-  _SearchAmount = async e => {
-    await this.setState({ amount: e.target.value });
-  };
-
-  _handleChange = event => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value
-    });
-  };
-  _TimeRange = async e => {
-    await this.setState({
-      range: e.target.value
-    });
-  };
   render() {
     const columns = [
       {
         id: "createDate",
         Header: "Batch ID",
         maxWidth: 100,
+        // accessor: settlementId,
         columns: [
           {
-            Header: ""
+            Header: "",
+            accessor: "settlementId"
           }
         ]
         // accessor:
       },
       {
         Header: "Merchant ID",
-        // accessor: "paymentTransactionId",
         width: 140,
         columns: [
           {
-            Header: ""
+            Header: "",
+            accessor: "merchantId"
           }
         ]
       },
@@ -113,16 +73,20 @@ class Transactions extends React.Component {
         // accessor: "title"
         columns: [
           {
-            Header: "Harmony Credit"
+            Header: "Harmony Credit",
+            accessor: "paymentByHarmony"
           },
           {
-            Header: "Credit Card"
+            Header: "Credit Card",
+            accessor: "paymentByCreditCard"
           },
           {
-            Header: "Cash"
+            Header: "Cash",
+            accessor: "paymentByCash"
           },
           {
-            Header: "Other"
+            Header: "Other",
+            accessor: "otherPayment"
           }
         ]
       },
@@ -131,7 +95,8 @@ class Transactions extends React.Component {
         width: 180,
         columns: [
           {
-            Header: ""
+            Header: "",
+            accessor: "total"
           }
         ]
       },
@@ -139,11 +104,19 @@ class Transactions extends React.Component {
         Header: "Date/Time",
         columns: [
           {
-            Header: ""
+            Header: "",
+            id: "yeet",
+            accessor: e => {
+              return moment
+                .utc(e.settlementDate)
+                .local()
+                .format("MM-DD-YYYY HH:mm A");
+            }
           }
         ]
       }
     ];
+    // console.log(this.props.Batch);
     return (
       <div className="container-fluid react-transition swipe-right Batchs">
         <ContainerHeader
@@ -153,10 +126,10 @@ class Transactions extends React.Component {
         <div className="MerList BatchsContainer" style={{ padding: "10px" }}>
           <div className="MListContainer Transactions">
             <ReactTable
-              //   data={null}
+              data={this.props.Batch}
               columns={columns}
               defaultPageSize={10}
-              minRows={2}
+              minRows={1}
               noDataText="NO DATA!"
             />
           </div>
@@ -168,11 +141,11 @@ class Transactions extends React.Component {
 
 const mapStateToProps = state => ({
   InfoUser_Login: state.User,
-  TransactionList: state.getTransactions
+  Batch: state.getAllBatch
 });
 const mapDispatchToProps = dispatch => ({
-  getAll_Transactions: () => {
-    dispatch(getAll_Transactions());
+  getBatch: () => {
+    dispatch(getBatch());
   }
 });
 export default connect(

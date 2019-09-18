@@ -31,6 +31,7 @@ export const getUser_Transaction_Error = payload => ({
   payload: payload
 });
 //!! USER ACTIVITY
+
 export const getUser_Activity = payload => ({
   type: types.getUser_Activity,
   payload: payload
@@ -43,5 +44,21 @@ export const getUser_Activity_Success = payload => ({
 
 export const getUser_Activity_Error = payload => ({
   type: types.getUser_Activity_Error,
+  payload: payload
+});
+
+//!! BATCH SETTLEMENT
+export const getBatch = payload => ({
+  type: types.getBatch,
+  payload: payload
+});
+
+export const getBatch_Success = payload => ({
+  type: types.getBatch_Success,
+  payload: payload
+});
+
+export const getBatch_Error = payload => ({
+  type: types.getBatch_Error,
   payload: payload
 });

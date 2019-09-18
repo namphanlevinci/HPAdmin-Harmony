@@ -26,7 +26,8 @@ import {
 import {
   getAll_Transactions_Saga,
   getUser_Transaction_Saga,
-  getUser_Activity_Saga
+  getUser_Activity_Saga,
+  getAll_Batch_Saga
 } from "./sagaFunction/transactions";
 import { GET_APPROVED_SAGA } from "./sagaFunction/reports";
 export default function* rootSaga() {
@@ -50,4 +51,5 @@ export default function* rootSaga() {
   yield fork(update_Questions_Saga);
   yield fork(GET_APPROVED_SAGA);
   yield fork(add_Admin_Saga);
+  yield fork(getAll_Batch_Saga);
 }
