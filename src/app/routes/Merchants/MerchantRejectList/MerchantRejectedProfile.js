@@ -7,9 +7,17 @@ import ContainerHeader from 'components/ContainerHeader/index';
 import "../MerchantsRequest/MerchantReqProfile.css"
 import "../MerchantsRequest/MerchantsRequest.css"
 import { Checkbox } from '@material-ui/core';
+import {
+    NotificationContainer,
+    NotificationManager
+  } from "react-notifications";
 import moment from 'moment';
 import Button from '@material-ui/core/Button';
-
+import axios from "axios"
+import URL from "../../../../url/url"
+import {
+    getAll_Rejected_Merchants
+  } from "../../../../actions/merchants/actions";
 class MerchantRejectedProfile extends Component {
     constructor(props) {
         super(props);
@@ -29,16 +37,25 @@ class MerchantRejectedProfile extends Component {
                 [name]: value
             })
     }
-    _handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-            this.setState({
-                [name]: value
-            })
+
+    _goRevert = () => {
+        const ID = this.props.RejectedProfile.merchantId
+        axios.put(URL + '/merchant/restorepending/' + ID, null,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+          }
+        }).then(async res => {
+            if (res.data.message === "Success") {
+              NotificationManager.success(res.data.message);
+            } else {
+              NotificationManager.error("Something went wrong, please try again.");
+            }
+          });
     }
     _goBack = () => {
         this.props.history.push('/app/merchants/rejected-request')
+        this.props.getAll_Rejected_Merchants();
     }
     _togglePopupAccept = () => {
         this.setState({
@@ -64,11 +81,13 @@ class MerchantRejectedProfile extends Component {
         //!! render rejected list
         const renderPendingProfile = e.merchantId !== undefined ? 
             <div className="container-fluid PendingList react-transition swipe-right">
+                    <NotificationContainer/>
                     <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.requestDetail"/>}/>
                     <div className="PendingLBody">
                         <div className="PDL-Btn col-md-12">
                             <h3>ID: {e.merchantId}</h3>
                             <span>
+                                <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goRevert}>REVERT</Button>
                                 <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</Button>
                             </span>
                         </div>
@@ -221,5 +240,9 @@ const mapStateToProps = (state) => ({
     RejectedProfile: state.ViewProfile_Rejected,
     InfoUser_Login: state.User,
 })
-
-export default withRouter(connect(mapStateToProps)(MerchantRejectedProfile));
+const mapDispatchToProps = dispatch => ({
+    getAll_Rejected_Merchants: () => {
+      dispatch(getAll_Rejected_Merchants());
+    }
+  });
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MerchantRejectedProfile));
