@@ -1,0 +1,70 @@
+.RejectedInfo {
+  padding: 20px;
+  height: 100%;
+}
+.RejectedInfo h2 {
+  color: #3f51b5;
+}
+.RejectedInfo input {
+  width: 350px;
+}
+.RejectedInfo button.btn {
+  display: inline-block;
+  color: #666;
+  background-color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
+  margin-top: 20px;
+}
+
+/* GREEN BTN */
+.RejectedInfo button.btn:hover {
+  background-color: #3f51b5;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.RejectedInfo button.btn:active {
+  background-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.9);
+}
+.RejectedInfo button.btn.btn-green {
+  background-color: #3f51b5;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.RejectedInfo button.btn.btn-green:hover {
+  background-color: #3849a2;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.RejectedInfo button.btn.btn-green:active {
+  background-color: #31408f;
+  border-color: rgba(0, 0, 0, 0.9);
+}
+/* RED BUTTON */
+.RejectedInfo button.btn.btn-red {
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #3f51b5;
+}
+
+.RejectedInfo button.btn.btn-red:hover {
+  background-color: #fcfcfc;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.RejectedInfo button.btn.btn-red:active {
+  background-color: #f4f4f4;
+  border-color: rgba(0, 0, 0, 0.9);
+}

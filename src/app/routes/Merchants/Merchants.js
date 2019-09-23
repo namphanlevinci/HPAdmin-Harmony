@@ -50,6 +50,13 @@ const Merchants = ({ match }) => (
           import("./MerchantRejectList/MerchantRejectedProfile")
         )}
       />
+      {/* EDIT REJECTED MERCHANT */}
+      <Route
+        path={`${match.url}/edit-rejected-profile`}
+        component={asyncComponent(() =>
+          import("./MerchantRejectList/EditMerchantRejected")
+        )}
+      />
       <Route
         path={`${match.url}/rejected-request`}
         component={asyncComponent(() =>

@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button';
 import axios from "axios"
 import URL from "../../../../url/url"
 import {
-    getAll_Rejected_Merchants
+    getAll_Rejected_Merchants, ViewProfile_Merchants
   } from "../../../../actions/merchants/actions";
 class MerchantRejectedProfile extends Component {
     constructor(props) {
@@ -39,6 +39,7 @@ class MerchantRejectedProfile extends Component {
     }
 
     _goRevert = () => {
+        this.props.getAll_Rejected_Merchants();
         const ID = this.props.RejectedProfile.merchantId
         axios.put(URL + '/merchant/restorepending/' + ID, null,
         {
@@ -53,9 +54,13 @@ class MerchantRejectedProfile extends Component {
             }
           });
     }
+    _Edit = (merchantInfo) => {
+        this.props.ViewProfile_Merchants(merchantInfo)
+        this.props.history.push('/app/merchants/edit-rejected-profile')
+    }
     _goBack = () => {
-        this.props.history.push('/app/merchants/rejected-request')
         this.props.getAll_Rejected_Merchants();
+        this.props.history.push('/app/merchants/rejected-request') 
     }
     _togglePopupAccept = () => {
         this.setState({
@@ -87,6 +92,7 @@ class MerchantRejectedProfile extends Component {
                         <div className="PDL-Btn col-md-12">
                             <h3>ID: {e.merchantId}</h3>
                             <span>
+                                <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={() => this._Edit(e)}>EDIT</Button>
                                 <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goRevert}>REVERT</Button>
                                 <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</Button>
                             </span>
@@ -94,8 +100,8 @@ class MerchantRejectedProfile extends Component {
                         <hr/>
                             <div className="container requestStatus">
                                 <div className="title" style={{color: 'white'}}>REJECTED</div>
-                                <h4>By {e.adminUser.first_name + ' ' + e.adminUser.last_name}</h4>
-                                <h4>Date/Time: {moment(e.adminUser.created_date).format('HH:mm A - DD/MM/YYYY')}</h4>
+                                <h4>By {e.adminUser !== null ? e.adminUser.first_name + ' ' + e.adminUser.last_name : null}</h4>
+                                <h4>Date/Time: {e.adminUser.created_date !== null ? moment(e.adminUser.created_date).format('HH:mm A - DD/MM/YYYY') : null}</h4>
                                 <h4 style={{fontWeight: 600}}>Reason:</h4>
                                 <p>{e.reason}</p>
                             </div>
@@ -243,6 +249,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
     getAll_Rejected_Merchants: () => {
       dispatch(getAll_Rejected_Merchants());
-    }
+    },
+    ViewProfile_Merchants: payload => {
+        dispatch(ViewProfile_Merchants(payload));
+      }
   });
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MerchantRejectedProfile));
