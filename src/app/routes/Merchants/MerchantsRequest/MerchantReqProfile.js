@@ -79,7 +79,7 @@ class MerchantReqProfile extends Component {
       }
     render() { 
         const e = this.props.PendingProfile
-        console.log('EEEEEEEEEEEEEEEEEE', e)
+        // console.log('EEEEEEEEEEEEEEEEEE', e)
         //render question
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (

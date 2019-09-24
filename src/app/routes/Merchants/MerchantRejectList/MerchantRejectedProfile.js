@@ -101,7 +101,7 @@ class MerchantRejectedProfile extends Component {
                             <div className="container requestStatus">
                                 <div className="title" style={{color: 'white'}}>REJECTED</div>
                                 <h4>By {e.adminUser !== null ? e.adminUser.first_name + ' ' + e.adminUser.last_name : null}</h4>
-                                <h4>Date/Time: {e.adminUser.created_date !== null ? moment(e.adminUser.created_date).format('HH:mm A - DD/MM/YYYY') : null}</h4>
+                                <h4>Date/Time: {e.adminUser !== null ? moment(e.adminUser.created_date).format('HH:mm A - DD/MM/YYYY') : null}</h4>
                                 <h4 style={{fontWeight: 600}}>Reason:</h4>
                                 <p>{e.reason}</p>
                             </div>

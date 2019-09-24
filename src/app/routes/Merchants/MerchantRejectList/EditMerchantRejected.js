@@ -5,6 +5,7 @@ import {
   UpdateMerchant_Infor,
   GetMerchant_byID
 } from "../../../../actions/merchants/actions";
+import { ViewMerchant_Rejected_Merchants } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
@@ -87,8 +88,9 @@ class EditMerchantRejected extends Component {
       NotificationManager.success(this.props.UpdateStatus.Data.message);
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
-      this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
+      this.props.ViewMerchant_Rejected_Merchants(this.props.getMerchant.Data);
       this.props.history.push("/app/merchants/rejected-profile");
+      // console.log("HERE 2", this.props.getMerchant.Data);
     }
   }
 
@@ -195,6 +197,9 @@ const mapDispatchToProps = dispatch => {
     },
     GetMerchant_byID: ID => {
       dispatch(GetMerchant_byID(ID));
+    },
+    ViewMerchant_Rejected_Merchants: payload => {
+      dispatch(ViewMerchant_Rejected_Merchants(payload));
     }
   };
 };
