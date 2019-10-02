@@ -107,38 +107,40 @@ class Consumers extends React.Component {
     };
     return (
       <div className="app-wrapper">
-        <div className="container-fluid MerList">
+        <div className="container-fluid">
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.consumers" />}
           />
-          <div className="MReqSP TransactionsBox">
-            {/* SEARCH */}
-            <div className="search">
-              <form>
-                <input title="Search" value="" className="button" readOnly />
-                <input
-                  type="text"
-                  className="textbox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._SearchMerchants}
-                />
-              </form>
+          <div className="MerList" style={{ padding: "10px" }}>
+            <div className="MReqSP TransactionsBox ">
+              {/* SEARCH */}
+              <div className="search">
+                <form>
+                  <input title="Search" value="" className="button" readOnly />
+                  <input
+                    type="text"
+                    className="textbox"
+                    placeholder="Search.."
+                    value={this.state.search}
+                    onChange={this._SearchMerchants}
+                  />
+                </form>
+              </div>
             </div>
-          </div>
 
-          <div className="MListContainer">
-            <ReactTable
-              data={ConsumerList}
-              columns={columns}
-              defaultPageSize={10}
-              minRows={1}
-              getTdProps={onRowClick}
-              loading={this.state.loading}
-              LoadingComponent={ProgressLoading}
-              noDataText="NO DATA!"
-            />
+            <div className="MListContainer">
+              <ReactTable
+                data={ConsumerList}
+                columns={columns}
+                defaultPageSize={10}
+                minRows={1}
+                getTdProps={onRowClick}
+                loading={this.state.loading}
+                LoadingComponent={ProgressLoading}
+                noDataText="NO DATA!"
+              />
+            </div>
           </div>
         </div>
       </div>

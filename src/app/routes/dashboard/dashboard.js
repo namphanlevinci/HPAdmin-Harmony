@@ -101,7 +101,7 @@ class Dashboard extends Component {
               </SaleBox>
             </div>
             {/* // !!  new users this week */}
-            <div className="col-xl-4 col-lg-6 col-md-12 col-12">
+            <div className="col-xl-4 col-lg-6 col-sm-6">
               <SaleBox
                 heading="New users this week"
                 title={`${NewUser}`}
