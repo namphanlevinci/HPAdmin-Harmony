@@ -3,7 +3,7 @@ import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import { connect } from "react-redux";
 import "../Setting.css";
-import Axios from "axios";
+import axios from "axios";
 import {
   NotificationContainer,
   NotificationManager
@@ -27,28 +27,30 @@ class Twilio extends Component {
     };
   }
   async componentDidMount() {
-    await Axios.get(URL + "/adminsetting", {
-      headers: {
-        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-      }
-    }).then(res => {
-      const twilio = res.data.data.twilio;
-      const smtp = res.data.data.smtp;
-      const general = res.data.data.general;
-      this.setState({
-        accountSid: twilio.accountSid,
-        auToken: twilio.auToken,
-        phoneSender: twilio.phoneSender,
-        email: smtp.email,
-        host: smtp.host,
-        port: smtp.port,
-        password: smtp.password,
-        userSmtp: smtp.userSmtp,
-        creditFree: general.creditFree,
-        transactionFee: general.transactionFee,
-        totalAmountLimit: general.totalAmountLimit
+    await axios
+      .get(URL + "/adminsetting", {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {
+        const twilio = res.data.data.twilio;
+        const smtp = res.data.data.smtp;
+        const general = res.data.data.general;
+        this.setState({
+          accountSid: twilio.accountSid,
+          auToken: twilio.auToken,
+          phoneSender: twilio.phoneSender,
+          email: smtp.email,
+          host: smtp.host,
+          port: smtp.port,
+          password: smtp.password,
+          userSmtp: smtp.userSmtp,
+          creditFree: general.creditFree,
+          transactionFee: general.transactionFee,
+          totalAmountLimit: general.totalAmountLimit
+        });
       });
-    });
   }
   _handleChange = event => {
     const target = event.target;
@@ -79,20 +81,21 @@ class Twilio extends Component {
     };
     let smtp = { email, host, password, userSmtp };
     let general = { transactionFee, creditFree, totalAmountLimit };
-    Axios.post(
-      URL + "/adminsetting",
-      { twilio, smtp, general },
-      {
-        headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+    axios
+      .post(
+        URL + "/adminsetting",
+        { twilio, smtp, general },
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+          }
         }
-      }
-    )
+      )
       .then(res => {
         NotificationManager.success(res.data.message);
       })
       .catch(error => {
-        console.log("ERROR", error);
+        // console.log("ERROR", error);
         NotificationManager.error(error.data.message);
       });
   };

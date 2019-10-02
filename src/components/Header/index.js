@@ -80,7 +80,7 @@ class Header extends React.Component {
           headers: { Authorization: `Bearer ${UserToken}` }
         })
         .then(async res => {
-          console.log("res", res);
+          // console.log("res", res);
           await this.props.ViewProfile_Merchants(res.data.data);
           await this.setState({ appNotification: false });
           await this.props.history.push("/app/consumers/profile/general");

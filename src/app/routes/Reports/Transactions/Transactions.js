@@ -77,7 +77,15 @@ class Transactions extends React.Component {
               .trim()
               .toLowerCase()
               .indexOf(this.state.search.toLowerCase()) !== -1 ||
+            e.user.lastName
+              .trim()
+              .toLowerCase()
+              .indexOf(this.state.search.toLowerCase()) !== -1 ||
             e.user.phone
+              .trim()
+              .toLowerCase()
+              .indexOf(this.state.search.toLowerCase()) !== -1 ||
+            e.receiver.merchant_name
               .trim()
               .toLowerCase()
               .indexOf(this.state.search.toLowerCase()) !== -1 ||

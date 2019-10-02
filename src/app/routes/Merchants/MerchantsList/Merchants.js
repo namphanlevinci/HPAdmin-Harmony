@@ -61,6 +61,7 @@ class Merchants extends React.Component {
       {
         Header: "Bussiness name",
         accessor: "businessName",
+        Cell: e => <span style={{ fontWeight: 600 }}>{e.value}</span>,
         width: 170
       },
       {

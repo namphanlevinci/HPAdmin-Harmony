@@ -35,7 +35,7 @@ class Transactions extends Component {
         }
       )
       .then(res => {
-        console.log("res.data.data", res.data.data);
+        // console.log("res.data.data", res.data.data);
         this.setState({ data: res.data.data });
       })
       .catch(error => {

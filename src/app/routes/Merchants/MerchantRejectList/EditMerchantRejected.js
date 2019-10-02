@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  getAll_Merchants,
   ViewProfile_Merchants,
   UpdateMerchant_Infor,
   GetMerchant_byID
@@ -115,7 +114,6 @@ class EditMerchantRejected extends Component {
                     onChange={this._handleChange}
                   ></input>
                 </div>
-
                 <div className="col-md-6">
                   <h4>Phone*</h4>
                   <input
@@ -186,9 +184,6 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => {
   return {
-    getAll_Merchants: () => {
-      dispatch(getAll_Merchants());
-    },
     ViewProfile_Merchants: payload => {
       dispatch(ViewProfile_Merchants(payload));
     },

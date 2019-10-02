@@ -58,7 +58,8 @@ class MerchantsRequest extends Component {
       },
       {
         Header: "Bussiness name",
-        accessor: "businessName"
+        accessor: "businessName",
+        Cell: e => <span style={{ fontWeight: 600 }}>{e.value}</span>
       },
       {
         id: "principals",

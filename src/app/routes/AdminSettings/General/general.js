@@ -32,6 +32,7 @@ class General extends Component {
         Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
       }
     }).then(res => {
+      // console.log({ res });
       const general = res.data.data.general;
       const twilio = res.data.data.twilio;
       const smtp = res.data.data.smtp;
