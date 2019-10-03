@@ -237,7 +237,7 @@ class SidenavContent extends Component {
           </li>
           {/* BUSINESS */}
 
-          <li className="menu collapse-box">
+          {/* <li className="menu collapse-box">
             <Button>
               <i className="zmdi zmdi-card zmdi-hc-fw" />
               <span className="nav-text">
@@ -259,8 +259,9 @@ class SidenavContent extends Component {
                   </span>
                 </NavLink>
               </li> */}
-            </ul>
-          </li>
+          {/* </ul> */}
+          {/* </li>  */}
+
           {/* SETTING */}
           {UserAdmin === 1 ? (
             <li className="menu collapse-box">
@@ -271,7 +272,7 @@ class SidenavContent extends Component {
                 </span>
               </Button>
               <ul className="sub-menu">
-                <li>
+                {/* <li>
                   <NavLink
                     className="prepend-icon"
                     to="/app/adsettings/general"
@@ -280,7 +281,7 @@ class SidenavContent extends Component {
                       <IntlMessages id="sidebar.dashboard.General" />
                     </span>
                   </NavLink>
-                </li>
+                </li> */}
                 <li>
                   <NavLink className="prepend-icon" to="/app/adsettings/smtp">
                     <span className="nav-text">

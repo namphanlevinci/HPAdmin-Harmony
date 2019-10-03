@@ -7,6 +7,7 @@ import "../../MerchantsRequest/MerchantsRequest.css";
 import { getAll_Merchants } from "../../../../../actions/merchants/actions";
 import { NotificationContainer } from "react-notifications";
 import Button from "@material-ui/core/Button";
+import { Checkbox } from "@material-ui/core";
 
 class General extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class General extends Component {
 
   render() {
     const e = this.props.MerchantProfile;
+    console.log(e);
     const renderGeneral =
       e.general !== undefined ? (
         <div className="react-transition swipe-up">
@@ -67,33 +69,52 @@ class General extends Component {
               <div className="col-md-4">
                 <h4>Contact Name*</h4>
                 <p>
-                  {e.principals !== null
-                    ? e.principals.firstName + " " + e.principals.lastName
+                  {e.general !== null
+                    ? e.general.firstName + " " + e.general.lastName
                     : null}
                 </p>
               </div>
               <div className="col-md-4">
                 <h4>Title/Position*</h4>
-                <p>{e.principals !== null ? e.principals.title : null}</p>
+                <p>{e.general !== null ? e.general.title : null}</p>
               </div>
               <div className="col-md-4">
                 <h4>Contact Phone Number*</h4>
-                <p>{e.principals !== null ? e.principals.mobilePhone : null}</p>
+                <p>{e.general !== null ? e.general.phoneContact : null}</p>
               </div>
-            </div>
-            <div className="SettingsContent GeneralContent">
-              <Button className="btn btn-green" onClick={this._toggleEdit}>
-                EDIT
-              </Button>
             </div>
           </div>
         </div>
       ) : (
         <Redirect to="/app/merchants/list" />
       );
+    const renderQuestion =
+      e.business !== undefined ? (
+        e.business.map(e => {
+          return (
+            <div className="col-md-6" key={e.businessId}>
+              <h4>{e.question}</h4>
+              <Checkbox checked={e.answer === false} />
+              No <Checkbox checked={e.answer === true} /> Yes
+              <h5>Answer: {e.answerReply} </h5>
+            </div>
+          );
+        })
+      ) : (
+        <h4>&nbsp;- NO BUSINESS INFORMATION</h4>
+      );
     return (
       <div className="content GeneralContent">
         {renderGeneral}
+        <h2>Business Information</h2>
+        <div className="container">
+          <div className="row justify-content-between">{renderQuestion}</div>
+        </div>
+        <div className="SettingsContent GeneralContent">
+          <Button className="btn btn-green" onClick={this._toggleEdit}>
+            EDIT
+          </Button>
+        </div>
         <NotificationContainer />
       </div>
     );
