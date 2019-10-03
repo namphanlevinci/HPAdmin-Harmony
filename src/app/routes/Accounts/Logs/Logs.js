@@ -86,7 +86,7 @@ class Logs extends Component {
     });
     const renderDataList = dataList.map(e => {
       const time = moment
-        .utc(e.CreatedDate)
+        .utc(e.createdDate)
         .local()
         .format("MM/DD/YYYY HH:mm A");
       return (

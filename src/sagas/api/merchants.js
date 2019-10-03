@@ -12,7 +12,7 @@ export function* getAll_Merchants_api() {
     }
   };
   const kq = yield axios
-    .get(URL + "/merchant/", config)
+    .get(URL + "/merchant/?page=0", config)
     .then(result => {
       return result.data.data;
     })
@@ -24,7 +24,21 @@ export function* getAll_Merchants_api() {
 
 //! UPDATE MERCHANT INFO (GENERAL)
 export function* updateMerchant_Infor_api(data) {
-  const { ID, address, businessName, cellphone, city, email, stateId } = data;
+  const {
+    ID,
+    emailContact,
+    legalBusinessName,
+    tax,
+    address,
+    city,
+    stateId,
+    phoneBusiness,
+    zip,
+    phoneContact,
+    firstName,
+    lastName,
+    title
+  } = data;
   const getInfoLogin = state => state.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
@@ -33,9 +47,27 @@ export function* updateMerchant_Infor_api(data) {
     }
   };
   const kq = yield axios
+    // .put(
+    //   URL + "/merchant/" + ID,
+    //   { businessName, email, cellphone, address, city, stateId },
+    //   config
+    // )
     .put(
-      URL + "/merchant/" + ID,
-      { businessName, email, cellphone, address, city, stateId },
+      URL + "/general/" + ID,
+      {
+        emailContact,
+        legalBusinessName,
+        tax,
+        address,
+        city,
+        stateId,
+        phoneBusiness,
+        zip,
+        phoneContact,
+        firstName,
+        lastName,
+        title
+      },
       config
     )
     .then(result => {

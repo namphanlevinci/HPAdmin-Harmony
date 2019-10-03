@@ -32,8 +32,6 @@ import URL, { SignalURL } from "../../url/url";
 class Header extends React.Component {
   //load signalR
   async componentDidMount() {
-    //* logout user after 30minutes
-    // setTimeout(() => localStorage.removeItem("User_login"), 1800000);
     const User = localStorage.getItem("User_login");
     await this.setState({ User: User });
     let data = JSON.parse(this.state.User);

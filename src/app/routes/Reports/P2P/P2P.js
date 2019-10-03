@@ -1,17 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAll_Transactions } from "../../../../actions/transactions/actions";
+import { getP2P_Transactions } from "../../../../actions/transactions/actions";
 import "../../Merchants/MerchantsList/merchantsList.css";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import moment from "moment";
-import "./Transactions.css";
+// import "./Transactions.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import "../Transactions/Transactions.css";
 
-class Transactions extends React.Component {
+class P2P extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +44,7 @@ class Transactions extends React.Component {
   };
 
   componentDidMount() {
-    this.props.getAll_Transactions();
+    this.props.getP2P_Transactions();
   }
 
   _SearchMerchants = async e => {
@@ -67,26 +68,19 @@ class Transactions extends React.Component {
     });
   };
   render() {
+    // console.log("YAYAYA", this.props.P2PList);
     const { from, to } = this.state;
-    let TransactionsList = this.props.TransactionList;
+    let TransactionsList = this.props.P2PList;
     if (TransactionsList) {
       if (this.state.search) {
         TransactionsList = TransactionsList.filter(e => {
           return (
-            e.user.firstName
-              .trim()
+            e.sender
+              //   .trim()
               .toLowerCase()
               .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.user.lastName
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.user.phone
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.receiver.merchant_name
-              .trim()
+            e.reciever
+              //   .trim()
               .toLowerCase()
               .indexOf(this.state.search.toLowerCase()) !== -1 ||
             parseInt(e.merchantId) === parseInt(this.state.search)
@@ -95,7 +89,7 @@ class Transactions extends React.Component {
       }
       if (this.state.from) {
         TransactionsList = TransactionsList.filter(e => {
-          let date = moment(e.createDate).format("YYYY-MM-DD");
+          let date = moment(e.createdDate).format("YYYY-MM-DD");
           return date >= from && date <= to;
         });
       }
@@ -120,14 +114,14 @@ class Transactions extends React.Component {
           const from_date = today.startOf("week").format("YYYY-MM-DD");
           const to_date = today.endOf("week").format("YYYY-MM-DD");
           TransactionsList = TransactionsList.filter(e => {
-            let date = moment(e.createDate).format("YYYY-MM-DD");
+            let date = moment(e.createdDate).format("YYYY-MM-DD");
             return date >= from_date && date <= to_date;
           });
         }
         if (this.state.range === "today") {
           const today = moment().format("YYYY-MM-DD");
           TransactionsList = TransactionsList.filter(e => {
-            let date = moment(e.createDate).format("YYYY-MM-DD");
+            let date = moment(e.createdDate).format("YYYY-MM-DD");
             return date === today;
           });
         } else {
@@ -135,7 +129,7 @@ class Transactions extends React.Component {
           const from_month = today.startOf("month").format("YYYY-MM-DD");
           const to_month = today.endOf("month").format("YYYY-MM-DD");
           TransactionsList = TransactionsList.filter(e => {
-            let date = moment(e.createDate).format("YYYY-MM-DD");
+            let date = moment(e.createdDate).format("YYYY-MM-DD");
             return date >= from_month && date <= to_month;
           });
         }
@@ -149,68 +143,38 @@ class Transactions extends React.Component {
         maxWidth: 200,
         accessor: e => {
           return moment
-            .utc(e.createDate)
+            .utc(e.createdDate)
             .local()
             .format("MM/DD/YYYY HH:mm A");
         }
       },
       {
-        Header: "Transaction ID",
-        accessor: "paymentTransactionId",
-        width: 100
+        id: "Sender",
+        Header: "Sender",
+        accessor: "sender"
       },
       {
-        id: "Customer",
-        Header: "Customer",
-        accessor: e => e.user.fullName
+        id: "Reciever",
+        Header: "Reciever",
+        accessor: "reciever"
       },
       {
-        id: "Title",
-        Header: "Title",
-        accessor: "title"
-      },
-      {
-        id: "Cardtype ",
-        Header: "Card /Last 4 Digit",
+        id: "Type ",
+        Header: "Type",
         width: 180,
-        accessor: e =>
-          e.paymentData.card_type.length > 1 ? (
-            <span>
-              {e.paymentData.card_type} <br />
-              {` **** **** ****  ${e.paymentData.card_number}`}
-            </span>
-          ) : null
+        accessor: "type"
       },
       {
-        id: "receiver",
-        Header: "Receiver",
-        accessor: e => (e.receiver !== null ? e.receiver.merchant_name : null)
-      },
-      {
-        id: "Merchantcode",
-        Header: "Merchant ID",
-        width: 180,
+        id: "Status",
+        Header: "Status",
         accessor: e =>
-          e.receiver !== null ? (
-            <span>{` **** **** **** ${e.receiver.merchant_code}`}</span>
-          ) : null
+          e.status !== null ? <p className="P2pStatus">{e.status}</p> : null
       },
       {
         id: "Amount",
         Header: "Amount",
-        accessor: e => e.amount,
-        Cell: e => <span className="">${e.value}</span>
-      },
-      {
-        Header: "IP",
-        accessor: "ip"
-      },
-      {
-        id: "status",
-        Header: "Status",
-        accessor: e => (
-          <p className="TStatus">{e.paymentData.validation_status}</p>
-        )
+        width: 180,
+        accessor: e => (e.amount !== null ? <span>${e.amount}</span> : null)
       }
     ];
     return (
@@ -362,14 +326,15 @@ class Transactions extends React.Component {
 
 const mapStateToProps = state => ({
   InfoUser_Login: state.User,
-  TransactionList: state.getTransactions
+  TransactionList: state.getTransactions,
+  P2PList: state.GetP2P
 });
 const mapDispatchToProps = dispatch => ({
-  getAll_Transactions: () => {
-    dispatch(getAll_Transactions());
+  getP2P_Transactions: () => {
+    dispatch(getP2P_Transactions());
   }
 });
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Transactions);
+)(P2P);

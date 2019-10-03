@@ -3,6 +3,7 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Header from "components/Header/index";
 import Sidebar from "containers/SideNav/index";
+import IdleTimer from "react-idle-timer";
 import Footer from "components/Footer";
 import {
   ABOVE_THE_HEADER,
@@ -23,6 +24,27 @@ import Dashboard from "./routes/dashboard/dashboard";
 import Consumers from "./routes/Consumers/index";
 import Reports from "./routes/Reports/Reports";
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  onAction = e => {
+    // console.log("user did something", e);
+  };
+
+  onActive = e => {
+    // console.log("user is active", e);
+    // console.log("time remaining", this.idleTimer.getRemainingTime());
+  };
+
+  onIdle = e => {
+    //! REMOVE USER AFTER 30' IDLE
+    console.log("BYE");
+    localStorage.removeItem("User_login");
+    this.props.history.push("/signin");
+    // console.log("last active", this.idleTimer.getLastActiveTime());
+  };
   render() {
     const {
       match,
@@ -30,6 +52,7 @@ class App extends React.Component {
       navigationStyle,
       horizontalNavPosition
     } = this.props;
+
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "fixed-drawer"
       : drawerType.includes(COLLAPSED_DRAWER)
@@ -91,7 +114,21 @@ class App extends React.Component {
                 />
               </Switch>
             </div>
-            <Footer />
+            <div>
+              <IdleTimer
+                ref={ref => {
+                  this.idleTimer = ref;
+                }}
+                element={document}
+                onActive={this.onActive}
+                onIdle={this.onIdle}
+                onAction={this.onAction}
+                debounce={250}
+                timeout={1800000}
+              />
+              {/* your app here */}
+              <Footer />
+            </div>
           </main>
         </div>
       </div>

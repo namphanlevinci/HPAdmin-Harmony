@@ -3,7 +3,8 @@ import {
   getAll_Transactions_api,
   getUser_Transaction_api,
   getUser_Activity_api,
-  getAll_Batch_api
+  getAll_Batch_api,
+  getAll_P2PTransactions_api
 } from "../api/transactions";
 import * as typeTransactions from "../../actions/transactions/types";
 
@@ -20,6 +21,28 @@ export function* getAll_Transactions_Saga() {
       } else {
         yield put({
           type: typeTransactions.getAll_Transactions_Error,
+          payload: "Something went wrong, please try again later!"
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+//! GET P2P TRANSACTIONS
+export function* getP2P_Transactions_Saga() {
+  yield takeLatest(typeTransactions.getP2P_Transactions, function*() {
+    try {
+      const P2PTransactionsList = yield getAll_P2PTransactions_api();
+      if (P2PTransactionsList !== null) {
+        yield put({
+          type: typeTransactions.getP2P_Transactions_Success,
+          payload: P2PTransactionsList.data
+        });
+      } else {
+        yield put({
+          type: typeTransactions.getP2P_Transactions_Error,
           payload: "Something went wrong, please try again later!"
         });
       }

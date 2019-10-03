@@ -20,12 +20,18 @@ class General extends Component {
     super(props);
     this.state = {
       edit: false,
-      businessName: "",
-      email: "",
-      cellphone: "",
+      emailContact: "",
+      legalBusinessName: "",
+      tax: "",
       address: "",
       city: "",
-      stateId: ""
+      stateId: "",
+      phoneBusiness: "",
+      zip: "",
+      phoneContact: "",
+      firstName: "",
+      lastName: "",
+      title: ""
     };
   }
   _goBack = () => {
@@ -35,21 +41,34 @@ class General extends Component {
   _update = () => {
     const ID = this.props.MerchantProfile.merchantId;
     const {
-      businessName,
-      email,
-      cellphone,
+      emailContact,
+      legalBusinessName,
+      tax,
       address,
       city,
-      stateId
+      stateId,
+      phoneBusiness,
+      zip,
+      phoneContact,
+      firstName,
+      lastName,
+      title
     } = this.state;
+
     const payload = {
       ID,
-      businessName,
-      email,
-      cellphone,
+      emailContact,
+      legalBusinessName,
+      tax,
       address,
       city,
-      stateId
+      stateId,
+      phoneBusiness,
+      zip,
+      phoneContact,
+      firstName,
+      lastName,
+      title
     };
     this.props.updateMerchant(payload);
     setTimeout(() => {
@@ -202,8 +221,8 @@ class General extends Component {
               <input
                 name="email"
                 value={
-                  e.principals !== null
-                    ? e.principals.firstName + " " + e.principals.lastName
+                  e.general !== null
+                    ? e.general.firstName + " " + e.general.lastName
                     : null
                 }
                 onChange={this._handleChange}
@@ -214,7 +233,7 @@ class General extends Component {
               <h4>Title/Position*</h4>
               <input
                 name="email"
-                value={e.principals !== null ? e.principals.title : null}
+                value={e.general !== null ? e.general.title : null}
                 onChange={this._handleChange}
                 disabled
               ></input>
@@ -223,7 +242,7 @@ class General extends Component {
               <h4>Contact Phone Number*</h4>
               <input
                 name="email"
-                value={e.principals !== null ? e.principals.mobilePhone : null}
+                value={e.general !== null ? e.general.phoneContact : null}
                 onChange={this._handleChange}
                 disabled
               ></input>

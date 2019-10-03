@@ -227,6 +227,16 @@ class SidenavContent extends Component {
                 </NavLink>
               </li>
               <li>
+                <NavLink
+                  className="prepend-icon"
+                  to="/app/reports/p2p-transactions"
+                >
+                  <span className="nav-text">
+                    <IntlMessages id="sidebar.dashboard.p2ptransactionreport" />
+                  </span>
+                </NavLink>
+              </li>
+              <li>
                 <NavLink className="prepend-icon" to="/app/reports/batchs">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.Batch" />

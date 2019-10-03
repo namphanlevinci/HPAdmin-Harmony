@@ -126,7 +126,12 @@ class Transactions extends Component {
     const renderContent = renderTable.map(e => {
       return (
         <tr key={e.customerMerchantTransactionId}>
-          <td>{moment(e.createdDate).format("DD/MM/YYYY")}</td>
+          <td>
+            {moment
+              .utc(e.createdDate)
+              .local()
+              .format("MM/DD/YYYY")}
+          </td>
           <td>{e.customerMerchantTransactionId}</td>
           <td>
             {e.customer !== null

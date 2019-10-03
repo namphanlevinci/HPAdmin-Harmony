@@ -69,6 +69,7 @@
     "react-google-maps": "^9.4.5",
     "react-hot-loader": "^4.3.12",
     "react-icons": "^3.7.0",
+    "react-idle-timer": "^4.2.9",
     "react-intl": "^2.7.2",
     "react-joyride": "^1.11.4",
     "react-jss": "^8.6.1",

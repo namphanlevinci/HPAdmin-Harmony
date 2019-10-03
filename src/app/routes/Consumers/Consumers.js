@@ -67,6 +67,11 @@ class Consumers extends React.Component {
         width: 300
       },
       {
+        Header: "Balance",
+        accessor: "credit",
+        Cell: e => <span>${e.value}</span>
+      },
+      {
         id: "totalAmount",
         Header: "Money spent/Daily",
         accessor: e => e.totalAmount,
@@ -77,6 +82,7 @@ class Consumers extends React.Component {
     ];
 
     let ConsumerList = this.props.ConsumerList;
+    console.log("CONSUMER", ConsumerList);
     if (ConsumerList) {
       if (this.state.search) {
         ConsumerList = ConsumerList.filter(e => {

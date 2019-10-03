@@ -20,23 +20,39 @@ class Transactions extends React.Component {
 
   componentDidMount() {
     this.props.getBatch();
-    // console.log("YEET", this.props.Batch);
+    console.log("YEET", this.props.Batch);
   }
 
   render() {
     const columns = [
       {
-        id: "createDate",
-        Header: "Batch ID",
-        maxWidth: 100,
-        // accessor: settlementId,
+        Header: "Date/Time",
         columns: [
           {
             Header: "",
-            accessor: "settlementId"
+            id: "yeet",
+            width: 200,
+            accessor: e => {
+              return moment
+                .utc(e.settlementDate)
+                .local()
+                .format("MM/DD/YYYY HH:mm A");
+            }
           }
         ]
-        // accessor:
+      },
+      {
+        id: "Customer",
+        Header: "Merchant DBA",
+        width: 160,
+        columns: [
+          {
+            Header: "",
+            id: "doBusinessName",
+            accessor: "doBusinessName"
+          }
+        ]
+        // accessor: e => e.user.fullName
       },
       {
         Header: "Merchant ID",
@@ -47,17 +63,6 @@ class Transactions extends React.Component {
             accessor: "merchantId"
           }
         ]
-      },
-      {
-        id: "Customer",
-        Header: "Merchant Code",
-        width: 160,
-        columns: [
-          {
-            Header: ""
-          }
-        ]
-        // accessor: e => e.user.fullName
       },
       {
         Header: () => (
@@ -97,21 +102,6 @@ class Transactions extends React.Component {
           {
             Header: "",
             accessor: "total"
-          }
-        ]
-      },
-      {
-        Header: "Date/Time",
-        columns: [
-          {
-            Header: "",
-            id: "yeet",
-            accessor: e => {
-              return moment
-                .utc(e.settlementDate)
-                .local()
-                .format("MM-DD-YYYY HH:mm A");
-            }
           }
         ]
       }

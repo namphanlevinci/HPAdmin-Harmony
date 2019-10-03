@@ -22,6 +22,26 @@ export function* getAll_Transactions_api() {
   return kq;
 }
 
+//! GET P2P TRANSACTIONS
+export function* getAll_P2PTransactions_api() {
+  const getInfoLogin = state => state.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.User.token
+    }
+  };
+  const kq = yield axios
+    .get(URL + "/p2p/transaction", config)
+    .then(result => {
+      return result.data;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  return kq;
+}
+
 //! CONSUMER TRANSACTIONS
 export function* getUser_Transaction_api(IDUser) {
   const getInfoLogin = state => state.User;

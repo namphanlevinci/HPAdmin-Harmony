@@ -33,12 +33,14 @@ import getAll_Questions from "./Business/getAll_Questions";
 import getAll_Transactions from "./Transactions/getTransactions";
 import getAll_ConsumerUsers from "./Business/getAll_ConsumerUsers";
 import Update_Questions from "./Business/update_Questions";
-//!CONSUMER
+//! CONSUMER & TRANSACTIONS
 import getUser_Transaction from "./Transactions/getUser_Transactions";
 import getUser_Activity from "./Transactions/getUser_Activity";
 import getAllBatch from "./Transactions/getBatch";
+import getAllP2P_Transactions from "./Transactions/getP2P";
 //! REPORT STATICS
 import Approved_Static from "./Reports/Approved";
+
 export default history =>
   combineReducers({
     router: connectRouter(history),
@@ -68,5 +70,6 @@ export default history =>
     uQuestions: Update_Questions,
     ApprovedStatic: Approved_Static,
     addAdminUser,
-    getAllBatch
+    getAllBatch,
+    GetP2P: getAllP2P_Transactions
   });

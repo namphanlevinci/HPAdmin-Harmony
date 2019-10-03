@@ -30,9 +30,9 @@ class GeneralReport extends Component {
             </Link>
             <br />
             <Link to="/app/reports/download-reports">
-              Numbers Of Users Downloaded The App
+              App Download Statistics
             </Link>
-            <br />
+            {/* <br />
             <Link to="/app/reports/harmonyApp-accounts">
               Amount Of Harmony App Accounts
             </Link>
@@ -47,7 +47,7 @@ class GeneralReport extends Component {
             <br />
             <Link to="/app/reports/transactions">
               Average Amount Of Time Spend Per User
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

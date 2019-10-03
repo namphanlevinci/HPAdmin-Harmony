@@ -15,6 +15,23 @@ export const getAll_Transactions_Error = payload => ({
   payload: payload
 });
 
+//! P2PTRANSACTIONS
+
+export const getP2P_Transactions = payload => ({
+  type: types.getP2P_Transactions,
+  payload: payload
+});
+
+export const getP2P_Transactions_Success = payload => ({
+  type: types.getP2P_Transactions_Success,
+  payload: payload
+});
+
+export const getP2P_Transactions_Error = payload => ({
+  type: types.getP2P_Transactions_Error,
+  payload: payload
+});
+
 //!! USER TRANSACTION
 export const getUser_Transaction = payload => ({
   type: types.getUser_Transaction,

@@ -103,6 +103,9 @@
   opacity: 1;
 }
 
+.P2pStatus::first-letter {
+  text-transform: uppercase;
+}
 /* .ReactTable .rt-th.-sort-asc .rt-resizer:before {
   background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAgMTVWNmw0IDQgMS0xLTYtNi02IDYgMSAxIDQtNHY5eiIgZmlsbD0iIzMzMyIvPjwvc3ZnPg==);
 }

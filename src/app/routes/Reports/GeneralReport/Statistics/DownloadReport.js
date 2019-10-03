@@ -149,7 +149,7 @@ class DownloadReport extends Component {
               BACK
             </Button>
           </span>
-          <h2>Numbers Of Users Downloaded The App</h2>
+          <h2>App download statistics</h2>
           <div className="container">
             <div className="row">
               <div className="col-md-4">
@@ -171,7 +171,7 @@ class DownloadReport extends Component {
                   <option value="month">This month</option>
                 </select>
               </div>
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <form noValidate>
                   <TextField
                     id="date"
@@ -185,7 +185,7 @@ class DownloadReport extends Component {
                   />
                 </form>
               </div>
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <form noValidate>
                   <TextField
                     id="date"
@@ -199,14 +199,24 @@ class DownloadReport extends Component {
                   />
                 </form>
               </div>
+              <div className="col-md-2">
+                <Button
+                  style={{ color: "white", backgroundColor: "#3f51b5" }}
+                  className="btn btn-green"
+                  variant="contained"
+                  onClick={this._Filter}
+                >
+                  FILTER
+                </Button>
+              </div>
             </div>
           </div>
           <div>
             <h2>Result</h2>
             <h3 style={{ color: "#3f51b5" }}>
-              New Harmony Pay App Accounts From
-              {" " + moment(this.state.fromDate).format("DD/MM/YYYY")} To
-              {" " + moment(this.state.toDate).format("DD/MM/YYYY")}
+              Download Statictis From
+              {" " + moment(this.state.fromDate).format("MM/DD/YYYY")} To
+              {" " + moment(this.state.toDate).format("MM/DD/YYYY")}
               <CSVLink
                 style={{ marginLeft: "30%" }}
                 data={this.state.DownloadStatics}

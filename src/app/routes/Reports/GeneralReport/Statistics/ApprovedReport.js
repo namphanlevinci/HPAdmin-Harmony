@@ -101,7 +101,7 @@ class ApprovedReport extends Component {
         width: 250,
         Cell: e => (
           <span style={{ margin: "5px" }}>
-            {moment(e.value).format("DD/MM/YYYY")}
+            {moment(e.value).format("MM/DD/YYYY")}
           </span>
         )
       },
@@ -139,7 +139,7 @@ class ApprovedReport extends Component {
           <h2>Approved Merchant Accounts</h2>
           <div className="container">
             <div className="row">
-              <div className="col-md-3">
+              <div className="col-md-4">
                 <h6
                   style={{
                     color: "rgba(0, 0, 0, 0.54)",
@@ -187,7 +187,7 @@ class ApprovedReport extends Component {
                   />
                 </form>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <Button
                   style={{ color: "white", backgroundColor: "#3f51b5" }}
                   className="btn btn-green"
@@ -202,8 +202,8 @@ class ApprovedReport extends Component {
               <h2>Result</h2>
               <h3 style={{ color: "#3f51b5" }}>
                 Approved Merchant Accounts From
-                {" " + moment(this.state.fromDate).format("DD-MM-YYYY")} To
-                {" " + moment(this.state.toDate).format("DD-MM-YYYY")}
+                {" " + moment(this.state.fromDate).format("MM/DD/YYYY")} To
+                {" " + moment(this.state.toDate).format("MM/DD/YYYY")}
                 <CSVLink
                   style={{ marginLeft: "30%" }}
                   data={this.state.ApprovedTotal}

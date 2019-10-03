@@ -79,7 +79,10 @@ class Transactions extends Component {
         Header: "Date/time",
         width: 200,
         accessor: e => {
-          return moment(e.createDate).format("MM-DD-YYYY HH:mm A");
+          return moment
+            .utc(e.createDate)
+            .local()
+            .format("MM/DD/YYYY HH:mm A");
         }
       },
       {

@@ -11,6 +11,10 @@ const Reports = ({ match }) => (
         component={asyncComponent(() => import("./Transactions/Transactions"))}
       />
       <Route
+        path={`${match.url}/p2p-transactions`}
+        component={asyncComponent(() => import("./P2P/P2P"))}
+      />
+      <Route
         path={`${match.url}/general-reports`}
         component={asyncComponent(() =>
           import("./GeneralReport/GeneralReport")
@@ -28,7 +32,7 @@ const Reports = ({ match }) => (
           import("./GeneralReport/Statistics/DownloadReport")
         )}
       />
-      <Route
+      {/* <Route
         path={`${match.url}/harmonyApp-accounts`}
         component={asyncComponent(() =>
           import("./GeneralReport/Statistics/HarmonyAccount")
@@ -39,7 +43,7 @@ const Reports = ({ match }) => (
         component={asyncComponent(() =>
           import("./GeneralReport/Statistics/HarmonyPayAccount")
         )}
-      />
+      /> */}
       <Route
         path={`${match.url}/batchs`}
         component={asyncComponent(() => import("./Batch/Batch"))}
