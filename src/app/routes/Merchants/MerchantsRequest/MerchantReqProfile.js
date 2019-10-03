@@ -58,8 +58,8 @@ class MerchantReqProfile extends Component {
       componentWillReceiveProps(nextProps) {
           if (nextProps.ApprovalStatus !== this.props.ApprovalStatus) {
             this.props.getAll_Merchants()
-            if (nextProps.ApprovalStatus.message  === "Merchant code is exist!") {
-                NotificationManager.error("MERCHANT CODE IS ALREADY EXIST!")
+            if (nextProps.ApprovalStatus.message  === "Merchant MID is exist!") {
+                NotificationManager.error("MERCHANT MID IS ALREADY EXIST!")
             } else {
                 this.setState({showPopupAccept: false})
                 NotificationManager.success('SUCCESS');
@@ -171,7 +171,7 @@ class MerchantReqProfile extends Component {
                                         {({ lol }) => (
                                             <Form style={{textAlign: 'center'}}>
                                                     <div>
-                                                        <label>MERCHANT CODE:</label>
+                                                        <label>MERCHANT ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :	</label>
                                                         <Field type="text" name="merchantID" />
                                                         <ErrorMessage name="merchantID" component="div" />
                                                     </div>
