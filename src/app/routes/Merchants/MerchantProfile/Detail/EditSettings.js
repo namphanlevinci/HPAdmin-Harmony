@@ -16,6 +16,7 @@ import {
 } from "../../../../../actions/merchants/actions";
 import Button from "@material-ui/core/Button";
 import URL from "../../../../../url/url";
+
 class EditSettings extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +26,8 @@ class EditSettings extends Component {
       merchantToken: "",
       totalAmountLimit: "",
       limit: "10000",
-      update: false
+      update: false,
+      discountRate: ""
     };
   }
   _handleChange = event => {
@@ -38,11 +40,13 @@ class EditSettings extends Component {
   };
   componentDidMount() {
     const data = this.props.MerchantProfile;
+    // console.log("DATA", data);
     this.setState({
       merchantCode: data.merchantCode,
       merchantToken: data.merchantToken,
       transactionsFee: data.transactionsFee,
-      totalAmountLimit: data.totalAmountLimit
+      totalAmountLimit: data.totalAmountLimit,
+      discountRate: data.discountRate
     });
   }
   _toggleConfirm = () => {
@@ -60,7 +64,8 @@ class EditSettings extends Component {
       merchantCode,
       merchantToken,
       transactionsFee,
-      totalAmountLimit
+      totalAmountLimit,
+      discountRate
     } = this.state;
     axios
       .put(
@@ -69,7 +74,8 @@ class EditSettings extends Component {
           merchantCode,
           merchantToken,
           transactionsfee: transactionsFee,
-          totalAmountLimit
+          totalAmountLimit,
+          discountRate
         },
         {
           headers: {
@@ -161,6 +167,19 @@ class EditSettings extends Component {
                         type="text"
                         name="merchantToken"
                         value={this.state.merchantToken}
+                        onChange={this._handleChange}
+                      ></input>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Discount Rate:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        name="discountRate"
+                        value={this.state.discountRate}
                         onChange={this._handleChange}
                       ></input>
                     </td>

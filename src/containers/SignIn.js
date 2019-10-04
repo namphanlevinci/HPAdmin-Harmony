@@ -39,7 +39,7 @@ class SignIn extends React.Component {
 
   keyPressed = e => {
     if (e.code === "Enter") {
-      console.log("1");
+      // console.log("1");
       this.onSubmit();
     }
   };

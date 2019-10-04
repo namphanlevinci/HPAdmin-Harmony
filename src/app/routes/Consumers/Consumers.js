@@ -82,7 +82,7 @@ class Consumers extends React.Component {
     ];
 
     let ConsumerList = this.props.ConsumerList;
-    console.log("CONSUMER", ConsumerList);
+    // console.log("CONSUMER", ConsumerList);
     if (ConsumerList) {
       if (this.state.search) {
         ConsumerList = ConsumerList.filter(e => {

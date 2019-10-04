@@ -20,7 +20,8 @@ class Settings extends Component {
       merchantToken: "",
       totalAmountLimit: "",
       ID: "",
-      User: ""
+      User: "",
+      discountRate: ""
     };
   }
   _gotoEdit = () => {
@@ -34,6 +35,7 @@ class Settings extends Component {
       merchantToken: data.merchantToken,
       transactionsFee: data.transactionsFee,
       totalAmountLimit: data.totalAmountLimit,
+      discountRate: data.discountRate,
       ID: data.merchantId,
       User: User
     });
@@ -113,6 +115,20 @@ class Settings extends Component {
                         type="password"
                         name="merchantToken"
                         value={this.state.merchantToken}
+                        onChange={this._handleChange}
+                        disabled
+                      ></input>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Discount Rate:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        name="discountRate"
+                        value={this.state.discountRate}
                         onChange={this._handleChange}
                         disabled
                       ></input>

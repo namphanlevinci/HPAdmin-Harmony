@@ -5,7 +5,7 @@ import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import "../../MerchantsList/merchantsList.css";
 import "./Detail.css";
-import ReactTable from "react-table";
+// import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 class Staff extends Component {
@@ -47,33 +47,44 @@ class Staff extends Component {
       }
     }
 
-    const columns = [
-      {
-        Header: "Staff ID",
-        accessor: "staffId",
-        width: 150
-      },
-      {
-        Header: "Name",
-        id: "fullname",
-        width: 250,
-        accessor: d => `${d.firstName} ${d.lastName}`
-      },
-      {
-        id: "Display",
-        Header: "Display Name",
-        width: 250,
-        accessor: "displayName"
-      },
-      {
-        Header: "Phone",
-        accessor: "phone"
-      },
-      {
-        Header: "Email",
-        accessor: "email"
-      }
-    ];
+    const renderStaff = e.map(i => {
+      return (
+        <tr>
+          <td>{i.staffId}</td>
+          <td>{i.firstName + " " + i.lastName}</td>
+          <td>{i.displayName}</td>
+          <td>{i.phone}</td>
+          <td>{i.email}</td>
+        </tr>
+      );
+    });
+    // const columns = [
+    //   {
+    //     Header: "Staff ID",
+    //     accessor: "staffId",
+    //     width: 150
+    //   },
+    //   {
+    //     Header: "Name",
+    //     id: "fullname",
+    //     width: 250,
+    //     accessor: d => `${d.firstName} ${d.lastName}`
+    //   },
+    //   {
+    //     id: "Display",
+    //     Header: "Display Name",
+    //     width: 250,
+    //     accessor: "displayName"
+    //   },
+    //   {
+    //     Header: "Phone",
+    //     accessor: "phone"
+    //   },
+    //   {
+    //     Header: "Email",
+    //     accessor: "email"
+    //   }
+    // ];
     return (
       <div className="content GeneralContent react-transition swipe-up">
         <div className="MerList" style={{ padding: "10px" }}>
@@ -94,13 +105,26 @@ class Staff extends Component {
           </div>
 
           <div className="MListContainer">
-            <ReactTable
+            <table className="StaffTable" style={{ width: "100%" }}>
+              <thead>
+                <tr>
+                  <th>Staff ID</th>
+                  <th>Full Name</th>
+                  <th>Display Name</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>{renderStaff}</tbody>
+            </table>
+
+            {/* <ReactTable
               data={e}
               columns={columns}
               defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
-            />
+            /> */}
           </div>
         </div>
       </div>
