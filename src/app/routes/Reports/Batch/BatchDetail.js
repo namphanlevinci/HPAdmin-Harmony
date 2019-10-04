@@ -28,7 +28,7 @@ class Transactions extends React.Component {
   };
   render() {
     let BatchDetail = this.props.BatchDetail;
-    console.log("BatchDetail", BatchDetail);
+    // console.log("BatchDetail", BatchDetail);
     const columns = [
       {
         Header: "Transaction ID",

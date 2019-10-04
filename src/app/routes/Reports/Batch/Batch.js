@@ -41,9 +41,9 @@ class Transactions extends React.Component {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: e => {
-          console.log("1", rowInfo.original.settlementId);
+          // console.log("1", rowInfo.original.settlementId);
           if (rowInfo !== undefined) {
-            console.log("2", rowInfo.original.settlementId);
+            // console.log("2", rowInfo.original.settlementId);
             this.props.fetchBatchDetail(rowInfo.original.settlementId);
             this.props.history.push("/app/reports/batch-detail");
           }

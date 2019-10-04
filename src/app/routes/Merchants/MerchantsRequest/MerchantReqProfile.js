@@ -30,6 +30,7 @@ class MerchantReqProfile extends Component {
             merchantID: '',
             merchantToken: '',
             rejectReason: '',
+            discountRate: '', 
          }
     }
     _handleChange(event) {
@@ -147,7 +148,7 @@ class MerchantReqProfile extends Component {
                                         closeOnDocumentClick
                                     >
                                         <span> <h2 className="title">ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2><Formik
-                                        initialValues={{ merchantID: '', merchantToken: '', fee: '' }}
+                                        initialValues={{ merchantID: '', merchantToken: '', fee: '', discountRate: '' }}
                                         validate={values => {
                                             let errors = {};
                                             if (!values.merchantID) {
@@ -157,6 +158,9 @@ class MerchantReqProfile extends Component {
                                             } else if (!values.fee) {
                                                 errors.fee = 'Required';
                                             }
+                                             else if (!values.discount) {
+                                                errors.discount = 'Required';
+                                            }
                                             return errors;
                                         }}
                                         onSubmit={(values, { setSubmitting }) => {
@@ -164,7 +168,8 @@ class MerchantReqProfile extends Component {
                                                 const merchantCode = values.merchantID
                                                 const merchantToken = values.merchantToken
                                                 const transactionsFee = values.fee
-                                                const data = { transactionsFee, merchantToken, merchantCode, ID}
+                                                const discountRate = values.discount
+                                                const data = { transactionsFee, merchantToken, merchantCode, ID, discountRate}
                                                 this.props.sendApproval(data)
                                         }}
                                         >
@@ -172,7 +177,7 @@ class MerchantReqProfile extends Component {
                                             <Form style={{textAlign: 'center'}}>
                                                     <div>
                                                         <label>MERCHANT ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :	</label>
-                                                        <Field type="text" name="merchantID" />
+                                                        <Field type="number" name="merchantID" />
                                                         <ErrorMessage name="merchantID" component="div" />
                                                     </div>
                                                     <div>
@@ -182,8 +187,13 @@ class MerchantReqProfile extends Component {
                                                     </div>
                                                     <div>
                                                         <label>TRANSACTION FEE:</label>
-                                                        <Field type="text" name="fee" />
+                                                        <Field type="number" name="fee" />
                                                         <ErrorMessage name="fee" component="div" />
+                                                    </div>
+                                                    <div>
+                                                        <label>DISCOUNT RATE&nbsp;&nbsp;&nbsp;&nbsp;:</label>
+                                                        <Field type="number" name="discount" />
+                                                        <ErrorMessage name="discount" component="div" />
                                                     </div>
                                                 <br/>
                                                 <div style={{textAlign: 'center', paddingTop: '10px'}}>

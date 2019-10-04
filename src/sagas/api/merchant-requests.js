@@ -31,11 +31,24 @@ export function* Send_Approval_api(data) {
       Authorization: "Bearer " + infoLogin.User.token
     }
   };
-  const { merchantCode, merchantToken, transactionsFee, ID } = data;
+  const {
+    merchantCode,
+    merchantToken,
+    transactionsFee,
+    ID,
+    discountRate,
+    totalAmountLimit
+  } = data;
   const kq = yield axios
     .put(
       URL + "/merchant/approve/" + ID,
-      { merchantCode, merchantToken, transactionsFee },
+      {
+        merchantCode,
+        merchantToken,
+        transactionsFee,
+        discountRate,
+        totalAmountLimit
+      },
       config
     )
     .then(result => {
