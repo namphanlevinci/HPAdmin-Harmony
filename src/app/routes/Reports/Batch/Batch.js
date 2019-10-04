@@ -1,29 +1,71 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getBatch } from "../../../../actions/transactions/actions";
+import {
+  getBatch,
+  getBatchDetail
+} from "../../../../actions/transactions/actions";
 import "../../Merchants/MerchantsList/merchantsList.css";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
-// import moment from "moment";
-// import TextField from "@material-ui/core/TextField";
-// import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./Batch.css";
 import moment from "moment";
+import "../Transactions/Transactions.css";
+import "../../Merchants/MerchantsList/merchantsList.css";
 
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      search: ""
+    };
   }
 
   componentDidMount() {
     this.props.getBatch();
-    console.log("YEET", this.props.Batch);
   }
+  _SearchMerchants = async e => {
+    await this.setState({ search: e.target.value });
+  };
+  _handleChange = event => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  };
 
   render() {
+    const onRowClick = (state, rowInfo, column, instance) => {
+      return {
+        onClick: e => {
+          console.log("1", rowInfo.original.settlementId);
+          if (rowInfo !== undefined) {
+            console.log("2", rowInfo.original.settlementId);
+            this.props.fetchBatchDetail(rowInfo.original.settlementId);
+            this.props.history.push("/app/reports/batch-detail");
+          }
+        }
+      };
+    };
+
+    let BatchList = this.props.Batch;
+    if (BatchList) {
+      if (this.state.search) {
+        BatchList = BatchList.filter(e => {
+          return (
+            e.doBusinessName
+              .trim()
+              .toLowerCase()
+              .indexOf(this.state.search.toLowerCase()) !== -1 ||
+            parseInt(e.merchantId) === parseInt(this.state.search)
+          );
+        });
+      }
+    }
+
     const columns = [
       {
         Header: "Date/Time",
@@ -31,7 +73,7 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "yeet",
-            width: 200,
+            width: 120,
             accessor: e => {
               return moment
                 .utc(e.settlementDate)
@@ -44,11 +86,11 @@ class Transactions extends React.Component {
       {
         id: "Customer",
         Header: "Merchant DBA",
-        width: 160,
+        width: 100,
         columns: [
           {
             Header: "",
-            id: "doBusinessName",
+            id: "DBA",
             accessor: "doBusinessName"
           }
         ]
@@ -56,11 +98,11 @@ class Transactions extends React.Component {
       },
       {
         Header: "Merchant ID",
-        width: 140,
         columns: [
           {
             Header: "",
-            accessor: "merchantId"
+            accessor: "merchantId",
+            width: 120
           }
         ]
       },
@@ -101,12 +143,13 @@ class Transactions extends React.Component {
         columns: [
           {
             Header: "",
-            accessor: "total"
+            id: "total",
+            accessor: e => <span>${e.total}</span>
           }
         ]
       }
     ];
-    // console.log(this.props.Batch);
+
     return (
       <div className="container-fluid react-transition swipe-right Batchs">
         <ContainerHeader
@@ -114,6 +157,20 @@ class Transactions extends React.Component {
           title={<IntlMessages id="sidebar.dashboard.Batch" />}
         />
         <div className="MerList BatchsContainer" style={{ padding: "10px" }}>
+          <div className="MReqSP TransactionsBox">
+            <div className="BatchSearch">
+              <form>
+                <input title="Search" value="" className="button" readOnly />
+                <input
+                  type="text"
+                  className="textbox"
+                  placeholder="Search.."
+                  value={this.state.search}
+                  onChange={this._SearchMerchants}
+                />
+              </form>
+            </div>
+          </div>
           <div className="MListContainer Transactions">
             <ReactTable
               data={this.props.Batch}
@@ -121,6 +178,7 @@ class Transactions extends React.Component {
               defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
+              getTdProps={onRowClick}
             />
           </div>
         </div>
@@ -136,6 +194,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getBatch: () => {
     dispatch(getBatch());
+  },
+  fetchBatchDetail: payload => {
+    dispatch(getBatchDetail(payload));
   }
 });
 export default connect(

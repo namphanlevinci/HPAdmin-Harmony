@@ -48,6 +48,10 @@ const Reports = ({ match }) => (
         path={`${match.url}/batchs`}
         component={asyncComponent(() => import("./Batch/Batch"))}
       />
+      <Route
+        path={`${match.url}/batch-detail`}
+        component={asyncComponent(() => import("./Batch/BatchDetail"))}
+      />
     </Switch>
   </div>
 );

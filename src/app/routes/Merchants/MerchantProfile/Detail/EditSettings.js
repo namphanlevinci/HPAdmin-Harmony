@@ -128,7 +128,7 @@ class EditSettings extends Component {
                 <tbody>
                   <tr>
                     <td>
-                      <label>Transactions Fee (%):</label>
+                      <label>Transactions Fee:</label>
                     </td>
                     <td>
                       <input
@@ -175,7 +175,7 @@ class EditSettings extends Component {
             {/* </div> */}
             <br />
           </div>
-          <h3>Daily transactions limit (unit $)</h3>
+          {/* <h3>Daily transactions limit (unit $)</h3>
           <label>
             The HarmonyPay system will alert any user and pervent any use
             involved monetary transfer or transfers that are:
@@ -196,7 +196,7 @@ class EditSettings extends Component {
               value={this.state.totalAmountLimit}
               onChange={this._handleChange}
             />
-          </div>
+          </div> */}
         </div>
         <div className="SettingsContent GeneralContent">
           <Button className="btn btn-green" onClick={this._updateSettings}>

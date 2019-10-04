@@ -29,7 +29,7 @@ class MerchantReqProfile extends Component {
             isOpenReject: false,
             merchantID: '',
             merchantToken: '',
-            rejectReason: ''
+            rejectReason: '',
          }
     }
     _handleChange(event) {

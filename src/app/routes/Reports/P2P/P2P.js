@@ -198,7 +198,6 @@ class P2P extends React.Component {
                 />
               </form>
             </div>
-            {/* THANH CHUYỂN TRANGz */}
           </div>
           <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
             <div className="col-md-4" align="center">

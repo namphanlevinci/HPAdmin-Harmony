@@ -94,7 +94,27 @@ export function* getAll_Batch_api() {
   const kq = yield axios
     .get(URL + "/settlement", config)
     .then(result => {
-      // console.log("======================", result);
+      return result.data;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  return kq;
+}
+
+//! GET BATCH DETAIL
+export function* getBatchDetail_api(BatchID) {
+  const ID = BatchID.payload;
+  const getInfoLogin = state => state.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.User.token
+    }
+  };
+  const kq = yield axios
+    .get(URL + "/settlement/" + ID, config)
+    .then(result => {
       return result.data;
     })
     .catch(err => {

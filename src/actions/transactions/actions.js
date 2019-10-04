@@ -79,3 +79,20 @@ export const getBatch_Error = payload => ({
   type: types.getBatch_Error,
   payload: payload
 });
+
+//!! GET BATCH DETAIL
+
+export const getBatchDetail = payload => ({
+  type: types.getBatchDetail,
+  payload: payload
+});
+
+export const getBatchDetail_Success = payload => ({
+  type: types.getBatchDetail_Success,
+  payload: payload
+});
+
+export const getBatchDetail_Error = payload => ({
+  type: types.getBatchDetail_Error,
+  payload: payload
+});

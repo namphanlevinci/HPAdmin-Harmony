@@ -33,11 +33,12 @@ import getAll_Questions from "./Business/getAll_Questions";
 import getAll_Transactions from "./Transactions/getTransactions";
 import getAll_ConsumerUsers from "./Business/getAll_ConsumerUsers";
 import Update_Questions from "./Business/update_Questions";
-//! CONSUMER & TRANSACTIONS
+//! CONSUMER & TRANSACTIONS & BATCHS
 import getUser_Transaction from "./Transactions/getUser_Transactions";
 import getUser_Activity from "./Transactions/getUser_Activity";
 import getAllBatch from "./Transactions/getBatch";
 import getAllP2P_Transactions from "./Transactions/getP2P";
+import getBatchDetail from "./Transactions/getBatchDetail";
 //! REPORT STATICS
 import Approved_Static from "./Reports/Approved";
 
@@ -71,5 +72,6 @@ export default history =>
     ApprovedStatic: Approved_Static,
     addAdminUser,
     getAllBatch,
-    GetP2P: getAllP2P_Transactions
+    GetP2P: getAllP2P_Transactions,
+    BatchDetail: getBatchDetail
   });

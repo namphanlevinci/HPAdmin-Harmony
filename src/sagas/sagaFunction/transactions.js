@@ -4,7 +4,8 @@ import {
   getUser_Transaction_api,
   getUser_Activity_api,
   getAll_Batch_api,
-  getAll_P2PTransactions_api
+  getAll_P2PTransactions_api,
+  getBatchDetail_api
 } from "../api/transactions";
 import * as typeTransactions from "../../actions/transactions/types";
 
@@ -112,6 +113,28 @@ export function* getAll_Batch_Saga() {
       } else {
         yield put({
           type: typeTransactions.getBatch_Error,
+          payload: "Something went wrong, please try again later!"
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+//! GET BATCH DETAIL
+export function* getBatchDetail_Saga() {
+  yield takeLatest(typeTransactions.getBatchDetail, function*(action) {
+    try {
+      const BatchDetail = yield getBatchDetail_api(action);
+      if (BatchDetail !== null) {
+        yield put({
+          type: typeTransactions.getBatchDetail_Success,
+          payload: BatchDetail.data
+        });
+      } else {
+        yield put({
+          type: typeTransactions.getBatchDetail_Error,
           payload: "Something went wrong, please try again later!"
         });
       }

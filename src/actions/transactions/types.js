@@ -22,3 +22,8 @@ export const getUser_Activity_Error = "getUser_Activity_Error";
 export const getBatch = "getBatch";
 export const getBatch_Success = "getBatch_Success";
 export const getBatch_Error = "getBatch_Error";
+
+//! GET BATCH DETAIL
+export const getBatchDetail = "getBatchDetail";
+export const getBatchDetail_Success = "getBatchDetail_Success";
+export const getBatchDetail_Error = "getBatchDetail_Error";
