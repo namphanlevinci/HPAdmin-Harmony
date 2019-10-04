@@ -77,7 +77,7 @@ class Settings extends Component {
           <div className="SettingsContent">
             <div>
               <h3>The charged percent fee of credit card transactions</h3>
-              <table>
+              <table className="settingTable">
                 <tbody>
                   <tr>
                     <td>

@@ -202,14 +202,17 @@
   border-spacing: 0;
 }
 
-.StaffTable thead,
+.Staff .StaffTable thead,
 tbody,
 tr,
 th,
 td {
   display: block;
 }
-
+/* .container .SettingsContent .settingTable td {
+  display: table-cell;
+  vertical-align: inherit;
+} */
 .StaffTable thead tr {
   /* fallback */
   width: 97%;

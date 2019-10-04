@@ -86,7 +86,7 @@ class Staff extends Component {
     //   }
     // ];
     return (
-      <div className="content GeneralContent react-transition swipe-up">
+      <div className="content GeneralContent react-transition swipe-up Staff">
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
