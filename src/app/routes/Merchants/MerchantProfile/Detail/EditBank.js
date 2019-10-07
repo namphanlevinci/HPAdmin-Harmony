@@ -1,17 +1,36 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+// import Button from "@material-ui/core/Button";
+// import axios from "axios";
+// import URL from "../../../../../url/url";
+// import ImageUploader from "react-images-upload";
+
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
-import Button from "@material-ui/core/Button";
 
-class Bank extends Component {
+// /TEST
+// import { FilePond, registerPlugin } from "react-filepond";
+
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+
+class EditBank extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      files: [
+        {
+          source: null,
+          options: {
+            type: "local"
+          }
+        }
+      ]
+    };
   }
-  _editBank = () => {
-    this.props.history.push("/app/merchants/merchant-profile/edit-bank");
+  handleInit = () => {
+    console.log("FilePond instance has initialised", this.pond);
   };
   render() {
     const e = this.props.MerchantProfile;
@@ -48,11 +67,6 @@ class Bank extends Component {
             </div>
           </div>
         </div>
-        <div className="SettingsContent GeneralContent">
-          <Button className="btn btn-green" onClick={this._editBank}>
-            EDIT
-          </Button>
-        </div>
       </div>
     );
   }
@@ -63,4 +77,4 @@ const mapStateToProps = state => ({
   InfoUser_Login: state.User
 });
 
-export default connect(mapStateToProps)(Bank);
+export default connect(mapStateToProps)(EditBank);

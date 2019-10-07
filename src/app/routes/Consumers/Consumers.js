@@ -78,11 +78,22 @@ class Consumers extends React.Component {
         Cell: e => (
           <span className={e.value > 10000 ? "BIG" : ""}>${e.value}</span>
         )
+      },
+      {
+        accessor: "limitAmount",
+        show: false
+      },
+      {
+        accessor: "banks",
+        show: false
+      },
+      {
+        accessor: "stateName",
+        show: false
       }
     ];
 
     let ConsumerList = this.props.ConsumerList;
-    // console.log("CONSUMER", ConsumerList);
     if (ConsumerList) {
       if (this.state.search) {
         ConsumerList = ConsumerList.filter(e => {

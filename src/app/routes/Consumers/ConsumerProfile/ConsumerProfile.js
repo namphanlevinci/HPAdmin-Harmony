@@ -12,6 +12,8 @@ import Button from "@material-ui/core/Button";
 import General from "./Detail/General";
 import Transactions from "./Detail/Transactions";
 import Acti from "./Detail/Acti";
+import EditGeneral from "./Detail/EditGeneral";
+import Bank from "./Detail/Bank";
 import {
   getUser_Transaction,
   getUser_Activity
@@ -67,6 +69,9 @@ class ConsumerProfile extends Component {
                         </NavLink>
                       </li>
                       <li>
+                        <NavLink to="/app/consumers/profile/bank">Bank</NavLink>
+                      </li>
+                      <li>
                         <NavLink
                           to="/app/consumers/profile/transactions"
                           onClick={this.handleTransactions}
@@ -89,12 +94,20 @@ class ConsumerProfile extends Component {
                         component={General}
                       />
                       <Route
+                        path="/app/consumers/profile/bank"
+                        component={Bank}
+                      />
+                      <Route
                         path="/app/consumers/profile/transactions"
                         component={Transactions}
                       />
                       <Route
                         path="/app/consumers/profile/activies"
                         component={Acti}
+                      />
+                      <Route
+                        path="/app/consumers/profile/edit-general"
+                        component={EditGeneral}
                       />
                     </div>
                   </div>

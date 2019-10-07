@@ -13,19 +13,13 @@ class General extends Component {
     this.state = {};
   }
 
-  _handleChange = event => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value
-    });
+  _goToEdit = () => {
+    this.props.history.push("/app/consumers/profile/edit-general");
   };
-  _toggleEdit = () => {
-    this.setState({ edit: true });
-  };
+
   render() {
     const e = this.props.MerchantProfile;
+    console.log("E", e);
     const renderGeneral =
       e.email !== undefined ? (
         <div className="react-transition swipe-right">
@@ -40,28 +34,44 @@ class General extends Component {
                 <h4>Last Name</h4>
                 <p>{e.lastName !== null ? e.lastName : null}</p>
               </div>
-              <div className="col-md-12">
+              <div className="col-md-3">
                 <h4>Phone Number</h4>
                 <p>{e.phone !== null ? e.phone : null}</p>
               </div>
-              <div className="col-md-12">
+              <div className="col-md-3">
                 <h4>Email</h4>
                 <p>{e.email !== null ? e.email : null}</p>
               </div>
             </div>
-            <div className="SettingsContent GeneralContent">
-              <Button
-                style={{
-                  fontSize: "16px",
-                  padding: "5px 30px",
-                  color: "white",
-                  backgroundColor: "#3f51b5"
-                }}
-                onClick={this._toggleEdit}
-              >
-                EDIT
-              </Button>
+            <h2>Daily transactions limit (unit $)</h2>
+            <label>
+              The HarmonyPay system will alert any user and pervent any use
+              involved monetary transfer or transfers that are:
+            </label>
+            <label>
+              a. More than $10,000 in total from either cash-in or cash-out.
+            </label>
+            <br />
+            <label>b. Is conducted by the same person.</label>
+            <br />
+            <label>c. Is conducted on the same business day.</label>
+            <br />
+            <div className="input-group">
+              <input
+                type="text"
+                className="col-4 form-control"
+                name="totalAmountLimit"
+                value={e.limitAmount}
+                onChange={this._handleChange}
+                disabled
+              />
             </div>
+          </div>
+
+          <div className="SettingsContent GeneralContent">
+            <Button className="btn btn-green" onClick={this._goToEdit}>
+              EDIT
+            </Button>
           </div>
         </div>
       ) : (
