@@ -13,7 +13,7 @@ import "../../MerchantsRequest/MerchantsRequest.css";
 // import { FilePond, registerPlugin } from "react-filepond";
 
 // Import FilePond styles
-import "filepond/dist/filepond.min.css";
+// import "filepond/dist/filepond.min.css";
 
 class EditBank extends Component {
   constructor(props) {
