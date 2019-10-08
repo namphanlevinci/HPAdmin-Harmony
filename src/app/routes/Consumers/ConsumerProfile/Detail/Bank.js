@@ -36,7 +36,7 @@ class Bank extends Component {
                 <div className="col-md-4">
                   <h4>State:</h4>
                   {/* STATE TRẢ ID SỬA SAU */}
-                  <p>{i.stateId}</p>
+                  <p>{i.stateName}</p>
                 </div>
                 <div className="col-md-4">
                   <h4>City:</h4>

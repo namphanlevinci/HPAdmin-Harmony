@@ -37,7 +37,8 @@ export function* updateMerchant_Infor_api(data) {
     phoneContact,
     firstName,
     lastName,
-    title
+    title,
+    doBusinessName
   } = data;
   const getInfoLogin = state => state.User;
   const infoLogin = yield select(getInfoLogin);
@@ -47,16 +48,12 @@ export function* updateMerchant_Infor_api(data) {
     }
   };
   const kq = yield axios
-    // .put(
-    //   URL + "/merchant/" + ID,
-    //   { businessName, email, cellphone, address, city, stateId },
-    //   config
-    // )
     .put(
       URL + "/general/" + ID,
       {
         emailContact,
         legalBusinessName,
+        doBusinessName,
         tax,
         address,
         city,

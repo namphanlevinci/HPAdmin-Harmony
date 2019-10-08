@@ -32,12 +32,12 @@ class General extends Component {
     const renderGeneral =
       e.general !== undefined ? (
         <div className="react-transition swipe-up">
-          <h2>General Information</h2>
           <div className="container">
+            <h2>General Information</h2>
             <div className="row justify-content-between">
               <div className="col-md-4">
                 <h4>Legal Business Name*</h4>
-                <p>{e.businessName}</p>
+                <p>{e.general !== null ? e.general.legalBusinessName : null}</p>
               </div>
               <div className="col-md-4">
                 <h4>Doing Business As (DBA)*</h4>
@@ -45,7 +45,7 @@ class General extends Component {
               </div>
               <div className="col-md-4">
                 <h4>Federal Tax ID*</h4>
-                <p>{e.taxId}</p>
+                <p>{e.general !== null ? e.general.tax : null}</p>
               </div>
               <div className="col-md-4">
                 <h4>DBA Business Address*</h4>
@@ -57,11 +57,11 @@ class General extends Component {
               </div>
               <div className="col-md-4">
                 <h4>Business Phone Number*</h4>
-                <p>{e.phone}</p>
+                <p>{e.general !== null ? e.general.phoneBusiness : null}</p>
               </div>
               <div className="col-md-4">
                 <h4>Contact Email Address*</h4>
-                <p>{e.email}</p>
+                <p>{e.general !== null ? e.general.emailContact : null}</p>
               </div>
             </div>
             <h2>Representative Information</h2>
@@ -106,8 +106,9 @@ class General extends Component {
     return (
       <div className="content GeneralContent">
         {renderGeneral}
-        <h2>Business Information</h2>
+
         <div className="container">
+          <h2>Business Information</h2>
           <div className="row justify-content-between">{renderQuestion}</div>
         </div>
         <div className="SettingsContent GeneralContent">

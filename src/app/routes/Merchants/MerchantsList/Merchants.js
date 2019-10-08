@@ -33,7 +33,6 @@ class Merchants extends React.Component {
   };
   render() {
     let MerList = this.props.Merchants_List;
-    // console.log(MerList);
     if (MerList) {
       if (this.state.search) {
         MerList = MerList.filter(e => {
@@ -59,8 +58,10 @@ class Merchants extends React.Component {
         width: 150
       },
       {
+        id: "businessName",
         Header: "Bussiness name",
-        accessor: "businessName",
+        accessor: e =>
+          e.general !== null ? e.general.legalBusinessName : null,
         Cell: e => <span style={{ fontWeight: 600 }}>{e.value}</span>,
         width: 170
       },

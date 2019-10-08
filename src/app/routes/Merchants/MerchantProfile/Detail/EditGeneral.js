@@ -31,7 +31,8 @@ class General extends Component {
       phoneContact: "",
       firstName: "",
       lastName: "",
-      title: ""
+      title: "",
+      doBusinessName: ""
     };
   }
   _goBack = () => {
@@ -39,10 +40,12 @@ class General extends Component {
     this.props.history.push("/app/merchants/merchant-profile/general");
   };
   _update = () => {
-    const ID = this.props.MerchantProfile.merchantId;
+    const ID = this.props.MerchantProfile.general.generalId;
+    const IDMerchant = this.props.MerchantProfile.merchantId;
     const {
       emailContact,
       legalBusinessName,
+      doBusinessName,
       tax,
       address,
       city,
@@ -59,6 +62,7 @@ class General extends Component {
       ID,
       emailContact,
       legalBusinessName,
+      doBusinessName,
       tax,
       address,
       city,
@@ -72,7 +76,7 @@ class General extends Component {
     };
     this.props.updateMerchant(payload);
     setTimeout(() => {
-      this.props.GetMerchant_byID(ID);
+      this.props.GetMerchant_byID(IDMerchant);
     }, 1000);
   };
   _handleChange = event => {
@@ -89,12 +93,19 @@ class General extends Component {
   componentDidMount() {
     const data = this.props.MerchantProfile;
     this.setState({
-      businessName: data.businessName,
-      email: data.email,
-      cellphone: data.cellPhone,
-      address: data.address,
-      city: data.city,
-      stateId: data.stateId
+      emailContact: data.general.emailContact,
+      legalBusinessName: data.general.legalBusinessName,
+      tax: data.general.tax,
+      address: data.general.address,
+      city: data.general.city,
+      stateId: data.general.stateId,
+      phoneBusiness: data.general.phoneBusiness,
+      zip: data.general.zip,
+      phoneContact: data.general.phoneContact,
+      firstName: data.general.firstName,
+      lastName: data.general.lastName,
+      title: data.general.title,
+      doBusinessName: data.general.doBusinessName
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -107,68 +118,36 @@ class General extends Component {
     }
   }
   render() {
-    const e = this.props.MerchantProfile;
+    // const e = this.props.MerchantProfile;
     return (
       <div className="content GeneralContent react-transition swipe-right">
-        <h2>General Information</h2>
         <div className="container">
+          <h2>General Information</h2>
           <div className="row">
             <div className="col-md-4">
               <h4>Legal Business Name*</h4>
               <input
-                name="businessName"
-                value={this.state.businessName}
+                name="legalBusinessName"
+                value={this.state.legalBusinessName}
                 onChange={this._handleChange}
               ></input>
             </div>
             <div className="col-md-4">
               <h4>Doing Business As (DBA)*</h4>
               <input
-                name="cellphone"
-                value={e.general !== null ? e.general.doBusinessName : null}
+                name="doBusinessName"
+                value={this.state.doBusinessName}
                 onChange={this._handleChange}
-                disabled
+                // disabled
               ></input>
             </div>
             <div className="col-md-4">
               <h4>Federal Tax ID*</h4>
               <input
-                name="cellphone"
-                value={e.taxId}
+                name="tax"
+                value={this.state.tax}
                 onChange={this._handleChange}
-                disabled
-              ></input>
-            </div>
-            <div className="col-md-4">
-              <h4>DBA Business Address*</h4>
-              <input
-                name="cellphone"
-                value={
-                  this.state.address +
-                  " " +
-                  this.state.city +
-                  " " +
-                  this.state.stateId
-                }
-                onChange={this._handleChange}
-                disabled
-              ></input>
-            </div>
-            <div className="col-md-4">
-              <h4>Zip code*</h4>
-              <input
-                name="cellphone"
-                value={e.general.zip}
-                onChange={this._handleChange}
-                disabled
-              ></input>
-            </div>
-            <div className="col-md-4">
-              <h4>Phone*</h4>
-              <input
-                name="cellphone"
-                value={this.state.cellphone}
-                onChange={this._handleChange}
+                // disabled
               ></input>
             </div>
             <div className="col-md-4">
@@ -177,6 +156,7 @@ class General extends Component {
                 name="address"
                 value={this.state.address}
                 onChange={this._handleChange}
+                // disabled
               ></input>
             </div>
             <div className="col-md-4">
@@ -185,18 +165,43 @@ class General extends Component {
                 name="city"
                 value={this.state.city}
                 onChange={this._handleChange}
+                // disabled
               ></input>
             </div>
             <div className="col-md-4">
-              <h4>State*</h4>
+              <h4>State ID*</h4>
               <input
                 name="stateId"
                 value={this.state.stateId}
                 onChange={this._handleChange}
               ></input>
             </div>
-            {/* <hr /> */}
             <div className="col-md-4">
+              <h4>Business Phone*</h4>
+              <input
+                name="phoneBusiness"
+                value={this.state.phoneBusiness}
+                onChange={this._handleChange}
+              ></input>
+            </div>
+            <div className="col-md-4">
+              <h4>Zip*</h4>
+              <input
+                name="zip"
+                value={this.state.zip}
+                onChange={this._handleChange}
+              ></input>
+            </div>
+            <div className="col-md-4">
+              <h4>Email Contact*</h4>
+              <input
+                name="emailContact"
+                value={this.state.emailContact}
+                onChange={this._handleChange}
+              ></input>
+            </div>
+            {/* <hr /> */}
+            {/* <div className="col-md-4">
               <h4>Business Phone Number*</h4>
               <input
                 name="cellphone"
@@ -212,39 +217,39 @@ class General extends Component {
                 value={this.state.email}
                 onChange={this._handleChange}
               ></input>
-            </div>
+            </div> */}
           </div>
           <h2>Representative Information</h2>
           <div className="row">
             <div className="col-md-4">
               <h4>Contact Name*</h4>
               <input
-                name="email"
-                value={
-                  e.general !== null
-                    ? e.general.firstName + " " + e.general.lastName
-                    : null
-                }
+                name="firstName"
+                value={this.state.firstName}
                 onChange={this._handleChange}
-                disabled
+                placeholder="First name"
+              ></input>
+              <input
+                name="lastName"
+                value={this.state.lastName}
+                onChange={this._handleChange}
+                placeholder="Last name"
               ></input>
             </div>
             <div className="col-md-4">
               <h4>Title/Position*</h4>
               <input
-                name="email"
-                value={e.general !== null ? e.general.title : null}
+                name="title"
+                value={this.state.title}
                 onChange={this._handleChange}
-                disabled
               ></input>
             </div>
             <div className="col-md-4">
               <h4>Contact Phone Number*</h4>
               <input
                 name="email"
-                value={e.general !== null ? e.general.phoneContact : null}
+                value={this.state.phoneContact}
                 onChange={this._handleChange}
-                disabled
               ></input>
             </div>
           </div>
