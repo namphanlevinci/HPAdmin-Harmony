@@ -174,7 +174,7 @@ class Transactions extends React.Component {
         Header: "Card /Last 4 Digit",
         width: 180,
         accessor: e =>
-          e.paymentData.card_type.length > 1 ? (
+          e.paymentData.card_type !== null ? (
             <span>
               {e.paymentData.card_type} <br />
               {` **** **** ****  ${e.paymentData.card_number}`}
