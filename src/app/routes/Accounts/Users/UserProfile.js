@@ -11,17 +11,23 @@ class UserProfile extends Component {
   }
   render() {
     const e = this.props.UserProfile;
+    console.log("E", e);
     const renderProfile =
       e.waUserId !== undefined ? (
-        <div>
-          <h3>ID: {e.waUserId}</h3>
-          <h3>Name: {e.firstName + " " + e.lastName}</h3>
-          <h3>Email: {e.email}</h3>
-          <h3>Address: {e.address}</h3>
-          <h3>Role: {e.roleName}</h3>
+        <div className="row justify-content-md-center AdminProfile">
+          <div className="col-md-12">
+            <h2>General Information</h2>
+            <p>Full name: {e.firstName + " " + e.lastName}</p>
+            <p>Role: {e.roleName}</p>
+            <p>Phone: {e.phone}</p>
+            <p>Email: {e.email}</p>
+            <p>Address: {e.address}</p>
+            <p>City: {e.city}</p>
+            <p></p>
+          </div>
         </div>
       ) : (
-        <Redirect to="/app/accounts/users" />
+        <Redirect to="/app/accounts/admin-users" />
       );
     return (
       <div className="container-fluid UserProfile">

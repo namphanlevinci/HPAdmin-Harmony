@@ -14,6 +14,7 @@ import Business from "./Detail/Business";
 import Bank from "./Detail/Bank";
 import EditBank from "./Detail/EditBank";
 import Principal from "./Detail/Principal";
+import EditPrincipal from "./Detail/EditPrincipal";
 import Settings from "./Detail/Settings";
 import EditSettings from "./Detail/EditSettings";
 import Staff from "./Detail/Staff";
@@ -115,6 +116,10 @@ class merchantProfile2 extends Component {
                       <Route
                         path="/app/merchants/merchant-profile/pincipal"
                         component={Principal}
+                      />
+                      <Route
+                        path="/app/merchants/merchant-profile/edit-pincipal"
+                        component={EditPrincipal}
                       />
                       <Route
                         path="/app/merchants/merchant-profile/staff"

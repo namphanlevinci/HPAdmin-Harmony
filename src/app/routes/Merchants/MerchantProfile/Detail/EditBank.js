@@ -31,13 +31,15 @@ class EditBank extends Component {
     const Token = localStorage.getItem("User_login");
     await this.setState({ Token: Token });
     const data = this.props.MerchantProfile.businessBank;
-    this.setState({
-      name: data.name,
-      fileId: data.fileId,
-      routingNumber: data.routingNumber,
-      accountNumber: data.accountNumber,
-      newFileId: null
-    });
+    if (data !== null) {
+      this.setState({
+        name: data.name,
+        fileId: data.fileId,
+        routingNumber: data.routingNumber,
+        accountNumber: data.accountNumber,
+        newFileId: null
+      });
+    }
   }
 
   _handleChange = event => {
@@ -69,6 +71,9 @@ class EditBank extends Component {
         console.log(err);
       });
   };
+  _goBack = () => {
+    this.props.history.push("/app/merchants/merchant-profile/bank");
+  };
   _update = () => {
     const ID = this.props.MerchantProfile.businessBank.businessBankId;
     const IDMerchant = this.props.MerchantProfile.merchantId;
@@ -89,6 +94,7 @@ class EditBank extends Component {
             this.props.GetMerchant_byID(IDMerchant);
           }, 1500);
           setTimeout(() => {
+            this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
             this.props.history.push("/app/merchants/merchant-profile/bank");
           }, 2000);
         }
@@ -101,20 +107,22 @@ class EditBank extends Component {
     const e = this.props.MerchantProfile;
 
     const renderOldImg =
-      e.businessBank.imageUrlOldFiles !== null ? (
-        <div className="col-md-12" style={{ paddingTop: "10px" }}>
-          <h4>Old Void Check*</h4>
-          {e.businessBank.imageUrlOldFiles.map((e, index) => {
-            return (
-              <img
-                key={index}
-                className="bankVoid"
-                src={`${e.imageUrl}`}
-                alt="void check"
-              />
-            );
-          })}
-        </div>
+      e.businessBank !== null ? (
+        e.businessBank.imageUrlOldFiles !== null ? (
+          <div className="col-md-12" style={{ paddingTop: "10px" }}>
+            <h4>Old Void Check*</h4>
+            {e.businessBank.imageUrlOldFiles.map((e, index) => {
+              return (
+                <img
+                  key={index}
+                  className="bankVoid"
+                  src={`${e.imageUrl}`}
+                  alt="void check"
+                />
+              );
+            })}
+          </div>
+        ) : null
       ) : null;
 
     return (
@@ -189,7 +197,8 @@ class EditBank extends Component {
 
 const mapStateToProps = state => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
+  getMerchant: state.getMerchant
 });
 const mapDispatchToProps = dispatch => ({
   ViewProfile_Merchants: payload => {

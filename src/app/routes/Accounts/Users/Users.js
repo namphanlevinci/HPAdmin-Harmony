@@ -88,13 +88,13 @@ class Users extends Component {
       } else {
       }
     }
-    // const onRowClick = (state, rowInfo, column, instance) => {
-    //   return {
-    //     onClick: e => {
-    //       this._userProfile(rowInfo.original);
-    //     }
-    //   };
-    // };
+    const onRowClick = (state, rowInfo, column, instance) => {
+      return {
+        onClick: e => {
+          this._userProfile(rowInfo.original);
+        }
+      };
+    };
 
     return (
       <div className="container-fluid react-transition swipe-right">
@@ -128,7 +128,7 @@ class Users extends Component {
               columns={columns}
               defaultPageSize={10}
               minRows={0}
-              // getTdProps={onRowClick}
+              getTdProps={onRowClick}
               noDataText="NO DATA!"
             />
           </div>

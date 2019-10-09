@@ -49,7 +49,7 @@ class Staff extends Component {
 
     const renderStaff = e.map(i => {
       return (
-        <tr>
+        <tr key={i.staffId}>
           <td>{i.staffId}</td>
           <td>{i.firstName + " " + i.lastName}</td>
           <td>{i.displayName}</td>

@@ -17,20 +17,22 @@ class Bank extends Component {
     const e = this.props.MerchantProfile;
 
     const renderOldImg =
-      e.businessBank.imageUrlOldFiles !== null ? (
-        <div className="col-md-12" style={{ paddingTop: "10px" }}>
-          <h4>Old Void Check*</h4>
-          {e.businessBank.imageUrlOldFiles.map((e, index) => {
-            return (
-              <img
-                key={index}
-                className="bankVoid"
-                src={`${e.imageUrl}`}
-                alt="void check"
-              />
-            );
-          })}
-        </div>
+      e.businessBank !== null ? (
+        e.businessBank.imageUrlOldFiles !== null ? (
+          <div className="col-md-12" style={{ paddingTop: "10px" }}>
+            <h4>Old Void Check*</h4>
+            {e.businessBank.imageUrlOldFiles.map((e, index) => {
+              return (
+                <img
+                  key={index}
+                  className="bankVoid"
+                  src={`${e.imageUrl}`}
+                  alt="void check"
+                />
+              );
+            })}
+          </div>
+        ) : null
       ) : null;
     return (
       <div className="react-transition swipe-up">
