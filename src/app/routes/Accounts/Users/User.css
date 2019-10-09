@@ -22,3 +22,25 @@
   font-weight: 500;
   font-size: 22px;
 }
+.AdminProfile div img {
+  width: 180px;
+}
+.AdminProfile button {
+  padding: 9px;
+  margin-top: 20px;
+  color: white;
+  background: #3f51b5;
+  font-weight: 500;
+  font-size: 14px;
+}
+.AdminProfile button:hover {
+  padding: 9px;
+  margin-top: 20px;
+  color: white;
+  background: #3f51b5;
+  font-weight: 600;
+}
+.AdminProfile h1 {
+  color: #3f51b5;
+  font-weight: 550;
+}

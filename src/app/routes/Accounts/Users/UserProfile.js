@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
+import Button from "@material-ui/core/Button";
+import moment from "moment";
 import "./User.css";
 class UserProfile extends Component {
   constructor(props) {
@@ -11,19 +13,28 @@ class UserProfile extends Component {
   }
   render() {
     const e = this.props.UserProfile;
-    console.log("E", e);
+    // console.log("E", e);
     const renderProfile =
       e.waUserId !== undefined ? (
         <div className="row justify-content-md-center AdminProfile">
-          <div className="col-md-12">
-            <h2>General Information</h2>
-            <p>Full name: {e.firstName + " " + e.lastName}</p>
-            <p>Role: {e.roleName}</p>
+          <div className="col-md-2 text-center">
+            <img
+              src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
+              alt="avatar"
+            />
+            <Button>EDIT PROFILE</Button>
+          </div>
+          <div className="col-md-10">
+            <h1>{e.firstName + " " + e.lastName}</h1>
+            <h3>{e.roleName}</h3>
+            <hr />
+            <h2>Contact Information</h2>
             <p>Phone: {e.phone}</p>
             <p>Email: {e.email}</p>
             <p>Address: {e.address}</p>
             <p>City: {e.city}</p>
-            <p></p>
+            <h2>Basic Information</h2>
+            <p>Birthday: {moment(e.birthDate).format("MM/DD/YYYY")}</p>
           </div>
         </div>
       ) : (
