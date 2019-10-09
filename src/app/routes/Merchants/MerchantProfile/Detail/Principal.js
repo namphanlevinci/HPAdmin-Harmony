@@ -119,12 +119,18 @@ class Principal extends Component {
             );
           })
         : null;
+
     return (
       <div className="react-transition swipe-up">
         <h2>Principal Information</h2>
         {renderPrincipal}
-        <h2 style={{ paddingTop: "20px" }}>Old Information</h2>
-        {renderOldInfo}
+
+        {e.principals.arrayOldData.length !== 0 ? (
+          <React.Fragment>
+            <h2 style={{ paddingTop: "20px" }}>Old Information</h2>
+            {renderOldInfo}
+          </React.Fragment>
+        ) : null}
       </div>
     );
   }
