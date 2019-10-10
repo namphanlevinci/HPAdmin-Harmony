@@ -21,7 +21,7 @@
   font-weight: 900;
 }
 .SettingsContent button:hover {
-  background-color: #3f51b5;
+  background-color: #0074d9;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -30,7 +30,7 @@
   border-color: rgba(0, 0, 0, 0.9);
 }
 .SettingsContent button {
-  background-color: #3f51b5;
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -39,7 +39,7 @@
   margin-bottom: 0px;
   margin-left: 10px;
   height: 40px;
-  background-color: #3f51b5;
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -64,7 +64,7 @@
   margin-left: 0px;
 }
 .GeneralContent button.btn:hover {
-  background-color: #3f51b5;
+  background-color: #0074d9;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -73,19 +73,19 @@
   border-color: rgba(0, 0, 0, 0.9);
 }
 .GeneralContent button.btn.btn-green {
-  background-color: #3f51b5;
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 
 .GeneralContent button.btn.btn-green:hover {
-  background-color: #3849a2;
+  background-color: #0074d9;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .GeneralContent button.btn.btn-green:active {
-  background-color: #31408f;
+  background-color: #0074d9;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
@@ -93,7 +93,7 @@
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #3f51b5;
+  color: #0764b0;
 }
 
 .GeneralContent button.btn.btn-red:hover {
@@ -134,7 +134,7 @@
   bottom: 45%;
 }
 .SettingsPopup2 .SettingsInner2 {
-  background-color: #3f51b5;
+  background-color: #0764b0;
 }
 .SettingsPopup2 .settingText h4 {
   padding: 15px;
@@ -157,21 +157,21 @@
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #3f51b5;
+  color: #0764b0;
 }
 .SettingsPopup2 .btn-green {
-  background-color: #3f51b5;
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 .TransactionTable thead tr th {
   color: white;
-  background-color: #3f51b5;
+  background-color: #0764b0;
   padding: 10px 20px;
   font-weight: 400;
   font-size: 16px;
-  border: 1px solid #3f51b5;
+  border: 1px solid #0764b0;
 }
 .TransactionTable tbody tr td {
   padding: 10px 12px;

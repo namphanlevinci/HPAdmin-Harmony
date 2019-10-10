@@ -104,7 +104,7 @@ class SignIn extends React.Component {
                     <Button
                       onClick={this.onSubmit}
                       variant="contained"
-                      color="primary"
+                      style={{ background: "#0764b0", color: "white" }}
                     >
                       <IntlMessages id="appModule.signIn" />
                     </Button>

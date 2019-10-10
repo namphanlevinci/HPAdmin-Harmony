@@ -172,7 +172,7 @@ class Logs extends Component {
               </div>
             </div>
           </div>
-          <hr style={{ borderBottom: "1px solid #3f51b5" }}></hr>
+          <hr style={{ borderBottom: "1px solid #0764b0" }}></hr>
           <div>
             <h2>
               Server Time <i className="fa fa-hourglass" />

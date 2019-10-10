@@ -10,7 +10,7 @@ import "react-table/react-table.css";
 import moment from "moment";
 import { APPROVED_STATICS } from "../../../../../actions/static/actions";
 import _ from "lodash";
-import { CSVLink } from "react-csv";
+// import { CSVLink } from "react-csv";
 class DownloadReport extends Component {
   constructor(props) {
     super(props);
@@ -140,7 +140,7 @@ class DownloadReport extends Component {
         <div className="container-fluid  ReportBox">
           <span>
             <Button
-              style={{ color: "#3f51b5", backgroundColor: "white" }}
+              style={{ color: "#0764b0", backgroundColor: "white" }}
               className="btn btn-green"
               onClick={() =>
                 this.props.history.push("/app/reports/general-reports")
@@ -201,7 +201,7 @@ class DownloadReport extends Component {
               </div>
               <div className="col-md-2">
                 <Button
-                  style={{ color: "white", backgroundColor: "#3f51b5" }}
+                  style={{ color: "white", backgroundColor: "#0764b0" }}
                   className="btn btn-green"
                   variant="contained"
                   onClick={this._Filter}
@@ -213,11 +213,11 @@ class DownloadReport extends Component {
           </div>
           <div>
             <h2>Result</h2>
-            <h3 style={{ color: "#3f51b5" }}>
+            <h3 style={{ color: "#0764b0" }}>
               Download Statictis From
               {" " + moment(this.state.fromDate).format("MM/DD/YYYY")} To
               {" " + moment(this.state.toDate).format("MM/DD/YYYY")}
-              <CSVLink
+              {/* <CSVLink
                 style={{ marginLeft: "30%" }}
                 data={this.state.DownloadStatics}
                 filename={`report${this.state.fromDate}-${this.state.toDate}.csv`}
@@ -226,7 +226,7 @@ class DownloadReport extends Component {
                 enclosingCharacter={`'`}
               >
                 EXPORT
-              </CSVLink>
+              </CSVLink> */}
             </h3>
           </div>
           <div className="MListContainer">

@@ -182,10 +182,8 @@ class Transactions extends Component {
                   <option value="month">This month</option>
                 </select>
               </div>
-              <div className="col-md-12">
-                <Button className="resetBtn" onClick={this.handleResetClick}>
-                  Reset
-                </Button>
+              <div className="col-md-12 resetBtn">
+                <Button onClick={this.handleResetClick}>Reset</Button>
               </div>
             </div>
             <div className="TransactionTable">

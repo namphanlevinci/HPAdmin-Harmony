@@ -138,7 +138,7 @@ class EditSettings extends Component {
                     </td>
                     <td>
                       <input
-                        type="number"
+                        type="text"
                         name="transactionsFee"
                         value={this.state.transactionsFee}
                         onChange={this._handleChange}

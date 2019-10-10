@@ -1,10 +1,10 @@
 .TransactionTable thead tr th {
   color: white;
-  background-color: #3f51b5;
+  background-color: #0764b0;
   padding: 10px 20px;
   font-weight: 400;
   font-size: 16px;
-  border: 1px solid #3f51b5;
+  border: 1px solid #0764b0;
 }
 .TransactionTable tbody tr td {
   padding: 10px 20px;
@@ -15,19 +15,25 @@
 .TransactionTable tbody tr td:first-letter {
   text-transform: capitalize;
 }
-.resetBtn {
-  margin-top: 20px;
-  font-size: 14px;
-  padding: 10px 20px;
-  color: #fff;
-  margin-left: 35px;
-  border: none;
-  background-color: #3f51b5;
-  font-weight: 500;
+.resetBtn button {
+  margin-top: 15px;
+  display: inline-block;
+  color: white;
+  background-color: #0764b0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 13px;
+  padding: 8px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 600;
 }
-.resetBtn:hover {
+.resetBtn button:hover {
   color: #fff;
-  background: #3c37ab;
+  background: #0074d9;
 }
 .ConsumerTransactions select {
   outline: 0;

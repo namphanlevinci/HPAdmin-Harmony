@@ -176,7 +176,7 @@ class addAdmin extends Component {
         />
         <div className="login-content text-center">
           <div className="mb-4">
-            <h2 style={{ color: "#3f51b5", fontWeight: 500 }}>
+            <h2 style={{ color: "#0764b0", fontWeight: 500 }}>
               ADD NEW ADMIN USER
             </h2>
           </div>

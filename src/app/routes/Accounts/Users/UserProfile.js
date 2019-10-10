@@ -11,18 +11,29 @@ class UserProfile extends Component {
     super(props);
     this.state = {};
   }
+  _Edit = () => {
+    this.props.history.push("/app/accounts/edit-admin-profile");
+  };
   render() {
     const e = this.props.UserProfile;
-    // console.log("E", e);
+    console.log("E", e);
     const renderProfile =
       e.waUserId !== undefined ? (
         <div className="row justify-content-md-center AdminProfile">
           <div className="col-md-2 text-center">
-            <img
-              src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
-              alt="avatar"
-            />
-            <Button>EDIT PROFILE</Button>
+            {e.imageUrl !== null ? (
+              <img src={e.imageUrl} alt="avatar" />
+            ) : (
+              <img
+                src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
+                alt="avatar"
+              />
+            )}
+            <div className="SettingsContent GeneralContent">
+              <Button onClick={this._Edit} className="btn btn-green">
+                EDIT PROFILE
+              </Button>
+            </div>
           </div>
           <div className="col-md-10">
             <h1>{e.firstName + " " + e.lastName}</h1>
@@ -33,6 +44,7 @@ class UserProfile extends Component {
             <p>Email: {e.email}</p>
             <p>Address: {e.address}</p>
             <p>City: {e.city}</p>
+            <p>State: {e.stateId} </p>
             <h2>Basic Information</h2>
             <p>Birthday: {moment(e.birthDate).format("MM/DD/YYYY")}</p>
           </div>

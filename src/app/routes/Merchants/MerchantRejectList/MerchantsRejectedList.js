@@ -88,7 +88,7 @@ class MerchantsRequest extends Component {
         Header: "Rejected by",
         accessor: "adminUser",
         Cell: e => (
-          <span style={{ color: "#3f51b5", fontWeight: 500 }}>
+          <span style={{ color: "#0764b0", fontWeight: 500 }}>
             {e.value !== null
               ? e.value.first_name + " " + e.value.last_name
               : null}

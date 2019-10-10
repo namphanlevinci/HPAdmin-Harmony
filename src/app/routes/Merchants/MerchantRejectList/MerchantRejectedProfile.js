@@ -92,9 +92,9 @@ class MerchantRejectedProfile extends Component {
                         <div className="PDL-Btn col-md-12">
                             <h3>ID: {e.merchantId}</h3>
                             <span>
-                                <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={() => this._Edit(e)}>EDIT</Button>
-                                <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goRevert}>REVERT</Button>
-                                <Button style={{color: '#3f51b5', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</Button>
+                                <Button style={{color: '#0764b0', backgroundColor: 'white'}} className="btn btn-green" onClick={() => this._Edit(e)}>EDIT</Button>
+                                <Button style={{color: '#0764b0', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goRevert}>REVERT</Button>
+                                <Button style={{color: '#0764b0', backgroundColor: 'white'}} className="btn btn-green" onClick={this._goBack}>BACK</Button>
                             </span>
                         </div>
                         <hr/>

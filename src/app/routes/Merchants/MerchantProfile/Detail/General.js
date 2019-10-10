@@ -28,7 +28,7 @@ class General extends Component {
 
   render() {
     const e = this.props.MerchantProfile;
-    console.log(e);
+    // console.log(e);
     const renderGeneral =
       e.general !== undefined ? (
         <div className="react-transition swipe-up">

@@ -26,6 +26,10 @@ const Accounts = ({ match }) => (
         path={`${match.url}/add-Admin`}
         component={asyncComponent(() => import("./Users/addAdmin"))}
       />
+      <Route
+        path={`${match.url}/edit-admin-profile`}
+        component={asyncComponent(() => import("./Users/EditUserProfile"))}
+      />
     </Switch>
   </div>
 );

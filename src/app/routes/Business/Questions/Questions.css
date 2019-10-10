@@ -1,144 +1,143 @@
 .Questions {
-    background-color:  #fff;
+  background-color: #fff;
 }
 .Questions .qbody {
-    margin-bottom: 10px;
-    vertical-align: text-bottom;
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.45);
+  margin-bottom: 10px;
+  vertical-align: text-bottom;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.45);
 }
 .Questions .qbody h4 {
-    padding-top: 10px;
-    font-weight: 900;
+  padding-top: 10px;
+  font-weight: 900;
 }
 .Questions .qbody div {
-    text-align: center;
-    padding-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
+  text-align: center;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
 }
-.Questions  button.btn {
-	color: #666;
-	background-color: #eee;
-	text-transform: uppercase;
-	letter-spacing: 2px;
-	font-size: 12px;
-	padding: 10px 20px;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border: 1px solid rgba(0,0,0,0.3);
-    border-bottom-width: 3px;
-    font-weight: 900;
+.Questions button.btn {
+  color: #666;
+  background-color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
 }
-.Questions   button.btn:hover {
-    background-color: #3f51b5;
-    border-color: rgba(0,0,0,0.5);
+.Questions button.btn:hover {
+  background-color: #3f51b5;
+  border-color: rgba(0, 0, 0, 0.5);
 }
 
-.Questions   button.btn:active {
-    background-color: #CCC;
-    border-color: rgba(0,0,0,0.9);
+.Questions button.btn:active {
+  background-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.9);
 }
-.Questions   button.btn.btn-green {
-	background-color: #3f51b5;
-	border-color: rgba(0,0,0,0.3);
-	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
-	color: #FFF;
+.Questions button.btn.btn-green {
+  background-color: #0764b0;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #fff;
 }
-.Questions  button.btn.btn-green:hover {
-		background-color: #3849a2;
-		border-color: rgba(0,0,0,0.5);
+.Questions button.btn.btn-green:hover {
+  background-color: #3849a2;
+  border-color: rgba(0, 0, 0, 0.5);
 }
-.Questions   button.btn.btn-green:active {
-		background-color: #31408f;
-		border-color: rgba(0,0,0,0.9);
+.Questions button.btn.btn-green:active {
+  background-color: #31408f;
+  border-color: rgba(0, 0, 0, 0.9);
 }
-.Questions .POPUP{
-	z-index: 9999;
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: auto;
-	background-color: rgba(0,0,0, 0.5);
-	text-align: center;
+.Questions .POPUP {
+  z-index: 9999;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
 }
 .Questions .POPUP-INNER3 {
-    padding-top: 25px;
-      background-color: rgba(0,0,0, 0.5);
-      position: absolute;
-      left: 30%;
-      right: 30%;
-      top: 15%;
-      bottom: 50%;
-      margin: auto;
-      background: white;
+  padding-top: 25px;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  top: 15%;
+  bottom: 50%;
+  margin: auto;
+  background: white;
 }
-.Questions .POPUP label{
-    width: 150px;
+.Questions .POPUP label {
+  width: 150px;
 }
-.Questions .POPUP textarea{
-    width: 400px;
-	height: 100px;
+.Questions .POPUP textarea {
+  width: 400px;
+  height: 100px;
 }
 .Transactions .bigshot {
-	color: red;
+  color: red;
 }
 @media (min-width: 1024px) and (max-width: 1280px) {
-	.Questions .POPUP .POPUP-INNER3 {
-		padding-top: 25px;
-		background-color: rgba(0,0,0, 0.5);
-		position: absolute;
-		left: 20%;
-		right: 20%;
-		top: 15%;
-		bottom: 47%;
-		margin: auto;
-		background: white;
-	}
-	.POPUP-INNER h2 {
-		font-size: 17px;
-	}
-	.Questions  .POPUP .POPUP-INNER3 {
-		padding-top:30px;
-	}
-	.Questions  .POPUP .POPUP-INNER3 input{
-		width: 500px;
-		text-align: center;
-	}
-	.Questions  .POPUP .POPUP-INNER3 label{
-		width: 120px;
-		display: inline-block;
-	}
-	
+  .Questions .POPUP .POPUP-INNER3 {
+    padding-top: 25px;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    top: 15%;
+    bottom: 47%;
+    margin: auto;
+    background: white;
   }
-  @media (min-width: 768px) and (max-width: 1023px) {
-	.POPUP-INNER h2 {
-		font-size: 16px;
-	}
-	.Questions .POPUP .POPUP-INNER3 {
-			padding-top:30px;
-			background-color: rgba(0,0,0, 0.5);
-			position: absolute;
-			left: 15%;
-			right: 15%;
-			top: 25%;
-			bottom: 36%;
-			margin: auto;
-			background: white;
-		}
-		.Questions  .POPUP .POPUP-INNER3 input{
-			width: 180px;
-			text-align: center;
-		}
-		.Questions  .POPUP .POPUP-INNER3 label{
-			width: 90px;
-			text-align: right;
-			line-height: 28pt;
-			font-weight: 500;
-			font-size: 15px;
-		}
+  .POPUP-INNER h2 {
+    font-size: 17px;
   }
+  .Questions .POPUP .POPUP-INNER3 {
+    padding-top: 30px;
+  }
+  .Questions .POPUP .POPUP-INNER3 input {
+    width: 500px;
+    text-align: center;
+  }
+  .Questions .POPUP .POPUP-INNER3 label {
+    width: 120px;
+    display: inline-block;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .POPUP-INNER h2 {
+    font-size: 16px;
+  }
+  .Questions .POPUP .POPUP-INNER3 {
+    padding-top: 30px;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    top: 25%;
+    bottom: 36%;
+    margin: auto;
+    background: white;
+  }
+  .Questions .POPUP .POPUP-INNER3 input {
+    width: 180px;
+    text-align: center;
+  }
+  .Questions .POPUP .POPUP-INNER3 label {
+    width: 90px;
+    text-align: right;
+    line-height: 28pt;
+    font-weight: 500;
+    font-size: 15px;
+  }
+}

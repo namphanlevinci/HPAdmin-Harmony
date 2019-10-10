@@ -45,7 +45,7 @@
 .PendingLBody hr {
   height: 1px;
   border: 0;
-  border-top: 2px solid #3f51b5;
+  border-top: 2px solid #0764b0;
   align-content: center;
   width: 92%;
 }
@@ -67,7 +67,7 @@
 
 /* GREEN BTN */
 .PendingLBody .PDL-Btn button.btn:hover {
-  background-color: #3f51b5;
+  background-color: #0074d9;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -76,19 +76,19 @@
   border-color: rgba(0, 0, 0, 0.9);
 }
 .PendingLBody .PDL-Btn button.btn.btn-green {
-  background-color: #3f51b5;
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 
 .PendingLBody .PDL-Btn button.btn.btn-green:hover {
-  background-color: #3849a2;
+  background-color: #0074d9;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .PendingLBody .PDL-Btn button.btn.btn-green:active {
-  background-color: #31408f;
+  background-color: #0074d9;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
@@ -96,7 +96,7 @@
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #3f51b5;
+  color: #0764b0;
 }
 
 .PendingLBody .PDL-Btn button.btn.btn-red:hover {
@@ -113,7 +113,7 @@
   padding-top: 20px;
 }
 .PendingLBody .content .container h2 {
-  color: #3f51b5;
+  color: #0764b0;
   padding: 10px 0px;
 }
 .PendingLBody .content .container p {
@@ -147,14 +147,14 @@
   margin-bottom: 20px;
 }
 .requestStatus h4 {
-  color: #3f51b5;
+  color: #0764b0;
   font-size: 17px;
 }
 .PendingList .PendingLBody form {
   text-align: center;
 }
 .PendingList .PendingLBody .title {
-  color: #3f51b5;
+  color: #0764b0;
   text-align: center;
 }
 .PendingList .PendingLBody input {

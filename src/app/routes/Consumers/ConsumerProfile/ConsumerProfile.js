@@ -48,7 +48,7 @@ class ConsumerProfile extends Component {
               <h3>Consumer ID: {e.userId}</h3>
               <span>
                 <Button
-                  style={{ color: "#3f51b5", backgroundColor: "white" }}
+                  style={{ color: "#0764b0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={this._goBack}
                 >

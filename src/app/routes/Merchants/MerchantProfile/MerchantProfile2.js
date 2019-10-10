@@ -42,7 +42,7 @@ class merchantProfile2 extends Component {
               <h3>ID: {e.merchantId}</h3>
               <span>
                 <Button
-                  style={{ color: "#3f51b5", backgroundColor: "white" }}
+                  style={{ color: "#0764b0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={this._goBack}
                 >

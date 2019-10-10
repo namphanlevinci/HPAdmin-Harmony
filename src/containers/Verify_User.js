@@ -79,7 +79,7 @@ class Verify_User extends React.Component {
 
             <div className="mb-2">
               <Button
-                color="primary"
+                style={{ background: "#0764b0", color: "white" }}
                 variant="contained"
                 className="text-white"
                 onClick={this._Login}

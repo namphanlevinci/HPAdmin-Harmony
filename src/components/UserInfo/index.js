@@ -11,25 +11,24 @@ import { withRouter } from "react-router-dom";
 class UserInfo extends React.Component {
   state = {
     anchorEl: null,
-    open: false,
-    yeet: []
+    open: false
   };
 
   handleClick = event => {
     this.setState({ open: true, anchorEl: event.currentTarget });
   };
 
-  // handleRequestClose = () => {
-  //   this.setState({open: false});
-  // };
+  handleRequestClose = () => {
+    this.setState({ open: false });
+  };
 
   onLogout = () => {
     this.props.logout_User();
   };
-  _gotoSetting = () => {
-    this.setState({ open: false });
-    this.props.history.push("/app/settings");
-  };
+  // _gotoSetting = () => {
+  //   this.setState({ open: false });
+  //   this.props.history.push("/app/settings");
+  // };
   // _gotoProfile = () => {
   //   this.setState({open: false});
   //   this.props.history.push('/app/profile')

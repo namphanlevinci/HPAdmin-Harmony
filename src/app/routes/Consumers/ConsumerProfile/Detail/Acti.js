@@ -93,10 +93,8 @@ class Acti extends Component {
                   />
                 </form>
               </div>
-              <div className="col-md-4">
-                <Button className="resetBtn" onClick={this.handleResetClick}>
-                  Reset
-                </Button>
+              <div className="col-md-4 resetBtn">
+                <Button onClick={this.handleResetClick}>Reset</Button>
               </div>
             </div>
             <div className="TransactionTable ActivityTable">

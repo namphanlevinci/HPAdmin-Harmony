@@ -7,7 +7,7 @@
 }
 .UserSearchBox .addAdmin {
   padding: 10px 20px;
-  background: #3f51b5;
+  background: #0764b0;
   color: white;
 }
 .AdminProfile {
@@ -18,7 +18,7 @@
   font-size: 16px;
 }
 .AdminProfile h2 {
-  color: #3f51b5;
+  color: #0764b0;
   font-weight: 500;
   font-size: 22px;
 }
@@ -29,18 +29,18 @@
   padding: 9px;
   margin-top: 20px;
   color: white;
-  background: #3f51b5;
+  background: #0764b0;
   font-weight: 500;
   font-size: 14px;
 }
-.AdminProfile button:hover {
+/* .AdminProfile button:hover {
   padding: 9px;
   margin-top: 20px;
   color: white;
-  background: #3f51b5;
-  font-weight: 600;
-}
+  background: #0074d9;
+  font-weight: 500;
+} */
 .AdminProfile h1 {
-  color: #3f51b5;
+  color: #0764b0;
   font-weight: 550;
 }
