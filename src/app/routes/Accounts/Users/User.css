@@ -44,3 +44,20 @@
   color: #0764b0;
   font-weight: 550;
 }
+.AdminProfile table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.AdminProfile td,
+th {
+  display: inline-block !important;
+  text-align: left;
+  padding: 8px;
+}
+.AdminProfile input {
+  font-size: 16px;
+  padding: 3px;
+  /* border-bottom: 1px solid black; */
+}

@@ -94,9 +94,12 @@ class Header extends React.Component {
         el => el.WaNotificationId !== e.WaNotificationId
       )
     });
+    const ID = e.WaNotificationId;
     axios
-      .delete(URL + "/notification/" + e.WaNotificationId, {
-        headers: { Authorization: `Bearer ${UserToken}` }
+      .delete(URL + "/notification/" + ID, {
+        headers: {
+          Authorization: `Bearer ${UserToken}`
+        }
       })
       .then(res => {
         // console.log(res)

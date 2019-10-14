@@ -16,11 +16,10 @@ class UserProfile extends Component {
   };
   render() {
     const e = this.props.UserProfile;
-    console.log("E", e);
     const renderProfile =
       e.waUserId !== undefined ? (
         <div className="row justify-content-md-center AdminProfile">
-          <div className="col-md-2 text-center">
+          <div className="col-md-3 text-center">
             {e.imageUrl !== null ? (
               <img src={e.imageUrl} alt="avatar" />
             ) : (
@@ -35,7 +34,7 @@ class UserProfile extends Component {
               </Button>
             </div>
           </div>
-          <div className="col-md-10">
+          <div className="col-md-9">
             <h1>{e.firstName + " " + e.lastName}</h1>
             <h3>{e.roleName}</h3>
             <hr />
@@ -47,6 +46,8 @@ class UserProfile extends Component {
             <p>State: {e.stateId} </p>
             <h2>Basic Information</h2>
             <p>Birthday: {moment(e.birthDate).format("MM/DD/YYYY")}</p>
+            <p>Zip: {e.zip}</p>
+            <p>StateId: {e.stateId}</p>
           </div>
         </div>
       ) : (

@@ -59,11 +59,7 @@ class EditBank extends Component {
     const config = {
       headers: { "content-type": "multipart/form-data" }
     };
-    Axios.post(
-      "https://api2.levincidemo.com/api/file?category=service",
-      formData,
-      config
-    )
+    Axios.post(URL + "/file?category=service", formData, config)
       .then(res => {
         this.setState({ fileId: res.data.data.fileId });
       })
