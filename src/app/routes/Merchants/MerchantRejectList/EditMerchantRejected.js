@@ -24,25 +24,41 @@ class EditMerchantRejected extends Component {
     super(props);
     this.state = {
       edit: false,
-      businessName: "",
-      email: "",
-      cellphone: "",
+      emailContact: "",
+      legalBusinessName: "",
+      tax: "",
       address: "",
       city: "",
-      stateId: ""
+      stateId: "",
+      phoneBusiness: "",
+      zip: "",
+      phoneContact: "",
+      firstName: "",
+      lastName: "",
+      title: "",
+      doBusinessName: ""
     };
   }
 
   componentDidMount = () => {
     const data = this.props.MerchantProfile;
-    this.setState({
-      businessName: data.businessName,
-      email: data.email,
-      cellphone: data.cellPhone,
-      address: data.address,
-      city: data.city,
-      stateId: data.stateId
-    });
+    if (data.general !== null) {
+      this.setState({
+        emailContact: data.general.emailContact,
+        legalBusinessName: data.general.legalBusinessName,
+        tax: data.general.tax,
+        address: data.general.address,
+        city: data.general.city,
+        stateId: data.general.stateId,
+        phoneBusiness: data.general.phoneBusiness,
+        zip: data.general.zip,
+        phoneContact: data.general.phoneContact,
+        firstName: data.general.firstName,
+        lastName: data.general.lastName,
+        title: data.general.title,
+        doBusinessName: data.general.doBusinessName
+      });
+    }
   };
 
   _handleChange = event => {
@@ -58,33 +74,53 @@ class EditMerchantRejected extends Component {
   };
 
   _update = () => {
-    const ID = this.props.MerchantProfile.merchantId;
+    const ID = this.props.MerchantProfile.general.generalId;
+    const IDMerchant = this.props.MerchantProfile.merchantId;
     const {
-      businessName,
-      email,
-      cellphone,
+      emailContact,
+      legalBusinessName,
+      doBusinessName,
+      tax,
       address,
       city,
-      stateId
+      stateId,
+      phoneBusiness,
+      zip,
+      phoneContact,
+      firstName,
+      lastName,
+      title
     } = this.state;
+
     const payload = {
       ID,
-      businessName,
-      email,
-      cellphone,
+      emailContact,
+      legalBusinessName,
+      doBusinessName,
+      tax,
       address,
       city,
-      stateId
+      stateId,
+      phoneBusiness,
+      zip,
+      phoneContact,
+      firstName,
+      lastName,
+      title
     };
     this.props.updateMerchant(payload);
     setTimeout(() => {
-      this.props.GetMerchant_byID(ID);
+      this.props.GetMerchant_byID(IDMerchant);
     }, 1000);
   };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.UpdateStatus !== this.props.UpdateStatus) {
-      NotificationManager.success(this.props.UpdateStatus.Data.message);
+      NotificationManager.success(
+        this.props.UpdateStatus.Data.message,
+        null,
+        600
+      );
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
       this.props.ViewMerchant_Rejected_Merchants(this.props.getMerchant.Data);
@@ -94,7 +130,9 @@ class EditMerchantRejected extends Component {
   }
 
   render() {
+    console.log("THIS STATE", this.state);
     const e = this.props.MerchantProfile;
+    console.log("YEET", e);
     const renderEdit =
       e.merchantId !== undefined ? (
         <div className="content GeneralContent react-transition swipe-right">
@@ -106,53 +144,115 @@ class EditMerchantRejected extends Component {
             <h2>General Information</h2>
             <div className="container">
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <h4>Legal Business Name*</h4>
                   <input
-                    name="businessName"
-                    value={this.state.businessName}
+                    name="legalBusinessName"
+                    value={this.state.legalBusinessName}
                     onChange={this._handleChange}
                   ></input>
                 </div>
-                <div className="col-md-6">
-                  <h4>Phone*</h4>
+                <div className="col-md-4">
+                  <h4>Doing Business As (DBA)*</h4>
                   <input
-                    name="cellphone"
-                    value={this.state.cellphone}
+                    name="doBusinessName"
+                    value={this.state.doBusinessName}
                     onChange={this._handleChange}
+                    // disabled
                   ></input>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
+                  <h4>Federal Tax ID*</h4>
+                  <input
+                    name="tax"
+                    value={this.state.tax}
+                    onChange={this._handleChange}
+                    // disabled
+                  ></input>
+                </div>
+                <div className="col-md-4">
                   <h4>Address*</h4>
                   <input
                     name="address"
                     value={this.state.address}
                     onChange={this._handleChange}
+                    // disabled
                   ></input>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <h4>City*</h4>
                   <input
                     name="city"
                     value={this.state.city}
                     onChange={this._handleChange}
+                    // disabled
                   ></input>
                 </div>
-                <div className="col-md-6">
-                  <h4>State*</h4>
+                <div className="col-md-4">
+                  <h4>State ID*</h4>
                   <input
                     name="stateId"
                     value={this.state.stateId}
                     onChange={this._handleChange}
                   ></input>
                 </div>
-                {/* <hr /> */}
-                <div className="col-md-6">
-                  <h4>Contact Email Address*</h4>
+                <div className="col-md-4">
+                  <h4>Business Phone*</h4>
                   <input
-                    name="email"
-                    value={this.state.email}
+                    name="phoneBusiness"
+                    value={this.state.phoneBusiness}
                     onChange={this._handleChange}
+                  ></input>
+                </div>
+                <div className="col-md-4">
+                  <h4>Zip*</h4>
+                  <input
+                    name="zip"
+                    value={this.state.zip}
+                    onChange={this._handleChange}
+                  ></input>
+                </div>
+                <div className="col-md-4">
+                  <h4>Email Contact*</h4>
+                  <input
+                    name="emailContact"
+                    value={this.state.emailContact}
+                    onChange={this._handleChange}
+                  ></input>
+                </div>
+              </div>
+              <h2>Representative Information</h2>
+              <div className="row">
+                <div className="col-md-4">
+                  <h4>Contact Name*</h4>
+                  <input
+                    name="firstName"
+                    value={this.state.firstName}
+                    onChange={this._handleChange}
+                    placeholder="First name"
+                  ></input>
+                  <input
+                    name="lastName"
+                    value={this.state.lastName}
+                    onChange={this._handleChange}
+                    placeholder="Last name"
+                  ></input>
+                </div>
+                <div className="col-md-4">
+                  <h4>Title/Position*</h4>
+                  <input
+                    name="title"
+                    value={this.state.title}
+                    onChange={this._handleChange}
+                  ></input>
+                </div>
+                <div className="col-md-4">
+                  <h4>Contact Phone Number*</h4>
+                  <input
+                    name="phoneContact"
+                    value={this.state.phoneContact}
+                    onChange={this._handleChange}
+                    type="number"
                   ></input>
                 </div>
               </div>

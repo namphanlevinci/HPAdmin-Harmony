@@ -93,7 +93,8 @@ class addAdmin extends Component {
       stateID: undefined,
       BirthDate: undefined,
       roles: undefined,
-      phone: ""
+      phone: "",
+      fileId: ""
     };
   }
 
@@ -120,7 +121,8 @@ class addAdmin extends Component {
         city,
         zip,
         BirthDate,
-        phone
+        phone,
+        fileId
       } = this.state;
       const fullname = `${firstname} ${lastname}`;
       const Data = {
@@ -135,7 +137,8 @@ class addAdmin extends Component {
         zip,
         BirthDate,
         fullname,
-        phone
+        phone,
+        fileId
       };
       this.props.addAdmin(Data);
     }

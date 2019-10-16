@@ -6,6 +6,8 @@ export const upfileUrl =
 //! PRODUCT
 // const URL = "https://hp-website.azurewebsites.net/api";
 // export const SignalURL = "https://hp-website.azurewebsites.net";
+// export const upfileUrl =
+//   "https://api2.levincidemo.com/api/file?category=product";
 //! TEST PRODUCT
 // const URL = "https://hp-admin-web.azurewebsites.net/api";
 // export const SignalURL = "https://hp-admin-web.azurewebsites.net";

@@ -247,9 +247,10 @@ class General extends Component {
             <div className="col-md-4">
               <h4>Contact Phone Number*</h4>
               <input
-                name="email"
+                name="phoneContact"
                 value={this.state.phoneContact}
                 onChange={this._handleChange}
+                type="number"
               ></input>
             </div>
           </div>

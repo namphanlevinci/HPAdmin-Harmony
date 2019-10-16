@@ -74,6 +74,7 @@ class MerchantRejectedProfile extends Component {
       }
     render() { 
         const e = this.props.RejectedProfile
+        console.log('E', e)
         //!! render questions
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (
@@ -101,7 +102,7 @@ class MerchantRejectedProfile extends Component {
                             <div className="container requestStatus">
                                 <div className="title" style={{color: 'white'}}>REJECTED</div>
                                 <h4>By {e.adminUser !== null ? e.adminUser.first_name + ' ' + e.adminUser.last_name : null}</h4>
-                                <h4>Date/Time: {e.adminUser !== null ? moment(e.adminUser.created_date).format('HH:mm A - DD/MM/YYYY') : null}</h4>
+                                <h4>Date/Time: {e.adminUser !== null ? moment.utc(e.adminUser.created_date).local().format('MM/DD/YYYY - HH:mm A') : null}</h4>
                                 <h4 style={{fontWeight: 600}}>Reason:</h4>
                                 <p>{e.reason}</p>
                             </div>
@@ -143,15 +144,15 @@ class MerchantRejectedProfile extends Component {
                                 <div className="row">
                                 <div className="col-md-4">
                                         <h4>Contact Name*</h4>
-                                        <p>{e.principals !== null ? e.principals.firstName + ' ' + e.principals.lastName : null}</p>
+                                        <p>{e.general !== null ? e.general.firstName + ' ' + e.general.lastName : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Title/Position*</h4>
-                                        <p>{e.principals !== null ? e.principals.title : null}</p>
+                                        <p>{e.general !== null ? e.general.title : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Contact Phone Number*</h4>
-                                        <p>{e.principals !== null ? e.principals.mobilePhone : null}</p>
+                                        <p>{e.general !== null ? e.general.phoneContact : null}</p>
                                     </div>
                                 </div>
                             <h2>Business Information</h2>

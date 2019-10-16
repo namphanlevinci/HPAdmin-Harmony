@@ -80,7 +80,7 @@ class MerchantReqProfile extends Component {
       }
     render() { 
         const e = this.props.PendingProfile
-        // console.log('EEEEEEEEEEEEEEEEEE', e)
+        console.log('is it', e)
         //render question
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (
@@ -241,18 +241,18 @@ class MerchantReqProfile extends Component {
                                     </div>
                                     </div>
                             <h2>Representative Information</h2>
-                                <div className="row">
-                                    <div className="col-md-4">
+                            <div className="row">
+                                <div className="col-md-4">
                                         <h4>Contact Name*</h4>
-                                        <p>{e.principals !== null ? e.principals.firstName + ' ' + e.principals.lastName : null}</p>
+                                        <p>{e.general !== null ? e.general.firstName + ' ' + e.general.lastName : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Title/Position*</h4>
-                                        <p>{e.principals !== null ? e.principals.title : null}</p>
+                                        <p>{e.general !== null ? e.general.title : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Contact Phone Number*</h4>
-                                        <p>{e.principals !== null ? e.principals.mobilePhone : null}</p>
+                                        <p>{e.general !== null ? e.general.phoneContact : null}</p>
                                     </div>
                                 </div>
                             <h2>Business Information</h2>

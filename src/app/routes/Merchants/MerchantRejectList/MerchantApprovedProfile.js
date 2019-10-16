@@ -77,9 +77,10 @@ class MerchantApprovedProfile extends Component {
               <h4>
                 Date/Time:{" "}
                 {e.adminUser !== null
-                  ? moment(e.adminUser.created_date).format(
-                      "HH:mm A - DD/MM/YYYY"
-                    )
+                  ? moment
+                      .utc(e.adminUser.created_date)
+                      .local()
+                      .format("MM/DD/YYYY - HH:mm A ")
                   : null}
               </h4>
             </div>
@@ -124,20 +125,18 @@ class MerchantApprovedProfile extends Component {
                   <div className="col-md-4">
                     <h4>Contact Name*</h4>
                     <p>
-                      {e.principals !== null
-                        ? e.principals.firstName + " " + e.principals.lastName
+                      {e.general !== null
+                        ? e.general.firstName + " " + e.general.lastName
                         : null}
                     </p>
                   </div>
                   <div className="col-md-4">
                     <h4>Title/Position*</h4>
-                    <p>{e.principals !== null ? e.principals.title : null}</p>
+                    <p>{e.general !== null ? e.general.title : null}</p>
                   </div>
                   <div className="col-md-4">
                     <h4>Contact Phone Number*</h4>
-                    <p>
-                      {e.principals !== null ? e.principals.mobilePhone : null}
-                    </p>
+                    <p>{e.general !== null ? e.general.phoneContact : null}</p>
                   </div>
                 </div>
                 <h2>Business Information</h2>
@@ -216,7 +215,9 @@ class MerchantApprovedProfile extends Component {
                     </div>
                     <div className="col-md-4">
                       <h4>Date of Birth (mm/dd/yy)*</h4>
-                      <p>{e.principals.birthDate}</p>
+                      <p>
+                        {moment(e.principals.birthDate).format("MM/DD/YYYY")}
+                      </p>
                     </div>
                     <div className="col-md-4">
                       <h4>Email Address*</h4>
