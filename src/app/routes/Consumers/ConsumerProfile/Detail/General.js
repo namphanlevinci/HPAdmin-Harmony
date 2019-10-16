@@ -4,22 +4,69 @@ import { Redirect } from "react-router-dom";
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
-import { NotificationContainer } from "react-notifications";
 import Button from "@material-ui/core/Button";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { ViewProfile_Merchants } from "../../../../../actions/merchants/actions";
+import Popup from "reactjs-popup";
+import axios from "axios";
+import URL from "../../../../../url/url";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
 
 class General extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      Token: "",
+      isOpenReject: false,
+      isOpenAccept: false
+    };
   }
+  handleOpenAccept = () => {
+    this.setState({ isOpenAccept: true });
+  };
 
+  handleCloseAccept = () => {
+    this.setState({ isOpenAccept: false });
+  };
+  handleOpenReject = () => {
+    this.setState({ isOpenReject: true });
+  };
+
+  handleCloseReject = () => {
+    this.setState({ isOpenReject: false });
+  };
   _goToEdit = () => {
     this.props.history.push("/app/consumers/profile/edit-general");
   };
-
+  _enable = () => {
+    const ID = this.props.MerchantProfile.userId;
+    let token = JSON.parse(this.state.Token);
+    const config = {
+      headers: { Authorization: "bearer " + token.token }
+    };
+    axios.put(URL + "/user/restore/" + ID, null, config).then(res => {
+      if (res.data.message === "Success") {
+        NotificationManager.success(res.data.message, null, 600);
+        setTimeout(() => {
+          axios.get(URL + "/user/" + ID, config).then(res => {
+            if (res.data.data !== null) {
+              this.props.ViewProfile_Merchants(res.data.data);
+              this.props.history.push("/app/consumers/profile/general");
+            }
+          });
+        }, 1500);
+      }
+    });
+  };
+  async componentDidMount() {
+    const Token = localStorage.getItem("User_login");
+    await this.setState({ Token: Token });
+  }
   render() {
     const e = this.props.MerchantProfile;
-    console.log("E", e);
     const renderGeneral =
       e.email !== undefined ? (
         <div className="react-transition swipe-right">
@@ -67,12 +114,6 @@ class General extends Component {
               />
             </div>
           </div>
-
-          <div className="SettingsContent GeneralContent">
-            <Button className="btn btn-green" onClick={this._goToEdit}>
-              EDIT
-            </Button>
-          </div>
         </div>
       ) : (
         <Redirect to="/app/consumers/list" />
@@ -81,6 +122,115 @@ class General extends Component {
       <div className="content GeneralContent">
         {renderGeneral}
         <NotificationContainer />
+        <div className="SettingsContent GeneralContent">
+          <Button className="btn btn-green" onClick={this._goToEdit}>
+            EDIT
+          </Button>
+          {e.isDisabled !== 1 ? (
+            <Popup
+              trigger={<Button className="btn btn-red">DISABLE</Button>}
+              modal
+              on="click"
+              open={this.state.isOpenReject}
+              onOpen={this.handleOpenReject}
+              closeOnDocumentClick
+            >
+              <span>
+                <Formik
+                  initialValues={{ rejectReason: "" }}
+                  validate={values => {
+                    let errors = {};
+                    if (!values.rejectReason) {
+                      errors.rejectReason = "Required";
+                    }
+                    return errors;
+                  }}
+                  onSubmit={(values, { setSubmitting }) => {
+                    const reason = values.rejectReason;
+                    const ID = this.props.MerchantProfile.userId;
+                    let token = JSON.parse(this.state.Token);
+                    const config = {
+                      headers: { Authorization: "bearer " + token.token }
+                    };
+                    axios
+                      .delete(URL + "/user/" + ID, {
+                        headers: {
+                          Authorization: `Bearer ${token.token}`
+                        },
+                        data: { reason }
+                      })
+                      .then(async res => {
+                        if (res.data.message === "Success") {
+                          NotificationManager.success(
+                            res.data.message,
+                            null,
+                            600
+                          );
+                          setTimeout(() => {
+                            axios.get(URL + "/user/" + ID, config).then(res => {
+                              if (res.data.data !== null) {
+                                this.props.ViewProfile_Merchants(res.data.data);
+                                this.props.history.push(
+                                  "/app/consumers/profile/general"
+                                );
+                              }
+                            });
+                          }, 1500);
+                        } else {
+                          NotificationManager.error(
+                            res.data.message,
+                            null,
+                            600
+                          );
+                        }
+                      });
+                  }}
+                >
+                  {({ values, _handleChange, isSubmitting }) => (
+                    <div className="rejectInput">
+                      <h2 className="title">
+                        Are you sure you want to disable this user?
+                      </h2>
+                      <Form>
+                        <Field
+                          type="textarea"
+                          name="rejectReason"
+                          component="textarea"
+                          placeholder="Please enter your reason."
+                        />
+                        <ErrorMessage name="rejectReason" component="div" />
+                        <div>
+                          <Button
+                            type="submit"
+                            className="btn btn-red"
+                            onClick={this.handleCloseReject}
+                          >
+                            BACK
+                          </Button>
+                          <Button
+                            type="submit"
+                            className="btn btn-green"
+                            onClick={this.onSubmit}
+                          >
+                            COMFIRM
+                          </Button>
+                        </div>
+                      </Form>
+                    </div>
+                  )}
+                </Formik>
+              </span>
+            </Popup>
+          ) : (
+            <Button
+              type="submit"
+              className="btn btn-green"
+              onClick={this._enable}
+            >
+              ENABLE
+            </Button>
+          )}
+        </div>
       </div>
     );
   }
@@ -90,5 +240,12 @@ const mapStateToProps = state => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User
 });
-
-export default connect(mapStateToProps)(General);
+const mapDispatchToProps = dispatch => ({
+  ViewProfile_Merchants: payload => {
+    dispatch(ViewProfile_Merchants(payload));
+  }
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(General);

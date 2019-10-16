@@ -85,7 +85,7 @@ class EditSettings extends Component {
       )
       .then(async res => {
         if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message);
+          NotificationManager.success(res.data.message, null, 600);
           setTimeout(() => {
             this.props.GetMerchant_byID(ID);
           }, 1000);

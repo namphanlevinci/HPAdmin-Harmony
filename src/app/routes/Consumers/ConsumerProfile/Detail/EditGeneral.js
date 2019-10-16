@@ -186,7 +186,10 @@ class EditGeneral extends Component {
       );
     return (
       <div className="content GeneralContent">
+        {/* REJECT BTN */}
+
         {renderGeneral}
+
         <NotificationContainer />
       </div>
     );

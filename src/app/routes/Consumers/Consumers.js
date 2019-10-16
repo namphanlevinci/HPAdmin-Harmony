@@ -90,6 +90,10 @@ class Consumers extends React.Component {
       {
         accessor: "stateName",
         show: false
+      },
+      {
+        accessor: "isDisabled",
+        show: false
       }
     ];
 

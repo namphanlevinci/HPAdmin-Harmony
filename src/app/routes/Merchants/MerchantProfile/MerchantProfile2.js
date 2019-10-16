@@ -18,7 +18,7 @@ import EditPrincipal from "./Detail/EditPrincipal";
 import Settings from "./Detail/Settings";
 import EditSettings from "./Detail/EditSettings";
 import Staff from "./Detail/Staff";
-// import Transactions from "./Detail/Transactions";
+import MerchantActi from "./Detail/Activity";
 class merchantProfile2 extends Component {
   constructor(props) {
     super(props);
@@ -81,14 +81,14 @@ class merchantProfile2 extends Component {
                           Staff
                         </NavLink>
                       </li>
-                      {/* <li>
-                        <NavLink to="/app/merchants/merchant-profile/transactions">
-                          Transactions
-                        </NavLink>
-                      </li> */}
                       <li>
                         <NavLink to="/app/merchants/merchant-profile/merchant-settings">
                           Settings
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/app/merchants/merchant-profile/activities">
+                          Activities
                         </NavLink>
                       </li>
                     </ul>
@@ -125,10 +125,10 @@ class merchantProfile2 extends Component {
                         path="/app/merchants/merchant-profile/staff"
                         component={Staff}
                       />
-                      {/* <Route
-                        path="/app/merchants/merchant-profile/transactions"
-                        component={Transactions}
-                      /> */}
+                      <Route
+                        path="/app/merchants/merchant-profile/activities"
+                        component={MerchantActi}
+                      />
                       <Route
                         path="/app/merchants/merchant-profile/merchant-settings"
                         component={Settings}

@@ -130,9 +130,7 @@ class EditMerchantRejected extends Component {
   }
 
   render() {
-    console.log("THIS STATE", this.state);
     const e = this.props.MerchantProfile;
-    console.log("YEET", e);
     const renderEdit =
       e.merchantId !== undefined ? (
         <div className="content GeneralContent react-transition swipe-right">

@@ -74,7 +74,6 @@ class MerchantRejectedProfile extends Component {
       }
     render() { 
         const e = this.props.RejectedProfile
-        console.log('E', e)
         //!! render questions
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (

@@ -250,7 +250,6 @@ class General extends Component {
                 name="phoneContact"
                 value={this.state.phoneContact}
                 onChange={this._handleChange}
-                type="number"
               ></input>
             </div>
           </div>
