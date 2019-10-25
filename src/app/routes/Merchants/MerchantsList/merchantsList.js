@@ -9,6 +9,8 @@ import "./merchantsList.css";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import ReactTable from "react-table";
+import SearchIcon from "@material-ui/icons/Search";
+
 import "react-table/react-table.css";
 
 class MerchantsList extends React.Component {
@@ -117,7 +119,7 @@ class MerchantsList extends React.Component {
             {/* SEARCH */}
             <div className="search">
               <form>
-                <input title="Search" value="" className="button" readOnly />
+                <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
                   className="textbox"

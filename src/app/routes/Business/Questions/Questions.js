@@ -61,10 +61,10 @@ class Questions extends Component {
     if (nextProps.uQuestions !== this.props.uQuestions) {
       if (this.props.uQuestions.message === "Success") {
         this.props.getAll_Questions();
-        NotificationManager.success(this.props.uQuestions.message);
+        NotificationManager.success(this.props.uQuestions.message, null, 800);
         this.setState({ edit: false });
       } else {
-        NotificationManager.error(this.props.uQuestions.message);
+        NotificationManager.error(this.props.uQuestions.message, null, 800);
       }
     }
   }

@@ -92,11 +92,11 @@ class SMTP extends Component {
     )
       .then(res => {
         // console.log('res', res)
-        NotificationManager.success(res.data.message);
+        NotificationManager.success(res.data.message, null, 800);
       })
       .catch(error => {
         console.log("ERROR", error);
-        NotificationManager.error(error.data.message);
+        NotificationManager.error(error.data.message, null, 800);
       });
   };
   render() {

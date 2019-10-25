@@ -98,10 +98,6 @@ class EditUserProfile extends Component {
       });
   };
 
-  handleChange = selectedOption => {
-    this.setState({ waRoleId: selectedOption.value });
-  };
-
   handleDateChange = date => {
     // setSelectedDate(date);
     this.setState({ birthDate: date });
@@ -112,6 +108,7 @@ class EditUserProfile extends Component {
     const config = {
       headers: { Authorization: "bearer " + token.token }
     };
+    const waRoleId = this.state.waRoleId.value;
     const {
       firstName,
       lastName,
@@ -121,7 +118,6 @@ class EditUserProfile extends Component {
       city,
       zip,
       password,
-      waRoleId,
       phone,
       stateId,
       fileId
@@ -147,7 +143,7 @@ class EditUserProfile extends Component {
       )
       .then(async res => {
         if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message);
+          NotificationManager.success(res.data.message, null, 800);
           await axios
             .get(URL + "/adminuser/" + ID, config)
             .then(res => {
@@ -184,7 +180,7 @@ class EditUserProfile extends Component {
       .delete(URL + "/adminuser/" + ID, config)
       .then(res => {
         // console.log(res);
-        NotificationManager.success(res.data.message);
+        NotificationManager.success(res.data.message, null, 800);
       })
       .catch(error => {
         console.log("error", error);
@@ -198,10 +194,10 @@ class EditUserProfile extends Component {
       headers: { Authorization: "bearer " + token.token }
     };
     axios
-      .put(URL + "/enable/" + ID, config)
+      .put(URL + "/adminuser/enable/" + ID, null, config)
       .then(res => {
         // console.log(res);
-        NotificationManager.success(res.data.message);
+        NotificationManager.success(res.data.message, null, 800);
       })
       .catch(error => {
         console.log("error", error);
@@ -255,8 +251,9 @@ class EditUserProfile extends Component {
               <p>
                 Role:
                 <Select
-                  value={this.state.defaultValue.value}
-                  onChange={this.handleChange}
+                  value={this.state.waRoleId}
+                  onChange={value => this.setState({ waRoleId: value })}
+                  // defaultValue={this.state.waRoleId}
                   options={options}
                 />
               </p>

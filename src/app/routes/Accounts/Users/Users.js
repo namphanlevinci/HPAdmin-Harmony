@@ -11,6 +11,7 @@ import "./User.css";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Button from "@material-ui/core/Button";
+import SearchIcon from "@material-ui/icons/Search";
 
 class Users extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class Users extends Component {
     this.props.history.push("/app/accounts/admin-user-profile");
   };
   addAdmin = () => {
-    this.props.history.push("/app/accounts/add-Admin");
+    this.props.history.push("/app/accounts/add-admin-user");
   };
   render() {
     const columns = [
@@ -107,7 +108,7 @@ class Users extends Component {
             {/* SEARCH */}
             <div className="search">
               <form>
-                <input title="Search" value="" className="button" readOnly />
+                <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
                   className="textbox"

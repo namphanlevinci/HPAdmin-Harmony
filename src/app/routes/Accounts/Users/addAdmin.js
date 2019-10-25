@@ -94,7 +94,7 @@ class addAdmin extends Component {
       BirthDate: undefined,
       roles: undefined,
       phone: "",
-      fileId: ""
+      fileId: 0
     };
   }
 
@@ -153,6 +153,9 @@ class addAdmin extends Component {
       } else {
         NotificationManager.success(Message);
         setTimeout(() => localStorage.removeItem("ADD_STATUS"), 1000);
+        setTimeout(() =>
+          this.props.history.push("/app/accounts/admin-users", 500)
+        );
         this.setState({
           firstname: "",
           lastname: "",
@@ -164,7 +167,8 @@ class addAdmin extends Component {
           stateID: undefined,
           BirthDate: undefined,
           roles: undefined,
-          phone: ""
+          phone: "",
+          fileId: null
         });
       }
     }
@@ -175,7 +179,7 @@ class addAdmin extends Component {
         <NotificationContainer />
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
+          title={<IntlMessages id="sidebar.dashboard.addAdmin" />}
         />
         <div className="login-content text-center">
           <div className="mb-4">

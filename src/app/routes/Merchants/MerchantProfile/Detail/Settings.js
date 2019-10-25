@@ -77,7 +77,7 @@ class Settings extends Component {
       })
       .then(res => {
         if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message, null, 600);
+          NotificationManager.success(res.data.message, null, 800);
           setTimeout(() => {
             this.props.GetMerchant_byID(ID);
           }, 1000);
@@ -121,7 +121,7 @@ class Settings extends Component {
                       </td>
                       <td>
                         <input
-                          type="password"
+                          type="text"
                           name="merchantCode"
                           value={this.state.merchantCode}
                           onChange={this._handleChange}
@@ -204,7 +204,7 @@ class Settings extends Component {
                           NotificationManager.success(
                             res.data.message,
                             null,
-                            600
+                            800
                           );
                           setTimeout(() => {
                             this.props.GetMerchant_byID(ID);
@@ -221,7 +221,7 @@ class Settings extends Component {
                           NotificationManager.error(
                             res.data.message,
                             null,
-                            600
+                            800
                           );
                         }
                       });

@@ -90,12 +90,12 @@ class General extends Component {
       }
     )
       .then(res => {
-        NotificationManager.success(res.data.message);
+        NotificationManager.success(res.data.message, null, 800);
         // console.log('UPDATE', res)
       })
       .catch(error => {
         console.log("ERROR", error);
-        NotificationManager.error(error.data.message);
+        NotificationManager.error(error.data.message, null, 800);
       });
   };
   render() {

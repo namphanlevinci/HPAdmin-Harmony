@@ -15,7 +15,6 @@ class Bank extends Component {
   };
   render() {
     const e = this.props.MerchantProfile;
-
     const renderOldImg =
       e.businessBank !== null ? (
         e.businessBank.imageUrlOldFiles !== null ? (

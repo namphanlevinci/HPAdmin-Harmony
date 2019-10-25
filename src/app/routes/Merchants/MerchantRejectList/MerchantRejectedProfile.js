@@ -48,9 +48,9 @@ class MerchantRejectedProfile extends Component {
           }
         }).then(async res => {
             if (res.data.message === "Success") {
-              NotificationManager.success(res.data.message);
+              NotificationManager.success(res.data.message, null , 800);
             } else {
-              NotificationManager.error("Something went wrong, please try again.");
+              NotificationManager.error("Something went wrong, please try again.", null, 800);
             }
           });
     }
@@ -203,10 +203,10 @@ class MerchantRejectedProfile extends Component {
                                             <h4>Address*</h4>
                                             <p>{e.principals !== null ? e.principals.address : null}</p>
                                         </div>
-                                        <div className="col-md-4">
+                                        {/* <div className="col-md-4">
                                             <h4>Years at This Address*</h4>
                                             <p>{e.principals !== null ? e.principals.yearAddress : null}</p>
-                                        </div>
+                                        </div> */}
                                         <div className="col-md-4">
                                             <h4>Social Security Number (SSN)*</h4>
                                             <p>{e.principals !== null ? e.principals.ssn : null}</p>
@@ -225,9 +225,9 @@ class MerchantRejectedProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>State Issued*</h4>
-                                            <p>{e.principals !== null ? e.principals.stateId : null}</p>
+                                            <p>{e.state !== null ? e.state.name : null}</p>
                                         </div>
-                                        <div className="col-md-4">
+                                        <div className="col-md-6">
                                             <h4>Driver License Picture</h4>
                                             {e.principals !== null ? <img style={{width: '300px'}} src={`${e.principals.imageUrl}`} alt="void check"/> : null }
                                         </div>

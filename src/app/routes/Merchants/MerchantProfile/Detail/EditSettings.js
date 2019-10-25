@@ -85,7 +85,7 @@ class EditSettings extends Component {
       )
       .then(async res => {
         if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message, null, 600);
+          NotificationManager.success(res.data.message, null, 800);
           setTimeout(() => {
             this.props.GetMerchant_byID(ID);
           }, 1000);
@@ -96,7 +96,11 @@ class EditSettings extends Component {
             );
           }, 1500);
         } else {
-          NotificationManager.error("Something went wrong, please try again.");
+          NotificationManager.error(
+            "Something went wrong, please try again.",
+            null,
+            800
+          );
         }
       });
   };
@@ -187,35 +191,8 @@ class EditSettings extends Component {
                 </tbody>
               </table>
             </div>
-            {/* <div> */}
-            {/* <Button className="btn btn-green" onClick={this._toggleConfirm}>
-                UPDATE
-              </Button> */}
-            {/* </div> */}
             <br />
           </div>
-          {/* <h3>Daily transactions limit (unit $)</h3>
-          <label>
-            The HarmonyPay system will alert any user and pervent any use
-            involved monetary transfer or transfers that are:
-          </label>
-          <label>
-            a) More than $10,000 in total from either cash-in or cash-out.
-          </label>
-          <br />
-          <label>b) Is conducted by the same person.</label>
-          <br />
-          <label>c) Is conducted on the same business day.</label>
-          <br />
-          <div className="input-group">
-            <input
-              type="number"
-              className="col-4 form-control"
-              name="totalAmountLimit"
-              value={this.state.totalAmountLimit}
-              onChange={this._handleChange}
-            />
-          </div> */}
         </div>
         <div className="SettingsContent GeneralContent">
           <Button className="btn btn-green" onClick={this._updateSettings}>

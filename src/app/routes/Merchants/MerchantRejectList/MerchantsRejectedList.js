@@ -10,6 +10,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
+import SearchIcon from "@material-ui/icons/Search";
 
 class MerchantsRequest extends Component {
   constructor(props) {
@@ -116,7 +117,7 @@ class MerchantsRequest extends Component {
             {/* SEARCH */}
             <div className="search">
               <form>
-                <input title="Search" value="" className="button" readOnly />
+                <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
                   className="textbox"

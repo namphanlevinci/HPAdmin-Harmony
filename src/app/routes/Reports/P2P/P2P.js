@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
+import SearchIcon from "@material-ui/icons/Search";
 
 class P2P extends React.Component {
   constructor(props) {
@@ -188,7 +189,7 @@ class P2P extends React.Component {
             {/* SEARCH */}
             <div className="search">
               <form>
-                <input title="Search" value="" className="button" readOnly />
+                <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
                   className="textbox"

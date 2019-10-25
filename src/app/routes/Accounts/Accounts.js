@@ -22,13 +22,17 @@ const Accounts = ({ match }) => (
         path={`${match.url}/admin-user-profile`}
         component={asyncComponent(() => import("./Users/UserProfile"))}
       />
-      <Route
+      {/* <Route
         path={`${match.url}/add-Admin`}
         component={asyncComponent(() => import("./Users/addAdmin"))}
-      />
+      /> */}
       <Route
         path={`${match.url}/edit-admin-profile`}
         component={asyncComponent(() => import("./Users/EditUserProfile"))}
+      />
+      <Route
+        path={`${match.url}/add-admin-user`}
+        component={asyncComponent(() => import("./Users/addAdmin2"))}
       />
     </Switch>
   </div>

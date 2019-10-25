@@ -13,6 +13,7 @@ import "./Batch.css";
 import moment from "moment";
 import "../Transactions/Transactions.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
+import SearchIcon from "@material-ui/icons/Search";
 
 class Transactions extends React.Component {
   constructor(props) {
@@ -160,7 +161,7 @@ class Transactions extends React.Component {
           <div className="MReqSP TransactionsBox">
             <div className="BatchSearch">
               <form>
-                <input title="Search" value="" className="button" readOnly />
+                <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
                   className="textbox"

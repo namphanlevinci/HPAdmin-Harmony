@@ -10,6 +10,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./ConsumerProfile/Detail/Consumer.css";
 import ProgressLoading from "../../../util/progress";
+import SearchIcon from "@material-ui/icons/Search";
 
 class Consumers extends React.Component {
   constructor(props) {
@@ -138,7 +139,7 @@ class Consumers extends React.Component {
               {/* SEARCH */}
               <div className="search">
                 <form>
-                  <input title="Search" value="" className="button" readOnly />
+                  <SearchIcon className="button" title="Search" />
                   <input
                     type="text"
                     className="textbox"

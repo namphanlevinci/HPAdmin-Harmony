@@ -16,6 +16,7 @@ class UserProfile extends Component {
   };
   render() {
     const e = this.props.UserProfile;
+    console.log(e);
     const renderProfile =
       e.waUserId !== undefined ? (
         <div className="row justify-content-md-center AdminProfile">

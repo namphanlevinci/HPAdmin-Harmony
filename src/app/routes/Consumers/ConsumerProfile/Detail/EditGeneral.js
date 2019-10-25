@@ -70,7 +70,7 @@ class EditGeneral extends Component {
       )
       .then(async res => {
         if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message);
+          NotificationManager.success(res.data.message, null, 800);
           setTimeout(() => {
             axios.get(URL + "/user/" + this.state.ID, config).then(res => {
               if (res.data.data !== null) {
@@ -80,7 +80,7 @@ class EditGeneral extends Component {
             });
           }, 1500);
         } else {
-          NotificationManager.error(res.data.message);
+          NotificationManager.error(res.data.message, null, 800);
         }
       });
   };

@@ -59,11 +59,11 @@ class MerchantReqProfile extends Component {
       componentWillReceiveProps(nextProps) {
           if (nextProps.ApprovalStatus !== this.props.ApprovalStatus) {
             this.props.getAll_Merchants()
-            if (nextProps.ApprovalStatus.message  === "Merchant MID is exist!") {
-                NotificationManager.error("MERCHANT MID IS ALREADY EXIST!")
+            if (nextProps.ApprovalStatus.message  === "Merchant code is exist!") {
+                NotificationManager.error("MERCHANT ID IS ALREADY EXIST!", null, 800)
             } else {
                 this.setState({showPopupAccept: false})
-                NotificationManager.success('SUCCESS');
+                NotificationManager.success('SUCCESS', null, 800);
                 setTimeout(() => {
                     this.props.history.push('/app/merchants/pending-request')
                 }, 1000)
@@ -72,7 +72,7 @@ class MerchantReqProfile extends Component {
           if (nextProps.RejectStatus !== this.props.RejectStatus) {
             this.props.getAll_Merchants()
             this.setState({showPopupReject: false})
-            NotificationManager.success('SUCCESS');
+            NotificationManager.success('SUCCESS', null, 800);
             setTimeout(() => {
                 this.props.history.push('/app/merchants/pending-request')
             }, 1000)
@@ -80,6 +80,7 @@ class MerchantReqProfile extends Component {
       }
     render() { 
         const e = this.props.PendingProfile
+        console.log(e)
         //render question
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (
@@ -303,10 +304,10 @@ class MerchantReqProfile extends Component {
                                             <h4>Address*</h4>
                                             <p>{e.principals !== null ? e.principals.address : null}</p>
                                         </div>
-                                        <div className="col-md-4">
+                                        {/* <div className="col-md-4">
                                             <h4>Years at This Address*</h4>
                                             <p>{e.principals !== null ? e.principals.yearAddress : null}</p>
-                                        </div>
+                                        </div> */}
                                         <div className="col-md-4">
                                             <h4>Social Security Number (SSN)*</h4>
                                             <p>{e.principals !== null ? e.principals.ssn : null }</p>
@@ -325,9 +326,9 @@ class MerchantReqProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>State Issued*</h4>
-                                            <p>{e.principals !== null ? e.principals.stateId : null}</p>
+                                            <p>{e.state !== null ? e.state.name : null}</p>
                                         </div>
-                                        <div className="col-md-4">
+                                        <div className="col-md-6">
                                             <h4>Driver License Picture</h4>
                                             {e.principals !== null ? <img style={{width: '250px', height: '200px'}}  src={`${e.principals.imageUrl}`} alt="void check" /> : null}
                                         </div>

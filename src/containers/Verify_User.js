@@ -22,7 +22,7 @@ class Verify_User extends React.Component {
       const Message = localStorage.getItem("VERIFY_ERROR");
       // console.log("Message", Message);
       if (Message !== null) {
-        NotificationManager.error(Message);
+        NotificationManager.error(Message, null, 800);
         setTimeout(() => localStorage.removeItem("VERIFY_ERROR"), 1000);
       }
     }

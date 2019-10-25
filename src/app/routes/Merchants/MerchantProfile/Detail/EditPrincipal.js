@@ -96,7 +96,7 @@ class EditPrincipal extends Component {
     )
       .then(res => {
         if (res.data.message === "Update pricipal completed") {
-          NotificationManager.success("Success");
+          NotificationManager.success("Success", null, 800);
           setTimeout(() => {
             this.props.GetMerchant_byID(IDMerchant);
           }, 1500);

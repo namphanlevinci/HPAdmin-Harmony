@@ -205,10 +205,10 @@ class MerchantApprovedProfile extends Component {
                       <h4>Address*</h4>
                       <p>{e.principals.address}</p>
                     </div>
-                    <div className="col-md-4">
+                    {/* <div className="col-md-4">
                       <h4>Years at This Address*</h4>
                       <p>{e.principals.yearAddress}</p>
-                    </div>
+                    </div> */}
                     <div className="col-md-4">
                       <h4>Social Security Number (SSN)*</h4>
                       <p>{e.principals.ssn}</p>
@@ -231,9 +231,9 @@ class MerchantApprovedProfile extends Component {
                     </div>
                     <div className="col-md-4">
                       <h4>State Issued*</h4>
-                      <p>{e.principals.stateId}</p>
+                      <p>{e.state !== null ? e.state.name : null}</p>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                       <h4>Driver License Picture</h4>
                       {e.principals !== null ? (
                         <img

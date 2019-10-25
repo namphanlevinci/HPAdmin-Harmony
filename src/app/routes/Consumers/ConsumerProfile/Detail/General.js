@@ -49,7 +49,7 @@ class General extends Component {
     };
     axios.put(URL + "/user/restore/" + ID, null, config).then(res => {
       if (res.data.message === "Success") {
-        NotificationManager.success(res.data.message, null, 600);
+        NotificationManager.success(res.data.message, null, 800);
         setTimeout(() => {
           axios.get(URL + "/user/" + ID, config).then(res => {
             if (res.data.data !== null) {
@@ -164,7 +164,7 @@ class General extends Component {
                           NotificationManager.success(
                             res.data.message,
                             null,
-                            600
+                            800
                           );
                           setTimeout(() => {
                             axios.get(URL + "/user/" + ID, config).then(res => {
@@ -180,7 +180,7 @@ class General extends Component {
                           NotificationManager.error(
                             res.data.message,
                             null,
-                            600
+                            800
                           );
                         }
                       });

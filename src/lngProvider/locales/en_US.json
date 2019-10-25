@@ -586,6 +586,7 @@
   "sidebar.dashboard.dashboard": "Dashboard",
   "sidebar.dashboard.adminUsers": "Admin Users",
   "sidebar.dashboard.adminUserProfile": "Admin User Profile",
+  "sidebar.dashboard.addAdmin": "Add new user",
   "sidebar.dashboard.userProfile": "User Profile",
   "sidebar.dashboard.roles": "Roles",
   "sidebar.dashboard.accounts": "Accounts",

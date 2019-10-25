@@ -47,7 +47,7 @@ class SignIn extends React.Component {
     const Message = localStorage.getItem("Message");
     this.setState({ loading: false, isRight: true });
     if (Message !== null) {
-      NotificationManager.error(Message);
+      NotificationManager.error(Message, null, 800);
       setTimeout(() => localStorage.removeItem("Message"), 1000);
     }
   }

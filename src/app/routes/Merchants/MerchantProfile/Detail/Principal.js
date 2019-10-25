@@ -62,7 +62,7 @@ class Principal extends Component {
             </div>
             <div className="col-md-4">
               <h4>State Issued*</h4>
-              <p>{e.principals.stateId}</p>
+              <p>{e.state !== null ? e.state.name : null}</p>
             </div>
             <div className="col-md-12">
               <h4>Driver License Picture</h4>

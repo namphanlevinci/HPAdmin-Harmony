@@ -110,7 +110,11 @@ class General extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.UpdateStatus !== this.props.UpdateStatus) {
-      NotificationManager.success(this.props.UpdateStatus.Data.message);
+      NotificationManager.success(
+        this.props.UpdateStatus.Data.message,
+        null,
+        800
+      );
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
       this.props.ViewProfile_Merchants(this.props.getMerchant.Data);

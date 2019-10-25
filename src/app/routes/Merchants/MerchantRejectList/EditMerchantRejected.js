@@ -119,7 +119,7 @@ class EditMerchantRejected extends Component {
       NotificationManager.success(
         this.props.UpdateStatus.Data.message,
         null,
-        600
+        800
       );
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
