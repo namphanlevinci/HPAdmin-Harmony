@@ -21,24 +21,23 @@ class AppNotification extends Component {
     if (this.props.e !== undefined) {
       let Notidata = this.props.e;
       const renderNoti = Notidata.map(e => {
-        const { CreatedDate, WaNotificationId, Content } = e;
+        const { createdDate, waNotificationId, content } = e;
         const time = moment
-          .utc(CreatedDate)
+          .utc(createdDate)
           .local()
           .format("MM-DD-YYYY HH:mm A");
-
         return (
-          <li className="media" key={WaNotificationId}>
+          <li className="media" key={waNotificationId}>
             <Avatar alt={avatar} src={avatar} className=" mr-2" />
             <div
               style={{ cursor: "pointer" }}
               onClick={() => this.props.gotoList(e)}
               className="media-body align-self-center"
             >
-              <p className="sub-heading mb-0">{Content}</p>
+              <p className="sub-heading mb-0">{content}</p>
               <Button size="small" className="jr-btn jr-btn-xs mb-0">
                 <i className={`zmdi  zmdi-hc-fw`} />
-              </Button>{" "}
+              </Button>
               <span className="meta-date">
                 <small>{time}</small>
               </span>

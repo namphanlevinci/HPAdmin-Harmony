@@ -28,57 +28,78 @@ import {
   ViewMerchant_Request
 } from "../../actions/merchants/actions";
 // import playMessageAudio from "../../util/sound";
-import URL, { SignalURL } from "../../url/url";
+import URL from "../../url/url";
 class Header extends React.Component {
   //load signalR
   async componentDidMount() {
     const User = localStorage.getItem("User_login");
     await this.setState({ User: User });
-    let data = JSON.parse(this.state.User);
-    let ID = data.userAdmin;
-    let rID = ID.waUserId;
-    const signalR = require("@aspnet/signalr");
-    let connection = new signalR.HubConnectionBuilder()
-      .withUrl(SignalURL + "/notification/?title=Administrator&adminId=" + rID)
-      .build();
-    connection.start();
-    connection.on("ListWaNotification", data => {
-      if (data.length > 0) {
-        // playMessageAudio();
-        let newData = JSON.parse(data);
-        this.setState({ noti: newData.json, appNotificationIcon: false });
-      }
-    });
+    // let rID = ID.waUserId;
+    // const signalR = require("@aspnet/signalr");
+    // let connection = new signalR.HubConnectionBuilder()
+    //   .withUrl(SignalURL + "/notification/?title=Administrator&adminId=" + rID)
+    //   .build();
+    // connection.start();
+    // connection.on("ListWaNotification", data => {
+    //   if (data.length > 0) {
+    //     // playMessageAudio();
+    //     let newData = JSON.parse(data);
+    //     this.setState({ noti: newData.json, appNotificationIcon: false });
+    //   }
+    // });
+    await this.LoadNoti();
+    setInterval(this.LoadNoti, 180000);
   }
+
+  //GỌI API LOAD DATA NOTI TỪ SERVER MỖI 3'
+  LoadNoti = () => {
+    try {
+      const User = localStorage.getItem("User_login");
+      let token = JSON.parse(User);
+      const UserToken = token.token;
+      axios
+        .get(URL + "/notification", {
+          headers: { Authorization: `Bearer ${UserToken}` }
+        })
+        .then(res => {
+          this.setState({ noti: res.data.data });
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   gotoList = async e => {
     let data = JSON.parse(this.state.User);
     const UserToken = data.token;
     if (e.Type === "payment") {
       await axios
-        .get(URL + "/merchant/" + e.SenderId, {
+        .get(URL + "/merchant/" + e.senderId, {
           headers: { Authorization: `Bearer ${UserToken}` }
         })
         .then(async res => {
-          if (
-            res.data.data.isApproved === 0 &&
-            res.data.data.isRejected === 0
-          ) {
-            await this.setState({ appNotification: false });
-            await this.props.ViewMerchant_Request(res.data.data);
-            await this.props.history.push("/app/merchants/pending-profile");
-            this.handleDelete(e);
+          if (res.data.data !== null) {
+            if (
+              res.data.data.isApproved === 0 &&
+              res.data.data.isRejected === 0
+            ) {
+              await this.setState({ appNotification: false });
+              await this.props.ViewMerchant_Request(res.data.data);
+              await this.props.history.push("/app/merchants/pending-profile");
+              this.handleDelete(e);
+            } else {
+              this.handleDelete(e);
+            }
           } else {
             this.handleDelete(e);
           }
         });
     } else {
       axios
-        .get(URL + "/user/" + e.SenderId, {
+        .get(URL + "/user/" + e.senderId, {
           headers: { Authorization: `Bearer ${UserToken}` }
         })
         .then(async res => {
-          // console.log("res", res);
           await this.props.ViewProfile_Merchants(res.data.data);
           await this.setState({ appNotification: false });
           await this.props.history.push("/app/consumers/profile/general");
@@ -91,10 +112,10 @@ class Header extends React.Component {
     const UserToken = data.token;
     this.setState({
       noti: this.state.noti.filter(
-        el => el.WaNotificationId !== e.WaNotificationId
+        el => el.waNotificationId !== e.waNotificationId
       )
     });
-    const ID = e.WaNotificationId;
+    const ID = e.waNotificationId;
     axios
       .delete(URL + "/notification/" + ID, {
         headers: {

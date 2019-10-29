@@ -113,7 +113,6 @@ class addAdmin2 extends Component {
   };
 
   handleRoles = selectedOption => {
-    console.log(selectedOption);
     this.setState({ roles: selectedOption.value });
   };
   handleState = selectedOption => {
@@ -206,7 +205,6 @@ class addAdmin2 extends Component {
     }
   }
   render() {
-    console.log("THIS.STATE", this.state);
     const renderProfile = (
       <div className="row justify-content-md-center AdminProfile">
         <div className="col-md-4 text-center">
