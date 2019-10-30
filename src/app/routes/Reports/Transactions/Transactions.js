@@ -200,7 +200,7 @@ class Transactions extends React.Component {
         id: "Amount",
         Header: "Amount",
         accessor: e => e.amount,
-        Cell: e => <span className="">${e.value}</span>
+        Cell: e => <span className="">${parseInt(e.value) / 100}</span>
       },
       {
         Header: "IP",

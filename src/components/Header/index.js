@@ -62,7 +62,7 @@ class Header extends React.Component {
           headers: { Authorization: `Bearer ${UserToken}` }
         })
         .then(res => {
-          console.log("1 2 3 NOT ME");
+          console.log("1 2 3 NOT ME", res);
           this.setState({ noti: res.data.data });
         });
     } catch (e) {
@@ -73,7 +73,7 @@ class Header extends React.Component {
   gotoList = async e => {
     let data = JSON.parse(this.state.User);
     const UserToken = data.token;
-    if (e.Type === "payment") {
+    if (e.type === "payment") {
       await axios
         .get(URL + "/merchant/" + e.senderId, {
           headers: { Authorization: `Bearer ${UserToken}` }
