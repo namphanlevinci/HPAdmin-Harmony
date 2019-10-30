@@ -62,6 +62,7 @@ class Header extends React.Component {
           headers: { Authorization: `Bearer ${UserToken}` }
         })
         .then(res => {
+          console.log("1 2 3 NOT ME");
           this.setState({ noti: res.data.data });
         });
     } catch (e) {

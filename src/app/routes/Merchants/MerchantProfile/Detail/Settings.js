@@ -100,6 +100,16 @@ class Settings extends Component {
             <div className="SettingsContent">
               <div>
                 <h3>The charged percent fee of credit card transactions</h3>
+                <div>
+                  <label>
+                    Transactions Fee:
+                    <span style={{ color: "black", paddingLeft: "10px" }}>
+                      {this.state.transactionsFee}
+                    </span>
+                  </label>
+                  <p> </p>
+                </div>
+
                 <table className="settingTable">
                   <tbody>
                     <tr>
@@ -107,12 +117,13 @@ class Settings extends Component {
                         <label>Transactions Fee:</label>
                       </td>
                       <td>
-                        <input
+                        <p>{this.state.transactionsFee}</p>
+                        {/* <input
                           name="transactionsFee"
-                          value={this.state.transactionsFee}
+                          value={}
                           onChange={this._handleChange}
                           disabled
-                        ></input>
+                        ></input> */}
                       </td>
                     </tr>
                     <tr>
@@ -120,6 +131,7 @@ class Settings extends Component {
                         <label>Merchant ID:</label>
                       </td>
                       <td>
+                        <p>{this.state.merchantCode}</p>
                         <input
                           type="text"
                           name="merchantCode"
