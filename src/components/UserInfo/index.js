@@ -6,6 +6,7 @@ import IntlMessages from "util/IntlMessages";
 import { connect } from "react-redux";
 import { logout_User } from "../../actions/user/actions";
 import { withRouter } from "react-router-dom";
+import AvatarIcon from "./avatar.png";
 // const signalR = require("@aspnet/signalr");
 
 class UserInfo extends React.Component {
@@ -39,7 +40,7 @@ class UserInfo extends React.Component {
       <div className="user-profile d-flex flex-row align-items-center">
         <Avatar
           alt="..."
-          src={"https://via.placeholder.com/150x150"}
+          src={User.imageUrl !== null ? User.imageUrl : AvatarIcon}
           className="user-avatar "
         />
         <div className="user-detail">

@@ -54,6 +54,13 @@ export function* getAll_User_api() {
 
 //! ADD ADMIN USER
 export function* add_Admin_api(Data) {
+  const getInfoLogin = state => state.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.User.token
+    }
+  };
   const {
     stateId,
     WaRoleId,
@@ -70,21 +77,25 @@ export function* add_Admin_api(Data) {
     fileId
   } = Data;
   const kq = yield axios
-    .post(URL + "/adminuser", {
-      stateId,
-      WaRoleId,
-      firstname,
-      lastname,
-      email,
-      password,
-      address,
-      city,
-      zip,
-      BirthDate,
-      fullname,
-      phone,
-      fileId
-    })
+    .post(
+      URL + "/adminuser",
+      {
+        stateId,
+        WaRoleId,
+        firstname,
+        lastname,
+        email,
+        password,
+        address,
+        city,
+        zip,
+        BirthDate,
+        fullname,
+        phone,
+        fileId
+      },
+      config
+    )
     .then(result => {
       return result;
     })
