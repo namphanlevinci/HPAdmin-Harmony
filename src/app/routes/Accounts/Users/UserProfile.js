@@ -37,18 +37,117 @@ class UserProfile extends Component {
           </div>
           <div className="col-md-9">
             <h1>{e.firstName + " " + e.lastName}</h1>
-            <h3>{e.roleName}</h3>
+            <h4>{e.roleName}</h4>
             <hr />
             <h2>Contact Information</h2>
-            <p>Phone: {e.phone}</p>
-            <p>Email: {e.email}</p>
-            <p>Address: {e.address}</p>
-            <p>City: {e.city}</p>
-            <p>State: {e.stateId} </p>
+            <table style={{ width: "100%" }} className="Admin-Table">
+              <tbody>
+                <tr>
+                  <td
+                    style={{
+                      width: "13%",
+                      color: "black",
+                      fontWeight: "500",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Phone:
+                  </td>
+                  <td
+                    style={{
+                      color: "#0764b0",
+                      fontSize: "16px",
+                      fontWeight: "500"
+                    }}
+                  >
+                    {e.phone}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style={{
+                      width: "13%",
+                      color: "black",
+                      fontWeight: "500",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Email:
+                  </td>
+                  <td
+                    style={{
+                      color: "#0764b0",
+                      fontSize: "16px",
+                      fontWeight: "500"
+                    }}
+                  >
+                    {e.email}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style={{
+                      width: "13%",
+                      color: "black",
+                      fontWeight: "500",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Address:
+                  </td>
+                  <td
+                    style={{
+                      color: "#0764b0",
+                      fontSize: "16px",
+                      fontWeight: "500"
+                    }}
+                  >
+                    {e.address}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            {/* <p>City: {e.city}</p>
+            <p>State: {e.stateId} </p> */}
             <h2>Basic Information</h2>
-            <p>Birthday: {moment(e.birthDate).format("MM/DD/YYYY")}</p>
-            <p>Zip: {e.zip}</p>
-            <p>StateId: {e.stateId}</p>
+            <table style={{ width: "100%" }} className="Admin-Table">
+              <tbody>
+                <tr>
+                  <td
+                    style={{
+                      width: "13%",
+                      color: "black",
+                      fontWeight: "500",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Birthday:
+                  </td>
+                  <td
+                    style={{
+                      color: "#0764b0",
+                      fontSize: "16px",
+                      fontWeight: "500"
+                    }}
+                  >
+                    {moment(e.birthDate).format("MM/DD/YYYY")}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style={{
+                      width: "13%",
+                      color: "black",
+                      fontWeight: "500",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Gender:
+                  </td>
+                  <td> ? </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       ) : (

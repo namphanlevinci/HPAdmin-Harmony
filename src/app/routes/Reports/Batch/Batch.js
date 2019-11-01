@@ -57,7 +57,7 @@ class Transactions extends React.Component {
       if (this.state.search) {
         BatchList = BatchList.filter(e => {
           return (
-            e.doBusinessName
+            e.businessName
               .trim()
               .toLowerCase()
               .indexOf(this.state.search.toLowerCase()) !== -1 ||
@@ -92,7 +92,7 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "DBA",
-            accessor: "doBusinessName"
+            accessor: "businessName"
           }
         ]
         // accessor: e => e.user.fullName
@@ -150,7 +150,7 @@ class Transactions extends React.Component {
         ]
       }
     ];
-
+    console.log("this.props.Batch", this.props.Batch);
     return (
       <div className="container-fluid react-transition swipe-right Batchs">
         <ContainerHeader
