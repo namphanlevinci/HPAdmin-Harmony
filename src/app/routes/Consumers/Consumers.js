@@ -43,24 +43,24 @@ class Consumers extends React.Component {
   render() {
     const columns = [
       {
-        Header: "ID",
-        accessor: "userId",
-        width: 100
+        Header: "Harmony ID",
+        accessor: "accountId",
+        width: 170
       },
       {
         Header: "First name",
         accessor: "firstName",
-        width: 150
+        width: 130
       },
       {
         Header: "Last name",
         accessor: "lastName",
-        width: 150
+        width: 130
       },
       {
         Header: "Phone number",
         accessor: "phone",
-        width: 200
+        width: 180
       },
       {
         Header: "Email",

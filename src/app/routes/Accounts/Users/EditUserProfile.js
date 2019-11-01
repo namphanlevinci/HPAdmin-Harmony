@@ -4,7 +4,7 @@ import { withRouter, Redirect } from "react-router-dom";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
-import Select from "react-select";
+// import Select from "react-select";
 import TextField from "@material-ui/core/TextField";
 import {
   NotificationContainer,
@@ -14,7 +14,6 @@ import "./User.css";
 import axios from "axios";
 import { ViewProfile_User } from "../../../../actions/user/actions";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
-import URL from "../../../../url/url";
 
 const options = [
   { value: "1", label: "Administrator" },
@@ -64,8 +63,8 @@ class EditUserProfile extends Component {
       phone: e.phone,
       stateId: e.stateId,
       fileId: e.fileId,
-      selectedOption: null,
-      defaultValue: { value: { label: e.roleName, value: e.waRoleId } }
+      selectedOption: null
+      // defaultValue: { value: { label: e.roleName, value: e.waRoleId } }
     });
   }
 
@@ -108,7 +107,7 @@ class EditUserProfile extends Component {
     const config = {
       headers: { Authorization: "bearer " + token.token }
     };
-    const waRoleId = this.state.waRoleId.value;
+    // const waRoleId = this.state.waRoleId.value;
     const {
       firstName,
       lastName,
@@ -117,11 +116,12 @@ class EditUserProfile extends Component {
       address,
       city,
       zip,
-      password,
       phone,
       stateId,
-      fileId
+      fileId,
+      waRoleId
     } = this.state;
+    const password = null;
     axios
       .put(
         URL + "/adminuser/" + ID,
@@ -170,39 +170,7 @@ class EditUserProfile extends Component {
   _goBack = () => {
     this.props.history.push("/app/accounts/admin-user-profile");
   };
-  _disable = () => {
-    const ID = this.props.UserProfile.waUserId;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token }
-    };
-    axios
-      .delete(URL + "/adminuser/" + ID, config)
-      .then(res => {
-        // console.log(res);
-        NotificationManager.success(res.data.message, null, 800);
-      })
-      .catch(error => {
-        console.log("error", error);
-      });
-  };
 
-  _enable = () => {
-    const ID = this.props.UserProfile.waUserId;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token }
-    };
-    axios
-      .put(URL + "/adminuser/enable/" + ID, null, config)
-      .then(res => {
-        // console.log(res);
-        NotificationManager.success(res.data.message, null, 800);
-      })
-      .catch(error => {
-        console.log("error", error);
-      });
-  };
   render() {
     const e = this.props.UserProfile;
     const renderProfile =
@@ -229,7 +197,7 @@ class EditUserProfile extends Component {
             </div>
           </div>
           <div className="col-md-9">
-            <p>
+            {/* <p>
               First Name:
               <input
                 type="text"
@@ -246,8 +214,10 @@ class EditUserProfile extends Component {
                 value={this.state.lastName}
                 onChange={this._handleChange}
               ></input>
-            </p>
-            <div className="col-md-4">
+            </p> */}
+            <h1>{e.firstName + " " + e.lastName}</h1>
+            <h4>{e.roleName}</h4>
+            {/* <div className="col-md-4">
               <p>
                 Role:
                 <Select
@@ -257,14 +227,23 @@ class EditUserProfile extends Component {
                   options={options}
                 />
               </p>
-            </div>
+            </div> */}
 
             <hr />
             <h2>Contact Information</h2>
             <table style={{ width: "100%" }}>
               <tbody>
                 <tr>
-                  <td style={{ width: "10%" }}>Phone</td>
+                  <td
+                    style={{
+                      width: "10%",
+                      color: "black",
+                      fontWeight: "500",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Phone
+                  </td>
                   <td>
                     <input
                       type="text"
@@ -275,7 +254,16 @@ class EditUserProfile extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td style={{ width: "10%" }}>Email</td>
+                  <td
+                    style={{
+                      width: "10%",
+                      color: "black",
+                      fontWeight: "500",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Email
+                  </td>
                   <td>
                     <input
                       type="text"
@@ -286,7 +274,16 @@ class EditUserProfile extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td style={{ width: "10%" }}>Address</td>
+                  <td
+                    style={{
+                      width: "10%",
+                      color: "black",
+                      fontWeight: "500",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Address
+                  </td>
                   <td>
                     <input
                       type="text"
@@ -296,7 +293,7 @@ class EditUserProfile extends Component {
                     ></input>
                   </td>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td style={{ width: "10%" }}>City</td>
                   <td>
                     <input
@@ -306,14 +303,14 @@ class EditUserProfile extends Component {
                       onChange={this._handleChange}
                     ></input>
                   </td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
 
             <h2>Basic Information</h2>
             <table style={{ width: "100%" }}>
               <tbody>
-                <tr>
+                {/* <tr>
                   <td style={{ width: "10%" }}>Zip</td>
                   <td>
                     <input
@@ -334,38 +331,33 @@ class EditUserProfile extends Component {
                       onChange={this._handleChange}
                     ></input>
                   </td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
 
-            <div>
-              <label>Birthdate: </label>
-              <form noValidate>
-                <TextField
-                  id="date"
-                  // label="birthDate"
-                  type="date"
-                  name="birthDate"
-                  defaultValue={this.state.birthDate}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  onChange={this._handleChange}
-                />
-              </form>
+            <div style={{ display: "flex" }}>
+              <div style={{ display: "inline" }}>
+                <label>Birthdate: </label>
+              </div>
+              <div style={{ display: "inline", paddingLeft: "15px" }}>
+                <form noValidate>
+                  <TextField
+                    id="date"
+                    // label="birthDate"
+                    type="date"
+                    name="birthDate"
+                    defaultValue={this.state.birthDate}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    onChange={this._handleChange}
+                  />
+                </form>
+              </div>
             </div>
           </div>
           <div className="col-md-12">
             <div className="SettingsContent GeneralContent">
-              {e.isDisabled === 0 ? (
-                <Button className="btn btn-green" onClick={this._disable}>
-                  DISABLE
-                </Button>
-              ) : (
-                <Button className="btn btn-green" onClick={this._enable}>
-                  ENABLE
-                </Button>
-              )}
               <Button className="btn btn-green" onClick={this._updateSettings}>
                 SAVE
               </Button>

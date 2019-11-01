@@ -107,70 +107,31 @@ class Settings extends Component {
                       {this.state.transactionsFee}
                     </span>
                   </label>
-                  <p> </p>
                 </div>
-
-                <table className="settingTable">
-                  <tbody>
-                    <tr>
-                      <td>
-                        <label>Transactions Fee:</label>
-                      </td>
-                      <td>
-                        <p>{this.state.transactionsFee}</p>
-                        {/* <input
-                          name="transactionsFee"
-                          value={}
-                          onChange={this._handleChange}
-                          disabled
-                        ></input> */}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label>Merchant ID:</label>
-                      </td>
-                      <td>
-                        <p>{this.state.merchantCode}</p>
-                        <input
-                          type="text"
-                          name="merchantCode"
-                          value={this.state.merchantCode}
-                          onChange={this._handleChange}
-                          disabled
-                        ></input>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label>Merchant Token:</label>
-                      </td>
-                      <td>
-                        <input
-                          type="password"
-                          name="merchantToken"
-                          value={this.state.merchantToken}
-                          onChange={this._handleChange}
-                          disabled
-                        ></input>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label>Discount Rate:</label>
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          name="discountRate"
-                          value={this.state.discountRate}
-                          onChange={this._handleChange}
-                          disabled
-                        ></input>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div>
+                  <label>
+                    Merchant ID:
+                    <span style={{ color: "black", paddingLeft: "10px" }}>
+                      {this.state.merchantCode}
+                    </span>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Merchant Token:
+                    <span style={{ color: "black", paddingLeft: "10px" }}>
+                      {this.state.merchantToken}
+                    </span>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Discount Rate:
+                    <span style={{ color: "black", paddingLeft: "10px" }}>
+                      {this.state.discountRate}
+                    </span>
+                  </label>
+                </div>
               </div>
               <br />
             </div>

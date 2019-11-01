@@ -6,14 +6,60 @@ import ContainerHeader from "components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
 import "./User.css";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import URL from "../../../../url/url";
+import axios from "axios";
 class UserProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      Token: ""
+    };
+  }
+  componentDidMount() {
+    const Token = localStorage.getItem("User_login");
+    this.setState({ Token: Token });
   }
   _Edit = () => {
     this.props.history.push("/app/accounts/edit-admin-profile");
   };
+  _disable = () => {
+    const ID = this.props.UserProfile.waUserId;
+    let token = JSON.parse(this.state.Token);
+    const config = {
+      headers: { Authorization: "bearer " + token.token }
+    };
+    axios
+      .delete(URL + "/adminuser/" + ID, config)
+      .then(res => {
+        // console.log(res);
+        NotificationManager.success(res.data.message, null, 800);
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
+  };
+
+  _enable = () => {
+    const ID = this.props.UserProfile.waUserId;
+    let token = JSON.parse(this.state.Token);
+    const config = {
+      headers: { Authorization: "bearer " + token.token }
+    };
+    axios
+      .put(URL + "/adminuser/enable/" + ID, null, config)
+      .then(res => {
+        // console.log(res);
+        NotificationManager.success(res.data.message, null, 800);
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
+  };
+
   render() {
     const e = this.props.UserProfile;
     console.log(e);
@@ -33,6 +79,15 @@ class UserProfile extends Component {
               <Button onClick={this._Edit} className="btn btn-green">
                 EDIT PROFILE
               </Button>
+              {e.isDisabled === 0 ? (
+                <Button className="btn btn-green" onClick={this._disable}>
+                  DISABLE
+                </Button>
+              ) : (
+                <Button className="btn btn-green" onClick={this._enable}>
+                  ENABLE
+                </Button>
+              )}
             </div>
           </div>
           <div className="col-md-9">
@@ -45,7 +100,7 @@ class UserProfile extends Component {
                 <tr>
                   <td
                     style={{
-                      width: "13%",
+                      width: "10%",
                       color: "black",
                       fontWeight: "500",
                       fontSize: "16px"
@@ -66,7 +121,7 @@ class UserProfile extends Component {
                 <tr>
                   <td
                     style={{
-                      width: "13%",
+                      width: "10%",
                       color: "black",
                       fontWeight: "500",
                       fontSize: "16px"
@@ -87,7 +142,7 @@ class UserProfile extends Component {
                 <tr>
                   <td
                     style={{
-                      width: "13%",
+                      width: "10%",
                       color: "black",
                       fontWeight: "500",
                       fontSize: "16px"
@@ -115,7 +170,7 @@ class UserProfile extends Component {
                 <tr>
                   <td
                     style={{
-                      width: "13%",
+                      width: "10%",
                       color: "black",
                       fontWeight: "500",
                       fontSize: "16px"
@@ -136,7 +191,7 @@ class UserProfile extends Component {
                 <tr>
                   <td
                     style={{
-                      width: "13%",
+                      width: "10%",
                       color: "black",
                       fontWeight: "500",
                       fontSize: "16px"
@@ -155,6 +210,7 @@ class UserProfile extends Component {
       );
     return (
       <div className="container-fluid UserProfile">
+        <NotificationContainer />
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}

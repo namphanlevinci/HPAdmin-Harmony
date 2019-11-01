@@ -204,13 +204,13 @@
   border-spacing: 0;
 }
 
-.Staff .StaffTable thead,
+/* .Staff .StaffTable thead,
 tbody,
 tr,
 th,
 td {
   display: block;
-}
+} */
 /* .container .SettingsContent .settingTable td {
   display: table-cell;
   vertical-align: inherit;

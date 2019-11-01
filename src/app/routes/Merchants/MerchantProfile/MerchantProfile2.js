@@ -10,7 +10,7 @@ import "../MerchantsRequest/MerchantsRequest.css";
 import Button from "@material-ui/core/Button";
 import General from "./Detail/General";
 import EditGeneral from "./Detail/EditGeneral";
-import Business from "./Detail/Business";
+// import Business from "./Detail/Business";
 import Bank from "./Detail/Bank";
 import EditBank from "./Detail/EditBank";
 import Principal from "./Detail/Principal";
@@ -61,11 +61,11 @@ class merchantProfile2 extends Component {
                           General
                         </NavLink>
                       </li>
-                      <li>
+                      {/* <li>
                         <NavLink to="/app/merchants/merchant-profile/business">
                           Business
                         </NavLink>
-                      </li>
+                      </li> */}
                       <li>
                         <NavLink to="/app/merchants/merchant-profile/bank">
                           Bank
@@ -101,10 +101,10 @@ class merchantProfile2 extends Component {
                         path="/app/merchants/merchant-profile/edit-general"
                         component={EditGeneral}
                       />
-                      <Route
+                      {/* <Route
                         path="/app/merchants/merchant-profile/business"
                         component={Business}
-                      />
+                      /> */}
                       <Route
                         path="/app/merchants/merchant-profile/bank"
                         component={Bank}

@@ -67,7 +67,6 @@
 .LogContainer table .inside-table {
   border-right: hidden;
 }
-
 .LogContainer table tr td:last-child {
   border-right: 1px solid #737373;
 }
