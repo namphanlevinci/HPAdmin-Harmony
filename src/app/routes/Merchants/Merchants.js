@@ -5,7 +5,7 @@ import asyncComponent from "../../../util/asyncComponent";
 const Merchants = ({ match }) => (
   <div className="app-wrapper">
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}`} />
+      <Redirect exact from={`${match.url}/`} to={`${match.url}/`} />
       {/* MERCHANT LIST  */}
       <Route
         path={`${match.url}/list`}
@@ -19,7 +19,7 @@ const Merchants = ({ match }) => (
       />
       {/* APPROVED LIST  */}
       <Route
-        path={`${match.url}/approved-profile`}
+        path={`${match.url}/approved-request/profile`}
         component={asyncComponent(() =>
           import("./MerchantRejectList/MerchantApprovedProfile")
         )}
@@ -32,29 +32,30 @@ const Merchants = ({ match }) => (
       />
       {/* PENDING LIST */}
       <Route
+        path={`${match.url}/pending-request/profile`}
+        component={asyncComponent(() =>
+          import("./MerchantsRequest/MerchantReqProfile")
+        )}
+      />
+      <Route
         path={`${match.url}/pending-request`}
         component={asyncComponent(() =>
           import("./MerchantsRequest/MerchantsRequest")
         )}
       />
-      <Route
-        path={`${match.url}/pending-profile`}
-        component={asyncComponent(() =>
-          import("./MerchantsRequest/MerchantReqProfile")
-        )}
-      />
+
       {/* REJECTED LIST */}
-      <Route
-        path={`${match.url}/rejected-profile`}
-        component={asyncComponent(() =>
-          import("./MerchantRejectList/MerchantRejectedProfile")
-        )}
-      />
       {/* EDIT REJECTED MERCHANT */}
       <Route
-        path={`${match.url}/edit-rejected-profile`}
+        path={`${match.url}/rejected-request/profile/edit`}
         component={asyncComponent(() =>
           import("./MerchantRejectList/EditMerchantRejected")
+        )}
+      />
+      <Route
+        path={`${match.url}/rejected-request/profile`}
+        component={asyncComponent(() =>
+          import("./MerchantRejectList/MerchantRejectedProfile")
         )}
       />
       <Route

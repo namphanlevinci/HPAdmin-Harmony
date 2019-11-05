@@ -29,7 +29,7 @@ class MerchantsRequest extends Component {
 
   _merchantReqProfile = e => {
     this.props.ViewMerchant_Request(e);
-    this.props.history.push("/app/merchants/pending-profile");
+    this.props.history.push("/app/merchants/pending-request/profile");
   };
   render() {
     let ReqList = this.props.MerchantRequests_List;

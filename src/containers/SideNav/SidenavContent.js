@@ -172,10 +172,7 @@ class SidenavContent extends Component {
             </Button>
             <ul className="sub-menu">
               <li>
-                <NavLink
-                  className="prepend-icon"
-                  to="/app/accounts/admin-users"
-                >
+                <NavLink className="prepend-icon" to="/app/accounts/admin">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.adminUsers" />
                   </span>

@@ -46,7 +46,7 @@ class Transactions extends React.Component {
           if (rowInfo !== undefined) {
             // console.log("2", rowInfo.original.settlementId);
             this.props.fetchBatchDetail(rowInfo.original.settlementId);
-            this.props.history.push("/app/reports/batch-detail");
+            this.props.history.push("/app/reports/batchs/detail");
           }
         }
       };
@@ -150,7 +150,6 @@ class Transactions extends React.Component {
         ]
       }
     ];
-    console.log("this.props.Batch", this.props.Batch);
     return (
       <div className="container-fluid react-transition swipe-right Batchs">
         <ContainerHeader

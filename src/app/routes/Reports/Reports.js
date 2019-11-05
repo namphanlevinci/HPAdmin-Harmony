@@ -15,21 +15,21 @@ const Reports = ({ match }) => (
         component={asyncComponent(() => import("./P2P/P2P"))}
       />
       <Route
-        path={`${match.url}/general-reports`}
+        path={`${match.url}/general-reports/download-reports`}
         component={asyncComponent(() =>
-          import("./GeneralReport/GeneralReport")
+          import("./GeneralReport/Statistics/DownloadReport")
         )}
       />
       <Route
-        path={`${match.url}/approved-reports`}
+        path={`${match.url}/general-reports/approved-reports`}
         component={asyncComponent(() =>
           import("./GeneralReport/Statistics/ApprovedReport")
         )}
       />
       <Route
-        path={`${match.url}/download-reports`}
+        path={`${match.url}/general-reports`}
         component={asyncComponent(() =>
-          import("./GeneralReport/Statistics/DownloadReport")
+          import("./GeneralReport/GeneralReport")
         )}
       />
       {/* <Route
@@ -45,12 +45,12 @@ const Reports = ({ match }) => (
         )}
       /> */}
       <Route
-        path={`${match.url}/batchs`}
-        component={asyncComponent(() => import("./Batch/Batch"))}
+        path={`${match.url}/batchs/detail`}
+        component={asyncComponent(() => import("./Batch/BatchDetail"))}
       />
       <Route
-        path={`${match.url}/batch-detail`}
-        component={asyncComponent(() => import("./Batch/BatchDetail"))}
+        path={`${match.url}/batchs`}
+        component={asyncComponent(() => import("./Batch/Batch"))}
       />
     </Switch>
   </div>

@@ -5,13 +5,14 @@ import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
-import "./User.css";
 import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
 import URL from "../../../../url/url";
 import axios from "axios";
+import "./User.css";
+import "../../Merchants/MerchantProfile/Detail/Detail.css";
 class UserProfile extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +25,7 @@ class UserProfile extends Component {
     this.setState({ Token: Token });
   }
   _Edit = () => {
-    this.props.history.push("/app/accounts/edit-admin-profile");
+    this.props.history.push("/app/accounts/admin/profile/edit");
   };
   _disable = () => {
     const ID = this.props.UserProfile.waUserId;
@@ -62,7 +63,6 @@ class UserProfile extends Component {
 
   render() {
     const e = this.props.UserProfile;
-    console.log(e);
     const renderProfile =
       e.waUserId !== undefined ? (
         <div className="row justify-content-md-center AdminProfile">
@@ -76,9 +76,6 @@ class UserProfile extends Component {
               />
             )}
             <div className="SettingsContent GeneralContent">
-              <Button onClick={this._Edit} className="btn btn-green">
-                EDIT PROFILE
-              </Button>
               {e.isDisabled === 0 ? (
                 <Button className="btn btn-green" onClick={this._disable}>
                   DISABLE
@@ -88,6 +85,9 @@ class UserProfile extends Component {
                   ENABLE
                 </Button>
               )}
+              <Button onClick={this._Edit} className="btn btn-green">
+                EDIT PROFILE
+              </Button>
             </div>
           </div>
           <div className="col-md-9">
@@ -189,7 +189,7 @@ class UserProfile extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td
+                  {/* <td
                     style={{
                       width: "10%",
                       color: "black",
@@ -199,14 +199,14 @@ class UserProfile extends Component {
                   >
                     Gender:
                   </td>
-                  <td> ? </td>
+                  <td> ? </td> */}
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       ) : (
-        <Redirect to="/app/accounts/admin-users" />
+        <Redirect to="/app/accounts/admin" />
       );
     return (
       <div className="container-fluid UserProfile">

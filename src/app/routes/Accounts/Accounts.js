@@ -7,7 +7,19 @@ const Accounts = ({ match }) => (
     <Switch>
       <Redirect exact from={`${match.url}/`} to={`${match.url}`} />
       <Route
-        path={`${match.url}/admin-users`}
+        path={`${match.url}/admin/add`}
+        component={asyncComponent(() => import("./Users/addAdmin2"))}
+      />
+      <Route
+        path={`${match.url}/admin/profile/edit`}
+        component={asyncComponent(() => import("./Users/EditUserProfile"))}
+      />
+      <Route
+        path={`${match.url}/admin/profile`}
+        component={asyncComponent(() => import("./Users/UserProfile"))}
+      />
+      <Route
+        path={`${match.url}/admin`}
         component={asyncComponent(() => import("./Users/Users"))}
       />
       <Route
@@ -18,22 +30,11 @@ const Accounts = ({ match }) => (
         path={`${match.url}/logs`}
         component={asyncComponent(() => import("./Logs/Logs"))}
       />
-      <Route
-        path={`${match.url}/admin-user-profile`}
-        component={asyncComponent(() => import("./Users/UserProfile"))}
-      />
+
       {/* <Route
         path={`${match.url}/add-Admin`}
         component={asyncComponent(() => import("./Users/addAdmin"))}
       /> */}
-      <Route
-        path={`${match.url}/edit-admin-profile`}
-        component={asyncComponent(() => import("./Users/EditUserProfile"))}
-      />
-      <Route
-        path={`${match.url}/add-admin-user`}
-        component={asyncComponent(() => import("./Users/addAdmin2"))}
-      />
     </Switch>
   </div>
 );

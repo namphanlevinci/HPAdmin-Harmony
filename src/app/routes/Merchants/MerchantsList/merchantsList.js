@@ -30,7 +30,7 @@ class MerchantsList extends React.Component {
 
   _merchantsProfile = e => {
     this.props.ViewProfile_Merchants(e);
-    this.props.history.push("/app/merchants/approved-profile");
+    this.props.history.push("/app/merchants/approved-request/profile");
   };
   render() {
     const columns = [

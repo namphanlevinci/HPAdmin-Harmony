@@ -29,7 +29,7 @@ class MerchantsRequest extends Component {
   //goto merchant profile
   _merchantReqProfile = e => {
     this.props.ViewMerchant_Rejected_Merchants(e);
-    this.props.history.push("/app/merchants/rejected-profile");
+    this.props.history.push("/app/merchants/rejected-request/profile");
   };
   render() {
     let ReqList = this.props.RejectedList;

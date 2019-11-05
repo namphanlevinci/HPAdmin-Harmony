@@ -28,10 +28,10 @@ class Users extends Component {
   };
   _userProfile = e => {
     this.props.ViewProfile_User(e);
-    this.props.history.push("/app/accounts/admin-user-profile");
+    this.props.history.push("/app/accounts/admin/profile");
   };
   addAdmin = () => {
-    this.props.history.push("/app/accounts/add-admin-user");
+    this.props.history.push("/app/accounts/admin/add");
   };
   render() {
     const columns = [

@@ -25,10 +25,10 @@ class ConsumerProfile extends Component {
     this.state = {};
   }
   handleTransactions = () => {
-    this.props.getTransactions(this.props.MerchantProfile.userId);
+    this.props.getTransactions(this.props.MerchantProfile._original.userId);
   };
   handleActivity = () => {
-    this.props.getActivity(this.props.MerchantProfile.userId);
+    this.props.getActivity(this.props.MerchantProfile._original.userId);
   };
   _goBack = () => {
     this.props.history.push("/app/consumers/list");

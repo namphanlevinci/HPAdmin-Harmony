@@ -70,7 +70,7 @@ class EditMerchantRejected extends Component {
     });
   };
   _goBack = () => {
-    this.props.history.push("/app/merchants/rejected-profile");
+    this.props.history.push("/app/merchants/rejected-request/profile");
   };
 
   _update = () => {
@@ -124,7 +124,7 @@ class EditMerchantRejected extends Component {
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
       this.props.ViewMerchant_Rejected_Merchants(this.props.getMerchant.Data);
-      this.props.history.push("/app/merchants/rejected-profile");
+      this.props.history.push("/app/merchants/rejected-request/profile");
       // console.log("HERE 2", this.props.getMerchant.Data);
     }
   }

@@ -35,11 +35,11 @@
   font-size: 14px;
 }
 .AdminProfile button:hover {
-  padding: 9px;
+  /* padding: 9px;
   margin-top: 20px;
-  color: white;
+  color: white; */
   background: #0074d9;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 .AdminProfile h1 {
   color: black;

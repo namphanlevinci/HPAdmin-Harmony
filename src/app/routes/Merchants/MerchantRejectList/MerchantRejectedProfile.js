@@ -56,7 +56,7 @@ class MerchantRejectedProfile extends Component {
     }
     _Edit = (merchantInfo) => {
         this.props.ViewProfile_Merchants(merchantInfo)
-        this.props.history.push('/app/merchants/edit-rejected-profile')
+        this.props.history.push('/app/merchants/rejected-request/profile/edit')
     }
     _goBack = () => {
         this.props.getAll_Rejected_Merchants();

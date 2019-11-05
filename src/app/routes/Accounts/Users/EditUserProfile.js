@@ -15,12 +15,12 @@ import axios from "axios";
 import { ViewProfile_User } from "../../../../actions/user/actions";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
 
-const options = [
-  { value: "1", label: "Administrator" },
-  { value: "2", label: "Manager" },
-  { value: "3", label: "Staff Lv1" },
-  { value: "4", label: "Staff Lv2" }
-];
+// const options = [
+//   { value: "1", label: "Administrator" },
+//   { value: "2", label: "Manager" },
+//   { value: "3", label: "Staff Lv1" },
+//   { value: "4", label: "Staff Lv2" }
+// ];
 
 class EditUserProfile extends Component {
   constructor(props) {
@@ -153,8 +153,7 @@ class EditUserProfile extends Component {
                 1000
               );
               setTimeout(
-                () =>
-                  this.props.history.push("/app/accounts/admin-user-profile"),
+                () => this.props.history.push("/app/accounts/admin/profile"),
                 1500
               );
             })
@@ -168,7 +167,7 @@ class EditUserProfile extends Component {
       });
   };
   _goBack = () => {
-    this.props.history.push("/app/accounts/admin-user-profile");
+    this.props.history.push("/app/accounts/admin/profile");
   };
 
   render() {
@@ -337,7 +336,7 @@ class EditUserProfile extends Component {
 
             <div style={{ display: "flex" }}>
               <div style={{ display: "inline" }}>
-                <label>Birthdate: </label>
+                <label>Birthday: </label>
               </div>
               <div style={{ display: "inline", paddingLeft: "15px" }}>
                 <form noValidate>
@@ -368,7 +367,7 @@ class EditUserProfile extends Component {
           </div>
         </div>
       ) : (
-        <Redirect to="/app/accounts/admin-users" />
+        <Redirect to="/app/accounts/admin" />
       );
     return (
       <div className="container-fluid UserProfile">

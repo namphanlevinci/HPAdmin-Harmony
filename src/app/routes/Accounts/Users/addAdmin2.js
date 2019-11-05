@@ -173,7 +173,7 @@ class addAdmin2 extends Component {
     }
   };
   _goBack = () => {
-    this.props.history.push("/app/accounts/admin-users");
+    this.props.history.push("/app/accounts/admin");
   };
   componentWillReceiveProps(nextProps) {
     if (nextProps.AddStatus !== this.props.AddStatus) {
@@ -184,9 +184,7 @@ class addAdmin2 extends Component {
       } else {
         NotificationManager.success(Message);
         setTimeout(() => localStorage.removeItem("ADD_STATUS"), 1000);
-        setTimeout(() =>
-          this.props.history.push("/app/accounts/admin-users", 500)
-        );
+        setTimeout(() => this.props.history.push("/app/accounts/admin", 500));
         this.setState({
           firstname: "",
           lastname: "",

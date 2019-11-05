@@ -25,11 +25,11 @@ class GeneralReport extends Component {
             <h1>Statistics</h1>
           </div>
           <div className="Link">
-            <Link to="/app/reports/approved-reports">
+            <Link to="/app/reports/general-reports/approved-reports">
               Approved Merchant Accounts
             </Link>
             <br />
-            <Link to="/app/reports/download-reports">
+            <Link to="/app/reports/general-reports/download-reports">
               App Download Statistics
             </Link>
             {/* <br />
