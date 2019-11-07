@@ -37,7 +37,7 @@ class MerchantsRequest extends Component {
       if (this.state.search) {
         ReqList = ReqList.filter(e => {
           return (
-            e.businessName
+            e.genaral.doBusinessName
               .trim()
               .toLowerCase()
               .indexOf(this.state.search.toLowerCase()) !== -1 ||
@@ -59,8 +59,13 @@ class MerchantsRequest extends Component {
       },
       {
         Header: "Bussiness name",
-        accessor: "businessName",
-        Cell: e => <span style={{ fontWeight: 600 }}>{e.value}</span>
+        id: "general",
+        accessor: "general",
+        Cell: e => (
+          <span style={{ fontWeight: 600 }}>
+            {e.value !== null ? e.value.doBusinessName : null}
+          </span>
+        )
       },
       {
         id: "principals",

@@ -39,7 +39,7 @@ class Merchants extends React.Component {
       if (this.state.search) {
         MerList = MerList.filter(e => {
           return (
-            e.businessName
+            e.genaral.doBusinessName
               .trim()
               .toLowerCase()
               .indexOf(this.state.search.toLowerCase()) !== -1 ||
@@ -57,15 +57,18 @@ class Merchants extends React.Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 150
+        width: 100
       },
       {
-        id: "businessName",
         Header: "Bussiness name",
-        accessor: e =>
-          e.general !== null ? e.general.legalBusinessName : null,
-        Cell: e => <span style={{ fontWeight: 600 }}>{e.value}</span>,
-        width: 170
+        id: "general",
+        accessor: "general",
+        Cell: e => (
+          <span style={{ fontWeight: 600 }}>
+            {e.value !== null ? e.value.doBusinessName : null}
+          </span>
+        ),
+        width: 230
       },
       {
         id: "principals",

@@ -14,6 +14,7 @@ import "./User.css";
 import axios from "axios";
 import { ViewProfile_User } from "../../../../actions/user/actions";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
+import URL, { upfileUrl } from "../../../../url/url";
 
 // const options = [
 //   { value: "1", label: "Administrator" },
@@ -88,7 +89,7 @@ class EditUserProfile extends Component {
       headers: { "content-type": "multipart/form-data" }
     };
     axios
-      .post(URL + "/file?category=service", formData, config)
+      .post(upfileUrl, formData, config)
       .then(res => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -147,7 +148,7 @@ class EditUserProfile extends Component {
           await axios
             .get(URL + "/adminuser/" + ID, config)
             .then(res => {
-              console.log("res02", res);
+              // console.log("res02", res);
               setTimeout(
                 () => this.props.ViewProfile_User(res.data.data),
                 1000
