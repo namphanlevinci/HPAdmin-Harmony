@@ -90,7 +90,7 @@ class Staff extends Component {
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
-            <div className="search">
+            {/* <div className="search">
               <form>
                 <input title="Search" value="" className="button" readOnly />
                 <input
@@ -101,7 +101,7 @@ class Staff extends Component {
                   onChange={this._SearchMerchants}
                 />
               </form>
-            </div>
+            </div> */}
           </div>
 
           <div className="MListContainer">

@@ -1,3 +1,7 @@
+.PendingList .PendingLBody input:focus {
+  outline: none;
+  border-color: #0764b0;
+}
 .TransactionTable thead tr th {
   color: white;
   background-color: #0764b0;

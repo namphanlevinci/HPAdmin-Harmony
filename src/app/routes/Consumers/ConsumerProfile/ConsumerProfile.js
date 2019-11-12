@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "bootstrap/js/src/collapse.js";
-import { withRouter, Redirect, Route, NavLink } from "react-router-dom";
+import { withRouter, Redirect, Route, NavLink, Switch } from "react-router-dom";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import "../../Merchants/MerchantProfile/MerchantProfile.css";
@@ -61,7 +61,7 @@ class ConsumerProfile extends Component {
             <div className="content">
               <div className="container">
                 <div className="">
-                  <div className="profile-nav PendingLBody">
+                  <div className="profile-nav">
                     <ul className="detail-tab">
                       <li>
                         <NavLink to="/app/consumers/profile/general">
@@ -89,26 +89,28 @@ class ConsumerProfile extends Component {
                       </li>
                     </ul>
                     <div className="detail-content">
-                      <Route
-                        path="/app/consumers/profile/general"
-                        component={General}
-                      />
-                      <Route
-                        path="/app/consumers/profile/bank"
-                        component={Bank}
-                      />
-                      <Route
-                        path="/app/consumers/profile/transactions"
-                        component={Transactions}
-                      />
-                      <Route
-                        path="/app/consumers/profile/activies"
-                        component={Acti}
-                      />
-                      <Route
-                        path="/app/consumers/profile/edit-general"
-                        component={EditGeneral}
-                      />
+                      <Switch>
+                        <Route
+                          path="/app/consumers/profile/general/edit"
+                          component={EditGeneral}
+                        />
+                        <Route
+                          path="/app/consumers/profile/general"
+                          component={General}
+                        />
+                        <Route
+                          path="/app/consumers/profile/bank"
+                          component={Bank}
+                        />
+                        <Route
+                          path="/app/consumers/profile/transactions"
+                          component={Transactions}
+                        />
+                        <Route
+                          path="/app/consumers/profile/activies"
+                          component={Acti}
+                        />
+                      </Switch>
                     </div>
                   </div>
                 </div>

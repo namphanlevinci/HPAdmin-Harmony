@@ -74,6 +74,7 @@ class MerchantRejectedProfile extends Component {
       }
     render() { 
         const e = this.props.RejectedProfile
+        console.log('EEEEE', e)
         //!! render questions
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (
@@ -112,7 +113,7 @@ class MerchantRejectedProfile extends Component {
                                 <div className="row justify-content-between">
                                     <div className="col-md-4">
                                         <h4>Legal Business Name*</h4>
-                                        <p>{e.businessName}</p>
+                                        <p>{e.general.legalBusinessName}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Doing Business As (DBA)*</h4>
@@ -120,7 +121,7 @@ class MerchantRejectedProfile extends Component {
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Federal Tax ID*</h4>
-                                        <p>{e.taxId}</p>
+                                        <p>{e.general !== null ? e.general.tax : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>DBA Business Address*</h4>
@@ -128,15 +129,15 @@ class MerchantRejectedProfile extends Component {
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Zip Code*</h4>
-                                        <p>{e.zip}</p>
+                                        <p>{e.general !== null ? e.general.zip : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Business Phone Number*</h4>
-                                        <p>{e.phone}</p>
+                                        <p>{e.general !== null ? e.general.phoneBusiness : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Contact Email Address*</h4>
-                                        <p>{e.email}</p>
+                                        <p>{e.general !== null ? e.general.emailContact : null}</p>
                                     </div>
                                     </div>
                             <h2>Representative Information</h2>
@@ -166,11 +167,11 @@ class MerchantRejectedProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>ABA Routing Number*</h4>
-                                            <p>{e.routingNumber}</p>
+                                            <p>{e.businessBank !== null ? e.businessBank.routingNumber : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Checking Account Number (DDA)*</h4>
-                                            <p>{e.accountNumber}</p>
+                                            <p>{e.businessBank !== null ? e.businessBank.accountNumber : null}</p>
                                         </div>
                                         <div className="col-md-4">
                                             <h4>Void Check*</h4>

@@ -157,18 +157,25 @@
   color: #0764b0;
   text-align: center;
 }
-.PendingList .PendingLBody input {
+/* .PendingList .PendingLBody input {
   width: auto;
+} */
+.PendingList .PendingLBody input {
+  width: 250px !important;
+  font-weight: 500;
+  color: #000000;
+  border: none;
+  border-bottom: 2px solid #dcdcdc;
+  margin: 0px;
+  font-size: 16px;
   text-align: center;
 }
-.PendingList .PendingLBody label {
-  display: inline-block;
-  width: auto;
-  text-align: right;
-  line-height: 28pt;
-  font-weight: 400;
-  font-size: 17px;
+
+.PendingList .PendingLBody input:focus {
+  outline: none;
+  border-color: #0764b0;
 }
+
 .rejectInput textarea {
   width: 550px;
   height: 100px;

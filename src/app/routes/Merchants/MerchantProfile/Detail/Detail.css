@@ -1,6 +1,11 @@
 .container .SettingsContent input {
-  text-align: center;
-  width: 300px;
+  width: 250px !important;
+  font-weight: 500;
+  color: #000000;
+  border: none;
+  border-bottom: 2px solid #dcdcdc;
+  margin: 0px;
+  font-size: 16px;
 }
 .container h4 {
   margin: 6px 0px;
@@ -110,13 +115,25 @@
 .GeneralContent .paginating-table ul li {
   background-color: white !important;
 }
-/* .GeneralContent input {
+.GeneralContent input {
   padding: 5px;
-  width: 250px;
-  font-weight: 600;
+  width: 100% !important;
+  font-weight: 500;
   color: #000000;
   margin-bottom: 10px;
-} */
+  border: none;
+  border-bottom: 2px solid #dcdcdc;
+}
+.GeneralContent input:focus {
+  outline: none;
+  border-color: #0764b0;
+  /* border-bottom: 2px solid #0764b0; */
+}
+.GeneralContent select {
+  padding: 8px;
+  width: 100%;
+  font-weight: 500;
+}
 /* bank img */
 .bankVoid {
   width: 250px;

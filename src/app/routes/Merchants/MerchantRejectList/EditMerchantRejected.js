@@ -13,12 +13,14 @@ import {
   NotificationManager
 } from "react-notifications";
 import { Redirect } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import StateComponent from "../../../../util/State";
+
 import "../MerchantProfile/MerchantProfile.css";
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
 import "./EditMerchant.css";
-import Button from "@material-ui/core/Button";
-
+import "../MerchantProfile/Detail/Detail.css";
 class EditMerchantRejected extends Component {
   constructor(props) {
     super(props);
@@ -72,7 +74,9 @@ class EditMerchantRejected extends Component {
   _goBack = () => {
     this.props.history.push("/app/merchants/rejected-request/profile");
   };
-
+  getStateId = e => {
+    this.setState({ stateId: e });
+  };
   _update = () => {
     const ID = this.props.MerchantProfile.general.generalId;
     const IDMerchant = this.props.MerchantProfile.merchantId;
@@ -187,12 +191,16 @@ class EditMerchantRejected extends Component {
                   ></input>
                 </div>
                 <div className="col-md-4">
-                  <h4>State ID*</h4>
-                  <input
+                  <h4>State*</h4>
+                  {/* <input
                     name="stateId"
                     value={this.state.stateId}
                     onChange={this._handleChange}
-                  ></input>
+                  ></input> */}
+                  <StateComponent
+                    getStateId={this.getStateId}
+                    setvalue={this.state.stateId}
+                  />
                 </div>
                 <div className="col-md-4">
                   <h4>Business Phone*</h4>

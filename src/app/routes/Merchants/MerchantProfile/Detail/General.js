@@ -23,7 +23,7 @@ class General extends Component {
     };
   }
   _toggleEdit = () => {
-    this.props.history.push("/app/merchants/merchant-profile/edit-general");
+    this.props.history.push("/app/merchants/merchant-profile/general/edit");
   };
 
   render() {

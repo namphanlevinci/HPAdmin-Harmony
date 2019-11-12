@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Axios from "axios";
@@ -15,6 +12,11 @@ import {
   ViewProfile_Merchants,
   GetMerchant_byID
 } from "../../../../../actions/merchants/actions";
+import StateComponent from "../../../../../util/State";
+
+import "../MerchantProfile.css";
+import "../../MerchantsRequest/MerchantReqProfile.css";
+import "../../MerchantsRequest/MerchantsRequest.css";
 class EditPrincipal extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +27,8 @@ class EditPrincipal extends Component {
       StateId: "",
       DriverNumber: "",
       FileId: "",
-      Token: ""
+      Token: "",
+      STATEINFO: ""
     };
   }
   _editPrincipal = () => {
@@ -110,9 +113,12 @@ class EditPrincipal extends Component {
         console.log(err);
       });
   };
-
+  getStateId = e => {
+    this.setState({ StateId: e });
+  };
   render() {
     const e = this.props.MerchantProfile;
+    console.log("E", e);
     const renderPrincipal =
       e.principals !== null ? (
         <React.Fragment>
@@ -199,12 +205,16 @@ class EditPrincipal extends Component {
               ></input>
             </div>
             <div className="col-md-4">
-              <h4>State Issued*</h4>
-              <input
+              <h4>State*</h4>
+              {/* <input
                 name="StateId"
                 value={this.state.StateId}
                 onChange={this._handleChange}
-              ></input>
+              ></input> */}
+              <StateComponent
+                getStateId={this.getStateId}
+                setvalue={this.state.StateId}
+              />
             </div>
             <div className="col-md-12">
               <h4>Driver License Picture</h4>
@@ -220,7 +230,7 @@ class EditPrincipal extends Component {
             <label>Upload new Driver license picture:</label>
             <input
               type="file"
-              style={{ width: "250px" }}
+              style={{ width: "250px !important", border: "none" }}
               name="image"
               id="file"
               onChange={e => this._uploadFile(e)}
@@ -239,7 +249,7 @@ class EditPrincipal extends Component {
         <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
       );
     return (
-      <div className="react-transition swipe-up">
+      <div className="react-transition swipe-up GeneralContent">
         <NotificationContainer />
         <h2>Principal Information</h2>
         {renderPrincipal}

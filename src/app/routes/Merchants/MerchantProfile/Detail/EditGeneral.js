@@ -14,6 +14,7 @@ import {
   NotificationManager
 } from "react-notifications";
 import Button from "@material-ui/core/Button";
+import StateComponent from "../../../../../util/State";
 
 class General extends Component {
   constructor(props) {
@@ -89,6 +90,9 @@ class General extends Component {
   };
   _toggleEdit = () => {
     this.setState({ edit: true });
+  };
+  getStateId = e => {
+    this.setState({ stateId: e });
   };
   componentDidMount() {
     const data = this.props.MerchantProfile;
@@ -173,12 +177,16 @@ class General extends Component {
               ></input>
             </div>
             <div className="col-md-4">
-              <h4>State ID*</h4>
-              <input
+              <h4>State*</h4>
+              {/* <input
                 name="stateId"
                 value={this.state.stateId}
                 onChange={this._handleChange}
-              ></input>
+              ></input> */}
+              <StateComponent
+                getStateId={this.getStateId}
+                setvalue={this.state.stateId}
+              />
             </div>
             <div className="col-md-4">
               <h4>Business Phone*</h4>

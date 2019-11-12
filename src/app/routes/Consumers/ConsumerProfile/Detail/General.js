@@ -39,7 +39,7 @@ class General extends Component {
     this.setState({ isOpenReject: false });
   };
   _goToEdit = () => {
-    this.props.history.push("/app/consumers/profile/edit-general");
+    this.props.history.push("/app/consumers/profile/general/edit");
   };
   _enable = () => {
     const ID = this.props.MerchantProfile.userId;
@@ -119,7 +119,7 @@ class General extends Component {
         <Redirect to="/app/consumers/list" />
       );
     return (
-      <div className="content GeneralContent">
+      <div className="content ">
         {renderGeneral}
         <NotificationContainer />
         <div className="SettingsContent GeneralContent">

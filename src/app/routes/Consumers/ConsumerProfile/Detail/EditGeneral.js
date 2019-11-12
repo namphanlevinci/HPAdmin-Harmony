@@ -98,10 +98,10 @@ class EditGeneral extends Component {
               <div className="col-md-3">
                 <h4>First Name</h4>
                 {/* <p>{e.firstName !== null ? e.firstName : null}</p> */}
-                <div className="input-group">
+                <div>
                   <input
                     type="text"
-                    className="col-6 form-control"
+                    className="col-6 "
                     name="firstName"
                     value={this.state.firstName}
                     onChange={this._handleChange}
@@ -111,10 +111,10 @@ class EditGeneral extends Component {
               <div className="col-md-3">
                 <h4>Last Name</h4>
                 {/* <p>{e.lastName !== null ? e.lastName : null}</p> */}
-                <div className="input-group">
+                <div>
                   <input
                     type="text"
-                    className="col-6 form-control"
+                    className="col-6"
                     name="lastName"
                     value={this.state.lastName}
                     onChange={this._handleChange}
@@ -124,10 +124,10 @@ class EditGeneral extends Component {
               <div className="col-md-3">
                 <h4>Phone Number</h4>
                 {/* <p>{e.phone !== null ? e.phone : null}</p> */}
-                <div className="input-group">
+                <div>
                   <input
                     type="text"
-                    className="col-8 form-control"
+                    className="col-8"
                     name="phone"
                     value={this.state.phone}
                     onChange={this._handleChange}
@@ -137,10 +137,10 @@ class EditGeneral extends Component {
               <div className="col-md-3">
                 <h4>Email</h4>
                 {/* <p>{e.email !== null ? e.email : null}</p> */}
-                <div className="input-group">
+                <div>
                   <input
                     type="text"
-                    className="col-12 form-control"
+                    className="col-12"
                     name="email"
                     value={this.state.email}
                     onChange={this._handleChange}
@@ -161,13 +161,14 @@ class EditGeneral extends Component {
             <br />
             <label>c. Is conducted on the same business day.</label>
             <br />
-            <div className="input-group">
+            <div>
               <input
                 type="text"
-                className="col-4 form-control"
+                className="col-4"
                 name="limitAmount"
                 value={this.state.limitAmount}
                 onChange={this._handleChange}
+                style={{ padding: "10px" }}
               />
             </div>
           </div>
@@ -185,11 +186,8 @@ class EditGeneral extends Component {
         <Redirect to="/app/consumers/list" />
       );
     return (
-      <div className="content GeneralContent">
-        {/* REJECT BTN */}
-
+      <div className="content">
         {renderGeneral}
-
         <NotificationContainer />
       </div>
     );

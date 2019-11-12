@@ -11,7 +11,7 @@ class Bank extends Component {
     this.state = {};
   }
   _editBank = () => {
-    this.props.history.push("/app/merchants/merchant-profile/edit-bank");
+    this.props.history.push("/app/merchants/merchant-profile/bank/edit");
   };
   render() {
     const e = this.props.MerchantProfile;

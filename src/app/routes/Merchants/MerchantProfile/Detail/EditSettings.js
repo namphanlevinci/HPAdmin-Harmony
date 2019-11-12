@@ -131,7 +131,7 @@ class EditSettings extends Component {
         ) : null}
         <h2>Settings</h2>
         <div className="container">
-          <div className="SettingsContent">
+          <div className="GeneralContent SettingsContent">
             <div>
               <h3>The charged percent fee of credit card transactions</h3>
               <table>

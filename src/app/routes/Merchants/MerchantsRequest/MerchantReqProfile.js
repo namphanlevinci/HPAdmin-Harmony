@@ -127,7 +127,7 @@ class MerchantReqProfile extends Component {
                                             <h2 className="title">REASONS FOR REJECTION</h2>
                                             <Form>
                                             <Field type="textarea" name="rejectReason" component="textarea" placeholder="Please enter your reason."/>
-                                            <ErrorMessage name="rejectReason" component="div" />
+                                            <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="rejectReason" component="div" />
                                             <div>
                                                 <Button type="submit" className="btn btn-red" onClick={this.handleCloseReject}>BACK</Button>
                                                 <Button type="submit" className="btn btn-green">COMFIRM</Button>
@@ -175,24 +175,24 @@ class MerchantReqProfile extends Component {
                                         {({ lol }) => (
                                             <Form style={{textAlign: 'center'}}>
                                                     <div>
-                                                        <label>MERCHANT ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :	</label>
+                                                        <label style={{paddingLeft: '5px'}}>MERCHANT ID:</label> <br/>
                                                         <Field type="number" name="merchantID" />
-                                                        <ErrorMessage name="merchantID" component="div" />
+                                                        <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="merchantID" component="div" />
                                                     </div>
                                                     <div>
-                                                        <label>MERCHANT TOKEN:</label>
+                                                        <label>MERCHANT TOKEN:</label> <br/>
                                                         <Field type="text" name="merchantToken" />
-                                                        <ErrorMessage name="merchantToken" component="div" />
+                                                        <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="merchantToken" component="div" />
                                                     </div>
                                                     <div>
-                                                        <label>TRANSACTION FEE:</label>
+                                                        <label>TRANSACTION FEE:</label> <br/>
                                                         <Field type="number" name="fee" />
-                                                        <ErrorMessage name="fee" component="div" />
+                                                        <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="fee" component="div" />
                                                     </div>
                                                     <div>
-                                                        <label>DISCOUNT RATE&nbsp;&nbsp;&nbsp;&nbsp;:</label>
+                                                        <label>DISCOUNT RATE:</label> <br/>
                                                         <Field type="number" name="discount" />
-                                                        <ErrorMessage name="discount" component="div" />
+                                                        <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="discount" component="div" />
                                                     </div>
                                                 <br/>
                                                 <div style={{textAlign: 'center', paddingTop: '10px'}}>

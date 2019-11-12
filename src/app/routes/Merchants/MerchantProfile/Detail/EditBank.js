@@ -122,7 +122,7 @@ class EditBank extends Component {
       ) : null;
 
     return (
-      <div className="react-transition swipe-up">
+      <div className="react-transition swipe-up GeneralContent">
         <NotificationContainer />
         <h2>Bank Information</h2>
         <div className="container">
@@ -171,7 +171,7 @@ class EditBank extends Component {
           <label>Upload new Void Check:</label>
           <input
             type="file"
-            style={{ width: "250px" }}
+            style={{ width: "250px !important", border: "none" }}
             name="image"
             id="file"
             onChange={e => this._uploadFile(e)}

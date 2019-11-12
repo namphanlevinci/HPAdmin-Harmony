@@ -61,9 +61,7 @@ class MerchantsRequest extends Component {
         id: "general",
         accessor: "general",
         Cell: e => (
-          <span style={{ fontWeight: 600 }}>
-            {e.value !== null ? e.value.doBusinessName : null}
-          </span>
+          <span>{e.value !== null ? e.value.doBusinessName : null}</span>
         ),
         width: 280
       },
