@@ -92,7 +92,7 @@ class EditBank extends Component {
           setTimeout(() => {
             this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
             this.props.history.push("/app/merchants/profile/bank");
-          }, 2000);
+          }, 2500);
         }
       })
       .catch(err => {
