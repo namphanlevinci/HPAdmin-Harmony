@@ -28,7 +28,7 @@ class EditPrincipal extends Component {
       DriverNumber: "",
       FileId: "",
       Token: "",
-      STATEINFO: ""
+      stateName: ""
     };
   }
   _editPrincipal = () => {
@@ -45,7 +45,8 @@ class EditPrincipal extends Component {
         Address: data.address,
         StateId: data.stateId,
         DriverNumber: data.driverNumber,
-        FileId: data.fileId
+        FileId: data.fileId,
+        stateName: data.state.name
       });
     }
   }
@@ -75,7 +76,7 @@ class EditPrincipal extends Component {
       });
   };
   _goBack = () => {
-    this.props.history.push("/app/merchants/merchant-profile/pincipal");
+    this.props.history.push("/app/merchants/profile/pincipal");
   };
   _update = () => {
     const ID = this.props.MerchantProfile.principals.principalId;
@@ -105,8 +106,8 @@ class EditPrincipal extends Component {
           }, 1500);
           setTimeout(() => {
             this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
-            this.props.history.push("/app/merchants/merchant-profile/pincipal");
-          }, 2000);
+            this.props.history.push("/app/merchants/profile/pincipal");
+          }, 2500);
         }
       })
       .catch(err => {
@@ -118,7 +119,6 @@ class EditPrincipal extends Component {
   };
   render() {
     const e = this.props.MerchantProfile;
-    console.log("E", e);
     const renderPrincipal =
       e.principals !== null ? (
         <React.Fragment>
@@ -213,7 +213,7 @@ class EditPrincipal extends Component {
               ></input> */}
               <StateComponent
                 getStateId={this.getStateId}
-                setvalue={this.state.StateId}
+                setvalue={this.state.stateName}
               />
             </div>
             <div className="col-md-12">

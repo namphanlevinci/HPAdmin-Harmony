@@ -56,13 +56,16 @@ class Transactions extends React.Component {
     if (BatchList) {
       if (this.state.search) {
         BatchList = BatchList.filter(e => {
-          return (
-            e.businessName
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            parseInt(e.merchantId) === parseInt(this.state.search)
-          );
+          if (e.doBusinessName !== null) {
+            return (
+              e.doBusinessName
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              parseInt(e.merchantId) === parseInt(this.state.search)
+            );
+          }
+          return null;
         });
       }
     }
@@ -92,7 +95,7 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "DBA",
-            accessor: "businessName"
+            accessor: "doBusinessName"
           }
         ]
         // accessor: e => e.user.fullName
@@ -173,7 +176,7 @@ class Transactions extends React.Component {
           </div>
           <div className="MListContainer Transactions">
             <ReactTable
-              data={this.props.Batch}
+              data={BatchList}
               columns={columns}
               defaultPageSize={10}
               minRows={1}

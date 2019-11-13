@@ -33,12 +33,13 @@ class General extends Component {
       firstName: "",
       lastName: "",
       title: "",
-      doBusinessName: ""
+      doBusinessName: "",
+      stateName: ""
     };
   }
   _goBack = () => {
     this.props.getAll_Merchants();
-    this.props.history.push("/app/merchants/merchant-profile/general");
+    this.props.history.push("/app/merchants/profile/general");
   };
   _update = () => {
     const ID = this.props.MerchantProfile.general.generalId;
@@ -109,7 +110,8 @@ class General extends Component {
       firstName: data.general.firstName,
       lastName: data.general.lastName,
       title: data.general.title,
-      doBusinessName: data.general.doBusinessName
+      doBusinessName: data.general.doBusinessName,
+      stateName: data.state.name
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -122,7 +124,7 @@ class General extends Component {
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
       this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
-      this.props.history.push("/app/merchants/merchant-profile/general");
+      this.props.history.push("/app/merchants/profile/general");
     }
   }
   render() {
@@ -185,7 +187,7 @@ class General extends Component {
               ></input> */}
               <StateComponent
                 getStateId={this.getStateId}
-                setvalue={this.state.stateId}
+                setvalue={this.state.stateName}
               />
             </div>
             <div className="col-md-4">

@@ -34,7 +34,7 @@ class Settings extends Component {
     };
   }
   _gotoEdit = () => {
-    this.props.history.push("/app/merchants/merchant-profile/settings/edit");
+    this.props.history.push("/app/merchants/profile/settings/edit");
   };
   async componentDidMount() {
     const data = this.props.MerchantProfile;
@@ -83,7 +83,7 @@ class Settings extends Component {
           }, 1000);
           setTimeout(() => {
             this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
-            this.props.history.push("/app/merchants/merchant-profile/settings");
+            this.props.history.push("/app/merchants/profile/settings");
           }, 1500);
         }
       });
@@ -185,7 +185,7 @@ class Settings extends Component {
                               this.props.getMerchant.Data
                             );
                             this.props.history.push(
-                              "/app/merchants/merchant-profile/merchant-settings"
+                              "/app/merchants/profile/merchant-settings"
                             );
                           }, 1500);
                         } else {

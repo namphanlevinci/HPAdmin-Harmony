@@ -29,24 +29,27 @@ class MerchantsRequest extends Component {
 
   _merchantReqProfile = e => {
     this.props.ViewMerchant_Request(e);
-    this.props.history.push("/app/merchants/pending-request/profile");
+    this.props.history.push("/app/merchants/pending/profile");
   };
   render() {
     let ReqList = this.props.MerchantRequests_List;
     if (ReqList) {
       if (this.state.search) {
         ReqList = ReqList.filter(e => {
-          return (
-            e.genaral.doBusinessName
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.email
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            parseInt(e.merchantId) === parseInt(this.state.search)
-          );
+          if (e.general !== null) {
+            return (
+              e.general.doBusinessName
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              e.email
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              parseInt(e.merchantId) === parseInt(this.state.search)
+            );
+          }
+          return null;
         });
       }
     }

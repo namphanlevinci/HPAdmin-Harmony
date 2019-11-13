@@ -38,7 +38,8 @@ class EditMerchantRejected extends Component {
       firstName: "",
       lastName: "",
       title: "",
-      doBusinessName: ""
+      doBusinessName: "",
+      stateName: ""
     };
   }
 
@@ -58,7 +59,8 @@ class EditMerchantRejected extends Component {
         firstName: data.general.firstName,
         lastName: data.general.lastName,
         title: data.general.title,
-        doBusinessName: data.general.doBusinessName
+        doBusinessName: data.general.doBusinessName,
+        stateName: data.principals.state.name
       });
     }
   };
@@ -72,7 +74,7 @@ class EditMerchantRejected extends Component {
     });
   };
   _goBack = () => {
-    this.props.history.push("/app/merchants/rejected-request/profile");
+    this.props.history.push("/app/merchants/rejected/profile");
   };
   getStateId = e => {
     this.setState({ stateId: e });
@@ -128,7 +130,7 @@ class EditMerchantRejected extends Component {
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
       this.props.ViewMerchant_Rejected_Merchants(this.props.getMerchant.Data);
-      this.props.history.push("/app/merchants/rejected-request/profile");
+      this.props.history.push("/app/merchants/rejected/profile");
       // console.log("HERE 2", this.props.getMerchant.Data);
     }
   }
@@ -199,7 +201,7 @@ class EditMerchantRejected extends Component {
                   ></input> */}
                   <StateComponent
                     getStateId={this.getStateId}
-                    setvalue={this.state.stateId}
+                    setvalue={this.state.stateName}
                   />
                 </div>
                 <div className="col-md-4">
@@ -275,7 +277,7 @@ class EditMerchantRejected extends Component {
           </div>
         </div>
       ) : (
-        <Redirect to="/app/merchants/rejected-request" />
+        <Redirect to="/app/merchants/rejected" />
       );
 
     return <div>{renderEdit}</div>;

@@ -65,7 +65,7 @@ class MerchantReqProfile extends Component {
                 this.setState({showPopupAccept: false})
                 NotificationManager.success('SUCCESS', null, 800);
                 setTimeout(() => {
-                    this.props.history.push('/app/merchants/pending-request')
+                    this.props.history.push('/app/merchants/pending')
                 }, 1000)
             }
           }
@@ -74,7 +74,7 @@ class MerchantReqProfile extends Component {
             this.setState({showPopupReject: false})
             NotificationManager.success('SUCCESS', null, 800);
             setTimeout(() => {
-                this.props.history.push('/app/merchants/pending-request')
+                this.props.history.push('/app/merchants/pending')
             }, 1000)
           }
       }
@@ -173,10 +173,10 @@ class MerchantReqProfile extends Component {
                                         }}
                                         >
                                         {({ lol }) => (
-                                            <Form style={{textAlign: 'center'}}>
+                                            <Form style={{textAlign: 'center'}} className="InputBox">
                                                     <div>
-                                                        <label style={{paddingLeft: '5px'}}>MERCHANT ID:</label> <br/>
-                                                        <Field type="number" name="merchantID" />
+                                                        <label>MERCHANT ID:</label> <br/>
+                                                        <Field type="number" name="merchantID"/>
                                                         <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="merchantID" component="div" />
                                                     </div>
                                                     <div>
@@ -336,7 +336,7 @@ class MerchantReqProfile extends Component {
                         </div>
                         <NotificationContainer/>
                     </div>
-            </div> : <Redirect to="/app/merchants/pending-request" />
+            </div> : <Redirect to="/app/merchants/pending" />
         return ( 
            renderPendingProfile
          );

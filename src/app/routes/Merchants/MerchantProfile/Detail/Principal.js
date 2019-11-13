@@ -12,7 +12,7 @@ class Principal extends Component {
     this.state = {};
   }
   _editPrincipal = () => {
-    this.props.history.push("/app/merchants/merchant-profile/pincipal/edit");
+    this.props.history.push("/app/merchants/profile/pincipal/edit");
   };
   render() {
     const e = this.props.MerchantProfile;
@@ -62,7 +62,11 @@ class Principal extends Component {
             </div>
             <div className="col-md-4">
               <h4>State Issued*</h4>
-              <p>{e.state !== null ? e.state.name : null}</p>
+              <p>
+                {e.principals.state.name !== null
+                  ? e.principals.state.name
+                  : null}
+              </p>
             </div>
             <div className="col-md-12">
               <h4>Driver License Picture</h4>

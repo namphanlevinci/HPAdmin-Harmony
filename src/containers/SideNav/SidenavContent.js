@@ -113,30 +113,21 @@ class SidenavContent extends Component {
             </Button>
             <ul className="sub-menu">
               <li>
-                <NavLink
-                  className="prepend-icon"
-                  to="/app/merchants/pending-request"
-                >
+                <NavLink className="prepend-icon" to="/app/merchants/pending">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.pendingRequest" />
                   </span>
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  className="prepend-icon"
-                  to="/app/merchants/approved-request"
-                >
+                <NavLink className="prepend-icon" to="/app/merchants/approved">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.approvedRequest" />
                   </span>
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  className="prepend-icon"
-                  to="/app/merchants/rejected-request"
-                >
+                <NavLink className="prepend-icon" to="/app/merchants/rejected">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.rejectedRequest" />
                   </span>

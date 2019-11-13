@@ -54,9 +54,7 @@ class EditSettings extends Component {
   };
   _goBack = () => {
     this.props.getAll_Merchants();
-    this.props.history.push(
-      "/app/merchants/merchant-profile/merchant-settings"
-    );
+    this.props.history.push("/app/merchants/profile/settings");
   };
   _updateSettings = () => {
     const ID = this.props.MerchantProfile.merchantId;
@@ -91,9 +89,7 @@ class EditSettings extends Component {
           }, 1000);
           setTimeout(() => {
             this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
-            this.props.history.push(
-              "/app/merchants/merchant-profile/merchant-settings"
-            );
+            this.props.history.push("/app/merchants/profile/merchant-settings");
           }, 1500);
         } else {
           NotificationManager.error(

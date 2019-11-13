@@ -38,6 +38,9 @@ class StateComponent extends Component {
         setValue={this.handlePrevState}
         defaultValue={this.props.setvalue}
       >
+        <option value="" selected disabled hidden>
+          {this.props.setvalue}
+        </option>
         {mapState}
       </select>
     );

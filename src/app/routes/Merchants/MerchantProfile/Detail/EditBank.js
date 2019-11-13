@@ -68,7 +68,7 @@ class EditBank extends Component {
       });
   };
   _goBack = () => {
-    this.props.history.push("/app/merchants/merchant-profile/bank");
+    this.props.history.push("/app/merchants/profile/bank");
   };
   _update = () => {
     const ID = this.props.MerchantProfile.businessBank.businessBankId;
@@ -91,7 +91,7 @@ class EditBank extends Component {
           }, 1500);
           setTimeout(() => {
             this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
-            this.props.history.push("/app/merchants/merchant-profile/bank");
+            this.props.history.push("/app/merchants/profile/bank");
           }, 2000);
         }
       })

@@ -17,7 +17,7 @@ class MerchantApprovedProfile extends Component {
   }
 
   _goBack = () => {
-    this.props.history.push("/app/merchants/approved-request");
+    this.props.history.push("/app/merchants/approved");
   };
   render() {
     const e = this.props.MerchantProfile;
@@ -252,7 +252,7 @@ class MerchantApprovedProfile extends Component {
           </div>
         </div>
       ) : (
-        <Redirect to="/app/merchants/approved-request" />
+        <Redirect to="/app/merchants/approved" />
       );
     return renderMerchantProfile;
   }

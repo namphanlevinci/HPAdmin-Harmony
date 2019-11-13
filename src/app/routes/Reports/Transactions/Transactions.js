@@ -73,25 +73,16 @@ class Transactions extends React.Component {
     if (TransactionsList) {
       if (this.state.search) {
         TransactionsList = TransactionsList.filter(e => {
-          return (
-            e.user.firstName
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.user.lastName
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.user.phone
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.receiver.merchant_name
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            parseInt(e.merchantId) === parseInt(this.state.search)
-          );
+          if (e.user.fullName !== null) {
+            return (
+              e.user.fullName
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              parseInt(e.merchantId) === parseInt(this.state.search)
+            );
+          }
+          return null;
         });
       }
       if (this.state.from) {

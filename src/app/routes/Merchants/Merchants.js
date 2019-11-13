@@ -12,33 +12,33 @@ const Merchants = ({ match }) => (
         component={asyncComponent(() => import("./MerchantsList/Merchants"))}
       />
       <Route
-        path={`${match.url}/merchant-profile`}
+        path={`${match.url}/profile`}
         component={asyncComponent(() =>
           import("./MerchantProfile/MerchantProfile2")
         )}
       />
       {/* APPROVED LIST  */}
       <Route
-        path={`${match.url}/approved-request/profile`}
+        path={`${match.url}/approved/profile`}
         component={asyncComponent(() =>
           import("./MerchantRejectList/MerchantApprovedProfile")
         )}
       />
       <Route
-        path={`${match.url}/approved-request`}
+        path={`${match.url}/approved`}
         component={asyncComponent(() =>
           import("./MerchantsList/merchantsList")
         )}
       />
       {/* PENDING LIST */}
       <Route
-        path={`${match.url}/pending-request/profile`}
+        path={`${match.url}/pending/profile`}
         component={asyncComponent(() =>
           import("./MerchantsRequest/MerchantReqProfile")
         )}
       />
       <Route
-        path={`${match.url}/pending-request`}
+        path={`${match.url}/pending`}
         component={asyncComponent(() =>
           import("./MerchantsRequest/MerchantsRequest")
         )}
@@ -47,19 +47,19 @@ const Merchants = ({ match }) => (
       {/* REJECTED LIST */}
       {/* EDIT REJECTED MERCHANT */}
       <Route
-        path={`${match.url}/rejected-request/profile/edit`}
+        path={`${match.url}/rejected/profile/edit`}
         component={asyncComponent(() =>
           import("./MerchantRejectList/EditMerchantRejected")
         )}
       />
       <Route
-        path={`${match.url}/rejected-request/profile`}
+        path={`${match.url}/rejected/profile`}
         component={asyncComponent(() =>
           import("./MerchantRejectList/MerchantRejectedProfile")
         )}
       />
       <Route
-        path={`${match.url}/rejected-request`}
+        path={`${match.url}/rejected`}
         component={asyncComponent(() =>
           import("./MerchantRejectList/MerchantsRejectedList")
         )}

@@ -56,11 +56,11 @@ class MerchantRejectedProfile extends Component {
     }
     _Edit = (merchantInfo) => {
         this.props.ViewProfile_Merchants(merchantInfo)
-        this.props.history.push('/app/merchants/rejected-request/profile/edit')
+        this.props.history.push('/app/merchants/rejected/profile/edit')
     }
     _goBack = () => {
         this.props.getAll_Rejected_Merchants();
-        this.props.history.push('/app/merchants/rejected-request') 
+        this.props.history.push('/app/merchants/rejected') 
     }
     _togglePopupAccept = () => {
         this.setState({
@@ -74,7 +74,6 @@ class MerchantRejectedProfile extends Component {
       }
     render() { 
         const e = this.props.RejectedProfile
-        console.log('EEEEE', e)
         //!! render questions
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (
@@ -125,7 +124,7 @@ class MerchantRejectedProfile extends Component {
                                     </div>
                                     <div className="col-md-4">
                                         <h4>DBA Business Address*</h4>
-                                        <p>{e.general !== null ? e.general.address : null}</p>
+                                        <p>{e.addressFull !== null ? e.addressFull : null}</p>
                                     </div>
                                     <div className="col-md-4">
                                         <h4>Zip Code*</h4>
@@ -226,7 +225,7 @@ class MerchantRejectedProfile extends Component {
                                         </div>
                                         <div className="col-md-4">
                                             <h4>State Issued*</h4>
-                                            <p>{e.state !== null ? e.state.name : null}</p>
+                                            <p>{e.principals !== null ? e.principals.state.name : null}</p>
                                         </div>
                                         <div className="col-md-6">
                                             <h4>Driver License Picture</h4>
@@ -236,7 +235,7 @@ class MerchantRejectedProfile extends Component {
                             </div>   
                         </div>
                     </div>
-            </div> : <Redirect to="/app/merchants/rejected-request" />
+            </div> : <Redirect to="/app/merchants/rejected" />
         return ( 
            renderPendingProfile
          );

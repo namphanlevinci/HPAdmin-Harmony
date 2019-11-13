@@ -23,12 +23,11 @@ class General extends Component {
     };
   }
   _toggleEdit = () => {
-    this.props.history.push("/app/merchants/merchant-profile/general/edit");
+    this.props.history.push("/app/merchants/profile/general/edit");
   };
 
   render() {
     const e = this.props.MerchantProfile;
-    // console.log(e);
     const renderGeneral =
       e.general !== undefined ? (
         <div className="react-transition swipe-up">
@@ -49,7 +48,7 @@ class General extends Component {
               </div>
               <div className="col-md-4">
                 <h4>DBA Business Address*</h4>
-                <p>{e.address + " " + e.city + " " + e.stateId}</p>
+                <p>{e.addressFull}</p>
               </div>
               <div className="col-md-4">
                 <h4>Zip code*</h4>

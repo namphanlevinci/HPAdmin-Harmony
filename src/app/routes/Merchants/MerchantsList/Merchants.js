@@ -31,24 +31,27 @@ class Merchants extends React.Component {
 
   _merchantsProfile = merchant => {
     this.props.ViewProfile_Merchants(merchant);
-    this.props.history.push("/app/merchants/merchant-profile/general");
+    this.props.history.push("/app/merchants/profile/general");
   };
   render() {
     let MerList = this.props.Merchants_List;
     if (MerList) {
       if (this.state.search) {
         MerList = MerList.filter(e => {
-          return (
-            e.genaral.doBusinessName
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.email
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            parseInt(e.merchantId) === parseInt(this.state.search)
-          );
+          if (e.general !== null) {
+            return (
+              e.general.doBusinessName
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              e.email
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              parseInt(e.merchantId) === parseInt(this.state.search)
+            );
+          }
+          return null;
         });
       }
     }

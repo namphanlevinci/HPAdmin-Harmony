@@ -57,32 +57,30 @@ class merchantProfile2 extends Component {
                   <div className="profile-nav PendingLBody">
                     <ul className="detail-tab">
                       <li>
-                        <NavLink to="/app/merchants/merchant-profile/general">
+                        <NavLink to="/app/merchants/profile/general">
                           General
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/app/merchants/merchant-profile/bank">
-                          Bank
-                        </NavLink>
+                        <NavLink to="/app/merchants/profile/bank">Bank</NavLink>
                       </li>
                       <li>
-                        <NavLink to="/app/merchants/merchant-profile/pincipal">
+                        <NavLink to="/app/merchants/profile/pincipal">
                           Principal
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/app/merchants/merchant-profile/staff">
+                        <NavLink to="/app/merchants/profile/staff">
                           Staff
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/app/merchants/merchant-profile/settings">
+                        <NavLink to="/app/merchants/profile/settings">
                           Settings
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/app/merchants/merchant-profile/activities">
+                        <NavLink to="/app/merchants/profile/activities">
                           Activities
                         </NavLink>
                       </li>
@@ -90,44 +88,44 @@ class merchantProfile2 extends Component {
                     <div className="detail-content">
                       <Switch>
                         <Route
-                          path="/app/merchants/merchant-profile/general/edit"
+                          path="/app/merchants/profile/general/edit"
                           component={EditGeneral}
                         />
                         <Route
-                          path="/app/merchants/merchant-profile/general"
+                          path="/app/merchants/profile/general"
                           component={General}
                         />
                         <Route
-                          path="/app/merchants/merchant-profile/bank/edit"
+                          path="/app/merchants/profile/bank/edit"
                           component={EditBank}
                         />
                         <Route
-                          path="/app/merchants/merchant-profile/bank"
+                          path="/app/merchants/profile/bank"
                           component={Bank}
                         />
                         <Route
-                          path="/app/merchants/merchant-profile/pincipal/edit"
+                          path="/app/merchants/profile/pincipal/edit"
                           component={EditPrincipal}
                         />
                         <Route
-                          path="/app/merchants/merchant-profile/pincipal"
+                          path="/app/merchants/profile/pincipal"
                           component={Principal}
                         />
 
                         <Route
-                          path="/app/merchants/merchant-profile/staff"
+                          path="/app/merchants/profile/staff"
                           component={Staff}
                         />
                         <Route
-                          path="/app/merchants/merchant-profile/activities"
+                          path="/app/merchants/profile/activities"
                           component={MerchantActi}
                         />
                         <Route
-                          path="/app/merchants/merchant-profile/settings/edit"
+                          path="/app/merchants/profile/settings/edit"
                           component={EditSettings}
                         />
                         <Route
-                          path="/app/merchants/merchant-profile/settings"
+                          path="/app/merchants/profile/settings"
                           component={Settings}
                         />
                       </Switch>

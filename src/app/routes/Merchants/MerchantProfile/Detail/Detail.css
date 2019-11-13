@@ -260,6 +260,9 @@ thead th {
   width: 19%; /* 19% is less than (100% / 5 cols) = 20% */
   float: left;
 }
+.SettingsContent label {
+  font-size: 18px;
+}
 @media (min-width: 1024px) and (max-width: 1280px) {
   .POPUP-INNER2 {
     padding-top: 20px;

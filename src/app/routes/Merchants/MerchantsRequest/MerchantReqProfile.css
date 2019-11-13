@@ -108,7 +108,10 @@
   background-color: #f4f4f4;
   border-color: rgba(0, 0, 0, 0.9);
 }
-
+.PendingList .PendingLBody .InputBox input {
+  width: auto !important;
+  text-align: center;
+}
 .PendingList .PendingLBody {
   padding-top: 20px;
 }
@@ -161,14 +164,13 @@
   width: auto;
 } */
 .PendingList .PendingLBody input {
-  width: 250px !important;
+  width: 100% !important;
   font-weight: 500;
   color: #000000;
   border: none;
   border-bottom: 2px solid #dcdcdc;
   margin: 0px;
   font-size: 16px;
-  text-align: center;
 }
 
 .PendingList .PendingLBody input:focus {
