@@ -89,8 +89,8 @@ class EditSettings extends Component {
           }, 1000);
           setTimeout(() => {
             this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
-            this.props.history.push("/app/merchants/profile/merchant-settings");
-          }, 1500);
+            this.props.history.push("/app/merchants/profile/settings");
+          }, 2000);
         } else {
           NotificationManager.error(
             "Something went wrong, please try again.",

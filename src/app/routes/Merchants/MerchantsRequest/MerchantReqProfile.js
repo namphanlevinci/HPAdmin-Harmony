@@ -145,7 +145,7 @@ class MerchantReqProfile extends Component {
                                         open={this.state.isOpenAccept}
                                         onOpen={this.handleOpenAccept}
                                         closeOnDocumentClick
-                                    >
+                                    >   
                                         <span> <h2 className="title">ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?</h2><Formik
                                         initialValues={{ merchantID: '', merchantToken: '', fee: '', discountRate: '' }}
                                         validate={values => {
@@ -175,22 +175,22 @@ class MerchantReqProfile extends Component {
                                         {({ lol }) => (
                                             <Form style={{textAlign: 'center'}} className="InputBox">
                                                     <div>
-                                                        <label>MERCHANT ID:</label> <br/>
+                                                        <label>MERCHANT ID</label> <br/>
                                                         <Field type="number" name="merchantID"/>
                                                         <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="merchantID" component="div" />
                                                     </div>
                                                     <div>
-                                                        <label>MERCHANT TOKEN:</label> <br/>
+                                                        <label>MERCHANT TOKEN</label> <br/>
                                                         <Field type="text" name="merchantToken" />
                                                         <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="merchantToken" component="div" />
                                                     </div>
                                                     <div>
-                                                        <label>TRANSACTION FEE:</label> <br/>
+                                                        <label>TRANSACTION FEE</label> <br/>
                                                         <Field type="number" name="fee" />
                                                         <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="fee" component="div" />
                                                     </div>
                                                     <div>
-                                                        <label>DISCOUNT RATE:</label> <br/>
+                                                        <label>DISCOUNT RATE</label> <br/>
                                                         <Field type="number" name="discount" />
                                                         <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="discount" component="div" />
                                                     </div>

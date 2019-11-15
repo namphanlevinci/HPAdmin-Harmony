@@ -5,7 +5,6 @@ import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-// import TextField from "@material-ui/core/TextField";
 import { ADD_ADMIN } from "../../../../actions/user/actions";
 import {
   NotificationContainer,
@@ -16,13 +15,10 @@ import axios from "axios";
 import { ViewProfile_User } from "../../../../actions/user/actions";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
 import URL from "../../../../url/url";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
-import "date-fns";
-import Grid from "@material-ui/core/Grid";
-import DateFnsUtils from "@date-io/date-fns";
+
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 const roles = [
   { value: "1", label: "Administrator" },
   { value: "2", label: "Manager" },
@@ -184,7 +180,7 @@ class addAdmin2 extends Component {
       } else {
         NotificationManager.success(Message);
         setTimeout(() => localStorage.removeItem("ADD_STATUS"), 1000);
-        setTimeout(() => this.props.history.push("/app/accounts/admin", 500));
+        setTimeout(() => this.props.history.push("/app/accounts/admin", 1200));
         this.setState({
           firstname: "",
           lastname: "",
@@ -205,7 +201,7 @@ class addAdmin2 extends Component {
   render() {
     const renderProfile = (
       <div className="row justify-content-md-center AdminProfile">
-        <div className="col-md-4 text-center">
+        <div className="col-md-3 text-center">
           <img
             src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
             alt="avatar"
@@ -223,10 +219,10 @@ class addAdmin2 extends Component {
             ></input>
           </div>
         </div>
-        <div className="col-md-8">
+        <div className="col-md-9">
           <h2>Contact Information</h2>
-          <p>
-            First Name:
+          {/* <p>
+            First Name
             <input
               type="text"
               name="firstname"
@@ -235,7 +231,7 @@ class addAdmin2 extends Component {
             ></input>
           </p>
           <p>
-            Last Name:
+            Last Name
             <input
               type="text"
               name="lastname"
@@ -244,32 +240,75 @@ class addAdmin2 extends Component {
             ></input>
           </p>
           <p>
-            Password &nbsp;:
+            Password &nbsp;
             <input
               type="text"
               name="password"
               value={this.state.password}
               onChange={this._handleChange}
             ></input>
-          </p>
-          <div className="col-md-4">
-            <p>
-              Role:
-              <Select
-                required
-                value={this.state.roles}
-                onChange={value => this.setState({ roles: value })}
-                options={roles}
-              />
-            </p>
-          </div>
+          </p> */}
 
           <hr />
 
           <table style={{ width: "100%" }}>
             <tbody>
               <tr>
-                <td style={{ width: "10%" }}>Phone</td>
+                <td style={{ width: "15%" }}>
+                  <p>First Name</p>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="firstname"
+                    value={this.state.firstName}
+                    onChange={this._handleChange}
+                  ></input>
+                </td>
+              </tr>
+              <tr>
+                <td style={{ width: "15%" }}>
+                  <p>Last name </p>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="lastname"
+                    value={this.state.lastName}
+                    onChange={this._handleChange}
+                  ></input>
+                </td>
+              </tr>
+              <tr>
+                <td style={{ width: "15%" }}>
+                  <p>Password </p>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="password"
+                    value={this.state.password}
+                    onChange={this._handleChange}
+                  ></input>
+                </td>
+              </tr>
+              <tr>
+                <td style={{ width: "15%" }}>
+                  <p>Role</p>
+                </td>
+                <td style={{ width: "29%" }}>
+                  <Select
+                    required
+                    value={this.state.roles}
+                    onChange={value => this.setState({ roles: value })}
+                    options={roles}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td style={{ width: "15%" }}>
+                  <p>Phone</p>
+                </td>
                 <td>
                   <input
                     type="text"
@@ -280,7 +319,9 @@ class addAdmin2 extends Component {
                 </td>
               </tr>
               <tr>
-                <td style={{ width: "10%" }}>Email</td>
+                <td style={{ width: "15%" }}>
+                  <p>Email</p>
+                </td>
                 <td>
                   <input
                     type="text"
@@ -291,7 +332,9 @@ class addAdmin2 extends Component {
                 </td>
               </tr>
               <tr>
-                <td style={{ width: "10%" }}>Address</td>
+                <td style={{ width: "15%" }}>
+                  <p>Address</p>
+                </td>
                 <td>
                   <input
                     type="text"
@@ -302,7 +345,9 @@ class addAdmin2 extends Component {
                 </td>
               </tr>
               <tr>
-                <td style={{ width: "10%" }}>City</td>
+                <td style={{ width: "15%" }}>
+                  <p>City</p>
+                </td>
                 <td>
                   <input
                     type="text"
@@ -319,7 +364,9 @@ class addAdmin2 extends Component {
           <table style={{ width: "100%" }}>
             <tbody>
               <tr>
-                <td style={{ width: "10%" }}>Zip</td>
+                <td style={{ width: "15%" }}>
+                  <p>Zip</p>
+                </td>
                 <td>
                   <input
                     type="text"
@@ -330,8 +377,10 @@ class addAdmin2 extends Component {
                 </td>
               </tr>
               <tr>
-                <td style={{ width: "10%" }}>State ID</td>
-                <td style={{ width: "30%" }}>
+                <td style={{ width: "15%" }}>
+                  <p>State</p>
+                </td>
+                <td style={{ width: "29%" }}>
                   <Select
                     value={this.state.stateID}
                     onChange={value => this.setState({ stateID: value })}
@@ -340,26 +389,16 @@ class addAdmin2 extends Component {
                 </td>
               </tr>
               <tr>
-                <td style={{ width: "10%" }}>Birthdate</td>
-                <td>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around">
-                      <KeyboardDatePicker
-                        style={{ width: 150 }}
-                        disableToolbar
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        id="date-picker-inline"
-                        label="Birthdate"
-                        value={this.state.BirthDate}
-                        onChange={date => this.setState({ BirthDate: date })}
-                        KeyboardButtonProps={{
-                          "aria-label": "change date"
-                        }}
-                      />
-                    </Grid>
-                  </MuiPickersUtilsProvider>
+                <td style={{ width: "15%" }}>
+                  <p>Birthday </p>
+                </td>
+                <td className="Birthday">
+                  <DatePicker
+                    className="Birthday"
+                    placeholderText="MM/DD/YYYY"
+                    selected={this.state.BirthDate}
+                    onChange={date => this.setState({ BirthDate: date })}
+                  />
                 </td>
               </tr>
             </tbody>
@@ -367,7 +406,7 @@ class addAdmin2 extends Component {
           <div className="col-md-12">
             <div className="SettingsContent GeneralContent">
               <Button className="btn btn-green" onClick={this._addAdminUser}>
-                ADD
+                CREATE USER
               </Button>
               <Button className="btn btn-red" onClick={this._goBack}>
                 CANCEL

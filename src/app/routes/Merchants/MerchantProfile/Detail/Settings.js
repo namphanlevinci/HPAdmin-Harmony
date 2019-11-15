@@ -84,7 +84,7 @@ class Settings extends Component {
           setTimeout(() => {
             this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
             this.props.history.push("/app/merchants/profile/settings");
-          }, 1500);
+          }, 2000);
         }
       });
   };

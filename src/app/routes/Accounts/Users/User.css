@@ -19,21 +19,21 @@
 }
 .AdminProfile h2 {
   padding-top: 15px;
-  color: #b4b2b2;
+  color: black;
   font-weight: 500;
   font-size: 22px;
 }
 .AdminProfile div img {
   width: 180px;
 }
-.AdminProfile button {
+/* .AdminProfile button {
   padding: 9px;
   margin-top: 20px;
   color: white;
   background: #0764b0;
   font-weight: 500;
   font-size: 14px;
-}
+} */
 .AdminProfile button:hover {
   /* padding: 9px;
   margin-top: 20px;
@@ -54,7 +54,9 @@
   border-collapse: collapse;
   width: 100%;
 }
-
+.AdminProfile p {
+  margin-bottom: 0px;
+}
 .AdminProfile td,
 th {
   display: inline-block !important;
@@ -62,7 +64,54 @@ th {
   padding: 6px 0px;
 }
 .AdminProfile input {
-  font-size: 16px;
-  padding: 3px;
-  /* border-bottom: 1px solid black; */
+  width: 255px;
+  padding-left: 5px;
 }
+.AdminProfile .Birthday::placeholder {
+  text-align: center;
+}
+.AdminProfile .Birthday {
+  padding: 3px;
+  text-align: center;
+}
+
+/* .AdminProfile input {
+  font-size: 16px;
+  padding: 3px; */
+/* border-bottom: 1px solid black; */
+/* } */
+
+/* //! ADMIN SIGH UP FORM */
+/* .AdminProfile .adminForm label {
+  font-size: 12px;
+  color: #cfcfcf;
+  text-transform: uppercase;
+}
+
+.AdminProfile .adminForm input {
+  width: 100%;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid #cfcfcf;
+  margin-bottom: 10px;
+}
+.AdminProfile .adminForm input:focus,
+input:focus {
+  outline: none;
+  border-bottom: 1px solid #0764b0;
+}
+
+.AdminProfile .adminForm input.error {
+  border-bottom: 2px solid;
+  border-color: red;
+}
+.AdminProfile .adminForm .input-feedback {
+  color: red;
+  font-size: 14px;
+}
+.AdminProfile .adminForm select {
+  width: 100%;
+  text-align: center;
+  text-align-last: center;
+  padding: 10px;
+} */
