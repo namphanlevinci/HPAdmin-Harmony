@@ -95,7 +95,8 @@ class addAdmin2 extends Component {
       BirthDate: undefined,
       roles: undefined,
       phone: "",
-      fileId: 0
+      fileId: 0,
+      imagePreviewUrl: ""
     };
   }
 
@@ -117,7 +118,17 @@ class addAdmin2 extends Component {
   _uploadFile = event => {
     event.stopPropagation();
     event.preventDefault();
+
+    let reader = new FileReader();
     const file = event.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        imagePreviewUrl: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
+
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
@@ -199,14 +210,28 @@ class addAdmin2 extends Component {
     }
   }
   render() {
+    let { imagePreviewUrl } = this.state;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (
+        <img
+          src={imagePreviewUrl}
+          alt="avatar"
+          style={{ width: "192px", height: "192px" }}
+        />
+      );
+    } else {
+      $imagePreview = (
+        <img
+          src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
+          alt="avatar"
+        />
+      );
+    }
     const renderProfile = (
       <div className="row justify-content-md-center AdminProfile">
         <div className="col-md-3 text-center">
-          <img
-            src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
-            alt="avatar"
-          />
-
+          {$imagePreview}
           <div>
             <label>Upload avatar</label>
             <br />
@@ -285,7 +310,7 @@ class addAdmin2 extends Component {
                 </td>
                 <td>
                   <input
-                    type="text"
+                    type="password"
                     name="password"
                     value={this.state.password}
                     onChange={this._handleChange}

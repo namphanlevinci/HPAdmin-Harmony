@@ -135,7 +135,7 @@ class Settings extends Component {
             </div>
           </div>
         </div>
-        <div className="SettingsContent GeneralContent">
+        <div className="SettingsContent GeneralContent react-transition swipe-up">
           <Button className="btn btn-green" onClick={this._gotoEdit}>
             EDIT
           </Button>

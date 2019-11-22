@@ -13,12 +13,13 @@ import EditGeneral from "./Detail/EditGeneral";
 // import Business from "./Detail/Business";
 import Bank from "./Detail/Bank";
 import EditBank from "./Detail/EditBank";
-import Principal from "./Detail/Principal";
+import Principal from "./Detail/Principal2";
 import EditPrincipal from "./Detail/EditPrincipal";
 import Settings from "./Detail/Settings";
 import EditSettings from "./Detail/EditSettings";
 import Staff from "./Detail/Staff";
 import MerchantActi from "./Detail/Activity";
+import Service from "./Detail/Service";
 class merchantProfile2 extends Component {
   constructor(props) {
     super(props);
@@ -70,6 +71,11 @@ class merchantProfile2 extends Component {
                         </NavLink>
                       </li>
                       <li>
+                        <NavLink to="/app/merchants/profile/service">
+                          Service
+                        </NavLink>
+                      </li>
+                      <li>
                         <NavLink to="/app/merchants/profile/staff">
                           Staff
                         </NavLink>
@@ -111,7 +117,10 @@ class merchantProfile2 extends Component {
                           path="/app/merchants/profile/pincipal"
                           component={Principal}
                         />
-
+                        <Route
+                          path="/app/merchants/profile/service"
+                          component={Service}
+                        />
                         <Route
                           path="/app/merchants/profile/staff"
                           component={Staff}

@@ -120,3 +120,9 @@ export const MERCHANT_REJECT_ERROR = payload => ({
   type: types.MERCHANT_REJECT_ERROR,
   payload: payload
 });
+
+//! UPDATE PRINCIPAL INFORMATIONS
+export const UPDATE_PRINCIPAL = payload => ({
+  type: types.UPDATE_PRINCIPAL,
+  payload: payload
+});

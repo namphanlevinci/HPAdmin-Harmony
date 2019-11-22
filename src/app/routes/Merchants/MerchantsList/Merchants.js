@@ -18,11 +18,15 @@ class Merchants extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ""
+      search: "",
+      loading: true
     };
   }
   componentWillMount() {
     this.props.getAll_Merchants();
+    this.setState({
+      loading: false
+    });
   }
 
   _SearchMerchants = async e => {
@@ -75,10 +79,10 @@ class Merchants extends React.Component {
         id: "principals",
         Header: "Owner",
         width: 200,
-        accessor: "principals",
+        accessor: e => e.principals[0],
         Cell: e => (
           <span>
-            {e.value !== null
+            {e.value !== undefined
               ? e.value.firstName + " " + e.value.lastName
               : null}
           </span>
@@ -138,6 +142,7 @@ class Merchants extends React.Component {
               minRows={1}
               getTdProps={onRowClick}
               noDataText="NO DATA!"
+              loading={this.state.loading}
             />
           </div>
         </div>

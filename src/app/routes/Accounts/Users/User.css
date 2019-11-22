@@ -25,6 +25,8 @@
 }
 .AdminProfile div img {
   width: 180px;
+  height: 180px;
+  background-position: center;
 }
 /* .AdminProfile button {
   padding: 9px;

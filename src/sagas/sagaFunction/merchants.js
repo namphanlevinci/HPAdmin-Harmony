@@ -8,9 +8,10 @@ import * as typeMerchants from "../../actions/merchants/types";
 
 //! GET ALL MERCHANTS
 export function* getAll_Merchants_Saga() {
-  yield takeLatest(typeMerchants.getAll_Merchants, function*() {
+  yield takeLatest(typeMerchants.getAll_Merchants, function*(action) {
+    const page = action.payload;
     try {
-      const MerchantsList = yield getAll_Merchants_api();
+      const MerchantsList = yield getAll_Merchants_api(page);
       // console.log(MerchantsList)
       if (MerchantsList !== null) {
         yield put({

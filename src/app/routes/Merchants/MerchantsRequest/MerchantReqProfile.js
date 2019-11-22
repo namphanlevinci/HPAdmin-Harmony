@@ -80,7 +80,63 @@ class MerchantReqProfile extends Component {
       }
     render() { 
         const e = this.props.PendingProfile
-        //render question
+        console.log('THIS IS DA MERCHANT', e)
+        //! render Principal 
+        const renderPrincipal = e.principals !== undefined ? e.principals.map(e => {
+            return (
+                <div className = 'row' key = {e.principalId}>
+                <div className = "col-md-4">
+                                            <h4>Name*</h4>
+                                            <p>{e.firstName + ' ' + e.lastName}</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>Title/Position*</h4>
+                                            <p>{e.title}</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>Ownership(%)*</h4>
+                                            <p>{e.ownerShip}%</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>Home Phone*</h4>
+                                            <p>{e.homePhone}</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>Mobile Phone*</h4>
+                                            <p>{e.mobilePhone}</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>Address*</h4>
+                                            <p>{e.address}</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>Social Security Number (SSN)*</h4>
+                                            <p>{e.ssn }</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>Date of Birth (mm/dd/yy)*</h4>
+                                            <p>{moment(e.birthDate).format('MM/DD/YYYY')}</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>Email Address*</h4>
+                                            <p>{e.email}</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>Driver License Number*</h4>
+                                            <p>{e.driverNumber}</p>
+                                        </div>
+                                        <div className = "col-md-4">
+                                            <h4>State Issued*</h4>
+                                            <p>{e.state !== undefined ? e.state.name : null}</p>
+                                        </div>
+                                        <div className = "col-md-6">
+                                            <h4>Driver License Picture</h4>
+                                            {<img style={{width: '250px', height: '200px'}}  src={`${e.imageUrl}`} alt="void check" />}
+                                        </div>  
+                                        <hr/> 
+                                        </div>                                     
+            )}) : <h4>&nbsp;- NO PRINCIPALS INFORMATION</h4>
+        //! render question
         const renderQuestion = e.business !== undefined ? e.business.map((e) => {
             return (
                 <div className="col-md-6" key={e.businessId}>
@@ -278,60 +334,8 @@ class MerchantReqProfile extends Component {
                                         </div>
                                     </div>
                                 <h2>Principal Information</h2>
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                            <h4>Name*</h4>
-                                            <p>{e.principals !== null ? e.principals.firstName + ' ' + e.principals.lastName : null}</p>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <h4>Title/Position*</h4>
-                                            <p>{e.principals !== null ? e.principals.title : null}</p>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <h4>Ownership(%)*</h4>
-                                            <p>{e.principals !== null ? e.principals.ownerShip : null}%</p>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <h4>Home Phone*</h4>
-                                            <p>{e.principals !== null ? e.principals.homePhone : null}</p>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <h4>Mobile Phone*</h4>
-                                            <p>{e.principals !== null ? e.principals.mobilePhone : null}</p>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <h4>Address*</h4>
-                                            <p>{e.principals !== null ? e.principals.address : null}</p>
-                                        </div>
-                                        {/* <div className="col-md-4">
-                                            <h4>Years at This Address*</h4>
-                                            <p>{e.principals !== null ? e.principals.yearAddress : null}</p>
-                                        </div> */}
-                                        <div className="col-md-4">
-                                            <h4>Social Security Number (SSN)*</h4>
-                                            <p>{e.principals !== null ? e.principals.ssn : null }</p>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <h4>Date of Birth (mm/dd/yy)*</h4>
-                                            <p>{e.principals !== null ? moment(e.principals.birthDate).format('MM/DD/YYYY') : null}</p>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <h4>Email Address*</h4>
-                                            <p>{e.general !== null ? e.general.emailContact : null}</p>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <h4>Driver License Number*</h4>
-                                            <p>{e.principals !== null ? e.principals.driverNumber : null}</p>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <h4>State Issued*</h4>
-                                            <p>{e.state !== null ? e.state.name : null}</p>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <h4>Driver License Picture</h4>
-                                            {e.principals !== null ? <img style={{width: '250px', height: '200px'}}  src={`${e.principals.imageUrl}`} alt="void check" /> : null}
-                                        </div>
-                                    </div>
+                                    {renderPrincipal}
+                                        
                             </div>   
                         </div>
                         <NotificationContainer/>

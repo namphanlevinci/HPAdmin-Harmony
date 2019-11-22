@@ -63,9 +63,7 @@ class Principal extends Component {
             <div className="col-md-4">
               <h4>State Issued*</h4>
               <p>
-                {e.principals.state.name !== null
-                  ? e.principals.state.name
-                  : null}
+                {e.principals.state !== null ? e.principals.state.name : null}
               </p>
             </div>
             <div className="col-md-12">

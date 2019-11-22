@@ -64,19 +64,17 @@ class MerchantsRequest extends Component {
         id: "general",
         accessor: "general",
         Cell: e => (
-          <span style={{ fontWeight: 600 }}>
-            {e.value !== null ? e.value.doBusinessName : null}
-          </span>
+          <span>{e.value !== null ? e.value.doBusinessName : null}</span>
         )
       },
       {
         id: "principals",
         Header: "Owner",
         width: 150,
-        accessor: "principals",
+        accessor: e => e.principals[0],
         Cell: e => (
           <span>
-            {e.value !== null
+            {e.value !== undefined
               ? e.value.firstName + " " + e.value.lastName
               : null}
           </span>

@@ -69,15 +69,20 @@ class Consumers extends React.Component {
       },
       {
         Header: "Balance",
-        accessor: "credit",
+        // accessor: "credit",
+        id: "balnce",
+        accessor: e => e.credit,
         Cell: e => <span>${e.value}</span>
       },
       {
         id: "totalAmount",
         Header: "Money spent/Daily",
-        accessor: e => e.totalAmount,
+        accessor: e => Number(e.totalAmount).toFixed(2),
+        sortMethod: (a, b) => Number(a) - Number(b),
         Cell: e => (
-          <span className={e.value > 10000 ? "BIG" : ""}>${e.value}</span>
+          <span className={Number(e.value) > 10000 ? "BIG" : ""}>
+            ${e.value}
+          </span>
         )
       },
       {

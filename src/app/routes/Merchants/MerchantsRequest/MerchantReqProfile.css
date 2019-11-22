@@ -124,6 +124,7 @@
   font-weight: 600;
   color: black;
   overflow-wrap: break-word;
+  font-size: 14px;
 }
 /* POP UP  */
 .PendingList .PendingLBody .POPUP {

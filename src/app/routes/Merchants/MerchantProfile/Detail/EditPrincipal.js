@@ -28,7 +28,8 @@ class EditPrincipal extends Component {
       DriverNumber: "",
       FileId: "",
       Token: "",
-      stateName: ""
+      stateName: "",
+      email: ""
     };
   }
   _editPrincipal = () => {
@@ -37,7 +38,7 @@ class EditPrincipal extends Component {
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
     await this.setState({ Token: Token });
-    const data = this.props.MerchantProfile.principals;
+    const data = this.props.principalInfo;
     if (data !== null) {
       this.setState({
         HomePhone: data.homePhone,
@@ -46,7 +47,8 @@ class EditPrincipal extends Component {
         StateId: data.stateId,
         DriverNumber: data.driverNumber,
         FileId: data.fileId,
-        stateName: data.state.name
+        stateName: data.state.name,
+        email: data.email
       });
     }
   }
@@ -79,7 +81,7 @@ class EditPrincipal extends Component {
     this.props.history.push("/app/merchants/profile/pincipal");
   };
   _update = () => {
-    const ID = this.props.MerchantProfile.principals.principalId;
+    const ID = this.props.principalInfo.principalId;
     const IDMerchant = this.props.MerchantProfile.merchantId;
     let token = JSON.parse(this.state.Token);
     const config = {
@@ -91,16 +93,17 @@ class EditPrincipal extends Component {
       DriverNumber,
       HomePhone,
       MobilePhone,
-      StateId
+      StateId,
+      email
     } = this.state;
     Axios.put(
       URL + "/merchant/principal/" + ID,
-      { Address, FileId, DriverNumber, HomePhone, MobilePhone, StateId },
+      { Address, FileId, DriverNumber, HomePhone, MobilePhone, StateId, email },
       config
     )
       .then(res => {
         if (res.data.message === "Update pricipal completed") {
-          NotificationManager.success("Success", null, 800);
+          NotificationManager.success("Success", null, 600);
           setTimeout(() => {
             this.props.GetMerchant_byID(IDMerchant);
           }, 1500);
@@ -118,16 +121,16 @@ class EditPrincipal extends Component {
     this.setState({ StateId: e });
   };
   render() {
-    const e = this.props.MerchantProfile;
+    const e = this.props.principalInfo;
     const renderPrincipal =
-      e.principals !== null ? (
+      e !== null ? (
         <React.Fragment>
           <div className="row">
             <div className="col-md-4">
               <h4>Name*</h4>
               <input
                 name="name"
-                value={e.principals.firstName + " " + e.principals.lastName}
+                value={e.firstName + " " + e.lastName}
                 onChange={this._handleChange}
                 disabled
               ></input>
@@ -136,7 +139,7 @@ class EditPrincipal extends Component {
               <h4>Title/Position*</h4>
               <input
                 name="Title"
-                value={e.principals.title}
+                value={e.title}
                 onChange={this._handleChange}
                 disabled
               ></input>
@@ -145,7 +148,7 @@ class EditPrincipal extends Component {
               <h4>Ownership(%)*</h4>
               <input
                 name="name"
-                value={e.principals.ownerShip}
+                value={e.ownerShip}
                 onChange={this._handleChange}
                 disabled
               ></input>
@@ -178,7 +181,7 @@ class EditPrincipal extends Component {
               <h4>Social Security Number (SSN)*</h4>
               <input
                 name="ssn"
-                value={e.principals.ssn}
+                value={e.ssn}
                 onChange={this._handleChange}
                 disabled
               ></input>
@@ -187,15 +190,19 @@ class EditPrincipal extends Component {
               <h4>Date of Birth (mm/dd/yy)*</h4>
               <input
                 name="birthday"
-                value={moment(e.principals.birthDate).format("MM/DD/YYYY")}
+                value={moment(e.birthDate).format("MM/DD/YYYY")}
                 onChange={this._handleChange}
                 disabled
               ></input>
             </div>
-            {/* <div className="col-md-4">
+            <div className="col-md-4">
               <h4>Email Address*</h4>
-              <p>{e.general !== null ? e.general.emailContact : null}</p>
-            </div> */}
+              <input
+                name="email"
+                value={this.state.email}
+                onChange={this._handleChange}
+              ></input>
+            </div>
             <div className="col-md-4">
               <h4>Driver License Number*</h4>
               <input
@@ -221,7 +228,7 @@ class EditPrincipal extends Component {
               {/* <img src={require("../../../../../assets/images/driverlicense.jpg")} alt="void check"/> */}
               <img
                 className="bankVoid"
-                src={`${e.principals.imageUrl}`}
+                src={`${e.imageUrl}`}
                 alt="driver license"
               />
             </div>
@@ -259,6 +266,7 @@ class EditPrincipal extends Component {
 }
 
 const mapStateToProps = state => ({
+  principalInfo: state.viewPrincipal,
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
   getMerchant: state.getMerchant

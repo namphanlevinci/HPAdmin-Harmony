@@ -43,7 +43,7 @@ class EditMerchantRejected extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const data = this.props.MerchantProfile;
     if (data.general !== null) {
       this.setState({
@@ -60,10 +60,10 @@ class EditMerchantRejected extends Component {
         lastName: data.general.lastName,
         title: data.general.title,
         doBusinessName: data.general.doBusinessName,
-        stateName: data.principals.state.name
+        stateName: data.state.name
       });
     }
-  };
+  }
 
   _handleChange = event => {
     const target = event.target;
@@ -131,7 +131,6 @@ class EditMerchantRejected extends Component {
     if (nextProps.getMerchant !== this.props.getMerchant) {
       this.props.ViewMerchant_Rejected_Merchants(this.props.getMerchant.Data);
       this.props.history.push("/app/merchants/rejected/profile");
-      // console.log("HERE 2", this.props.getMerchant.Data);
     }
   }
 

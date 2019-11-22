@@ -43,7 +43,8 @@ class EditUserProfile extends Component {
       defaultValue: {
         value: { label: "", value: "" }
       },
-      Token: null
+      Token: null,
+      imagePreviewUrl: ""
     };
   }
 
@@ -82,7 +83,16 @@ class EditUserProfile extends Component {
   _uploadFile = event => {
     event.stopPropagation();
     event.preventDefault();
+
+    let reader = new FileReader();
+
     const file = event.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        imagePreviewUrl: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
@@ -170,21 +180,39 @@ class EditUserProfile extends Component {
   _goBack = () => {
     this.props.history.push("/app/accounts/admin/profile");
   };
-
+  _handleImageChange = e => {
+    e.preventDefault();
+  };
   render() {
+    let { imagePreviewUrl } = this.state;
     const e = this.props.UserProfile;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = <img src={imagePreviewUrl} alt="avatar" />;
+    } else {
+      $imagePreview =
+        e.imageUrl !== null ? (
+          <img src={e.imageUrl} alt="avatar" />
+        ) : (
+          <img
+            src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
+            alt="avatar"
+          />
+        );
+    }
     const renderProfile =
       e.waUserId !== undefined ? (
         <div className="row justify-content-md-center AdminProfile">
           <div className="col-md-3 text-center">
-            {e.imageUrl !== null ? (
+            {/* {e.imageUrl !== null ? (
               <img src={e.imageUrl} alt="avatar" />
             ) : (
               <img
                 src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
                 alt="avatar"
               />
-            )}
+            )} */}
+            {$imagePreview}
             <div>
               <label>Upload new avatar:</label>
               <input

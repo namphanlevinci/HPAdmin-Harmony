@@ -22,7 +22,74 @@ class MerchantApprovedProfile extends Component {
   render() {
     const e = this.props.MerchantProfile;
     // console.log("Fix something", e)
-    //render questions
+    //!render Principal
+    const renderPrincipal =
+      e.principals !== undefined ? (
+        e.principals.map(e => {
+          return (
+            <div className="row" key={e.principalId}>
+              <div className="col-md-4">
+                <h4>Name*</h4>
+                <p>{e.firstName + " " + e.lastName}</p>
+              </div>
+              <div className="col-md-4">
+                <h4>Title/Position*</h4>
+                <p>{e.title}</p>
+              </div>
+              <div className="col-md-4">
+                <h4>Ownership(%)*</h4>
+                <p>{e.ownerShip}%</p>
+              </div>
+              <div className="col-md-4">
+                <h4>Home Phone*</h4>
+                <p>{e.homePhone}</p>
+              </div>
+              <div className="col-md-4">
+                <h4>Mobile Phone*</h4>
+                <p>{e.mobilePhone}</p>
+              </div>
+              <div className="col-md-4">
+                <h4>Address*</h4>
+                <p>{e.address}</p>
+              </div>
+              <div className="col-md-4">
+                <h4>Social Security Number (SSN)*</h4>
+                <p>{e.ssn}</p>
+              </div>
+              <div className="col-md-4">
+                <h4>Date of Birth (mm/dd/yy)*</h4>
+                <p>{moment(e.birthDate).format("MM/DD/YYYY")}</p>
+              </div>
+              <div className="col-md-4">
+                <h4>Email Address*</h4>
+                <p>{e.email}</p>
+              </div>
+              <div className="col-md-4">
+                <h4>Driver License Number*</h4>
+                <p>{e.driverNumber}</p>
+              </div>
+              <div className="col-md-4">
+                <h4>State Issued*</h4>
+                <p>{e.state !== undefined ? e.state.name : null}</p>
+              </div>
+              <div className="col-md-6">
+                <h4>Driver License Picture</h4>
+                {
+                  <img
+                    style={{ width: "250px", height: "200px" }}
+                    src={`${e.imageUrl}`}
+                    alt="void check"
+                  />
+                }
+              </div>
+              <hr />
+            </div>
+          );
+        })
+      ) : (
+        <h4>&nbsp;- NO PRINCIPALS INFORMATION</h4>
+      );
+    //!render questions
     const renderQuestion =
       e.business !== undefined ? (
         e.business.map(e => {
@@ -177,76 +244,7 @@ class MerchantApprovedProfile extends Component {
                   </div>
                 </div>
                 <h2>Principal Information</h2>
-                {e.principals !== null ? (
-                  <div className="row">
-                    <div className="col-md-4">
-                      <h4>Name*</h4>
-                      <p>
-                        {e.principals.firstName + " " + e.principals.lastName}
-                      </p>
-                    </div>
-                    <div className="col-md-4">
-                      <h4>Title/Position*</h4>
-                      <p>{e.principals.title}</p>
-                    </div>
-                    <div className="col-md-4">
-                      <h4>Ownership(%)*</h4>
-                      <p>{e.principals.ownerShip}%</p>
-                    </div>
-                    <div className="col-md-4">
-                      <h4>Home Phone*</h4>
-                      <p>{e.principals.homePhone}</p>
-                    </div>
-                    <div className="col-md-4">
-                      <h4>Mobile Phone*</h4>
-                      <p>{e.principals.mobilePhone}</p>
-                    </div>
-                    <div className="col-md-4">
-                      <h4>Address*</h4>
-                      <p>{e.principals.address}</p>
-                    </div>
-                    {/* <div className="col-md-4">
-                      <h4>Years at This Address*</h4>
-                      <p>{e.principals.yearAddress}</p>
-                    </div> */}
-                    <div className="col-md-4">
-                      <h4>Social Security Number (SSN)*</h4>
-                      <p>{e.principals.ssn}</p>
-                    </div>
-                    <div className="col-md-4">
-                      <h4>Date of Birth (mm/dd/yy)*</h4>
-                      <p>
-                        {moment(e.principals.birthDate).format("MM/DD/YYYY")}
-                      </p>
-                    </div>
-                    <div className="col-md-4">
-                      <h4>Email Address*</h4>
-                      <p>
-                        {e.general !== null ? e.general.emailContact : null}
-                      </p>
-                    </div>
-                    <div className="col-md-4">
-                      <h4>Driver License Number*</h4>
-                      <p>{e.principals.driverNumber}</p>
-                    </div>
-                    <div className="col-md-4">
-                      <h4>State Issued*</h4>
-                      <p>{e.state !== null ? e.state.name : null}</p>
-                    </div>
-                    <div className="col-md-6">
-                      <h4>Driver License Picture</h4>
-                      {e.principals !== null ? (
-                        <img
-                          style={{ width: "300px" }}
-                          src={`${e.principals.imageUrl}`}
-                          alt="void check"
-                        />
-                      ) : null}
-                    </div>
-                  </div>
-                ) : (
-                  <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
-                )}
+                {renderPrincipal}
               </div>
             </div>
           </div>

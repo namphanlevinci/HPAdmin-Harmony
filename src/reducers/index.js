@@ -41,7 +41,8 @@ import getAllP2P_Transactions from "./Transactions/getP2P";
 import getBatchDetail from "./Transactions/getBatchDetail";
 //! REPORT STATICS
 import Approved_Static from "./Reports/Approved";
-
+//! View Principal Infor
+import viewPrincipalInfo from "./Merchants/getPrincipal_Info";
 export default history =>
   combineReducers({
     router: connectRouter(history),
@@ -73,5 +74,6 @@ export default history =>
     addAdminUser,
     getAllBatch,
     GetP2P: getAllP2P_Transactions,
-    BatchDetail: getBatchDetail
+    BatchDetail: getBatchDetail,
+    viewPrincipal: viewPrincipalInfo
   });
