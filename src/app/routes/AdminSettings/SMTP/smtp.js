@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import { connect } from "react-redux";
 import "../Setting.css";
 import Axios from "axios";

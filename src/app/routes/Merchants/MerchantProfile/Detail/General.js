@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
@@ -28,65 +27,64 @@ class General extends Component {
 
   render() {
     const e = this.props.MerchantProfile;
-    const renderGeneral =
-      e.general !== undefined ? (
-        <div className="react-transition swipe-up">
-          <div className="container">
-            <h2>General Information</h2>
-            <div className="row justify-content-between">
-              <div className="col-md-4">
-                <h4>Legal Business Name*</h4>
-                <p>{e.general !== null ? e.general.legalBusinessName : null}</p>
-              </div>
-              <div className="col-md-4">
-                <h4>Doing Business As (DBA)*</h4>
-                <p>{e.general !== null ? e.general.doBusinessName : null}</p>
-              </div>
-              <div className="col-md-4">
-                <h4>Federal Tax ID*</h4>
-                <p>{e.general !== null ? e.general.tax : null}</p>
-              </div>
-              <div className="col-md-4">
-                <h4>DBA Business Address*</h4>
-                <p>{e.addressFull}</p>
-              </div>
-              <div className="col-md-4">
-                <h4>Zip code*</h4>
-                <p>{e.general !== null ? e.general.zip : null}</p>
-              </div>
-              <div className="col-md-4">
-                <h4>Business Phone Number*</h4>
-                <p>{e.general !== null ? e.general.phoneBusiness : null}</p>
-              </div>
-              <div className="col-md-4">
-                <h4>Contact Email Address*</h4>
-                <p>{e.general !== null ? e.general.emailContact : null}</p>
-              </div>
+    const renderGeneral = (
+      // e.general !== undefined ? (
+      <div className="react-transition swipe-up">
+        <div className="container">
+          <h2>General Information</h2>
+          <div className="row justify-content-between">
+            <div className="col-md-4">
+              <h4>Legal Business Name*</h4>
+              <p>{e.general !== null ? e.general.legalBusinessName : null}</p>
             </div>
-            <h2>Representative Information</h2>
-            <div className="row">
-              <div className="col-md-4">
-                <h4>Contact Name*</h4>
-                <p>
-                  {e.general !== null
-                    ? e.general.firstName + " " + e.general.lastName
-                    : null}
-                </p>
-              </div>
-              <div className="col-md-4">
-                <h4>Title/Position*</h4>
-                <p>{e.general !== null ? e.general.title : null}</p>
-              </div>
-              <div className="col-md-4">
-                <h4>Contact Phone Number*</h4>
-                <p>{e.general !== null ? e.general.phoneContact : null}</p>
-              </div>
+            <div className="col-md-4">
+              <h4>Doing Business As (DBA)*</h4>
+              <p>{e.general !== null ? e.general.doBusinessName : null}</p>
+            </div>
+            <div className="col-md-4">
+              <h4>Federal Tax ID*</h4>
+              <p>{e.general !== null ? e.general.tax : null}</p>
+            </div>
+            <div className="col-md-4">
+              <h4>DBA Business Address*</h4>
+              <p>{e.addressFull}</p>
+            </div>
+            <div className="col-md-4">
+              <h4>Zip code*</h4>
+              <p>{e.general !== null ? e.general.zip : null}</p>
+            </div>
+            <div className="col-md-4">
+              <h4>Business Phone Number*</h4>
+              <p>{e.general !== null ? e.general.phoneBusiness : null}</p>
+            </div>
+            <div className="col-md-4">
+              <h4>Contact Email Address*</h4>
+              <p>{e.general !== null ? e.general.emailContact : null}</p>
+            </div>
+          </div>
+          <h2>Representative Information</h2>
+          <div className="row">
+            <div className="col-md-4">
+              <h4>Contact Name*</h4>
+              <p>
+                {e.general !== null
+                  ? e.general.firstName + " " + e.general.lastName
+                  : null}
+              </p>
+            </div>
+            <div className="col-md-4">
+              <h4>Title/Position*</h4>
+              <p>{e.general !== null ? e.general.title : null}</p>
+            </div>
+            <div className="col-md-4">
+              <h4>Contact Phone Number*</h4>
+              <p>{e.general !== null ? e.general.phoneContact : null}</p>
             </div>
           </div>
         </div>
-      ) : (
-        <Redirect to="/app/merchants/list" />
-      );
+      </div>
+    );
+
     const renderQuestion =
       e.business !== undefined ? (
         e.business.map(e => {
@@ -130,7 +128,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getAll_Merchants());
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(General);
+export default connect(mapStateToProps, mapDispatchToProps)(General);

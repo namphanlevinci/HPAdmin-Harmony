@@ -47,7 +47,7 @@ class PostItem extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({post: this.props.postData, user: this.props.user})
   }
 

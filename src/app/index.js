@@ -1,20 +1,20 @@
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import Header from "components/Header/index";
-import Sidebar from "containers/SideNav/index";
+import Header from "../components/Header/index";
+import Sidebar from "../containers/SideNav/index";
 import IdleTimer from "react-idle-timer";
-import Footer from "components/Footer";
+import Footer from "../components/Footer";
 import {
   ABOVE_THE_HEADER,
   BELOW_THE_HEADER,
   COLLAPSED_DRAWER,
   FIXED_DRAWER,
   HORIZONTAL_NAVIGATION
-} from "constants/ActionTypes";
+} from "../constants/ActionTypes";
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "../util/asyncComponent";
-import TopNav from "components/TopNav";
+import TopNav from "../components/TopNav";
 /////////////
 import Merchants from "./routes/Merchants/Merchants";
 import Accounts from "./routes/Accounts/Accounts";
@@ -94,13 +94,13 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/profile`}
                   component={asyncComponent(() =>
-                    import("components/profile/profile")
+                    import("../components/profile/profile")
                   )}
                 />
                 <Route
                   path={`${match.url}/settings`}
                   component={asyncComponent(() =>
-                    import("components/Settings/settings")
+                    import("../components/Settings/settings")
                   )}
                 />
                 <Route path={`${match.url}/business`} component={Business} />
@@ -109,7 +109,7 @@ class App extends React.Component {
                 <Route path={`${match.url}/reports`} component={Reports} />
                 <Route
                   component={asyncComponent(() =>
-                    import("components/Error404")
+                    import("../components/Error404/index.js")
                   )}
                 />
               </Switch>

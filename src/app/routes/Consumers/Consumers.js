@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { getAll_ConsumerUsers } from "../../../actions/business/actions";
 import { ViewProfile_Merchants } from "../../../actions/merchants/actions";
 import "../Merchants/MerchantsList/merchantsList.css";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../util/IntlMessages";
+import ContainerHeader from "../../../components/ContainerHeader/index";
 import "../Reports/Transactions/Transactions.css";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -28,7 +28,7 @@ class Consumers extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAll_ConsumerUsers();
   }
 
@@ -187,7 +187,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ViewProfile_Merchants(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Consumers);
+export default connect(mapStateToProps, mapDispatchToProps)(Consumers);

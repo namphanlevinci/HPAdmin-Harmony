@@ -6,10 +6,12 @@ import {
   ViewProfile_Merchants
 } from "../../../../actions/merchants/actions";
 import "./merchantsList.css";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
+import URL from "../../../../url/url";
+import axios from "axios";
 
 import "react-table/react-table.css";
 
@@ -20,7 +22,7 @@ class MerchantsList extends React.Component {
       search: ""
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAll_Merchants();
   }
 
@@ -28,9 +30,19 @@ class MerchantsList extends React.Component {
     await this.setState({ search: e.target.value });
   };
 
-  _merchantsProfile = e => {
-    this.props.ViewProfile_Merchants(e);
-    this.props.history.push("/app/merchants/approved/profile");
+  _merchantsProfile = ID => {
+    axios
+      .get(URL + "/merchant/" + ID, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {
+        if (Number(res.data.codeNumber) === 200) {
+          this.props.ViewProfile_Merchants(res.data.data);
+          this.props.history.push("/app/merchants/approved/profile");
+        }
+      });
   };
   render() {
     const columns = [
@@ -108,7 +120,7 @@ class MerchantsList extends React.Component {
       return {
         onClick: e => {
           if (rowInfo !== undefined) {
-            this._merchantsProfile(rowInfo.original);
+            this._merchantsProfile(rowInfo.original.merchantId);
           }
         }
       };
@@ -167,7 +179,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ViewProfile_Merchants(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MerchantsList);
+export default connect(mapStateToProps, mapDispatchToProps)(MerchantsList);

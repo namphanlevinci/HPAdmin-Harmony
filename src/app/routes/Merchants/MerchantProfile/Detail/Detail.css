@@ -263,6 +263,49 @@ thead th {
 .SettingsContent label {
   font-size: 18px;
 }
+
+/*  SERVICE  */
+.Service div {
+  padding-bottom: 20px;
+}
+.Service .small-label {
+  font-size: 12px;
+}
+.Service select {
+  padding: 8px;
+  width: 100%;
+}
+.Service button {
+  color: #666;
+  background-color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
+  padding: 10px 20px;
+}
+.Service button:hover {
+  background-color: #eee;
+}
+.GeneralContent .popup-content {
+  top: -300px;
+}
+.GeneralContent .popup-overlay {
+  background: none !important;
+}
+
+.Disable-Popup {
+  padding: 20px 30px;
+}
+.Disable-Button {
+  display: flex;
+  justify-content: space-around;
+}
 @media (min-width: 1024px) and (max-width: 1280px) {
   .POPUP-INNER2 {
     padding-top: 20px;

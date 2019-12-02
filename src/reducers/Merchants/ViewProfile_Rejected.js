@@ -1,15 +1,15 @@
-import * as typeMerchants from "../../actions/merchants/types"
+import * as typeMerchants from "../../actions/merchants/types";
 
-const initialState = {}
+const initialState = {};
 
 const ViewProfile_Rejected = (state = initialState, action) => {
-    switch (action.type) {
-        case typeMerchants.ViewMerchant_Rejected_Merchants: 
-            state = action.payload;
-            return {...state}
-        default:
-            return {...state}
-    }
-}
+  switch (action.type) {
+    case typeMerchants.ViewMerchant_Rejected_Merchants:
+      state = action.payload;
+      return { ...state };
+    default:
+      return state;
+  }
+};
 
 export default ViewProfile_Rejected;

@@ -8,9 +8,6 @@ export function* login_User_api({ email, password }) {
       email,
       password
     })
-    // .post(URL + "/adminuser/login", {
-    //   withCredentials: true
-    // })
     .then(result => {
       return result.data;
     })

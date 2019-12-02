@@ -6,8 +6,8 @@ import {
 } from "../../../../actions/merchants/actions";
 import { ViewMerchant_Rejected_Merchants } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import {
   NotificationContainer,
   NotificationManager

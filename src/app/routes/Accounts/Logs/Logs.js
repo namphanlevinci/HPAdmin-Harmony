@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import "./Logs.css";
 import { getAll_Logs } from "../../../../actions/Logs/actions";
 import { connect } from "react-redux";
 import "bootstrap/js/src/collapse.js";
 //DATE PICKER & MOMENT
-import "react-day-picker/lib/style.css";
+import "react-datepicker/dist/react-datepicker.css";
+
 import "moment/locale/it";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
@@ -207,7 +208,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getAll_Logs());
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Logs);
+export default connect(mapStateToProps, mapDispatchToProps)(Logs);

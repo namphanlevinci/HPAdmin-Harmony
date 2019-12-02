@@ -8,9 +8,9 @@ import {
   TOGGLE_COLLAPSED_NAV,
   VERTICAL_NAVIGATION,
   WINDOW_WIDTH
-} from 'constants/ActionTypes';
+} from "../constants/ActionTypes";
 
-const rltLocale = ['ar'];
+const rltLocale = ["ar"];
 const initialSettings = {
   navCollapsed: false,
   drawerType: FIXED_DRAWER,
@@ -19,16 +19,16 @@ const initialSettings = {
   navigationStyle: VERTICAL_NAVIGATION,
   horizontalNavPosition: INSIDE_THE_HEADER,
   locale: {
-    languageId: 'english',
-    locale: 'en',
-    name: 'English',
-    icon: 'us'
+    languageId: "english",
+    locale: "en",
+    name: "English",
+    icon: "us"
   }
 };
 
 const settings = (state = initialSettings, action) => {
   switch (action.type) {
-    case '@@router/LOCATION_CHANGE':
+    case "@@router/LOCATION_CHANGE":
       return {
         ...state,
         navCollapsed: false
@@ -48,13 +48,11 @@ const settings = (state = initialSettings, action) => {
         ...state,
         locale: action.payload,
         isDirectionRTL: rltLocale.includes(action.payload.locale)
-
       };
     case CHANGE_DIRECTION:
       return {
         ...state,
         isDirectionRTL: !state.isDirectionRTL
-
       };
 
     case CHANGE_NAVIGATION_STYLE:
@@ -63,13 +61,11 @@ const settings = (state = initialSettings, action) => {
         navigationStyle: action.payload
       };
 
-
     case HORIZONTAL_MENU_POSITION:
       return {
         ...state,
         horizontalNavPosition: action.payload
       };
-
 
     default:
       return state;

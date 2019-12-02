@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../util/IntlMessages";
+import ContainerHeader from "../../../components/ContainerHeader/index";
 import {
   // Area,
   // AreaChart,
@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   XAxis
 } from "recharts";
-import SaleBox from "components/SaleBox/index";
+import SaleBox from "../../../components/SaleBox/index";
 import _ from "lodash";
 import DoughnutChart from "./DoughnutChart";
 import ChartCard from "./ChartCard";
@@ -260,7 +260,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(APPROVED_STATICS(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

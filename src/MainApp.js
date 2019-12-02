@@ -2,19 +2,22 @@ import React from "react";
 import { ConnectedRouter } from "connected-react-router";
 import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
 
 import configureStore, { history } from "./store";
 import App from "./containers/App";
 
-export const store = configureStore();
+export const { store, persistor } = configureStore();
 
 const MainApp = () => (
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
-    </ConnectedRouter>
+    <PersistGate loading={null} persistor={persistor}>
+      <ConnectedRouter history={history}>
+        <Switch>
+          <Route path="/" component={App} />
+        </Switch>
+      </ConnectedRouter>
+    </PersistGate>
   </Provider>
 );
 

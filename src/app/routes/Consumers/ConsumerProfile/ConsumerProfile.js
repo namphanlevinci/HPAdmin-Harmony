@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "bootstrap/js/src/collapse.js";
-import { withRouter, Redirect, Route, NavLink, Switch } from "react-router-dom";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import { withRouter, Route, NavLink, Switch } from "react-router-dom";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import "../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../Merchants/MerchantsRequest/MerchantsRequest.css";
@@ -36,91 +36,92 @@ class ConsumerProfile extends Component {
   render() {
     // render staff
     const e = this.props.MerchantProfile;
-    const renderConsumer =
-      e.firstName !== undefined ? (
-        <div className="container-fluid PendingList">
-          <ContainerHeader
-            match={this.props.match}
-            title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
-          />
-          <div className="PendingLBody">
-            <div className="PDL-Btn col-md-12">
-              <h3>Consumer ID: {e.userId}</h3>
-              <span>
-                <Button
-                  style={{ color: "#0764b0", backgroundColor: "white" }}
-                  className="btn btn-green"
-                  onClick={this._goBack}
-                >
-                  BACK
-                </Button>
-              </span>
-            </div>
-            <hr />
-            <NotificationContainer />
-            <div className="content">
-              <div className="container">
-                <div className="">
-                  <div className="profile-nav">
-                    <ul className="detail-tab">
-                      <li>
-                        <NavLink to="/app/consumers/profile/general">
-                          General
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/consumers/profile/bank">Bank</NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/app/consumers/profile/transactions"
-                          onClick={this.handleTransactions}
-                        >
-                          Transactions
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/app/consumers/profile/activies"
-                          onClick={this.handleActivity}
-                        >
-                          Activities
-                        </NavLink>
-                      </li>
-                    </ul>
-                    <div className="detail-content">
-                      <Switch>
-                        <Route
-                          path="/app/consumers/profile/general/edit"
-                          component={EditGeneral}
-                        />
-                        <Route
-                          path="/app/consumers/profile/general"
-                          component={General}
-                        />
-                        <Route
-                          path="/app/consumers/profile/bank"
-                          component={Bank}
-                        />
-                        <Route
-                          path="/app/consumers/profile/transactions"
-                          component={Transactions}
-                        />
-                        <Route
-                          path="/app/consumers/profile/activies"
-                          component={Acti}
-                        />
-                      </Switch>
-                    </div>
+    const renderConsumer = (
+      // e.firstName !== undefined ? (
+      <div className="container-fluid PendingList">
+        <ContainerHeader
+          match={this.props.match}
+          title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
+        />
+        <div className="PendingLBody">
+          <div className="PDL-Btn col-md-12">
+            <h3>Consumer ID: {e.userId}</h3>
+            <span>
+              <Button
+                style={{ color: "#0764b0", backgroundColor: "white" }}
+                className="btn btn-green"
+                onClick={this._goBack}
+              >
+                BACK
+              </Button>
+            </span>
+          </div>
+          <hr />
+          <NotificationContainer />
+          <div className="content">
+            <div className="container">
+              <div className="">
+                <div className="profile-nav">
+                  <ul className="detail-tab">
+                    <li>
+                      <NavLink to="/app/consumers/profile/general">
+                        General
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/app/consumers/profile/bank">Bank</NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/app/consumers/profile/transactions"
+                        onClick={this.handleTransactions}
+                      >
+                        Transactions
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/app/consumers/profile/activies"
+                        onClick={this.handleActivity}
+                      >
+                        Activities
+                      </NavLink>
+                    </li>
+                  </ul>
+                  <div className="detail-content">
+                    <Switch>
+                      <Route
+                        path="/app/consumers/profile/general/edit"
+                        component={EditGeneral}
+                      />
+                      <Route
+                        path="/app/consumers/profile/general"
+                        component={General}
+                      />
+                      <Route
+                        path="/app/consumers/profile/bank"
+                        component={Bank}
+                      />
+                      <Route
+                        path="/app/consumers/profile/transactions"
+                        component={Transactions}
+                      />
+                      <Route
+                        path="/app/consumers/profile/activies"
+                        component={Acti}
+                      />
+                    </Switch>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      ) : (
-        <Redirect to="/app/consumers/list" />
-      );
+      </div>
+    );
+    // ) : (
+    //   <Redirect to="/app/consumers/list" />
+    // );
     return <div>{renderConsumer}</div>;
   }
 }
@@ -140,8 +141,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ConsumerProfile)
+  connect(mapStateToProps, mapDispatchToProps)(ConsumerProfile)
 );

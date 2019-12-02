@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "bootstrap/js/src/collapse.js";
 import { withRouter, Redirect } from "react-router-dom";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
 import { Checkbox } from "@material-ui/core";
@@ -340,8 +340,5 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(MerchantRejectedProfile)
+  connect(mapStateToProps, mapDispatchToProps)(MerchantRejectedProfile)
 );

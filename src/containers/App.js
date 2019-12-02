@@ -5,21 +5,21 @@ import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";
-import "assets/vendors/style";
+import "../assets/vendors/style";
 import defaultTheme from "./themes/defaultTheme";
 import AppLocale from "../lngProvider";
 
-import MainApp from "app/index";
+import MainApp from "../app/index";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Verify_User from "./Verify_User";
-import RTL from "util/RTL";
-import asyncComponent from "util/asyncComponent";
+import RTL from "../util/RTL";
+import asyncComponent from "../util/asyncComponent";
 import { ProtectedRoute } from "./ProtectedRoute";
 // transitions
 import "./react-transitions.css";
 class App extends Component {
-  componentWillMount() {
+  componentDidMount() {
     window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
   }
 
@@ -57,7 +57,7 @@ class App extends Component {
                   <Route path="/verify" component={Verify_User} />
                   <ProtectedRoute
                     component={asyncComponent(() =>
-                      import("components/Error404")
+                      import("../components/Error404")
                     )}
                   />
                 </Switch>

@@ -2,7 +2,7 @@ import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import IntlMessages from "util/IntlMessages";
+import IntlMessages from "../../util/IntlMessages";
 import { connect } from "react-redux";
 import { logout_User } from "../../actions/user/actions";
 import { withRouter } from "react-router-dom";
@@ -89,8 +89,5 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(UserInfo)
+  connect(mapStateToProps, mapDispatchToProps)(UserInfo)
 );

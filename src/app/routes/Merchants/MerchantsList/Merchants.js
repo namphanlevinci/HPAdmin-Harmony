@@ -6,11 +6,14 @@ import {
   ViewProfile_Merchants
 } from "../../../../actions/merchants/actions";
 import "./merchantsList.css";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import SearchIcon from "@material-ui/icons/Search";
+import Button from "@material-ui/core/Button";
+import URL from "../../../../url/url";
+import axios from "axios";
 
 // import { MdDone } from "react-icons/md";
 
@@ -22,7 +25,7 @@ class Merchants extends React.Component {
       loading: true
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAll_Merchants();
     this.setState({
       loading: false
@@ -32,10 +35,22 @@ class Merchants extends React.Component {
   _SearchMerchants = async e => {
     await this.setState({ search: e.target.value });
   };
-
-  _merchantsProfile = merchant => {
-    this.props.ViewProfile_Merchants(merchant);
-    this.props.history.push("/app/merchants/profile/general");
+  addMerchant = () => {
+    this.props.history.push("/app/merchants/add");
+  };
+  _merchantsProfile = ID => {
+    axios
+      .get(URL + "/merchant/" + ID, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {
+        if (Number(res.data.codeNumber) === 200) {
+          this.props.ViewProfile_Merchants(res.data.data);
+          this.props.history.push("/app/merchants/profile/general");
+        }
+      });
   };
   render() {
     let MerList = this.props.Merchants_List;
@@ -107,7 +122,7 @@ class Merchants extends React.Component {
       return {
         onClick: e => {
           if (rowInfo !== undefined) {
-            this._merchantsProfile(rowInfo.original);
+            this._merchantsProfile(rowInfo.original.merchantId);
           }
         }
       };
@@ -132,6 +147,19 @@ class Merchants extends React.Component {
                   onChange={this._SearchMerchants}
                 />
               </form>
+            </div>
+            <div>
+              <Button
+                style={{
+                  backgroundColor: "#0764b0",
+                  color: "white",
+                  padding: "10px 20px",
+                  fontWeight: "550"
+                }}
+                onClick={this.addMerchant}
+              >
+                ADD MERCHANT
+              </Button>
             </div>
           </div>
           <div className="MListContainer">
@@ -166,7 +194,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ViewProfile_Merchants(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Merchants);
+export default connect(mapStateToProps, mapDispatchToProps)(Merchants);

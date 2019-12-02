@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import {
   getAll_User,
   ViewProfile_User
@@ -150,7 +150,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ViewProfile_User(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

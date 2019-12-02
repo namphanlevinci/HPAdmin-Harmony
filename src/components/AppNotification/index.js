@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import CustomScrollbars from "util/CustomScrollbars";
+import CustomScrollbars from "../../util/CustomScrollbars";
 import { getAll_Notifications } from "../../actions/notifications/actions";
 import { withRouter } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -72,8 +72,5 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AppNotification)
+  connect(mapStateToProps, mapDispatchToProps)(AppNotification)
 );

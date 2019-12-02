@@ -5,6 +5,7 @@ import URL from "../../url/url";
 export function* GET_APPROVED_API(data) {
   const getInfoLogin = state => state.User;
   const infoLogin = yield select(getInfoLogin);
+  console.log("infoLogin", infoLogin);
   let config = {
     headers: {
       Authorization: "Bearer " + infoLogin.User.token

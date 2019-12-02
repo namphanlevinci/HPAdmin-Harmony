@@ -12,16 +12,16 @@ import {
   FIXED_DRAWER,
   HORIZONTAL_NAVIGATION,
   INSIDE_THE_HEADER
-} from "constants/ActionTypes";
+} from "../../constants/ActionTypes";
 // import SearchBox from 'components/SearchBox';
 // import MailNotification from '../MailNotification/index';
 import AppNotification from "../AppNotification/index";
-import CardHeader from "components/dashboard/Common/CardHeader/index";
-import { switchLanguage, toggleCollapsedNav } from "actions/Setting";
-import IntlMessages from "util/IntlMessages";
+import CardHeader from "../../components/dashboard/Common/CardHeader/index";
+import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
+import IntlMessages from "../../util/IntlMessages";
 // import LanguageSwitcher from 'components/LanguageSwitcher/index';
-import Menu from "components/TopNav/Menu";
-import UserInfoPopup from "components/UserInfo/UserInfoPopup";
+import Menu from "../../components/TopNav/Menu";
+import UserInfoPopup from "../../components/UserInfo/UserInfoPopup";
 import axios from "axios";
 import {
   ViewProfile_Merchants,
@@ -298,7 +298,7 @@ class Header extends React.Component {
           )}
           <Link className="app-logo mr-2 d-none d-sm-block" to="/app/dashboard">
             <img
-              src={require("assets/images/logo-white.png")}
+              src={require("../../assets/images/logo-white.png")}
               alt="Jambo"
               title="Jambo"
             />
@@ -494,9 +494,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Header)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

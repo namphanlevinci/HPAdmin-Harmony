@@ -8,7 +8,7 @@ import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
-import IntlMessages from "util/IntlMessages";
+import IntlMessages from "../util/IntlMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { checkLogin_User } from "../actions/user/actions";
 
@@ -30,7 +30,7 @@ class SignIn extends React.Component {
     const { email, password } = await this.state;
     await this.props.checkLogin_User({ email, password });
   };
-  componentWillMount() {
+  componentDidMount() {
     document.addEventListener("keypress", this.keyPressed);
   }
   // componentWillUnmount() {
@@ -61,7 +61,7 @@ class SignIn extends React.Component {
             <Link className="logo-lg" to="/" title="Jambo">
               <img
                 style={{ width: "200px" }}
-                src={require("assets/images/logo-white.png")}
+                src={require("../assets/images/logo-white.png")}
                 alt="jambo"
                 title="jambo"
               />
@@ -140,7 +140,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

@@ -3,8 +3,8 @@ import { Formik } from "formik";
 
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 
 import { NotificationContainer } from "react-notifications";
 import { ADD_ADMIN } from "../../../../actions/user/actions";
@@ -230,8 +230,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(addUser)
+  connect(mapStateToProps, mapDispatchToProps)(addUser)
 );

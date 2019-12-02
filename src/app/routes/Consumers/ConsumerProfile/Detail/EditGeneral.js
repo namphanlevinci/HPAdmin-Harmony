@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import {
   NotificationContainer,
   NotificationManager
@@ -88,103 +88,101 @@ class EditGeneral extends Component {
     this.props.history.push("/app/consumers/profile/general");
   };
   render() {
-    const e = this.props.MerchantProfile;
-    const renderGeneral =
-      e.email !== undefined ? (
-        <div className="react-transition swipe-right">
-          <div className="container">
-            <h2>General Information</h2>
-            <div className="row">
-              <div className="col-md-3">
-                <h4>First Name</h4>
-                {/* <p>{e.firstName !== null ? e.firstName : null}</p> */}
-                <div>
-                  <input
-                    type="text"
-                    className="col-6 "
-                    name="firstName"
-                    value={this.state.firstName}
-                    onChange={this._handleChange}
-                  />
-                </div>
-              </div>
-              <div className="col-md-3">
-                <h4>Last Name</h4>
-                {/* <p>{e.lastName !== null ? e.lastName : null}</p> */}
-                <div>
-                  <input
-                    type="text"
-                    className="col-6"
-                    name="lastName"
-                    value={this.state.lastName}
-                    onChange={this._handleChange}
-                  />
-                </div>
-              </div>
-              <div className="col-md-3">
-                <h4>Phone Number</h4>
-                {/* <p>{e.phone !== null ? e.phone : null}</p> */}
-                <div>
-                  <input
-                    type="text"
-                    className="col-8"
-                    name="phone"
-                    value={this.state.phone}
-                    onChange={this._handleChange}
-                  />
-                </div>
-              </div>
-              <div className="col-md-3">
-                <h4>Email</h4>
-                {/* <p>{e.email !== null ? e.email : null}</p> */}
-                <div>
-                  <input
-                    type="text"
-                    className="col-12"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this._handleChange}
-                  />
-                </div>
+    // const e = this.props.MerchantProfile;
+    const renderGeneral = (
+      <div className="react-transition swipe-right">
+        <div className="container">
+          <h2>General Information</h2>
+          <div className="row">
+            <div className="col-md-3">
+              <h4>First Name</h4>
+              {/* <p>{e.firstName !== null ? e.firstName : null}</p> */}
+              <div>
+                <input
+                  type="text"
+                  className="col-6 "
+                  name="firstName"
+                  value={this.state.firstName}
+                  onChange={this._handleChange}
+                />
               </div>
             </div>
-            <h2>Daily transactions limit (unit $)</h2>
-            <label>
-              The HarmonyPay system will alert any user and pervent any use
-              involved monetary transfer or transfers that are:
-            </label>
-            <label>
-              a. More than $10,000 in total from either cash-in or cash-out.
-            </label>
-            <br />
-            <label>b. Is conducted by the same person.</label>
-            <br />
-            <label>c. Is conducted on the same business day.</label>
-            <br />
-            <div>
-              <input
-                type="text"
-                className="col-4"
-                name="limitAmount"
-                value={this.state.limitAmount}
-                onChange={this._handleChange}
-                style={{ padding: "10px" }}
-              />
+            <div className="col-md-3">
+              <h4>Last Name</h4>
+              {/* <p>{e.lastName !== null ? e.lastName : null}</p> */}
+              <div>
+                <input
+                  type="text"
+                  className="col-6"
+                  name="lastName"
+                  value={this.state.lastName}
+                  onChange={this._handleChange}
+                />
+              </div>
+            </div>
+            <div className="col-md-3">
+              <h4>Phone Number</h4>
+              {/* <p>{e.phone !== null ? e.phone : null}</p> */}
+              <div>
+                <input
+                  type="text"
+                  className="col-8"
+                  name="phone"
+                  value={this.state.phone}
+                  onChange={this._handleChange}
+                />
+              </div>
+            </div>
+            <div className="col-md-3">
+              <h4>Email</h4>
+              {/* <p>{e.email !== null ? e.email : null}</p> */}
+              <div>
+                <input
+                  type="text"
+                  className="col-12"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this._handleChange}
+                />
+              </div>
             </div>
           </div>
-
-          <div className="SettingsContent GeneralContent">
-            <Button className="btn btn-green" onClick={this._Update}>
-              SAVE
-            </Button>
-            <Button className="btn btn-red" onClick={this._goBack}>
-              CANCEL
-            </Button>
+          <h2>Daily transactions limit (unit $)</h2>
+          <label>
+            The HarmonyPay system will alert any user and pervent any use
+            involved monetary transfer or transfers that are:
+          </label>
+          <label>
+            a. More than $10,000 in total from either cash-in or cash-out.
+          </label>
+          <br />
+          <label>b. Is conducted by the same person.</label>
+          <br />
+          <label>c. Is conducted on the same business day.</label>
+          <br />
+          <div>
+            <input
+              type="text"
+              className="col-4"
+              name="limitAmount"
+              value={this.state.limitAmount}
+              onChange={this._handleChange}
+              style={{ padding: "10px" }}
+            />
           </div>
         </div>
-      ) : (
-        <Redirect to="/app/consumers/list" />
-      );
+
+        <div className="SettingsContent GeneralContent">
+          <Button className="btn btn-green" onClick={this._Update}>
+            SAVE
+          </Button>
+          <Button className="btn btn-red" onClick={this._goBack}>
+            CANCEL
+          </Button>
+        </div>
+      </div>
+    );
+
     return (
       <div className="content">
         {renderGeneral}
@@ -204,7 +202,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ViewProfile_Merchants(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditGeneral);
+export default connect(mapStateToProps, mapDispatchToProps)(EditGeneral);

@@ -32,10 +32,9 @@ class Users extends React.Component {
       endIndex: data.endIndex
     });
   };
-  componentWillMount() {
-    this.props.getAll_ConsumerUsers();
-  }
+
   componentDidMount() {
+    this.props.getAll_ConsumerUsers();
     this.setState({
       totalRecords: this.props.ConsumerList.length
     });
@@ -170,7 +169,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getAll_ConsumerUsers());
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

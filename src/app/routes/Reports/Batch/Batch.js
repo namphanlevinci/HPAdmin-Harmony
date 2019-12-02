@@ -5,8 +5,8 @@ import {
   getBatchDetail
 } from "../../../../actions/transactions/actions";
 import "../../Merchants/MerchantsList/merchantsList.css";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./Batch.css";
@@ -202,7 +202,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getBatchDetail(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Transactions);
+export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

@@ -5,7 +5,8 @@ import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import Button from "@material-ui/core/Button";
-import "react-day-picker/lib/style.css";
+import "react-datepicker/dist/react-datepicker.css";
+
 import moment from "moment";
 import TextField from "@material-ui/core/TextField";
 import ReactTable from "react-table";

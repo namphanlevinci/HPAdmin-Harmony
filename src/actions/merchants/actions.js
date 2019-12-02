@@ -126,3 +126,9 @@ export const UPDATE_PRINCIPAL = payload => ({
   type: types.UPDATE_PRINCIPAL,
   payload: payload
 });
+
+//! VIEW SERVICE
+export const VIEW_SERVICE = payload => ({
+  type: types.VIEW_SERVICE,
+  payload
+});

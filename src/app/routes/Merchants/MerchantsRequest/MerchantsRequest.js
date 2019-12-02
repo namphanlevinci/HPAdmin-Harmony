@@ -6,11 +6,13 @@ import {
   ViewMerchant_Request
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import SearchIcon from "@material-ui/icons/Search";
+import URL from "../../../../url/url";
+import axios from "axios";
 
 class MerchantsRequest extends Component {
   constructor(props) {
@@ -20,16 +22,26 @@ class MerchantsRequest extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAll_Merchant_Requests();
   }
   _SearchMerchants = async e => {
     await this.setState({ search: e.target.value });
   };
 
-  _merchantReqProfile = e => {
-    this.props.ViewMerchant_Request(e);
-    this.props.history.push("/app/merchants/pending/profile");
+  _merchantReqProfile = ID => {
+    axios
+      .get(URL + "/merchant/" + ID, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {
+        if (Number(res.data.codeNumber) === 200) {
+          this.props.ViewMerchant_Request(res.data.data);
+          this.props.history.push("/app/merchants/pending/profile");
+        }
+      });
   };
   render() {
     let ReqList = this.props.MerchantRequests_List;
@@ -95,7 +107,7 @@ class MerchantsRequest extends Component {
       return {
         onClick: e => {
           if (rowInfo !== undefined) {
-            this._merchantReqProfile(rowInfo.original);
+            this._merchantReqProfile(rowInfo.original.merchantId);
           }
         }
       };
@@ -149,7 +161,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ViewMerchant_Request(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MerchantsRequest);
+export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);

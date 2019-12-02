@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../../util/IntlMessages";
+import ContainerHeader from "../../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import "../GeneralReport.css";
 import TextField from "@material-ui/core/TextField";
@@ -251,7 +251,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(APPROVED_STATICS(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DownloadReport);
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadReport);

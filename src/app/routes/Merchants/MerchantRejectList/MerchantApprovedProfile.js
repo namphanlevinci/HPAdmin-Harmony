@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import "bootstrap/js/src/collapse.js";
 import { withRouter, Redirect } from "react-router-dom";
 import { Checkbox } from "@material-ui/core";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 // import "./MerchantProfile.css"
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
@@ -158,7 +158,9 @@ class MerchantApprovedProfile extends Component {
                 <div className="row justify-content-between">
                   <div className="col-md-4">
                     <h4>Legal Business Name*</h4>
-                    <p>{e.businessName}</p>
+                    <p>
+                      {e.general !== null ? e.general.legalBusinessName : null}
+                    </p>
                   </div>
                   <div className="col-md-4">
                     <h4>Doing Business As (DBA)*</h4>

@@ -6,7 +6,8 @@ import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import { NotificationContainer } from "react-notifications";
 import Button from "@material-ui/core/Button";
-import "react-day-picker/lib/style.css";
+import "react-datepicker/dist/react-datepicker.css";
+
 import moment from "moment";
 import "moment/locale/it";
 import "../../../Accounts/Logs/Logs.css";

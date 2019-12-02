@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import { withRouter, Link } from "react-router-dom";
 import "./GeneralReport.css";
 
@@ -55,9 +55,4 @@ class GeneralReport extends Component {
   }
 }
 
-export default withRouter(
-  connect(
-    null,
-    null
-  )(GeneralReport)
-);
+export default withRouter(connect(null, null)(GeneralReport));

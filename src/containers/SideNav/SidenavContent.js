@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import IntlMessages from "util/IntlMessages";
-import CustomScrollbars from "util/CustomScrollbars";
+import IntlMessages from "../../util/IntlMessages";
+import CustomScrollbars from "../../util/CustomScrollbars";
 import { connect } from "react-redux";
 
 class SidenavContent extends Component {
@@ -87,7 +87,7 @@ class SidenavContent extends Component {
   }
 
   render() {
-    const UserAdmin = this.props.InfoUser_Login.User.userAdmin.waRoleId;
+    // const UserAdmin = this.props.InfoUser_Login.User.userAdmin.waRoleId;
     return (
       <CustomScrollbars className=" scrollbar">
         <ul className="nav-menu">
@@ -234,7 +234,6 @@ class SidenavContent extends Component {
             </ul>
           </li>
           {/* BUSINESS */}
-
           {/* <li className="menu collapse-box">
             <Button>
               <i className="zmdi zmdi-card zmdi-hc-fw" />
@@ -259,18 +258,17 @@ class SidenavContent extends Component {
               </li> */}
           {/* </ul> */}
           {/* </li>  */}
-
           {/* SETTING */}
-          {UserAdmin === 1 ? (
-            <li className="menu collapse-box">
-              <Button>
-                <i className="zmdi zmdi-settings zmdi-hc-fw" />
-                <span className="nav-text">
-                  <IntlMessages id="sidebar.dashboard.settings" />
-                </span>
-              </Button>
-              <ul className="sub-menu">
-                {/* <li>
+          {/* {UserAdmin === 1 ? ( */}
+          <li className="menu collapse-box">
+            <Button>
+              <i className="zmdi zmdi-settings zmdi-hc-fw" />
+              <span className="nav-text">
+                <IntlMessages id="sidebar.dashboard.settings" />
+              </span>
+            </Button>
+            <ul className="sub-menu">
+              {/* <li>
                   <NavLink
                     className="prepend-icon"
                     to="/app/adsettings/general"
@@ -280,33 +278,30 @@ class SidenavContent extends Component {
                     </span>
                   </NavLink>
                 </li> */}
-                <li>
-                  <NavLink className="prepend-icon" to="/app/adsettings/smtp">
-                    <span className="nav-text">
-                      <IntlMessages id="sidebar.dashboard.smtp" />
-                    </span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="prepend-icon"
-                    to="/app/adsettings/template"
-                  >
-                    <span className="nav-text">
-                      <IntlMessages id="sidebar.dashboard.Template" />
-                    </span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="prepend-icon" to="/app/adsettings/twilio">
-                    <span className="nav-text">
-                      <IntlMessages id="sidebar.dashboard.Twilio" />
-                    </span>
-                  </NavLink>
-                </li>
-              </ul>
-            </li>
-          ) : null}
+              <li>
+                <NavLink className="prepend-icon" to="/app/adsettings/smtp">
+                  <span className="nav-text">
+                    <IntlMessages id="sidebar.dashboard.smtp" />
+                  </span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/adsettings/template">
+                  <span className="nav-text">
+                    <IntlMessages id="sidebar.dashboard.Template" />
+                  </span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/adsettings/twilio">
+                  <span className="nav-text">
+                    <IntlMessages id="sidebar.dashboard.Twilio" />
+                  </span>
+                </NavLink>
+              </li>
+            </ul>
+          </li>
+          {/* // ) : null} */}
         </ul>
       </CustomScrollbars>
     );

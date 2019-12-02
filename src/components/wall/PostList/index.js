@@ -10,7 +10,7 @@ class PostList extends Component {
     user: {}
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({postList: this.props.postList, user: this.props.user})
   }
 

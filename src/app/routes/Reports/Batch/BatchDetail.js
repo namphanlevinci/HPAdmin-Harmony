@@ -4,8 +4,8 @@ import {
   getBatch,
   getBatchDetail
 } from "../../../../actions/transactions/actions";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router-dom";
@@ -120,7 +120,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getBatchDetail(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Transactions);
+export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

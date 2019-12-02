@@ -2,14 +2,14 @@ import * as typeMerchants from "../../actions/merchants/types";
 
 const initialState = {};
 
-const ViewMerchant_Pending = (state = initialState, action) => {
+const VIEW_SERVICE_EDIT = (state = initialState, action) => {
   switch (action.type) {
-    case typeMerchants.ViewMerchant_Request:
+    case typeMerchants.VIEW_SERVICE:
       state = action.payload;
       return { ...state };
     default:
-      return state;
+      return { ...state };
   }
 };
 
-export default ViewMerchant_Pending;
+export default VIEW_SERVICE_EDIT;

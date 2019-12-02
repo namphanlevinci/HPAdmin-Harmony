@@ -8,9 +8,11 @@ import {
 import { connect } from "react-redux";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import SearchIcon from "@material-ui/icons/Search";
+import axios from "axios";
+import URL from "../../../../url/url";
 
 class MerchantsRequest extends Component {
   constructor(props) {
@@ -19,7 +21,7 @@ class MerchantsRequest extends Component {
       search: ""
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAll_Rejected_Merchants();
   }
   _SearchMerchants = async e => {
@@ -27,9 +29,19 @@ class MerchantsRequest extends Component {
   };
 
   //goto merchant profile
-  _merchantReqProfile = e => {
-    this.props.ViewMerchant_Rejected_Merchants(e);
-    this.props.history.push("/app/merchants/rejected/profile");
+  _merchantReqProfile = ID => {
+    axios
+      .get(URL + "/merchant/" + ID, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {
+        if (Number(res.data.codeNumber) === 200) {
+          this.props.ViewMerchant_Rejected_Merchants(res.data.data);
+          this.props.history.push("/app/merchants/rejected/profile");
+        }
+      });
   };
   render() {
     let ReqList = this.props.RejectedList;
@@ -106,7 +118,7 @@ class MerchantsRequest extends Component {
       return {
         onClick: e => {
           if (rowInfo !== undefined) {
-            this._merchantReqProfile(rowInfo.original);
+            this._merchantReqProfile(rowInfo.original.merchantId);
           }
         }
       };
@@ -161,7 +173,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ViewMerchant_Rejected_Merchants(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MerchantsRequest);
+export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);

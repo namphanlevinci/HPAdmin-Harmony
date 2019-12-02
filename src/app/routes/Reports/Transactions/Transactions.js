@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { getAll_Transactions } from "../../../../actions/transactions/actions";
 import "../../Merchants/MerchantsList/merchantsList.css";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import "./Transactions.css";
 import TextField from "@material-ui/core/TextField";
@@ -361,7 +361,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getAll_Transactions());
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Transactions);
+export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

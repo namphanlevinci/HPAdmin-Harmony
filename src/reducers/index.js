@@ -17,6 +17,8 @@ import ViewProfile_Rejected from "./Merchants/ViewProfile_Rejected";
 //! MERCHANT PENDING LIST
 import MerchantRequests_List from "./Merchants/MerchantsPending_List";
 import ViewMerchant_Request from "./Merchants/ViewMerchant_Pending";
+//! VIEW MERCHANT SERVICE
+import VIEW_SERVICE_EDIT from "./Merchants/viewService";
 //! SEND APPROVAL & REJECT REQUEST
 import Approval from "./Merchants/Approval";
 import Reject from "./Merchants/Reject";
@@ -43,6 +45,7 @@ import getBatchDetail from "./Transactions/getBatchDetail";
 import Approved_Static from "./Reports/Approved";
 //! View Principal Infor
 import viewPrincipalInfo from "./Merchants/getPrincipal_Info";
+
 export default history =>
   combineReducers({
     router: connectRouter(history),
@@ -75,5 +78,6 @@ export default history =>
     getAllBatch,
     GetP2P: getAllP2P_Transactions,
     BatchDetail: getBatchDetail,
-    viewPrincipal: viewPrincipalInfo
+    viewPrincipal: viewPrincipalInfo,
+    serviceProps: VIEW_SERVICE_EDIT
   });

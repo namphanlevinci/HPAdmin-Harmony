@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import "bootstrap/js/src/collapse.js";
 import { withRouter, Redirect, Route, NavLink, Switch } from "react-router-dom";
 import "./MerchantProfile.css";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
 import Button from "@material-ui/core/Button";
@@ -20,6 +20,8 @@ import EditSettings from "./Detail/EditSettings";
 import Staff from "./Detail/Staff";
 import MerchantActi from "./Detail/Activity";
 import Service from "./Detail/Service";
+import EditService from "./Detail/EditService";
+import AddService from "./Detail/addService";
 class merchantProfile2 extends Component {
   constructor(props) {
     super(props);
@@ -116,6 +118,14 @@ class merchantProfile2 extends Component {
                         <Route
                           path="/app/merchants/profile/pincipal"
                           component={Principal}
+                        />
+                        <Route
+                          path="/app/merchants/profile/service/edit"
+                          component={EditService}
+                        />
+                        <Route
+                          path="/app/merchants/profile/service/add"
+                          component={AddService}
                         />
                         <Route
                           path="/app/merchants/profile/service"

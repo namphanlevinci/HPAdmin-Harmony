@@ -6,6 +6,13 @@ const Merchants = ({ match }) => (
   <div className="app-wrapper">
     <Switch>
       <Redirect exact from={`${match.url}/`} to={`${match.url}/`} />
+      {/* ADD MERCHANT */}
+      <Route
+        path={`${match.url}/add`}
+        component={asyncComponent(() =>
+          import("./MerchantsList/addMerchant/addMerchant")
+        )}
+      />
       {/* MERCHANT LIST  */}
       <Route
         path={`${match.url}/list`}

@@ -25,7 +25,7 @@ class CommentBox extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({commentData: this.props.commentData})
   }
 

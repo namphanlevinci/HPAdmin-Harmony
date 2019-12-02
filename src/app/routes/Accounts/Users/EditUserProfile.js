@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
-import IntlMessages from "util/IntlMessages";
-import ContainerHeader from "components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 // import Select from "react-select";
 import TextField from "@material-ui/core/TextField";
@@ -420,8 +420,5 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(EditUserProfile)
+  connect(mapStateToProps, mapDispatchToProps)(EditUserProfile)
 );

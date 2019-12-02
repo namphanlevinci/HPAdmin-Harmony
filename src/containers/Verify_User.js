@@ -2,7 +2,7 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-import IntlMessages from "util/IntlMessages";
+import IntlMessages from "../util/IntlMessages";
 import { Verify } from "../actions/user/actions";
 import { connect } from "react-redux";
 import {
@@ -27,7 +27,7 @@ class Verify_User extends React.Component {
       }
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     document.addEventListener("keypress", this.keyPressed);
   }
   componentWillUnmount() {
@@ -108,7 +108,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(Verify(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Verify_User);
+export default connect(mapStateToProps, mapDispatchToProps)(Verify_User);
