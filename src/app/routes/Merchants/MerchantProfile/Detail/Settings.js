@@ -148,6 +148,7 @@ class Settings extends Component {
               open={this.state.isOpenReject}
               onOpen={this.handleOpenReject}
               closeOnDocumentClick
+              style={{ top: "-300px" }}
             >
               <span>
                 <Formik

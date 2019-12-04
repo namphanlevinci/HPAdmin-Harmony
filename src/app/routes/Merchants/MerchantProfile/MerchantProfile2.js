@@ -19,9 +19,18 @@ import Settings from "./Detail/Settings";
 import EditSettings from "./Detail/EditSettings";
 import Staff from "./Detail/Staff";
 import MerchantActi from "./Detail/Activity";
-import Service from "./Detail/Service";
-import EditService from "./Detail/EditService";
-import AddService from "./Detail/addService";
+// Service
+import Service from "./Detail/Service/Service";
+import EditService from "./Detail/Service/EditService";
+import AddService from "./Detail/Service/addService";
+// Category
+import EditCategory from "./Detail/Category/edit-category";
+import Category from "./Detail/Category/Category";
+// Product
+import Product from "./Detail/Product/Product";
+import ProductDetail from "./Detail/Product/productDetail";
+import ProductEdit from "./Detail/Product/productEdit";
+import ProductAdd from "./Detail/Product/productAdd";
 class merchantProfile2 extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +64,7 @@ class merchantProfile2 extends Component {
             </div>
             <hr />
             <div className="content">
-              <div className="container">
+              <div className="container-fuild" style={{ padding: "10px" }}>
                 <div className="">
                   <div className="profile-nav PendingLBody">
                     <ul className="detail-tab">
@@ -73,13 +82,23 @@ class merchantProfile2 extends Component {
                         </NavLink>
                       </li>
                       <li>
+                        <NavLink to="/app/merchants/profile/staff">
+                          Staff
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/app/merchants/profile/category">
+                          Category
+                        </NavLink>
+                      </li>
+                      <li>
                         <NavLink to="/app/merchants/profile/service">
                           Service
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/app/merchants/profile/staff">
-                          Staff
+                        <NavLink to="/app/merchants/profile/product">
+                          Product
                         </NavLink>
                       </li>
                       <li>
@@ -120,6 +139,14 @@ class merchantProfile2 extends Component {
                           component={Principal}
                         />
                         <Route
+                          path="/app/merchants/profile/category/edit"
+                          component={EditCategory}
+                        />
+                        <Route
+                          path="/app/merchants/profile/category"
+                          component={Category}
+                        />
+                        <Route
                           path="/app/merchants/profile/service/edit"
                           component={EditService}
                         />
@@ -130,6 +157,22 @@ class merchantProfile2 extends Component {
                         <Route
                           path="/app/merchants/profile/service"
                           component={Service}
+                        />
+                        <Route
+                          path="/app/merchants/profile/product/add"
+                          component={ProductAdd}
+                        />
+                        <Route
+                          path="/app/merchants/profile/product/edit"
+                          component={ProductEdit}
+                        />
+                        <Route
+                          path="/app/merchants/profile/product/detail"
+                          component={ProductDetail}
+                        />
+                        <Route
+                          path="/app/merchants/profile/product"
+                          component={Product}
                         />
                         <Route
                           path="/app/merchants/profile/staff"

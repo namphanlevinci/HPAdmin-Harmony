@@ -45,7 +45,7 @@ class ConsumerProfile extends Component {
         />
         <div className="PendingLBody">
           <div className="PDL-Btn col-md-12">
-            <h3>Consumer ID: {e.userId}</h3>
+            <h3>Consumer ID: {e.accountId}</h3>
             <span>
               <Button
                 style={{ color: "#0764b0", backgroundColor: "white" }}

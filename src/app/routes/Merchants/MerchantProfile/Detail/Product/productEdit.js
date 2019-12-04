@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import URL, { upfileUrl } from "../../../../../url/url";
+import URL, { upfileUrl } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import {
   NotificationContainer,
@@ -9,32 +9,31 @@ import {
 } from "react-notifications";
 
 import "react-table/react-table.css";
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
-import "../../MerchantsList/merchantsList.css";
-import "./Detail.css";
+import "../../MerchantProfile.css";
+import "../../../MerchantsRequest/MerchantReqProfile.css";
+import "../../../MerchantsRequest/MerchantsRequest.css";
+import "../../../MerchantsList/merchantsList.css";
+import "../Detail.css";
 
-class EditService extends Component {
+class EditProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
       category: [],
       categoryId: "",
-      categoryName: "",
       description: "",
-      discount: "",
+      price: "",
+      tax: 0,
+      discount: 0,
       fileId: "",
       name: "",
-      openTime: "",
-      position: "",
-      price: "",
-      secondTime: "",
-      serviceId: "",
-      duration: "",
       isDisabled: "",
+      quantity: "",
+      maxThreshold: "",
+      minThreshold: "",
+      SKU: "",
       imageUrl: "",
-      extras: [],
+      productId: "",
       //~ preview image
       imagePreviewUrl: ""
     };
@@ -50,36 +49,30 @@ class EditService extends Component {
       .then(res => {
         this.setState({ category: res.data.data });
       });
-    const service = this.props.SERVICE;
-    if (service !== null) {
-      this.setState(
-        {
-          categoryId: service.categoryId,
-          categoryName: service.categoryName,
-          description: service.description,
-          discount: service.discount,
-          fileId: service.fileId,
-          name: service.name,
-          openTime: service.openTime,
-          position: service.position,
-          price: service.price,
-          secondTime: service.secondTime,
-          duration: service.duration,
-          isDisabled: service.isDisabled,
-          imageUrl: service.imageUrl,
-          extras: service.extras,
-          serviceId: service.serviceId
-        },
-        () => console.log("THIS STATE", this.state)
-      );
+    const product = this.props.SERVICE;
+    if (product !== null) {
+      this.setState({
+        categoryId: product.categoryId,
+        description: product.description,
+        price: product.price,
+        tax: product.tax,
+        discount: product.discount,
+        fileId: product.fileId,
+        name: product.name,
+        isDisabled: product.isDisabled,
+        quantity: product.quantity,
+        maxThreshold: product.maxThreshold,
+        minThreshold: product.minThreshold,
+        sku: product.sku,
+        imageUrl: product.imageUrl,
+        productId: product.productId
+      });
     }
   }
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
-
-  //~ handle preview image
 
   _handleImageChange = e => {
     e.preventDefault();
@@ -110,40 +103,45 @@ class EditService extends Component {
       });
   };
   goBack = () => {
-    this.props.history.push("/app/merchants/profile/service");
+    this.props.history.push("/app/merchants/profile/product");
   };
 
-  updateService = () => {
+  updateProduct = () => {
     const {
       categoryId,
-      name,
-      duration,
       description,
-      openTime,
-      secondTime,
       price,
+      tax,
       discount,
-      isDisabled,
       fileId,
-      extras,
-      serviceId
+      name,
+      isDisabled,
+      quantity,
+      maxThreshold,
+      minThreshold,
+      sku,
+      imageUrl,
+      productId
     } = this.state;
     const merchantId = this.props.MerchantProfile.merchantId;
+
     axios
       .put(
-        URL + "/service/" + serviceId,
+        URL + "/product/" + productId,
         {
           categoryId,
-          name,
-          duration,
           description,
-          openTime,
-          secondTime,
           price,
+          tax,
           discount,
-          isDisabled,
           fileId,
-          extras,
+          name,
+          isDisabled,
+          quantity,
+          maxThreshold,
+          minThreshold,
+          sku,
+          imageUrl,
           merchantId
         },
         {
@@ -156,6 +154,9 @@ class EditService extends Component {
         let message = res.data.message;
         if (res.data.codeNumber === 200) {
           NotificationManager.success(message, null, 800);
+          setTimeout(() => {
+            this.props.history.push("/app/merchants/profile/product");
+          }, 800);
         } else {
           NotificationManager.error(message, null, 800);
         }
@@ -163,7 +164,7 @@ class EditService extends Component {
   };
 
   render() {
-    const service = this.props.SERVICE;
+    const product = this.props.SERVICE;
     const { category } = this.state;
     const mapCategory = category
       .filter(e => e.categoryType !== "Product")
@@ -196,7 +197,7 @@ class EditService extends Component {
 
     return (
       <div className="react-transition swipe-up">
-        <h2>Edit Service</h2>
+        <h2 style={{ color: "#0764b0" }}>Edit Product</h2>
         <NotificationContainer />
         <div className="container Service">
           <div className="row">
@@ -217,22 +218,8 @@ class EditService extends Component {
             </div>
             <div className="col-md-7">
               <div className="row">
-                <div className="col-6">
-                  <label>Category*</label>
-                  <br />
-                  <select
-                    onChange={e =>
-                      this.setState({ categoryId: e.target.value })
-                    }
-                  >
-                    <option value={service.categoryId}>
-                      {service.categoryName}
-                    </option>
-                    {mapCategory}
-                  </select>
-                </div>
-                <div className="col-6">
-                  <label>Service Name*</label>
+                <div className="col-4">
+                  <label>Product</label>
                   <br />
                   <input
                     name="name"
@@ -241,53 +228,71 @@ class EditService extends Component {
                     onChange={this.handleChange}
                   />
                 </div>
-                <div className="col-md-12">
-                  <label>Description*</label>
+                <div className="col-4">
+                  <label>SKU Number</label>
                   <br />
                   <input
-                    name="description"
+                    name="sku"
                     type="text"
-                    value={this.state.description}
+                    value={this.state.sku}
                     onChange={this.handleChange}
                   />
                 </div>
-                <div className="col-md-4">
-                  <label>
-                    Duration* <span className="small-label">(Minutes)</span>
-                  </label>
+                <div className="col-4">
+                  <label>Category</label>
+                  <br />
+                  <select
+                    onChange={e =>
+                      this.setState({ categoryId: e.target.value })
+                    }
+                  >
+                    <option value={product.categoryId}>
+                      {product.categoryName}
+                    </option>
+                    {mapCategory}
+                  </select>
+                </div>
+                <div className="col-4">
+                  <label>Items In Stock*</label>
                   <br />
                   <input
-                    name="duration"
+                    name="quantity"
                     type="number"
-                    value={this.state.duration}
+                    value={this.state.quantity}
                     onChange={this.handleChange}
                   />
                 </div>
-                <div className="col-md-4">
-                  <label>
-                    Open Time <span className="small-label">(Minutes)</span>
-                  </label>
+                <div className="col-4">
+                  <label>Low Threshold</label>
                   <br />
                   <input
-                    name="openTime"
+                    name="minThreshold"
                     type="number"
-                    value={this.state.openTime}
+                    value={this.state.minThreshold}
                     onChange={this.handleChange}
                   />
                 </div>
-                <div className="col-md-4">
-                  <label>
-                    Second Time <span className="small-label">(Minutes)</span>
-                  </label>
+                <div className="coL-4">
+                  <label>Max Threshold</label>
                   <br />
                   <input
-                    name="secondTime"
+                    name="maxThreshold"
                     type="number"
-                    value={this.state.secondTime}
+                    value={this.state.maxThreshold}
                     onChange={this.handleChange}
                   />
                 </div>
-                <div className="col-6">
+                <div className="col-4">
+                  <label>Price ($)</label>
+                  <br />
+                  <input
+                    name="price"
+                    type="number"
+                    value={this.state.price}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div className="col-4">
                   <label>Status</label>
                   <br />
                   <select
@@ -303,14 +308,14 @@ class EditService extends Component {
                     </option>
                   </select>
                 </div>
-                <div className="col-6">
-                  <label>Price*</label>
+                <div className="col-12">
+                  <label>Description</label>
                   <br />
-                  <input
-                    name="price"
-                    type="number"
-                    value={this.state.price}
+                  <textarea
+                    style={{ width: "100%", height: "60px", padding: "5px" }}
                     onChange={this.handleChange}
+                    name="description"
+                    value={this.state.description}
                   />
                 </div>
               </div>
@@ -320,7 +325,7 @@ class EditService extends Component {
           <Button
             className="btn btn-green"
             style={{ backgroundColor: "#0074d9", color: "white" }}
-            onClick={this.updateService}
+            onClick={this.updateProduct}
           >
             SAVE
           </Button>
@@ -337,4 +342,4 @@ const mapStateToProps = state => ({
   InfoUser_Login: state.User,
   SERVICE: state.serviceProps
 });
-export default connect(mapStateToProps)(EditService);
+export default connect(mapStateToProps)(EditProduct);

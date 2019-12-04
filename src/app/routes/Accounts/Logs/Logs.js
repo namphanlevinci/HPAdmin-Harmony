@@ -52,15 +52,9 @@ class Logs extends Component {
     let UserList = this.props.LogList;
     if (this.state.from) {
       dataList = dataList.filter(datez => {
-        let date = moment(datez.createdDate)
-          .subtract(10, "days")
-          .calendar();
-        let from = moment(valuez.start)
-          .subtract(10, "days")
-          .calendar();
-        let to = moment(valuez.end)
-          .subtract(10, "days")
-          .calendar();
+        let date = moment(datez.createdDate).format("MM/DD/YYYY");
+        let from = moment(valuez.start).format("MM/DD/YYYY");
+        let to = moment(valuez.end).format("MM/DD/YYYY");
 
         const date2 = new Date(date);
         const from2 = new Date(from);

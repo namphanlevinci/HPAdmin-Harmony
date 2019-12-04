@@ -221,17 +221,6 @@
   border-spacing: 0;
 }
 
-/* .Staff .StaffTable thead,
-tbody,
-tr,
-th,
-td {
-  display: block;
-} */
-/* .container .SettingsContent .settingTable td {
-  display: table-cell;
-  vertical-align: inherit;
-} */
 .StaffTable thead tr {
   /* fallback */
   width: 97%;
@@ -292,7 +281,7 @@ thead th {
 .Service button:hover {
   background-color: #eee;
 }
-.GeneralContent .popup-content {
+.SettingsContent .popup-content {
   top: -300px;
 }
 .GeneralContent .popup-overlay {
@@ -300,12 +289,27 @@ thead th {
 }
 
 .Disable-Popup {
-  padding: 20px 30px;
+  padding: 20px 50px;
 }
 .Disable-Button {
   display: flex;
   justify-content: space-around;
 }
+
+/* FORMIK for Add Service */
+.Service select.error {
+  border-color: red;
+}
+
+.Service input.error {
+  border-color: red;
+}
+
+.Service .input-feedback {
+  color: red;
+  margin-top: 0.25rem;
+}
+
 @media (min-width: 1024px) and (max-width: 1280px) {
   .POPUP-INNER2 {
     padding-top: 20px;

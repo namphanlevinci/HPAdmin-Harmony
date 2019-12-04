@@ -8,7 +8,7 @@ const VIEW_SERVICE_EDIT = (state = initialState, action) => {
       state = action.payload;
       return { ...state };
     default:
-      return { ...state };
+      return state;
   }
 };
 

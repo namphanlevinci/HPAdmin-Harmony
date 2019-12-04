@@ -1,46 +1,44 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import URL, { upfileUrl } from "../../../../../url/url";
+import URL, { upfileUrl } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
 
-import ServiceImg from "./service.png";
 import "react-table/react-table.css";
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
-import "../../MerchantsList/merchantsList.css";
-import "./Detail.css";
+import "../../MerchantProfile.css";
+import "../../../MerchantsRequest/MerchantReqProfile.css";
+import "../../../MerchantsRequest/MerchantsRequest.css";
+import "../../../MerchantsList/merchantsList.css";
+import "../Detail.css";
 
-class AddService extends Component {
+class EditService extends Component {
   constructor(props) {
     super(props);
     this.state = {
       category: [],
-      categoryId: 0,
+      categoryId: "",
       categoryName: "",
       description: "",
-      discount: 0,
-      fileId: 0,
+      discount: "",
+      fileId: "",
       name: "",
-      openTime: 0,
-      position: 0,
-      price: 0,
-      secondTime: 0,
-      serviceId: 0,
-      duration: 0,
-      isDisabled: 0,
+      openTime: "",
+      position: "",
+      price: "",
+      secondTime: "",
+      serviceId: "",
+      duration: "",
+      isDisabled: "",
       imageUrl: "",
       extras: [],
       //~ preview image
       imagePreviewUrl: ""
     };
   }
-
   componentDidMount() {
     const ID = this.props.MerchantProfile.merchantId;
     axios
@@ -49,14 +47,30 @@ class AddService extends Component {
           Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
         }
       })
-      .then(
-        res => {
-          this.setState({ category: res.data.data });
-        },
-        () => console.log("CATEGORY", this.state.category)
-      );
+      .then(res => {
+        this.setState({ category: res.data.data });
+      });
+    const service = this.props.SERVICE;
+    if (service !== null) {
+      this.setState({
+        categoryId: service.categoryId,
+        categoryName: service.categoryName,
+        description: service.description,
+        discount: service.discount,
+        fileId: service.fileId,
+        name: service.name,
+        openTime: service.openTime,
+        position: service.position,
+        price: service.price,
+        secondTime: service.secondTime,
+        duration: service.duration,
+        isDisabled: service.isDisabled,
+        imageUrl: service.imageUrl,
+        extras: service.extras,
+        serviceId: service.serviceId
+      });
+    }
   }
-
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
@@ -90,12 +104,11 @@ class AddService extends Component {
         console.log(err);
       });
   };
-
   goBack = () => {
     this.props.history.push("/app/merchants/profile/service");
   };
 
-  addService = () => {
+  updateService = () => {
     const {
       categoryId,
       name,
@@ -107,13 +120,13 @@ class AddService extends Component {
       discount,
       isDisabled,
       fileId,
-      extras
+      extras,
+      serviceId
     } = this.state;
-
     const merchantId = this.props.MerchantProfile.merchantId;
     axios
-      .post(
-        URL + "/service",
+      .put(
+        URL + "/service/" + serviceId,
         {
           categoryId,
           name,
@@ -143,7 +156,9 @@ class AddService extends Component {
         }
       });
   };
+
   render() {
+    const service = this.props.SERVICE;
     const { category } = this.state;
     const mapCategory = category
       .filter(e => e.categoryType !== "Product")
@@ -161,22 +176,22 @@ class AddService extends Component {
         <img
           src={imagePreviewUrl}
           style={{ width: "350px", height: "350px" }}
-          alt="service 1"
+          alt="void"
         />
       );
     } else {
       $imagePreview = (
         <img
-          src={ServiceImg}
+          src={this.state.imageUrl}
           style={{ width: "350px", height: "350px" }}
-          alt="service"
+          alt="void"
         />
       );
     }
 
     return (
       <div className="react-transition swipe-up">
-        <h2>Add Service</h2>
+        <h2 style={{ color: "#0764b0" }}>Edit Service</h2>
         <NotificationContainer />
         <div className="container Service">
           <div className="row">
@@ -205,7 +220,9 @@ class AddService extends Component {
                       this.setState({ categoryId: e.target.value })
                     }
                   >
-                    <option value="">Please Choose Category</option>
+                    <option value={service.categoryId}>
+                      {service.categoryName}
+                    </option>
                     {mapCategory}
                   </select>
                 </div>
@@ -273,10 +290,12 @@ class AddService extends Component {
                       this.setState({ isDisabled: e.target.value })
                     }
                   >
-                    <option value="0" checked>
+                    <option value="0" selected={this.state.isDisabled === 0}>
                       Active
                     </option>
-                    <option value="1">Disable</option>
+                    <option value="1" selected={this.state.isDisabled === 1}>
+                      Disable
+                    </option>
                   </select>
                 </div>
                 <div className="col-6">
@@ -296,9 +315,9 @@ class AddService extends Component {
           <Button
             className="btn btn-green"
             style={{ backgroundColor: "#0074d9", color: "white" }}
-            onClick={this.addService}
+            onClick={this.updateService}
           >
-            ADD
+            SAVE
           </Button>
           <Button className="btn btn-red" onClick={this.goBack}>
             BACK
@@ -308,10 +327,9 @@ class AddService extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
   SERVICE: state.serviceProps
 });
-export default connect(mapStateToProps)(AddService);
+export default connect(mapStateToProps)(EditService);

@@ -80,7 +80,6 @@ class MerchantReqProfile extends Component {
       }
     render() { 
         const e = this.props.PendingProfile
-        console.log('THIS IS DA MERCHANT', e)
         //! render Principal 
         const renderPrincipal = e.principals !== undefined ? e.principals.map(e => {
             return (
