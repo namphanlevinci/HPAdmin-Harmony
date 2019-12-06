@@ -293,7 +293,7 @@ class Category extends Component {
             <div>
               <Popup
                 trigger={
-                  <Button className="btn btn-green"> ADD CATEGORY </Button>
+                  <Button className="btn btn-green"> NEW CATEGORY </Button>
                 }
                 modal
                 closeOnDocumentClick

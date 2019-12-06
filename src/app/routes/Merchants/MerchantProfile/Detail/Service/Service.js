@@ -282,7 +282,7 @@ class Service extends Component {
                   this.props.history.push("/app/merchants/profile/service/add")
                 }
               >
-                ADD SERVICE
+                NEW SERVICE
               </Button>
             </div>
           </div>

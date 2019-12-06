@@ -156,7 +156,7 @@ class EditCategory extends Component {
                         type="submit"
                         disabled={isSubmitting}
                       >
-                        ADD
+                        SAVE
                       </Button>
                     </div>
                   </form>

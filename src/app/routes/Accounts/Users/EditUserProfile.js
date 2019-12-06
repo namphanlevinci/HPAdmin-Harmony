@@ -180,9 +180,7 @@ class EditUserProfile extends Component {
   _goBack = () => {
     this.props.history.push("/app/accounts/admin/profile");
   };
-  _handleImageChange = e => {
-    e.preventDefault();
-  };
+
   render() {
     let { imagePreviewUrl } = this.state;
     const e = this.props.UserProfile;

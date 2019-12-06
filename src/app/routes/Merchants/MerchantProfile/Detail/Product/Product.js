@@ -299,7 +299,7 @@ class Product extends Component {
                   this.props.history.push("/app/merchants/profile/product/add")
                 }
               >
-                ADD PRODUCT
+                NEW PRODUCT
               </Button>
             </div>
           </div>

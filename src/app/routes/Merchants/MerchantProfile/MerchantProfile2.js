@@ -17,7 +17,6 @@ import Principal from "./Detail/Principal2";
 import EditPrincipal from "./Detail/EditPrincipal";
 import Settings from "./Detail/Settings";
 import EditSettings from "./Detail/EditSettings";
-import Staff from "./Detail/Staff";
 import MerchantActi from "./Detail/Activity";
 // Service
 import Service from "./Detail/Service/Service";
@@ -31,6 +30,9 @@ import Product from "./Detail/Product/Product";
 import ProductDetail from "./Detail/Product/productDetail";
 import ProductEdit from "./Detail/Product/productEdit";
 import ProductAdd from "./Detail/Product/productAdd";
+// Staff
+import Staff from "./Detail/Staff/Staff";
+import AddStaff from "./Detail/Staff/add-staff";
 class merchantProfile2 extends Component {
   constructor(props) {
     super(props);
@@ -173,6 +175,10 @@ class merchantProfile2 extends Component {
                         <Route
                           path="/app/merchants/profile/product"
                           component={Product}
+                        />
+                        <Route
+                          path="/app/merchants/profile/staff/add"
+                          component={AddStaff}
                         />
                         <Route
                           path="/app/merchants/profile/staff"

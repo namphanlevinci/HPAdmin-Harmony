@@ -41,7 +41,8 @@ class UserInfo extends React.Component {
         <Avatar
           alt="..."
           src={User.imageUrl !== null ? User.imageUrl : AvatarIcon}
-          className="user-avatar "
+          className="user-avatar"
+          style={{ objectFit: "cover" }}
         />
         <div className="user-detail">
           <h4 className="user-name" onClick={this.handleClick}>

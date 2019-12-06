@@ -147,20 +147,12 @@ class AddService extends Component {
             if (!values.name) {
               errors.name = "Required";
             }
-            if (!values.description) {
-              errors.description = "Please enter description";
-            }
+
             if (!values.categoryId) {
               errors.categoryId = "Please choose a category";
             }
             if (!values.duration) {
               errors.duration = "Please enter duration";
-            }
-            if (!values.openTime) {
-              errors.openTime = "Please enter open time";
-            }
-            if (!values.secondTime) {
-              errors.secondTime = "Please enter second time";
             }
             if (!values.price) {
               errors.price = "Please enter price";
@@ -300,17 +292,7 @@ class AddService extends Component {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.description}
-                          className={
-                            errors.description && touched.description
-                              ? "text-input error"
-                              : "text-input"
-                          }
                         />
-                        {errors.description && touched.description && (
-                          <div className="input-feedback">
-                            {errors.description}
-                          </div>
-                        )}
                       </div>
                       <div className="col-md-4">
                         <label>
@@ -348,17 +330,7 @@ class AddService extends Component {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.openTime}
-                          className={
-                            errors.openTime && touched.openTime
-                              ? "text-input error"
-                              : "text-input"
-                          }
                         />
-                        {errors.openTime && touched.openTime && (
-                          <div className="input-feedback">
-                            {errors.openTime}
-                          </div>
-                        )}
                       </div>
                       <div className="col-md-4">
                         <label>

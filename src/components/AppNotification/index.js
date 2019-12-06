@@ -25,7 +25,7 @@ class AppNotification extends Component {
         const time = moment
           .utc(createdDate)
           .local()
-          .format("MM-DD-YYYY HH:mm A");
+          .format("MM-DD-YYYY hh:mm A");
         return (
           <li className="media" key={waNotificationId}>
             <Avatar alt={avatar} src={avatar} className=" mr-2" />

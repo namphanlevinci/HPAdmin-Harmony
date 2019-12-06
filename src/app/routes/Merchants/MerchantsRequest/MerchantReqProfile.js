@@ -97,7 +97,7 @@ class MerchantReqProfile extends Component {
                                             <p>{e.ownerShip}%</p>
                                         </div>
                                         <div className = "col-md-4">
-                                            <h4>Home Phone*</h4>
+                                            <h4>Home Phone</h4>
                                             <p>{e.homePhone}</p>
                                         </div>
                                         <div className = "col-md-4">

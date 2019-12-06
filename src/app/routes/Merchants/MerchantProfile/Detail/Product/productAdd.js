@@ -90,13 +90,13 @@ class AddProduct extends Component {
   };
 
   goBack = () => {
-    this.props.history.push("/app/merchants/profile/service");
+    this.props.history.push("/app/merchants/profile/product");
   };
 
   render() {
     const { category } = this.state;
     const mapCategory = category
-      .filter(e => e.categoryType !== "Product")
+      .filter(e => e.categoryType !== "Service")
       .map(e => (
         <option value={e.categoryId} key={e.categoryId}>
           {e.name}
@@ -148,9 +148,6 @@ class AddProduct extends Component {
             const errors = {};
             if (!values.name) {
               errors.name = "Required";
-            }
-            if (!values.description) {
-              errors.description = "Please enter description";
             }
             if (!values.sku) {
               errors.sku = "Please enter SKU number";
@@ -351,7 +348,7 @@ class AddProduct extends Component {
                         )}
                       </div>
                       <div className="col-4">
-                        <label>Min Threshold</label>
+                        <label>Min Threshold*</label>
                         <br />
                         <input
                           name="minThreshold"
@@ -372,7 +369,7 @@ class AddProduct extends Component {
                         )}
                       </div>
                       <div className="col-4">
-                        <label>Max Threshold</label>
+                        <label>Max Threshold*</label>
                         <br />
                         <input
                           name="maxThreshold"
@@ -439,17 +436,7 @@ class AddProduct extends Component {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.description}
-                          className={
-                            errors.description && touched.description
-                              ? "text-input error"
-                              : "text-input"
-                          }
                         />
-                        {errors.description && touched.description && (
-                          <div className="input-feedback">
-                            {errors.description}
-                          </div>
-                        )}
                       </div>
                     </div>
                   </div>
