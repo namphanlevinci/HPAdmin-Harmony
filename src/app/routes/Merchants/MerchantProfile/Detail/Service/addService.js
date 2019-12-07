@@ -7,9 +7,11 @@ import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
-import { Formik } from "formik";
-
+import * as Yup from "yup";
+import { FieldArray, Field, Formik, FastField } from "formik";
 import ServiceImg from "../service.png";
+import Extra from "./extra";
+
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
@@ -17,10 +19,12 @@ import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import "../Detail.css";
 
+import "./service.style.scss";
 class AddService extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      index: 1,
       category: [],
       categoryId: 0,
       categoryName: "",
@@ -38,7 +42,8 @@ class AddService extends Component {
       imageUrl: "",
       extras: [],
       //~ preview image
-      imagePreviewUrl: ""
+      imagePreviewUrl: "",
+      render: false
     };
   }
 
@@ -65,7 +70,6 @@ class AddService extends Component {
 
   _handleImageChange = e => {
     e.preventDefault();
-
     // handle preview Image
     let reader = new FileReader();
     let file = e.target.files[0];
@@ -97,6 +101,16 @@ class AddService extends Component {
   };
 
   render() {
+    const schema = Yup.object().shape({
+      friends: Yup.array().of(
+        Yup.object().shape({
+          name: Yup.string()
+            .min(2, "too short")
+            .required("Required")
+        })
+      )
+    });
+
     const { category } = this.state;
     const mapCategory = category
       .filter(e => e.categoryType !== "Product")
@@ -113,7 +127,7 @@ class AddService extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "350px", height: "350px" }}
+          style={{ width: "150px", height: "150px" }}
           alt="service 1"
         />
       );
@@ -121,14 +135,14 @@ class AddService extends Component {
       $imagePreview = (
         <img
           src={ServiceImg}
-          style={{ width: "350px", height: "350px" }}
+          style={{ width: "150px", height: "150px" }}
           alt="service"
         />
       );
     }
 
     return (
-      <div className="react-transition swipe-up">
+      <div className="react-transition swipe-up service-container">
         <h2 style={{ color: "#0764b0" }}>Add Service</h2>
         <NotificationContainer />
 
@@ -140,14 +154,22 @@ class AddService extends Component {
             openTime: "",
             secondTime: "",
             price: "",
-            categoryId: ""
+            categoryId: "",
+            extras: [
+              {
+                name: "",
+                description: "",
+                duration: "",
+                price: "",
+                isDisabled: ""
+              }
+            ]
           }}
           validate={values => {
             const errors = {};
             if (!values.name) {
               errors.name = "Required";
             }
-
             if (!values.categoryId) {
               errors.categoryId = "Please choose a category";
             }
@@ -157,9 +179,13 @@ class AddService extends Component {
             if (!values.price) {
               errors.price = "Please enter price";
             }
+            if (!values.name) {
+              errors.extras = "Requried";
+            }
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
+            console.log("NEW VALUES", values);
             const {
               categoryId,
               name,
@@ -167,9 +193,10 @@ class AddService extends Component {
               duration,
               openTime,
               secondTime,
-              price
+              price,
+              extras
             } = values;
-            const { discount, isDisabled, fileId, extras } = this.state;
+            const { discount, isDisabled, fileId } = this.state;
             const merchantId = this.props.MerchantProfile.merchantId;
 
             axios
@@ -221,30 +248,12 @@ class AddService extends Component {
             <form onSubmit={handleSubmit}>
               <div className="container Service">
                 <div className="row">
-                  <div className="col-md-5">
-                    <label>Image*</label>
-                    <br />
-                    {$imagePreview}
-                    <input
-                      name="price"
-                      type="file"
-                      onChange={this._handleImageChange}
-                      style={{
-                        width: "auto",
-                        borderBottom: "none",
-                        paddingTop: "20px"
-                      }}
-                    />
-                  </div>
-                  <div className="col-md-7">
+                  <div className="col-6 ">
                     <div className="row">
                       <div className="col-6">
                         <label>Category*</label>
                         <br />
                         <select
-                          // onChange={e =>
-                          //   this.setState({ categoryId: e.target.value })
-                          // }
                           name="categoryId"
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -293,11 +302,26 @@ class AddService extends Component {
                           onBlur={handleBlur}
                           value={values.description}
                         />
+                        <label style={{ paddingTop: "10px" }}>Image*</label>
+                        <br />
+                        {$imagePreview}
+                        <input
+                          name="price"
+                          type="file"
+                          onChange={this._handleImageChange}
+                          style={{
+                            width: "auto",
+                            borderBottom: "none",
+                            paddingTop: "20px",
+                            fontWeight: 400
+                          }}
+                        />
                       </div>
+
                       <div className="col-md-4">
                         <label>
                           Duration*
-                          <span className="small-label">(Minutes)</span>
+                          <span className="small-label"> (Minutes)</span>
                         </label>
                         <br />
                         <input
@@ -321,7 +345,7 @@ class AddService extends Component {
                       <div className="col-md-4">
                         <label>
                           Open Time
-                          <span className="small-label">(Minutes)</span>
+                          <span className="small-label"> (Minutes)</span>
                         </label>
                         <br />
                         <input
@@ -335,7 +359,7 @@ class AddService extends Component {
                       <div className="col-md-4">
                         <label>
                           Second Time
-                          <span className="small-label">(Minutes)</span>
+                          <span className="small-label"> (Minutes)</span>
                         </label>
                         <br />
                         <input
@@ -390,6 +414,25 @@ class AddService extends Component {
                         )}
                       </div>
                     </div>
+                  </div>
+
+                  {/* EXTRA BÊN NÀY */}
+                  <div className="col-6">
+                    {this.state.render === true ? null : (
+                      <p
+                        className="extra-btn"
+                        onClick={() => this.setState({ render: true })}
+                      >
+                        Add Extra
+                      </p>
+                    )}
+                    {this.state.render === true && (
+                      <Extra
+                        values={values}
+                        handleChange={handleChange}
+                        handleBlur={handleBlur}
+                      />
+                    )}
                   </div>
                 </div>
 
