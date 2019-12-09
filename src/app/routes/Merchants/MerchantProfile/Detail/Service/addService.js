@@ -8,7 +8,7 @@ import {
   NotificationManager
 } from "react-notifications";
 import * as Yup from "yup";
-import { FieldArray, Field, Formik, FastField } from "formik";
+import { Formik } from "formik";
 import ServiceImg from "../service.png";
 import Extra from "./extra";
 
@@ -55,12 +55,9 @@ class AddService extends Component {
           Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
         }
       })
-      .then(
-        res => {
-          this.setState({ category: res.data.data });
-        },
-        () => console.log("CATEGORY", this.state.category)
-      );
+      .then(res => {
+        this.setState({ category: res.data.data });
+      });
   }
 
   handleChange = e => {
@@ -105,10 +102,19 @@ class AddService extends Component {
       extras: Yup.array().of(
         Yup.object().shape({
           name: Yup.string()
-            .min(2, "too short")
-            .required("Required")
+            .min(3, "too short")
+            .required("Required"),
+          duration: Yup.string().required("Required"),
+          price: Yup.string().required("Required"),
+          isDisabled: Yup.string().required("Required")
         })
-      )
+      ),
+      name: Yup.string()
+        .min(3, "Too Short")
+        .required("Required"),
+      categoryId: Yup.string().required("Required"),
+      duration: Yup.string().required("Required"),
+      price: Yup.string().required("Required")
     });
 
     const { category } = this.state;
@@ -151,8 +157,8 @@ class AddService extends Component {
             name: "",
             description: "",
             duration: "",
-            openTime: "",
-            secondTime: "",
+            openTime: 0,
+            secondTime: 0,
             price: "",
             categoryId: "",
             extras: [
@@ -166,27 +172,7 @@ class AddService extends Component {
             ]
           }}
           validationSchema={validationSchema}
-          validate={values => {
-            const errors = {};
-            if (!values.name) {
-              errors.name = "Required";
-            }
-            if (!values.categoryId) {
-              errors.categoryId = "Please choose a category";
-            }
-            if (!values.duration) {
-              errors.duration = "Please enter duration";
-            }
-            if (!values.price) {
-              errors.price = "Please enter price";
-            }
-            if (!values.name) {
-              errors.extras = "Requried";
-            }
-            return errors;
-          }}
           onSubmit={(values, { setSubmitting }) => {
-            console.log("NEW VALUES", values);
             const {
               categoryId,
               name,
@@ -252,7 +238,7 @@ class AddService extends Component {
                   <div className="col-6 ">
                     <div className="row">
                       <div className="col-6">
-                        <label>Category*</label>
+                        <label>Category *</label>
                         <br />
                         <select
                           name="categoryId"
@@ -293,7 +279,7 @@ class AddService extends Component {
                           <div className="input-feedback">{errors.name}</div>
                         )}
                       </div>
-                      <div className="col-md-12">
+                      <div className="col-12">
                         <label>Description</label>
                         <br />
                         <input
@@ -303,7 +289,7 @@ class AddService extends Component {
                           onBlur={handleBlur}
                           value={values.description}
                         />
-                        <label style={{ paddingTop: "10px" }}>Image*</label>
+                        <label style={{ paddingTop: "10px" }}>Image</label>
                         <br />
                         {$imagePreview}
                         <input
@@ -319,9 +305,9 @@ class AddService extends Component {
                         />
                       </div>
 
-                      <div className="col-md-4">
+                      <div className="col-4">
                         <label>
-                          Duration*
+                          Duration *
                           <span className="small-label"> (Minutes)</span>
                         </label>
                         <br />
@@ -343,7 +329,7 @@ class AddService extends Component {
                           </div>
                         )}
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-4">
                         <label>
                           Open Time
                           <span className="small-label"> (Minutes)</span>
@@ -357,7 +343,7 @@ class AddService extends Component {
                           value={values.openTime}
                         />
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-4">
                         <label>
                           Second Time
                           <span className="small-label"> (Minutes)</span>
@@ -396,7 +382,7 @@ class AddService extends Component {
                         </select>
                       </div>
                       <div className="col-6">
-                        <label>Price*</label>
+                        <label>Price *</label>
                         <br />
                         <input
                           name="price"
@@ -428,10 +414,12 @@ class AddService extends Component {
                       </p>
                     ) : (
                       <Extra
+                        validationSchema={validationSchema}
                         errors={errors}
                         values={values}
                         handleChange={handleChange}
                         handleBlur={handleBlur}
+                        touched={touched}
                       />
                     )}
                   </div>

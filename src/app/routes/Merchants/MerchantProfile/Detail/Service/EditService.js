@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
-import URL, { upfileUrl } from "../../../../../../url/url";
-import Button from "@material-ui/core/Button";
+import { Formik } from "formik";
 import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
+import Extra from "./extra";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+import URL, { upfileUrl } from "../../../../../../url/url";
+import * as Yup from "yup";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -14,7 +17,7 @@ import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import "../Detail.css";
-
+import "./service.style.scss";
 class EditService extends Component {
   constructor(props) {
     super(props);
@@ -151,6 +154,9 @@ class EditService extends Component {
         let message = res.data.message;
         if (res.data.codeNumber === 200) {
           NotificationManager.success(message, null, 800);
+          setTimeout(() => {
+            this.props.history.push("/app/merchants/profile/service");
+          }, 800);
         } else {
           NotificationManager.error(message, null, 800);
         }
@@ -175,7 +181,7 @@ class EditService extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "350px", height: "350px" }}
+          style={{ width: "150px", height: "150px" }}
           alt="void"
         />
       );
@@ -183,34 +189,34 @@ class EditService extends Component {
       $imagePreview = (
         <img
           src={this.state.imageUrl}
-          style={{ width: "350px", height: "350px" }}
+          style={{ width: "150px", height: "150px" }}
           alt="void"
         />
       );
     }
 
+    //FORMIK VALIDATE
+    const validationSchema = Yup.object().shape({
+      extras: Yup.array().of(
+        Yup.object().shape({
+          name: Yup.string()
+            .min(3, "too short")
+            .required("Required"),
+          duration: Yup.string().required("Required"),
+          price: Yup.string().required("Required"),
+          isDisabled: Yup.string().required("Required")
+        })
+      )
+    });
+
+    const extraItem = service.extras.filter(e => e.isDeleted !== 1);
     return (
-      <div className="react-transition swipe-up">
+      <div className="react-transition swipe-up service-container">
         <h2 style={{ color: "#0764b0" }}>Edit Service</h2>
         <NotificationContainer />
         <div className="container Service">
           <div className="row">
-            <div className="col-md-5">
-              <label>Image*</label>
-              <br />
-              {$imagePreview}
-              <input
-                name="price"
-                type="file"
-                onChange={this._handleImageChange}
-                style={{
-                  width: "auto",
-                  borderBottom: "none",
-                  paddingTop: "20px"
-                }}
-              />
-            </div>
-            <div className="col-md-7">
+            <div className="col-6">
               <div className="row">
                 <div className="col-6">
                   <label>Category*</label>
@@ -244,6 +250,20 @@ class EditService extends Component {
                     type="text"
                     value={this.state.description}
                     onChange={this.handleChange}
+                  />
+                  <label style={{ paddingTop: "10px" }}>Image</label>
+                  <br />
+                  {$imagePreview}
+                  <input
+                    name="price"
+                    type="file"
+                    onChange={this._handleImageChange}
+                    style={{
+                      width: "auto",
+                      borderBottom: "none",
+                      paddingTop: "20px",
+                      fontWeight: 400
+                    }}
                   />
                 </div>
                 <div className="col-md-4">
@@ -310,18 +330,53 @@ class EditService extends Component {
                 </div>
               </div>
             </div>
-          </div>
+            <div className="col-6">
+              <Formik
+                initialValues={{ extras: extraItem }}
+                validationSchema={validationSchema}
+                onSubmit={(values, { setSubmitting }) => {
+                  this.setState({
+                    extras: values.extras
+                  });
+                  this.updateService();
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting
+                  /* and other goodies */
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <Extra
+                      errors={errors}
+                      values={values}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      touched={touched}
+                    />
 
-          <Button
-            className="btn btn-green"
-            style={{ backgroundColor: "#0074d9", color: "white" }}
-            onClick={this.updateService}
-          >
-            SAVE
-          </Button>
-          <Button className="btn btn-red" onClick={this.goBack}>
-            BACK
-          </Button>
+                    <Button
+                      className="btn btn-green"
+                      type="submit"
+                      style={{ backgroundColor: "#0074d9", color: "white" }}
+                      disabled={isSubmitting}
+                      onClick={handleSubmit}
+                    >
+                      SAVE
+                    </Button>
+                    <Button className="btn btn-red" onClick={this.goBack}>
+                      BACK
+                    </Button>
+                  </form>
+                )}
+              </Formik>
+            </div>
+          </div>
         </div>
       </div>
     );
