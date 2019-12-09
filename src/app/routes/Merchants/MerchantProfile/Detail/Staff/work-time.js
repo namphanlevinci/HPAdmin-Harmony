@@ -80,7 +80,7 @@ const WorkTime = ({
           <div className="time-select">
             <label>From</label> <br />
             <select onChange={handleChange} name="timeStart3">
-              <option>{timeStart2}</option>
+              <option>{timeStart3}</option>
               <Time />
             </select>
           </div>

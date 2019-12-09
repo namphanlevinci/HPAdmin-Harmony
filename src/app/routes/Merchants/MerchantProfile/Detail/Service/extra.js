@@ -1,7 +1,7 @@
 import React from "react";
 import { FieldArray, Field } from "formik";
 
-const Extra = ({ handleBlur, handleChange, values }) => (
+const Extra = ({ handleBlur, handleChange, values, errors }) => (
   <FieldArray
     name="extras"
     validateOnChange
