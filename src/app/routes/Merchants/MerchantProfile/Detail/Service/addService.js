@@ -101,8 +101,8 @@ class AddService extends Component {
   };
 
   render() {
-    const schema = Yup.object().shape({
-      friends: Yup.array().of(
+    const validationSchema = Yup.object().shape({
+      extras: Yup.array().of(
         Yup.object().shape({
           name: Yup.string()
             .min(2, "too short")
@@ -165,6 +165,7 @@ class AddService extends Component {
               }
             ]
           }}
+          validationSchema={validationSchema}
           validate={values => {
             const errors = {};
             if (!values.name) {
@@ -418,16 +419,16 @@ class AddService extends Component {
 
                   {/* EXTRA BÊN NÀY */}
                   <div className="col-6">
-                    {this.state.render === true ? null : (
+                    {this.state.render === false ? (
                       <p
                         className="extra-btn"
                         onClick={() => this.setState({ render: true })}
                       >
                         Add Extra
                       </p>
-                    )}
-                    {this.state.render === true && (
+                    ) : (
                       <Extra
+                        errors={errors}
                         values={values}
                         handleChange={handleChange}
                         handleBlur={handleBlur}
