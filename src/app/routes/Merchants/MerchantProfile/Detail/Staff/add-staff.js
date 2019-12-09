@@ -360,9 +360,14 @@ class AddStaff extends Component {
         this.forceUpdate();
       }
     }
+
+    // this.setState({
+    //   activeStep: activeStep + 1
+    // });
   };
 
   handleBack = () => {
+    this.validator.purgeFields();
     const { activeStep } = this.state;
     this.setState({
       activeStep: activeStep - 1

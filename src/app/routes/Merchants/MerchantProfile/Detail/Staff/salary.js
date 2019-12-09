@@ -25,7 +25,7 @@ const Salary = ({
       <div className="col-4 salary-box">
         <Checkbox
           name="salaryIsCheck"
-          checked={salaryIsCheck}
+          disabled={commIsCheck === true ? true : false}
           onChange={handleCheckBox("salaryIsCheck")}
           value="true"
           inputProps={{
@@ -41,6 +41,7 @@ const Salary = ({
             fullWidth
             onChange={handleChange}
             required
+            disabled={commIsCheck === true ? true : false}
             value={salaryValue}
           />
           {validator.message("salaryValue", salaryValue, "required|numeric")}
@@ -49,7 +50,7 @@ const Salary = ({
       <div className="col-4 salary-box">
         <Checkbox
           name="commIsCheck"
-          checked={commIsCheck}
+          disabled={salaryIsCheck === true ? true : false}
           onChange={handleCheckBox("commIsCheck")}
           value="true"
           inputProps={{
@@ -65,6 +66,7 @@ const Salary = ({
             fullWidth
             onChange={handleChange}
             required
+            disabled={salaryIsCheck === true ? true : false}
             value={commValue}
           />
           {validator.message("commValue", commValue, "required|numeric")}
@@ -76,7 +78,7 @@ const Salary = ({
       <div className="col-4 salary-box">
         <Checkbox
           name="tipIsCheck"
-          checked={tipIsCheck}
+          disabled={fixIsCheck === true ? true : false}
           onChange={handleCheckBox("tipIsCheck")}
           value="true"
           inputProps={{
@@ -92,6 +94,7 @@ const Salary = ({
             fullWidth
             onChange={handleChange}
             required
+            disabled={fixIsCheck === true ? true : false}
             value={tipValue}
           />
           {validator.message("tipValue", tipValue, "required|numeric")}
@@ -100,7 +103,7 @@ const Salary = ({
       <div className="col-4 salary-box">
         <Checkbox
           name="fixIsCheck"
-          checked={fixIsCheck}
+          disabled={tipIsCheck === true ? true : false}
           onChange={handleCheckBox("fixIsCheck")}
           value="true"
           inputProps={{
@@ -116,6 +119,7 @@ const Salary = ({
             fullWidth
             onChange={handleChange}
             required
+            disabled={tipIsCheck === true ? true : false}
             value={fixValue}
           />
           {validator.message("fixValue", fixValue, "required|numeric")}
