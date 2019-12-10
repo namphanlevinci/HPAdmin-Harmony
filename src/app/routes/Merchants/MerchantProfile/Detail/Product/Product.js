@@ -5,22 +5,28 @@ import axios from "axios";
 import URL from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
-import Popup from "reactjs-popup";
+
 // import SearchIcon from "@material-ui/icons/Search";
 
+import { FaTrashRestoreAlt, FaTrash } from "react-icons/fa";
+import { GoFile } from "react-icons/go";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import "react-table/react-table.css";
-import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
-import "../../../MerchantsList/merchantsList.css";
-import "../Detail.css";
+
 class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
       search: "",
       data: [],
-      loading: true
+      loading: true,
+      dialog: false,
+      restoreDialog: false,
+      productId: ""
     };
   }
 
@@ -102,36 +108,28 @@ class Product extends Component {
 
     const columns = [
       {
-        Header: "Product",
+        Header: "Product Name",
         id: "product",
-        width: 250,
-        accessor: "name",
+        width: 150,
+        accessor: "name"
+      },
+      {
+        Header: "Image",
+        id: "image",
+        width: 150,
         Cell: row => {
           return (
             <div>
               <img
-                height={100}
-                width={100}
+                height={80}
+                width={120}
                 src={row.original.imageUrl}
-                alt="product"
+                alt="servicepic"
                 style={{ objectFit: "contain" }}
               />
-              &nbsp;
-              {row.original.name}
             </div>
           );
         }
-      },
-      {
-        id: "SKU",
-        Header: "SKU Number",
-        accessor: "sku",
-        Cell: e => (
-          <div>
-            <p>{e.value}</p>
-          </div>
-        ),
-        width: 160
       },
       {
         Header: "Categories",
@@ -145,7 +143,7 @@ class Product extends Component {
         width: 160
       },
       {
-        id: "Quantity",
+        id: "Items in Stock",
         Header: "Quantity",
         accessor: "quantity",
         Cell: e => (
@@ -156,12 +154,12 @@ class Product extends Component {
         width: 120
       },
       {
-        id: "Need To Order",
-        Header: "Need To Order",
-        accessor: "needToorDer",
+        Header: "Price",
+        id: "stocks",
+        accessor: "price",
         Cell: e => (
           <div>
-            <p>{e.value}</p>
+            <p>$ {e.value}</p>
           </div>
         ),
         width: 150
@@ -173,103 +171,33 @@ class Product extends Component {
         Cell: row => {
           return (
             <div style={{ textAlign: "center" }}>
-              <Button
-                className="btn"
-                onClick={() => this.viewDetail(row.original)}
-                style={{
-                  backgroundColor: "#0764b0",
-                  color: "white",
-                  padding: "10px 20px"
-                }}
-              >
-                Detail
-              </Button>
               {row.original.isDisabled !== 1 ? (
-                <Popup
-                  trigger={
-                    <Button
-                      className="btn"
-                      style={{
-                        backgroundColor: "red",
-                        color: "white",
-                        padding: "10px 20px"
-                      }}
-                    >
-                      {" "}
-                      Archive{" "}
-                    </Button>
-                  }
-                  modal
-                  closeOnDocumentClick
-                >
-                  <div className="Disable-Popup">
-                    <h2 className="title">
-                      Do you want to Archire this Product?
-                    </h2>
-                    <div className="Disable-Button">
-                      <Button
-                        type="submit"
-                        className="btn btn-red"
-                        onClick={this.handleCloseReject}
-                      >
-                        BACK
-                      </Button>
-                      <Button
-                        type="submit"
-                        className="btn btn-green"
-                        onClick={() =>
-                          this.handleArchive(row.original.productId)
-                        }
-                      >
-                        COMFIRM
-                      </Button>
-                    </div>
-                  </div>
-                </Popup>
+                <FaTrash
+                  size={20}
+                  onClick={() => [
+                    this.setState({
+                      productId: row.original.productId,
+                      dialog: true
+                    })
+                  ]}
+                />
               ) : (
-                // handle Restore
-                <Popup
-                  trigger={
-                    <Button
-                      className="btn"
-                      style={{
-                        backgroundColor: "white",
-                        color: "black",
-                        padding: "10px 20px"
-                      }}
-                    >
-                      {" "}
-                      Restore{" "}
-                    </Button>
+                <FaTrashRestoreAlt
+                  size={20}
+                  onClick={() =>
+                    this.setState({
+                      productId: row.original.productId,
+                      restoreDialog: true
+                    })
                   }
-                  modal
-                  closeOnDocumentClick
-                >
-                  <div className="Disable-Popup">
-                    <h2 className="title">
-                      Do you want to Restore this Product?
-                    </h2>
-                    <div className="Disable-Button">
-                      <Button
-                        type="submit"
-                        className="btn btn-red"
-                        onClick={this.handleCloseReject}
-                      >
-                        BACK
-                      </Button>
-                      <Button
-                        type="submit"
-                        className="btn btn-green"
-                        onClick={() =>
-                          this.handleRestore(row.original.productId)
-                        }
-                      >
-                        COMFIRM
-                      </Button>
-                    </div>
-                  </div>
-                </Popup>
+                />
               )}
+              <span style={{ paddingLeft: "20px" }}>
+                <GoFile
+                  size={20}
+                  onClick={() => this.viewDetail(row.original)}
+                />
+              </span>
             </div>
           );
         }
@@ -314,6 +242,77 @@ class Product extends Component {
               loading={this.state.loading}
             />
           </div>
+
+          {/* ARCHIVE */}
+          <Dialog
+            open={this.state.dialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Archive this product ?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                This product will not appear on the app. You can restore this
+                product by clicking the Restore button.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={() => this.setState({ dialog: false, productId: "" })}
+                color="primary"
+              >
+                Disagree
+              </Button>
+              <Button
+                onClick={() => [
+                  this.handleArchive(this.state.productId),
+                  this.setState({ dialog: false, productId: "" })
+                ]}
+                color="primary"
+                autoFocus
+              >
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
+          {/* RESTORE */}
+          <Dialog
+            open={this.state.restoreDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Restore this product ?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                This product will appear on the app as well as the related
+                lists.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={() =>
+                  this.setState({ restoreDialog: false, productId: "" })
+                }
+                color="primary"
+              >
+                Disagree
+              </Button>
+              <Button
+                onClick={() => [
+                  this.handleRestore(this.state.productId),
+                  this.setState({ restoreDialog: false, productId: "" })
+                ]}
+                color="primary"
+                autoFocus
+              >
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
     );

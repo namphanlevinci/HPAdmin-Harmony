@@ -70,9 +70,9 @@ class Staff extends Component {
 
     const columns = [
       {
-        Header: "Staff ID",
+        Header: "ID",
         accessor: "staffId",
-        width: 100
+        width: 50
       },
       {
         Header: "Name",

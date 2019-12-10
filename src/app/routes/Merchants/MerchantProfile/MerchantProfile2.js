@@ -33,6 +33,8 @@ import ProductAdd from "./Detail/Product/productAdd";
 // Staff
 import Staff from "./Detail/Staff/Staff";
 import AddStaff from "./Detail/Staff/add-staff";
+// Extra Tab
+import ExtraTab from "./Detail/Extra/extra";
 class merchantProfile2 extends Component {
   constructor(props) {
     super(props);
@@ -101,6 +103,11 @@ class merchantProfile2 extends Component {
                       <li>
                         <NavLink to="/app/merchants/profile/product">
                           Product
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/app/merchants/profile/extra">
+                          Extra
                         </NavLink>
                       </li>
                       <li>
@@ -175,6 +182,10 @@ class merchantProfile2 extends Component {
                         <Route
                           path="/app/merchants/profile/product"
                           component={Product}
+                        />
+                        <Route
+                          path="/app/merchants/profile/extra"
+                          component={ExtraTab}
                         />
                         <Route
                           path="/app/merchants/profile/staff/add"

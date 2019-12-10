@@ -5,20 +5,20 @@ import axios from "axios";
 import URL from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
-import Popup from "reactjs-popup";
 import { Formik } from "formik";
 import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import "react-table/react-table.css";
-import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
-import "../../../MerchantsList/merchantsList.css";
-import "../Detail.css";
-
+import "./category.styles.scss";
+import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
 class Category extends Component {
   constructor(props) {
     super(props);
@@ -26,10 +26,14 @@ class Category extends Component {
       search: "",
       data: [],
       loading: true,
-      isOpenReject: false,
-      isOpenEdit: false,
       categoryType: null,
-      name: null
+      name: null,
+      // Archive & Restore & Add Category
+      dialog: false,
+      restoreDialog: false,
+      cateDialog: false,
+      // Category ID để update
+      categoryId: ""
     };
   }
 
@@ -57,19 +61,6 @@ class Category extends Component {
   handleEdit = e => {
     this.props.VIEW_SERVICE(e);
     this.props.history.push("/app/merchants/profile/category/edit");
-  };
-
-  handleCloseReject = () => {
-    this.setState({ isOpenReject: false });
-  };
-  handleOpenReject = () => {
-    this.setState({ isOpenReject: true });
-  };
-  handleCloseEdit = () => {
-    this.setState({ isOpenEdit: false });
-  };
-  handleOpenEdit = () => {
-    this.setState({ isOpenEdit: true });
   };
 
   handleSetState = data => {
@@ -128,18 +119,22 @@ class Category extends Component {
     }
 
     const columns = [
+      // {
+      //   Header: "No.",
+      //   accessor: "categoryId",
+      //   width: 80
+      // },
       {
-        Header: "No.",
-        accessor: "categoryId",
-        width: 80
-      },
-      {
-        Header: "Name",
+        Header: "Category Name",
         id: "Name",
         width: 250,
         accessor: "name",
         Cell: row => {
-          return <div>{row.original.name}</div>;
+          return (
+            <div>
+              <p>{row.original.name}</p>
+            </div>
+          );
         }
       },
       {
@@ -170,103 +165,33 @@ class Category extends Component {
         Cell: row => {
           return (
             <div style={{ textAlign: "center" }}>
-              <Button
-                className="btn"
-                style={{
-                  backgroundColor: "#0764b0",
-                  color: "white",
-                  padding: "10px 20px"
-                }}
-                onClick={() => this.handleEdit(row.original)}
-              >
-                Edit
-              </Button>
               {row.original.isDisabled !== 1 ? (
-                <Popup
-                  trigger={
-                    <Button
-                      className="btn"
-                      style={{
-                        backgroundColor: "red",
-                        color: "white",
-                        padding: "10px 20px"
-                      }}
-                    >
-                      {" "}
-                      Archive{" "}
-                    </Button>
-                  }
-                  modal
-                  closeOnDocumentClick
-                >
-                  <div className="Disable-Popup">
-                    <h2 className="title">
-                      Do you want to Archire this Category?
-                    </h2>
-                    <div className="Disable-Button">
-                      <Button
-                        type="submit"
-                        className="btn btn-red"
-                        onClick={this.handleCloseReject}
-                      >
-                        BACK
-                      </Button>
-                      <Button
-                        type="submit"
-                        className="btn btn-green"
-                        onClick={() =>
-                          this.handleArchive(row.original.categoryId)
-                        }
-                      >
-                        COMFIRM
-                      </Button>
-                    </div>
-                  </div>
-                </Popup>
+                <FaTrash
+                  size={20}
+                  onClick={() => [
+                    this.setState({
+                      categoryId: row.original.categoryId,
+                      dialog: true
+                    })
+                  ]}
+                />
               ) : (
-                // handle Restore
-                <Popup
-                  trigger={
-                    <Button
-                      className="btn"
-                      style={{
-                        backgroundColor: "white",
-                        color: "black",
-                        padding: "10px 20px"
-                      }}
-                    >
-                      {" "}
-                      Restore{" "}
-                    </Button>
+                <FaTrashRestoreAlt
+                  size={20}
+                  onClick={() =>
+                    this.setState({
+                      categoryId: row.original.categoryId,
+                      restoreDialog: true
+                    })
                   }
-                  modal
-                  closeOnDocumentClick
-                >
-                  <div className="Disable-Popup">
-                    <h2 className="title">
-                      Do you want to Restore this Category?
-                    </h2>
-                    <div className="Disable-Button">
-                      <Button
-                        type="submit"
-                        className="btn btn-red"
-                        onClick={this.handleCloseReject}
-                      >
-                        BACK
-                      </Button>
-                      <Button
-                        type="submit"
-                        className="btn btn-green"
-                        onClick={() =>
-                          this.handleRestore(row.original.categoryId)
-                        }
-                      >
-                        COMFIRM
-                      </Button>
-                    </div>
-                  </div>
-                </Popup>
+                />
               )}
+              <span style={{ paddingLeft: "20px" }}>
+                <FaRegEdit
+                  size={20}
+                  onClick={() => this.handleEdit(row.original)}
+                />
+              </span>
             </div>
           );
         }
@@ -274,9 +199,9 @@ class Category extends Component {
     ];
 
     return (
-      <div className="content GeneralContent react-transition swipe-up Staff">
+      <div className="react-transition swipe-up category-container">
         <NotificationContainer />
-        <div className="MerList" style={{ padding: "10px" }}>
+        <div style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className="search">
               <form>
@@ -291,137 +216,148 @@ class Category extends Component {
               </form>
             </div>
             <div>
-              <Popup
-                trigger={
-                  <Button className="btn btn-green"> NEW CATEGORY </Button>
-                }
-                modal
-                closeOnDocumentClick
-                open={this.state.isOpenReject}
-                onOpen={this.handleOpenReject}
+              {/* NEW ADD FORM */}
+              <Button
+                className="btn add-category"
+                onClick={() => this.setState({ cateDialog: true })}
               >
-                <div className="Disable-Popup Service">
-                  <h2 className="title">Add Category</h2>
-                  <div>
-                    <Formik
-                      initialValues={{ categoryType: "", name: "" }}
-                      validate={values => {
-                        const errors = {};
-                        if (!values.categoryType) {
-                          errors.categoryType = "Please choose a Type";
-                        }
-                        if (!values.name) {
-                          errors.name = "Please enter category name";
-                        }
-                        return errors;
-                      }}
-                      onSubmit={(values, { setSubmitting }) => {
-                        const { categoryType, name } = values;
-                        const merchantId = this.props.MerchantProfile
-                          .merchantId;
-                        axios
-                          .post(
-                            URL + "/category",
-                            {
-                              categoryType,
-                              name,
-                              merchantId
-                            },
-                            {
-                              headers: {
-                                Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+                {" "}
+                NEW CATEGORY{" "}
+              </Button>
+              <Dialog
+                open={this.state.cateDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogContent>
+                  <div className="category">
+                    <h2 className="title">New Category</h2>
+                    <div>
+                      <Formik
+                        initialValues={{ categoryType: "", name: "" }}
+                        validate={values => {
+                          const errors = {};
+                          if (!values.categoryType) {
+                            errors.categoryType = "Please choose a Type";
+                          }
+                          if (!values.name) {
+                            errors.name = "Please enter category name";
+                          }
+                          return errors;
+                        }}
+                        onSubmit={(values, { setSubmitting }) => {
+                          const { categoryType, name } = values;
+                          const merchantId = this.props.MerchantProfile
+                            .merchantId;
+                          axios
+                            .post(
+                              URL + "/category",
+                              {
+                                categoryType,
+                                name,
+                                merchantId
+                              },
+                              {
+                                headers: {
+                                  Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+                                }
                               }
-                            }
-                          )
-                          .then(res => {
-                            let message = res.data.message;
-                            if (res.data.codeNumber === 200) {
-                              this.setState({ isOpenReject: false });
+                            )
+                            .then(res => {
+                              let message = res.data.message;
+                              if (res.data.codeNumber === 200) {
+                                this.setState({ cateDialog: false });
 
-                              NotificationManager.success(message, null, 800);
-                              setTimeout(() => {
-                                this.getCategory();
-                              }, 800);
-                            } else {
-                              NotificationManager.error(message, null, 800);
-                            }
-                          });
-                      }}
-                    >
-                      {({
-                        values,
-                        errors,
-                        touched,
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        isSubmitting
-                      }) => (
-                        <form onSubmit={handleSubmit}>
-                          <label style={{ padding: "10px 0px" }}>
-                            Category Type*
-                          </label>
-                          <select
-                            className={
-                              errors.name && touched.name
-                                ? "text-input error"
-                                : "text-input"
-                            }
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            name="categoryType"
-                          >
-                            <option value="">Type</option>
-                            <option value="Product">Product</option>
-                            <option value="Service">Service</option>
-                          </select>
-                          {errors.categoryType && touched.categoryType && (
-                            <div className="input-feedback">
-                              {errors.categoryType}
+                                NotificationManager.success(message, null, 800);
+                                setTimeout(() => {
+                                  this.getCategory();
+                                }, 800);
+                              } else {
+                                NotificationManager.error(message, null, 800);
+                              }
+                            });
+                        }}
+                      >
+                        {({
+                          values,
+                          errors,
+                          touched,
+                          handleChange,
+                          handleBlur,
+                          handleSubmit,
+                          isSubmitting
+                        }) => (
+                          <form onSubmit={handleSubmit}>
+                            <label style={{ padding: "10px 0px" }}>
+                              Category Type*
+                            </label>
+                            <select
+                              className={
+                                errors.categoryType && touched.categoryType
+                                  ? "text-input error"
+                                  : "text-input"
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              name="categoryType"
+                            >
+                              <option value="">Type</option>
+                              <option value="Product">Product</option>
+                              <option value="Service">Service</option>
+                            </select>
+
+                            {/* {errors.categoryType && touched.categoryType && (
+                              <div className="input-feedback">
+                                {errors.categoryType}
+                              </div>
+                            )} */}
+
+                            <label style={{ padding: "10px 0px" }}>
+                              Category Name*
+                            </label>
+                            <input
+                              type="text"
+                              name="name"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.name}
+                              className={
+                                errors.name && touched.name
+                                  ? "text-input error"
+                                  : "text-input"
+                              }
+                            />
+                            {errors.name && touched.name && (
+                              <div className="input-feedback">
+                                {errors.name}
+                              </div>
+                            )}
+                            <div className="category-button">
+                              <Button
+                                style={{ marginTop: "20px" }}
+                                className="green"
+                                type="submit"
+                                disabled={isSubmitting}
+                              >
+                                SAVE
+                              </Button>
+                              <Button
+                                style={{ marginTop: "20px" }}
+                                className="red"
+                                onClick={() =>
+                                  this.setState({ cateDialog: false })
+                                }
+                              >
+                                CANCEL
+                              </Button>
                             </div>
-                          )}
-
-                          <label style={{ padding: "10px 0px" }}>
-                            Category Name*
-                          </label>
-                          <input
-                            type="text"
-                            name="name"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.name}
-                            className={
-                              errors.name && touched.name
-                                ? "text-input error"
-                                : "text-input"
-                            }
-                          />
-                          {errors.name && touched.name && (
-                            <div className="input-feedback">{errors.name}</div>
-                          )}
-                          <div className="Disable-Button">
-                            <Button
-                              style={{ marginTop: "20px" }}
-                              className="btn btn-red"
-                              onClick={this.handleCloseReject}
-                            >
-                              BACK
-                            </Button>
-                            <Button
-                              style={{ marginTop: "20px" }}
-                              className="btn btn-green"
-                              type="submit"
-                              disabled={isSubmitting}
-                            >
-                              ADD
-                            </Button>
-                          </div>
-                        </form>
-                      )}
-                    </Formik>
+                          </form>
+                        )}
+                      </Formik>
+                    </div>
                   </div>
-                </div>
-              </Popup>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
           <div className="MListContainer">
@@ -433,6 +369,79 @@ class Category extends Component {
               noDataText="NO DATA!"
               loading={this.state.loading}
             />
+
+            {/* ARCHIVE */}
+            <Dialog
+              open={this.state.dialog}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"Archive this category ?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  This category will not appear on the app. You can restore this
+                  category by clicking the Restore button.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() =>
+                    this.setState({ dialog: false, categoryId: "" })
+                  }
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={() => [
+                    this.handleArchive(this.state.categoryId),
+                    this.setState({ dialog: false, categoryId: "" })
+                  ]}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
+            {/* RESTORE */}
+            <Dialog
+              open={this.state.restoreDialog}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"Restore this category ?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  This category will appear on the app as well as the related
+                  lists.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() =>
+                    this.setState({ restoreDialog: false, categoryId: "" })
+                  }
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={() => [
+                    this.handleRestore(this.state.categoryId),
+                    this.setState({ restoreDialog: false, categoryId: "" })
+                  ]}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         </div>
       </div>

@@ -102,10 +102,9 @@ class productDetail extends Component {
                   <br />
                   <textarea
                     disabled
+                    defaultValue={product.description}
                     style={{ width: "100%", height: "60px", padding: "5px" }}
-                  >
-                    {product.description}
-                  </textarea>
+                  />
                 </div>
               </div>
             </div>

@@ -10,11 +10,14 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
+
+import EditExtra from "./edit-extra";
+
 import URL from "../../../../../../url/url";
 
 import "react-table/react-table.css";
 
-class Service extends Component {
+class ExtraTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,30 +28,62 @@ class Service extends Component {
       dialog: false,
       restoreDialog: false,
       // Service ID
-      serviceId: ""
+      serviceId: "",
+      edit: false,
+
+      duration: "",
+      price: "",
+      tax: 1,
+      discount: 1,
+      isDisabled: "",
+      name: "",
+      quantity: 0,
+      extraId: ""
     };
   }
 
-  getService = () => {
+  getExtra = () => {
     const ID = this.props.MerchantProfile.merchantId;
     axios
-      .get(URL + "/service/getbymerchant/" + ID, {
+      .get(URL + "/extra/getbymerchant/" + ID, {
         headers: {
           Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
         }
       })
       .then(res => {
-        this.setState({ data: res.data.data, loading: false });
+        this.setState({ data: res.data.data, loading: false }, () =>
+          console.log("THIS", this.state.data)
+        );
       });
   };
 
   componentDidMount() {
-    this.getService();
+    this.getExtra();
   }
 
-  handleEdit = e => {
-    this.props.VIEW_SERVICE(e);
-    this.props.history.push("/app/merchants/profile/service/edit");
+  handleClose = (name, value) => {
+    this.setState({ [name]: value });
+  };
+  handleEdit = data => {
+    console.log("data", data);
+    const {
+      duration,
+      extraId,
+      isDisabled,
+      name,
+      price,
+      quantity,
+      description
+    } = data;
+    this.setState({
+      duration,
+      extraId,
+      isDisabled,
+      name,
+      price,
+      quantity,
+      description
+    });
   };
 
   handleCloseReject = () => {
@@ -57,7 +92,7 @@ class Service extends Component {
 
   handleArchive = ID => {
     axios
-      .put(URL + "/service/archive/" + ID, null, {
+      .put(URL + "/extra/archive/" + ID, null, {
         headers: {
           Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
         }
@@ -65,13 +100,13 @@ class Service extends Component {
       .then(res => {});
     this.setState({ isOpenReject: false, loading: true });
     setTimeout(() => {
-      this.getService();
+      this.getExtra();
     }, 1500);
   };
 
   handleRestore = ID => {
     axios
-      .put(URL + "/service/restore/" + ID, null, {
+      .put(URL + "/extra/restore/" + ID, null, {
         headers: {
           Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
         }
@@ -79,22 +114,18 @@ class Service extends Component {
       .then(res => {});
     this.setState({ isOpenReject: false, loading: true });
     setTimeout(() => {
-      this.getService();
+      this.getExtra();
     }, 1500);
   };
   render() {
     // Search
-    let serviceList = this.state.data;
-    if (serviceList) {
+    let extraList = this.state.data;
+    if (extraList) {
       if (this.state.search) {
-        serviceList = serviceList.filter(e => {
+        extraList = extraList.filter(e => {
           if (e !== null) {
             return (
               e.name
-                .trim()
-                .toLowerCase()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              e.categoryName
                 .trim()
                 .toLowerCase()
                 .indexOf(this.state.search.toLowerCase()) !== -1
@@ -107,39 +138,15 @@ class Service extends Component {
 
     const columns = [
       {
-        Header: "Name",
+        Header: " Extra name",
         accessor: "name",
         width: 150
       },
       {
         Header: "Image ",
         id: "Image",
-        width: 150,
-        accessor: "name",
-        Cell: row => {
-          return (
-            <div>
-              <img
-                height={80}
-                width={120}
-                src={row.original.imageUrl}
-                alt="servicepic"
-                style={{ objectFit: "contain" }}
-              />
-            </div>
-          );
-        }
-      },
-      {
-        id: "Categories",
-        Header: "Categories",
-        accessor: "categoryName",
-        Cell: e => (
-          <div>
-            <p>{e.value}</p>
-          </div>
-        ),
         width: 150
+        // accessor: "name"
       },
       {
         id: "duration",
@@ -186,7 +193,7 @@ class Service extends Component {
                   size={20}
                   onClick={() => [
                     this.setState({
-                      categoryId: row.original.serviceId,
+                      extraId: row.original.extraId,
                       dialog: true
                     })
                   ]}
@@ -196,7 +203,7 @@ class Service extends Component {
                   size={20}
                   onClick={() =>
                     this.setState({
-                      categoryId: row.original.serviceId,
+                      extraId: row.original.extraId,
                       restoreDialog: true
                     })
                   }
@@ -205,7 +212,10 @@ class Service extends Component {
               <span style={{ paddingLeft: "20px" }}>
                 <FaRegEdit
                   size={20}
-                  onClick={() => this.handleEdit(row.original)}
+                  onClick={() => [
+                    this.handleEdit(row.original),
+                    this.setState({ edit: true })
+                  ]}
                 />
               </span>
             </div>
@@ -230,21 +240,19 @@ class Service extends Component {
                 />
               </form>
             </div>
-            <div>
-              <Button
-                className="btn btn-green"
-                onClick={() =>
-                  this.props.history.push("/app/merchants/profile/service/add")
-                }
-              >
-                NEW SERVICE
-              </Button>
-            </div>
+            <div></div>
           </div>
-
+          <EditExtra
+            getExtra={this.getExtra}
+            edit={this.state.edit}
+            data={this.state}
+            handleClose={this.handleClose}
+            token={this.props.InfoUser_Login.User.token}
+            merchantId={this.props.MerchantProfile.merchantId}
+          />
           <div className="MListContainer">
             <ReactTable
-              data={serviceList}
+              data={extraList}
               columns={columns}
               defaultPageSize={5}
               minRows={1}
@@ -259,27 +267,25 @@ class Service extends Component {
               aria-describedby="alert-dialog-description"
             >
               <DialogTitle id="alert-dialog-title">
-                {"Archive this service ?"}
+                {"Archive this extra ?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  This service will not appear on the app. You can restore this
-                  service by clicking the Restore button.
+                  This extra will not appear on the app. You can restore this
+                  extra by clicking the Restore button.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button
-                  onClick={() =>
-                    this.setState({ dialog: false, categoryId: "" })
-                  }
+                  onClick={() => this.setState({ dialog: false, extraId: "" })}
                   color="primary"
                 >
                   Disagree
                 </Button>
                 <Button
                   onClick={() => [
-                    this.handleArchive(this.state.categoryId),
-                    this.setState({ dialog: false, categoryId: "" })
+                    this.handleArchive(this.state.extraId),
+                    this.setState({ dialog: false, extraId: "" })
                   ]}
                   color="primary"
                   autoFocus
@@ -295,18 +301,18 @@ class Service extends Component {
               aria-describedby="alert-dialog-description"
             >
               <DialogTitle id="alert-dialog-title">
-                {"Restore this service ?"}
+                {"Restore this extra ?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  This service will appear on the app as well as the related
+                  This extra will appear on the app as well as the related
                   lists.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button
                   onClick={() =>
-                    this.setState({ restoreDialog: false, categoryId: "" })
+                    this.setState({ restoreDialog: false, extraId: "" })
                   }
                   color="primary"
                 >
@@ -314,8 +320,8 @@ class Service extends Component {
                 </Button>
                 <Button
                   onClick={() => [
-                    this.handleRestore(this.state.categoryId),
-                    this.setState({ restoreDialog: false, categoryId: "" })
+                    this.handleRestore(this.state.extraId),
+                    this.setState({ restoreDialog: false, extraId: "" })
                   ]}
                   color="primary"
                   autoFocus
@@ -340,4 +346,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(VIEW_SERVICE(payload));
   }
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Service);
+export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);

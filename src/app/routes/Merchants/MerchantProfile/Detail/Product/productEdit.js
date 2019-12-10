@@ -201,7 +201,7 @@ class EditProduct extends Component {
         <NotificationContainer />
         <div className="container Service">
           <div className="row">
-            <div className="col-md-5">
+            <div className="col-5">
               <label>Image*</label>
               <br />
               {$imagePreview}
@@ -216,7 +216,7 @@ class EditProduct extends Component {
                 }}
               />
             </div>
-            <div className="col-md-7">
+            <div className="col-7">
               <div className="row">
                 <div className="col-4">
                   <label>Product</label>
@@ -272,7 +272,7 @@ class EditProduct extends Component {
                     onChange={this.handleChange}
                   />
                 </div>
-                <div className="coL-4">
+                <div className="col-4">
                   <label>Max Threshold</label>
                   <br />
                   <input

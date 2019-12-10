@@ -249,7 +249,7 @@ class AddProduct extends Component {
               <div className="container Service">
                 <div className="row">
                   <div className="col-md-5">
-                    <label>Image*</label>
+                    <label>Image</label>
                     <br />
                     {$imagePreview}
                     <input
