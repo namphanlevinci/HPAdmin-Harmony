@@ -1,4 +1,5 @@
 import React from "react";
+import { Formik } from "formik";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -7,7 +8,8 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import IntlMessages from "../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
-
+import * as Yup from "yup";
+import General from "./General";
 import Questions from "./Questions";
 import Bank from "./Bank";
 import Principal from "./Principal";
@@ -51,10 +53,25 @@ class AddMerchant extends React.Component {
     ];
   };
 
-  getStepContent = stepIndex => {
+  getStepContent = (
+    stepIndex,
+    handleChange,
+    touched,
+    handleBlur,
+    values,
+    errors
+  ) => {
     switch (stepIndex) {
       case 0:
-        return this.getGeneralInformation();
+        return (
+          <General
+            handleChange={handleChange}
+            touched={touched}
+            handleBlur={handleBlur}
+            errors={errors}
+            values={values}
+          />
+        );
       case 1:
         return this.getBusinessInformation();
       case 2:
@@ -68,273 +85,7 @@ class AddMerchant extends React.Component {
   };
 
   getGeneralInformation = () => {
-    return (
-      <div>
-        <div className="row">
-          <div className="col-md-9 mx-auto">
-            <div className="form-group">
-              <label>
-                Legal Business Name* (as show on your income tax return)
-              </label>
-              <TextField
-                name="legalBusinessName"
-                label="Legal Business Name"
-                margin="normal"
-                type="text"
-                fullWidth
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-                required
-              />
-            </div>
-          </div>
-          <div className="col-md-9 mx-auto">
-            <div className="form-group">
-              <label>Doing Business As Name (DBA)</label>
-              <TextField
-                name="doingBusiness"
-                label="DBA"
-                type="text"
-                autoComplete="doingBusiness"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row align-items-center justify-content-center">
-          <div className="col-md-3">
-            <label>Frederal Tax ID*</label>
-            <div className="form-group">
-              <TextField
-                name="taxCode"
-                label="Tax ID"
-                type="text"
-                autoComplete="current-password"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="form-group">
-              <label style={{ color: "white" }}>NOOO</label>
-              <TextField
-                name="taxID"
-                label="Tax ID"
-                margin="normal"
-                type="text"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-          <div className="col-md-9 mx-auto">
-            <div className="form-group">
-              <label>DBA Business Address* (no P.O. Box)</label>
-              <TextField
-                name="address"
-                label="DBA Address"
-                margin="normal"
-                type="text"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row align-items-center justify-content-center">
-          <div className="col-md-3">
-            <div className="form-group">
-              <TextField
-                name="city"
-                label="City"
-                type="text"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="form-group">
-              <TextField
-                name="state"
-                label="State"
-                type="text"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="form-group">
-              <TextField
-                name="zip"
-                label="Zip"
-                type="number"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row align-items-center justify-content-center">
-          <div className="col-md-3">
-            <label>Business Phone Number*</label>
-            <div className="">
-              <select
-                style={{ padding: "10px", width: "100%" }}
-                onChange={e =>
-                  this.setState({ phoneCodeBusiness: e.target.value })
-                }
-              >
-                <option value="+1">+1</option>
-                <option value="+84">+84</option>
-              </select>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <label style={{ color: "white" }}>Business Phone Number*</label>
-            <div className="form-group">
-              <TextField
-                name="phoneNumberBusiness"
-                label="Phone number"
-                type="number"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-          <div className="col-md-9">
-            <label>Contact Email Address*</label>
-            <div className="form-group">
-              <TextField
-                name="email"
-                label="Email"
-                type="email"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-          <div className="col-md-4">
-            <label>Contact Name*</label>
-            <div className="form-group">
-              <TextField
-                name="firstName"
-                label="First Name"
-                type="text"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-          <div className="col-md-5">
-            <label style={{ color: "white" }}>Last Name*</label>
-            <div className="form-group">
-              <TextField
-                name="lastName"
-                label="Last Name"
-                type="text"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-          <div className="col-md-9">
-            <label>Title/Position*</label>
-            <div className="form-group">
-              <TextField
-                name="position"
-                label="Position"
-                type="text"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row align-items-center justify-content-center">
-          <div className="col-md-3">
-            <label>Contact Phone Number*</label>
-            <div className="">
-              <select
-                style={{ padding: "10px", width: "100%" }}
-                onChange={e =>
-                  this.setState({ phoneCodeContact: e.target.value })
-                }
-              >
-                <option value="+1">+1</option>
-                <option value="+84">+84</option>
-              </select>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <label style={{ color: "white" }}>Business Phone Number*</label>
-            <div className="form-group">
-              <TextField
-                name="phoneNumberContact"
-                label="Phone number"
-                type="number"
-                margin="normal"
-                fullWidth
-                required
-                onChange={this.handleChange}
-                error={this.state.error}
-                helperText={this.state.helperText}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    // return <General />;
   };
 
   getBusinessInformation = () => {
@@ -383,12 +134,11 @@ class AddMerchant extends React.Component {
   };
 
   render() {
-    console.log("handleUpdateState", this.state);
     const steps = this.getSteps();
     const { activeStep } = this.state;
 
     return (
-      <div className="container-fluid react-transition swipe-right">
+      <div className="react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.addmerchant" />}
@@ -424,7 +174,54 @@ class AddMerchant extends React.Component {
                 </div>
               ) : (
                 <div>
-                  {this.getStepContent(activeStep)}
+                  {/* FORMIK BRUH */}
+                  <Formik
+                    initialValues={{ email: "", password: "" }}
+                    validate={values => {
+                      const errors = {};
+                      if (!values.email) {
+                        errors.email = "Required";
+                      } else if (
+                        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                          values.email
+                        )
+                      ) {
+                        errors.email = "Invalid email address";
+                      }
+                      return errors;
+                    }}
+                    onSubmit={(values, { setSubmitting }) => {
+                      setTimeout(() => {
+                        alert(JSON.stringify(values, null, 2));
+                        setSubmitting(false);
+                      }, 400);
+                    }}
+                  >
+                    {({
+                      values,
+                      errors,
+                      touched,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      isSubmitting
+                      /* and other goodies */
+                    }) => (
+                      <form onSubmit={handleSubmit}>
+                        <div className="container">
+                          {this.getStepContent(
+                            activeStep,
+                            handleChange,
+                            errors,
+                            values,
+                            handleBlur,
+                            touched
+                          )}
+                        </div>
+                      </form>
+                    )}
+                  </Formik>
+
                   <div>
                     <Button
                       disabled={activeStep === 0}
