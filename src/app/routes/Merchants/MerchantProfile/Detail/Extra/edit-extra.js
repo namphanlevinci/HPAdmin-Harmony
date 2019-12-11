@@ -5,8 +5,10 @@ import axios from "axios";
 import URL from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import { Formik } from "formik";
+import "./extra.styles.scss";
 
 const EditExtra = ({
+  handleImageChange,
   getExtra,
   merchantId,
   token,
@@ -21,9 +23,18 @@ const EditExtra = ({
     isDisabled,
     name,
     quantity,
-    tax
+    tax,
+    imageUrl,
+    fileId,
+    imagePreviewUrl
   }
 }) => {
+  let $imagePreview = null;
+  if (imagePreviewUrl) {
+    $imagePreview = <img src={imagePreviewUrl} alt="void" />;
+  } else {
+    $imagePreview = <img src={imageUrl} alt="void" />;
+  }
   return (
     <Dialog
       open={edit}
@@ -31,8 +42,10 @@ const EditExtra = ({
       aria-describedby="alert-dialog-description"
     >
       <DialogContent>
-        <div className="category">
-          <h2 className="title">Edit Extra</h2>
+        <div className="category extra">
+          <div className="extra-container">
+            <h2 className="title">Edit Extra</h2>
+          </div>
           <div>
             <Formik
               initialValues={{
@@ -45,7 +58,8 @@ const EditExtra = ({
                 name,
                 quantity,
                 tax,
-                merchantId
+                merchantId,
+                imageUrl
               }}
               validate={values => {
                 const errors = {};
@@ -85,7 +99,8 @@ const EditExtra = ({
                       isDisabled,
                       name,
                       quantity,
-                      tax
+                      tax,
+                      fileId
                     },
                     {
                       headers: {
@@ -143,7 +158,7 @@ const EditExtra = ({
                     style={{ width: "100%", height: "70px", padding: "10px" }}
                   />
                   <div style={{ display: "flex" }}>
-                    <div>
+                    <div style={{ width: "40%" }}>
                       <label style={{ padding: "10px 0px" }}>
                         Duration*{" "}
                         <span style={{ fontSize: "10px" }}>(Minutes)</span>
@@ -157,7 +172,7 @@ const EditExtra = ({
                         style={{ width: "70%" }}
                       />
                     </div>
-                    <div>
+                    <div style={{ width: "35%" }}>
                       <label style={{ padding: "10px 0px" }}>Price*</label>
                       <input
                         type="number"
@@ -168,9 +183,13 @@ const EditExtra = ({
                         style={{ width: "70%" }}
                       />
                     </div>
-                    <div>
+                    <div style={{ width: "35%" }}>
                       <label style={{ padding: "10px 0px" }}>Status*</label>
-                      <select>
+                      <select
+                        onChange={handleChange}
+                        name="isDisabled"
+                        value={values.isDisabled}
+                      >
                         <option
                           value="0"
                           checked={isDisabled === 0 ? true : false}
@@ -186,7 +205,21 @@ const EditExtra = ({
                       </select>
                     </div>
                   </div>
-
+                  <label style={{ paddingTop: "10px" }}>Image</label>
+                  <div className="extra-image-container">
+                    <div>{$imagePreview}</div>
+                    <input
+                      name="price"
+                      type="file"
+                      onChange={handleImageChange}
+                      style={{
+                        width: "auto",
+                        borderBottom: "none",
+                        paddingTop: "20px",
+                        fontWeight: 400
+                      }}
+                    />
+                  </div>
                   <div className="category-button">
                     <Button
                       style={{ marginTop: "20px" }}

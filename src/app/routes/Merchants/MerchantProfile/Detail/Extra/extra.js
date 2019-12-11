@@ -10,11 +10,10 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
-
 import EditExtra from "./edit-extra";
 
-import URL from "../../../../../../url/url";
-
+import URL, { upfileUrl } from "../../../../../../url/url";
+import defaultImage from "./hpadmin2.png";
 import "react-table/react-table.css";
 
 class ExtraTab extends Component {
@@ -30,7 +29,7 @@ class ExtraTab extends Component {
       // Service ID
       serviceId: "",
       edit: false,
-
+      // Extra
       duration: "",
       price: "",
       tax: 1,
@@ -38,9 +37,42 @@ class ExtraTab extends Component {
       isDisabled: "",
       name: "",
       quantity: 0,
-      extraId: ""
+      extraId: "",
+      imageUrl: "",
+      fileId: "",
+      // image
+      imagePreviewUrl: null
     };
   }
+
+  handleImageChange = e => {
+    e.preventDefault();
+
+    // handle preview Image
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
+    // handle upload image
+    let formData = new FormData();
+    formData.append("Filename3", file);
+    const config = {
+      headers: { "content-type": "multipart/form-data" }
+    };
+    axios
+      .post(upfileUrl, formData, config)
+      .then(res => {
+        this.setState({ fileId: res.data.data.fileId });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   getExtra = () => {
     const ID = this.props.MerchantProfile.merchantId;
@@ -51,9 +83,7 @@ class ExtraTab extends Component {
         }
       })
       .then(res => {
-        this.setState({ data: res.data.data, loading: false }, () =>
-          console.log("THIS", this.state.data)
-        );
+        this.setState({ data: res.data.data, loading: false });
       });
   };
 
@@ -65,7 +95,6 @@ class ExtraTab extends Component {
     this.setState({ [name]: value });
   };
   handleEdit = data => {
-    console.log("data", data);
     const {
       duration,
       extraId,
@@ -73,7 +102,8 @@ class ExtraTab extends Component {
       name,
       price,
       quantity,
-      description
+      description,
+      imageUrl
     } = data;
     this.setState({
       duration,
@@ -82,12 +112,9 @@ class ExtraTab extends Component {
       name,
       price,
       quantity,
-      description
+      description,
+      imageUrl
     });
-  };
-
-  handleCloseReject = () => {
-    this.setState({ isOpenReject: false });
   };
 
   handleArchive = ID => {
@@ -98,7 +125,7 @@ class ExtraTab extends Component {
         }
       })
       .then(res => {});
-    this.setState({ isOpenReject: false, loading: true });
+    this.setState({ loading: true });
     setTimeout(() => {
       this.getExtra();
     }, 1500);
@@ -112,7 +139,7 @@ class ExtraTab extends Component {
         }
       })
       .then(res => {});
-    this.setState({ isOpenReject: false, loading: true });
+    this.setState({ loading: true });
     setTimeout(() => {
       this.getExtra();
     }, 1500);
@@ -145,8 +172,24 @@ class ExtraTab extends Component {
       {
         Header: "Image ",
         id: "Image",
-        width: 150
-        // accessor: "name"
+        width: 150,
+        accessor: "name",
+        Cell: row => {
+          const image =
+            row.original.imageUrl !== "" ? row.original.imageUrl : defaultImage;
+          return (
+            <div
+              style={{
+                backgroundImage: `url(${image})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                width: "100px",
+                height: "100px"
+              }}
+            ></div>
+          );
+        }
       },
       {
         id: "duration",
@@ -161,7 +204,7 @@ class ExtraTab extends Component {
       },
       {
         id: "price",
-        Header: "price",
+        Header: "Price",
         accessor: "price",
         Cell: e => (
           <div>
@@ -176,7 +219,7 @@ class ExtraTab extends Component {
         accessor: "isDisabled",
         Cell: e => (
           <div>
-            <span>{e.value === 0 ? "Active" : "Disable"}</span>
+            <p>{e.value === 0 ? "Active" : "Disable"}</p>
           </div>
         ),
         width: 120
@@ -247,6 +290,7 @@ class ExtraTab extends Component {
             edit={this.state.edit}
             data={this.state}
             handleClose={this.handleClose}
+            handleImageChange={this.handleImageChange}
             token={this.props.InfoUser_Login.User.token}
             merchantId={this.props.MerchantProfile.merchantId}
           />

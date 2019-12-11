@@ -11,7 +11,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
 import URL from "../../../../../../url/url";
-
+import defaultImage from "../Extra/hpadmin2.png";
 import "react-table/react-table.css";
 
 class Service extends Component {
@@ -117,16 +117,19 @@ class Service extends Component {
         width: 150,
         accessor: "name",
         Cell: row => {
+          const image =
+            row.original.imageUrl !== "" ? row.original.imageUrl : defaultImage;
           return (
-            <div>
-              <img
-                height={80}
-                width={120}
-                src={row.original.imageUrl}
-                alt="servicepic"
-                style={{ objectFit: "contain" }}
-              />
-            </div>
+            <div
+              style={{
+                backgroundImage: `url(${image})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                width: "100px",
+                height: "100px"
+              }}
+            ></div>
           );
         }
       },
@@ -167,11 +170,7 @@ class Service extends Component {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: e => (
-          <div>
-            <span>{e.value === 0 ? "Active" : "Disable"}</span>
-          </div>
-        ),
+        Cell: e => <p>{e.value === 0 ? "Active" : "Disable"}</p>,
         width: 120
       },
       {

@@ -153,7 +153,7 @@ class Category extends Component {
         accessor: "isDisabled",
         Cell: e => (
           <div>
-            <span>{e.value === 0 ? "Active" : "Disable"}</span>
+            <p>{e.value === 0 ? "Active" : "Disable"}</p>
           </div>
         ),
         width: 120
@@ -231,7 +231,9 @@ class Category extends Component {
               >
                 <DialogContent>
                   <div className="category">
-                    <h2 className="title">New Category</h2>
+                    <div className="category-title-container">
+                      <h2 className="title">New Category</h2>
+                    </div>
                     <div>
                       <Formik
                         initialValues={{ categoryType: "", name: "" }}

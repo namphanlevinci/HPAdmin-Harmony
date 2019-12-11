@@ -15,6 +15,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import defaultImage from "../Extra/hpadmin2.png";
 import "react-table/react-table.css";
 
 class Product extends Component {
@@ -118,16 +119,19 @@ class Product extends Component {
         id: "image",
         width: 150,
         Cell: row => {
+          const image =
+            row.original.imageUrl !== "" ? row.original.imageUrl : defaultImage;
           return (
-            <div>
-              <img
-                height={80}
-                width={120}
-                src={row.original.imageUrl}
-                alt="servicepic"
-                style={{ objectFit: "contain" }}
-              />
-            </div>
+            <div
+              style={{
+                backgroundImage: `url(${image})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                width: "100px",
+                height: "100px"
+              }}
+            ></div>
           );
         }
       },

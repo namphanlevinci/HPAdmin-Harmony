@@ -4,12 +4,14 @@ import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
 import URL from "../../../../../../url/url";
 import axios from "axios";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import "react-table/react-table.css";
-import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
-import "../../../MerchantsList/merchantsList.css";
+
 import "../Detail.css";
 
 class Staff extends Component {
@@ -133,7 +135,6 @@ class Staff extends Component {
               </Button>
             </div>
           </div>
-
           <div className="MListContainer">
             <ReactTable
               data={e}
@@ -143,6 +144,77 @@ class Staff extends Component {
               noDataText="NO DATA!"
               loading={this.state.loading}
             />
+
+            {/* ARCHIVE */}
+            <Dialog
+              open={this.state.dialog}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"Archive this extra ?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  This extra will not appear on the app. You can restore this
+                  extra by clicking the Restore button.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() => this.setState({ dialog: false, extraId: "" })}
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={() => [
+                    this.handleArchive(this.state.extraId),
+                    this.setState({ dialog: false, extraId: "" })
+                  ]}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
+            {/* RESTORE */}
+            <Dialog
+              open={this.state.restoreDialog}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"Restore this extra ?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  This extra will appear on the app as well as the related
+                  lists.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() =>
+                    this.setState({ restoreDialog: false, extraId: "" })
+                  }
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={() => [
+                    this.handleRestore(this.state.extraId),
+                    this.setState({ restoreDialog: false, extraId: "" })
+                  ]}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         </div>
       </div>
