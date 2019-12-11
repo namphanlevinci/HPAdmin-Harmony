@@ -128,7 +128,7 @@ const Salary = ({
     </div>
     {/* PRODUCT SALARY  */}
     <div className="row justify-content-center">
-      <div className="col-4 salary-box">
+      <div className="col-8 salary-box">
         <Checkbox
           name="prodCommIsCheck"
           checked={prodCommIsCheck}

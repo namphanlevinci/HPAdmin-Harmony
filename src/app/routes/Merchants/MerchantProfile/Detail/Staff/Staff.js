@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
 import URL from "../../../../../../url/url";
@@ -11,7 +13,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 import "react-table/react-table.css";
-
 import "../Detail.css";
 
 class Staff extends Component {
@@ -20,7 +21,9 @@ class Staff extends Component {
     this.state = {
       search: "",
       staff: [],
-      loading: true
+      loading: true,
+      dialog: false,
+      restoreDialog: false
     };
   }
 
@@ -40,6 +43,36 @@ class Staff extends Component {
         const data = res.data.data;
         this.setState({ staff: data, loading: false });
       });
+  };
+
+  handleArchive = ID => {
+    const MerchantID = this.props.MerchantProfile.merchantId;
+    axios
+      .put(URL + "/staff/archive/" + ID + "?merchantId=" + MerchantID, null, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {});
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.getStaff();
+    }, 1500);
+  };
+
+  handleRestore = ID => {
+    const MerchantID = this.props.MerchantProfile.merchantId;
+    axios
+      .put(URL + "/staff/restore/" + ID + "?merchantId=" + MerchantID, null, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {});
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.getStaff();
+    }, 1500);
   };
 
   _SearchMerchants = async e => {
@@ -91,20 +124,55 @@ class Staff extends Component {
       {
         Header: "Phone",
         accessor: "phone",
-        width: 200
+        width: 150
       },
       {
         Header: "Email",
-        accessor: "email"
+        accessor: "email",
+        width: 240
       },
       {
         Header: "Role",
-        accessor: "roleName"
+        accessor: "roleName",
+        width: 100
       },
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: e => <span>{e.value === 1 ? "Disabled" : "Active"}</span>
+        Cell: e => <span>{e.value === 1 ? "Disabled" : "Active"}</span>,
+        width: 100
+      },
+      {
+        Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
+        sortable: false,
+        accessor: "roleName",
+        Cell: row => {
+          return (
+            <div style={{ textAlign: "center" }}>
+              {row.original.isDisabled !== 1 ? (
+                <FaTrash
+                  size={20}
+                  onClick={() => [
+                    this.setState({
+                      extraId: row.original.staffId,
+                      dialog: true
+                    })
+                  ]}
+                />
+              ) : (
+                <FaTrashRestoreAlt
+                  size={20}
+                  onClick={() =>
+                    this.setState({
+                      extraId: row.original.staffId,
+                      restoreDialog: true
+                    })
+                  }
+                />
+              )}
+            </div>
+          );
+        }
       }
     ];
     return (
@@ -152,12 +220,12 @@ class Staff extends Component {
               aria-describedby="alert-dialog-description"
             >
               <DialogTitle id="alert-dialog-title">
-                {"Archive this extra ?"}
+                {"Archive this Staff ?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  This extra will not appear on the app. You can restore this
-                  extra by clicking the Restore button.
+                  This Staff will not appear on the app. You can restore this
+                  Staff by clicking the Restore button.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
@@ -186,11 +254,11 @@ class Staff extends Component {
               aria-describedby="alert-dialog-description"
             >
               <DialogTitle id="alert-dialog-title">
-                {"Restore this extra ?"}
+                {"Restore this Staff ?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  This extra will appear on the app as well as the related
+                  This Staff will appear on the app as well as the related
                   lists.
                 </DialogContentText>
               </DialogContent>
