@@ -1,0 +1,60 @@
+.add-merchant-container {
+  .general-container {
+    h1 {
+      color: #0764b0;
+    }
+
+    input {
+      font-weight: 500;
+    }
+  }
+}
+
+.principal-container {
+  padding-bottom: 20px;
+  & .principal-form {
+    h4 {
+      font-weight: 400;
+      margin-bottom: 6px;
+      padding-top: 10px;
+    }
+
+    input[type="file"] {
+      border: none;
+      width: auto;
+    }
+    input[type="file"]:hover {
+      border: none;
+    }
+    input {
+      border: none;
+      border-bottom: 1px solid gray;
+      width: 100%;
+      outline: none;
+      font-weight: 500;
+    }
+
+    input:hover {
+      border-bottom: 1px solid#0764b0;
+    }
+
+    .driver-image {
+      width: 250px;
+      height: 250px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .add-remove-principal {
+      color: #0764b0;
+      font-weight: 500;
+      padding-right: 10px;
+      cursor: pointer;
+    }
+    .add-remove-principal:hover {
+      font-weight: 600;
+      color: #0764b0;
+    }
+  }
+}

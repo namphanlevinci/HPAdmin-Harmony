@@ -1,29 +1,28 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-
-const General = ({
-  stepIndex,
-  handleChange,
-  touched,
-  handleBlur,
-  values,
-  errors
-}) => {
+import StateID from "../../../../../util/getState";
+const General = ({ handleChange, value, validator }) => {
   return (
-    <div>
+    <div className="general-container">
       <h1>General Information</h1>
       <div className="row">
         <div className="col-4">
           <div className="form-group">
             <TextField
-              name="legalBusinessName"
+              name="businessName"
               label="Legal Business Name"
               margin="normal"
               type="text"
               fullWidth
-              onChange={handleChange}
               required
+              onChange={handleChange}
+              value={value.businessName}
             />
+            {validator.message(
+              "businessName",
+              value.businessName,
+              "required|string"
+            )}
           </div>
         </div>
         <div className="col-4">
@@ -37,26 +36,33 @@ const General = ({
               fullWidth
               required
               onChange={handleChange}
+              value={value.doingBusiness}
             />
+            {validator.message(
+              "doingBusiness",
+              value.doingBusiness,
+              "required|string"
+            )}
           </div>
         </div>
         <div className="col-4">
           <div className="form-group">
             <TextField
-              name="taxCode"
+              name="tax"
               label="Tax ID"
               type="text"
-              autoComplete="current-password"
               margin="normal"
               fullWidth
               required
               onChange={handleChange}
+              value={value.tax}
             />
+            {validator.message("tax", value.tax, "required|string")}
           </div>
         </div>
       </div>
       <div className="row">
-        <div className="col-3 mx-auto">
+        <div className="col-3">
           <div className="form-group">
             <TextField
               name="address"
@@ -66,7 +72,9 @@ const General = ({
               fullWidth
               required
               onChange={handleChange}
+              value={value.address}
             />
+            {validator.message("address", value.address, "required|string")}
           </div>
         </div>
         <div className="col-md-3">
@@ -79,23 +87,25 @@ const General = ({
               fullWidth
               required
               onChange={handleChange}
+              value={value.city}
             />
+            {validator.message("city", value.city, "required|string")}
           </div>
         </div>
         <div className="col-3">
-          <div className="form-group">
-            <TextField
+          <label>State</label>
+          <div>
+            <select
               name="state"
-              label="State"
-              type="text"
-              margin="normal"
-              fullWidth
-              required
+              style={{ padding: "11px", width: "100%" }}
               onChange={handleChange}
-            />
+            >
+              <option>Please choose a State</option>
+              <StateID />
+            </select>
           </div>
         </div>
-        <div className="col-md-3">
+        <div className="col-3">
           <div className="form-group">
             <TextField
               name="zip"
@@ -105,34 +115,52 @@ const General = ({
               fullWidth
               required
               onChange={handleChange}
+              value={value.zip}
             />
+            {validator.message("zip", value.zip, "required|string")}
           </div>
         </div>
       </div>
       <div className="row">
         <div className="col-3">
           <label>Country Code*</label>
-          <div className="">
+          <div>
             <select
+              name="businessPhoneCode"
               style={{ padding: "10px", width: "100%" }}
-              onChange={handleChange}
             >
-              <option value="+1">+1</option>
-              <option value="+84">+84</option>
+              <option
+                checked={value.businessPhoneCode === +1 ? true : false}
+                value="+1"
+              >
+                +1
+              </option>
+              <option
+                checked={value.businessPhoneCode === +84 ? true : false}
+                value="+84"
+              >
+                +84
+              </option>
             </select>
           </div>
         </div>
         <div className="col-5">
           <div className="form-group">
             <TextField
-              name="phoneNumberBusiness"
+              name="businessPhone"
               label="Phone number"
               type="number"
               margin="normal"
               fullWidth
               required
               onChange={handleChange}
+              value={value.businessPhone}
             />
+            {validator.message(
+              "businessPhone",
+              value.businessPhone,
+              "required|string"
+            )}
           </div>
         </div>
         <div className="col-4">
@@ -145,77 +173,108 @@ const General = ({
               fullWidth
               required
               onChange={handleChange}
+              value={value.email}
             />
-          </div>
-        </div>
-        <div className="col-md-4">
-          <label>Contact Name*</label>
-          <div className="form-group">
-            <TextField
-              name="firstName"
-              label="First Name"
-              type="text"
-              margin="normal"
-              fullWidth
-              required
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="col-md-5">
-          <label style={{ color: "white" }}>Last Name*</label>
-          <div className="form-group">
-            <TextField
-              name="lastName"
-              label="Last Name"
-              type="text"
-              margin="normal"
-              fullWidth
-              required
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="col-md-9">
-          <label>Title/Position*</label>
-          <div className="form-group">
-            <TextField
-              name="position"
-              label="Position"
-              type="text"
-              margin="normal"
-              fullWidth
-              required
-              onChange={handleChange}
-            />
+            {validator.message("email", value.email, "required|email")}
           </div>
         </div>
       </div>
-      <div className="row align-items-center justify-content-center">
-        <div className="col-md-3">
-          <label>Contact Phone Number*</label>
-          <div className="">
-            <select
-              style={{ padding: "10px", width: "100%" }}
-              onChange={handleChange}
-            >
-              <option value="+1">+1</option>
-              <option value="+84">+84</option>
-            </select>
+      <div>
+        <h1>Representative Information</h1>
+        <div className="row">
+          <div className="col-4">
+            <div className="form-group">
+              <TextField
+                name="firstName"
+                label="First Name"
+                type="text"
+                margin="normal"
+                fullWidth
+                required
+                onChange={handleChange}
+                value={value.firstName}
+              />
+              {validator.message(
+                "firstName",
+                value.firstName,
+                "required|string"
+              )}
+            </div>
+          </div>
+          <div className="col-4">
+            <div className="form-group">
+              <TextField
+                name="lastName"
+                label="Last Name"
+                type="text"
+                margin="normal"
+                fullWidth
+                required
+                onChange={handleChange}
+                value={value.lastName}
+              />
+              {validator.message("lastName", value.lastName, "required|string")}
+            </div>
+          </div>
+          <div className="col-4">
+            <div className="form-group">
+              <TextField
+                name="position"
+                label="Position"
+                type="text"
+                margin="normal"
+                fullWidth
+                required
+                onChange={handleChange}
+                value={value.position}
+              />
+              {validator.message("position", value.position, "required|string")}
+            </div>
           </div>
         </div>
-        <div className="col-md-6">
-          <label style={{ color: "white" }}>Business Phone Number*</label>
-          <div className="form-group">
-            <TextField
-              name="phoneNumberContact"
-              label="Phone number"
-              type="number"
-              margin="normal"
-              fullWidth
-              required
-              onChange={handleChange}
-            />
+        <div className="row align-items-center justify-content-center">
+          <div className="col-2">
+            <div className="">
+              <label>Country Code</label>
+              <select
+                name="contactPhoneCode"
+                onChange={handleChange}
+                style={{ padding: "10px", width: "100%" }}
+              >
+                <option
+                  checked={value.contactPhoneCode === +1 ? true : false}
+                  value="+1"
+                >
+                  +1
+                </option>
+                <option
+                  checked={value.contactPhoneCode === +84 ? true : false}
+                  value="+84"
+                >
+                  +84
+                </option>
+              </select>
+            </div>
+          </div>
+          <div className="col-3">
+            <div className="form-group">
+              <TextField
+                name="contactPhone"
+                label="Phone number"
+                type="number"
+                margin="normal"
+                fullWidth
+                required
+                onChange={handleChange}
+                value={value.contactPhone}
+              />
+
+              {validator.message(
+                "contactPhone",
+                value.contactPhone,
+                "required|string"
+              )}
+            </div>
           </div>
         </div>
       </div>
