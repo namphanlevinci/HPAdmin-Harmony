@@ -9,8 +9,8 @@ import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import Button from "@material-ui/core/Button";
-import Axios from "axios";
-import URL from "../../../../../url/url";
+import axios from "axios";
+import URL, { upfileUrl } from "../../../../../url/url";
 import {
   ViewProfile_Merchants,
   GetMerchant_byID
@@ -24,7 +24,9 @@ class EditBank extends Component {
       fileId: "",
       routingNumber: "",
       accountNumber: "",
-      Token: ""
+      Token: "",
+      //~ preview image
+      imagePreviewUrl: ""
     };
   }
   async componentDidMount() {
@@ -50,16 +52,27 @@ class EditBank extends Component {
       [name]: value
     });
   };
-  _uploadFile = event => {
-    event.stopPropagation();
-    event.preventDefault();
-    const file = event.target.files[0];
+  _uploadFile = e => {
+    e.preventDefault();
+
+    // handle preview Image
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
+    // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
       headers: { "content-type": "multipart/form-data" }
     };
-    Axios.post(URL + "/file?category=service", formData, config)
+    axios
+      .post(upfileUrl, formData, config)
       .then(res => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -78,11 +91,12 @@ class EditBank extends Component {
       headers: { Authorization: "bearer " + token.token }
     };
     const { name, fileId, routingNumber, accountNumber } = this.state;
-    Axios.put(
-      URL + "/merchant/businessbank/" + ID,
-      { name, fileId, routingNumber, accountNumber },
-      config
-    )
+    axios
+      .put(
+        URL + "/merchant/businessbank/" + ID,
+        { name, fileId, routingNumber, accountNumber },
+        config
+      )
       .then(res => {
         if (res.data.message === "Update bank completed") {
           NotificationManager.success("Success", null, 800);
@@ -101,6 +115,17 @@ class EditBank extends Component {
   };
   render() {
     const e = this.props.MerchantProfile;
+    let { imagePreviewUrl } = this.state;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (
+        <img className="bankVoid" src={imagePreviewUrl} alt="void" />
+      );
+    } else {
+      $imagePreview = (
+        <img className="bankVoid" src={e.businessBank.imageUrl} alt="void" />
+      );
+    }
 
     const renderOldImg =
       e.businessBank !== null ? (
@@ -112,8 +137,9 @@ class EditBank extends Component {
                 <img
                   key={index}
                   className="bankVoid"
-                  src={`${e.imageUrl}`}
+                  src={`${e}`}
                   alt="void check"
+                  style={{ padding: "10px" }}
                 />
               );
             })}
@@ -155,28 +181,22 @@ class EditBank extends Component {
             </div>
             <div className="col-md-4">
               <h4>Void Check*</h4>
-              {e.businessBank !== null ? (
-                <img
-                  className="bankVoid"
-                  src={`${e.businessBank.imageUrl}`}
-                  alt="void check"
-                />
-              ) : null}
+              {$imagePreview}
+              <div>
+                <label>Upload new Void Check:</label>
+                <input
+                  type="file"
+                  style={{ width: "250px !important", border: "none" }}
+                  name="image"
+                  id="file"
+                  onChange={e => this._uploadFile(e)}
+                ></input>
+              </div>
             </div>
             {renderOldImg}
           </div>
         </div>
         <br />
-        <div>
-          <label>Upload new Void Check:</label>
-          <input
-            type="file"
-            style={{ width: "250px !important", border: "none" }}
-            name="image"
-            id="file"
-            onChange={e => this._uploadFile(e)}
-          ></input>
-        </div>
 
         <div className="SettingsContent GeneralContent">
           <Button className="btn btn-green" onClick={this._update}>
@@ -204,7 +224,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(GetMerchant_byID(ID));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditBank);
+export default connect(mapStateToProps, mapDispatchToProps)(EditBank);

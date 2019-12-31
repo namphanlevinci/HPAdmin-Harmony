@@ -33,33 +33,34 @@ class AddStaff extends Component {
       city: "",
       zip: "",
       state: "",
+      countryCode: { value: "+1", label: "+1" },
       cellphone: "",
       email: "",
       pin: "",
       confirmPin: "",
-      nameRole: "admin",
-      isDisabled: 0,
+      nameRole: { value: "admin", label: "Admin" },
+      isDisabled: { value: "0", label: "Active" },
       // Work time
-      timeStart2: "10:00 AM",
-      timeEnd2: "08:00 PM",
+      timeStart2: { value: "10:00 AM", label: "10:00 AM" },
+      timeEnd2: { value: "08:00 PM", label: "08:00 PM" },
       isCheck2: true,
-      timeStart3: "10:00 AM",
-      timeEnd3: "08:00 PM",
+      timeStart3: { value: "10:00 AM", label: "10:00 AM" },
+      timeEnd3: { value: "08:00 PM", label: "08:00 PM" },
       isCheck3: true,
-      timeStart4: "10:00 AM",
-      timeEnd4: "08:00 PM",
+      timeStart4: { value: "10:00 AM", label: "10:00 AM" },
+      timeEnd4: { value: "08:00 PM", label: "08:00 PM" },
       isCheck4: true,
-      timeStart5: "10:00 AM",
-      timeEnd5: "08:00 PM",
+      timeStart5: { value: "10:00 AM", label: "10:00 AM" },
+      timeEnd5: { value: "08:00 PM", label: "08:00 PM" },
       isCheck5: true,
-      timeStart6: "10:00 AM",
-      timeEnd6: "08:00 PM",
+      timeStart6: { value: "10:00 AM", label: "10:00 AM" },
+      timeEnd6: { value: "08:00 PM", label: "08:00 PM" },
       isCheck6: true,
-      timeStart7: "10:00 AM",
-      timeEnd7: "08:00 PM",
+      timeStart7: { value: "10:00 AM", label: "10:00 AM" },
+      timeEnd7: { value: "08:00 PM", label: "08:00 PM" },
       isCheck7: true,
-      timeStart8: "10:00 AM",
-      timeEnd8: "08:00 PM",
+      timeStart8: { value: "10:00 AM", label: "10:00 AM" },
+      timeEnd8: { value: "08:00 PM", label: "08:00 PM" },
       isCheck8: true,
       // Salary
       tipValue: "",
@@ -112,6 +113,7 @@ class AddStaff extends Component {
         state={this.state}
         validator={this.validator}
         uploadFile={this.uploadFile}
+        handleSelect={this.handleSelect}
       />
     );
   };
@@ -123,6 +125,7 @@ class AddStaff extends Component {
         state={this.state}
         validator={this.validator}
         handleCheckBox={this.handleCheckBox}
+        handleSelect={this.handleSelect}
       />
     );
   };
@@ -186,34 +189,9 @@ class AddStaff extends Component {
       street,
       city,
       zip,
-      state,
-      cellphone,
       email,
       pin,
       confirmPin,
-      nameRole,
-      isDisabled,
-      timeStart2,
-      timeEnd2,
-      isCheck2,
-      timeStart3,
-      timeEnd3,
-      isCheck3,
-      timeStart4,
-      timeEnd4,
-      isCheck4,
-      timeStart5,
-      timeEnd5,
-      isCheck5,
-      timeStart6,
-      timeEnd6,
-      isCheck6,
-      timeStart7,
-      timeEnd7,
-      isCheck7,
-      timeStart8,
-      timeEnd8,
-      isCheck8,
       tipValue,
       tipIsCheck,
       fixValue,
@@ -227,8 +205,33 @@ class AddStaff extends Component {
       driverlicense,
       socialSecurityNumber,
       professionalLicense,
-      fileId
+      fileId,
+      isCheck2,
+      isCheck3,
+      isCheck4,
+      isCheck5,
+      isCheck6,
+      isCheck7,
+      isCheck8
     } = this.state;
+    const nameRole = this.state.nameRole.value;
+    const isDisabled = Number(this.state.isDisabled.value);
+    const state = this.state.state.value;
+    const timeStart2 = this.state.timeStart2.value;
+    const timeEnd2 = this.state.timeEnd2.value;
+    const timeStart3 = this.state.timeStart3.value;
+    const timeEnd3 = this.state.timeEnd3.value;
+    const timeStart4 = this.state.timeStart4.value;
+    const timeEnd4 = this.state.timeEnd4.value;
+    const timeStart5 = this.state.timeStart5.value;
+    const timeEnd5 = this.state.timeEnd5.value;
+    const timeStart6 = this.state.timeStart6.value;
+    const timeEnd6 = this.state.timeEnd6.value;
+    const timeStart7 = this.state.timeStart7.value;
+    const timeEnd7 = this.state.timeEnd7.value;
+    const timeStart8 = this.state.timeStart8.value;
+    const timeEnd8 = this.state.timeEnd8.value;
+    const cellphone = this.state.countryCode.value + this.state.cellphone;
 
     axios
       .post(
@@ -343,6 +346,11 @@ class AddStaff extends Component {
     this.setState({ ...this.state, [name]: event.target.checked });
   };
 
+  handleSelect = (selectedOption, Inputname) => {
+    const { name } = Inputname;
+    this.setState({ [name]: selectedOption });
+  };
+
   handleNext = () => {
     const { activeStep, pin, confirmPin } = this.state;
     if (pin !== confirmPin) {
@@ -353,6 +361,7 @@ class AddStaff extends Component {
           activeStep: activeStep + 1
         });
       }
+
       if (Number(activeStep) === 3) {
         this.addStaf();
       } else {

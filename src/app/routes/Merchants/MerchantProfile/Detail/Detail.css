@@ -255,7 +255,7 @@ thead th {
 
 /*  SERVICE  */
 .Service div {
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
 }
 .Service .small-label {
   font-size: 12px;

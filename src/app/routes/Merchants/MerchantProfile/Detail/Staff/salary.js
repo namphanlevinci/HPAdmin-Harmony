@@ -44,7 +44,8 @@ const Salary = ({
             disabled={commIsCheck === true ? true : false}
             value={salaryValue}
           />
-          {validator.message("salaryValue", salaryValue, "required|numeric")}
+          {/* {salaryIsCheck &&
+            validator.message("salaryValue", salaryValue, "required|numeric")} */}
         </div>
       </div>
       <div className="col-4 salary-box">
@@ -69,7 +70,8 @@ const Salary = ({
             disabled={salaryIsCheck === true ? true : false}
             value={commValue}
           />
-          {validator.message("commValue", commValue, "required|numeric")}
+          {/* {commIsCheck &&
+            validator.message("commValue", commValue, "required|numeric")} */}
         </div>
       </div>
     </div>
@@ -97,7 +99,8 @@ const Salary = ({
             disabled={fixIsCheck === true ? true : false}
             value={tipValue}
           />
-          {validator.message("tipValue", tipValue, "required|numeric")}
+          {/* {tipIsCheck &&
+            validator.message("tipValue", tipValue, "required|numeric")} */}
         </div>
       </div>
       <div className="col-4 salary-box">
@@ -122,7 +125,8 @@ const Salary = ({
             disabled={tipIsCheck === true ? true : false}
             value={fixValue}
           />
-          {validator.message("fixValue", fixValue, "required|numeric")}
+          {/* {fixIsCheck &&
+            validator.message("fixValue", fixValue, "required|numeric")} */}
         </div>
       </div>
     </div>
@@ -147,13 +151,9 @@ const Salary = ({
             fullWidth
             onChange={handleChange}
             required
+            disabled={prodCommIsCheck ? false : true}
             value={prodCommValue}
           />
-          {validator.message(
-            "prodCommValue",
-            prodCommValue,
-            "required|numeric"
-          )}
         </div>
       </div>
     </div>

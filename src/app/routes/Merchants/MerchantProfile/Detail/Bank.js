@@ -25,8 +25,9 @@ class Bank extends Component {
                 <img
                   key={index}
                   className="bankVoid"
-                  src={`${e.imageUrl}`}
+                  src={`${e}`}
                   alt="void check"
+                  style={{ padding: "10px" }}
                 />
               );
             })}

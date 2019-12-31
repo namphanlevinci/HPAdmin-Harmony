@@ -8,9 +8,10 @@ import {
   NotificationManager
 } from "react-notifications";
 import * as Yup from "yup";
-import { Formik } from "formik";
+import { Formik, Form } from "formik";
 import ServiceImg from "../service.png";
 import Extra from "./extra";
+import Select from "react-select";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -98,33 +99,26 @@ class AddService extends Component {
   };
 
   render() {
+    const serviceStatus = [
+      { value: "0", label: "Active" },
+      { value: "1", label: "Disable" }
+    ];
+
     const validationSchema = Yup.object().shape({
       extras: Yup.array().of(
         Yup.object().shape({
-          name: Yup.string()
-            .min(3, "too short")
-            .required("Required"),
+          name: Yup.string().required("Required"),
           duration: Yup.string().required("Required"),
           price: Yup.string().required("Required"),
           isDisabled: Yup.string().required("Required")
         })
       ),
-      name: Yup.string()
-        .min(3, "Too Short")
-        .required("Required"),
+      name: Yup.string().required("Required"),
       categoryId: Yup.string().required("Required"),
       duration: Yup.string().required("Required"),
-      price: Yup.string().required("Required")
+      price: Yup.string().required("Required"),
+      isDisabled: Yup.string().required("Required")
     });
-
-    const { category } = this.state;
-    const mapCategory = category
-      .filter(e => e.categoryType !== "Product")
-      .map(e => (
-        <option value={e.categoryId} key={e.categoryId}>
-          {e.name}
-        </option>
-      ));
 
     //~ preview image
     let { imagePreviewUrl } = this.state;
@@ -161,6 +155,7 @@ class AddService extends Component {
             secondTime: 0,
             price: "",
             categoryId: "",
+            isDisabled: "",
             extras: [
               {
                 name: "",
@@ -173,6 +168,8 @@ class AddService extends Component {
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
+            console.log("VALUES", values);
+            console.log("NOT RUNNING");
             const {
               categoryId,
               name,
@@ -181,45 +178,46 @@ class AddService extends Component {
               openTime,
               secondTime,
               price,
-              extras
+              extras,
+              isDisabled
             } = values;
-            const { discount, isDisabled, fileId } = this.state;
+            const { discount, fileId } = this.state;
             const merchantId = this.props.MerchantProfile.merchantId;
 
-            axios
-              .post(
-                URL + "/service",
-                {
-                  categoryId,
-                  name,
-                  duration,
-                  description,
-                  openTime,
-                  secondTime,
-                  price,
-                  discount,
-                  isDisabled,
-                  fileId,
-                  extras,
-                  merchantId
-                },
-                {
-                  headers: {
-                    Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-                  }
-                }
-              )
-              .then(res => {
-                let message = res.data.message;
-                if (res.data.codeNumber === 200) {
-                  NotificationManager.success(message, null, 800);
-                  setTimeout(() => {
-                    this.props.history.push("/app/merchants/profile/service");
-                  }, 800);
-                } else {
-                  NotificationManager.error(message, null, 800);
-                }
-              });
+            // axios
+            //   .post(
+            //     URL + "/service",
+            //     {
+            //       categoryId,
+            //       name,
+            //       duration,
+            //       description,
+            //       openTime,
+            //       secondTime,
+            //       price,
+            //       discount,
+            //       isDisabled,
+            //       fileId,
+            //       extras,
+            //       merchantId
+            //     },
+            //     {
+            //       headers: {
+            //         Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+            //       }
+            //     }
+            //   )
+            //   .then(res => {
+            //     let message = res.data.message;
+            //     if (res.data.codeNumber === 200) {
+            //       NotificationManager.success(message, null, 800);
+            //       setTimeout(() => {
+            //         this.props.history.push("/app/merchants/profile/service");
+            //       }, 800);
+            //     } else {
+            //       NotificationManager.error(message, null, 800);
+            //     }
+            //   });
           }}
         >
           {({
@@ -229,10 +227,12 @@ class AddService extends Component {
             handleChange,
             handleBlur,
             handleSubmit,
-            isSubmitting
+            isSubmitting,
+            setFieldValue,
+            isValidating
             /* and other goodies */
           }) => (
-            <form onSubmit={handleSubmit}>
+            <Form noValidate autoComplete="off">
               <div className="container Service">
                 <div className="row">
                   <div className="col-6 ">
@@ -240,20 +240,26 @@ class AddService extends Component {
                       <div className="col-6">
                         <label>Category *</label>
                         <br />
-                        <select
-                          name="categoryId"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.categoryId}
-                          className={
-                            errors.categoryId && touched.categoryId
-                              ? "text-input error"
-                              : "text-input"
-                          }
-                        >
-                          <option value="">Please Choose Category</option>
-                          {mapCategory}
-                        </select>
+                        <div>
+                          <Select
+                            options={this.state.category
+                              .filter(e => e.categoryType !== "Product")
+                              .map(e => {
+                                return {
+                                  id: e.categoryId,
+                                  value: e.categoryId,
+                                  label: e.name
+                                };
+                              })}
+                            onChange={selectedOption => {
+                              setFieldValue("categoryId", selectedOption.value);
+                            }}
+                            placeholder="Select"
+                            loadingMessage={() => "Fetching Service"}
+                            noOptionsMessage={() => "Service appears here!"}
+                          />
+                        </div>
+
                         {errors.categoryId && touched.categoryId && (
                           <div className="input-feedback">
                             {errors.categoryId}
@@ -370,16 +376,17 @@ class AddService extends Component {
                       <div className="col-6">
                         <label>Status</label>
                         <br />
-                        <select
-                          onChange={e =>
-                            this.setState({ isDisabled: e.target.value })
-                          }
-                        >
-                          <option value="0" checked>
-                            Active
-                          </option>
-                          <option value="1">Disable</option>
-                        </select>
+                        <Select
+                          options={serviceStatus}
+                          onChange={selectedOption => {
+                            setFieldValue("isDisabled", selectedOption.value);
+                          }}
+                        />
+                        {errors.isDisabled && touched.isDisabled && (
+                          <div className="input-feedback">
+                            {errors.isDisabled}
+                          </div>
+                        )}
                       </div>
                       <div className="col-6">
                         <label>Price *</label>
@@ -405,7 +412,16 @@ class AddService extends Component {
 
                   {/* EXTRA BÊN NÀY */}
                   <div className="col-6">
-                    {this.state.render === false ? (
+                    <Extra
+                      setFieldValue={setFieldValue}
+                      validationSchema={validationSchema}
+                      errors={errors}
+                      values={values}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      touched={touched}
+                    />
+                    {/* {this.state.render === false ? (
                       <p
                         className="extra-btn"
                         onClick={() => this.setState({ render: true })}
@@ -414,6 +430,7 @@ class AddService extends Component {
                       </p>
                     ) : (
                       <Extra
+                        setFieldValue={setFieldValue}
                         validationSchema={validationSchema}
                         errors={errors}
                         values={values}
@@ -421,7 +438,7 @@ class AddService extends Component {
                         handleBlur={handleBlur}
                         touched={touched}
                       />
-                    )}
+                    )} */}
                   </div>
                 </div>
 
@@ -429,7 +446,7 @@ class AddService extends Component {
                   className="btn btn-green"
                   style={{ backgroundColor: "#0074d9", color: "white" }}
                   type="submit"
-                  disabled={isSubmitting}
+                  // disabled={isSubmitting}
                 >
                   ADD
                 </Button>
@@ -437,7 +454,7 @@ class AddService extends Component {
                   BACK
                 </Button>
               </div>
-            </form>
+            </Form>
           )}
         </Formik>
       </div>

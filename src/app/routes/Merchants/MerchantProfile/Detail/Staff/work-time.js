@@ -1,10 +1,12 @@
 import React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import Time from "./time";
+import Select from "react-select";
 
 import "./Staff.styles.scss";
 
 const WorkTime = ({
+  handleSelect,
   handleChange,
   handleCheckBox,
   state: {
@@ -48,19 +50,25 @@ const WorkTime = ({
           <label>Monday</label>
           <div className="time-select">
             <label>From</label> <br />
-            <select onChange={handleChange} name="timeStart2">
-              <option>{timeStart2}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeStart2"
+              value={timeStart2}
+              isSearchable={false}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="time-select pad-down">
             <label>To</label> <br />
-            <select onChange={handleChange} name="timeEnd2">
-              <option>{timeEnd2}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeEnd2"
+              value={timeEnd2}
+              isSearchable={false}
+            />
           </div>
         </div>
       </div>
@@ -79,19 +87,25 @@ const WorkTime = ({
           <label>Tueday</label>
           <div className="time-select">
             <label>From</label> <br />
-            <select onChange={handleChange} name="timeStart3">
-              <option>{timeStart3}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeStart3"
+              value={timeStart3}
+              isSearchable={false}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="time-select pad-down">
             <label>To</label> <br />
-            <select onChange={handleChange} name="timeEnd3">
-              <option>{timeEnd3}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeEnd3"
+              value={timeEnd3}
+              isSearchable={false}
+            />
           </div>
         </div>
       </div>
@@ -110,19 +124,25 @@ const WorkTime = ({
           <label>Wednesday</label>
           <div className="time-select">
             <label>From</label> <br />
-            <select onChange={handleChange} name="timeStart4">
-              <option>{timeStart4}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeStart4"
+              value={timeStart4}
+              isSearchable={false}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="time-select pad-down">
             <label>To</label> <br />
-            <select onChange={handleChange} name="timeEnd4">
-              <option>{timeEnd4}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeEnd4"
+              value={timeEnd4}
+              isSearchable={false}
+            />
           </div>
         </div>
       </div>
@@ -141,19 +161,25 @@ const WorkTime = ({
           <label>Thurday</label>
           <div className="time-select">
             <label>From</label> <br />
-            <select onChange={handleChange} name="timeStart5">
-              <option>{timeStart5}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeStart5"
+              value={timeStart5}
+              isSearchable={false}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="time-select pad-down">
             <label>To</label> <br />
-            <select onChange={handleChange} name="timeEnd5">
-              <option>{timeEnd5}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeEnd5"
+              value={timeEnd5}
+              isSearchable={false}
+            />
           </div>
         </div>
       </div>
@@ -172,19 +198,25 @@ const WorkTime = ({
           <label>Friday</label>
           <div className="time-select">
             <label>From</label> <br />
-            <select onChange={handleChange} name="timeStart6">
-              <option>{timeStart6}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeStart6"
+              value={timeStart6}
+              isSearchable={false}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="time-select pad-down">
             <label>To</label> <br />
-            <select onChange={handleChange} name="timeEnd6">
-              <option>{timeEnd6}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeEnd6"
+              value={timeEnd6}
+              isSearchable={false}
+            />
           </div>
         </div>
       </div>
@@ -203,19 +235,25 @@ const WorkTime = ({
           <label>Saturday</label>
           <div className="time-select">
             <label>From</label> <br />
-            <select onChange={handleChange} name="timeStart7">
-              <option>{timeStart7}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeStart7"
+              value={timeStart7}
+              isSearchable={false}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="time-select pad-down">
             <label>To</label> <br />
-            <select onChange={handleChange} name="timeEnd7">
-              <option>{timeEnd7}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeEnd7"
+              value={timeEnd7}
+              isSearchable={false}
+            />
           </div>
         </div>
       </div>
@@ -234,19 +272,25 @@ const WorkTime = ({
           <label>Sunday</label>
           <div className="time-select">
             <label>From</label> <br />
-            <select onChange={handleChange} name="timeStart8">
-              <option>{timeStart8}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeStart8"
+              value={timeStart8}
+              isSearchable={false}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="time-select pad-down">
             <label>To</label> <br />
-            <select onChange={handleChange} name="timeEnd8">
-              <option>{timeEnd8}</option>
-              <Time />
-            </select>
+            <Select
+              options={Time}
+              onChange={handleSelect}
+              name="timeEnd8"
+              value={timeEnd8}
+              isSearchable={false}
+            />
           </div>
         </div>
       </div>

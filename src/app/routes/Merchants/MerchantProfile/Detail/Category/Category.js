@@ -15,6 +15,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Select from "react-select";
 
 import "react-table/react-table.css";
 import "./category.styles.scss";
@@ -198,6 +199,10 @@ class Category extends Component {
       }
     ];
 
+    const categorySelect = [
+      { value: "product", label: "Product" },
+      { value: "service", label: "Service" }
+    ];
     return (
       <div className="react-transition swipe-up category-container">
         <NotificationContainer />
@@ -221,8 +226,7 @@ class Category extends Component {
                 className="btn add-category"
                 onClick={() => this.setState({ cateDialog: true })}
               >
-                {" "}
-                NEW CATEGORY{" "}
+                NEW CATEGORY
               </Button>
               <Dialog
                 open={this.state.cateDialog}
@@ -240,10 +244,10 @@ class Category extends Component {
                         validate={values => {
                           const errors = {};
                           if (!values.categoryType) {
-                            errors.categoryType = "Please choose a Type";
+                            errors.categoryType = "Required";
                           }
                           if (!values.name) {
-                            errors.name = "Please enter category name";
+                            errors.name = "Required";
                           }
                           return errors;
                         }}
@@ -251,33 +255,33 @@ class Category extends Component {
                           const { categoryType, name } = values;
                           const merchantId = this.props.MerchantProfile
                             .merchantId;
-                          axios
-                            .post(
-                              URL + "/category",
-                              {
-                                categoryType,
-                                name,
-                                merchantId
-                              },
-                              {
-                                headers: {
-                                  Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-                                }
-                              }
-                            )
-                            .then(res => {
-                              let message = res.data.message;
-                              if (res.data.codeNumber === 200) {
-                                this.setState({ cateDialog: false });
+                          // axios
+                          //   .post(
+                          //     URL + "/category",
+                          //     {
+                          //       categoryType,
+                          //       name,
+                          //       merchantId
+                          //     },
+                          //     {
+                          //       headers: {
+                          //         Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+                          //       }
+                          //     }
+                          //   )
+                          //   .then(res => {
+                          //     let message = res.data.message;
+                          //     if (res.data.codeNumber === 200) {
+                          //       this.setState({ cateDialog: false });
 
-                                NotificationManager.success(message, null, 800);
-                                setTimeout(() => {
-                                  this.getCategory();
-                                }, 800);
-                              } else {
-                                NotificationManager.error(message, null, 800);
-                              }
-                            });
+                          //       NotificationManager.success(message, null, 800);
+                          //       setTimeout(() => {
+                          //         this.getCategory();
+                          //       }, 800);
+                          //     } else {
+                          //       NotificationManager.error(message, null, 800);
+                          //     }
+                          //   });
                         }}
                       >
                         {({
@@ -287,37 +291,41 @@ class Category extends Component {
                           handleChange,
                           handleBlur,
                           handleSubmit,
-                          isSubmitting
+                          isSubmitting,
+                          setFieldValue
                         }) => (
                           <form onSubmit={handleSubmit}>
-                            <label style={{ padding: "10px 0px" }}>
-                              Category Type*
-                            </label>
-                            <select
-                              className={
-                                errors.categoryType && touched.categoryType
-                                  ? "text-input error"
-                                  : "text-input"
-                              }
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              name="categoryType"
-                            >
-                              <option value="">Type</option>
-                              <option value="Product">Product</option>
-                              <option value="Service">Service</option>
-                            </select>
+                            <h5>Category Type*</h5>
 
-                            {/* {errors.categoryType && touched.categoryType && (
+                            <div className="select-category">
+                              <Select
+                                options={categorySelect}
+                                className={
+                                  errors.categoryType && touched.categoryType
+                                    ? "text-input error"
+                                    : "text-input"
+                                }
+                                onChange={selectedOption =>
+                                  setFieldValue(
+                                    "categoryType",
+                                    selectedOption.value
+                                  )
+                                }
+                              />
+                            </div>
+                            {errors.categoryType && touched.categoryType && (
                               <div className="input-feedback">
                                 {errors.categoryType}
                               </div>
-                            )} */}
+                            )}
 
-                            <label style={{ padding: "10px 0px" }}>
-                              Category Name*
-                            </label>
+                            <h5>Category Name*</h5>
                             <input
+                              style={{
+                                padding: "10px",
+                                height: "50px",
+                                width: "100%"
+                              }}
                               type="text"
                               name="name"
                               onChange={handleChange}

@@ -107,7 +107,7 @@ class Service extends Component {
 
     const columns = [
       {
-        Header: "Name",
+        Header: "Service Name",
         accessor: "name",
         width: 150
       },
@@ -157,7 +157,7 @@ class Service extends Component {
       },
       {
         id: "price",
-        Header: "price",
+        Header: "Price",
         accessor: "price",
         Cell: e => (
           <div>

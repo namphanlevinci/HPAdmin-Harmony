@@ -20,11 +20,11 @@ const License = ({
             required
             value={driverlicense}
           />
-          {validator.message(
+          {/* {validator.message(
             "driverlicense",
             driverlicense,
             "required|numeric"
-          )}
+          )} */}
         </div>
       </div>
       <div className="col-8">
@@ -39,11 +39,11 @@ const License = ({
             required
             value={socialSecurityNumber}
           />
-          {validator.message(
+          {/* {validator.message(
             "socialSecurityNumber",
             socialSecurityNumber,
             "required|numeric"
-          )}
+          )} */}
         </div>
       </div>
       <div className="col-8">
@@ -58,11 +58,11 @@ const License = ({
             required
             value={professionalLicense}
           />
-          {validator.message(
+          {/* {validator.message(
             "professionalLicense",
             professionalLicense,
             "required|numeric"
-          )}
+          )} */}
         </div>
       </div>
     </div>

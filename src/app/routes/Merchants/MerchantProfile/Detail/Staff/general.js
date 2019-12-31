@@ -1,7 +1,10 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import StateID from "../../../../../../util/getState";
+import State from "../../../../../../util/InitialState";
+import Select from "react-select";
+
 const General = ({
+  handleSelect,
   handleChange,
   uploadFile,
   state: {
@@ -17,10 +20,30 @@ const General = ({
     email,
     pin,
     confirmPin,
-    imagePreviewUrl
+    imagePreviewUrl,
+    nameRole,
+    isDisabled,
+    countryCode
   },
   validator
 }) => {
+  const roles = [
+    { value: "admin", label: "Admin" },
+    { value: "staff", label: "Staff" }
+  ];
+
+  const status = [
+    { value: "0", label: "Active" },
+    {
+      value: "1",
+      label: "Disable"
+    }
+  ];
+
+  const phoneCode = [
+    { value: "+1", label: "+1" },
+    { value: "+84", label: "+84" }
+  ];
   return (
     <div className="container">
       <div className="row justify-content-center">
@@ -78,10 +101,8 @@ const General = ({
               type="text"
               fullWidth
               onChange={handleChange}
-              required
               value={street}
             />
-            {validator.message("street", street, "required|string")}
           </div>
         </div>
       </div>
@@ -95,23 +116,19 @@ const General = ({
               type="text"
               fullWidth
               onChange={handleChange}
-              required
               value={city}
             />
-            {validator.message("city", street, "required|string")}
           </div>
         </div>
         <div className="col-3">
-          <label>State</label>
-          <div className="form-group" style={{ marginTop: "15px" }}>
-            <select
+          <div className="form-group" style={{ marginTop: "10px" }}>
+            <label>State</label>
+            <Select
               name="state"
-              onChange={handleChange}
-              style={{ width: "100%" }}
-            >
-              <StateID />
-            </select>
-            {validator.message("state", state, "required|string")}
+              options={State}
+              onChange={handleSelect}
+              value={state}
+            />
           </div>
         </div>
         <div className="col-2">
@@ -123,16 +140,24 @@ const General = ({
               type="number"
               fullWidth
               onChange={handleChange}
-              required
               value={zip}
             />
-            {validator.message("zip", zip, "required|numeric")}
           </div>
         </div>
       </div>
       <div className="row justify-content-center">
         <div className="col-4">
-          <div className="form-group">
+          <div style={{ display: "flex" }}>
+            <div style={{ width: "50%", padding: "8px 20px 0px 0px" }}>
+              <label>Country Code</label>
+              <Select
+                options={phoneCode}
+                onChange={handleSelect}
+                name="countryCode"
+                value={countryCode}
+              />
+            </div>
+
             <TextField
               name="cellphone"
               label="Cell phone"
@@ -140,10 +165,8 @@ const General = ({
               type="number"
               fullWidth
               onChange={handleChange}
-              required
               value={cellphone}
             />
-            {validator.message("cellphone", cellphone, "required|numeric")}
           </div>
         </div>
         <div className="col-4">
@@ -155,10 +178,8 @@ const General = ({
               type="text"
               fullWidth
               onChange={handleChange}
-              required
               value={email}
             />
-            {validator.message("email", email, "required|email")}
           </div>
         </div>
       </div>
@@ -173,7 +194,6 @@ const General = ({
               fullWidth
               value={pin}
               onChange={handleChange}
-              required
               inputProps={{ maxLength: 4 }}
             />
             {validator.message("pin", pin, "required|numeric")}
@@ -188,7 +208,6 @@ const General = ({
               type="password"
               fullWidth
               onChange={handleChange}
-              required
               value={confirmPin}
               inputProps={{ maxLength: 4 }}
             />
@@ -209,65 +228,59 @@ const General = ({
         <div className="col-4">
           <div className="form-group">
             <label>Role</label>
-            <select
-              onChange={handleChange}
+            <Select
+              options={roles}
+              onChange={handleSelect}
               name="nameRole"
-              style={{ width: "100%", height: "40px" }}
-            >
-              <option value="admin">Admin</option>
-              <option value="staff">Staff</option>
-            </select>
+              value={nameRole}
+            />
           </div>
         </div>
         <div className="col-4">
           <div className="form-group">
             <label>Status</label>
-            <select
-              onChange={handleChange}
+
+            <Select
+              options={status}
+              onChange={handleSelect}
               name="isDisabled"
-              style={{ width: "100%", height: "40px" }}
-            >
-              <option value="0">Active</option>
-              <option value="1">Disable</option>
-            </select>
+              value={isDisabled}
+            />
           </div>
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-8">
+          <label>Image</label>
+
           <div className="form-group">
             {imagePreviewUrl !== null ? (
               <img
                 src={imagePreviewUrl}
                 alt="avatar"
-                height={256}
-                width={256}
+                height={206}
+                width={206}
               />
             ) : (
               <img
                 src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
                 alt="avatar"
-                height={256}
-                width={256}
+                height={206}
+                width={206}
               />
             )}
           </div>
-        </div>
-        <div className="col-4">
-          <div className="form-group">
-            <label>Upload staff avatar:</label>
-            <input
-              type="file"
-              style={{
-                width: "250px",
-                fontWeight: "normal",
-                borderBottom: "none"
-              }}
-              name="imagePreviewUrl"
-              id="file"
-              onChange={e => uploadFile(e)}
-            ></input>
-          </div>
+          <input
+            type="file"
+            style={{
+              width: "250px",
+              fontWeight: "normal",
+              borderBottom: "none"
+            }}
+            name="imagePreviewUrl"
+            id="file"
+            onChange={e => uploadFile(e)}
+          />
         </div>
       </div>
     </div>

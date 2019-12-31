@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Axios from "axios";
-import URL from "../../../../../url/url";
+import URL from "../../../../../../url/url";
 import {
   NotificationContainer,
   NotificationManager
@@ -11,12 +11,14 @@ import {
 import {
   ViewProfile_Merchants,
   GetMerchant_byID
-} from "../../../../../actions/merchants/actions";
-import StateComponent from "../../../../../util/State";
-
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
+} from "../../../../../../actions/merchants/actions";
+import StateComponent from "../../../../../../util/State";
+import axios from "axios";
+import { upfileUrl } from "../../../../../../url/url";
+import "./principal.styles.scss";
+import "../../MerchantProfile.css";
+import "../../../MerchantsRequest/MerchantReqProfile.css";
+import "../../../MerchantsRequest/MerchantsRequest.css";
 class EditPrincipal extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +31,8 @@ class EditPrincipal extends Component {
       FileId: "",
       Token: "",
       stateName: "",
-      email: ""
+      email: "",
+      imagePreviewUrl: ""
     };
   }
   _editPrincipal = () => {
@@ -60,16 +63,27 @@ class EditPrincipal extends Component {
       [name]: value
     });
   };
-  _uploadFile = event => {
-    event.stopPropagation();
-    event.preventDefault();
-    const file = event.target.files[0];
+
+  _uploadFile = e => {
+    e.preventDefault();
+    // handle preview Image
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
+    // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
       headers: { "content-type": "multipart/form-data" }
     };
-    Axios.post(URL + "/file?category=service", formData, config)
+    axios
+      .post(upfileUrl, formData, config)
       .then(res => {
         this.setState({ FileId: res.data.data.fileId });
       })
@@ -78,7 +92,7 @@ class EditPrincipal extends Component {
       });
   };
   _goBack = () => {
-    this.props.history.push("/app/merchants/profile/pincipal");
+    this.props.history.push("/app/merchants/profile/pincipal/info");
   };
   _update = () => {
     const ID = this.props.principalInfo.principalId;
@@ -122,11 +136,32 @@ class EditPrincipal extends Component {
   };
   render() {
     const e = this.props.principalInfo;
+
+    let { imagePreviewUrl } = this.state;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (
+        <img
+          src={imagePreviewUrl}
+          style={{ width: "250px", height: "200px" }}
+          alt="service 1"
+        />
+      );
+    } else {
+      $imagePreview = (
+        <img
+          src={e.imageUrl}
+          style={{ width: "250px", height: "200px" }}
+          alt="service"
+        />
+      );
+    }
+
     const renderPrincipal =
       e !== null ? (
         <React.Fragment>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Name*</h4>
               <input
                 name="name"
@@ -135,7 +170,7 @@ class EditPrincipal extends Component {
                 disabled
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Title/Position*</h4>
               <input
                 name="Title"
@@ -144,7 +179,7 @@ class EditPrincipal extends Component {
                 disabled
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Ownership(%)*</h4>
               <input
                 name="name"
@@ -153,7 +188,7 @@ class EditPrincipal extends Component {
                 disabled
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Home Phone*</h4>
               <input
                 name="HomePhone"
@@ -161,7 +196,7 @@ class EditPrincipal extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Mobile Phone*</h4>
               <input
                 name="MobilePhone"
@@ -169,7 +204,7 @@ class EditPrincipal extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Address*</h4>
               <input
                 name="Address"
@@ -177,7 +212,7 @@ class EditPrincipal extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Social Security Number (SSN)*</h4>
               <input
                 name="ssn"
@@ -186,8 +221,8 @@ class EditPrincipal extends Component {
                 disabled
               ></input>
             </div>
-            <div className="col-md-4">
-              <h4>Date of Birth (mm/dd/yy)*</h4>
+            <div className="col-4">
+              <h4>Date of Birth (MM/DD/YYYY)*</h4>
               <input
                 name="birthday"
                 value={moment(e.birthDate).format("MM/DD/YYYY")}
@@ -195,7 +230,7 @@ class EditPrincipal extends Component {
                 disabled
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Email Address*</h4>
               <input
                 name="email"
@@ -203,7 +238,7 @@ class EditPrincipal extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Driver License Number*</h4>
               <input
                 name="DriverNumber"
@@ -211,30 +246,19 @@ class EditPrincipal extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>State*</h4>
-              {/* <input
-                name="StateId"
-                value={this.state.StateId}
-                onChange={this._handleChange}
-              ></input> */}
               <StateComponent
                 getStateId={this.getStateId}
                 setvalue={this.state.stateName}
               />
             </div>
-            <div className="col-md-12">
+            <div className="col-12">
               <h4>Driver License Picture</h4>
-              {/* <img src={require("../../../../../assets/images/driverlicense.jpg")} alt="void check"/> */}
-              <img
-                className="bankVoid"
-                src={`${e.imageUrl}`}
-                alt="driver license"
-              />
+              {$imagePreview}
             </div>
           </div>
           <div>
-            <label>Upload new Driver license picture:</label>
             <input
               type="file"
               style={{ width: "250px !important", border: "none" }}
@@ -256,10 +280,10 @@ class EditPrincipal extends Component {
         <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
       );
     return (
-      <div className="react-transition swipe-up GeneralContent">
+      <div className="react-transition swipe-up GeneralContent principal-container container">
         <NotificationContainer />
         <h2>Principal Information</h2>
-        {renderPrincipal}
+        <div className="edit-principal">{renderPrincipal}</div>
       </div>
     );
   }
@@ -280,7 +304,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditPrincipal);
+export default connect(mapStateToProps, mapDispatchToProps)(EditPrincipal);

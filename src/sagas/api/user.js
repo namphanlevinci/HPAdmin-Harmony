@@ -9,6 +9,7 @@ export function* login_User_api({ email, password }) {
       password
     })
     .then(result => {
+      console.log("result", result);
       return result.data;
     })
     .catch(err => {
