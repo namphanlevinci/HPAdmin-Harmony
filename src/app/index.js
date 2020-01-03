@@ -23,6 +23,7 @@ import Business from "./routes/Business/Business";
 import Dashboard from "./routes/dashboard/dashboard";
 import Consumers from "./routes/Consumers/index";
 import Reports from "./routes/Reports/Reports";
+import GiftCard from "./routes/gift-card/index";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -107,6 +108,7 @@ class App extends React.Component {
                 <Route path={`${match.url}/dashboard`} component={Dashboard} />
                 <Route path={`${match.url}/consumers`} component={Consumers} />
                 <Route path={`${match.url}/reports`} component={Reports} />
+                <Route path={`${match.url}/giftcard`} component={GiftCard} />
                 <Route
                   component={asyncComponent(() =>
                     import("../components/Error404/index.js")

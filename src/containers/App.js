@@ -15,9 +15,12 @@ import SignUp from "./SignUp";
 import Verify_User from "./Verify_User";
 import RTL from "../util/RTL";
 import asyncComponent from "../util/asyncComponent";
+import ReactNotification from "react-notifications-component";
 import { ProtectedRoute } from "./ProtectedRoute";
 // transitions
 import "./react-transitions.css";
+import "react-notifications-component/dist/theme.css";
+
 class App extends Component {
   componentDidMount() {
     window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
@@ -47,6 +50,7 @@ class App extends Component {
           >
             <RTL>
               <div className="app-main transition-container">
+                <ReactNotification />
                 <Switch>
                   <ProtectedRoute
                     path={`${match.url}app`}

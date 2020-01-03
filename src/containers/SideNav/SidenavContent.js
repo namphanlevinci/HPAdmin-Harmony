@@ -153,6 +153,38 @@ class SidenavContent extends Component {
               </span>
             </NavLink>
           </li>
+          {/* GIFT CART */}
+          <li className="menu collapse-box">
+            <Button>
+              <i className="zmdi  zmdi-card-giftcard zmdi-hc-fw" />
+              <span className="nav-text">
+                <IntlMessages id="sidebar.dashboard.giftcard" />
+              </span>
+            </Button>
+            <ul className="sub-menu">
+              <li>
+                <NavLink className="prepend-icon" to="/app/giftcard/generation">
+                  <span className="nav-text">
+                    <IntlMessages id="sidebar.dashboard.generation" />
+                  </span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/giftcard/codes">
+                  <span className="nav-text">
+                    <IntlMessages id="sidebar.dashboard.codes" />
+                  </span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="prepend-icon" to="/app/giftcard/template">
+                  <span className="nav-text">
+                    <IntlMessages id="sidebar.dashboard.template" />
+                  </span>
+                </NavLink>
+              </li>
+            </ul>
+          </li>
           {/* ACCOUNTS */}
           <li className="menu collapse-box">
             <Button>

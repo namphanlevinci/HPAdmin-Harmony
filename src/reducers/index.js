@@ -45,6 +45,8 @@ import getBatchDetail from "./Transactions/getBatchDetail";
 import Approved_Static from "./Reports/Approved";
 //! View Principal Infor
 import viewPrincipalInfo from "./Merchants/getPrincipal_Info";
+//! GIFTCARD
+import GiftCardReducer from "./gift-card/gift-card.reducer";
 
 export default history =>
   combineReducers({
@@ -79,5 +81,6 @@ export default history =>
     GetP2P: getAllP2P_Transactions,
     BatchDetail: getBatchDetail,
     viewPrincipal: viewPrincipalInfo,
-    serviceProps: VIEW_SERVICE_EDIT
+    serviceProps: VIEW_SERVICE_EDIT,
+    GiftCardData: GiftCardReducer
   });

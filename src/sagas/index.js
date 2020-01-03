@@ -31,7 +31,16 @@ import {
   getP2P_Transactions_Saga,
   getBatchDetail_Saga
 } from "./sagaFunction/transactions";
+
 import { GET_APPROVED_SAGA } from "./sagaFunction/reports";
+
+import {
+  GET_GIFTCARD_SAGA,
+  GET_TEMPLATE_SAGA,
+  GET_GIFTCARD_BY_ID_SAGA,
+  GET_GIFTCARD_CODE_LOG_BY_ID_SAGA
+} from "./sagaFunction/gift-card";
+
 export default function* rootSaga() {
   yield fork(login_User_Saga);
   yield fork(getAll_Merchants_Saga);
@@ -56,4 +65,8 @@ export default function* rootSaga() {
   yield fork(getAll_Batch_Saga);
   yield fork(getP2P_Transactions_Saga);
   yield fork(getBatchDetail_Saga);
+  yield fork(GET_GIFTCARD_SAGA);
+  yield fork(GET_TEMPLATE_SAGA);
+  yield fork(GET_GIFTCARD_BY_ID_SAGA);
+  yield fork(GET_GIFTCARD_CODE_LOG_BY_ID_SAGA);
 }

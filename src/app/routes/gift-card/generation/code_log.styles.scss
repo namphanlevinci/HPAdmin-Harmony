@@ -1,0 +1,20 @@
+.code-log {
+  table {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    border-radius: 6px;
+  }
+  h4 {
+    text-align: center;
+    color: black;
+    font-weight: 500;
+    font-size: 16px;
+    padding-top: 15px;
+  }
+  td {
+    color: black;
+    font-weight: 300;
+    padding: 10px 30px;
+  }
+}
