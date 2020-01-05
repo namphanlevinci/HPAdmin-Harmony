@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
+import {
+  GET_TEMPLATE,
+  VIEW_DETAIL
+} from "../../../../actions/gift-card/actions";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -59,7 +62,7 @@ class Generation extends Component {
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: e => <p>{e.value === 0 ? "Active" : "Disable"}</p>,
+        Cell: e => <span>{e.value === 0 ? "Active" : "Disable"}</span>,
         width: 200
       },
       {
@@ -73,11 +76,21 @@ class Generation extends Component {
         accessor: "Action"
       }
     ];
+    const onRowClick = (state, rowInfo, column, instance) => {
+      return {
+        onClick: e => {
+          if (column?.id !== "Actions") {
+            this.props.VIEW_DETAIL(rowInfo.original);
+            this.props.history.push("/app/giftcard/template/edit");
+          }
+        }
+      };
+    };
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.generation" />}
+          title={<IntlMessages id="sidebar.dashboard.giftcard-template" />}
         />
         <div className="giftcard">
           <div className="giftcard_search">
@@ -91,7 +104,14 @@ class Generation extends Component {
                 onChange={this._SearchUsers}
               />
             </form>
-            <Button className="giftcard_button">New Template</Button>
+            <Button
+              className="giftcard_button"
+              onClick={() =>
+                this.props.history.push("/app/giftcard/template/add")
+              }
+            >
+              New Template
+            </Button>
           </div>
           <div className="giftcard_content">
             <ReactTable
@@ -99,7 +119,7 @@ class Generation extends Component {
               columns={columns}
               defaultPageSize={10}
               minRows={0}
-              //   getTdProps={onRowClick}
+              getTdProps={onRowClick}
               noDataText="NO DATA!"
             />
           </div>
@@ -116,6 +136,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   GET_TEMPLATE: () => {
     dispatch(GET_TEMPLATE());
+  },
+  VIEW_DETAIL: payload => {
+    dispatch(VIEW_DETAIL(payload));
   }
 });
 

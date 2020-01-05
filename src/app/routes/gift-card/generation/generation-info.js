@@ -142,10 +142,10 @@ class Generation_Detail extends Component {
               e?.serialNumber
                 .trim()
                 .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              // e?.pincode
-              //   .trim()
-              //   .toLowerCase()
-              //   .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              e?.pincode
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
               parseInt(e?.giftCardId) === parseInt(this.state.search)
             );
           }
@@ -189,35 +189,41 @@ class Generation_Detail extends Component {
         width: 160
       },
       {
-        Header: "Physical",
+        Header: () => <div style={{ textAlign: "center" }}>Physical</div>,
         accessor: "isPhysical",
         Cell: e => (
-          <Checkbox
-            style={{ color: "#0764b0" }}
-            checked={e.value === 1 ? true : false}
-          />
+          <div style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={e.value === 1 ? true : false}
+              style={{ color: "#0764b0" }}
+            />
+          </div>
         )
       },
       {
         id: "Actived",
-        Header: "Actived",
+        Header: () => <div style={{ textAlign: "center" }}>Actived</div>,
         accessor: "isActive",
         Cell: e => (
-          <Checkbox
-            style={{ color: "#0764b0" }}
-            checked={e.value === 1 ? true : false}
-          />
+          <div style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={e.value === 1 ? true : false}
+              style={{ color: "#0764b0" }}
+            />
+          </div>
         )
       },
       {
         id: "Used",
-        Header: "Used",
+        Header: () => <div style={{ textAlign: "center" }}>Used</div>,
         accessor: "isUsed",
         Cell: e => (
-          <Checkbox
-            style={{ color: "#0764b0" }}
-            checked={e.value === 1 ? true : false}
-          />
+          <div style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={e.value === 1 ? true : false}
+              style={{ color: "#0764b0" }}
+            />
+          </div>
         )
       },
       {
@@ -327,13 +333,13 @@ class Generation_Detail extends Component {
                   <SearchIcon
                     className="button"
                     title="Search"
-                    style={{ marginTop: "6px" }}
+                    style={{ marginTop: "4px" }}
                   />
                   <input
                     type="text"
                     className="textbox"
                     placeholder="Search by ID, Serial, Pincode"
-                    style={{ paddingTop: "10px" }}
+                    style={{ paddingTop: "6px" }}
                     value={this.state.search}
                     onChange={e => this.setState({ search: e.target.value })}
                   />

@@ -19,6 +19,14 @@ const GiftCard = ({ match }) => (
         component={asyncComponent(() => import("./generation/generation"))}
       />
       <Route
+        path={`${match.url}/template/edit`}
+        component={asyncComponent(() => import("./template/edit-template"))}
+      />
+      <Route
+        path={`${match.url}/template/add`}
+        component={asyncComponent(() => import("./template/new-template"))}
+      />
+      <Route
         path={`${match.url}/template`}
         component={asyncComponent(() => import("./template/template"))}
       />

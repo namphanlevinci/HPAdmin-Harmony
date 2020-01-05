@@ -82,17 +82,19 @@ class Generation extends Component {
       {
         Header: "ID",
         accessor: "giftCardGeneralId",
-        width: 50
+        Cell: e => <span>{`HP${e.value}`}</span>,
+        width: 100
       },
       {
         Header: "Name",
         accessor: "name",
-        width: 200
+        Cell: e => <span className="giftcard-name">{e.value}</span>,
+        width: 250
       },
       {
         id: "Value",
         Header: "Value",
-        width: 100,
+        width: 150,
         accessor: row => `${row.amount}`,
         Cell: e => <span style={{ textAlign: "start" }}>$ {e.value}</span>
       },
@@ -100,16 +102,17 @@ class Generation extends Component {
         Header: "Template",
         accessor: "giftCardTemplateId",
         Cell: e => (
-          <span className="giftcard_template">
+          <span className="giftcard-template">
             Gift Card Template {e.value}
           </span>
         ),
-        width: 200
+        width: 250
       },
       {
         Header: "Date Created",
         accessor: "createdDate",
-        Cell: e => moment(e.value).format("MM/DD/YYYY")
+        Cell: e => moment(e.value).format("MM/DD/YYYY"),
+        width: 200
       },
       {
         id: "Quantity",
