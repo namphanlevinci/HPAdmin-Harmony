@@ -18,7 +18,7 @@ import CodeLog from "./code_log";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
 import URL from "../../../../url/url";
-import DeleteGeneration from "./delete-generation";
+import Delete from "../delete-generation";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -346,10 +346,11 @@ class Generation_Detail extends Component {
                 </form>
                 <h4>Export To </h4>
               </div>
-              <DeleteGeneration
+              <Delete
                 handleCloseDelete={this._handleCloseDelete}
                 open={this.state.openDelete}
                 deleteGeneration={this._Delete}
+                text={"Gift Card"}
               />
               <CodeLog
                 open={this.state.open}

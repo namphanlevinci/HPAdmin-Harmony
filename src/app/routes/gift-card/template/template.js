@@ -4,29 +4,97 @@ import {
   GET_TEMPLATE,
   VIEW_DETAIL
 } from "../../../../actions/gift-card/actions";
+import { GoTrashcan } from "react-icons/go";
+import { store } from "react-notifications-component";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
-import moment from "moment";
-
+import Checkbox from "@material-ui/core/Checkbox";
+import Delete from "../delete-generation";
+import Tooltip from "@material-ui/core/Tooltip";
+import axios from "axios";
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
 
 class Generation extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      openDelete: false,
+      loading: false,
+      search: ""
+    };
   }
 
   componentDidMount() {
     this.props.GET_TEMPLATE();
   }
 
+  _handleCloseDelete = () => {
+    this.setState({ openDelete: false });
+  };
+
+  _handleOpenDelete = ID => {
+    this.setState({ openDelete: true, deleteID: ID });
+  };
+
+  _Delete = () => {
+    const deleteID = this.state.deleteID;
+    this.setState({ loading: true });
+    axios
+      .put(URL + "/giftcardtemplate/disabled/" + deleteID, null, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {
+        if (res.data.message === "Success") {
+          store.addNotification({
+            title: "Success!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 2500,
+              onScreen: true
+            },
+            width: 250
+          });
+          this.props.GET_DATA();
+          this.setState({ loading: false, deleteID: "", openDelete: false });
+        }
+      })
+      .catch(error => console.log(error));
+  };
+
   render() {
-    const TemplateList = this.props.Template;
+    let TemplateList = this.props.Template;
+    if (TemplateList) {
+      if (this.state.search) {
+        TemplateList = TemplateList.filter(e => {
+          if (e !== null) {
+            return (
+              e.giftCardTemplateName
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              e.giftCardType
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              parseInt(e?.giftCardTemplateId) === parseInt(this.state.search)
+            );
+          }
+          return null;
+        });
+      }
+    }
 
     const columns = [
       {
@@ -42,7 +110,7 @@ class Generation extends Component {
               width: "100px",
               height: "100px"
             }}
-          ></div>
+          />
         ),
         width: 200
       },
@@ -56,8 +124,6 @@ class Generation extends Component {
         Header: "Group",
         accessor: "giftCardType",
         width: 200
-        //   accessor: row => `${row.firstName} ${row.lastName}`,
-        //   Cell: e => <p>{e.value}</p>
       },
       {
         Header: "Status",
@@ -66,14 +132,35 @@ class Generation extends Component {
         width: 200
       },
       {
-        Header: "Visible on App"
-        // accessor: "createdDate",
-        // Cell: e => moment(e.value).format("MM/DD/YYYY A")
+        Header: () => <div style={{ textAlign: "center" }}>Visible on App</div>,
+        accessor: "isConsumer",
+        Cell: e => (
+          <div style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={e.value === 1 ? true : false}
+              style={{ color: "#0764b0" }}
+            />
+          </div>
+        )
       },
       {
-        id: "Action",
-        Header: "Action",
-        accessor: "Action"
+        id: "Actions",
+        Header: () => <div style={{ textAlign: "center" }}>Actions</div>,
+        accessor: "Action",
+        Cell: row => {
+          return (
+            <Tooltip title="Delete" arrow>
+              <div style={{ color: "#0764b0", textAlign: "center" }}>
+                <GoTrashcan
+                  size={22}
+                  onClick={() =>
+                    this._handleOpenDelete(row?.original?.giftCardTemplateId)
+                  }
+                />
+              </div>
+            </Tooltip>
+          );
+        }
       }
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
@@ -99,9 +186,9 @@ class Generation extends Component {
               <input
                 type="text"
                 className="textbox"
-                placeholder="Search.."
+                placeholder="Search by ID, Name, Group"
                 value={this.state.search}
-                onChange={this._SearchUsers}
+                onChange={e => this.setState({ search: e.target.value })}
               />
             </form>
             <Button
@@ -114,6 +201,12 @@ class Generation extends Component {
             </Button>
           </div>
           <div className="giftcard_content">
+            <Delete
+              handleCloseDelete={this._handleCloseDelete}
+              open={this.state.openDelete}
+              deleteGeneration={this._Delete}
+              text={"Template"}
+            />
             <ReactTable
               data={TemplateList}
               columns={columns}
@@ -130,7 +223,8 @@ class Generation extends Component {
 }
 
 const mapStateToProps = state => ({
-  Template: state.GiftCardData.template
+  Template: state.GiftCardData.template,
+  InfoUser_Login: state.User
 });
 
 const mapDispatchToProps = dispatch => ({

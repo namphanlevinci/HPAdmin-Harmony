@@ -12,8 +12,9 @@ import Select from "react-select";
 import URL, { upfileUrl } from "../../../../url/url";
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
-
+import Delete from "../delete-generation";
 import DefualtImage from "./default.png";
+
 import "../generation/generation.styles.scss";
 import "./template.styles.scss";
 
@@ -23,7 +24,8 @@ class EditTemplate extends Component {
     this.state = {
       fileId: "",
       imagePreviewUrl: "",
-      isConsumer: 0
+      isConsumer: 0,
+      openDelete: false
     };
   }
 
@@ -39,6 +41,44 @@ class EditTemplate extends Component {
       ID: Data?.giftCardTemplateId
     });
   }
+
+  // Delete
+  _handleCloseDelete = () => {
+    this.setState({ openDelete: false });
+  };
+
+  _Delete = () => {
+    const ID = this.state.ID;
+    axios
+      .put(URL + "/giftcardtemplate/disabled/" + ID, null, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {
+        if (res.data.message === "Success") {
+          store.addNotification({
+            title: "Success!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 1000,
+              onScreen: true
+            },
+            width: 250
+          });
+          this.setState({ openDelete: false });
+          setTimeout(() => {
+            this.props.history.push("/app/giftcard/template");
+          }, 1100);
+        }
+      })
+      .catch(error => console.log(error));
+  };
 
   _uploadFile = e => {
     e.preventDefault();
@@ -105,7 +145,7 @@ class EditTemplate extends Component {
           <div className="id-and-btn">
             <div style={{ display: "flex", alignItems: "center" }}>
               <MdAddToPhotos size={23} />
-              <h3>New Template</h3>
+              <h3>Edit Template</h3>
             </div>
 
             <div>
@@ -116,10 +156,22 @@ class EditTemplate extends Component {
               >
                 BACK
               </Button>
+              <Button
+                className="btn-red"
+                onClick={() => this.setState({ openDelete: true })}
+              >
+                DELETE
+              </Button>
             </div>
           </div>
           <div className="information container-fluid">
             <h3 className="title">General Information</h3>
+            <Delete
+              handleCloseDelete={this._handleCloseDelete}
+              open={this.state.openDelete}
+              deleteGeneration={this._Delete}
+              text={"Template"}
+            />
             <Formik
               initialValues={this.state}
               enableReinitialize={true}

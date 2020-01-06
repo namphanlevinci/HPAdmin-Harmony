@@ -13,10 +13,10 @@ import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import moment from "moment";
-import DeleteGeneration from "./delete-generation";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
 import URL from "../../../../url/url";
+import Delete from "../delete-generation";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -27,7 +27,8 @@ class Generation extends Component {
     this.state = {
       openDelete: false,
       deleteID: "",
-      loading: false
+      loading: false,
+      search: ""
     };
   }
 
@@ -76,7 +77,27 @@ class Generation extends Component {
   };
 
   render() {
-    const GiftList = this.props.GiftList;
+    let GiftList = this.props.GiftList;
+    if (GiftList) {
+      if (this.state.search) {
+        GiftList = GiftList.filter(e => {
+          if (e !== null) {
+            return (
+              e?.name
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              e?.giftCardTemplateName
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+              parseInt(e?.giftCardGeneralId) === parseInt(this.state.search)
+            );
+          }
+          return null;
+        });
+      }
+    }
 
     const columns = [
       {
@@ -106,13 +127,13 @@ class Generation extends Component {
             Gift Card Template {e.value}
           </span>
         ),
-        width: 250
+        width: 200
       },
       {
         Header: "Date Created",
         accessor: "createdDate",
         Cell: e => moment(e.value).format("MM/DD/YYYY"),
-        width: 200
+        width: 150
       },
       {
         id: "Quantity",
@@ -168,9 +189,9 @@ class Generation extends Component {
               <input
                 type="text"
                 className="textbox"
-                placeholder="Search.."
+                placeholder="Search by ID, Name, Template"
                 value={this.state.search}
-                onChange={this._SearchUsers}
+                onChange={e => this.setState({ search: e.target.value })}
               />
             </form>
             <Button
@@ -183,10 +204,11 @@ class Generation extends Component {
             </Button>
           </div>
           <div className="giftcard_content">
-            <DeleteGeneration
+            <Delete
               handleCloseDelete={this._handleCloseDelete}
               open={this.state.openDelete}
               deleteGeneration={this._Delete}
+              text={"Gift Card"}
             />
             <ReactTable
               data={GiftList}
