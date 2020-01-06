@@ -9,8 +9,8 @@ import moment from "moment";
 import "./code_log.styles.scss";
 
 const CodeLog = ({ open, handleClose, Log, Serial }) => {
-  const renderLog = Log.map(e => (
-    <tr>
+  const renderLog = Log.map((e, index) => (
+    <tr key={index}>
       <td>{moment(e?.createdDate).format("MM/DD/YYYY hh:mm A")}</td>
       <td>{e?.message}</td>
     </tr>
@@ -27,19 +27,21 @@ const CodeLog = ({ open, handleClose, Log, Serial }) => {
         <DialogTitle id="alert-dialog-title">{`Serial ${Serial} Logs`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <table style={{ width: "100%" }}>
-              <thead>
-                <tr>
-                  <th>
-                    <h4>Date/Time</h4>
-                  </th>
-                  <th>
-                    <h4>Details</h4>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>{renderLog}</tbody>
-            </table>
+            <div>
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <tr>
+                    <th>
+                      <h4>Date/Time</h4>
+                    </th>
+                    <th>
+                      <h4>Details</h4>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>{renderLog}</tbody>
+              </table>
+            </div>
           </DialogContentText>
         </DialogContent>
       </Dialog>
