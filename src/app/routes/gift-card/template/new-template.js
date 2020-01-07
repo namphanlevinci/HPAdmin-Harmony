@@ -61,8 +61,10 @@ class NewTemplate extends Component {
       { value: "Happy Anniversary", label: "Happy Anniversary" },
       { value: "Happy Birthday", label: "Happy Birthday" },
       { value: "Happy New Year", label: "Happy New Year" },
-      { value: "Valentine", label: "Valentine" },
-      { value: "Thank You", label: "Thank You" }
+      { value: "Happy Valentine", label: "Happy Valentine" },
+      { value: "Thank You", label: "Thank You" },
+      { value: "I Love You", label: "I Love You" },
+      { value: "Merry Christmas", label: "Merry Christmas" }
     ];
 
     const Status = [
