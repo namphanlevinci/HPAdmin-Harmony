@@ -58,7 +58,7 @@ class Codes extends Component {
     axios
       .get(
         URL +
-          `/giftcard/search?keySearch=&isActive=0&isPhysical=-1&isUsed=-1&page=${page}`,
+          `/giftcard/search?keySearch=&isActive=-1&isPhysical=-1&isUsed=-1&page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
