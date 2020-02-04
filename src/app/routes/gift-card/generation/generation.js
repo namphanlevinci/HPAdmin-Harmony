@@ -78,6 +78,7 @@ class Generation extends Component {
 
   render() {
     let GiftList = this.props.GiftList;
+    console.log("GiftList", GiftList);
     if (GiftList) {
       if (this.state.search) {
         GiftList = GiftList.filter(e => {
@@ -121,12 +122,8 @@ class Generation extends Component {
       },
       {
         Header: "Template",
-        accessor: "giftCardTemplateId",
-        Cell: e => (
-          <span className="giftcard-template">
-            Gift Card Template {e.value}
-          </span>
-        ),
+        accessor: "giftCardTemplateName",
+        Cell: e => <span className="giftcard-template">{e.value}</span>,
         width: 200
       },
       {

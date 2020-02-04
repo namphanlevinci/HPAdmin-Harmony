@@ -28,7 +28,7 @@ class Generation_Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: null,
+      quantity: 0,
       search: "",
       open: false,
       serialNumber: "",
@@ -56,39 +56,56 @@ class Generation_Detail extends Component {
 
   handleGenerate = () => {
     const giftCardGeneralId = this.props.Detail?.giftCardGeneralId;
-    const { quantity } = this.state;
-    this.setState({ loading: true });
-    axios
-      .post(
-        URL + "/giftcardgeneral/general",
-        { giftCardGeneralId, quantity },
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+    const quantity = this.state.quantity;
+    if (quantity === 0) {
+      store.addNotification({
+        title: "WARNING!",
+        message: "Please enter the Quantity!",
+        type: "warning",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3500,
+          onScreen: true
+        },
+        width: 250
+      });
+    } else {
+      this.setState({ loading: true });
+      axios
+        .post(
+          URL + "/giftcardgeneral/general",
+          { giftCardGeneralId, quantity },
+          {
+            headers: {
+              Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+            }
           }
-        }
-      )
-      .then(res => {
-        if (res.data.message === "Success") {
-          store.addNotification({
-            title: "Success!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 2500,
-              onScreen: true
-            },
-            width: 250
-          });
-          this.props.getGenerationCode(giftCardGeneralId);
-          this.setState({ loading: false, quantity: "" });
-        }
-      })
-      .catch(error => console.log(error));
+        )
+        .then(res => {
+          if (res.data.message === "Success") {
+            store.addNotification({
+              title: "Success!",
+              message: `${res.data.message}`,
+              type: "success",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3500,
+                onScreen: true
+              },
+              width: 250
+            });
+            this.props.getGenerationCode(giftCardGeneralId);
+            this.setState({ loading: false, quantity: 0 });
+          }
+        })
+        .catch(error => console.log(error));
+    }
   };
 
   // Delete
@@ -115,7 +132,7 @@ class Generation_Detail extends Component {
             animationIn: ["animated", "fadeIn"],
             animationOut: ["animated", "fadeOut"],
             dismiss: {
-              duration: 1000,
+              duration: 2000,
               onScreen: true
             },
             width: 250
@@ -328,6 +345,7 @@ class Generation_Detail extends Component {
               </div>
             </div>
             <div className="giftcard_content">
+              <h3 className="title">Gift Card Codes</h3>
               <div className="giftcard_search" style={{ marginBottom: "20px" }}>
                 <form>
                   <SearchIcon

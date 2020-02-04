@@ -16,6 +16,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
+import URL from "../../../../url/url";
+
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
 
@@ -66,7 +68,7 @@ class Generation extends Component {
             },
             width: 250
           });
-          this.props.GET_DATA();
+          this.props.GET_TEMPLATE();
           this.setState({ loading: false, deleteID: "", openDelete: false });
         }
       })
@@ -75,6 +77,7 @@ class Generation extends Component {
 
   render() {
     let TemplateList = this.props.Template;
+    console.log("TemplateList", TemplateList);
     if (TemplateList) {
       if (this.state.search) {
         TemplateList = TemplateList.filter(e => {
@@ -186,7 +189,7 @@ class Generation extends Component {
               <input
                 type="text"
                 className="textbox"
-                placeholder="Search by ID, Name, Group"
+                placeholder="Search by Name, Group"
                 value={this.state.search}
                 onChange={e => this.setState({ search: e.target.value })}
               />

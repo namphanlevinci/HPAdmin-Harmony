@@ -86,7 +86,7 @@ class Header extends React.Component {
             ) {
               await this.setState({ appNotification: false });
               await this.props.ViewMerchant_Request(res.data.data);
-              await this.props.history.push("/app/merchants/pending-profile");
+              await this.props.history.push("/app/merchants/pending/profile");
               this.handleDelete(e);
             } else {
               this.handleDelete(e);

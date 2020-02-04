@@ -25,7 +25,8 @@ class EditTemplate extends Component {
       fileId: "",
       imagePreviewUrl: "",
       isConsumer: 0,
-      openDelete: false
+      openDelete: false,
+      isChecked: false
     };
   }
 
@@ -40,8 +41,21 @@ class EditTemplate extends Component {
       isConsumer: Data?.isConsumer,
       ID: Data?.giftCardTemplateId
     });
+
+    if (Data?.isConsumer === 1) {
+      this.setState({ isChecked: true });
+    } else {
+      this.setState({ isChecked: false });
+    }
   }
 
+  _handleCheckbox = event => {
+    if (event.target.checked === true) {
+      this.setState({ isConsumer: 1, isChecked: true });
+    } else {
+      this.setState({ isConsumer: 0, isChecked: false });
+    }
+  };
   // Delete
   _handleCloseDelete = () => {
     this.setState({ openDelete: false });
@@ -323,11 +337,9 @@ class EditTemplate extends Component {
                     <div className="col-8" style={{ paddingTop: "45px" }}>
                       <Checkbox
                         id="isConsumer"
-                        checked={this.state.isConsumer === 1 ? true : false}
-                        onChange={e =>
-                          this.setState({ isConsumer: e.target.value })
-                        }
-                        value="1"
+                        checked={this.state.isChecked}
+                        onChange={this._handleCheckbox}
+                        value="isConsumer"
                         inputProps={{ "aria-label": "primary checkbox" }}
                         style={{ color: "#0764b0" }}
                       />
