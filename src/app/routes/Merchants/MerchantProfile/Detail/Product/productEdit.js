@@ -7,6 +7,7 @@ import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
+import ServiceImg from "./hpadmin2.png";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -14,6 +15,7 @@ import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import "../Detail.css";
+import "../Service/service.style.scss";
 
 class EditProduct extends Component {
   constructor(props) {
@@ -181,22 +183,22 @@ class EditProduct extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "350px", height: "350px" }}
+          style={{ width: "250px", height: "250px" }}
           alt="void"
         />
       );
     } else {
       $imagePreview = (
         <img
-          src={this.state.imageUrl}
-          style={{ width: "350px", height: "350px" }}
+          src={this.state.imageUrl === "" ? ServiceImg : this.state.imageUrl}
+          style={{ width: "250px", height: "250px" }}
           alt="void"
         />
       );
     }
 
     return (
-      <div className="react-transition swipe-up">
+      <div className="react-transition swipe-up service-container">
         <h2 style={{ color: "#0764b0" }}>Edit Product</h2>
         <NotificationContainer />
         <div className="container Service">

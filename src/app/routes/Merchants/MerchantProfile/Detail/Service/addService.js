@@ -104,21 +104,39 @@ class AddService extends Component {
       { value: "1", label: "Disable" }
     ];
 
+    const extrasCondition =
+      this.state.render === true
+        ? Yup.array().of(
+            Yup.object().shape({
+              name: Yup.string().required("Required"),
+              duration: Yup.string().required("Required"),
+              price: Yup.string().required("Required"),
+              isDisabled: Yup.string().required("Required")
+            })
+          )
+        : "";
+
     const validationSchema = Yup.object().shape({
-      extras: Yup.array().of(
-        Yup.object().shape({
-          name: Yup.string().required("Required"),
-          duration: Yup.string().required("Required"),
-          price: Yup.string().required("Required"),
-          isDisabled: Yup.string().required("Required")
-        })
-      ),
+      extras: extrasCondition,
       name: Yup.string().required("Required"),
       categoryId: Yup.string().required("Required"),
       duration: Yup.string().required("Required"),
       price: Yup.string().required("Required"),
       isDisabled: Yup.string().required("Required")
     });
+
+    const ExtraInitialValues =
+      this.state.render === true
+        ? [
+            {
+              name: "",
+              description: "",
+              duration: "",
+              price: "",
+              isDisabled: ""
+            }
+          ]
+        : [];
 
     //~ preview image
     let { imagePreviewUrl } = this.state;
@@ -127,7 +145,7 @@ class AddService extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "150px", height: "150px" }}
+          style={{ width: "200px", height: "200px", marginBottom: "30px" }}
           alt="service 1"
         />
       );
@@ -135,7 +153,7 @@ class AddService extends Component {
       $imagePreview = (
         <img
           src={ServiceImg}
-          style={{ width: "150px", height: "150px" }}
+          style={{ width: "200px", height: "200px", marginBottom: "30px" }}
           alt="service"
         />
       );
@@ -143,7 +161,7 @@ class AddService extends Component {
 
     return (
       <div className="react-transition swipe-up service-container">
-        <h2 style={{ color: "#0764b0" }}>Add Service</h2>
+        <h2 style={{ color: "#0764b0", marginBottom: "40px" }}>Add Service</h2>
         <NotificationContainer />
 
         <Formik
@@ -156,20 +174,12 @@ class AddService extends Component {
             price: "",
             categoryId: "",
             isDisabled: "",
-            extras: [
-              {
-                name: "",
-                description: "",
-                duration: "",
-                price: "",
-                isDisabled: ""
-              }
-            ]
+            extras: ExtraInitialValues
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            console.log("VALUES", values);
-            console.log("NOT RUNNING");
+            // console.log("VALUES", values);
+            // console.log("NOT RUNNING");
             const {
               categoryId,
               name,
@@ -184,40 +194,40 @@ class AddService extends Component {
             const { discount, fileId } = this.state;
             const merchantId = this.props.MerchantProfile.merchantId;
 
-            // axios
-            //   .post(
-            //     URL + "/service",
-            //     {
-            //       categoryId,
-            //       name,
-            //       duration,
-            //       description,
-            //       openTime,
-            //       secondTime,
-            //       price,
-            //       discount,
-            //       isDisabled,
-            //       fileId,
-            //       extras,
-            //       merchantId
-            //     },
-            //     {
-            //       headers: {
-            //         Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-            //       }
-            //     }
-            //   )
-            //   .then(res => {
-            //     let message = res.data.message;
-            //     if (res.data.codeNumber === 200) {
-            //       NotificationManager.success(message, null, 800);
-            //       setTimeout(() => {
-            //         this.props.history.push("/app/merchants/profile/service");
-            //       }, 800);
-            //     } else {
-            //       NotificationManager.error(message, null, 800);
-            //     }
-            //   });
+            axios
+              .post(
+                URL + "/service",
+                {
+                  categoryId,
+                  name,
+                  duration,
+                  description,
+                  openTime,
+                  secondTime,
+                  price,
+                  discount,
+                  isDisabled,
+                  fileId,
+                  extras,
+                  merchantId
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+                  }
+                }
+              )
+              .then(res => {
+                let message = res.data.message;
+                if (res.data.codeNumber === 200) {
+                  NotificationManager.success(message, null, 800);
+                  setTimeout(() => {
+                    this.props.history.push("/app/merchants/profile/service");
+                  }, 800);
+                } else {
+                  NotificationManager.error(message, null, 800);
+                }
+              });
           }}
         >
           {({
@@ -288,27 +298,39 @@ class AddService extends Component {
                       <div className="col-12">
                         <label>Description</label>
                         <br />
-                        <input
+                        <textarea
                           name="description"
                           type="text"
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.description}
+                          style={{
+                            width: "100%",
+                            height: "70px",
+                            padding: "10px"
+                          }}
                         />
                         <label style={{ paddingTop: "10px" }}>Image</label>
                         <br />
-                        {$imagePreview}
-                        <input
-                          name="price"
-                          type="file"
-                          onChange={this._handleImageChange}
+                        <div
                           style={{
-                            width: "auto",
-                            borderBottom: "none",
-                            paddingTop: "20px",
-                            fontWeight: 400
+                            display: "flex"
                           }}
-                        />
+                        >
+                          {$imagePreview}
+                          <input
+                            name="price"
+                            type="file"
+                            onChange={this._handleImageChange}
+                            style={{
+                              width: "100px !important",
+                              borderBottom: "none",
+                              fontWeight: 400,
+                              margin: "80px 0px",
+                              paddingLeft: "20px"
+                            }}
+                          />
+                        </div>
                       </div>
 
                       <div className="col-4">
@@ -323,6 +345,7 @@ class AddService extends Component {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.duration}
+                          placeholder="Min"
                           className={
                             errors.duration && touched.duration
                               ? "text-input error"
@@ -347,6 +370,7 @@ class AddService extends Component {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.openTime}
+                          placeholder="Min"
                         />
                       </div>
                       <div className="col-4">
@@ -361,6 +385,7 @@ class AddService extends Component {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.secondTime}
+                          placeholder="Min"
                           className={
                             errors.secondTime && touched.secondTime
                               ? "text-input error"
@@ -397,6 +422,7 @@ class AddService extends Component {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.price}
+                          placeholder="$"
                           className={
                             errors.price && touched.price
                               ? "text-input error"
@@ -412,7 +438,7 @@ class AddService extends Component {
 
                   {/* EXTRA BÊN NÀY */}
                   <div className="col-6">
-                    <Extra
+                    {/* <Extra
                       setFieldValue={setFieldValue}
                       validationSchema={validationSchema}
                       errors={errors}
@@ -420,8 +446,8 @@ class AddService extends Component {
                       handleChange={handleChange}
                       handleBlur={handleBlur}
                       touched={touched}
-                    />
-                    {/* {this.state.render === false ? (
+                    /> */}
+                    {this.state.render === false ? (
                       <p
                         className="extra-btn"
                         onClick={() => this.setState({ render: true })}
@@ -438,7 +464,7 @@ class AddService extends Component {
                         handleBlur={handleBlur}
                         touched={touched}
                       />
-                    )} */}
+                    )}
                   </div>
                 </div>
 
@@ -446,7 +472,7 @@ class AddService extends Component {
                   className="btn btn-green"
                   style={{ backgroundColor: "#0074d9", color: "white" }}
                   type="submit"
-                  // disabled={isSubmitting}
+                  disabled={isSubmitting}
                 >
                   ADD
                 </Button>

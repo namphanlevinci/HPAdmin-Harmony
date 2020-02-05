@@ -47,7 +47,7 @@ const Extra = ({
                         <ErrorMessage name={`extras.${index}.name`} />
                       </div>
 
-                      <TextField
+                      {/* <TextField
                         margin="normal"
                         variant="outlined"
                         label="First name"
@@ -61,7 +61,7 @@ const Extra = ({
                         error={Boolean(touchedExtraName && errorExtraName)}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                      />
+                      /> */}
                     </div>
                     <div className="col-8">
                       <label>Description</label>

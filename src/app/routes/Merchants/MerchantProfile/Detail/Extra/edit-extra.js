@@ -5,6 +5,8 @@ import axios from "axios";
 import URL from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import { Formik } from "formik";
+import defaultImg from "./hpadmin2.png";
+
 import "./extra.styles.scss";
 
 const EditExtra = ({
@@ -33,7 +35,9 @@ const EditExtra = ({
   if (imagePreviewUrl) {
     $imagePreview = <img src={imagePreviewUrl} alt="void" />;
   } else {
-    $imagePreview = <img src={imageUrl} alt="void" />;
+    $imagePreview = (
+      <img src={imageUrl === "" ? defaultImg : imageUrl} alt="void" />
+    );
   }
   return (
     <Dialog
@@ -147,7 +151,7 @@ const EditExtra = ({
                   {errors.name && touched.name && (
                     <div className="input-feedback">{errors.name}</div>
                   )}
-
+                  <br />
                   <label style={{ padding: "10px 0px" }}>Description</label>
                   <textarea
                     type="text"
@@ -158,9 +162,9 @@ const EditExtra = ({
                     style={{ width: "100%", height: "70px", padding: "10px" }}
                   />
                   <div style={{ display: "flex" }}>
-                    <div style={{ width: "40%" }}>
+                    <div style={{ width: "35%" }}>
                       <label style={{ padding: "10px 0px" }}>
-                        Duration*{" "}
+                        Duration*
                         <span style={{ fontSize: "10px" }}>(Minutes)</span>
                       </label>
                       <input
@@ -169,7 +173,7 @@ const EditExtra = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.duration}
-                        style={{ width: "70%" }}
+                        style={{ width: "80%" }}
                       />
                     </div>
                     <div style={{ width: "35%" }}>
@@ -180,10 +184,10 @@ const EditExtra = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.price}
-                        style={{ width: "70%" }}
+                        style={{ width: "80%" }}
                       />
                     </div>
-                    <div style={{ width: "35%" }}>
+                    <div style={{ width: "30%" }}>
                       <label style={{ padding: "10px 0px" }}>Status*</label>
                       <select
                         onChange={handleChange}

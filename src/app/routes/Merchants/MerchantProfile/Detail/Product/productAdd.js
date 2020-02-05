@@ -9,13 +9,14 @@ import {
 } from "react-notifications";
 import { Formik } from "formik";
 
-import ServiceImg from "../service.png";
+import ServiceImg from "./hpadmin2.png";
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import "../Detail.css";
+import "../Service/service.style.scss";
 
 class AddProduct extends Component {
   constructor(props) {
@@ -110,7 +111,7 @@ class AddProduct extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "350px", height: "350px" }}
+          style={{ width: "250px", height: "250px" }}
           alt="service 1"
         />
       );
@@ -118,15 +119,15 @@ class AddProduct extends Component {
       $imagePreview = (
         <img
           src={ServiceImg}
-          style={{ width: "350px", height: "350px" }}
+          style={{ width: "250px", height: "250px" }}
           alt="service"
         />
       );
     }
 
     return (
-      <div className="react-transition swipe-up">
-        <h2 style={{ color: "#0764b0" }}>Add Product</h2>
+      <div className="react-transition swipe-up service-container">
+        <h2 style={{ color: "#0764b0", marginBottom: "40px" }}>Add Product</h2>
         <NotificationContainer />
 
         <Formik
@@ -249,7 +250,7 @@ class AddProduct extends Component {
               <div className="container Service">
                 <div className="row">
                   <div className="col-md-5">
-                    <label>Image</label>
+                    <label style={{ marginBottom: "20px" }}>Image</label>
                     <br />
                     {$imagePreview}
                     <input
@@ -279,7 +280,7 @@ class AddProduct extends Component {
                               : "text-input"
                           }
                         >
-                          <option value="">Please Choose Category</option>
+                          <option value="">Select</option>
                           {mapCategory}
                         </select>
                         {errors.categoryId && touched.categoryId && (
@@ -312,7 +313,7 @@ class AddProduct extends Component {
                         <br />
                         <input
                           name="sku"
-                          type="number"
+                          type="text"
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.sku}
