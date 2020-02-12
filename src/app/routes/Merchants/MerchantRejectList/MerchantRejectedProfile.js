@@ -1,24 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "bootstrap/js/src/collapse.js";
-import { withRouter, Redirect } from "react-router-dom";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import "../MerchantsRequest/MerchantReqProfile.css";
-import "../MerchantsRequest/MerchantsRequest.css";
-import { Checkbox } from "@material-ui/core";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
-import moment from "moment";
-import Button from "@material-ui/core/Button";
-import axios from "axios";
-import URL from "../../../../url/url";
 import {
   getAll_Rejected_Merchants,
   ViewProfile_Merchants
 } from "../../../../actions/merchants/actions";
+import { Checkbox } from "@material-ui/core";
+import { withRouter, Redirect } from "react-router-dom";
+import { store } from "react-notifications-component";
+
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
+import moment from "moment";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+import URL from "../../../../url/url";
+
+import "bootstrap/js/src/collapse.js";
+import "../MerchantsRequest/MerchantReqProfile.css";
+import "../MerchantsRequest/MerchantsRequest.css";
 class MerchantRejectedProfile extends Component {
   constructor(props) {
     super(props);
@@ -50,13 +49,35 @@ class MerchantRejectedProfile extends Component {
       })
       .then(async res => {
         if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message, null, 800);
+          store.addNotification({
+            title: "SUCCESS!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
         } else {
-          NotificationManager.error(
-            "Something went wrong, please try again.",
-            null,
-            800
-          );
+          store.addNotification({
+            title: "ERROR!",
+            message: "Something went wrong, please try again.",
+            type: "danger",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
         }
       });
   };
@@ -167,12 +188,11 @@ class MerchantRejectedProfile extends Component {
     const renderPendingProfile =
       e.merchantId !== undefined ? (
         <div className="container-fluid PendingList react-transition swipe-right">
-          <NotificationContainer />
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.requestDetail" />}
           />
-          <div className="PendingLBody">
+          <div className="PendingLBody page-heading">
             <div className="PDL-Btn col-md-12">
               <h3>ID: {e.merchantId}</h3>
               <span>

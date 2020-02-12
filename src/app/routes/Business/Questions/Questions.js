@@ -1,18 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
 import {
   getAll_Questions,
   UPDATE_QUESTIONS
 } from "../../../../actions/business/actions";
-import "./Questions.css";
-import "../../Merchants/MerchantProfile/MerchantProfile.css";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
+import { store } from "react-notifications-component";
+
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -24,6 +20,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+
+import "./Questions.css";
+import "../../Merchants/MerchantProfile/MerchantProfile.css";
 // import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 class Questions extends Component {
   constructor(props) {
@@ -61,10 +60,34 @@ class Questions extends Component {
     if (nextProps.uQuestions !== this.props.uQuestions) {
       if (this.props.uQuestions.message === "Success") {
         this.props.getAll_Questions();
-        NotificationManager.success(this.props.uQuestions.message, null, 800);
+        store.addNotification({
+          title: "SUCCESS!",
+          message: `${this.props.uQuestions.message}`,
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true
+          }
+        });
         this.setState({ edit: false });
       } else {
-        NotificationManager.error(this.props.uQuestions.message, null, 800);
+        store.addNotification({
+          title: "ERROR!",
+          message: `${this.props.uQuestions.message}`,
+          type: "error",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true
+          }
+        });
       }
     }
   }
@@ -105,7 +128,6 @@ class Questions extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Questions" />}
         />
-        <NotificationContainer />
         <div
           className="text-center MerList Questions"
           style={{ padding: "10px" }}

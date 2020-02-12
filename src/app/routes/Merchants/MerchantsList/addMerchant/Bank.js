@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
+import defaultImage from "./hpadmin2.png";
 
 import "./addMerchant.css";
 
 const Bank = ({ value, handleChange, uploadFile }) => {
+  console.log("Value", value);
   return (
     <div>
       <div className="row">
@@ -52,11 +54,22 @@ const Bank = ({ value, handleChange, uploadFile }) => {
               Void Check* <br />
               Please upload photos of void check
             </lable>
-            <div class="Upload">
+            <div className="Upload">
               <div className="void-Image">
-                <img src={value.imagePreviewUrl} alt="void" />;
+                <img
+                  src={
+                    value.imagePreviewUrl === ""
+                      ? defaultImage
+                      : value.imagePreviewUrl
+                  }
+                  alt="void"
+                />
               </div>
-              <input type="file" class="upload" onChange={e => uploadFile(e)} />
+              <input
+                type="file"
+                className="upload"
+                onChange={e => uploadFile(e)}
+              />
             </div>
           </div>
         </div>

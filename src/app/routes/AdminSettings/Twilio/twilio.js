@@ -1,13 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { store } from "react-notifications-component";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import { connect } from "react-redux";
 import "../Setting.css";
 import axios from "axios";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 import URL from "../../../../url/url";
 
 class Twilio extends Component {
@@ -92,11 +90,37 @@ class Twilio extends Component {
         }
       )
       .then(res => {
-        NotificationManager.success(res.data.message, null, 800);
+        store.addNotification({
+          title: "SUCCESS!",
+          message: `${res.data.message}`,
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 25000,
+            onScreen: true
+          },
+          width: 250
+        });
       })
       .catch(error => {
         // console.log("ERROR", error);
-        NotificationManager.error(error.data.message, null, 800);
+        store.addNotification({
+          title: "ERROR!",
+          message: `${error.data.message}`,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true
+          },
+          width: 250
+        });
       });
   };
   render() {
@@ -148,7 +172,6 @@ class Twilio extends Component {
             </li>
           </ul>
         </form>
-        <NotificationContainer />
       </div>
     );
   }

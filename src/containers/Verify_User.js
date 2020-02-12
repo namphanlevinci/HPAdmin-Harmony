@@ -5,10 +5,8 @@ import { Link } from "react-router-dom";
 import IntlMessages from "../util/IntlMessages";
 import { Verify } from "../actions/user/actions";
 import { connect } from "react-redux";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
+import { store } from "react-notifications-component";
+
 class Verify_User extends React.Component {
   constructor(props) {
     super(props);
@@ -20,9 +18,22 @@ class Verify_User extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.Verify_User !== this.props.Verify_User) {
       const Message = localStorage.getItem("VERIFY_ERROR");
-      // console.log("Message", Message);
       if (Message !== null) {
-        NotificationManager.error(Message, null, 800);
+        store.addNotification({
+          title: "Error!",
+          message: `${Message}`,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true
+          },
+          width: 250
+        });
+
         setTimeout(() => localStorage.removeItem("VERIFY_ERROR"), 1000);
       }
     }
@@ -63,7 +74,7 @@ class Verify_User extends React.Component {
             <p>
               <IntlMessages id="appModule.enterYourVerifyCode" />
             </p>
-            <p>Your account will be locked if u don't verify after 5 times!</p>
+            <p>Your account will be locked if you don't verify after 5 times</p>
           </div>
           <form>
             <TextField
@@ -89,7 +100,6 @@ class Verify_User extends React.Component {
             </div>
           </form>
           <div>
-            <NotificationContainer />
             <Link className="right-arrow" to="/signin">
               <IntlMessages id="appModule.signInDiffAccount" />
             </Link>

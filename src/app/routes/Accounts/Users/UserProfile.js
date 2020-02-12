@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
+import { store } from "react-notifications-component";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 import URL from "../../../../url/url";
 import axios from "axios";
+
 import "./User.css";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
 class UserProfile extends Component {
@@ -37,7 +36,20 @@ class UserProfile extends Component {
       .delete(URL + "/adminuser/" + ID, config)
       .then(res => {
         // console.log(res);
-        NotificationManager.success(res.data.message, null, 800);
+        store.addNotification({
+          title: "SUCCESS!",
+          message: `${res.data.message}`,
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true
+          },
+          width: 250
+        });
       })
       .catch(error => {
         console.log("error", error);
@@ -54,7 +66,20 @@ class UserProfile extends Component {
       .put(URL + "/adminuser/enable/" + ID, null, config)
       .then(res => {
         // console.log(res);
-        NotificationManager.success(res.data.message, null, 800);
+        store.addNotification({
+          title: "SUCCESS!",
+          message: `${res.data.message}`,
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true
+          },
+          width: 250
+        });
       })
       .catch(error => {
         console.log("error", error);
@@ -210,7 +235,6 @@ class UserProfile extends Component {
       );
     return (
       <div className="container-fluid UserProfile">
-        <NotificationContainer />
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}

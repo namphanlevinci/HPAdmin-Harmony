@@ -1,21 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
+import { store } from "react-notifications-component";
 import {
   getAll_Merchants,
   ViewProfile_Merchants,
   UpdateMerchant_Infor,
   GetMerchant_byID
 } from "../../../../../actions/merchants/actions";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
+
 import Button from "@material-ui/core/Button";
 import StateComponent from "../../../../../util/State";
 
+import "../MerchantProfile.css";
+import "../../MerchantsRequest/MerchantReqProfile.css";
+import "../../MerchantsRequest/MerchantsRequest.css";
 class General extends Component {
   constructor(props) {
     super(props);
@@ -116,11 +114,20 @@ class General extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.UpdateStatus !== this.props.UpdateStatus) {
-      NotificationManager.success(
-        this.props.UpdateStatus.Data.message,
-        null,
-        800
-      );
+      store.addNotification({
+        title: "SUCCESS!",
+        message: `${this.props.UpdateStatus.Data.message}`,
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true
+        },
+        width: 250
+      });
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
       this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
@@ -276,7 +283,6 @@ class General extends Component {
             </Button>
           </div>
         </div>
-        <NotificationContainer />
       </div>
     );
   }
@@ -304,7 +310,4 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(General);
+export default connect(mapStateToProps, mapDispatchToProps)(General);

@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import "bootstrap/js/src/collapse.js";
-import { withRouter, Redirect } from 'react-router-dom';
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from '../../../../components/ContainerHeader/index';
-import "./MerchantReqProfile.css"
-import "./MerchantsRequest.css"
-import { Checkbox } from '@material-ui/core';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import moment from 'moment';
-import Button from '@material-ui/core/Button';
 import { MERCHANT_APPROVAL, MERCHANT_REJECT} from '../../../../actions/merchants/actions';
 import {
     getAll_Merchants
   } from "../../../../actions/merchants/actions";
-import {
-    NotificationContainer,
-    NotificationManager
-  } from "react-notifications";
-//POPUP
+  import { Checkbox } from '@material-ui/core';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { withRouter, Redirect } from 'react-router-dom';
+import { store } from 'react-notifications-component';
+
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from '../../../../components/ContainerHeader/index';
+import moment from 'moment';
+import Button from '@material-ui/core/Button';
 import Popup from "reactjs-popup";
+
+import "./MerchantReqProfile.css"
+import "./MerchantsRequest.css"
+import "bootstrap/js/src/collapse.js";
 
 class MerchantReqProfile extends Component {
     constructor(props) {
@@ -60,10 +58,35 @@ class MerchantReqProfile extends Component {
           if (nextProps.ApprovalStatus !== this.props.ApprovalStatus) {
             this.props.getAll_Merchants()
             if (nextProps.ApprovalStatus.message  === "Merchant code is exist!") {
-                NotificationManager.error("MERCHANT ID IS ALREADY EXIST!", null, 800)
+                store.addNotification({
+                    title: "WARNING!",
+                    message: "MERCHANT ID IS ALREADY EXIST!",
+                    type: "warning",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    },
+                    width: 250
+                  });
             } else {
                 this.setState({showPopupAccept: false})
-                NotificationManager.success('SUCCESS', null, 800);
+                store.addNotification({
+                    title: "SUCCESS!",
+                    message: 'SUCCESS',
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    },width: 250
+                  });
                 setTimeout(() => {
                     this.props.history.push('/app/merchants/pending')
                 }, 1000)
@@ -72,7 +95,19 @@ class MerchantReqProfile extends Component {
           if (nextProps.RejectStatus !== this.props.RejectStatus) {
             this.props.getAll_Merchants()
             this.setState({showPopupReject: false})
-            NotificationManager.success('SUCCESS', null, 800);
+            store.addNotification({
+                title: "SUCCESS!",
+                message: 'SUCCESS',
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                },width: 250
+              });
             setTimeout(() => {
                 this.props.history.push('/app/merchants/pending')
             }, 1000)
@@ -146,9 +181,9 @@ class MerchantReqProfile extends Component {
             ) }) : <h4>&nbsp;- NO BUSINESS INFORMATION</h4>
         //render profile
         const renderPendingProfile = e.merchantId !== undefined ? 
-            <div className="container-fluid PendingList">
+            <div className="container-fluid PendingList ">
                     <ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.requestDetail"/>}/>
-                    <div className="PendingLBody">
+                    <div className="PendingLBody page-heading">
                         <div className="PDL-Btn col-md-12">
                             <h3>{'HP-' + e.merchantId}</h3>
                             <span>
@@ -337,7 +372,6 @@ class MerchantReqProfile extends Component {
                                         
                             </div>   
                         </div>
-                        <NotificationContainer/>
                     </div>
             </div> : <Redirect to="/app/merchants/pending" />
         return ( 

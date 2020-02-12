@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
+
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 
+import "../MerchantProfile.css";
+import "../../MerchantsRequest/MerchantReqProfile.css";
+import "../../MerchantsRequest/MerchantsRequest.css";
 class Principal extends Component {
   constructor(props) {
     super(props);

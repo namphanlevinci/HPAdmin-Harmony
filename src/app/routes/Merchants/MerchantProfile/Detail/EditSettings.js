@@ -1,22 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
-import "./Detail.css";
-import axios from "axios";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 import {
   getAll_Merchants,
   GetMerchant_byID,
   ViewProfile_Merchants
 } from "../../../../../actions/merchants/actions";
+import { store } from "react-notifications-component";
+
+import axios from "axios";
 import Button from "@material-ui/core/Button";
 import URL from "../../../../../url/url";
 
+import "../MerchantProfile.css";
+import "../../MerchantsRequest/MerchantReqProfile.css";
+import "../../MerchantsRequest/MerchantsRequest.css";
+import "./Detail.css";
 class EditSettings extends Component {
   constructor(props) {
     super(props);
@@ -83,7 +81,20 @@ class EditSettings extends Component {
       )
       .then(async res => {
         if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message, null, 800);
+          store.addNotification({
+            title: "SUCCESS!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
           setTimeout(() => {
             this.props.GetMerchant_byID(ID);
           }, 1000);
@@ -92,18 +103,26 @@ class EditSettings extends Component {
             this.props.history.push("/app/merchants/profile/settings");
           }, 2000);
         } else {
-          NotificationManager.error(
-            "Something went wrong, please try again.",
-            null,
-            800
-          );
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
         }
       });
   };
   render() {
     return (
       <div className="container react-transition swipe-up">
-        <NotificationContainer />
         {this.state.update !== false ? (
           <div className="POPUP">
             <div className="POPUP-INNER2 SettingsPopup2">
@@ -221,7 +240,4 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(EditSettings);

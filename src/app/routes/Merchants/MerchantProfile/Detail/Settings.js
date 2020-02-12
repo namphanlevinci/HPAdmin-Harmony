@@ -1,23 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
-import "./Detail.css";
-import Button from "@material-ui/core/Button";
-import axios from "axios";
-import URL from "../../../../../url/url";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   getAll_Merchants,
   GetMerchant_byID,
   ViewProfile_Merchants
 } from "../../../../../actions/merchants/actions";
+import { store } from "react-notifications-component";
+
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+import URL from "../../../../../url/url";
 import Popup from "reactjs-popup";
+
+import "../MerchantProfile.css";
+import "../../MerchantsRequest/MerchantReqProfile.css";
+import "../../MerchantsRequest/MerchantsRequest.css";
+import "./Detail.css";
 class Settings extends Component {
   constructor(props) {
     super(props);
@@ -77,7 +76,20 @@ class Settings extends Component {
       })
       .then(res => {
         if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message, null, 800);
+          store.addNotification({
+            title: "SUCCESS!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
           setTimeout(() => {
             this.props.GetMerchant_byID(ID);
           }, 1000);
@@ -92,7 +104,6 @@ class Settings extends Component {
     return (
       <React.Fragment>
         <div className="container react-transition swipe-up">
-          <NotificationContainer />
           <h2>Settings</h2>
           <div className="container">
             <div className="SettingsContent">
@@ -135,14 +146,33 @@ class Settings extends Component {
             </div>
           </div>
         </div>
-        <div className="SettingsContent GeneralContent react-transition swipe-up">
-          <Button className="btn btn-green" onClick={this._gotoEdit}>
-            EDIT
-          </Button>
-
+        <div style={{ display: "flex" }}>
+          <div className="SettingsContent GeneralContent react-transition swipe-up">
+            <Button className="btn btn-green" onClick={this._gotoEdit}>
+              EDIT
+            </Button>
+          </div>
           {this.props.MerchantProfile.isDisabled !== 1 ? (
             <Popup
-              trigger={<Button className="btn btn-red">DISABLE</Button>}
+              trigger={
+                <Button
+                  style={{
+                    color: "#666",
+                    backgroundColor: "#eee",
+                    textTransform: "uppercase",
+                    letterSpacing: "2px",
+                    fontSize: "12px",
+                    padding: "10px 30px",
+                    borderRadius: "5px",
+                    border: "1px solid rgba(0, 0, 0, 0.3)",
+                    borderBottomWidth: "3px",
+                    fontWeight: "900",
+                    marginLeft: "0px"
+                  }}
+                >
+                  DISABLE
+                </Button>
+              }
               modal
               on="click"
               open={this.state.isOpenReject}
@@ -173,11 +203,20 @@ class Settings extends Component {
                       })
                       .then(async res => {
                         if (res.data.message === "Success") {
-                          NotificationManager.success(
-                            res.data.message,
-                            null,
-                            800
-                          );
+                          store.addNotification({
+                            title: "SUCCESS!",
+                            message: `${res.data.message}`,
+                            type: "success",
+                            insert: "top",
+                            container: "top-right",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            },
+                            width: 250
+                          });
                           setTimeout(() => {
                             this.props.GetMerchant_byID(ID);
                           }, 1000);
@@ -186,15 +225,24 @@ class Settings extends Component {
                               this.props.getMerchant.Data
                             );
                             this.props.history.push(
-                              "/app/merchants/profile/merchant-settings"
+                              "/app/merchants/profile/settings"
                             );
                           }, 1500);
                         } else {
-                          NotificationManager.error(
-                            res.data.message,
-                            null,
-                            800
-                          );
+                          store.addNotification({
+                            title: "ERROR!",
+                            message: `${res.data.message}`,
+                            type: "warning",
+                            insert: "top",
+                            container: "top-right",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            },
+                            width: 250
+                          });
                         }
                       });
                   }}
@@ -214,6 +262,19 @@ class Settings extends Component {
                         <ErrorMessage name="rejectReason" component="div" />
                         <div>
                           <Button
+                            style={{
+                              color: "#666",
+                              backgroundColor: "#eee",
+                              textTransform: "uppercase",
+                              letterSpacing: "2px",
+                              fontSize: "12px",
+                              padding: "10px 30px",
+                              borderRadius: "5px",
+                              border: "1px solid rgba(0, 0, 0, 0.3)",
+                              borderBottomWidth: "3px",
+                              fontWeight: "900",
+                              marginLeft: "0px"
+                            }}
                             type="submit"
                             className="btn btn-red"
                             onClick={this.handleCloseReject}
@@ -221,6 +282,19 @@ class Settings extends Component {
                             BACK
                           </Button>
                           <Button
+                            style={{
+                              color: "white",
+                              backgroundColor: "#0074d9",
+                              textTransform: "uppercase",
+                              letterSpacing: "2px",
+                              fontSize: "12px",
+                              padding: "10px 30px",
+                              borderRadius: "5px",
+                              border: "1px solid rgba(0, 0, 0, 0.3)",
+                              borderBottomWidth: "3px",
+                              fontWeight: "900",
+                              marginLeft: "0px"
+                            }}
                             type="submit"
                             className="btn btn-green"
                             onClick={this.onSubmit}
@@ -235,7 +309,22 @@ class Settings extends Component {
               </span>
             </Popup>
           ) : (
-            <Button className="btn btn-green" onClick={this._enable}>
+            <Button
+              style={{
+                color: "#666",
+                backgroundColor: "#eee",
+                textTransform: "uppercase",
+                letterSpacing: "2px",
+                fontSize: "12px",
+                padding: "10px 30px",
+                borderRadius: "5px",
+                border: "1px solid rgba(0, 0, 0, 0.3)",
+                borderBottomWidth: "3px",
+                fontWeight: "900",
+                marginLeft: "0px"
+              }}
+              onClick={this._enable}
+            >
               ENABLE
             </Button>
           )}

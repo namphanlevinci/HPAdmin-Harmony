@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { store } from "react-notifications-component";
+
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -11,10 +13,6 @@ import WorkTime from "./work-time";
 import Salary from "./salary";
 import License from "./license";
 import axios from "axios";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 import URL, { upfileUrl } from "../../../../../../url/url";
 
 import "./Staff.styles.scss";
@@ -331,7 +329,19 @@ class AddStaff extends Component {
       )
       .then(res => {
         if (res.data.data.message === "Success") {
-          NotificationManager.sucess(res.data.data.message, null, 800);
+          store.addNotification({
+            title: "SUCCESS!",
+            message: `${res.data.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            }
+          });
           this.props.history.push("/app/merchants/profile/staff");
         }
       });
@@ -395,7 +405,6 @@ class AddStaff extends Component {
 
     return (
       <div className="container-fluid react-transition swipe-right add-staff">
-        <NotificationContainer />
         <div style={{ textAlign: "center" }}>
           <h1 style={{ color: "#0764b0" }}>New Staff</h1>
         </div>

@@ -1,20 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
+import URL, { upfileUrl } from "../../../../url/url";
+import { ViewProfile_User } from "../../../../actions/user/actions";
+import { store } from "react-notifications-component";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 // import Select from "react-select";
 import TextField from "@material-ui/core/TextField";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
+
 import "./User.css";
 import axios from "axios";
-import { ViewProfile_User } from "../../../../actions/user/actions";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
-import URL, { upfileUrl } from "../../../../url/url";
 
 // const options = [
 //   { value: "1", label: "Administrator" },
@@ -154,7 +153,22 @@ class EditUserProfile extends Component {
       )
       .then(async res => {
         if (res.data.message === "Success") {
-          NotificationManager.success(res.data.message, null, 800);
+          // NotificationManager.success, null, 800);
+          store.addNotification({
+            title: "Success!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
+
           await axios
             .get(URL + "/adminuser/" + ID, config)
             .then(res => {
@@ -398,7 +412,6 @@ class EditUserProfile extends Component {
       );
     return (
       <div className="container-fluid UserProfile">
-        <NotificationContainer />
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}

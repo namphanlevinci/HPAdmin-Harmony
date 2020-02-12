@@ -1,14 +1,14 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { store } from "react-notifications-component";
+
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
-import { connect } from "react-redux";
-import "../Setting.css";
 import Axios from "axios";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 import URL from "../../../../url/url";
+
+import "../Setting.css";
+
 class General extends Component {
   constructor(props) {
     super(props);
@@ -90,12 +90,16 @@ class General extends Component {
       }
     )
       .then(res => {
-        NotificationManager.success(res.data.message, null, 800);
+        // <Notification
+        //   title={"Success"}
+        //   message={res.data.message}
+        //   type={"success"}
+        // />;
         // console.log('UPDATE', res)
       })
       .catch(error => {
         console.log("ERROR", error);
-        NotificationManager.error(error.data.message, null, 800);
+        // NotificationManager.error(error.data.message, null, 800);
       });
   };
   render() {
@@ -176,7 +180,6 @@ class General extends Component {
             </form>
           </div>
         </div>
-        <NotificationContainer />
       </div>
     );
   }

@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./Consumer.css";
+
+import Button from "@material-ui/core/Button";
+import moment from "moment";
+import "moment/locale/it";
+import TextField from "@material-ui/core/TextField";
+import ReactTable from "react-table";
+
+import "react-table/react-table.css";
+import "../../../Accounts/Logs/Logs.css";
+import "react-datepicker/dist/react-datepicker.css";
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
-import { NotificationContainer } from "react-notifications";
-import Button from "@material-ui/core/Button";
-import "react-datepicker/dist/react-datepicker.css";
-
-import moment from "moment";
-import "moment/locale/it";
-import "../../../Accounts/Logs/Logs.css";
-import TextField from "@material-ui/core/TextField";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-
+import "./Consumer.css";
+import "../../../Merchants/MerchantsList/merchantsList.css";
 class Transactions extends Component {
   constructor(props) {
     super(props);
@@ -95,7 +95,7 @@ class Transactions extends Component {
         Header: "Activity",
         accessor: e => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
-            {e.paymentData.transaction_type}
+            {e.paymentData.transaction_type.toUpperCase()}
           </p>
         )
       },
@@ -104,7 +104,7 @@ class Transactions extends Component {
         Header: "Payment Method",
         accessor: e => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
-            {e.paymentData.method}
+            {e.paymentData.method.toUpperCase()}
           </p>
         )
       },
@@ -128,7 +128,7 @@ class Transactions extends Component {
         Header: "Status",
         accessor: e => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
-            {e.paymentData.validation_status}
+            {e.paymentData.validation_status.toUpperCase()}
           </p>
         )
       }
@@ -199,7 +199,6 @@ class Transactions extends Component {
             </div>
           </div>
         </div>
-        <NotificationContainer />
       </div>
     );
   }

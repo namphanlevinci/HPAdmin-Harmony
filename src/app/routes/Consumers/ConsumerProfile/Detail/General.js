@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "../../../Merchants/MerchantProfile/MerchantProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
-import Button from "@material-ui/core/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ViewProfile_Merchants } from "../../../../../actions/merchants/actions";
+import { store } from "react-notifications-component";
+
+import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
 import axios from "axios";
 import URL from "../../../../../url/url";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 
+import "../../../Merchants/MerchantProfile/MerchantProfile.css";
+import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
+import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 class General extends Component {
   constructor(props) {
     super(props);
@@ -41,14 +39,27 @@ class General extends Component {
     this.props.history.push("/app/consumers/profile/general/edit");
   };
   _enable = () => {
-    const ID = this.props.MerchantProfile.userId;
+    const ID = this.props.MerchantProfile?.userId;
     let token = JSON.parse(this.state.Token);
     const config = {
       headers: { Authorization: "bearer " + token.token }
     };
     axios.put(URL + "/user/restore/" + ID, null, config).then(res => {
       if (res.data.message === "Success") {
-        NotificationManager.success(res.data.message, null, 800);
+        store.addNotification({
+          title: "SUCCESS!",
+          message: `${res.data.message}`,
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true
+          },
+          width: 250
+        });
         setTimeout(() => {
           axios.get(URL + "/user/" + ID, config).then(res => {
             if (res.data.data !== null) {
@@ -119,7 +130,6 @@ class General extends Component {
     return (
       <div className="content ">
         {renderGeneral}
-        <NotificationContainer />
         <div className="SettingsContent GeneralContent">
           <Button className="btn btn-green" onClick={this._goToEdit}>
             EDIT
@@ -145,7 +155,7 @@ class General extends Component {
                   }}
                   onSubmit={(values, { setSubmitting }) => {
                     const reason = values.rejectReason;
-                    const ID = this.props.MerchantProfile.userId;
+                    const ID = this.props.MerchantProfile?._original?.userId;
                     let token = JSON.parse(this.state.Token);
                     const config = {
                       headers: { Authorization: "bearer " + token.token }
@@ -159,11 +169,20 @@ class General extends Component {
                       })
                       .then(async res => {
                         if (res.data.message === "Success") {
-                          NotificationManager.success(
-                            res.data.message,
-                            null,
-                            800
-                          );
+                          store.addNotification({
+                            title: "SUCCESS!",
+                            message: `${res.data.message}`,
+                            type: "success",
+                            insert: "top",
+                            container: "top-right",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            },
+                            width: 250
+                          });
                           setTimeout(() => {
                             axios.get(URL + "/user/" + ID, config).then(res => {
                               if (res.data.data !== null) {
@@ -175,11 +194,20 @@ class General extends Component {
                             });
                           }, 1500);
                         } else {
-                          NotificationManager.error(
-                            res.data.message,
-                            null,
-                            800
-                          );
+                          store.addNotification({
+                            title: "ERROR!",
+                            message: `${res.data.message}`,
+                            type: "danger",
+                            insert: "top",
+                            container: "top-right",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            },
+                            width: 250
+                          });
                         }
                       });
                   }}

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { getAll_Merchants } from "../../../../../actions/merchants/actions";
+import { Checkbox } from "@material-ui/core";
+
+import Button from "@material-ui/core/Button";
+
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
-import { getAll_Merchants } from "../../../../../actions/merchants/actions";
-import { NotificationContainer } from "react-notifications";
-import Button from "@material-ui/core/Button";
-import { Checkbox } from "@material-ui/core";
-
 class General extends Component {
   constructor(props) {
     super(props);
@@ -113,7 +113,6 @@ class General extends Component {
             EDIT
           </Button>
         </div>
-        <NotificationContainer />
       </div>
     );
   }

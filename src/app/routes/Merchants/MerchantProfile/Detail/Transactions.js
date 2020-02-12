@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import DayPicker, { DateUtils } from "react-day-picker";
+
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+import moment from "moment";
+import FormControl from "@material-ui/core/FormControl";
+
+import "../../../Accounts/Logs/Logs.css";
+import "react-day-picker/lib/style.css";
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
-import { NotificationContainer } from "react-notifications";
-import Button from "@material-ui/core/Button";
-import DayPicker, { DateUtils } from "react-day-picker";
-import "react-day-picker/lib/style.css";
-import axios from "axios";
-import moment from "moment";
-import "../../../Accounts/Logs/Logs.css";
-import FormControl from "@material-ui/core/FormControl";
 class Transactions extends Component {
   constructor(props) {
     super(props);
@@ -228,7 +229,6 @@ class Transactions extends Component {
             </div>
           </div>
         </div>
-        <NotificationContainer />
       </div>
     );
   }

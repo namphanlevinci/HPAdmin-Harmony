@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import "./MerchantsRequest.css";
-import "../MerchantsList/merchantsList.css";
 import {
   getAll_Merchant_Requests,
   ViewMerchant_Request
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
+import axios from "axios";
+import SearchIcon from "@material-ui/icons/Search";
+import URL from "../../../../url/url";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
-import SearchIcon from "@material-ui/icons/Search";
-import URL from "../../../../url/url";
-import axios from "axios";
 
+import "react-table/react-table.css";
+import "./MerchantsRequest.css";
+import "../MerchantsList/merchantsList.css";
 class MerchantsRequest extends Component {
   constructor(props) {
     super(props);
@@ -118,7 +118,7 @@ class MerchantsRequest extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.pendingRequest" />}
         />
-        <div className="MerList" style={{ padding: "10px" }}>
+        <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
             <div className="search">

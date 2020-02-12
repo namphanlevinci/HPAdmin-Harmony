@@ -6,15 +6,13 @@ import {
 } from "../../../../actions/merchants/actions";
 import { ViewMerchant_Rejected_Merchants } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
+import { store } from "react-notifications-component";
 import { Redirect } from "react-router-dom";
+
 import Button from "@material-ui/core/Button";
 import StateComponent from "../../../../util/State";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 
 import "../MerchantProfile/MerchantProfile.css";
 import "../MerchantsRequest/MerchantReqProfile.css";
@@ -122,11 +120,20 @@ class EditMerchantRejected extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.UpdateStatus !== this.props.UpdateStatus) {
-      NotificationManager.success(
-        this.props.UpdateStatus.Data.message,
-        null,
-        800
-      );
+      store.addNotification({
+        title: "SUCCESS!",
+        message: `${this.props.UpdateStatus.Data.message}`,
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true
+        },
+        width: 250
+      });
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
       this.props.ViewMerchant_Rejected_Merchants(this.props.getMerchant.Data);
@@ -143,7 +150,7 @@ class EditMerchantRejected extends Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.editRejectedMerchant" />}
           />
-          <div className="PendingLBody RejectedInfo">
+          <div className="PendingLBody RejectedInfo page-heading">
             <h2>General Information</h2>
             <div className="container">
               <div className="row">
@@ -272,7 +279,6 @@ class EditMerchantRejected extends Component {
                 </Button>
               </div>
             </div>
-            <NotificationContainer />
           </div>
         </div>
       ) : (

@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import URL, { upfileUrl } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
+import { store } from "react-notifications-component";
+
 import ServiceImg from "./hpadmin2.png";
+import axios from "axios";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -155,12 +153,38 @@ class EditProduct extends Component {
       .then(res => {
         let message = res.data.message;
         if (res.data.codeNumber === 200) {
-          NotificationManager.success(message, null, 800);
+          store.addNotification({
+            title: "SUCCESS!",
+            message: `${message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
           setTimeout(() => {
             this.props.history.push("/app/merchants/profile/product");
           }, 800);
         } else {
-          NotificationManager.error(message, null, 800);
+          store.addNotification({
+            title: "ERROR!",
+            message: `${message}`,
+            type: "danger",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
         }
       });
   };
@@ -200,7 +224,6 @@ class EditProduct extends Component {
     return (
       <div className="react-transition swipe-up service-container">
         <h2 style={{ color: "#0764b0" }}>Edit Product</h2>
-        <NotificationContainer />
         <div className="container Service">
           <div className="row">
             <div className="col-5">

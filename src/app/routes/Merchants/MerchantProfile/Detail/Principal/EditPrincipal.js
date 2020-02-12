@@ -1,20 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import moment from "moment";
-import Button from "@material-ui/core/Button";
-import Axios from "axios";
-import URL from "../../../../../../url/url";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
+import { upfileUrl } from "../../../../../../url/url";
 import {
   ViewProfile_Merchants,
   GetMerchant_byID
 } from "../../../../../../actions/merchants/actions";
+import { store } from "react-notifications-component";
+
+import moment from "moment";
+import Button from "@material-ui/core/Button";
+import Axios from "axios";
+import URL from "../../../../../../url/url";
 import StateComponent from "../../../../../../util/State";
 import axios from "axios";
-import { upfileUrl } from "../../../../../../url/url";
+
 import "./principal.styles.scss";
 import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
@@ -117,7 +116,20 @@ class EditPrincipal extends Component {
     )
       .then(res => {
         if (res.data.message === "Update pricipal completed") {
-          NotificationManager.success("Success", null, 600);
+          store.addNotification({
+            title: "SUCCESS!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
           setTimeout(() => {
             this.props.GetMerchant_byID(IDMerchant);
           }, 1500);
@@ -281,7 +293,6 @@ class EditPrincipal extends Component {
       );
     return (
       <div className="react-transition swipe-up GeneralContent principal-container container">
-        <NotificationContainer />
         <h2>Principal Information</h2>
         <div className="edit-principal">{renderPrincipal}</div>
       </div>

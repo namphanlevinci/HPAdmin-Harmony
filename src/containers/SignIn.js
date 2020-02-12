@@ -1,16 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { checkLogin_User } from "../actions/user/actions";
+import { store } from "react-notifications-component";
+
 import TextField from "@material-ui/core/TextField";
 // import IconButton from '@material-ui/core/IconButton';
 import Button from "@material-ui/core/Button";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 import IntlMessages from "../util/IntlMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { checkLogin_User } from "../actions/user/actions";
 
 class SignIn extends React.Component {
   constructor() {
@@ -47,7 +45,20 @@ class SignIn extends React.Component {
     const Message = localStorage.getItem("Message");
     this.setState({ loading: false, isRight: true });
     if (Message !== null) {
-      NotificationManager.error(Message, null, 800);
+      store.addNotification({
+        title: "Error!",
+        message: `${Message}`,
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true
+        },
+        width: 250
+      });
       setTimeout(() => localStorage.removeItem("Message"), 1000);
     }
   }
@@ -58,7 +69,7 @@ class SignIn extends React.Component {
       <div className="app-login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
         <div className="app-login-main-content">
           <div className="app-logo-content d-flex align-items-center justify-content-center">
-            <Link className="logo-lg" to="/" title="Jambo">
+            <Link className="logo-lg" to="/" title="HPAdmin">
               <img
                 style={{ width: "200px" }}
                 src={require("../assets/images/logo-white.png")}
@@ -126,7 +137,6 @@ class SignIn extends React.Component {
         ) : (
           <div></div>
         )}
-        <NotificationContainer />
       </div>
     );
   }

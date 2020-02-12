@@ -1,17 +1,15 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import URL, { upfileUrl } from "../../../../../../url/url";
-import Button from "@material-ui/core/Button";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
-import * as Yup from "yup";
 import { Formik, Form } from "formik";
+import { store } from "react-notifications-component";
+
 import ServiceImg from "../service.png";
 import Extra from "./extra";
 import Select from "react-select";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+import * as Yup from "yup";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -162,8 +160,6 @@ class AddService extends Component {
     return (
       <div className="react-transition swipe-up service-container">
         <h2 style={{ color: "#0764b0", marginBottom: "40px" }}>Add Service</h2>
-        <NotificationContainer />
-
         <Formik
           initialValues={{
             name: "",
@@ -220,12 +216,39 @@ class AddService extends Component {
               .then(res => {
                 let message = res.data.message;
                 if (res.data.codeNumber === 200) {
-                  NotificationManager.success(message, null, 800);
+                  store.addNotification({
+                    title: "SUCCESS!",
+                    message: `${message}`,
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    },
+                    width: 250
+                  });
+
                   setTimeout(() => {
                     this.props.history.push("/app/merchants/profile/service");
                   }, 800);
                 } else {
-                  NotificationManager.error(message, null, 800);
+                  store.addNotification({
+                    title: "ERROR!",
+                    message: `${message}`,
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    },
+                    width: 250
+                  });
                 }
               });
           }}
@@ -438,15 +461,6 @@ class AddService extends Component {
 
                   {/* EXTRA BÊN NÀY */}
                   <div className="col-6">
-                    {/* <Extra
-                      setFieldValue={setFieldValue}
-                      validationSchema={validationSchema}
-                      errors={errors}
-                      values={values}
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      touched={touched}
-                    /> */}
                     {this.state.render === false ? (
                       <p
                         className="extra-btn"

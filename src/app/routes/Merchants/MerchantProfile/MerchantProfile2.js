@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "bootstrap/js/src/collapse.js";
 import { withRouter, Redirect, Route, NavLink, Switch } from "react-router-dom";
-import "./MerchantProfile.css";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import "../MerchantsRequest/MerchantReqProfile.css";
-import "../MerchantsRequest/MerchantsRequest.css";
 import Button from "@material-ui/core/Button";
 import General from "./Detail/General";
 import EditGeneral from "./Detail/EditGeneral";
@@ -36,6 +34,11 @@ import Staff from "./Detail/Staff/Staff";
 import AddStaff from "./Detail/Staff/add-staff";
 // Extra Tab
 import ExtraTab from "./Detail/Extra/extra";
+
+import "../MerchantsRequest/MerchantReqProfile.css";
+import "../MerchantsRequest/MerchantsRequest.css";
+import "./MerchantProfile.css";
+
 class merchantProfile2 extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +57,7 @@ class merchantProfile2 extends Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
           />
-          <div className="PendingLBody">
+          <div className="PendingLBody page-heading">
             <div className="PDL-Btn col-md-12">
               <h3>ID: {e.merchantId}</h3>
               <span>

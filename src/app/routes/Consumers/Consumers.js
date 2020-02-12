@@ -2,15 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import { getAll_ConsumerUsers } from "../../../actions/business/actions";
 import { ViewProfile_Merchants } from "../../../actions/merchants/actions";
-import "../Merchants/MerchantsList/merchantsList.css";
+
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
-import "../Reports/Transactions/Transactions.css";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
-import "./ConsumerProfile/Detail/Consumer.css";
 import ProgressLoading from "../../../util/progress";
 import SearchIcon from "@material-ui/icons/Search";
+
+import "../Merchants/MerchantsList/merchantsList.css";
+import "./ConsumerProfile/Detail/Consumer.css";
+import "react-table/react-table.css";
+import "../Reports/Transactions/Transactions.css";
 
 class Consumers extends React.Component {
   constructor(props) {

@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
+import { Formik } from "formik";
+import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+import { store } from "react-notifications-component";
+
 import ReactTable from "react-table";
 import axios from "axios";
 import URL from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
-import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
-import { Formik } from "formik";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -19,7 +18,6 @@ import Select from "react-select";
 
 import "react-table/react-table.css";
 import "./category.styles.scss";
-import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
 class Category extends Component {
   constructor(props) {
     super(props);
@@ -120,11 +118,6 @@ class Category extends Component {
     }
 
     const columns = [
-      // {
-      //   Header: "No.",
-      //   accessor: "categoryId",
-      //   width: 80
-      // },
       {
         Header: "Category Name",
         id: "Name",
@@ -205,7 +198,6 @@ class Category extends Component {
     ];
     return (
       <div className="react-transition swipe-up category-container">
-        <NotificationContainer />
         <div style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className="search">
@@ -255,33 +247,60 @@ class Category extends Component {
                           const { categoryType, name } = values;
                           const merchantId = this.props.MerchantProfile
                             .merchantId;
-                          // axios
-                          //   .post(
-                          //     URL + "/category",
-                          //     {
-                          //       categoryType,
-                          //       name,
-                          //       merchantId
-                          //     },
-                          //     {
-                          //       headers: {
-                          //         Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-                          //       }
-                          //     }
-                          //   )
-                          //   .then(res => {
-                          //     let message = res.data.message;
-                          //     if (res.data.codeNumber === 200) {
-                          //       this.setState({ cateDialog: false });
+                          console.log("CATEGORY", values);
+                          axios
+                            .post(
+                              URL + "/category",
+                              {
+                                categoryType,
+                                name,
+                                merchantId
+                              },
+                              {
+                                headers: {
+                                  Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+                                }
+                              }
+                            )
+                            .then(res => {
+                              let message = res.data.message;
+                              if (res.data.codeNumber === 200) {
+                                this.setState({ cateDialog: false });
+                                store.addNotification({
+                                  title: "SUCCESS!",
+                                  message: `${message}`,
+                                  type: "success",
+                                  insert: "top",
+                                  container: "top-right",
+                                  animationIn: ["animated", "fadeIn"],
+                                  animationOut: ["animated", "fadeOut"],
+                                  dismiss: {
+                                    duration: 5000,
+                                    onScreen: true
+                                  },
+                                  width: 250
+                                });
 
-                          //       NotificationManager.success(message, null, 800);
-                          //       setTimeout(() => {
-                          //         this.getCategory();
-                          //       }, 800);
-                          //     } else {
-                          //       NotificationManager.error(message, null, 800);
-                          //     }
-                          //   });
+                                setTimeout(() => {
+                                  this.getCategory();
+                                }, 800);
+                              } else {
+                                store.addNotification({
+                                  title: "ERROR!",
+                                  message: `${message}`,
+                                  type: "success",
+                                  insert: "top",
+                                  container: "top-right",
+                                  animationIn: ["animated", "fadeIn"],
+                                  animationOut: ["animated", "fadeOut"],
+                                  dismiss: {
+                                    duration: 5000,
+                                    onScreen: true
+                                  },
+                                  width: 250
+                                });
+                              }
+                            });
                         }}
                       >
                         {({

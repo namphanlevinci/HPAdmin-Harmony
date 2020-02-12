@@ -31,11 +31,11 @@ const CodeLog = ({ open, handleClose, Log, Serial }) => {
               <table style={{ width: "100%" }}>
                 <thead>
                   <tr>
-                    <th>
+                    <th style={{ width: "50%" }}>
                       <h4>Date/Time</h4>
                     </th>
                     <th>
-                      <h4>Details</h4>
+                      <h4 style={{ width: "50%" }}>Details</h4>
                     </th>
                   </tr>
                 </thead>

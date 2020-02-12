@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import URL, { upfileUrl } from "../../../../../../url/url";
-import Button from "@material-ui/core/Button";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
+import { store } from "react-notifications-component";
+import { NotificationManager } from "react-notifications";
 import { Formik } from "formik";
 
+import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
+
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
@@ -128,8 +127,6 @@ class AddProduct extends Component {
     return (
       <div className="react-transition swipe-up service-container">
         <h2 style={{ color: "#0764b0", marginBottom: "40px" }}>Add Product</h2>
-        <NotificationContainer />
-
         <Formik
           initialValues={{
             categoryId: "",
@@ -222,14 +219,41 @@ class AddProduct extends Component {
                     .then(res => {
                       let message = res.data.message;
                       if (Number(res.data.codeNumber) === 200) {
-                        NotificationManager.success(message, null, 800);
+                        store.addNotification({
+                          title: "SUCCESS!",
+                          message: `${message}`,
+                          type: "success",
+                          insert: "top",
+                          container: "top-right",
+                          animationIn: ["animated", "fadeIn"],
+                          animationOut: ["animated", "fadeOut"],
+                          dismiss: {
+                            duration: 5000,
+                            onScreen: true
+                          },
+                          width: 250
+                        });
+
                         setTimeout(() => {
                           this.props.history.push(
                             "/app/merchants/profile/product"
                           );
                         }, 800);
                       } else {
-                        NotificationManager.error(message, null, 800);
+                        store.addNotification({
+                          title: "ERROR!",
+                          message: `${message}`,
+                          type: "danger",
+                          insert: "top",
+                          container: "top-right",
+                          animationIn: ["animated", "fadeIn"],
+                          animationOut: ["animated", "fadeOut"],
+                          dismiss: {
+                            duration: 5000,
+                            onScreen: true
+                          },
+                          width: 250
+                        });
                       }
                     });
                 }

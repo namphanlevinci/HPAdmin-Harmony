@@ -165,6 +165,7 @@ class AddGeneration extends Component {
                             label: (
                               <div>
                                 <img
+                                  alt="defualt img"
                                   src={e.imageUrl}
                                   height="30px"
                                   width="30px"

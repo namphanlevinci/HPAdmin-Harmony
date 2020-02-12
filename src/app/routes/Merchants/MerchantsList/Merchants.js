@@ -5,17 +5,17 @@ import {
   SearchMerchants,
   ViewProfile_Merchants
 } from "../../../../actions/merchants/actions";
-import "./merchantsList.css";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import URL from "../../../../url/url";
 import axios from "axios";
 
-// import { MdDone } from "react-icons/md";
+import "react-table/react-table.css";
+import "./merchantsList.css";
 
 class Merchants extends React.Component {
   constructor(props) {
@@ -133,7 +133,7 @@ class Merchants extends React.Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.MList" />}
         />
-        <div className="MerList" style={{ padding: "10px" }}>
+        <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
             <div className="search">

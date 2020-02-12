@@ -1,3 +1,10 @@
+.MuiStepIcon-root.MuiStepIcon-active {
+  color: #0764b0 !important;
+}
+.MuiStepIcon-root.MuiStepIcon-completed {
+  color: #0764b0 !important;
+}
+
 .add-merchant-container {
   .general-container {
     h1 {
@@ -12,7 +19,13 @@
 
 .principal-container {
   padding-bottom: 20px;
+
   & .principal-form {
+    .input-feedback {
+      color: red;
+      padding-top: 5px;
+    }
+
     h4 {
       font-weight: 400;
       margin-bottom: 6px;
@@ -49,12 +62,24 @@
     .add-remove-principal {
       color: #0764b0;
       font-weight: 500;
-      padding-right: 10px;
+      padding: 10px;
       cursor: pointer;
+      font-size: 16px;
     }
     .add-remove-principal:hover {
       font-weight: 600;
       color: #0764b0;
     }
   }
+}
+
+.Questions {
+  .MuiFormGroup-root {
+    display: inline;
+  }
+}
+
+.srv-validation-message {
+  color: red;
+  padding-top: 5px;
 }

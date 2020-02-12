@@ -1,23 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "bootstrap/js/src/collapse.js";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
+import {
+  getUser_Transaction,
+  getUser_Activity
+} from "../../../../actions/transactions/actions";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import "../../Merchants/MerchantProfile/MerchantProfile.css";
-import "../../Merchants/MerchantsRequest/MerchantReqProfile.css";
-import "../../Merchants/MerchantsRequest/MerchantsRequest.css";
-import { NotificationContainer } from "react-notifications";
 import Button from "@material-ui/core/Button";
 import General from "./Detail/General";
 import Transactions from "./Detail/Transactions";
 import Acti from "./Detail/Acti";
 import EditGeneral from "./Detail/EditGeneral";
 import Bank from "./Detail/Bank";
-import {
-  getUser_Transaction,
-  getUser_Activity
-} from "../../../../actions/transactions/actions";
+
+import "../../Merchants/MerchantProfile/MerchantProfile.css";
+import "../../Merchants/MerchantsRequest/MerchantReqProfile.css";
+import "../../Merchants/MerchantsRequest/MerchantsRequest.css";
+import "bootstrap/js/src/collapse.js";
 
 class ConsumerProfile extends Component {
   constructor(props) {
@@ -25,10 +25,10 @@ class ConsumerProfile extends Component {
     this.state = {};
   }
   handleTransactions = () => {
-    this.props.getTransactions(this.props.MerchantProfile._original.userId);
+    this.props.getTransactions(this.props.MerchantProfile?.userId);
   };
   handleActivity = () => {
-    this.props.getActivity(this.props.MerchantProfile._original.userId);
+    this.props.getActivity(this.props.MerchantProfile?.userId);
   };
   _goBack = () => {
     this.props.history.push("/app/consumers/list");
@@ -57,7 +57,6 @@ class ConsumerProfile extends Component {
             </span>
           </div>
           <hr />
-          <NotificationContainer />
           <div className="content">
             <div className="container">
               <div className="">

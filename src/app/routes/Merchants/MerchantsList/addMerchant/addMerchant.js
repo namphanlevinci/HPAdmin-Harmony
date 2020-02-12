@@ -23,6 +23,7 @@ class AddMerchant extends React.Component {
     this.state = {
       // preview Bank image
       imagePreviewUrl: "",
+      initialBusinessQuestions: {},
 
       activeStep: 0,
       // General Info
@@ -42,41 +43,47 @@ class AddMerchant extends React.Component {
       contactPhoneCode: "+1",
       contactPhone: "",
       // Besiness Question
-      businessInfo: [],
+      businessInfo: {},
+
+      isAccept1: "",
+      desc1: "",
+      question1: "",
+
       // Bank Info
       bankName: "",
       routingNumber: "",
       accountNumber: "",
-      fileId: "",
+      fileId: ""
+
       // Pincipal Info
-      principalInfo: [
-        {
-          firstName: "",
-          lastName: "",
-          position: "",
-          ownership: "",
-          homePhone: "",
-          mobilePhone: "",
-          addressPrincipal: {
-            address: "",
-            city: "",
-            state: "",
-            zip: ""
-          },
-          yearAtThisAddress: "",
-          ssn: "",
-          dateOfBirth: "",
-          email: "",
-          driverLicense: "",
-          stateIssued: "",
-          fileId: "",
-          imagePreviewUrl: ""
-        }
-      ]
+      // principalInfo: [
+      //   {
+      //     firstName: "",
+      //     lastName: "",
+      //     position: "",
+      //     ownership: "",
+      //     homePhone: "",
+      //     mobilePhone: "",
+      //     addressPrincipal: {
+      //       address: "",
+      //       city: "",
+      //       state: "",
+      //       zip: ""
+      //     },
+      //     yearAtThisAddress: "",
+      //     ssn: "",
+      //     dateOfBirth: "",
+      //     email: "",
+      //     driverLicense: "",
+      //     stateIssued: "",
+      //     fileId: "",
+      //     imagePreviewUrl: ""
+      //   }
+      // ]
     };
     this.validator = new SimpleReactValidator({
       messages: {
-        default: "Required!" // will override all messages
+        default: "Required" // will override all messages
       }
     });
   }
@@ -94,22 +101,13 @@ class AddMerchant extends React.Component {
     axios.get(URL + "/question").then(res => {
       console.log("RES", res.data.data);
       const data = res.data.data;
-      this.setState({ businessInfo: data });
-      // data.map(e => {
-      //   const question = "question" + e.questionId;
-      //   const isAccept = "isAccept" + e.questionId;
-      //   const desc = "des" + e.questionId;
-      //   return this.setState({
-      //     businessInfo: [
-      //       ...this.state.businessInfo,
-      //       {
-      //         isAccept: false,
-      //         desc: "",
-      //         question: e.value
-      //       }
-      //     ]
-      //   });
-      // });
+
+      this.setState(
+        {
+          initialBusinessQuestions: data
+        },
+        () => console.log("THIS STATE", this.state)
+      );
     });
   }
 
@@ -123,14 +121,14 @@ class AddMerchant extends React.Component {
             validator={this.validator}
           />
         );
-      // case 1:
-      //   return (
-      //     <Questions
-      //       handleChange={this.handleChange}
-      //       businessInfo={this.state.businessInfo}
-      //       validator={this.validator}
-      //     />
-      //   );
+      case 1:
+        return (
+          <Questions
+            handleQuestions={this.handleQuestions}
+            businessInfo={this.state.initialBusinessQuestions}
+            validator={this.validator}
+          />
+        );
       case 2:
         return (
           <Bank
@@ -140,7 +138,12 @@ class AddMerchant extends React.Component {
           />
         );
       case 3:
-        return <Principal />;
+        return (
+          <Principal
+            handlePrincipal={this.handlePrincipal}
+            principalInfo={this.state.principalInfo}
+          />
+        );
 
       default:
         return "Uknown stepIndex";
@@ -177,7 +180,7 @@ class AddMerchant extends React.Component {
   };
 
   handleNext = () => {
-    // const { activeStep, pin, confirmPin } = this.state;
+    const { activeStep, pin, confirmPin } = this.state;
     // if (pin !== confirmPin) {
     //   this.setState({ match: false });
     // } else {
@@ -186,18 +189,35 @@ class AddMerchant extends React.Component {
     //       activeStep: activeStep + 1
     //     });
     //   }
-    //   if (Number(activeStep) === 3) {
-    //     this.addStaf();
-    //   } else {
-    //     this.validator.showMessages();
-    //     this.forceUpdate();
-    //   }
+    this.setState(
+      {
+        activeStep: activeStep + 1
+      },
+      () => console.log("THIS STATE STEP", this.state.activeStep)
+    );
+    if (Number(activeStep) === 3) {
+      // this.addStaf();
+      console.log("THIS.STATE =======", this.state);
+    }
+    // } else {
+    //   this.validator.showMessages();
+    //   this.forceUpdate();
     // }
 
-    const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep + 1
-    });
+    // const { activeStep } = this.state;
+    // this.setState({
+    //   activeStep: activeStep + 1
+    // });
+  };
+
+  handlePrincipal = value => {
+    console.log(value);
+    this.setState(
+      {
+        principal: value
+      },
+      () => console.log("THIS STATE SUPER", this.state)
+    );
   };
 
   handleBack = () => {
@@ -213,8 +233,21 @@ class AddMerchant extends React.Component {
     });
   };
   handleChange = e => {
+    console.log(" HANDLE CHANGE", e);
     const { name, value } = e.target;
     this.setState({ [name]: value });
+  };
+
+  handleQuestions = name => event => {
+    // console.log("NAME", name);
+    // console.log("NAME", name[0].value);
+    // console.log("TARGET CHECKED", event.target.value);
+    if (Number(name[1].charAt(8)) === Number(name[0].questionId)) {
+      this.setState({
+        [name[1]]: event.target.value,
+        [name[0].questionId]: name[0].value
+      });
+    }
   };
   render() {
     const steps = this.getSteps();
@@ -257,22 +290,25 @@ class AddMerchant extends React.Component {
               ) : (
                 <div>
                   {this.getStepContent(activeStep)}
-                  <div>
+                  <div style={{ marginTop: "15px" }}>
                     <Button
                       disabled={activeStep === 0}
                       onClick={this.handleBack}
                       className="mr-2"
+                      style={{ color: "black" }}
                     >
                       Back
                     </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      // type="submit"
-                      onClick={this.handleNext}
-                    >
-                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                    </Button>
+                    {this.state.activeStep === 3 ? null : (
+                      <Button
+                        variant="contained"
+                        // type="submit"
+                        onClick={this.handleNext}
+                        style={{ backgroundColor: "#0764b0", color: "white" }}
+                      >
+                        {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                      </Button>
+                    )}
                   </div>
                 </div>
               )}

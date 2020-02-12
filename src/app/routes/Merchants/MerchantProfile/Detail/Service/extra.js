@@ -2,7 +2,6 @@ import React from "react";
 import { FieldArray, Field, getIn, Form } from "formik";
 import ErrorMessage from "./error-message";
 import Select from "react-select";
-import { Divider, Button, TextField } from "@material-ui/core";
 
 const extraStatus = [
   { value: 0, label: "Active" },
@@ -25,17 +24,17 @@ const Extra = ({
         <div>
           {values.extras && values.extras.length > 0 ? (
             values.extras.map((extras, index) => {
-              const extraName = `extras.${index}.name`;
-              const touchedExtraName = getIn(touched, extraName);
-              const errorExtraName = getIn(errors, extraName);
+              // const extraName = `extras.${index}.name`;
+              // const touchedExtraName = getIn(touched, extraName);
+              // const errorExtraName = getIn(errors, extraName);
 
-              const duration = `extras.${index}.duration`;
-              const touchedDuration = getIn(touched, duration);
-              const errorDuration = getIn(errors, duration);
+              // const duration = `extras.${index}.duration`;
+              // const touchedDuration = getIn(touched, duration);
+              // const errorDuration = getIn(errors, duration);
 
-              const price = `extras.${index}.price`;
-              const touchedprice = getIn(touched, price);
-              const errorPrice = getIn(errors, price);
+              // const price = `extras.${index}.price`;
+              // const touchedprice = getIn(touched, price);
+              // const errorPrice = getIn(errors, price);
               return (
                 <React.Fragment>
                   <div key={index} className="row">

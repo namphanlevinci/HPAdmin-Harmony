@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "bootstrap/js/src/collapse.js";
 import { withRouter, Redirect } from "react-router-dom";
 import { Checkbox } from "@material-ui/core";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-// import "./MerchantProfile.css"
-import "../MerchantsRequest/MerchantReqProfile.css";
-import "../MerchantsRequest/MerchantsRequest.css";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
+
+import "bootstrap/js/src/collapse.js";
+import "../MerchantsRequest/MerchantReqProfile.css";
+import "../MerchantsRequest/MerchantsRequest.css";
 class MerchantApprovedProfile extends Component {
   constructor(props) {
     super(props);
@@ -114,7 +115,7 @@ class MerchantApprovedProfile extends Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
           />
-          <div className="PendingLBody">
+          <div className="PendingLBody page-heading">
             <div className="PDL-Btn col-md-12">
               <h3>ID: {e.merchantId}</h3>
               <span>

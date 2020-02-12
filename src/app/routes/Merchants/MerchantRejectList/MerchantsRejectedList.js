@@ -1,19 +1,20 @@
 import React, { Component } from "react";
-import "../MerchantsRequest/MerchantsRequest.css";
-import "../MerchantsList/merchantsList.css";
 import {
   getAll_Rejected_Merchants,
   ViewMerchant_Rejected_Merchants
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
+
 import ReactTable from "react-table";
-import "react-table/react-table.css";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
 import URL from "../../../../url/url";
 
+import "react-table/react-table.css";
+import "../MerchantsRequest/MerchantsRequest.css";
+import "../MerchantsList/merchantsList.css";
 class MerchantsRequest extends Component {
   constructor(props) {
     super(props);
@@ -129,7 +130,7 @@ class MerchantsRequest extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.rejectedRequest" />}
         />
-        <div className="MerList" style={{ padding: "10px" }}>
+        <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
             <div className="search">

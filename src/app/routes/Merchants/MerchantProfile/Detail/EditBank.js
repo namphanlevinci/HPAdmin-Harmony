@@ -1,20 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
-import Button from "@material-ui/core/Button";
-import axios from "axios";
 import URL, { upfileUrl } from "../../../../../url/url";
 import {
   ViewProfile_Merchants,
   GetMerchant_byID
 } from "../../../../../actions/merchants/actions";
+import { store } from "react-notifications-component";
+
+import "../MerchantProfile.css";
+import "../../MerchantsRequest/MerchantReqProfile.css";
+import "../../MerchantsRequest/MerchantsRequest.css";
+
+import Button from "@material-ui/core/Button";
+import axios from "axios";
 
 class EditBank extends Component {
   constructor(props) {
@@ -99,7 +97,20 @@ class EditBank extends Component {
       )
       .then(res => {
         if (res.data.message === "Update bank completed") {
-          NotificationManager.success("Success", null, 800);
+          store.addNotification({
+            title: "SUCCESS!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            },
+            width: 250
+          });
           setTimeout(() => {
             this.props.GetMerchant_byID(IDMerchant);
           }, 1500);
@@ -149,7 +160,6 @@ class EditBank extends Component {
 
     return (
       <div className="react-transition swipe-up GeneralContent">
-        <NotificationContainer />
         <h2>Bank Information</h2>
         <div className="container">
           <div className="row">

@@ -5,7 +5,7 @@ import {
   SearchMerchants,
   ViewProfile_Merchants
 } from "../../../../actions/merchants/actions";
-import "./merchantsList.css";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
@@ -14,6 +14,7 @@ import URL from "../../../../url/url";
 import axios from "axios";
 
 import "react-table/react-table.css";
+import "./merchantsList.css";
 
 class MerchantsList extends React.Component {
   constructor(props) {
@@ -131,7 +132,7 @@ class MerchantsList extends React.Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.MList" />}
         />
-        <div className="MerList" style={{ padding: "10px" }}>
+        <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
             <div className="search">
