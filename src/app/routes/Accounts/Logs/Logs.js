@@ -117,7 +117,7 @@ class Logs extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Logs" />}
         />
-        <div className="LogContainer">
+        <div className="LogContainer page-heading">
           <h2>Filter</h2>
 
           <div className="container">

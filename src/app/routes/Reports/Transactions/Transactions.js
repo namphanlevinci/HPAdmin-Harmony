@@ -211,7 +211,7 @@ class Transactions extends React.Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}
         />
-        <div className="MerList" style={{ padding: "10px" }}>
+        <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className="MReqSP TransactionsBox">
             {/* SEARCH */}
             <div className="search">

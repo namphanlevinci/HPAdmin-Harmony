@@ -93,7 +93,7 @@
   cursor: pointer;
 }
 .ReactTable .-pagination .-btn:not([disabled]):hover {
-  background: #3c37ab !important;
+  background: #0764b0 !important;
   color: white;
 }
 .ReactTable .rt-thead .rt-th,

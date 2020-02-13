@@ -42,8 +42,6 @@ class AddMerchant extends React.Component {
       position: 1,
       contactPhoneCode: "+1",
       contactPhone: "",
-      // Besiness Question
-      businessInfo: {},
 
       isAccept1: "",
       desc1: "",
@@ -54,32 +52,6 @@ class AddMerchant extends React.Component {
       routingNumber: "",
       accountNumber: "",
       fileId: ""
-
-      // Pincipal Info
-      // principalInfo: [
-      //   {
-      //     firstName: "",
-      //     lastName: "",
-      //     position: "",
-      //     ownership: "",
-      //     homePhone: "",
-      //     mobilePhone: "",
-      //     addressPrincipal: {
-      //       address: "",
-      //       city: "",
-      //       state: "",
-      //       zip: ""
-      //     },
-      //     yearAtThisAddress: "",
-      //     ssn: "",
-      //     dateOfBirth: "",
-      //     email: "",
-      //     driverLicense: "",
-      //     stateIssued: "",
-      //     fileId: "",
-      //     imagePreviewUrl: ""
-      //   }
-      // ]
     };
     this.validator = new SimpleReactValidator({
       messages: {
@@ -139,10 +111,7 @@ class AddMerchant extends React.Component {
         );
       case 3:
         return (
-          <Principal
-            handlePrincipal={this.handlePrincipal}
-            principalInfo={this.state.principalInfo}
-          />
+          <Principal handlePrincipal={this.handlePrincipal} Info={this.state} />
         );
 
       default:
@@ -189,36 +158,37 @@ class AddMerchant extends React.Component {
     //       activeStep: activeStep + 1
     //     });
     //   }
-    this.setState(
-      {
-        activeStep: activeStep + 1
-      },
-      () => console.log("THIS STATE STEP", this.state.activeStep)
-    );
-    if (Number(activeStep) === 3) {
-      // this.addStaf();
-      console.log("THIS.STATE =======", this.state);
-    }
-    // } else {
+    // this.setState(
+    //   {
+    //     activeStep: activeStep + 1
+    //   },
+    //   () => console.log("THIS STATE STEP", this.state.activeStep)
+    // );
+    // if (Number(activeStep) === 3) {
+    //   // this.addStaf();
+    //   console.log("THIS.STATE =======", this.state);
+    // }
+    // }
+    // else {
     //   this.validator.showMessages();
     //   this.forceUpdate();
     // }
 
-    // const { activeStep } = this.state;
-    // this.setState({
-    //   activeStep: activeStep + 1
-    // });
+    this.setState({
+      activeStep: activeStep + 1
+    });
+    // }
   };
 
-  handlePrincipal = value => {
-    console.log(value);
-    this.setState(
-      {
-        principal: value
-      },
-      () => console.log("THIS STATE SUPER", this.state)
-    );
-  };
+  // handlePrincipal = value => {
+  //   console.log(value);
+  //   this.setState(
+  //     {
+  //       principal: value
+  //     },
+  //     () => console.log("THIS STATE SUPER", this.state)
+  //   );
+  // };
 
   handleBack = () => {
     const { activeStep } = this.state;
@@ -245,7 +215,7 @@ class AddMerchant extends React.Component {
     if (Number(name[1].charAt(8)) === Number(name[0].questionId)) {
       this.setState({
         [name[1]]: event.target.value,
-        [name[0].questionId]: name[0].value
+        ["question" + name[0].questionId]: name[0].value
       });
     }
   };
@@ -253,12 +223,12 @@ class AddMerchant extends React.Component {
     const steps = this.getSteps();
     const { activeStep } = this.state;
     return (
-      <div className="react-transition swipe-right add-merchant-container">
+      <div className="react-transition swipe-right add-merchant-container ">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.addmerchant" />}
         />
-        <div className="MerList" style={{ padding: "30px" }}>
+        <div className="MerList page-heading" style={{ padding: "30px" }}>
           <div className="w-100">
             <Stepper
               activeStep={activeStep}

@@ -78,7 +78,10 @@ class Transactions extends React.Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.Batch" />}
           />
-          <div className="MerList BatchsContainer" style={{ padding: "10px" }}>
+          <div
+            className="MerList BatchsContainer page-heading"
+            style={{ padding: "10px" }}
+          >
             <div className="MReqSP TransactionsBox">
               <h3>Merchant ID:</h3>
               <Button

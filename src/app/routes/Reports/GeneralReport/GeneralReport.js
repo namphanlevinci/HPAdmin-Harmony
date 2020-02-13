@@ -18,7 +18,7 @@ class GeneralReport extends Component {
           title={<IntlMessages id="sidebar.dashboard.generalReport" />}
         />
         <div
-          className="MerList"
+          className="MerList page-heading"
           style={{ padding: "20px", background: "white" }}
         >
           <div className="TransactionsBox GeneralReportBox ">

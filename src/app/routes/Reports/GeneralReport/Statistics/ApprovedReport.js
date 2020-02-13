@@ -124,7 +124,7 @@ class ApprovedReport extends Component {
             title={<IntlMessages id="sidebar.dashboard.generalReport" />}
           />
         </div>
-        <div className="container-fluid  ReportBox">
+        <div className="container-fluid  ReportBox page-heading">
           <span>
             <Button
               style={{ color: "#0764b0", backgroundColor: "white" }}

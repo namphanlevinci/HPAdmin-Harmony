@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
-import { upfileUrl } from "../../../../../url/url";
+import URL, { upfileUrl } from "../../../../../url/url";
 
 import axios from "axios";
 import defaultImage from "./hpadmin2.png";
@@ -98,7 +98,7 @@ class Principal extends Component {
     return (
       <div className="principal-container">
         <Formik
-          // enableReinitialize={true}
+          enableReinitialize={true}
           validationSchema={validationSchema}
           initialValues={{
             principalInfo: [
@@ -125,17 +125,68 @@ class Principal extends Component {
               }
             ]
           }}
-          onSubmit={
-            (values, { resetForm }) => [
-              console.log("VALUES", values),
-              this.props.handlePrincipal(values),
-              resetForm({})
-            ]
-
-            // setTimeout(() => {
-            //   alert(JSON.stringify(values, null, 2));
-            // }, 500)
-          }
+          onSubmit={(values, { setSubmitting }) => {
+            console.log("VALUES", values);
+            console.log("THIS SUPER STATE", this.props.Info);
+            const data = this.props.Info;
+            axios
+              .post(URL + "/merchant", {
+                generalInfo: {
+                  businessName: data?.businessName,
+                  doingBusiness: data?.doingBusiness,
+                  tax: data?.tax,
+                  businessAddress: {
+                    address: data?.address,
+                    city: data?.city,
+                    state: data?.state,
+                    zip: data?.zip
+                  },
+                  businessPhone: data?.businessPhoneCode + data?.businessPhone,
+                  email: data?.email,
+                  firstName: data?.firstName,
+                  lastName: data?.lastName,
+                  position: data?.position,
+                  contactPhone: data?.contactPhoneCode + data?.contactPhone
+                },
+                businessInfo: {
+                  question1: {
+                    isAccept: data?.isAccept1,
+                    desc: "",
+                    question: data?.question1
+                  },
+                  question2: {
+                    isAccept: data?.isAccept2,
+                    desc: "",
+                    question: data?.question2
+                  },
+                  question3: {
+                    isAccept: data?.isAccept3,
+                    desc: "",
+                    question: data?.question3
+                  },
+                  question4: {
+                    isAccept: data?.isAccept4,
+                    desc: "",
+                    question: data?.question4
+                  },
+                  question5: {
+                    isAccept: data?.isAccept5,
+                    desc: "",
+                    question: data?.question5
+                  }
+                },
+                bankInfo: {
+                  bankName: data?.bankName,
+                  routingNumber: data?.routingNumber,
+                  accountNumber: data?.accountNumber,
+                  fileId: data?.fileId
+                },
+                principalInfo: values?.principalInfo
+              })
+              .then(res => {
+                console.log("RESULT ADD MERCHANT", res);
+              });
+          }}
           render={({ values }) => (
             <Form className="principal-form">
               <FieldArray
@@ -393,7 +444,7 @@ class Principal extends Component {
                         variant="contained"
                         style={{ backgroundColor: "#0764b0", color: "white" }}
                       >
-                        Submit
+                        Submit Yeet
                       </Button>
                     </div>
                   </div>

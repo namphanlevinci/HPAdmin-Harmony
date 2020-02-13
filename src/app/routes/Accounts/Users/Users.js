@@ -103,7 +103,7 @@ class Users extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUsers" />}
         />
-        <div className="MerList" style={{ padding: "10px" }}>
+        <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className="UserSearchBox">
             {/* SEARCH */}
             <div className="search">

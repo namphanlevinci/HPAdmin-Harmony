@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import avatar from "./avatar.png";
 import moment from "moment";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import URL from "../../url/url";
+
 import "./Noti.css";
 class NotificationItem extends Component {
   constructor(props) {
@@ -14,7 +17,7 @@ class NotificationItem extends Component {
   }
   _handleDelete = e => {
     axios
-      .delete("http://api2.levincidemo.com/api/notification/" + e, {
+      .delete(URL + "/notification/" + e, {
         headers: {
           Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
         }
