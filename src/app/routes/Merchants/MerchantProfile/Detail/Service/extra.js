@@ -38,7 +38,7 @@ const Extra = ({
               return (
                 <React.Fragment>
                   <div key={index} className="row">
-                    <div className="col-8">
+                    <div className="col-8 ">
                       <label>Extra Name*</label>
                       <br />
                       <Field name={`extras.${index}.name`} type="text" />

@@ -157,38 +157,16 @@ class AddMerchant extends React.Component {
     //     this.setState({
     //       activeStep: activeStep + 1
     //     });
+    //   } else {
+    //     this.validator.showMessages();
+    //     this.forceUpdate();
     //   }
-    // this.setState(
-    //   {
-    //     activeStep: activeStep + 1
-    //   },
-    //   () => console.log("THIS STATE STEP", this.state.activeStep)
-    // );
-    // if (Number(activeStep) === 3) {
-    //   // this.addStaf();
-    //   console.log("THIS.STATE =======", this.state);
     // }
-    // }
-    // else {
-    //   this.validator.showMessages();
-    //   this.forceUpdate();
-    // }
-
     this.setState({
       activeStep: activeStep + 1
     });
     // }
   };
-
-  // handlePrincipal = value => {
-  //   console.log(value);
-  //   this.setState(
-  //     {
-  //       principal: value
-  //     },
-  //     () => console.log("THIS STATE SUPER", this.state)
-  //   );
-  // };
 
   handleBack = () => {
     const { activeStep } = this.state;
@@ -203,7 +181,6 @@ class AddMerchant extends React.Component {
     });
   };
   handleChange = e => {
-    console.log(" HANDLE CHANGE", e);
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };

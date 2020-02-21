@@ -5,6 +5,7 @@ import {
   getUser_Transaction,
   getUser_Activity
 } from "../../../../actions/transactions/actions";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
@@ -25,10 +26,10 @@ class ConsumerProfile extends Component {
     this.state = {};
   }
   handleTransactions = () => {
-    this.props.getTransactions(this.props.MerchantProfile?.userId);
+    this.props.getTransactions(this.props.MerchantProfile?._original?.userId);
   };
   handleActivity = () => {
-    this.props.getActivity(this.props.MerchantProfile?.userId);
+    this.props.getActivity(this.props.MerchantProfile?._original?.userId);
   };
   _goBack = () => {
     this.props.history.push("/app/consumers/list");
@@ -36,6 +37,11 @@ class ConsumerProfile extends Component {
   render() {
     // render staff
     const e = this.props.MerchantProfile;
+    console.log(
+      "EEEEEEEEEEEEEEEEE",
+      this.props.MerchantProfile?._original?.userId
+    );
+
     const renderConsumer = (
       // e.firstName !== undefined ? (
       <div className="container-fluid PendingList">
@@ -43,7 +49,7 @@ class ConsumerProfile extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
         />
-        <div className="PendingLBody">
+        <div className="PendingLBody page-heading">
           <div className="PDL-Btn col-md-12">
             <h3>Consumer ID: {e.accountId}</h3>
             <span>

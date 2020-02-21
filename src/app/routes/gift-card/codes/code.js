@@ -54,29 +54,6 @@ class Codes extends Component {
     this.setState({ open: false });
   };
 
-  LoadbyPage = page => {
-    axios
-      .get(
-        URL +
-          `/giftcard/search?keySearch=&isActive=-1&isPhysical=-1&isUsed=-1&page=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
-        }
-      )
-      .then(res => {
-        const data = res.data.data;
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false
-        });
-      });
-    // console.log(`fetchData(page: ${page})`);
-  };
-
   handleSearch = () => {
     const { search, isActive, isPhysical, isUsed, page } = this.state;
     this.setState({ loading: true });
@@ -339,7 +316,7 @@ class Codes extends Component {
               // You should also control this...
               onPageChange={pageIndex => this.changePage(pageIndex)}
               onFetchData={state => this.fetchData(state)}
-              defaultPageSize={20}
+              // defaultPageSize={10}
               minRows={0}
               noDataText="NO DATA!"
               loading={this.state.loading}

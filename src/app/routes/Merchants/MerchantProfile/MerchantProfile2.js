@@ -32,6 +32,7 @@ import ProductAdd from "./Detail/Product/productAdd";
 // Staff
 import Staff from "./Detail/Staff/Staff";
 import AddStaff from "./Detail/Staff/add-staff";
+import StaffGeneral from "./Detail/Staff/staff-detail/general";
 // Extra Tab
 import ExtraTab from "./Detail/Extra/extra";
 
@@ -194,6 +195,10 @@ class merchantProfile2 extends Component {
                         <Route
                           path="/app/merchants/profile/extra"
                           component={ExtraTab}
+                        />
+                        <Route
+                          path="/app/merchants/profile/staff/general"
+                          component={StaffGeneral}
                         />
                         <Route
                           path="/app/merchants/profile/staff/add"

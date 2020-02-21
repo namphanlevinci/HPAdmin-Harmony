@@ -19,6 +19,7 @@ import MerchantRequests_List from "./Merchants/MerchantsPending_List";
 import ViewMerchant_Request from "./Merchants/ViewMerchant_Pending";
 //! VIEW MERCHANT SERVICE
 import VIEW_SERVICE_EDIT from "./Merchants/viewService";
+import VIEW_STAFF_DETAIL from "./Merchants/view_staff_detail";
 //! SEND APPROVAL & REJECT REQUEST
 import Approval from "./Merchants/Approval";
 import Reject from "./Merchants/Reject";
@@ -82,5 +83,6 @@ export default history =>
     BatchDetail: getBatchDetail,
     viewPrincipal: viewPrincipalInfo,
     serviceProps: VIEW_SERVICE_EDIT,
-    GiftCardData: GiftCardReducer
+    GiftCardData: GiftCardReducer,
+    staffDetail: VIEW_STAFF_DETAIL
   });

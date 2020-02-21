@@ -14,7 +14,7 @@ export function* GET_APPROVED_API(data) {
   const fromDate = data.fromDate;
   const toDate = data.toDate;
   const kq = yield axios
-    .put(URL + "/static", { fromDate, toDate }, config)
+    .put(URL + "/statistic ", { fromDate, toDate }, config)
     .then(result => {
       return result.data.data;
     })

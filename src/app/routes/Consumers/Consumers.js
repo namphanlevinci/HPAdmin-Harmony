@@ -1,13 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAll_ConsumerUsers } from "../../../actions/business/actions";
 import { ViewProfile_Merchants } from "../../../actions/merchants/actions";
+import { store } from "react-notifications-component";
 
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import ProgressLoading from "../../../util/progress";
 import SearchIcon from "@material-ui/icons/Search";
+import axios from "axios";
+import URL from "../../../url/url";
 
 import "../Merchants/MerchantsList/merchantsList.css";
 import "./ConsumerProfile/Detail/Consumer.css";
@@ -19,30 +20,95 @@ class Consumers extends React.Component {
     super(props);
     this.state = {
       search: "",
-      totalRecords: "",
-      totalPages: "",
-      pageLimit: "",
-      currentPage: "",
-      startIndex: "",
-      endIndex: "",
-      PaginationFilter: false,
-      loading: false
+      loading: true,
+      // Pages
+      page: 0,
+      pageCount: 0,
+      data: []
     };
   }
 
-  componentDidMount() {
-    this.props.getAll_ConsumerUsers();
-  }
-
-  _SearchMerchants = async e => {
-    await this.setState({ search: e.target.value });
-  };
   _ConsumerProfile = e => {
     this.props.ViewProfile_Merchants(e);
     this.props.history.push("/app/consumers/profile/general");
   };
 
+  fetchData = async state => {
+    const { page } = state;
+    this.setState({ loading: true });
+    await axios
+      .get(URL + `/user/?page=${page === 0 ? 1 : page + 1}`, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+        }
+      })
+      .then(res => {
+        const data = res.data.data;
+        this.setState({
+          page,
+          pageCount: res.data.pages,
+          data: data,
+          loading: false
+        });
+      });
+  };
+  changePage = pageIndex => {
+    // console.log(`changePage(pageIndex: ${pageIndex})`);
+    this.setState({
+      page: pageIndex
+    });
+  };
+
+  _SearchMerchants = async e => {
+    await this.setState({ search: e.target.value });
+  };
+
+  keyPressed = async event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setState({ loading: true });
+      const search = this.state.search;
+
+      const searchValue = !search
+        ? `/user/?page=1`
+        : `/user?key=${search}&page=1`;
+      await axios
+        .get(URL + searchValue, {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
+          }
+        })
+        .then(res => {
+          const data = res.data.data;
+          if (!data) {
+            store.addNotification({
+              title: "ERROR!",
+              message: "That User doesn't exist.",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: true
+              },
+              width: 250
+            });
+            this.setState({ loading: false });
+          } else {
+            this.setState({
+              page: "0 ",
+              pageCount: res.data.pages,
+              data: data,
+              loading: false
+            });
+          }
+        });
+    }
+  };
   render() {
+    const { page, pageCount, data } = this.state;
     const columns = [
       {
         Header: "Harmony ID",
@@ -105,26 +171,6 @@ class Consumers extends React.Component {
       }
     ];
 
-    let ConsumerList = this.props.ConsumerList;
-    if (ConsumerList) {
-      if (this.state.search) {
-        ConsumerList = ConsumerList.filter(e => {
-          return (
-            e.firstName
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.phone
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            parseInt(e.userId) === parseInt(this.state.search)
-          );
-        });
-      } else {
-      }
-    }
-
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: e => {
@@ -141,7 +187,7 @@ class Consumers extends React.Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.consumers" />}
           />
-          <div className="MerList" style={{ padding: "10px" }}>
+          <div className="MerList page-heading" style={{ padding: "10px" }}>
             <div className="MReqSP TransactionsBox ">
               {/* SEARCH */}
               <div className="search">
@@ -153,6 +199,7 @@ class Consumers extends React.Component {
                     placeholder="Search.."
                     value={this.state.search}
                     onChange={this._SearchMerchants}
+                    onKeyPress={this.keyPressed}
                   />
                 </form>
               </div>
@@ -160,14 +207,19 @@ class Consumers extends React.Component {
 
             <div className="MListContainer">
               <ReactTable
-                data={ConsumerList}
-                columns={columns}
+                manual
+                page={page}
+                pages={pageCount}
+                data={data}
+                // You should also control this...
+                onPageChange={pageIndex => this.changePage(pageIndex)}
+                onFetchData={state => this.fetchData(state)}
                 defaultPageSize={10}
-                minRows={1}
-                getTdProps={onRowClick}
-                loading={this.state.loading}
-                LoadingComponent={ProgressLoading}
+                minRows={0}
                 noDataText="NO DATA!"
+                loading={this.state.loading}
+                columns={columns}
+                getTdProps={onRowClick}
               />
             </div>
           </div>
@@ -182,9 +234,6 @@ const mapStateToProps = state => ({
   ConsumerList: state.getConsumerUsers
 });
 const mapDispatchToProps = dispatch => ({
-  getAll_ConsumerUsers: () => {
-    dispatch(getAll_ConsumerUsers());
-  },
   ViewProfile_Merchants: payload => {
     dispatch(ViewProfile_Merchants(payload));
   }

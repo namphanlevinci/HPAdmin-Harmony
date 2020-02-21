@@ -14,6 +14,8 @@ class Bank extends Component {
 
   render() {
     const e = this.props.MerchantProfile.banks;
+    console.log("BANK INFORMATION", e);
+    console.log("BANK INFORMATION", this.props.MerchantProfile);
     const renderBank =
       e !== undefined ? (
         e.map(i => {
@@ -71,7 +73,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ViewProfile_Merchants(payload));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Bank);
+export default connect(mapStateToProps, mapDispatchToProps)(Bank);

@@ -73,7 +73,11 @@ class PrincipalInfo extends Component {
             <h4>Driver License Picture</h4>
             {
               <img
-                style={{ width: "250px", height: "200px" }}
+                style={{
+                  width: "250px",
+                  height: "200px",
+                  marginBottom: "40px"
+                }}
                 src={`${e.imageUrl}`}
                 alt="void check"
               />

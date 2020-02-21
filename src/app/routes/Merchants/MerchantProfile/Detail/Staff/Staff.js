@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+import { VIEW_STAFF } from "../../../../../../actions/merchants/actions";
 
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
@@ -102,6 +103,14 @@ class Staff extends Component {
       } else {
       }
     }
+    const onRowClick = (state, rowInfo, column, instance) => {
+      return {
+        onClick: e => [
+          this.props.history.push("/app/merchants/profile/staff/general"),
+          this.props.VIEW_STAFF(rowInfo.original)
+        ]
+      };
+    };
 
     const columns = [
       {
@@ -211,6 +220,7 @@ class Staff extends Component {
               minRows={1}
               noDataText="NO DATA!"
               loading={this.state.loading}
+              getTdProps={onRowClick}
             />
 
             {/* ARCHIVE */}
@@ -294,4 +304,10 @@ const mapStateToProps = state => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User
 });
-export default connect(mapStateToProps)(Staff);
+
+const mapDispatchToProps = dispatch => ({
+  VIEW_STAFF: payload => {
+    dispatch(VIEW_STAFF(payload));
+  }
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Staff);

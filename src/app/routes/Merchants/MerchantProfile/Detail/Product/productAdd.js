@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import URL, { upfileUrl } from "../../../../../../url/url";
 import { store } from "react-notifications-component";
-import { NotificationManager } from "react-notifications";
 import { Formik } from "formik";
 
 import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
+import axios from "axios";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";

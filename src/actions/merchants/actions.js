@@ -132,3 +132,9 @@ export const VIEW_SERVICE = payload => ({
   type: types.VIEW_SERVICE,
   payload
 });
+
+//! VIEW STAFF DETAIL
+export const VIEW_STAFF = payload => ({
+  type: types.VIEW_STAFF,
+  payload
+});
