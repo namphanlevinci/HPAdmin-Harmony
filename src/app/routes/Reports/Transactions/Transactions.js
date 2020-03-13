@@ -166,10 +166,10 @@ class Transactions extends React.Component {
         Header: "Card /Last 4 Digit",
         width: 180,
         accessor: e =>
-          e.paymentData.card_type !== null ? (
+          e?.paymentData?.card_type ? (
             <span>
-              {e.paymentData.card_type} <br />
-              {` **** **** ****  ${e.paymentData.card_number}`}
+              {e?.paymentData?.card_type} <br />
+              {` **** **** ****  ${e?.paymentData?.card_number}`}
             </span>
           ) : null
       },
@@ -201,7 +201,7 @@ class Transactions extends React.Component {
         id: "status",
         Header: "Status",
         accessor: e => (
-          <p className="TStatus">{e.paymentData.validation_status}</p>
+          <p className="TStatus">{e?.paymentData?.validation_status}</p>
         )
       }
     ];
@@ -226,7 +226,6 @@ class Transactions extends React.Component {
                 />
               </form>
             </div>
-            {/* THANH CHUYỂN TRANGz */}
           </div>
           <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
             <div className="col-md-4" align="center">

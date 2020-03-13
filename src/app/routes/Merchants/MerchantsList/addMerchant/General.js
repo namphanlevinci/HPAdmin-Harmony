@@ -100,7 +100,6 @@ const General = ({ handleChange, value, validator }) => {
               style={{ padding: "11px", width: "100%" }}
               onChange={handleChange}
             >
-              <option>Please choose a State</option>
               <StateID />
             </select>
           </div>

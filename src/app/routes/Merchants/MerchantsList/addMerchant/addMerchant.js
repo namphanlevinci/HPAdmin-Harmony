@@ -150,21 +150,21 @@ class AddMerchant extends React.Component {
 
   handleNext = () => {
     const { activeStep, pin, confirmPin } = this.state;
-    // if (pin !== confirmPin) {
-    //   this.setState({ match: false });
-    // } else {
-    //   if (this.validator.allValid()) {
-    //     this.setState({
-    //       activeStep: activeStep + 1
-    //     });
-    //   } else {
-    //     this.validator.showMessages();
-    //     this.forceUpdate();
-    //   }
-    // }
-    this.setState({
-      activeStep: activeStep + 1
-    });
+    if (pin !== confirmPin) {
+      this.setState({ match: false });
+    } else {
+      if (this.validator.allValid()) {
+        this.setState({
+          activeStep: activeStep + 1
+        });
+      } else {
+        this.validator.showMessages();
+        this.forceUpdate();
+      }
+    }
+    // this.setState({
+    //   activeStep: activeStep + 1
+    // });
     // }
   };
 
@@ -186,9 +186,6 @@ class AddMerchant extends React.Component {
   };
 
   handleQuestions = name => event => {
-    // console.log("NAME", name);
-    // console.log("NAME", name[0].value);
-    // console.log("TARGET CHECKED", event.target.value);
     if (Number(name[1].charAt(8)) === Number(name[0].questionId)) {
       this.setState({
         [name[1]]: event.target.value,

@@ -50,10 +50,10 @@ const Bank = ({ value, handleChange, uploadFile }) => {
         </div>
         <div className="col-12">
           <div className="form-group">
-            <lable>
+            <label>
               Void Check* <br />
               Please upload photos of void check
-            </lable>
+            </label>
             <div className="Upload">
               <div className="void-Image">
                 <img

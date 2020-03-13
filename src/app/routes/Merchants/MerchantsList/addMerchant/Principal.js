@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
 import URL, { upfileUrl } from "../../../../../url/url";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
+import { store } from "react-notifications-component";
 
-import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import defaultImage from "./hpadmin2.png";
 import ErrorMessage from "../../MerchantProfile/Detail/Service/error-message";
 import Button from "@material-ui/core/Button";
+import StateID from "../../../../../util/getState";
 
 import * as Yup from "yup";
 
@@ -104,7 +100,7 @@ class Principal extends Component {
     return (
       <div className="principal-container">
         <Formik
-          enableReinitialize={true}
+          // enableReinitialize={true}
           validationSchema={validationSchema}
           initialValues={{
             principalInfo: [
@@ -132,66 +128,105 @@ class Principal extends Component {
             ]
           }}
           onSubmit={(values, { setSubmitting }) => {
-            console.log("VALUES", values);
-            console.log("THIS SUPER STATE", this.props.Info);
+            // console.log("VALUES", values);
+            // console.log("THIS SUPER STATE", this.props.Info);
+
             const data = this.props.Info;
-            // axios
-            //   .post(URL + "/merchant", {
-            //     generalInfo: {
-            //       businessName: data?.businessName,
-            //       doingBusiness: data?.doingBusiness,
-            //       tax: data?.tax,
-            //       businessAddress: {
-            //         address: data?.address,
-            //         city: data?.city,
-            //         state: data?.state,
-            //         zip: data?.zip
-            //       },
-            //       businessPhone: data?.businessPhoneCode + data?.businessPhone,
-            //       email: data?.email,
-            //       firstName: data?.firstName,
-            //       lastName: data?.lastName,
-            //       position: data?.position,
-            //       contactPhone: data?.contactPhoneCode + data?.contactPhone
-            //     },
-            //     businessInfo: {
-            //       question1: {
-            //         isAccept: data?.isAccept1,
-            //         desc: "",
-            //         question: data?.question1
-            //       },
-            //       question2: {
-            //         isAccept: data?.isAccept2,
-            //         desc: "",
-            //         question: data?.question2
-            //       },
-            //       question3: {
-            //         isAccept: data?.isAccept3,
-            //         desc: "",
-            //         question: data?.question3
-            //       },
-            //       question4: {
-            //         isAccept: data?.isAccept4,
-            //         desc: "",
-            //         question: data?.question4
-            //       },
-            //       question5: {
-            //         isAccept: data?.isAccept5,
-            //         desc: "",
-            //         question: data?.question5
-            //       }
-            //     },
-            //     bankInfo: {
-            //       bankName: data?.bankName,
-            //       routingNumber: data?.routingNumber,
-            //       accountNumber: data?.accountNumber,
-            //       fileId: data?.fileId
-            //     },
-            //     principalInfo: values?.principalInfo
-            //   })
-            //   .then(res => {
-            //     console.log("RESULT ADD MERCHANT", res);
-            //   });
+            axios
+              .post(URL + "/merchant", {
+                generalInfo: {
+                  businessName: data?.businessName,
+                  doingBusiness: data?.doingBusiness,
+                  tax: data?.tax,
+                  businessAddress: {
+                    address: data?.address,
+                    city: data?.city,
+                    state: data?.state,
+                    zip: data?.zip
+                  },
+                  businessPhone: data?.businessPhoneCode + data?.businessPhone,
+                  email: data?.email,
+                  firstName: data?.firstName,
+                  lastName: data?.lastName,
+                  position: data?.position,
+                  contactPhone: data?.contactPhoneCode + data?.contactPhone
+                },
+                businessInfo: {
+                  question1: {
+                    isAccept: data?.isAccept1,
+                    desc: "",
+                    question: data?.question1
+                  },
+                  question2: {
+                    isAccept: data?.isAccept2,
+                    desc: "",
+                    question: data?.question2
+                  },
+                  question3: {
+                    isAccept: data?.isAccept3,
+                    desc: "",
+                    question: data?.question3
+                  },
+                  question4: {
+                    isAccept: data?.isAccept4,
+                    desc: "",
+                    question: data?.question4
+                  },
+                  question5: {
+                    isAccept: data?.isAccept5,
+                    desc: "",
+                    question: data?.question5
+                  }
+                },
+                bankInfo: {
+                  bankName: data?.bankName,
+                  routingNumber: data?.routingNumber,
+                  accountNumber: data?.accountNumber,
+                  fileId: data?.fileId
+                },
+                principalInfo: values?.principalInfo
+              })
+              .then(res => {
+                console.log("RESULT ADD MERCHANT", res);
+
+                if ((res.status = 200)) {
+                  store.addNotification({
+                    title: "Success!",
+                    message: `${res.data.message}`,
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    },
+                    width: 250
+                  });
+                  setTimeout(() => {
+                    this.props.history.push("/app/merchants/list");
+                  }, 1500);
+                } else {
+                  store.addNotification({
+                    title: "ERROR!",
+                    message: "Something went wrong",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    },
+                    width: 250
+                  });
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
           }}
           render={({ values, setFieldValue }) => (
             <Form className="principal-form">
@@ -313,11 +348,19 @@ class Principal extends Component {
                             </div>
                             <div className="col-4">
                               <h4>State</h4>
-                              <Field
+
+                              <select
                                 name={`principalInfo.${index}.addressPrincipal.state`}
-                                values={`principalInfo.${index}.addressPrincipal.state`}
-                                placeholder="State"
-                              />
+                                style={{ padding: "11px", width: "100%" }}
+                                onChange={e =>
+                                  setFieldValue(
+                                    `principalInfo.${index}.addressPrincipal.state`,
+                                    e.target.value
+                                  )
+                                }
+                              >
+                                <StateID />
+                              </select>
                               <div className="input-feedback">
                                 <ErrorMessage
                                   name={`principalInfo.${index}.addressPrincipal.state`}
@@ -351,35 +394,13 @@ class Principal extends Component {
                               </div>
                             </div>
                             <div className="col-4">
-                              {/* <h4>Date of Birth (mm/dd/yyyy)</h4> */}
-                              {/* <Field
+                              <h4>Date of Birth</h4>
+                              <Field
+                                type="date"
                                 name={`principalInfo.${index}.dateOfBirth`}
                                 values={`principalInfo.${index}.dateOfBirth`}
                                 placeholder="MM/DD/YYYY"
-                              /> */}
-                              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDatePicker
-                                  disableToolbar
-                                  variant="inline"
-                                  format="MM/dd/yyyy"
-                                  margin="normal"
-                                  id="date-picker-inline"
-                                  label="Date of Birth (mm/dd/yyyy)"
-                                  value={
-                                    values[`principalInfo.${index}.dateOfBirth`]
-                                  }
-                                  name={`principalInfo.${index}.dateOfBirth`}
-                                  // onChange={e =>
-                                  //   setFieldValue(
-                                  //     `principalInfo.${index}.dateOfBirth`,
-                                  //     e
-                                  //   )
-                                  // }
-                                  KeyboardButtonProps={{
-                                    "aria-label": "change date"
-                                  }}
-                                />
-                              </MuiPickersUtilsProvider>
+                              />
                               <div className="input-feedback">
                                 <ErrorMessage
                                   name={`principalInfo.${index}.dateOfBirth`}
@@ -414,11 +435,18 @@ class Principal extends Component {
                             </div>
                             <div className="col-4">
                               <h4>State Issued*</h4>
-                              <Field
+                              <select
                                 name={`principalInfo.${index}.stateIssued`}
-                                values={`principalInfo.${index}.stateIssued`}
-                                placeholder="State"
-                              />
+                                style={{ padding: "11px", width: "100%" }}
+                                onChange={e =>
+                                  setFieldValue(
+                                    `principalInfo.${index}.stateIssued`,
+                                    e.target.value
+                                  )
+                                }
+                              >
+                                <StateID />
+                              </select>
                               <div className="input-feedback">
                                 <ErrorMessage
                                   name={`principalInfo.${index}.stateIssued`}
@@ -431,20 +459,20 @@ class Principal extends Component {
                                 <h4>
                                   Driver License Picture* <br />
                                 </h4>
-                                <div class="Upload">
+                                <div className="Upload">
                                   {$imagePreview}
                                   <input
                                     type="file"
-                                    class="upload"
+                                    className="upload"
                                     onChange={e => this._handleImageChange(e)}
                                   />
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <p
+                          {/* <p
                             className="add-remove-principal"
-                            onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                            onClick={() => arrayHelpers.remove(index)} // remove a principal from the list
                           >
                             - Remove Principal
                           </p>
@@ -454,8 +482,8 @@ class Principal extends Component {
                               onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
                             >
                               + Add Principal
-                            </p>
-                          )}
+                            </p> */}
+                          {/* )} */}
                         </div>
                       ))
                     ) : (
@@ -473,7 +501,7 @@ class Principal extends Component {
                         variant="contained"
                         style={{ backgroundColor: "#0764b0", color: "white" }}
                       >
-                        Submit Yeet
+                        Submit
                       </Button>
                     </div>
                   </div>
