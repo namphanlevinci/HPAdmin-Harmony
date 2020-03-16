@@ -106,7 +106,7 @@ class Staff extends Component {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: e => [
-          this.props.history.push("/app/merchants/profile/staff/general"),
+          this.props.history.push("/app/merchants/staff/general"),
           this.props.VIEW_STAFF(rowInfo.original)
         ]
       };
@@ -122,13 +122,19 @@ class Staff extends Component {
         Header: "Name",
         id: "fullname",
         width: 200,
-        accessor: d => `${d.firstName} ${d.lastName}`
+        accessor: d => (
+          <span
+            style={{ fontWeight: 500 }}
+          >{`${d.firstName} ${d.lastName}`}</span>
+        )
       },
       {
         id: "Display",
         Header: "Display Name",
         width: 200,
-        accessor: "displayName"
+        accessor: d => (
+          <span style={{ fontWeight: 500 }}>{`${d.displayName}`}</span>
+        )
       },
       {
         Header: "Phone",

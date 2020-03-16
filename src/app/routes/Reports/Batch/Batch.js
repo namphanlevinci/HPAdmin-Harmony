@@ -76,7 +76,7 @@ class Transactions extends React.Component {
         columns: [
           {
             Header: "",
-            id: "yeet",
+            id: "dateTime",
             width: 120,
             accessor: e => {
               return moment
@@ -95,7 +95,9 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "DBA",
-            accessor: "doBusinessName"
+            accessor: e => (
+              <span style={{ fontWeight: 600 }}>{e.doBusinessName}</span>
+            )
           }
         ]
         // accessor: e => e.user.fullName
@@ -125,19 +127,23 @@ class Transactions extends React.Component {
         columns: [
           {
             Header: "Harmony Credit",
-            accessor: "paymentByHarmony"
+            id: "paymentByHarmony",
+            accessor: e => <span>${e.paymentByHarmony}</span>
           },
           {
             Header: "Credit Card",
-            accessor: "paymentByCreditCard"
+            id: "paymentByCreditCard",
+            accessor: e => <span>${e.paymentByCreditCard}</span>
           },
           {
             Header: "Cash",
-            accessor: "paymentByCash"
+            id: "paymentByCash",
+            accessor: e => <span>${e.paymentByCash}</span>
           },
           {
             Header: "Other",
-            accessor: "otherPayment"
+            id: "otherPayment",
+            accessor: e => <span>${e.otherPayment}</span>
           }
         ]
       },
@@ -148,7 +154,7 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "total",
-            accessor: e => <span>${e.total}</span>
+            accessor: e => <span style={{ fontWeight: 600 }}>${e.total}</span>
           }
         ]
       }

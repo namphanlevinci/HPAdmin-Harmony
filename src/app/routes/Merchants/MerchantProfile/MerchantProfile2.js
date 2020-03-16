@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "bootstrap/js/src/collapse.js";
 import { withRouter, Redirect, Route, NavLink, Switch } from "react-router-dom";
 
 import IntlMessages from "../../../../util/IntlMessages";
@@ -32,13 +31,14 @@ import ProductAdd from "./Detail/Product/productAdd";
 // Staff
 import Staff from "./Detail/Staff/Staff";
 import AddStaff from "./Detail/Staff/add-staff";
-import StaffGeneral from "./Detail/Staff/staff-detail/general";
+import StaffGeneral from "./Detail/Staff/staff-detail/staff-info";
 // Extra Tab
 import ExtraTab from "./Detail/Extra/extra";
 
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
 import "./MerchantProfile.css";
+import "bootstrap/js/src/collapse.js";
 
 class merchantProfile2 extends Component {
   constructor(props) {
@@ -195,10 +195,6 @@ class merchantProfile2 extends Component {
                         <Route
                           path="/app/merchants/profile/extra"
                           component={ExtraTab}
-                        />
-                        <Route
-                          path="/app/merchants/profile/staff/general"
-                          component={StaffGeneral}
                         />
                         <Route
                           path="/app/merchants/profile/staff/add"

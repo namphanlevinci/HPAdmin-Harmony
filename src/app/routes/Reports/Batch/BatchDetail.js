@@ -4,12 +4,14 @@ import {
   getBatch,
   getBatchDetail
 } from "../../../../actions/transactions/actions";
+import { Redirect } from "react-router-dom";
+
+import Button from "@material-ui/core/Button";
+import moment from "moment";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import Button from "@material-ui/core/Button";
-import { Redirect } from "react-router-dom";
-import moment from "moment";
+
 import "../Transactions/Transactions.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
 import "../../Merchants/MerchantRejectList/EditMerchant.css";
@@ -39,12 +41,14 @@ class Transactions extends React.Component {
       {
         id: "Customer",
         Header: "Date/Time",
-        accessor: e => {
-          return moment
-            .utc(e.createdDate)
-            .local()
-            .format("MM/DD/YYYY HH:mm A");
-        }
+        accessor: e => (
+          <span style={{ fontWeight: 600 }}>
+            {moment
+              .utc(e.createdDate)
+              .local()
+              .format("MM/DD/YYYY HH:mm A")}
+          </span>
+        )
       },
       {
         Header: "Invoice Number",
@@ -67,7 +71,7 @@ class Transactions extends React.Component {
       {
         Header: "Total",
         id: "total",
-        accessor: e => <span>${e.amount}</span>
+        accessor: e => <span style={{ fontWeight: 600 }}>${e.amount}</span>
       }
     ];
 

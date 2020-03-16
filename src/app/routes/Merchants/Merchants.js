@@ -71,6 +71,13 @@ const Merchants = ({ match }) => (
           import("./MerchantRejectList/MerchantsRejectedList")
         )}
       />
+      {/*/ Staff */}
+      <Route
+        path={`${match.url}/staff`}
+        component={asyncComponent(() =>
+          import("./MerchantProfile/Detail/Staff/staff-detail/staff-info")
+        )}
+      />
     </Switch>
   </div>
 );

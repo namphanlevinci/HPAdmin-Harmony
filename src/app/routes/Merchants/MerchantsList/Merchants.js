@@ -132,7 +132,9 @@ class Merchants extends React.Component {
         id: "general",
         accessor: "general",
         Cell: e => (
-          <span>{e.value !== null ? e.value.doBusinessName : null}</span>
+          <span style={{ fontWeight: 500 }}>
+            {e?.value ? e.value.doBusinessName : null}
+          </span>
         ),
         width: 230
       },
@@ -142,10 +144,8 @@ class Merchants extends React.Component {
         width: 200,
         accessor: e => e.principals[0],
         Cell: e => (
-          <span>
-            {e.value !== undefined
-              ? e.value.firstName + " " + e.value.lastName
-              : null}
+          <span style={{ fontWeight: 500 }}>
+            {e?.value ? e.value.firstName + " " + e.value.lastName : null}
           </span>
         )
       },

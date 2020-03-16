@@ -147,22 +147,25 @@ class Transactions extends React.Component {
         }
       },
       {
-        Header: "Transaction ID",
+        Header: "ID",
         accessor: "paymentTransactionId",
         width: 100
       },
       {
-        id: "Customer",
-        Header: "Customer",
-        accessor: e => e.user.fullName
-      },
-      {
         id: "Title",
-        Header: "Title",
-        accessor: "title"
+        Header: "Method",
+        accessor: "title",
+        width: 100
       },
       {
-        id: "Cardtype ",
+        id: "Customer",
+        Header: "Original Account",
+        accessor: e => e.user.fullName,
+        width: 140
+      },
+
+      {
+        id: "Account Details ",
         Header: "Card /Last 4 Digit",
         width: 180,
         accessor: e =>
@@ -175,12 +178,13 @@ class Transactions extends React.Component {
       },
       {
         id: "receiver",
-        Header: "Receiver",
-        accessor: e => (e.receiver !== null ? e.receiver.merchant_name : null)
+        Header: "Destination Account",
+        accessor: e => (e.receiver !== null ? e.receiver.merchant_name : null),
+        width: 150
       },
       {
         id: "Merchantcode",
-        Header: "Merchant ID",
+        Header: "Account Details",
         width: 180,
         accessor: e =>
           e.receiver !== null ? (
@@ -191,7 +195,8 @@ class Transactions extends React.Component {
         id: "Amount",
         Header: "Amount",
         accessor: e => e.amount,
-        Cell: e => <span className="">${e.value}</span>
+        Cell: e => <span style={{ fontWeight: 600 }}>${e.value}</span>,
+        width: 100
       },
       {
         Header: "IP",
