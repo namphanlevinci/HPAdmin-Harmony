@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { withRouter, Redirect, Route, NavLink, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import { MdPerson } from "react-icons/md";
 
 import IntlMessages from "../../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
-import general from "./general";
+import General from "./general";
 import workTime from "./work-time";
 import salary from "./salary";
 import license from "./license";
@@ -15,9 +16,25 @@ import "../../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantProfile.css";
 
 import "bootstrap/js/src/collapse.js";
-export class staffGeneral extends Component {
+class staffGeneral extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: this.props.Staff?.firstName
+    };
+  }
+
+  handleChange = event => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({ ...this.state, [name]: value });
+  };
+
   render() {
     const Staff = this.props.Staff;
+    console.log("THIS STATE", this.state);
+    console.log("IM GETTING RE-RENDER");
     return (
       <div>
         <div className="container-fluid PendingList">
@@ -27,9 +44,13 @@ export class staffGeneral extends Component {
           />
           <div className="PendingLBody page-heading">
             <div className="PDL-Btn col-md-12">
-              <h3>
-                Staff {Staff?.staffId} - {Staff?.displayName}
-              </h3>
+              <div style={{ display: "flex" }}>
+                <MdPerson size={22} style={{ color: "black" }} />
+                <h3>
+                  Staff {Staff?.staffId} - {Staff?.displayName}
+                </h3>
+              </div>
+
               <span>
                 <Button
                   style={{ color: "#0764b0", backgroundColor: "white" }}
@@ -73,7 +94,13 @@ export class staffGeneral extends Component {
                       <Switch>
                         <Route
                           path="/app/merchants/staff/general"
-                          component={general}
+                          // component={general}
+                          render={props => (
+                            <General
+                              handleChange={this.handleChange}
+                              data={this.state}
+                            />
+                          )}
                         />
                         <Route
                           path="/app/merchants/staff/worktime"

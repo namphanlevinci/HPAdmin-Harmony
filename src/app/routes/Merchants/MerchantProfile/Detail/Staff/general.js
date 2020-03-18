@@ -1,4 +1,6 @@
 import React from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+
 import TextField from "@material-ui/core/TextField";
 import State from "../../../../../../util/InitialState";
 import Select from "react-select";
@@ -7,6 +9,7 @@ const General = ({
   handleSelect,
   handleChange,
   uploadFile,
+  toogleVisibility,
   state: {
     match,
     firstName,
@@ -23,7 +26,9 @@ const General = ({
     imagePreviewUrl,
     nameRole,
     isDisabled,
-    countryCode
+    countryCode,
+    showPin,
+    showConfirmPin
   },
   validator
 }) => {
@@ -45,9 +50,9 @@ const General = ({
     { value: "+84", label: "+84" }
   ];
   return (
-    <div className="container">
+    <div className="container-fuild">
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <div className="form-group">
             <TextField
               name="firstName"
@@ -62,7 +67,7 @@ const General = ({
             {validator.message("firstName", firstName, "required|string")}
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="form-group">
             <TextField
               name="lastName"
@@ -77,7 +82,7 @@ const General = ({
             {validator.message("lastName", lastName, "required|string")}
           </div>
         </div>
-        <div className="col-8">
+        <div className="col-12">
           <div className="form-group">
             <TextField
               name="displayName"
@@ -92,7 +97,7 @@ const General = ({
             {validator.message("displayName", displayName, "required|string")}
           </div>
         </div>
-        <div className="col-8">
+        <div className="col-12">
           <div className="form-group">
             <TextField
               name="street"
@@ -107,7 +112,7 @@ const General = ({
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col-3">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="city"
@@ -120,7 +125,7 @@ const General = ({
             />
           </div>
         </div>
-        <div className="col-3">
+        <div className="col-4">
           <div className="form-group" style={{ marginTop: "10px" }}>
             <label>State</label>
             <Select
@@ -131,7 +136,7 @@ const General = ({
             />
           </div>
         </div>
-        <div className="col-2">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="zip"
@@ -146,7 +151,7 @@ const General = ({
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <div style={{ display: "flex" }}>
             <div style={{ width: "50%", padding: "8px 20px 0px 0px" }}>
               <label>Country Code</label>
@@ -157,7 +162,6 @@ const General = ({
                 value={countryCode}
               />
             </div>
-
             <TextField
               name="cellphone"
               label="Cell phone"
@@ -169,7 +173,7 @@ const General = ({
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="form-group">
             <TextField
               name="email"
@@ -184,48 +188,76 @@ const General = ({
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col-4">
-          <div className="form-group">
+        <div className="col-6">
+          <div
+            className="form-group"
+            style={{ display: "flex", alignItems: "baseline" }}
+          >
             <TextField
               name="pin"
               label="PIN Code"
               margin="normal"
-              type="password"
+              type={showPin ? "text" : "password"}
               fullWidth
               value={pin}
               onChange={handleChange}
               inputProps={{ maxLength: 4 }}
             />
-            {validator.message("pin", pin, "required|numeric")}
+            {showPin ? (
+              <i style={{ cursor: "pointer" }}>
+                <FaRegEyeSlash
+                  onClick={() => toogleVisibility("showPin", false)}
+                />
+              </i>
+            ) : (
+              <i style={{ cursor: "pointer" }}>
+                <FaRegEye onClick={() => toogleVisibility("showPin", true)} />
+              </i>
+            )}
           </div>
+          {validator.message("pin", pin, "required|numeric")}
         </div>
-        <div className="col-4">
-          <div className="form-group">
+        <div className="col-6">
+          <div
+            className="form-group"
+            style={{ display: "flex", alignItems: "baseline" }}
+          >
             <TextField
               name="confirmPin"
               label="Confirm PIN Code"
               margin="normal"
-              type="password"
+              type={showConfirmPin ? "text" : "password"}
               fullWidth
               onChange={handleChange}
               value={confirmPin}
               inputProps={{ maxLength: 4 }}
             />
-            {validator.message("confirmPin", confirmPin, "required|numeric")}
-            {confirmPin !== pin && !match && (
-              <div>
-                <p
-                  style={{ color: "red", fontSize: "14px", fontWeight: "400" }}
-                >
-                  PIN code didn't match
-                </p>
-              </div>
+            {showConfirmPin ? (
+              <i style={{ cursor: "pointer" }}>
+                <FaRegEyeSlash
+                  onClick={() => toogleVisibility("showConfirmPin", false)}
+                />
+              </i>
+            ) : (
+              <i style={{ cursor: "pointer" }}>
+                <FaRegEye
+                  onClick={() => toogleVisibility("showConfirmPin", true)}
+                />
+              </i>
             )}
           </div>
+          {validator.message("confirmPin", confirmPin, "required|numeric")}
+          {confirmPin !== pin && !match && (
+            <div>
+              <p style={{ color: "red", fontSize: "14px", fontWeight: "400" }}>
+                PIN code didn't match
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <div className="form-group">
             <label>Role</label>
             <Select
@@ -236,7 +268,7 @@ const General = ({
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="form-group">
             <label>Status</label>
 
@@ -250,7 +282,7 @@ const General = ({
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col-8">
+        <div className="col-12">
           <label>Image</label>
 
           <div className="form-group">

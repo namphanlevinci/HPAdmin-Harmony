@@ -37,7 +37,7 @@ const WorkTime = ({
     <div className="container Staff">
       {/* Monday */}
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <Checkbox
             name="isCheck2"
             checked={isCheck2}
@@ -59,7 +59,7 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="time-select pad-down">
             <label>To</label> <br />
             <Select
@@ -74,7 +74,7 @@ const WorkTime = ({
       </div>
       {/* Tueday */}
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <Checkbox
             name="isCheck3"
             checked={isCheck3}
@@ -96,7 +96,7 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="time-select pad-down">
             <label>To</label> <br />
             <Select
@@ -111,7 +111,7 @@ const WorkTime = ({
       </div>
       {/* Wednesday */}
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <Checkbox
             name="isCheck4"
             checked={isCheck4}
@@ -133,7 +133,7 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="time-select pad-down">
             <label>To</label> <br />
             <Select
@@ -148,7 +148,7 @@ const WorkTime = ({
       </div>
       {/* Thursday */}
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <Checkbox
             name="isCheck5"
             checked={isCheck5}
@@ -170,7 +170,7 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="time-select pad-down">
             <label>To</label> <br />
             <Select
@@ -185,7 +185,7 @@ const WorkTime = ({
       </div>
       {/* Friday */}
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <Checkbox
             name="isCheck6"
             checked={isCheck6}
@@ -207,7 +207,7 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="time-select pad-down">
             <label>To</label> <br />
             <Select
@@ -222,7 +222,7 @@ const WorkTime = ({
       </div>
       {/* Saturday */}
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <Checkbox
             name="isCheck7"
             checked={isCheck7}
@@ -244,7 +244,7 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="time-select pad-down">
             <label>To</label> <br />
             <Select
@@ -259,7 +259,7 @@ const WorkTime = ({
       </div>
       {/* Sunday */}
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-6">
           <Checkbox
             name="isCheck8"
             checked={isCheck8}
@@ -281,7 +281,7 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="time-select pad-down">
             <label>To</label> <br />
             <Select

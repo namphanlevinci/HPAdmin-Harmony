@@ -279,7 +279,10 @@ class EditPrincipal extends Component {
               onChange={e => this._uploadFile(e)}
             ></input>
           </div>
-          <div className="SettingsContent GeneralContent">
+          <div
+            className="SettingsContent GeneralContent"
+            style={{ padding: "20px" }}
+          >
             <Button className="btn btn-green" onClick={this._update}>
               SAVE
             </Button>
@@ -292,7 +295,7 @@ class EditPrincipal extends Component {
         <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
       );
     return (
-      <div className="react-transition swipe-up GeneralContent principal-container container">
+      <div className="react-transition swipe-up GeneralContent principal-container container-fuild">
         <h2>Principal Information</h2>
         <div className="edit-principal">{renderPrincipal}</div>
       </div>

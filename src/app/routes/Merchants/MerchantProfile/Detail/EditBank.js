@@ -161,9 +161,9 @@ class EditBank extends Component {
     return (
       <div className="react-transition swipe-up GeneralContent">
         <h2>Bank Information</h2>
-        <div className="container">
+        <div className="container-fuild">
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-3">
               <h4>Bank Name*</h4>
               <input
                 name="name"
@@ -171,7 +171,7 @@ class EditBank extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>ABA Routing Number*</h4>
               <input
                 style={{ width: "250px" }}
@@ -180,7 +180,7 @@ class EditBank extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-5">
               <h4>Checking Account Number (DDA)*</h4>
               <input
                 style={{ width: "250px" }}
@@ -189,7 +189,7 @@ class EditBank extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4" style={{ paddingTop: "20px" }}>
               <h4>Void Check*</h4>
               {$imagePreview}
               <div>

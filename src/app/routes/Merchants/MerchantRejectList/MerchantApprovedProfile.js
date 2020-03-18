@@ -29,51 +29,51 @@ class MerchantApprovedProfile extends Component {
         e.principals.map(e => {
           return (
             <div className="row" key={e.principalId}>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Name*</h4>
                 <p>{e.firstName + " " + e.lastName}</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Title/Position*</h4>
                 <p>{e.title}</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Ownership(%)*</h4>
                 <p>{e.ownerShip}%</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Home Phone*</h4>
                 <p>{e.homePhone}</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Mobile Phone*</h4>
                 <p>{e.mobilePhone}</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Address*</h4>
                 <p>{e.address}</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Social Security Number (SSN)*</h4>
                 <p>{e.ssn}</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Date of Birth (mm/dd/yy)*</h4>
                 <p>{moment(e.birthDate).format("MM/DD/YYYY")}</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Email Address*</h4>
                 <p>{e.email}</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>Driver License Number*</h4>
                 <p>{e.driverNumber}</p>
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <h4>State Issued*</h4>
                 <p>{e.state !== undefined ? e.state.name : null}</p>
               </div>
-              <div className="col-md-6">
+              <div className="col-6">
                 <h4>Driver License Picture</h4>
                 {
                   <img
@@ -95,7 +95,7 @@ class MerchantApprovedProfile extends Component {
       e.business !== undefined ? (
         e.business.map(e => {
           return (
-            <div className="col-md-6" key={e.businessId}>
+            <div className="col-6" key={e.businessId}>
               <h4>{e.question}</h4>
               <Checkbox checked={e.answer === false} />
               No <Checkbox checked={e.answer === true} /> Yes
@@ -116,7 +116,7 @@ class MerchantApprovedProfile extends Component {
             title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
           />
           <div className="PendingLBody page-heading">
-            <div className="PDL-Btn col-md-12">
+            <div className="PDL-Btn col-12">
               <h3>ID: {e.merchantId}</h3>
               <span>
                 <Button
@@ -129,7 +129,7 @@ class MerchantApprovedProfile extends Component {
               </span>
             </div>
             <hr />
-            <div className="container requestStatus">
+            <div className="requestStatus">
               <div
                 className="title"
                 style={{ backgroundColor: "#00FF00", color: "white" }}
@@ -154,45 +154,45 @@ class MerchantApprovedProfile extends Component {
             </div>
             <hr />
             <div className="content">
-              <div className="container">
+              <div className="container-fuild">
                 <h2>General Information</h2>
                 <div className="row justify-content-between">
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Legal Business Name*</h4>
                     <p>
                       {e.general !== null ? e.general.legalBusinessName : null}
                     </p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Doing Business As (DBA)*</h4>
                     <p>
                       {e.general !== null ? e.general.doBusinessName : null}
                     </p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Federal Tax ID*</h4>
                     <p>{e.taxId}</p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>DBA Business Address*</h4>
                     <p>{e.address + " " + e.city + " " + e.stateId}</p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Zip Code*</h4>
                     <p>{e.zip}</p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Business Phone Number*</h4>
                     <p>{e.phone}</p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Contact Email Address*</h4>
                     <p>{e.email}</p>
                   </div>
                 </div>
                 <h2>Representative Information</h2>
                 <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Contact Name*</h4>
                     <p>
                       {e.general !== null
@@ -200,11 +200,11 @@ class MerchantApprovedProfile extends Component {
                         : null}
                     </p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Title/Position*</h4>
                     <p>{e.general !== null ? e.general.title : null}</p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Contact Phone Number*</h4>
                     <p>{e.general !== null ? e.general.phoneContact : null}</p>
                   </div>
@@ -213,13 +213,13 @@ class MerchantApprovedProfile extends Component {
                 <div className="row">{renderQuestion}</div>
                 <h2>Bank Information</h2>
                 <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Bank Name*</h4>
                     <p>
                       {e.businessBank !== null ? e.businessBank.name : null}
                     </p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>ABA Routing Number*</h4>
                     <p>
                       {e.businessBank !== null
@@ -227,7 +227,7 @@ class MerchantApprovedProfile extends Component {
                         : null}
                     </p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Checking Account Number (DDA)*</h4>
                     <p>
                       {e.businessBank !== null
@@ -235,7 +235,7 @@ class MerchantApprovedProfile extends Component {
                         : null}
                     </p>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Void Check*</h4>
                     {e.businessBank !== null ? (
                       <img

@@ -30,7 +30,7 @@ class General extends Component {
     const renderGeneral = (
       // e.general !== undefined ? (
       <div className="react-transition swipe-up">
-        <div className="container">
+        <div className="container-fuild">
           <h2>General Information</h2>
           <div className="row justify-content-between">
             <div className="col-md-4">
@@ -104,7 +104,7 @@ class General extends Component {
       <div className="content GeneralContent">
         {renderGeneral}
 
-        <div className="container">
+        <div className="container-fuild">
           <h2>Business Information</h2>
           <div className="row justify-content-between">{renderQuestion}</div>
         </div>

@@ -22,7 +22,7 @@ class PrincipalInfo extends Component {
     const e = this.props.principalInfo;
 
     return (
-      <div className="react-transition swipe-up principal-container container">
+      <div className="react-transition swipe-up principal-container container-fuild">
         <h2>Principal Information</h2>
         <div className="row" key={e.principalId}>
           <div className="col-4">

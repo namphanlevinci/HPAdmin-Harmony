@@ -1,20 +1,24 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import Button from "@material-ui/core/Button";
-
 export class general extends Component {
   render() {
-    console.log("Staff", this.props.Staff);
+    console.log("HANDLE CHANGE", this.props.handleChange);
+    // console.log("Staff", this.props.Staff);
     const Staff = this.props.Staff;
     return (
       <div className="content">
         <div className="container">
-          <h2>General Information</h2>
           <div className="row justify-content-between">
             <div className="col-4">
               <h4>First Name</h4>
               <p>{Staff?.firstName}</p>
+              {/* 
+              <input
+                name="firstName"
+                value={data?.firstName}
+                onChange={this.props.handleChange}
+              ></input> */}
             </div>
             <div className="col-4">
               <h4>Last Name</h4>

@@ -8,7 +8,7 @@ const License = ({
 }) => (
   <div className="container">
     <div className="row justify-content-center">
-      <div className="col-8">
+      <div className="col-12">
         <div className="form-group">
           <TextField
             name="driverlicense"
@@ -27,7 +27,7 @@ const License = ({
           )} */}
         </div>
       </div>
-      <div className="col-8">
+      <div className="col-12">
         <div className="form-group">
           <TextField
             name="socialSecurityNumber"
@@ -46,7 +46,7 @@ const License = ({
           )} */}
         </div>
       </div>
-      <div className="col-8">
+      <div className="col-12">
         <div className="form-group">
           <TextField
             name="professionalLicense"

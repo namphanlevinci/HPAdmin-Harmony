@@ -112,6 +112,7 @@
   font-weight: 400;
   font-size: 15px;
   cursor: pointer;
+  padding-left: 10px;
 }
 .ReactTable .-pagination .-btn:not([disabled]):hover {
   background: #0764b0 !important;

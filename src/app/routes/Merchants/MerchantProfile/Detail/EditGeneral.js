@@ -138,10 +138,10 @@ class General extends Component {
     // const e = this.props.MerchantProfile;
     return (
       <div className="content GeneralContent react-transition swipe-right">
-        <div className="container">
+        <div className="container-fuild">
           <h2>General Information</h2>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Legal Business Name*</h4>
               <input
                 name="legalBusinessName"
@@ -149,7 +149,7 @@ class General extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Doing Business As (DBA)*</h4>
               <input
                 name="doBusinessName"
@@ -158,7 +158,7 @@ class General extends Component {
                 // disabled
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Federal Tax ID*</h4>
               <input
                 name="tax"
@@ -167,7 +167,7 @@ class General extends Component {
                 // disabled
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Address*</h4>
               <input
                 name="address"
@@ -176,7 +176,7 @@ class General extends Component {
                 // disabled
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>City*</h4>
               <input
                 name="city"
@@ -185,7 +185,7 @@ class General extends Component {
                 // disabled
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>State*</h4>
               {/* <input
                 name="stateId"
@@ -197,7 +197,7 @@ class General extends Component {
                 setvalue={this.state.stateName}
               />
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Business Phone*</h4>
               <input
                 name="phoneBusiness"
@@ -205,7 +205,7 @@ class General extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Zip*</h4>
               <input
                 name="zip"
@@ -213,7 +213,7 @@ class General extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Email Contact*</h4>
               <input
                 name="emailContact"
@@ -221,28 +221,10 @@ class General extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            {/* <hr /> */}
-            {/* <div className="col-md-4">
-              <h4>Business Phone Number*</h4>
-              <input
-                name="cellphone"
-                value={e.general.phoneBusiness}
-                onChange={this._handleChange}
-                disabled
-              ></input>
-            </div>
-            <div className="col-md-4">
-              <h4>Contact Email Address*</h4>
-              <input
-                name="email"
-                value={this.state.email}
-                onChange={this._handleChange}
-              ></input>
-            </div> */}
           </div>
           <h2>Representative Information</h2>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Contact Name*</h4>
               <input
                 name="firstName"
@@ -257,7 +239,7 @@ class General extends Component {
                 placeholder="Last name"
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Title/Position*</h4>
               <input
                 name="title"
@@ -265,7 +247,7 @@ class General extends Component {
                 onChange={this._handleChange}
               ></input>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Contact Phone Number*</h4>
               <input
                 name="phoneContact"
@@ -274,7 +256,10 @@ class General extends Component {
               ></input>
             </div>
           </div>
-          <div className="SettingsContent GeneralContent">
+          <div
+            className="SettingsContent GeneralContent"
+            style={{ paddingTop: "20px" }}
+          >
             <Button className="btn btn-green" onClick={this._update}>
               SAVE
             </Button>

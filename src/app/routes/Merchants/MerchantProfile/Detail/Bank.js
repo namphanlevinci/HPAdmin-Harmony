@@ -37,25 +37,25 @@ class Bank extends Component {
     return (
       <div className="react-transition swipe-up">
         <h2>Bank Information</h2>
-        <div className="container">
+        <div className="container-fuild">
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-3">
               <h4>Bank Name*</h4>
               <p>{e.businessBank !== null ? e.businessBank.name : null}</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>ABA Routing Number*</h4>
               <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e.businessBank !== null ? e.businessBank.routingNumber : null}
               </p>
             </div>
-            <div className="col-md-4">
+            <div className="col-5">
               <h4>Checking Account Number (DDA)*</h4>
               <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e.businessBank !== null ? e.businessBank.accountNumber : null}
               </p>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Void Check*</h4>
               {e.businessBank !== null ? (
                 <img
@@ -69,7 +69,10 @@ class Bank extends Component {
             {renderOldImg}
           </div>
         </div>
-        <div className="SettingsContent GeneralContent">
+        <div
+          className="SettingsContent GeneralContent"
+          style={{ paddingTop: "40px" }}
+        >
           <Button className="btn btn-green" onClick={this._editBank}>
             EDIT
           </Button>

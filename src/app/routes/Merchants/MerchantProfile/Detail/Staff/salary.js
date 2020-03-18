@@ -22,7 +22,7 @@ const Salary = ({
 }) => (
   <div className="container Salary">
     <div className="row justify-content-center">
-      <div className="col-4 salary-box">
+      <div className="col-6 salary-box">
         <Checkbox
           name="salaryIsCheck"
           disabled={commIsCheck === true ? true : false}
@@ -48,7 +48,7 @@ const Salary = ({
             validator.message("salaryValue", salaryValue, "required|numeric")} */}
         </div>
       </div>
-      <div className="col-4 salary-box">
+      <div className="col-6 salary-box">
         <Checkbox
           name="commIsCheck"
           disabled={salaryIsCheck === true ? true : false}
@@ -77,7 +77,7 @@ const Salary = ({
     </div>
     {/* TIP FEE */}
     <div className="row justify-content-center">
-      <div className="col-4 salary-box">
+      <div className="col-6 salary-box">
         <Checkbox
           name="tipIsCheck"
           disabled={fixIsCheck === true ? true : false}
@@ -103,7 +103,7 @@ const Salary = ({
             validator.message("tipValue", tipValue, "required|numeric")} */}
         </div>
       </div>
-      <div className="col-4 salary-box">
+      <div className="col-6 salary-box">
         <Checkbox
           name="fixIsCheck"
           disabled={tipIsCheck === true ? true : false}
@@ -132,7 +132,7 @@ const Salary = ({
     </div>
     {/* PRODUCT SALARY  */}
     <div className="row justify-content-center">
-      <div className="col-8 salary-box">
+      <div className="col-12 salary-box">
         <Checkbox
           name="prodCommIsCheck"
           checked={prodCommIsCheck}

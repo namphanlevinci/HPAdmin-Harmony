@@ -78,7 +78,10 @@ class AddStaff extends Component {
       driverlicense: "",
       socialSecurityNumber: "",
       professionalLicense: "",
-      fileId: 0
+      fileId: 0,
+
+      showPin: false,
+      showConfirmPin: false
     };
 
     this.validator = new SimpleReactValidator();
@@ -112,6 +115,7 @@ class AddStaff extends Component {
         validator={this.validator}
         uploadFile={this.uploadFile}
         handleSelect={this.handleSelect}
+        toogleVisibility={this.toogleVisibility}
       />
     );
   };
@@ -352,6 +356,15 @@ class AddStaff extends Component {
     this.setState({ [name]: value });
   };
 
+  toogleVisibility = (name, value) => {
+    this.setState(
+      {
+        [name]: value
+      },
+      () => console.log("state", this.state.showPin)
+    );
+  };
+
   handleCheckBox = name => event => {
     this.setState({ ...this.state, [name]: event.target.checked });
   };
@@ -439,7 +452,7 @@ class AddStaff extends Component {
               ) : (
                 <div>
                   {this.getStepContent(activeStep)}
-                  <div>
+                  <div style={{ paddingTop: "20px" }}>
                     <Button
                       disabled={activeStep === 0}
                       onClick={this.handleBack}
