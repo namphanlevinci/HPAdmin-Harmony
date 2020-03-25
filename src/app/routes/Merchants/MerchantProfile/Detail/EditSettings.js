@@ -25,7 +25,8 @@ class EditSettings extends Component {
       totalAmountLimit: "",
       limit: "10000",
       update: false,
-      discountRate: ""
+      discountRate: "",
+      pointRate: ""
     };
   }
   _handleChange = event => {
@@ -44,7 +45,8 @@ class EditSettings extends Component {
       merchantToken: data.merchantToken,
       transactionsFee: data.transactionsFee,
       totalAmountLimit: data.totalAmountLimit,
-      discountRate: data.discountRate
+      discountRate: data.discountRate,
+      pointRate: data?.pointRate
     });
   }
   _toggleConfirm = () => {
@@ -61,7 +63,8 @@ class EditSettings extends Component {
       merchantToken,
       transactionsFee,
       totalAmountLimit,
-      discountRate
+      discountRate,
+      pointRate
     } = this.state;
     axios
       .put(
@@ -71,7 +74,8 @@ class EditSettings extends Component {
           merchantToken,
           transactionsfee: transactionsFee,
           totalAmountLimit,
-          discountRate
+          discountRate,
+          pointRate
         },
         {
           headers: {
@@ -200,6 +204,21 @@ class EditSettings extends Component {
                         name="discountRate"
                         value={this.state.discountRate}
                         onChange={this._handleChange}
+                      ></input>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Point Rate:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        name="pointRate"
+                        value={this.state.pointRate}
+                        onChange={this._handleChange}
+                        max={100}
+                        min={1}
                       ></input>
                     </td>
                   </tr>

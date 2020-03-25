@@ -28,6 +28,7 @@ class Settings extends Component {
       ID: "",
       Token: "",
       discountRate: "",
+      pointRate: "",
       isOpenReject: false,
       isOpenAccept: false
     };
@@ -45,6 +46,7 @@ class Settings extends Component {
       transactionsFee: data.transactionsFee,
       totalAmountLimit: data.totalAmountLimit,
       discountRate: data.discountRate,
+      pointRate: data?.pointRate,
       ID: data.merchantId,
       Token: Token
     });
@@ -103,9 +105,9 @@ class Settings extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="container react-transition swipe-up">
+        <div className="container-fuild react-transition swipe-up">
           <h2>Settings</h2>
-          <div className="container">
+          <div className="">
             <div className="SettingsContent">
               <div>
                 <h3>The charged percent fee of credit card transactions</h3>
@@ -138,6 +140,14 @@ class Settings extends Component {
                     Discount Rate:
                     <span style={{ color: "black", paddingLeft: "10px" }}>
                       {this.state.discountRate}
+                    </span>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Point Rate:
+                    <span style={{ color: "black", paddingLeft: "10px" }}>
+                      {this.state.pointRate}
                     </span>
                   </label>
                 </div>
