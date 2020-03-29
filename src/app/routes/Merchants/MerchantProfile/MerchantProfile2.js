@@ -34,6 +34,8 @@ import AddStaff from "./Detail/Staff/add-staff";
 import StaffGeneral from "./Detail/Staff/staff-detail/staff-info";
 // Extra Tab
 import ExtraTab from "./Detail/Extra/extra";
+// REPORT SETTLEMENT
+import ExportSettlement from "./Detail/ExportSettlement/export-settlement";
 
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
@@ -61,7 +63,13 @@ class merchantProfile2 extends Component {
           <div className="PendingLBody page-heading">
             <div className="PDL-Btn col-md-12">
               <h3>ID: {e.merchantId}</h3>
-              <span>
+              <span style={{ display: "flex" }}>
+                <span style={{ marginRight: "20px" }}>
+                  <ExportSettlement
+                    IDMERCHANT={e?.merchantId}
+                    Token={this.props.InfoUser_Login?.User?.token}
+                  />
+                </span>
                 <Button
                   style={{ color: "#0764b0", backgroundColor: "white" }}
                   className="btn btn-green"

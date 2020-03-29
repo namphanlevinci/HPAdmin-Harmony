@@ -126,7 +126,7 @@ class EditSettings extends Component {
   };
   render() {
     return (
-      <div className="container react-transition swipe-up">
+      <div className="container-fuild react-transition swipe-up">
         {this.state.update !== false ? (
           <div className="POPUP">
             <div className="POPUP-INNER2 SettingsPopup2">
@@ -149,7 +149,7 @@ class EditSettings extends Component {
           </div>
         ) : null}
         <h2>Settings</h2>
-        <div className="container">
+        <div className="container-fuild">
           <div className="GeneralContent SettingsContent">
             <div>
               <h3>The charged percent fee of credit card transactions</h3>
