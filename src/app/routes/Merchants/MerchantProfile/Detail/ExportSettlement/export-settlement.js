@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { store } from "react-notifications-component";
+import { css } from "@emotion/core";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -10,7 +11,7 @@ import Slide from "@material-ui/core/Slide";
 import Select from "react-select";
 import url from "../../../../../../url/url";
 import axios from "axios";
-
+import PulseLoader from "react-spinners/PulseLoader";
 const months = [
   { value: "1", label: "1" },
   { value: "2", label: "2" },
@@ -39,6 +40,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
   const nam = new Date().getFullYear();
   let years = Array.from(new Array(20), (val, index) => index + nam);
   const [year, setYear] = useState({ value: nam, label: nam });
+  const [loading, setLoading] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -49,10 +51,10 @@ function ExportSettlement({ IDMERCHANT, Token }) {
   };
 
   const getReportSettlement = () => {
+    setLoading(true);
     const config = {
       headers: { Authorization: "bearer " + Token }
     };
-    handleClose();
     axios
       .get(
         url +
@@ -80,11 +82,18 @@ function ExportSettlement({ IDMERCHANT, Token }) {
             setYear({ value: nam, label: nam });
             setMonth({ value: n, label: n });
             window.open(res.data.data.path);
+            setLoading(false);
+            handleClose();
           }, 100);
         }
       });
   };
-
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+    margin-top: 50px;
+  `;
   return (
     // .
     <div>
@@ -132,6 +141,19 @@ function ExportSettlement({ IDMERCHANT, Token }) {
               })}
               onChange={e => setYear({ value: e.value, label: e.value })}
             />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center"
+              }}
+            >
+              <PulseLoader
+                css={override}
+                size={16}
+                color={"#0764b0"}
+                loading={loading}
+              />
+            </div>
           </div>
         </DialogContent>
         <DialogActions>
