@@ -52,6 +52,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
     const config = {
       headers: { Authorization: "bearer " + Token }
     };
+    handleClose();
     axios
       .get(
         url +
@@ -76,9 +77,8 @@ function ExportSettlement({ IDMERCHANT, Token }) {
           });
         } else {
           setTimeout(() => {
-            handleClose();
-            setYear();
-            setMonth();
+            setYear({ value: nam, label: nam });
+            setMonth({ value: n, label: n });
             window.open(res.data.data.path);
           }, 100);
         }
@@ -103,14 +103,14 @@ function ExportSettlement({ IDMERCHANT, Token }) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
-        fullWidth
+        fullScreen
       >
         <DialogTitle id="alert-dialog-slide-title">
-          {"EXPORT SETTLEMENT"}
+          <span style={{ color: "#0764b0" }}>EXPORT SETTLEMENT</span>
         </DialogTitle>
         <DialogContent>
           <div>
-            <h4>Month</h4>
+            <h4 style={{ color: "#0764b0" }}>Month</h4>
             <Select
               options={months}
               placeholder="Month"
@@ -118,7 +118,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
               onChange={e => setMonth({ value: e.value, label: e.value })}
             />
             <br />
-            <h4>Year</h4>
+            <h4 style={{ color: "#0764b0" }}>Year</h4>
             <Select
               placeholder="Year"
               value={year}
@@ -134,10 +134,18 @@ function ExportSettlement({ IDMERCHANT, Token }) {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button
+            onClick={handleClose}
+            color="primary"
+            style={{ color: "#0764b0" }}
+          >
             Close
           </Button>
-          <Button onClick={getReportSettlement} color="primary">
+          <Button
+            onClick={getReportSettlement}
+            color="primary"
+            style={{ color: "#0764b0" }}
+          >
             Download
           </Button>
         </DialogActions>
