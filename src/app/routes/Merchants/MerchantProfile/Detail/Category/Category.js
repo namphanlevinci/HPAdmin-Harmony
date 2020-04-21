@@ -32,7 +32,7 @@ class Category extends Component {
       restoreDialog: false,
       cateDialog: false,
       // Category ID để update
-      categoryId: ""
+      categoryId: "",
     };
   }
 
@@ -41,10 +41,10 @@ class Category extends Component {
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.setState({ data: res.data.data, loading: false });
       });
   };
@@ -53,31 +53,31 @@ class Category extends Component {
     this.getCategory();
   }
 
-  _SearchMerchants = async e => {
+  _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
 
-  handleEdit = e => {
+  handleEdit = (e) => {
     this.props.VIEW_SERVICE(e);
     this.props.history.push("/app/merchants/profile/category/edit");
   };
 
-  handleSetState = data => {
+  handleSetState = (data) => {
     this.setState({
       categoryId: data.categoryType,
-      name: data.name
+      name: data.name,
     });
   };
 
-  handleArchive = ID => {
+  handleArchive = (ID) => {
     axios
       .put(URL + "/category/archive/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {})
-      .catch(error => {
+      .then((res) => {})
+      .catch((error) => {
         console.log(error);
       });
     this.setState({ isOpenReject: false, loading: true });
@@ -86,14 +86,14 @@ class Category extends Component {
     }, 1500);
   };
 
-  handleRestore = ID => {
+  handleRestore = (ID) => {
     axios
       .put(URL + "/category/restore/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {});
+      .then((res) => {});
     this.setState({ isOpenReject: false, loading: true });
     setTimeout(() => {
       this.getCategory();
@@ -103,7 +103,7 @@ class Category extends Component {
     let cagetoryList = this.state.data;
     if (cagetoryList) {
       if (this.state.search) {
-        cagetoryList = cagetoryList.filter(e => {
+        cagetoryList = cagetoryList.filter((e) => {
           if (e !== null) {
             return (
               e.name
@@ -123,40 +123,28 @@ class Category extends Component {
         id: "Name",
         width: 250,
         accessor: "name",
-        Cell: row => {
-          return (
-            <div>
-              <p>{row.original.name}</p>
-            </div>
-          );
-        }
+        Cell: (row) => {
+          return <div style={{ fontWeight: "600" }}>{row.original.name}</div>;
+        },
       },
       {
         id: "Type",
         Header: "Type",
         accessor: "categoryType",
-        Cell: e => (
-          <div>
-            <p>{e.value}</p>
-          </div>
-        )
+        Cell: (e) => <div>{e.value.toUpperCase()}</div>,
       },
       {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: e => (
-          <div>
-            <p>{e.value === 0 ? "Active" : "Disable"}</p>
-          </div>
-        ),
-        width: 120
+        Cell: (e) => <div>{e.value === 0 ? "Active" : "Disable"}</div>,
+        width: 120,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
         id: "Actions",
         sortable: false,
-        Cell: row => {
+        Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
               {row.original.isDisabled !== 1 ? (
@@ -165,8 +153,8 @@ class Category extends Component {
                   onClick={() => [
                     this.setState({
                       categoryId: row.original.categoryId,
-                      dialog: true
-                    })
+                      dialog: true,
+                    }),
                   ]}
                 />
               ) : (
@@ -175,7 +163,7 @@ class Category extends Component {
                   onClick={() =>
                     this.setState({
                       categoryId: row.original.categoryId,
-                      restoreDialog: true
+                      restoreDialog: true,
                     })
                   }
                 />
@@ -188,13 +176,13 @@ class Category extends Component {
               </span>
             </div>
           );
-        }
-      }
+        },
+      },
     ];
 
     const categorySelect = [
       { value: "product", label: "Product" },
-      { value: "service", label: "Service" }
+      { value: "service", label: "Service" },
     ];
     return (
       <div className="react-transition swipe-up category-container">
@@ -208,7 +196,7 @@ class Category extends Component {
                   className="textbox"
                   placeholder="Search.."
                   value={this.state.search}
-                  onChange={e => this.setState({ search: e.target.value })}
+                  onChange={(e) => this.setState({ search: e.target.value })}
                 />
               </form>
             </div>
@@ -233,7 +221,7 @@ class Category extends Component {
                     <div>
                       <Formik
                         initialValues={{ categoryType: "", name: "" }}
-                        validate={values => {
+                        validate={(values) => {
                           const errors = {};
                           if (!values.categoryType) {
                             errors.categoryType = "Required";
@@ -254,15 +242,15 @@ class Category extends Component {
                               {
                                 categoryType,
                                 name,
-                                merchantId
+                                merchantId,
                               },
                               {
                                 headers: {
-                                  Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-                                }
+                                  Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                                },
                               }
                             )
-                            .then(res => {
+                            .then((res) => {
                               let message = res.data.message;
                               if (res.data.codeNumber === 200) {
                                 this.setState({ cateDialog: false });
@@ -276,9 +264,9 @@ class Category extends Component {
                                   animationOut: ["animated", "fadeOut"],
                                   dismiss: {
                                     duration: 5000,
-                                    onScreen: true
+                                    onScreen: true,
                                   },
-                                  width: 250
+                                  width: 250,
                                 });
 
                                 setTimeout(() => {
@@ -295,9 +283,9 @@ class Category extends Component {
                                   animationOut: ["animated", "fadeOut"],
                                   dismiss: {
                                     duration: 5000,
-                                    onScreen: true
+                                    onScreen: true,
                                   },
-                                  width: 250
+                                  width: 250,
                                 });
                               }
                             });
@@ -311,7 +299,7 @@ class Category extends Component {
                           handleBlur,
                           handleSubmit,
                           isSubmitting,
-                          setFieldValue
+                          setFieldValue,
                         }) => (
                           <form onSubmit={handleSubmit}>
                             <h5>Category Type*</h5>
@@ -324,7 +312,7 @@ class Category extends Component {
                                     ? "text-input error"
                                     : "text-input"
                                 }
-                                onChange={selectedOption =>
+                                onChange={(selectedOption) =>
                                   setFieldValue(
                                     "categoryType",
                                     selectedOption.value
@@ -343,7 +331,7 @@ class Category extends Component {
                               style={{
                                 padding: "10px",
                                 height: "50px",
-                                width: "100%"
+                                width: "100%",
                               }}
                               type="text"
                               name="name"
@@ -426,7 +414,7 @@ class Category extends Component {
                 <Button
                   onClick={() => [
                     this.handleArchive(this.state.categoryId),
-                    this.setState({ dialog: false, categoryId: "" })
+                    this.setState({ dialog: false, categoryId: "" }),
                   ]}
                   color="primary"
                   autoFocus
@@ -462,7 +450,7 @@ class Category extends Component {
                 <Button
                   onClick={() => [
                     this.handleRestore(this.state.categoryId),
-                    this.setState({ restoreDialog: false, categoryId: "" })
+                    this.setState({ restoreDialog: false, categoryId: "" }),
                   ]}
                   color="primary"
                   autoFocus
@@ -478,13 +466,13 @@ class Category extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
-const mapDispatchToProps = dispatch => ({
-  VIEW_SERVICE: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  VIEW_SERVICE: (payload) => {
     dispatch(VIEW_SERVICE(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Category);

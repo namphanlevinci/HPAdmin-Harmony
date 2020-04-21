@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { store } from "react-notifications-component";
 import { css } from "@emotion/core";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,24 +13,13 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import Select from "react-select";
 import url from "../../../../../../url/url";
 import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
-const months = [
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-  { value: "6", label: "6" },
-  { value: "7", label: "7" },
-  { value: "8", label: "8" },
-  { value: "9", label: "9" },
-  { value: "10", label: "10" },
-  { value: "11", label: "11" },
-  { value: "12", label: "12" }
-];
+import moment from "moment";
+import "date-fns";
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -34,12 +28,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function ExportSettlement({ IDMERCHANT, Token }) {
   const [open, setOpen] = React.useState(false);
 
-  let d = new Date();
-  var n = d.getMonth() + 1;
-  const [month, setMonth] = useState({ value: n, label: n });
-  const nam = new Date().getFullYear();
-  let years = Array.from(new Array(20), (val, index) => index + nam);
-  const [year, setYear] = useState({ value: nam, label: nam });
+  const [selectFrom, setSelectFrom] = React.useState(
+    new Date("2020-04-17T21:11:54")
+  );
+
+  const [selectTo, setSelectTo] = React.useState(
+    new Date("2020-04-17T21:11:54")
+  );
+  const handleFromDateChange = (date) => {
+    setSelectFrom(date);
+  };
+  const handleToDateChange = (date) => {
+    setSelectTo(date);
+  };
   const [loading, setLoading] = useState(false);
 
   const handleClickOpen = () => {
@@ -53,15 +54,19 @@ function ExportSettlement({ IDMERCHANT, Token }) {
   const getReportSettlement = () => {
     setLoading(true);
     const config = {
-      headers: { Authorization: "bearer " + Token }
+      headers: { Authorization: "bearer " + Token },
     };
     axios
       .get(
         url +
-          `/settlement/export/monthly/${IDMERCHANT}?date=${year.value}-${month.value}-01`,
+          `/settlement/export/monthly/${IDMERCHANT}?fromDate=${moment(
+            selectFrom
+          ).format("YYYY-MM-DD")}&toDate${moment(selectTo).format(
+            "YYYY-MM-DD"
+          )}`,
         config
       )
-      .then(res => {
+      .then((res) => {
         if (res.codeNumber === 400) {
           store.addNotification({
             title: "ERROR!",
@@ -73,14 +78,12 @@ function ExportSettlement({ IDMERCHANT, Token }) {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
         } else {
           setTimeout(() => {
-            setYear({ value: nam, label: nam });
-            setMonth({ value: n, label: n });
             window.open(res.data.data.path);
             setLoading(false);
             handleClose();
@@ -113,38 +116,49 @@ function ExportSettlement({ IDMERCHANT, Token }) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
-        fullScreen
+        fullWidth
       >
         <DialogTitle id="alert-dialog-slide-title">
           <span style={{ color: "#0764b0" }}>EXPORT SETTLEMENT</span>
         </DialogTitle>
         <DialogContent>
           <div>
-            <h4 style={{ color: "#0764b0" }}>Month</h4>
-            <Select
-              options={months}
-              placeholder="Month"
-              value={month}
-              onChange={e => setMonth({ value: e.value, label: e.value })}
-            />
-            <br />
-            <h4 style={{ color: "#0764b0" }}>Year</h4>
-            <Select
-              placeholder="Year"
-              value={year}
-              options={years.map(e => {
-                return {
-                  id: e,
-                  label: e,
-                  value: e
-                };
-              })}
-              onChange={e => setYear({ value: e.value, label: e.value })}
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="space-around">
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="From Date"
+                  value={selectFrom}
+                  onChange={handleFromDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="To Date"
+                  value={selectTo}
+                  onChange={handleToDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
+
             <div
               style={{
                 display: "flex",
-                justifyContent: "center"
+                justifyContent: "center",
               }}
             >
               <PulseLoader

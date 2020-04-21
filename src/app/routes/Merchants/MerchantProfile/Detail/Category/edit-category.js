@@ -27,9 +27,9 @@ class EditCategory extends Component {
               <Formik
                 initialValues={{
                   categoryType: category.categoryType,
-                  name: category.name
+                  name: category.name,
                 }}
-                validate={values => {
+                validate={(values) => {
                   const errors = {};
                   if (!values.categoryType) {
                     errors.categoryType = "Please choose a Type";
@@ -49,15 +49,15 @@ class EditCategory extends Component {
                       {
                         categoryType,
                         name,
-                        merchantId
+                        merchantId,
                       },
                       {
                         headers: {
-                          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-                        }
+                          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                        },
                       }
                     )
-                    .then(res => {
+                    .then((res) => {
                       let message = res.data.message;
                       if (res.data.codeNumber === 200) {
                         NotificationManager.success(message, null, 800);
@@ -79,7 +79,7 @@ class EditCategory extends Component {
                   handleChange,
                   handleBlur,
                   handleSubmit,
-                  isSubmitting
+                  isSubmitting,
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <label style={{ padding: "10px 0px" }}>
@@ -95,19 +95,10 @@ class EditCategory extends Component {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       name="categoryType"
+                      value={values.categoryType.toLowerCase()}
                     >
-                      <option
-                        value="Product"
-                        selected={values.categoryType === "Product"}
-                      >
-                        Product
-                      </option>
-                      <option
-                        value="Service"
-                        selected={values.categoryType === "Service"}
-                      >
-                        Service
-                      </option>
+                      <option value="Product">Product</option>
+                      <option value="Service">Service</option>
                     </select>
                     {errors.categoryType && touched.categoryType && (
                       <div className="input-feedback">
@@ -150,7 +141,7 @@ class EditCategory extends Component {
                         style={{
                           marginTop: "20px",
                           backgroundColor: "#0764b0",
-                          color: "white"
+                          color: "white",
                         }}
                         className="btn btn-green"
                         type="submit"
@@ -170,9 +161,9 @@ class EditCategory extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  SERVICE: state.serviceProps
+  SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(EditCategory);

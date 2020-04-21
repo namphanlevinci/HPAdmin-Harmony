@@ -5,7 +5,7 @@ import Select from "react-select";
 
 const extraStatus = [
   { value: 0, label: "Active" },
-  { value: 1, label: "Disable" }
+  { value: 1, label: "Disable" },
 ];
 
 const Extra = ({
@@ -14,13 +14,13 @@ const Extra = ({
   handleChange,
   values,
   touched,
-  errors
+  errors,
 }) => (
   <Form noValidate autoComplete="off">
     <FieldArray
       name="extras"
       validateOnChange
-      render={arrayHelpers => (
+      render={(arrayHelpers) => (
         <div>
           {values.extras && values.extras.length > 0 ? (
             values.extras.map((extras, index) => {
@@ -90,7 +90,7 @@ const Extra = ({
                       <label>Status</label>
                       <Select
                         options={extraStatus}
-                        onChange={selectOptions => {
+                        onChange={(selectOptions) => {
                           setFieldValue(
                             `extras.${index}.isDisabled`,
                             selectOptions.value
@@ -122,7 +122,7 @@ const Extra = ({
             })
           ) : (
             <p className="extra-btn" onClick={() => arrayHelpers.push("")}>
-              Add Extra
+              + Add Extra
             </p>
           )}
         </div>

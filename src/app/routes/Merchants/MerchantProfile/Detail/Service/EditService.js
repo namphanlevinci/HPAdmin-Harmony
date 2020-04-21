@@ -37,7 +37,7 @@ class EditService extends Component {
       imageUrl: "",
       extras: [],
       //~ preview image
-      imagePreviewUrl: ""
+      imagePreviewUrl: "",
     };
   }
   componentDidMount() {
@@ -45,10 +45,10 @@ class EditService extends Component {
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.setState({ category: res.data.data });
       });
     const service = this.props.SERVICE;
@@ -68,16 +68,16 @@ class EditService extends Component {
         isDisabled: service.isDisabled,
         imageUrl: service.imageUrl,
         extras: service.extras,
-        serviceId: service.serviceId
+        serviceId: service.serviceId,
       });
     }
   }
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  _handleImageChange = e => {
+  _handleImageChange = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -86,7 +86,7 @@ class EditService extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
@@ -94,14 +94,14 @@ class EditService extends Component {
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
       .post(upfileUrl, formData, config)
-      .then(res => {
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -122,7 +122,7 @@ class EditService extends Component {
       isDisabled,
       fileId,
       extras,
-      serviceId
+      serviceId,
     } = this.state;
     const merchantId = this.props.MerchantProfile.merchantId;
     axios
@@ -140,15 +140,15 @@ class EditService extends Component {
           isDisabled,
           fileId,
           extras,
-          merchantId
+          merchantId,
         },
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         let message = res.data.message;
         if (res.data.codeNumber === 200) {
           store.addNotification({
@@ -161,9 +161,9 @@ class EditService extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
           setTimeout(() => {
             this.props.history.push("/app/merchants/profile/service");
@@ -179,9 +179,9 @@ class EditService extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
         }
       });
@@ -191,8 +191,8 @@ class EditService extends Component {
     const service = this.props.SERVICE;
     const { category } = this.state;
     const mapCategory = category
-      .filter(e => e.categoryType !== "Product")
-      .map(e => (
+      .filter((e) => e.categoryType !== "Product")
+      .map((e) => (
         <option value={e.categoryId} key={e.categoryId}>
           {e.name}
         </option>
@@ -228,12 +228,12 @@ class EditService extends Component {
             .required("Required"),
           duration: Yup.string().required("Required"),
           price: Yup.string().required("Required"),
-          isDisabled: Yup.string().required("Required")
+          isDisabled: Yup.string().required("Required"),
         })
-      )
+      ),
     });
 
-    const extraItem = service.extras.filter(e => e.isDeleted !== 1);
+    const extraItem = service.extras.filter((e) => e.isDeleted !== 1);
     return (
       <div className="react-transition swipe-up service-container">
         <h2 style={{ color: "#0764b0" }}>Edit Service</h2>
@@ -245,7 +245,7 @@ class EditService extends Component {
                   <label>Category*</label>
                   <br />
                   <select
-                    onChange={e =>
+                    onChange={(e) =>
                       this.setState({ categoryId: e.target.value })
                     }
                   >
@@ -285,7 +285,7 @@ class EditService extends Component {
                       width: "auto",
                       borderBottom: "none",
                       paddingTop: "20px",
-                      fontWeight: 400
+                      fontWeight: 400,
                     }}
                   />
                 </div>
@@ -329,7 +329,7 @@ class EditService extends Component {
                   <label>Status</label>
                   <br />
                   <select
-                    onChange={e =>
+                    onChange={(e) =>
                       this.setState({ isDisabled: e.target.value })
                     }
                   >
@@ -359,7 +359,7 @@ class EditService extends Component {
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
                   this.setState({
-                    extras: values.extras
+                    extras: values.extras,
                   });
                   this.updateService();
                 }}
@@ -371,7 +371,7 @@ class EditService extends Component {
                   handleChange,
                   handleBlur,
                   handleSubmit,
-                  isSubmitting
+                  isSubmitting,
                   /* and other goodies */
                 }) => (
                   <form onSubmit={handleSubmit}>
@@ -405,9 +405,9 @@ class EditService extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  SERVICE: state.serviceProps
+  SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(EditService);

@@ -12,6 +12,9 @@ import ReactTable from "react-table";
 import axios from "axios";
 import URL from "../../../../../../url/url";
 import defaultImage from "../Extra/hpadmin2.png";
+import AddService from "./add-service";
+import EditService from "./EditService";
+
 import "react-table/react-table.css";
 
 class Service extends Component {
@@ -25,7 +28,9 @@ class Service extends Component {
       dialog: false,
       restoreDialog: false,
       // Service ID
-      serviceId: ""
+      serviceId: "",
+
+      openEdit: false,
     };
   }
 
@@ -34,10 +39,10 @@ class Service extends Component {
     axios
       .get(URL + "/service/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.setState({ data: res.data.data, loading: false });
       });
   };
@@ -46,37 +51,42 @@ class Service extends Component {
     this.getService();
   }
 
-  handleEdit = e => {
+  handleEdit = (e) => {
     this.props.VIEW_SERVICE(e);
+    // this.setState({ openEdit: true });
     this.props.history.push("/app/merchants/profile/service/edit");
+  };
+
+  handleCloseEdit = () => {
+    this.setState({ openEdit: false });
   };
 
   handleCloseReject = () => {
     this.setState({ isOpenReject: false });
   };
 
-  handleArchive = ID => {
+  handleArchive = (ID) => {
     axios
       .put(URL + "/service/archive/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {});
+      .then((res) => {});
     this.setState({ isOpenReject: false, loading: true });
     setTimeout(() => {
       this.getService();
     }, 1500);
   };
 
-  handleRestore = ID => {
+  handleRestore = (ID) => {
     axios
       .put(URL + "/service/restore/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {});
+      .then((res) => {});
     this.setState({ isOpenReject: false, loading: true });
     setTimeout(() => {
       this.getService();
@@ -87,7 +97,7 @@ class Service extends Component {
     let serviceList = this.state.data;
     if (serviceList) {
       if (this.state.search) {
-        serviceList = serviceList.filter(e => {
+        serviceList = serviceList.filter((e) => {
           if (e !== null) {
             return (
               e.name
@@ -109,14 +119,14 @@ class Service extends Component {
       {
         Header: "Service Name",
         accessor: "name",
-        width: 150
+        width: 150,
       },
       {
         Header: "Image ",
         id: "Image",
         width: 150,
         accessor: "name",
-        Cell: row => {
+        Cell: (row) => {
           const image =
             row.original.imageUrl !== "" ? row.original.imageUrl : defaultImage;
           return (
@@ -127,57 +137,57 @@ class Service extends Component {
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 width: "100px",
-                height: "100px"
+                height: "100px",
               }}
             ></div>
           );
-        }
+        },
       },
       {
         id: "Categories",
         Header: "Categories",
         accessor: "categoryName",
-        Cell: e => (
+        Cell: (e) => (
           <div>
             <p>{e.value}</p>
           </div>
         ),
-        width: 150
+        width: 150,
       },
       {
         id: "duration",
         Header: "Duration",
         accessor: "duration",
-        Cell: e => (
+        Cell: (e) => (
           <div>
             <p>{e.value} Min</p>
           </div>
         ),
-        width: 150
+        width: 150,
       },
       {
         id: "price",
         Header: "Price",
         accessor: "price",
-        Cell: e => (
+        Cell: (e) => (
           <div>
             <p>$ {e.value}</p>
           </div>
         ),
-        width: 150
+        width: 150,
       },
       {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: e => <p>{e.value === 0 ? "Active" : "Disable"}</p>,
-        width: 120
+        Cell: (e) => <p>{e.value === 0 ? "Active" : "Disable"}</p>,
+        width: 120,
       },
       {
         id: "Actions",
         sortable: false,
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
-        Cell: row => {
+        Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
               {row.original.isDisabled !== 1 ? (
@@ -186,8 +196,8 @@ class Service extends Component {
                   onClick={() => [
                     this.setState({
                       categoryId: row.original.serviceId,
-                      dialog: true
-                    })
+                      dialog: true,
+                    }),
                   ]}
                 />
               ) : (
@@ -196,7 +206,7 @@ class Service extends Component {
                   onClick={() =>
                     this.setState({
                       categoryId: row.original.serviceId,
-                      restoreDialog: true
+                      restoreDialog: true,
                     })
                   }
                 />
@@ -209,8 +219,8 @@ class Service extends Component {
               </span>
             </div>
           );
-        }
-      }
+        },
+      },
     ];
 
     return (
@@ -225,19 +235,20 @@ class Service extends Component {
                   className="textbox"
                   placeholder="Search.."
                   value={this.state.search}
-                  onChange={e => this.setState({ search: e.target.value })}
+                  onChange={(e) => this.setState({ search: e.target.value })}
                 />
               </form>
             </div>
             <div>
-              <Button
+              {/* <Button
                 className="btn btn-green"
                 onClick={() =>
                   this.props.history.push("/app/merchants/profile/service/add")
                 }
               >
                 NEW SERVICE
-              </Button>
+              </Button> */}
+              <AddService reload={this.getService} />
             </div>
           </div>
 
@@ -250,6 +261,11 @@ class Service extends Component {
               noDataText="NO DATA!"
               loading={this.state.loading}
             />
+
+            {/* <EditService
+              isOpen={this.state.openEdit}
+              CloseEdit={this.handleCloseEdit}
+            /> */}
 
             {/* ARCHIVE */}
             <Dialog
@@ -278,7 +294,7 @@ class Service extends Component {
                 <Button
                   onClick={() => [
                     this.handleArchive(this.state.categoryId),
-                    this.setState({ dialog: false, categoryId: "" })
+                    this.setState({ dialog: false, categoryId: "" }),
                   ]}
                   color="primary"
                   autoFocus
@@ -314,7 +330,7 @@ class Service extends Component {
                 <Button
                   onClick={() => [
                     this.handleRestore(this.state.categoryId),
-                    this.setState({ restoreDialog: false, categoryId: "" })
+                    this.setState({ restoreDialog: false, categoryId: "" }),
                   ]}
                   color="primary"
                   autoFocus
@@ -330,13 +346,13 @@ class Service extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
-const mapDispatchToProps = dispatch => ({
-  VIEW_SERVICE: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  VIEW_SERVICE: (payload) => {
     dispatch(VIEW_SERVICE(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Service);
