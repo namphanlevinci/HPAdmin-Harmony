@@ -61,7 +61,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
         url +
           `/settlement/export/monthly/${IDMERCHANT}?fromDate=${moment(
             selectFrom
-          ).format("YYYY-MM-DD")}&toDate${moment(selectTo).format(
+          ).format("YYYY-MM-DD")}&toDate=${moment(selectTo).format(
             "YYYY-MM-DD"
           )}`,
         config
@@ -87,7 +87,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
             window.open(res.data.data.path);
             setLoading(false);
             handleClose();
-          }, 100);
+          }, 1000);
         }
       });
   };
