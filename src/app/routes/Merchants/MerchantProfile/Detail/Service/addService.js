@@ -9,6 +9,7 @@ import Extra from "./extra";
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import { AiOutlineClose } from "react-icons/ai";
 import * as Yup from "yup";
 
 import "react-table/react-table.css";
@@ -17,7 +18,6 @@ import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import "../Detail.css";
-
 import "./service.style.scss";
 class AddService extends Component {
   constructor(props) {
@@ -330,7 +330,11 @@ class AddService extends Component {
                           style={{
                             width: "100%",
                             height: "70px",
-                            padding: "10px"
+                            padding: "10px",
+                            borderWidth : 1,
+                            borderColor : '#dddddd',
+                            borderStyle: 'solid',
+                            borderRadius: 5
                           }}
                         />
                         <label style={{ paddingTop: "10px" }}>Image</label>

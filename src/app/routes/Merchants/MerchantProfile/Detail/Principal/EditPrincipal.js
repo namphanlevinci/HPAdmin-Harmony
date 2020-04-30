@@ -228,7 +228,7 @@ class EditPrincipal extends Component {
               <h4>Social Security Number (SSN)*</h4>
               <input
                 name="ssn"
-                value={e.ssn}
+                value={e.fullSsn}
                 onChange={this._handleChange}
                 disabled
               ></input>

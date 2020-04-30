@@ -231,9 +231,16 @@ class Transactions extends React.Component {
                 />
               </form>
             </div>
+
+            <div>
+              <Button style={{ backgroundColor: '#1366AE', color : 'white' }} variant="contained" onClick={this.handleResetClick}>
+                RESET
+              </Button>
+            </div>
+
           </div>
           <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
-            <div className="col-md-4" align="center">
+            <div className="col-md-4">
               <form noValidate>
                 <TextField
                   id="date"
@@ -277,7 +284,7 @@ class Transactions extends React.Component {
                 <option value="month">This month</option>
               </select>
             </div>
-            <div className="col-md-4 searchx" align="center">
+            <div className="col-md-4 searchx">
               <h6
                 style={{
                   color: "rgba(0, 0, 0, 0.54)",
@@ -334,11 +341,6 @@ class Transactions extends React.Component {
                   />
                 </form>
               </div>
-            </div>
-            <div className="col-md-12">
-              <Button variant="contained" onClick={this.handleResetClick}>
-                RESET
-              </Button>
             </div>
           </div>
           <div className="MListContainer Transactions">

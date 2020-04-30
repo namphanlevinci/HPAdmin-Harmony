@@ -131,102 +131,104 @@ class Principal extends Component {
             // console.log("VALUES", values);
             // console.log("THIS SUPER STATE", this.props.Info);
 
-            const data = this.props.Info;
-            axios
-              .post(URL + "/merchant", {
-                generalInfo: {
-                  businessName: data?.businessName,
-                  doingBusiness: data?.doingBusiness,
-                  tax: data?.tax,
-                  businessAddress: {
-                    address: data?.address,
-                    city: data?.city,
-                    state: data?.state,
-                    zip: data?.zip
-                  },
-                  businessPhone: data?.businessPhoneCode + data?.businessPhone,
-                  email: data?.email,
-                  firstName: data?.firstName,
-                  lastName: data?.lastName,
-                  position: data?.position,
-                  contactPhone: data?.contactPhoneCode + data?.contactPhone
-                },
-                businessInfo: {
-                  question1: {
-                    isAccept: data?.isAccept1,
-                    desc: "",
-                    question: data?.question1
-                  },
-                  question2: {
-                    isAccept: data?.isAccept2,
-                    desc: "",
-                    question: data?.question2
-                  },
-                  question3: {
-                    isAccept: data?.isAccept3,
-                    desc: "",
-                    question: data?.question3
-                  },
-                  question4: {
-                    isAccept: data?.isAccept4,
-                    desc: "",
-                    question: data?.question4
-                  },
-                  question5: {
-                    isAccept: data?.isAccept5,
-                    desc: "",
-                    question: data?.question5
-                  }
-                },
-                bankInfo: {
-                  bankName: data?.bankName,
-                  routingNumber: data?.routingNumber,
-                  accountNumber: data?.accountNumber,
-                  fileId: data?.fileId
-                },
-                principalInfo: values?.principalInfo
-              })
-              .then(res => {
-                console.log("RESULT ADD MERCHANT", res);
+            // const data = this.props.Info;
+            this.props.handleNext();
+            this.props.setDataPrincipal(values?.principalInfo)
+            // axios
+            //   .post(URL + "/merchant", {
+            //     generalInfo: {
+            //       businessName: data?.businessName,
+            //       doingBusiness: data?.doingBusiness,
+            //       tax: data?.tax,
+            //       businessAddress: {
+            //         address: data?.address,
+            //         city: data?.city,
+            //         state: data?.state,
+            //         zip: data?.zip
+            //       },
+            //       businessPhone: data?.businessPhoneCode + data?.businessPhone,
+            //       email: data?.email,
+            //       firstName: data?.firstName,
+            //       lastName: data?.lastName,
+            //       position: data?.position,
+            //       contactPhone: data?.contactPhoneCode + data?.contactPhone
+            //     },
+            //     businessInfo: {
+            //       question1: {
+            //         isAccept: data?.isAccept1,
+            //         desc: "",
+            //         question: data?.question1
+            //       },
+            //       question2: {
+            //         isAccept: data?.isAccept2,
+            //         desc: "",
+            //         question: data?.question2
+            //       },
+            //       question3: {
+            //         isAccept: data?.isAccept3,
+            //         desc: "",
+            //         question: data?.question3
+            //       },
+            //       question4: {
+            //         isAccept: data?.isAccept4,
+            //         desc: "",
+            //         question: data?.question4
+            //       },
+            //       question5: {
+            //         isAccept: data?.isAccept5,
+            //         desc: "",
+            //         question: data?.question5
+            //       }
+            //     },
+            //     bankInfo: {
+            //       bankName: data?.bankName,
+            //       routingNumber: data?.routingNumber,
+            //       accountNumber: data?.accountNumber,
+            //       fileId: data.fileId ? data.fileId : 0,
+            //     },
+            //     principalInfo: values?.principalInfo
+            //   })
+            //   .then(res => {
+            //     console.log("RESULT ADD MERCHANT", res);
 
-                if ((res.status = 200)) {
-                  store.addNotification({
-                    title: "Success!",
-                    message: `${res.data.message}`,
-                    type: "success",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                      duration: 5000,
-                      onScreen: true
-                    },
-                    width: 250
-                  });
-                  setTimeout(() => {
-                    this.props.history.push("/app/merchants/list");
-                  }, 1500);
-                } else {
-                  store.addNotification({
-                    title: "ERROR!",
-                    message: "Something went wrong",
-                    type: "danger",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                      duration: 5000,
-                      onScreen: true
-                    },
-                    width: 250
-                  });
-                }
-              })
-              .catch(error => {
-                console.log(error);
-              });
+            //     if ((res.status = 200)) {
+            //       store.addNotification({
+            //         title: "Success!",
+            //         message: `${res.data.message}`,
+            //         type: "success",
+            //         insert: "top",
+            //         container: "top-right",
+            //         animationIn: ["animated", "fadeIn"],
+            //         animationOut: ["animated", "fadeOut"],
+            //         dismiss: {
+            //           duration: 5000,
+            //           onScreen: true
+            //         },
+            //         width: 250
+            //       });
+            //       setTimeout(() => {
+            //         this.props.returnMerchantList();
+            //       }, 1500);
+            //     } else {
+            //       store.addNotification({
+            //         title: "ERROR!",
+            //         message: "Something went wrong",
+            //         type: "danger",
+            //         insert: "top",
+            //         container: "top-right",
+            //         animationIn: ["animated", "fadeIn"],
+            //         animationOut: ["animated", "fadeOut"],
+            //         dismiss: {
+            //           duration: 5000,
+            //           onScreen: true
+            //         },
+            //         width: 250
+            //       });
+            //     }
+            //   })
+            //   .catch(error => {
+            //     console.log(error);
+            //   });
           }}
           render={({ values, setFieldValue }) => (
             <Form className="principal-form">
@@ -496,12 +498,19 @@ class Principal extends Component {
                       </p>
                     )}
                     <div style={{ marginTop: "15px" }}>
+                    <Button
+												onClick={()=>this.props.handleBack()}
+												className="mr-2"
+												style={{ color: 'black' }}
+											>
+												Back
+											</Button>
                       <Button
                         type="submit"
                         variant="contained"
                         style={{ backgroundColor: "#0764b0", color: "white" }}
                       >
-                        Submit
+                        Next
                       </Button>
                     </div>
                   </div>

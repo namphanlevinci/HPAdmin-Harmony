@@ -1,5 +1,5 @@
 .service-container {
-  text-align: center;
+  text-align: left;
 
 
   label {
@@ -15,4 +15,20 @@
 
 div.rt-tr {
   align-items: center;
+}
+
+.css-1okebmr-indicatorSeparator{
+  width: 0px !important;
+}
+.css-1wa3eu0-placeholder{
+  margin-left : 0 !important;
+}
+
+.css-1wa3eu0-placeholder{
+  // left : 0 !important;
+  // right: 0 !important;
+}
+
+.textarea:focus, input:focus{
+  outline: none !important;
 }

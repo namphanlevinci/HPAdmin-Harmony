@@ -20,6 +20,7 @@ class PrincipalList extends Component {
 
   render() {
     const e = this.props.MerchantProfile;
+    console.log({e})
     const PrincipalData = e.principals;
     let Principal =
       PrincipalData !== undefined

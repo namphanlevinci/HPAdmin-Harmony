@@ -49,7 +49,7 @@ const General = ({ handleChange, value, validator }) => {
           <div className="form-group">
             <TextField
               name="tax"
-              label="Tax ID"
+              label="Federal Tax ID"
               type="text"
               margin="normal"
               fullWidth

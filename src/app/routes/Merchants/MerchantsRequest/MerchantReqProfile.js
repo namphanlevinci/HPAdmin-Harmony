@@ -150,7 +150,7 @@ class MerchantReqProfile extends Component {
               </div>
               <div className="col-4">
                 <h4>Social Security Number (SSN)*</h4>
-                <p>{e.ssn}</p>
+                <p>{e.fullSsn}</p>
               </div>
               <div className="col-4">
                 <h4>Date of Birth (mm/dd/yy)*</h4>

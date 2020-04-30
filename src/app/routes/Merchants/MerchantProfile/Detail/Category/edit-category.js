@@ -95,7 +95,7 @@ class EditCategory extends Component {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       name="categoryType"
-                      value={values.categoryType.toLowerCase()}
+                      value={values.categoryType}
                     >
                       <option value="Product">Product</option>
                       <option value="Service">Service</option>

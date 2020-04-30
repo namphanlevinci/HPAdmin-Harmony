@@ -73,12 +73,13 @@ class General extends Component {
       firstName,
       lastName,
       title
-    };
+    }
     this.props.updateMerchant(payload);
     setTimeout(() => {
       this.props.GetMerchant_byID(IDMerchant);
     }, 1000);
   };
+
   _handleChange = event => {
     const target = event.target;
     const value = target.value;

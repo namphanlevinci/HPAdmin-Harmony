@@ -19,8 +19,8 @@ const Questions = ({ handleQuestions, businessInfo }) => {
               handleQuestions([e, `isAccept${e.questionId}`]))
             }
           >
-            <FormControlLabel value="false" control={<Radio />} label="No" />
-            <FormControlLabel value="true" control={<Radio />} label="Yes" />
+            <FormControlLabel value="false" control={<Radio color='primary' />} label="No" />
+            <FormControlLabel value="true" control={<Radio color='primary' />} label="Yes" />
           </RadioGroup>
         </div>
       </div>
