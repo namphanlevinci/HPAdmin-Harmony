@@ -19,44 +19,46 @@ import { store } from "react-notifications-component";
 
 import '../merchantsList.css';
 import './add-merchant.styles.scss';
+
+const initialState={
+	imagePreviewUrl: '',
+	initialBusinessQuestions: {},
+
+	activeStep: 0,
+	// General Info
+	businessName: '',
+	doingBusiness: '',
+	tax: '',
+	address: '',
+	city: '',
+	state: '',
+	zip: '',
+	businessPhoneCode: '+1',
+	businessPhone: '',
+	email: '',
+	firstName: '',
+	lastName: '',
+	position: 1,
+	contactPhoneCode: '+1',
+	contactPhone: '',
+
+	isAccept1: '',
+	desc1: '',
+	question1: '',
+
+	// Bank Info
+	bankName: '',
+	routingNumber: '',
+	accountNumber: '',
+	fileId: '',
+	valuePricingPlane: 1,
+	principalInfo: ''
+}
+
 class AddMerchant extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			// preview Bank image
-			imagePreviewUrl: '',
-			initialBusinessQuestions: {},
-
-			activeStep: 0,
-			// General Info
-			businessName: '',
-			doingBusiness: '',
-			tax: '',
-			address: '',
-			city: '',
-			state: '',
-			zip: '',
-			businessPhoneCode: '+1',
-			businessPhone: '',
-			email: '',
-			firstName: '',
-			lastName: '',
-			position: 1,
-			contactPhoneCode: '+1',
-			contactPhone: '',
-
-			isAccept1: '',
-			desc1: '',
-			question1: '',
-
-			// Bank Info
-			bankName: '',
-			routingNumber: '',
-			accountNumber: '',
-			fileId: '',
-			valuePricingPlane: 1,
-			principalInfo: ''
-		};
+		this.state = initialState;
 		this.validator = new SimpleReactValidator({
 			messages: {
 				default: 'Required' // will override all messages
@@ -322,6 +324,7 @@ class AddMerchant extends React.Component {
 		return (
 			<div className="react-transition swipe-right add-merchant-container ">
 				<ContainerHeader match={this.props.match} title={<IntlMessages id="sidebar.dashboard.addmerchant" />} />
+				
 				<div className="MerList page-heading" style={{ padding: '30px' }}>
 					<div className="w-100">
 						<Stepper activeStep={activeStep} alternativeLabel className="horizontal-stepper-linear">
@@ -362,7 +365,6 @@ class AddMerchant extends React.Component {
 
 												<Button
 													variant="contained"
-													// type="submit"
 													onClick={() => {
 														if (activeStep === steps.length - 1) this.submitAddMerchant();
 														else this.handleNext();
