@@ -88,7 +88,7 @@ class AddService extends Component {
 			extras: [],
 			//~ preview image
 			imagePreviewUrl: '',
-			render: true,
+			render: false,
 			open: false
 		};
 	}
@@ -192,14 +192,14 @@ class AddService extends Component {
 			$imagePreview = (
 				<img
 					src={imagePreviewUrl}
-					style={{ width: '200px', height: '150px', marginBottom: '30px' }}
+					style={{ width: 120, height: 120, marginBottom: '30px' }}
 					alt="service 1"
 
 				/>
 			);
 		} else {
 			$imagePreview = (
-				<img src={ServiceImg} style={{ width: '200px', height: '150px', marginBottom: '30px' }} alt="service" />
+				<img src={ServiceImg} style={{ width: 120, height: 120, marginBottom: '30px' }} alt="service" />
 			);
 		}
 
@@ -234,8 +234,8 @@ class AddService extends Component {
 											name: '',
 											description: '',
 											duration: '',
-											openTime: 0,
-											secondTime: 0,
+											openTime: "",
+											secondTime: "",
 											price: '',
 											categoryId: '',
 											isDisabled: '',
@@ -267,8 +267,8 @@ class AddService extends Component {
 														name,
 														duration,
 														description,
-														openTime,
-														secondTime,
+														openTime : openTime ? openTime : 0,
+														secondTime : secondTime ? secondTime : 0,
 														price,
 														discount,
 														isDisabled,

@@ -102,7 +102,10 @@ class AddMerchant extends React.Component {
 	getStepContent = (stepIndex) => {
 		switch (stepIndex) {
 			case 0:
-				return <General handleChange={this.handleChange} value={this.state} validator={this.validator} />;
+				return (<General
+					handleChange={this.handleChange}
+					value={this.state}
+					validator={this.validator} />)
 			case 1:
 				return (
 					<Questions
@@ -112,7 +115,10 @@ class AddMerchant extends React.Component {
 					/>
 				);
 			case 2:
-				return <Bank uploadFile={this.uploadFile} handleChange={this.handleChange} value={this.state} />;
+				return (<Bank
+					uploadFile={this.uploadFile}
+					handleChange={this.handleChange}
+					value={this.state} />)
 			case 3:
 				return (
 					<Principal
@@ -215,10 +221,10 @@ class AddMerchant extends React.Component {
 				doingBusiness: data?.doingBusiness,
 				tax: data?.tax,
 				businessAddress: {
-				  address: data?.address,
-				  city: data?.city,
-				  state: data?.state,
-				  zip: data?.zip
+					address: data?.address,
+					city: data?.city,
+					state: data?.state,
+					zip: data?.zip
 				},
 				businessPhone: data?.businessPhoneCode + data?.businessPhone,
 				email: data?.email,
@@ -226,88 +232,88 @@ class AddMerchant extends React.Component {
 				lastName: data?.lastName,
 				position: data?.position,
 				contactPhone: data?.contactPhoneCode + data?.contactPhone
-			  },
-			  businessInfo: {
+			},
+			businessInfo: {
 				question1: {
-				  isAccept: data?.isAccept1,
-				  desc: "",
-				  question: data?.question1
+					isAccept: data?.isAccept1,
+					desc: "",
+					question: data?.question1
 				},
 				question2: {
-				  isAccept: data?.isAccept2,
-				  desc: "",
-				  question: data?.question2
+					isAccept: data?.isAccept2,
+					desc: "",
+					question: data?.question2
 				},
 				question3: {
-				  isAccept: data?.isAccept3,
-				  desc: "",
-				  question: data?.question3
+					isAccept: data?.isAccept3,
+					desc: "",
+					question: data?.question3
 				},
 				question4: {
-				  isAccept: data?.isAccept4,
-				  desc: "",
-				  question: data?.question4
+					isAccept: data?.isAccept4,
+					desc: "",
+					question: data?.question4
 				},
 				question5: {
-				  isAccept: data?.isAccept5,
-				  desc: "",
-				  question: data?.question5
+					isAccept: data?.isAccept5,
+					desc: "",
+					question: data?.question5
 				}
-			  },
-			  bankInfo: {
+			},
+			bankInfo: {
 				bankName: data?.bankName,
 				routingNumber: data?.routingNumber,
 				accountNumber: data?.accountNumber,
 				fileId: data.fileId ? data.fileId : 0,
-			  },
-			  principalInfo: data.principalInfo,
-			  packagePricing : data.valuePricingPlane
+			},
+			principalInfo: data.principalInfo,
+			packagePricing: data.valuePricingPlane
 		};
 
 		axios
-              .post(URL + "/merchant", body)
-              .then(res => {
-                console.log("RESULT ADD MERCHANT", res);
+			.post(URL + "/merchant", body)
+			.then(res => {
+				console.log("RESULT ADD MERCHANT", res);
 
-                if ((res.status = 200)) {
-                  store.addNotification({
-                    title: "Success!",
-                    message: `${res.data.message}`,
-                    type: "success",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                      duration: 5000,
-                      onScreen: true
-                    },
-                    width: 250
-                  });
-                  setTimeout(() => {
-                    this.navigateToMerchantList();
-                  }, 1500);
-                } else {
-                  store.addNotification({
-                    title: "ERROR!",
-                    message: "Something went wrong",
-                    type: "danger",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                      duration: 5000,
-                      onScreen: true
-                    },
-                    width: 250
-                  });
-                }
-              })
-              .catch(error => {
-                console.log(error);
-              });
-		
+				if ((res.status = 200)) {
+					store.addNotification({
+						title: "Success!",
+						message: `${res.data.message}`,
+						type: "success",
+						insert: "top",
+						container: "top-right",
+						animationIn: ["animated", "fadeIn"],
+						animationOut: ["animated", "fadeOut"],
+						dismiss: {
+							duration: 5000,
+							onScreen: true
+						},
+						width: 250
+					});
+					setTimeout(() => {
+						this.navigateToMerchantList();
+					}, 1500);
+				} else {
+					store.addNotification({
+						title: "ERROR!",
+						message: "Something went wrong",
+						type: "danger",
+						insert: "top",
+						container: "top-right",
+						animationIn: ["animated", "fadeIn"],
+						animationOut: ["animated", "fadeOut"],
+						dismiss: {
+							duration: 5000,
+							onScreen: true
+						},
+						width: 250
+					});
+				}
+			})
+			.catch(error => {
+				console.log(error);
+			});
+
 	};
 
 	render() {
@@ -340,35 +346,35 @@ class AddMerchant extends React.Component {
 									<Button onClick={this.handleReset}>Reset</Button>
 								</div>
 							) : (
-								<div>
-									{this.getStepContent(activeStep)}
+									<div>
+										{this.getStepContent(activeStep)}
 
-									{this.state.activeStep === 3 ? null : (
-										<div style={{ marginTop: '15px' }}>
-											<Button
-												disabled={activeStep === 0}
-												onClick={this.handleBack}
-												className="mr-2"
-												style={{ color: 'black' }}
-											>
-												Back
+										{this.state.activeStep === 3 ? null : (
+											<div style={{ marginTop: '15px' }}>
+												<Button
+													disabled={activeStep === 0}
+													onClick={this.handleBack}
+													className="mr-2"
+													style={{ color: 'black' }}
+												>
+													Back
 											</Button>
 
-											<Button
-												variant="contained"
-												// type="submit"
-												onClick={() => {
-													if (activeStep === steps.length - 1) this.submitAddMerchant();
-													else this.handleNext();
-												}}
-												style={{ backgroundColor: '#0764b0', color: 'white' }}
-											>
-												{activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-											</Button>
-										</div>
-									)}
-								</div>
-							)}
+												<Button
+													variant="contained"
+													// type="submit"
+													onClick={() => {
+														if (activeStep === steps.length - 1) this.submitAddMerchant();
+														else this.handleNext();
+													}}
+													style={{ backgroundColor: '#0764b0', color: 'white' }}
+												>
+													{activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+												</Button>
+											</div>
+										)}
+									</div>
+								)}
 						</div>
 					</div>
 				</div>

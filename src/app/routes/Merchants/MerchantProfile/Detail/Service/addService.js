@@ -174,8 +174,7 @@ class AddService extends Component {
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            // console.log("VALUES", values);
-            // console.log("NOT RUNNING");
+
             const {
               categoryId,
               name,
@@ -379,6 +378,7 @@ class AddService extends Component {
                               : "text-input"
                           }
                         />
+
                         {errors.duration && touched.duration && (
                           <div className="input-feedback">
                             {errors.duration}

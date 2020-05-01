@@ -408,7 +408,7 @@ class AddProduct extends Component {
 												</div>
 											</div>
 
-											<div className="col-12" style={{ marginTop: 40 }}>
+											<div className="col-6" style={{ marginTop: 40 }}>
 												{/* <label>SKU Number*</label>
 												<br /> */}
 												<input
@@ -430,14 +430,15 @@ class AddProduct extends Component {
 												{errors.sku &&
 												touched.sku && <div className="input-feedback">{errors.sku}</div>}
 											</div>
-											<div className="col-12" style={{ marginTop: 40 }}>
-												{/* <label>Items in Stock*</label>
-												<br /> */}
+											<div className="col-6" style={{ marginTop: 40 }}></div>
+											<div className="col-6" style={{ marginTop: 40 }}>
+												<label style={{ color : '#4054B2' }}>Items in Stock*</label>
+												<br />
 												<input
 													name="quantity"
 													type="number"
 													placeholder="Items in Stock*"
-													style={{ borderBottomColor: '#dddddd', borderBottomWidth: 1 }}
+													style={{ borderBottomColor: '#dddddd', borderBottomWidth: 1 , width : '50%' }}
 													onChange={handleChange}
 													onBlur={handleBlur}
 													value={values.quantity}
@@ -454,6 +455,7 @@ class AddProduct extends Component {
 													<div className="input-feedback">{errors.quantity}</div>
 												)}
 											</div>
+											<div className="col-6" style={{ marginTop: 40 }}></div>
 											<div className="col-6" style={{ marginTop: 40 }}>
 												<label style={{ color: '#4054B2' }}>Min Threshold*</label>
 												<br />
