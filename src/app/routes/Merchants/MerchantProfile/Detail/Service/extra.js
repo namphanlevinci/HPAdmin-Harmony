@@ -2,7 +2,7 @@ import React from "react";
 import { FieldArray, Field, getIn, Form } from "formik";
 import ErrorMessage from "./error-message";
 import Select from "react-select";
-import '../Detail.css'
+import "../Detail.css";
 import { AiOutlineClose } from "react-icons/ai";
 
 const extraStatus = [
@@ -11,9 +11,21 @@ const extraStatus = [
 ];
 
 const colourStyles = {
-  control: (styles) => ({ ...styles, borderWidth: 0, borderBottomWidth: 1, borderRadius: 0, backgroundColor: 'transparent' }),
-  input: (styles) => ({ ...styles, borderWidth: 0, fontSize: 16, paddingLeft: 0, backgroundColor: 'transparent' }),
-  placeholder: (styles) => ({ ...styles })
+  control: (styles) => ({
+    ...styles,
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderRadius: 0,
+    backgroundColor: "transparent",
+  }),
+  input: (styles) => ({
+    ...styles,
+    borderWidth: 0,
+    fontSize: 16,
+    paddingLeft: 0,
+    backgroundColor: "transparent",
+  }),
+  placeholder: (styles) => ({ ...styles }),
   // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
 };
 
@@ -25,47 +37,71 @@ const Extra = ({
   touched,
   errors,
 }) => (
-    <Form noValidate autoComplete="off">
-      <FieldArray
-        name="extras"
-        validateOnChange
-        render={(arrayHelpers) => (
-          <div>
-            {values.extras && values.extras.length > 0 ? (
-              values.extras.map((extras, index) => {
-                // const extraName = `extras.${index}.name`;
-                // const touchedExtraName = getIn(touched, extraName);
-                // const errorExtraName = getIn(errors, extraName);
+  <Form noValidate autoComplete="off">
+    <FieldArray
+      name="extras"
+      validateOnChange
+      render={(arrayHelpers) => (
+        <div>
+          {values.extras && values.extras.length > 0 ? (
+            values.extras.map((extras, index) => {
+              // const extraName = `extras.${index}.name`;
+              // const touchedExtraName = getIn(touched, extraName);
+              // const errorExtraName = getIn(errors, extraName);
 
-                // const duration = `extras.${index}.duration`;
-                // const touchedDuration = getIn(touched, duration);
-                // const errorDuration = getIn(errors, duration);
+              // const duration = `extras.${index}.duration`;
+              // const touchedDuration = getIn(touched, duration);
+              // const errorDuration = getIn(errors, duration);
 
-                // const price = `extras.${index}.price`;
-                // const touchedprice = getIn(touched, price);
-                // const errorPrice = getIn(errors, price);
-                return (
-                  <div style={{ marginBottom: 40 }}>
-                    <div style={{
-                      backgroundColor: '#f7f7f7',
-                      width: '80%',
-                      position: 'relative',
-                    }} key={index} className="row">
-                      <div
-                        onClick={() => arrayHelpers.remove(index)}
-                        style={{ position: 'absolute', top: 10, right: 10, color: 'red' }}>
-                        <AiOutlineClose />
+              // const price = `extras.${index}.price`;
+              // const touchedprice = getIn(touched, price);
+              // const errorPrice = getIn(errors, price);
+              return (
+                <div style={{ marginBottom: 40 }}>
+                  <div
+                    style={{
+                      backgroundColor: "#f7f7f7",
+                      width: "80%",
+                      position: "relative",
+                    }}
+                    key={index}
+                    className="row"
+                  >
+                    <div
+                      onClick={() => arrayHelpers.remove(index)}
+                      style={{
+                        position: "absolute",
+                        top: 10,
+                        right: 10,
+                        color: "red",
+                      }}
+                    >
+                      <AiOutlineClose />
+                    </div>
+
+                    <div className="col-10">
+                      <label
+                        style={{
+                          fontSize: 14,
+                          color: "#0074d9",
+                          fontWeight: "600",
+                          letterSpacing: 0.3,
+                        }}
+                      >
+                        New Extra
+                      </label>
+                      <br />
+                      <Field
+                        placeholder="Extra name*"
+                        style={styles.input}
+                        name={`extras.${index}.name`}
+                        type="text"
+                      />
+                      <div className="input-feedback">
+                        <ErrorMessage name={`extras.${index}.name`} />
                       </div>
 
-                      <div className="col-10">
-                        <label style={{ fontSize: 14, color: '#4054B2', fontWeight: '600', letterSpacing : 0.3 }}>New Extra</label>
-                        <br />
-                        <Field placeholder='Extra name*' style={styles.input} name={`extras.${index}.name`} type="text" />
-                        <div className="input-feedback">
-                          <ErrorMessage name={`extras.${index}.name`} />
-                        </div>
-
-                        {/* <TextField
+                      {/* <TextField
                         margin="normal"
                         variant="outlined"
                         label="First name"
@@ -80,102 +116,130 @@ const Extra = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                       /> */}
-                      </div>
-                      <div className="col-10" style={{ marginTop: 20 }}>
-                        <label style={{ fontSize: 14, color: '#4054B2' }}>Description</label>
-                        <br />
-                        <Field as='textarea' style={styles.textarea} name={`extras.${index}.description`} type="text" />
+                    </div>
+                    <div className="col-10" style={{ marginTop: 20 }}>
+                      <label style={{ fontSize: 14, color: "#0074d9" }}>
+                        Description
+                      </label>
+                      <br />
+                      <Field
+                        as="textarea"
+                        style={styles.textarea}
+                        name={`extras.${index}.description`}
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      backgroundColor: "#f7f7f7",
+                      width: "80%",
+                      paddingBottom: 20,
+                    }}
+                    className="row"
+                  >
+                    <div className="col-10" style={{ marginTop: 20 }}>
+                      <label style={{ fontSize: 14, color: "#0074d9" }}>
+                        <span className="small-label">Duration*</span>
+                      </label>
+                      <Field
+                        placeholder="min"
+                        style={styles.input}
+                        name={`extras.${index}.duration`}
+                        type="number"
+                      />
+                      <div className="input-feedback">
+                        <ErrorMessage name={`extras.${index}.duration`} />
                       </div>
                     </div>
-                    <div style={{ backgroundColor: '#f7f7f7', width: '80%', paddingBottom: 20 }} className="row">
-                      <div className="col-10" style={{ marginTop: 20 }}>
-                        <label style={{ fontSize: 14, color: '#4054B2' }}>
-                          <span className="small-label">Duration*</span>
-                        </label>
-                        <Field placeholder='min' style={styles.input} name={`extras.${index}.duration`} type="number" />
-                        <div className="input-feedback">
-                          <ErrorMessage name={`extras.${index}.duration`} />
-                        </div>
+                    <div className="col-10" style={{ marginTop: 20 }}>
+                      <label style={{ fontSize: 14, color: "#0074d9" }}>
+                        Price*
+                      </label>
+                      <Field
+                        placeholder="$"
+                        style={styles.input}
+                        name={`extras.${index}.price`}
+                        type="number"
+                      />
+                      <div className="input-feedback">
+                        <ErrorMessage name={`extras.${index}.price`} />
                       </div>
-                      <div className="col-10" style={{ marginTop: 20 }}>
-                        <label style={{ fontSize: 14, color: '#4054B2' }}>Price*</label>
-                        <Field placeholder='$' style={styles.input} name={`extras.${index}.price`} type="number" />
-                        <div className="input-feedback">
-                          <ErrorMessage name={`extras.${index}.price`} />
-                        </div>
-                      </div>
-                      <div className="col-10" style={{ marginTop: 20 }}>
-                        <label style={{ fontSize: 14, color: '#4054B2' }}>Status</label>
-                        <Select
-                          styles={colourStyles}
-                          options={extraStatus}
-                          onChange={(selectOptions) => {
-                            setFieldValue(
-                              `extras.${index}.isDisabled`,
-                              selectOptions.value
-                            );
-                          }}
-                        />
+                    </div>
+                    <div className="col-10" style={{ marginTop: 20 }}>
+                      <label style={{ fontSize: 14, color: "#0074d9" }}>
+                        Status
+                      </label>
+                      <Select
+                        styles={colourStyles}
+                        options={extraStatus}
+                        onChange={(selectOptions) => {
+                          setFieldValue(
+                            `extras.${index}.isDisabled`,
+                            selectOptions.value
+                          );
+                        }}
+                      />
 
-                        <div className="input-feedback">
-                          <ErrorMessage name={`extras.${index}.isDisabled`} />
-                        </div>
+                      <div className="input-feedback">
+                        <ErrorMessage name={`extras.${index}.isDisabled`} />
                       </div>
-                      <div className="col-10" style={{ display: "flex" }}>
-                        {/* <p
+                    </div>
+                    <div className="col-10" style={{ display: "flex" }}>
+                      {/* <p
                           className="extra-btn"
                           onClick={() => arrayHelpers.remove(index)}
                         >
                           - Remove Extra
                       </p> */}
-                      </div>
                     </div>
-                    {
-              values.extras.length - 1 === index ? (
-                <p
-                  style={{
-                    marginLeft : -15,
-                    color : '#4054B2',
-                    fontWeight : '600',
-                    fontSize : 14 ,
-                    marginTop : 30,
-                    cursor : 'pointer',
-                    letterSpacing : 0.3
-                  }}
-                  onClick={() => arrayHelpers.insert(index, "")}
-                >
-                  + Add Extra
-                </p>
-              ) : ''
-            }
                   </div>
-                );
-              })
-            ) : (
-                <p className="extra-btn" onClick={() => arrayHelpers.push("")}>
-                  + Add Extra
-                </p>
-              )}
-          </div>
-        )}
-      />
-    </Form>
-  );
+                  {values.extras.length - 1 === index ? (
+                    <p
+                      style={{
+                        marginLeft: -15,
+                        color: "#0074d9",
+                        fontWeight: "600",
+                        fontSize: 14,
+                        marginTop: 30,
+                        cursor: "pointer",
+                        letterSpacing: 0.3,
+                      }}
+                      onClick={() => arrayHelpers.insert(index, "")}
+                    >
+                      + Add Extra
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              );
+            })
+          ) : (
+            <p className="extra-btn" onClick={() => arrayHelpers.push("")}>
+              + Add Extra
+            </p>
+          )}
+        </div>
+      )}
+    />
+  </Form>
+);
 
 const styles = {
   input: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderBottomWidth: 1,
-    borderBottomColor: '#BBBBBB',
+    borderBottomColor: "#BBBBBB",
   },
   textarea: {
     borderWidth: 1,
-    borderColor: '#dddddd',
+    borderColor: "#dddddd",
     borderRadius: 3,
     height: 70,
-    backgroundColor: 'white',
-    width: '100%'
-  }
-}
+    backgroundColor: "white",
+    width: "100%",
+  },
+};
 
 export default Extra;

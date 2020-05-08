@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
+
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -10,10 +11,11 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
-import URL from "../../../../../../url/url";
+import URL, { upfileUrl } from "../../../../../../url/url";
 import defaultImage from "../Extra/hpadmin2.png";
 import AddService from "./add-service";
-import EditService from "./EditService";
+
+import EditServiceTEST from "./testEditService.js";
 
 import "react-table/react-table.css";
 
@@ -29,8 +31,6 @@ class Service extends Component {
       restoreDialog: false,
       // Service ID
       serviceId: "",
-
-      openEdit: false,
     };
   }
 
@@ -51,8 +51,8 @@ class Service extends Component {
     this.getService();
   }
 
-  handleEdit = (e) => {
-    this.props.VIEW_SERVICE(e);
+  handleEdit = async (e) => {
+    await this.props.VIEW_SERVICE(e);
     // this.setState({ openEdit: true });
     this.props.history.push("/app/merchants/profile/service/edit");
   };
@@ -63,6 +63,16 @@ class Service extends Component {
 
   handleCloseReject = () => {
     this.setState({ isOpenReject: false });
+  };
+
+  // EDIT SERVICE
+  goBackEdit = () => {
+    this.setState({ openEdit: false });
+    this.props.history.push("/app/merchants/profile/service");
+  };
+
+  handleClickOpenEdit = () => {
+    this.setState({ openEdit: !this.state.openEdit });
   };
 
   handleArchive = (ID) => {
@@ -240,14 +250,6 @@ class Service extends Component {
               </form>
             </div>
             <div>
-              {/* <Button
-                className="btn btn-green"
-                onClick={() =>
-                  this.props.history.push("/app/merchants/profile/service/add")
-                }
-              >
-                NEW SERVICE
-              </Button> */}
               <AddService reload={this.getService} />
             </div>
           </div>
@@ -262,17 +264,13 @@ class Service extends Component {
               loading={this.state.loading}
             />
 
-            {/* <EditService
+            {/* <EditServiceTEST
               isOpen={this.state.openEdit}
               CloseEdit={this.handleCloseEdit}
             /> */}
 
             {/* ARCHIVE */}
-            <Dialog
-              open={this.state.dialog}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
+            <Dialog open={this.state.dialog}>
               <DialogTitle id="alert-dialog-title">
                 {"Archive this service ?"}
               </DialogTitle>
@@ -304,11 +302,7 @@ class Service extends Component {
               </DialogActions>
             </Dialog>
             {/* RESTORE */}
-            <Dialog
-              open={this.state.restoreDialog}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
+            <Dialog open={this.state.restoreDialog}>
               <DialogTitle id="alert-dialog-title">
                 {"Restore this service ?"}
               </DialogTitle>

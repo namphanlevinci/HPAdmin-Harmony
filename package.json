@@ -70,7 +70,7 @@
     "react-material-ui-form": "^1.1.4",
     "react-notifications": "^1.4.3",
     "react-notifications-component": "^2.2.4",
-    "react-number-format": "^4.0.8",
+    "react-number-format": "^4.4.1",
     "react-placeholder": "^3.0.2",
     "react-redux": "^7.0.3",
     "react-router": "^5.0.1",

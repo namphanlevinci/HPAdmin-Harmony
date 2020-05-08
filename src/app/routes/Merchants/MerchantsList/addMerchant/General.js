@@ -1,7 +1,9 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import StateID from "../../../../../util/getState";
-const General = ({ handleChange, value, validator }) => {
+import NumberFormat from "react-number-format";
+
+const General = ({ handleChange, value, validator, handleNumber }) => {
   return (
     <div className="general-container">
       <h1>General Information</h1>
@@ -152,9 +154,11 @@ const General = ({ handleChange, value, validator }) => {
               margin="normal"
               fullWidth
               required
-              onChange={handleChange}
+              onChange={(e) => handleNumber(e.target.value, "businessPhone")}
               value={value.businessPhone}
+              maxLength="9"
             />
+            {/* <NumberFormat format="#### #### #### ####" /> */}
             {validator.message(
               "businessPhone",
               value.businessPhone,

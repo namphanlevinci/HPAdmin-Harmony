@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import URL, { upfileUrl } from "../../../../../../url/url";
 import * as Yup from "yup";
+import Select from "react-select";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -52,6 +53,7 @@ class EditService extends Component {
         this.setState({ category: res.data.data });
       });
     const service = this.props.SERVICE;
+    console.log("SERVICE", service);
     if (service !== null) {
       this.setState({
         categoryId: service.categoryId,
@@ -188,15 +190,19 @@ class EditService extends Component {
   };
 
   render() {
+    const serviceStatus = [
+      { value: "0", label: "Active" },
+      { value: "1", label: "Disable" },
+    ];
     const service = this.props.SERVICE;
-    const { category } = this.state;
-    const mapCategory = category
-      .filter((e) => e.categoryType !== "Product")
-      .map((e) => (
-        <option value={e.categoryId} key={e.categoryId}>
-          {e.name}
-        </option>
-      ));
+    // const { category } = this.state;
+    // const mapCategory = category
+    //   .filter((e) => e.categoryType !== "Product")
+    //   .map((e) => (
+    //     <option value={e.categoryId} key={e.categoryId}>
+    //       {e.name}
+    //     </option>
+    //   ));
 
     //~ preview image
     let { imagePreviewUrl } = this.state;
@@ -235,169 +241,271 @@ class EditService extends Component {
 
     const extraItem = service.extras.filter((e) => e.isDeleted !== 1);
     return (
-      <div className="react-transition swipe-up service-container">
-        <h2 style={{ color: "#0764b0" }}>Edit Service</h2>
-        <div className="container Service">
-          <div className="row">
-            <div className="col-6">
-              <div className="row">
-                <div className="col-6">
-                  <label>Category*</label>
-                  <br />
-                  <select
-                    onChange={(e) =>
-                      this.setState({ categoryId: e.target.value })
-                    }
-                  >
-                    <option value={service.categoryId}>
-                      {service.categoryName}
-                    </option>
-                    {mapCategory}
-                  </select>
-                </div>
-                <div className="col-6">
-                  <label>Service Name*</label>
-                  <br />
-                  <input
-                    name="name"
-                    type="text"
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="col-md-12">
-                  <label>Description*</label>
-                  <br />
-                  <input
-                    name="description"
-                    type="text"
-                    value={this.state.description}
-                    onChange={this.handleChange}
-                  />
-                  <label style={{ paddingTop: "10px" }}>Image</label>
-                  <br />
-                  {$imagePreview}
-                  <input
-                    name="price"
-                    type="file"
-                    onChange={this._handleImageChange}
-                    style={{
-                      width: "auto",
-                      borderBottom: "none",
-                      paddingTop: "20px",
-                      fontWeight: 400,
-                    }}
-                  />
-                </div>
-                <div className="col-md-4">
-                  <label>
-                    Duration* <span className="small-label">(Minutes)</span>
-                  </label>
-                  <br />
-                  <input
-                    name="duration"
-                    type="number"
-                    value={this.state.duration}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="col-md-4">
-                  <label>
-                    Open Time <span className="small-label">(Minutes)</span>
-                  </label>
-                  <br />
-                  <input
-                    name="openTime"
-                    type="number"
-                    value={this.state.openTime}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="col-md-4">
-                  <label>
-                    Second Time <span className="small-label">(Minutes)</span>
-                  </label>
-                  <br />
-                  <input
-                    name="secondTime"
-                    type="number"
-                    value={this.state.secondTime}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="col-6">
-                  <label>Status</label>
-                  <br />
-                  <select
-                    onChange={(e) =>
-                      this.setState({ isDisabled: e.target.value })
-                    }
-                  >
-                    <option value="0" selected={this.state.isDisabled === 0}>
-                      Active
-                    </option>
-                    <option value="1" selected={this.state.isDisabled === 1}>
-                      Disable
-                    </option>
-                  </select>
-                </div>
-                <div className="col-6">
-                  <label>Price*</label>
-                  <br />
-                  <input
-                    name="price"
-                    type="number"
-                    value={this.state.price}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-6">
-              <Formik
-                initialValues={{ extras: extraItem }}
-                validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                  this.setState({
-                    extras: values.extras,
-                  });
-                  this.updateService();
+      <div
+        className="react-transition swipe-up service-container"
+        style={{ paddingBottom: "50px" }}
+      >
+        <div className="profile-nav PendingLBody">
+          <div className="detail-content">
+            <div className="service-container PendingLBody">
+              <h2
+                style={{
+                  color: "#0074d9",
+                  marginBottom: "65px",
+                  marginTop: 2,
+                  textAlign: "center",
+                  letterSpacing: 0.6,
+                  fontWeight: 500,
                 }}
               >
-                {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  isSubmitting,
-                  /* and other goodies */
-                }) => (
-                  <form onSubmit={handleSubmit}>
-                    <Extra
-                      errors={errors}
-                      values={values}
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      touched={touched}
-                    />
+                Edit Service
+              </h2>
+              <div className="container Service">
+                <div className="row">
+                  <div className="col-7">
+                    <div className="row">
+                      <div className="col-4">
+                        <label
+                          style={{
+                            textAlign: "left",
+                            color: "#0074d9",
+                          }}
+                        >
+                          Category *
+                        </label>
+                        <br />
+                        {/* <select
+                          onChange={(e) =>
+                            this.setState({ categoryId: e.target.value })
+                          }
+                        >
+                          <option value={service.categoryId}>
+                            {service.categoryName}
+                          </option>
+                          {mapCategory}
+                        </select> */}
 
-                    <Button
-                      className="btn btn-green"
-                      type="submit"
-                      style={{ backgroundColor: "#0074d9", color: "white" }}
-                      disabled={isSubmitting}
-                      onClick={handleSubmit}
+                        <Select
+                          styles={colourStyles}
+                          options={
+                            this.state.category
+                              ? this.state.category
+                                  .filter((e) => e.categoryType !== "Product")
+                                  .map((e) => {
+                                    return {
+                                      id: e.categoryId,
+                                      value: e.categoryId,
+                                      label: e.name,
+                                    };
+                                  })
+                              : []
+                          }
+                          defaultValue={{
+                            value: this.state.categoryId,
+                            label: this.state.categoryId,
+                          }}
+                          value={this.state.category
+                            .filter((e) => e.categoryType !== "Product")
+                            .map((e) => {
+                              if (e.categoryId === this.state.categoryId) {
+                                return {
+                                  label: e.name,
+                                  value: e.categoryId,
+                                };
+                              }
+                            })}
+                          onChange={(selectedOption) => {
+                            this.setState({ categoryId: selectedOption.value });
+                          }}
+                          placeholder="- Select -"
+                          loadingMessage={() => "Fetching Service"}
+                          noOptionsMessage={() => "Service appears here!"}
+                        />
+                      </div>
+                      <div className="col-12" style={{ marginTop: 40 }}>
+                        <label style={{ color: "#0074d9" }}>
+                          Service Name*
+                        </label>
+                        <br />
+                        <input
+                          name="name"
+                          type="text"
+                          value={this.state.name}
+                          onChange={this.handleChange}
+                          style={{
+                            borderBottomColor: "#dddddd",
+                            borderBottomWidth: 1,
+                          }}
+                        />
+                      </div>
+                      <div className="col-12" style={{ marginTop: 40 }}>
+                        <label style={{ color: "#0074d9" }}>Description</label>
+                        <br />
+                        <textarea
+                          name="description"
+                          type="text"
+                          value={this.state.description}
+                          onChange={this.handleChange}
+                          style={styles.textarea}
+                        />
+                        <label
+                          style={{
+                            paddingTop: "10px",
+                            color: "#0074d9",
+                            marginBottom: 8,
+                          }}
+                        >
+                          Image
+                        </label>
+                        <br />
+
+                        <div
+                          style={{
+                            display: "flex",
+                          }}
+                        >
+                          {$imagePreview}
+                          <input
+                            name="price"
+                            type="file"
+                            onChange={this._handleImageChange}
+                            style={styles.inputPrice}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-4" style={{ marginTop: 5 }}>
+                        <label style={{ color: "#0074d9" }}>Duration</label>
+                        <br />
+                        <label style={{ color: "#333" }}>
+                          <span className="small-label">Minutes</span>
+                        </label>
+                        <br />
+                        <input
+                          name="duration"
+                          type="number"
+                          value={this.state.duration}
+                          onChange={this.handleChange}
+                          placeholder="Min"
+                          style={{
+                            borderBottomColor: "#dddddd",
+                            borderBottomWidth: 1,
+                          }}
+                        />
+                      </div>
+                      <div className="col-4" style={{ marginTop: 20 }}>
+                        <label style={{ color: "#333" }}>
+                          <span className="small-label">Open time</span>
+                        </label>
+                        <br />
+                        <input
+                          name="openTime"
+                          type="number"
+                          value={this.state.openTime}
+                          onChange={this.handleChange}
+                          placeholder="Min"
+                          style={{
+                            borderBottomColor: "#dddddd",
+                            borderBottomWidth: 1,
+                          }}
+                        />
+                      </div>
+                      <div className="col-6" style={{ marginTop: 60 }}>
+                        <label style={{ color: "#0074d9" }}>Price *</label>
+                        <br />
+                        <input
+                          name="price"
+                          type="number"
+                          value={this.state.price}
+                          onChange={this.handleChange}
+                          placeholder="$"
+                          style={{
+                            borderBottomColor: "#dddddd",
+                            borderBottomWidth: 1,
+                            marginTop: 10,
+                          }}
+                        />
+                      </div>
+                      <div className="col-6" style={{ marginTop: 60 }}>
+                        <label style={{ color: "#0074d9" }}>Status</label>
+                        <br />
+
+                        <Select
+                          styles={colourStyles}
+                          options={serviceStatus}
+                          defaultValue={{
+                            value: this.state.isDisabled,
+                            label:
+                              Number(this.state.isDisabled) === 0
+                                ? "Active"
+                                : "Disable",
+                          }}
+                          onChange={(e) => {
+                            this.setState({ isDisabled: e.value }, () =>
+                              console.log(this.state.isDisabled)
+                            );
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-5">
+                    <Formik
+                      initialValues={{ extras: extraItem }}
+                      validationSchema={validationSchema}
+                      onSubmit={(values, { setSubmitting }) => {
+                        this.setState({
+                          extras: values.extras,
+                        });
+                        this.updateService();
+                      }}
                     >
-                      SAVE
-                    </Button>
-                    <Button className="btn btn-red" onClick={this.goBack}>
-                      BACK
-                    </Button>
-                  </form>
-                )}
-              </Formik>
+                      {({
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                        isSubmitting,
+                        setFieldValue,
+                        /* and other goodies */
+                      }) => (
+                        <form onSubmit={handleSubmit}>
+                          <Extra
+                            setFieldValue={setFieldValue}
+                            validationSchema={validationSchema}
+                            errors={errors}
+                            values={values}
+                            handleChange={handleChange}
+                            handleBlur={handleBlur}
+                            touched={touched}
+                          />
+                          <div className="Save-fixed-bottom">
+                            <Button
+                              className="btn btn-green"
+                              type="submit"
+                              style={{
+                                backgroundColor: "#0074d9",
+                                color: "white",
+                              }}
+                              disabled={isSubmitting}
+                              onClick={handleSubmit}
+                            >
+                              SAVE
+                            </Button>
+                            <Button
+                              className="btn btn-red"
+                              onClick={this.goBack}
+                            >
+                              BACK
+                            </Button>
+                          </div>
+                        </form>
+                      )}
+                    </Formik>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -411,3 +519,39 @@ const mapStateToProps = (state) => ({
   SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(EditService);
+
+const styles = {
+  textarea: {
+    width: "100%",
+    height: "70px",
+    borderWidth: 1.2,
+    borderColor: "#dddddd",
+    borderStyle: "solid",
+    borderRadius: 5,
+    padding: "10px",
+    marginTop: 8,
+  },
+  inputPrice: {
+    width: "100px !important",
+    borderBottom: "none",
+    fontWeight: 400,
+    margin: "80px 0px",
+    paddingLeft: "20px",
+  },
+};
+const colourStyles = {
+  control: (styles) => ({
+    ...styles,
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderRadius: 0,
+  }),
+  input: (styles) => ({
+    ...styles,
+    borderWidth: 0,
+    fontSize: 16,
+    paddingLeft: 0,
+  }),
+  placeholder: (styles) => ({ ...styles }),
+  // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
+};

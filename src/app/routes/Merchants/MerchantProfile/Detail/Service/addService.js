@@ -42,7 +42,7 @@ class AddService extends Component {
       extras: [],
       //~ preview image
       imagePreviewUrl: "",
-      render: false
+      render: false,
     };
   }
 
@@ -51,20 +51,20 @@ class AddService extends Component {
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.setState({ category: res.data.data });
       });
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  _handleImageChange = e => {
+  _handleImageChange = (e) => {
     e.preventDefault();
     // handle preview Image
     let reader = new FileReader();
@@ -72,7 +72,7 @@ class AddService extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
@@ -80,14 +80,14 @@ class AddService extends Component {
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
       .post(upfileUrl, formData, config)
-      .then(res => {
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -99,7 +99,7 @@ class AddService extends Component {
   render() {
     const serviceStatus = [
       { value: "0", label: "Active" },
-      { value: "1", label: "Disable" }
+      { value: "1", label: "Disable" },
     ];
 
     const extrasCondition =
@@ -109,7 +109,7 @@ class AddService extends Component {
               name: Yup.string().required("Required"),
               duration: Yup.string().required("Required"),
               price: Yup.string().required("Required"),
-              isDisabled: Yup.string().required("Required")
+              isDisabled: Yup.string().required("Required"),
             })
           )
         : "";
@@ -120,7 +120,7 @@ class AddService extends Component {
       categoryId: Yup.string().required("Required"),
       duration: Yup.string().required("Required"),
       price: Yup.string().required("Required"),
-      isDisabled: Yup.string().required("Required")
+      isDisabled: Yup.string().required("Required"),
     });
 
     const ExtraInitialValues =
@@ -131,8 +131,8 @@ class AddService extends Component {
               description: "",
               duration: "",
               price: "",
-              isDisabled: ""
-            }
+              isDisabled: "",
+            },
           ]
         : [];
 
@@ -170,11 +170,10 @@ class AddService extends Component {
             price: "",
             categoryId: "",
             isDisabled: "",
-            extras: ExtraInitialValues
+            extras: ExtraInitialValues,
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
-
             const {
               categoryId,
               name,
@@ -184,7 +183,7 @@ class AddService extends Component {
               secondTime,
               price,
               extras,
-              isDisabled
+              isDisabled,
             } = values;
             const { discount, fileId } = this.state;
             const merchantId = this.props.MerchantProfile.merchantId;
@@ -204,15 +203,15 @@ class AddService extends Component {
                   isDisabled,
                   fileId,
                   extras,
-                  merchantId
+                  merchantId,
                 },
                 {
                   headers: {
-                    Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-                  }
+                    Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                  },
                 }
               )
-              .then(res => {
+              .then((res) => {
                 let message = res.data.message;
                 if (res.data.codeNumber === 200) {
                   store.addNotification({
@@ -225,9 +224,9 @@ class AddService extends Component {
                     animationOut: ["animated", "fadeOut"],
                     dismiss: {
                       duration: 5000,
-                      onScreen: true
+                      onScreen: true,
                     },
-                    width: 250
+                    width: 250,
                   });
 
                   setTimeout(() => {
@@ -244,9 +243,9 @@ class AddService extends Component {
                     animationOut: ["animated", "fadeOut"],
                     dismiss: {
                       duration: 5000,
-                      onScreen: true
+                      onScreen: true,
                     },
-                    width: 250
+                    width: 250,
                   });
                 }
               });
@@ -261,7 +260,7 @@ class AddService extends Component {
             handleSubmit,
             isSubmitting,
             setFieldValue,
-            isValidating
+            isValidating,
             /* and other goodies */
           }) => (
             <Form noValidate autoComplete="off">
@@ -275,15 +274,15 @@ class AddService extends Component {
                         <div>
                           <Select
                             options={this.state.category
-                              .filter(e => e.categoryType !== "Product")
-                              .map(e => {
+                              .filter((e) => e.categoryType !== "Product")
+                              .map((e) => {
                                 return {
                                   id: e.categoryId,
                                   value: e.categoryId,
-                                  label: e.name
+                                  label: e.name,
                                 };
                               })}
-                            onChange={selectedOption => {
+                            onChange={(selectedOption) => {
                               setFieldValue("categoryId", selectedOption.value);
                             }}
                             placeholder="Select"
@@ -299,7 +298,7 @@ class AddService extends Component {
                         )}
                       </div>
                       <div className="col-6">
-                        <label>Service Name*</label>
+                        <label>Service Name *</label>
                         <br />
                         <input
                           name="name"
@@ -330,17 +329,17 @@ class AddService extends Component {
                             width: "100%",
                             height: "70px",
                             padding: "10px",
-                            borderWidth : 1,
-                            borderColor : '#dddddd',
-                            borderStyle: 'solid',
-                            borderRadius: 5
+                            borderWidth: 1,
+                            borderColor: "#dddddd",
+                            borderStyle: "solid",
+                            borderRadius: 5,
                           }}
                         />
                         <label style={{ paddingTop: "10px" }}>Image</label>
                         <br />
                         <div
                           style={{
-                            display: "flex"
+                            display: "flex",
                           }}
                         >
                           {$imagePreview}
@@ -353,7 +352,7 @@ class AddService extends Component {
                               borderBottom: "none",
                               fontWeight: 400,
                               margin: "80px 0px",
-                              paddingLeft: "20px"
+                              paddingLeft: "20px",
                             }}
                           />
                         </div>
@@ -430,7 +429,7 @@ class AddService extends Component {
                         <br />
                         <Select
                           options={serviceStatus}
-                          onChange={selectedOption => {
+                          onChange={(selectedOption) => {
                             setFieldValue("isDisabled", selectedOption.value);
                           }}
                         />
@@ -506,9 +505,9 @@ class AddService extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  SERVICE: state.serviceProps
+  SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(AddService);
