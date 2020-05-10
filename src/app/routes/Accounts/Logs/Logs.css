@@ -27,7 +27,7 @@
   margin-top: 18px;
   width: 250px;
   border: none;
-  border-bottom: 1px solid #0764b0;
+  border-bottom: 1px solid #4251af;
   font-size: 18px;
 }
 .LogContainer select:focus {
@@ -39,13 +39,13 @@
   color: #fff;
   margin-left: 35px;
   border: none;
-  background-color: #0764b0;
+  background-color: #4251af;
   font-weight: 500;
 }
 .LogContainer h2 {
   padding-left: 10px;
   padding-top: 10px;
-  color: #0764b0;
+  color: #4251af;
 }
 .LogContainer button:hover {
   color: white;
@@ -85,7 +85,7 @@
   height: 0;
   border-top: 16px solid transparent;
   border-bottom: 16px solid transparent; /* 40px height (20+20) */
-  border-right: 10px solid #0764b0;
+  border-right: 10px solid #4251af;
   position: absolute;
   top: 24px;
   left: -20px;
@@ -112,7 +112,7 @@
   border-bottom-right-radius: 50% !important;
 }
 .LogContainer .link {
-  background-color: #0764b0;
+  background-color: #4251af;
   color: white;
   width: 80px;
   height: 40px;
@@ -136,7 +136,7 @@
 
 .LogContainer .LogContainerBody ul li .first {
   height: 100%;
-  border-right: 1px solid #0764b0;
+  border-right: 1px solid #4251af;
   position: relative;
   padding-top: 60px;
 }
@@ -149,5 +149,5 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #0764b0;
+  background-color: #4251af;
 }

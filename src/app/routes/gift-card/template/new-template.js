@@ -263,7 +263,7 @@ class NewTemplate extends Component {
                         }
                         value="1"
                         inputProps={{ "aria-label": "primary checkbox" }}
-                        style={{ color: "#0764b0" }}
+                        style={{ color: "#4251af" }}
                       />
                       Visible on Consumer App
                     </div>

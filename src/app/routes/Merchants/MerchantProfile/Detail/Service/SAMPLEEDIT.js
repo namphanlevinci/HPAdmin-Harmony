@@ -278,7 +278,7 @@ class EditServiceTEST extends Component {
             <div className="profile-nav PendingLBody">
               <div className="detail-content">
                 <div className="service-container">
-                  <h2 style={{ color: "#0764b0" }}>Edit Service</h2>
+                  <h2 style={{ color: "#4251af" }}>Edit Service</h2>
                   <div className="container Service">
                     <div className="row">
                       <div className="col-6">

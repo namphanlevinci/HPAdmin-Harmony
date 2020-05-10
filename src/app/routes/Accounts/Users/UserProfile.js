@@ -135,7 +135,7 @@ class UserProfile extends Component {
                   </td>
                   <td
                     style={{
-                      color: "#0764b0",
+                      color: "#4251af",
                       fontSize: "16px",
                       fontWeight: "500"
                     }}
@@ -156,7 +156,7 @@ class UserProfile extends Component {
                   </td>
                   <td
                     style={{
-                      color: "#0764b0",
+                      color: "#4251af",
                       fontSize: "16px",
                       fontWeight: "500"
                     }}
@@ -177,7 +177,7 @@ class UserProfile extends Component {
                   </td>
                   <td
                     style={{
-                      color: "#0764b0",
+                      color: "#4251af",
                       fontSize: "16px",
                       fontWeight: "500"
                     }}
@@ -205,7 +205,7 @@ class UserProfile extends Component {
                   </td>
                   <td
                     style={{
-                      color: "#0764b0",
+                      color: "#4251af",
                       fontSize: "16px",
                       fontWeight: "500"
                     }}

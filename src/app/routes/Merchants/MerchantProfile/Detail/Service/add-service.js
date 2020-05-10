@@ -247,7 +247,7 @@ class AddService extends Component {
                 >
                   <h2
                     style={{
-                      color: "#0074d9",
+                      color: "#4251af",
                       marginBottom: "65px",
                       marginTop: 15,
                       textAlign: "center",
@@ -371,7 +371,7 @@ class AddService extends Component {
                                   <label
                                     style={{
                                       textAlign: "left",
-                                      color: "#0074d9",
+                                      color: "#4251af",
                                     }}
                                   >
                                     Category *
@@ -420,7 +420,7 @@ class AddService extends Component {
                                   className="col-12"
                                   style={{ marginTop: 40 }}
                                 >
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Service Name*
                                   </label>
                                   <br />
@@ -450,7 +450,7 @@ class AddService extends Component {
                                   className="col-12"
                                   style={{ marginTop: 40 }}
                                 >
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Description
                                   </label>
                                   <br />
@@ -465,7 +465,7 @@ class AddService extends Component {
                                   <label
                                     style={{
                                       paddingTop: "10px",
-                                      color: "#0074d9",
+                                      color: "#4251af",
                                       marginBottom: 8,
                                     }}
                                   >
@@ -488,7 +488,7 @@ class AddService extends Component {
                                 </div>
                                 <div className="col-4" style={{ marginTop: 5 }}>
                                   {" "}
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Duration
                                   </label>{" "}
                                   <br />
@@ -584,7 +584,7 @@ class AddService extends Component {
                                   className="col-6"
                                   style={{ marginTop: 60 }}
                                 >
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Price *
                                   </label>
                                   <br />
@@ -617,7 +617,7 @@ class AddService extends Component {
                                   className="col-6"
                                   style={{ marginTop: 60 }}
                                 >
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Status
                                   </label>
                                   <br />
@@ -649,7 +649,7 @@ class AddService extends Component {
                                     this.setState({ render: true })
                                   }
                                   style={{
-                                    color: "#0074d9",
+                                    color: "#4251af",
                                     fontWeight: "600",
                                     letterSpacing: 0.3,
                                     fontSize: 14,

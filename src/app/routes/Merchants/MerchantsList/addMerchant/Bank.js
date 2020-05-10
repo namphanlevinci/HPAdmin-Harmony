@@ -9,7 +9,7 @@ const Bank = ({ value, handleChange, uploadFile }) => {
   return (
     <div>
       <div className="row">
-        <div className="col-4">
+        <div className="col-6">
           <div className="form-group">
             <TextField
               name="bankName"
@@ -22,37 +22,51 @@ const Bank = ({ value, handleChange, uploadFile }) => {
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
+          <div className="form-group">
+            <TextField
+              name="accountHolderName"
+              value={value.accountHolderName}
+              id="cardHolder"
+              label="Account Holder Name"
+              margin="normal"
+              fullWidth
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        <div className="col-6">
           <div className="form-group">
             <TextField
               name="routingNumber"
               value={value.routingNumber}
               id="cardHolder"
-              label="ABA Number"
+              label="ABA Routing Number"
               margin="normal"
               fullWidth
               onChange={handleChange}
             />
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-6">
           <div className="form-group">
             <TextField
               name="accountNumber"
               value={value.accountNumber}
               id="cardHolder"
-              label="DDA Number"
+              label="Checking Account Number (DDA)"
               margin="normal"
               fullWidth
               onChange={handleChange}
             />
           </div>
         </div>
+
         <div className="col-12">
           <div className="form-group">
             <label>
               Void Check* <br />
-              Please upload photos of void check
+              {/* Please upload photos of void check */}
             </label>
             <div className="Upload">
               <div className="void-Image">
@@ -68,7 +82,7 @@ const Bank = ({ value, handleChange, uploadFile }) => {
               <input
                 type="file"
                 className="upload"
-                onChange={e => uploadFile(e)}
+                onChange={(e) => uploadFile(e)}
               />
             </div>
           </div>

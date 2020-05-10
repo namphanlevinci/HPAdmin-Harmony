@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   getAll_Rejected_Merchants,
-  ViewProfile_Merchants
+  ViewProfile_Merchants,
 } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 import { withRouter, Redirect } from "react-router-dom";
@@ -26,7 +26,7 @@ class MerchantRejectedProfile extends Component {
       showPopupReject: false,
       merchantID: "",
       merchantToken: "",
-      rejectReason: ""
+      rejectReason: "",
     };
   }
   _handleChange(event) {
@@ -34,7 +34,7 @@ class MerchantRejectedProfile extends Component {
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
@@ -44,10 +44,10 @@ class MerchantRejectedProfile extends Component {
     axios
       .put(URL + "/merchant/restorepending/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(async res => {
+      .then(async (res) => {
         if (res.data.message === "Success") {
           store.addNotification({
             title: "SUCCESS!",
@@ -59,9 +59,9 @@ class MerchantRejectedProfile extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
         } else {
           store.addNotification({
@@ -74,14 +74,14 @@ class MerchantRejectedProfile extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
         }
       });
   };
-  _Edit = merchantInfo => {
+  _Edit = (merchantInfo) => {
     this.props.ViewProfile_Merchants(merchantInfo);
     this.props.history.push("/app/merchants/rejected/profile/edit");
   };
@@ -91,22 +91,31 @@ class MerchantRejectedProfile extends Component {
   };
   _togglePopupAccept = () => {
     this.setState({
-      showPopupAccept: !this.state.showPopupAccept
+      showPopupAccept: !this.state.showPopupAccept,
     });
   };
   _togglePopupReject = () => {
     this.setState({
-      showPopupReject: !this.state.showPopupReject
+      showPopupReject: !this.state.showPopupReject,
     });
   };
   render() {
     const e = this.props.RejectedProfile;
+    let principalLength = this.props.RejectedProfile?.principals?.length;
+
     //! render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
-        e.principals.map(e => {
+        e.principals.map((e, index) => {
           return (
             <div className="row" key={e.principalId}>
+              {Number(principalLength) >= 2 ? (
+                <div className="col-12">
+                  <h3 style={{ color: "#4251af", fontWeight: "500" }}>
+                    Principal {index + 1}
+                  </h3>
+                </div>
+              ) : null}
               <div className="col-4">
                 <h4>Name*</h4>
                 <p>{e.firstName + " " + e.lastName}</p>
@@ -171,7 +180,7 @@ class MerchantRejectedProfile extends Component {
     //!! render questions
     const renderQuestion =
       e.business !== undefined ? (
-        e.business.map(e => {
+        e.business.map((e) => {
           return (
             <div className="col-6" key={e.businessId}>
               <h4>{e.question}</h4>
@@ -194,24 +203,24 @@ class MerchantRejectedProfile extends Component {
           />
           <div className="PendingLBody page-heading">
             <div className="PDL-Btn col-12">
-              <h3>ID: {e.merchantId}</h3>
+              <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2>
               <span>
                 <Button
-                  style={{ color: "#0764b0", backgroundColor: "white" }}
+                  style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={() => this._Edit(e)}
                 >
                   EDIT
                 </Button>
                 <Button
-                  style={{ color: "#0764b0", backgroundColor: "white" }}
+                  style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={this._goRevert}
                 >
                   REVERT
                 </Button>
                 <Button
-                  style={{ color: "#0764b0", backgroundColor: "white" }}
+                  style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={this._goBack}
                 >
@@ -226,9 +235,11 @@ class MerchantRejectedProfile extends Component {
               </div>
               <h4>
                 By{" "}
-                {e.adminUser !== null
-                  ? e.adminUser.first_name + " " + e.adminUser.last_name
-                  : null}
+                <span style={{ fontWeight: 600 }}>
+                  {e.adminUser !== null
+                    ? e.adminUser.first_name + " " + e.adminUser.last_name
+                    : null}
+                </span>
               </h4>
               <h4>
                 Date/Time:{" "}
@@ -252,7 +263,7 @@ class MerchantRejectedProfile extends Component {
                     <p>{e.general.legalBusinessName}</p>
                   </div>
                   <div className="col-4">
-                    <h4>Doing Business As (DBA)*</h4>
+                    <h4>Doing Business As Name (DBA)*</h4>
                     <p>
                       {e.general !== null ? e.general.doBusinessName : null}
                     </p>
@@ -347,17 +358,17 @@ class MerchantRejectedProfile extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   RejectedProfile: state.ViewProfile_Rejected,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_Rejected_Merchants: () => {
     dispatch(getAll_Rejected_Merchants());
   },
-  ViewProfile_Merchants: payload => {
+  ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
-  }
+  },
 });
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(MerchantRejectedProfile)

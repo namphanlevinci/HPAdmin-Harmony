@@ -105,6 +105,7 @@ class Service extends Component {
   render() {
     // Search
     let serviceList = this.state.data;
+    console.log("SERIVE LIST", serviceList);
     if (serviceList) {
       if (this.state.search) {
         serviceList = serviceList.filter((e) => {
@@ -130,6 +131,11 @@ class Service extends Component {
         Header: "Service Name",
         accessor: "name",
         width: 150,
+        Cell: (e) => (
+          <div>
+            <span style={styles.span}>{e.value}</span>
+          </div>
+        ),
       },
       {
         Header: "Image ",
@@ -146,8 +152,8 @@ class Service extends Component {
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
-                width: "100px",
-                height: "100px",
+                width: "50px",
+                height: "50px",
               }}
             ></div>
           );
@@ -159,7 +165,7 @@ class Service extends Component {
         accessor: "categoryName",
         Cell: (e) => (
           <div>
-            <p>{e.value}</p>
+            <span style={styles.span}>{e.value}</span>
           </div>
         ),
         width: 150,
@@ -170,10 +176,10 @@ class Service extends Component {
         accessor: "duration",
         Cell: (e) => (
           <div>
-            <p>{e.value} Min</p>
+            <span style={styles.span}>{e.value} Min</span>
           </div>
         ),
-        width: 150,
+        width: 100,
       },
       {
         id: "price",
@@ -181,7 +187,7 @@ class Service extends Component {
         accessor: "price",
         Cell: (e) => (
           <div>
-            <p>$ {e.value}</p>
+            <span style={styles.span}>$ {e.value}</span>
           </div>
         ),
         width: 150,
@@ -190,7 +196,11 @@ class Service extends Component {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: (e) => <p>{e.value === 0 ? "Active" : "Disable"}</p>,
+        Cell: (e) => (
+          <span style={styles.span}>
+            {e.value === 0 ? "Active" : "Disable"}
+          </span>
+        ),
         width: 120,
       },
       {
@@ -350,3 +360,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Service);
+
+const styles = {
+  span: {
+    fontWeight: "500",
+    color: "black",
+  },
+};

@@ -71,6 +71,8 @@
     "react-notifications": "^1.4.3",
     "react-notifications-component": "^2.2.4",
     "react-number-format": "^4.4.1",
+    "react-phone-input-2": "^2.13.3",
+    "react-phone-number-input": "^3.0.22",
     "react-placeholder": "^3.0.2",
     "react-redux": "^7.0.3",
     "react-router": "^5.0.1",

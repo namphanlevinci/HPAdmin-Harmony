@@ -1,16 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getAll_Transactions } from "../../../../actions/transactions/actions";
-import "../../Merchants/MerchantsList/merchantsList.css";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-import "./Transactions.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
 import SearchIcon from "@material-ui/icons/Search";
+
+import "./Transactions.css";
+import "react-table/react-table.css";
+import "../../Merchants/MerchantsList/merchantsList.css";
 
 class Transactions extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Transactions extends React.Component {
       amount: "",
       amountFrom: "",
       amountTo: "",
-      range: ""
+      range: "",
     };
   }
 
@@ -33,13 +34,13 @@ class Transactions extends React.Component {
       amount: "",
       amountFrom: "",
       amountTo: "",
-      range: ""
+      range: "",
     });
   };
-  fromDate = e => {
+  fromDate = (e) => {
     this.setState({ from: e.target.value });
   };
-  toDate = e => {
+  toDate = (e) => {
     this.setState({ to: e.target.value });
   };
 
@@ -47,24 +48,24 @@ class Transactions extends React.Component {
     this.props.getAll_Transactions();
   }
 
-  _SearchMerchants = async e => {
+  _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
-  _SearchAmount = async e => {
+  _SearchAmount = async (e) => {
     await this.setState({ amount: e.target.value });
   };
 
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
-  _TimeRange = async e => {
+  _TimeRange = async (e) => {
     await this.setState({
-      range: e.target.value
+      range: e.target.value,
     });
   };
   render() {
@@ -72,7 +73,7 @@ class Transactions extends React.Component {
     let TransactionsList = this.props.TransactionList;
     if (TransactionsList) {
       if (this.state.search) {
-        TransactionsList = TransactionsList.filter(e => {
+        TransactionsList = TransactionsList.filter((e) => {
           if (e.user.fullName !== null) {
             return (
               e.user.fullName
@@ -86,20 +87,20 @@ class Transactions extends React.Component {
         });
       }
       if (this.state.from) {
-        TransactionsList = TransactionsList.filter(e => {
+        TransactionsList = TransactionsList.filter((e) => {
           let date = moment(e.createDate).format("YYYY-MM-DD");
           return date >= from && date <= to;
         });
       }
       if (this.state.amount) {
-        TransactionsList = TransactionsList.filter(e => {
+        TransactionsList = TransactionsList.filter((e) => {
           const A = parseInt(e.amount);
           const B = parseInt(this.state.amount);
           return A === B;
         });
       }
       if (this.state.amountFrom) {
-        TransactionsList = TransactionsList.filter(e => {
+        TransactionsList = TransactionsList.filter((e) => {
           const Amount = parseInt(e.amount);
           const AmountFrom = parseInt(this.state.amountFrom);
           const AmountTo = parseInt(this.state.amountTo);
@@ -111,14 +112,14 @@ class Transactions extends React.Component {
           const today = moment();
           const from_date = today.startOf("week").format("YYYY-MM-DD");
           const to_date = today.endOf("week").format("YYYY-MM-DD");
-          TransactionsList = TransactionsList.filter(e => {
+          TransactionsList = TransactionsList.filter((e) => {
             let date = moment(e.createDate).format("YYYY-MM-DD");
             return date >= from_date && date <= to_date;
           });
         }
         if (this.state.range === "today") {
           const today = moment().format("YYYY-MM-DD");
-          TransactionsList = TransactionsList.filter(e => {
+          TransactionsList = TransactionsList.filter((e) => {
             let date = moment(e.createDate).format("YYYY-MM-DD");
             return date === today;
           });
@@ -126,7 +127,7 @@ class Transactions extends React.Component {
           const today = moment();
           const from_month = today.startOf("month").format("YYYY-MM-DD");
           const to_month = today.endOf("month").format("YYYY-MM-DD");
-          TransactionsList = TransactionsList.filter(e => {
+          TransactionsList = TransactionsList.filter((e) => {
             let date = moment(e.createDate).format("YYYY-MM-DD");
             return date >= from_month && date <= to_month;
           });
@@ -139,76 +140,77 @@ class Transactions extends React.Component {
         id: "createDate",
         Header: "Date/time",
         maxWidth: 200,
-        accessor: e => {
+        accessor: (e) => {
           return moment
             .utc(e.createDate)
             .local()
             .format("MM/DD/YYYY HH:mm A");
-        }
+        },
       },
       {
         Header: "ID",
         accessor: "paymentTransactionId",
-        width: 100
+        width: 100,
       },
       {
         id: "Title",
         Header: "Method",
         accessor: "title",
-        width: 100
+        width: 100,
       },
       {
         id: "Customer",
         Header: "Original Account",
-        accessor: e => e.user.fullName,
-        width: 140
+        accessor: (e) => e.user.fullName,
+        width: 140,
       },
 
       {
         id: "Account Details ",
         Header: "Card /Last 4 Digit",
         width: 180,
-        accessor: e =>
+        accessor: (e) =>
           e?.paymentData?.card_type ? (
             <span>
               {e?.paymentData?.card_type} <br />
               {` **** **** ****  ${e?.paymentData?.card_number}`}
             </span>
-          ) : null
+          ) : null,
       },
       {
         id: "receiver",
         Header: "Destination Account",
-        accessor: e => (e.receiver !== null ? e.receiver.merchant_name : null),
-        width: 150
+        accessor: (e) =>
+          e.receiver !== null ? e.receiver.merchant_name : null,
+        width: 150,
       },
       {
         id: "Merchantcode",
         Header: "Account Details",
         width: 180,
-        accessor: e =>
+        accessor: (e) =>
           e.receiver !== null ? (
             <span>{` **** **** **** ${e.receiver.merchant_code}`}</span>
-          ) : null
+          ) : null,
       },
       {
         id: "Amount",
         Header: "Amount",
-        accessor: e => e.amount,
-        Cell: e => <span style={{ fontWeight: 600 }}>${e.value}</span>,
-        width: 100
+        accessor: (e) => e.amount,
+        Cell: (e) => <span style={{ fontWeight: 600 }}>${e.value}</span>,
+        width: 100,
       },
       {
         Header: "IP",
-        accessor: "ip"
+        accessor: "ip",
       },
       {
         id: "status",
         Header: "Status",
-        accessor: e => (
+        accessor: (e) => (
           <p className="TStatus">{e?.paymentData?.validation_status}</p>
-        )
-      }
+        ),
+      },
     ];
     return (
       <div className="container-fluid react-transition swipe-right">
@@ -233,14 +235,17 @@ class Transactions extends React.Component {
             </div>
 
             <div>
-              <Button style={{ backgroundColor: '#1366AE', color : 'white' }} variant="contained" onClick={this.handleResetClick}>
+              <Button
+                style={{ backgroundColor: "#4251af", color: "white" }}
+                variant="contained"
+                onClick={this.handleResetClick}
+              >
                 RESET
               </Button>
             </div>
-
           </div>
           <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
-            <div className="col-md-4">
+            <div className="col-4">
               <form noValidate>
                 <TextField
                   id="date"
@@ -249,13 +254,13 @@ class Transactions extends React.Component {
                   className="datePicker"
                   // defaultValue={newToday}
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                   onChange={this.fromDate}
                 />
               </form>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <form noValidate>
                 <TextField
                   id="date"
@@ -263,13 +268,13 @@ class Transactions extends React.Component {
                   type="date"
                   // defaultValue={this.state.to}
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                   onChange={this.toDate}
                 />
               </form>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
                 Time range
               </h6>
@@ -284,11 +289,11 @@ class Transactions extends React.Component {
                 <option value="month">This month</option>
               </select>
             </div>
-            <div className="col-md-4 searchx">
+            <div className="col-4 searchx">
               <h6
                 style={{
                   color: "rgba(0, 0, 0, 0.54)",
-                  fontSize: "0,7rem"
+                  fontSize: "0,7rem",
                 }}
               >
                 Amount ($)
@@ -304,7 +309,7 @@ class Transactions extends React.Component {
                 />
               </form>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <div className="search">
                 <h6
                   style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
@@ -323,7 +328,7 @@ class Transactions extends React.Component {
                 </form>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <div className="search">
                 <h6
                   style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
@@ -358,13 +363,13 @@ class Transactions extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  TransactionList: state.getTransactions
+  TransactionList: state.getTransactions,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_Transactions: () => {
     dispatch(getAll_Transactions());
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

@@ -22,13 +22,22 @@ class MerchantApprovedProfile extends Component {
   };
   render() {
     const e = this.props.MerchantProfile;
-    // console.log("Fix something", e)
+    let principalLength = this.props.MerchantProfile.principals.length;
+
+    console.log("Fix something", e);
     //!render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
-        e.principals.map(e => {
+        e.principals.map((e, index) => {
           return (
             <div className="row" key={e.principalId}>
+              {Number(principalLength) >= 2 ? (
+                <div className="col-12">
+                  <h3 style={{ color: "#4251af", fontWeight: "500" }}>
+                    Principal {index + 1}
+                  </h3>
+                </div>
+              ) : null}
               <div className="col-4">
                 <h4>Name*</h4>
                 <p>{e.firstName + " " + e.lastName}</p>
@@ -93,7 +102,7 @@ class MerchantApprovedProfile extends Component {
     //!render questions
     const renderQuestion =
       e.business !== undefined ? (
-        e.business.map(e => {
+        e.business.map((e) => {
           return (
             <div className="col-6" key={e.businessId}>
               <h4>{e.question}</h4>
@@ -117,10 +126,10 @@ class MerchantApprovedProfile extends Component {
           />
           <div className="PendingLBody page-heading">
             <div className="PDL-Btn col-12">
-              <h3>ID: {e.merchantId}</h3>
+              <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2>
               <span>
                 <Button
-                  style={{ color: "#0764b0", backgroundColor: "white" }}
+                  style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={this._goBack}
                 >
@@ -132,15 +141,20 @@ class MerchantApprovedProfile extends Component {
             <div className="requestStatus">
               <div
                 className="title"
-                style={{ backgroundColor: "#00FF00", color: "white" }}
+                style={{
+                  backgroundColor: "#33FF57",
+                  color: "white",
+                }}
               >
                 APPROVED
               </div>
               <h4>
                 By{" "}
-                {e.adminUser !== null
-                  ? e.adminUser.first_name + " " + e.adminUser.last_name
-                  : null}
+                <span style={{ fontWeight: 600 }}>
+                  {e.adminUser !== null
+                    ? e.adminUser.first_name + " " + e.adminUser.last_name
+                    : null}
+                </span>
               </h4>
               <h4>
                 Date/Time:{" "}
@@ -164,7 +178,7 @@ class MerchantApprovedProfile extends Component {
                     </p>
                   </div>
                   <div className="col-4">
-                    <h4>Doing Business As (DBA)*</h4>
+                    <h4>Doing Business As Name (DBA)*</h4>
                     <p>
                       {e.general !== null ? e.general.doBusinessName : null}
                     </p>
@@ -258,9 +272,9 @@ class MerchantApprovedProfile extends Component {
     return renderMerchantProfile;
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
 export default withRouter(connect(mapStateToProps)(MerchantApprovedProfile));

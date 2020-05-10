@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   MERCHANT_APPROVAL,
-  MERCHANT_REJECT
+  MERCHANT_REJECT,
 } from "../../../../actions/merchants/actions";
 import { getAll_Merchants } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
@@ -20,6 +20,7 @@ import "./MerchantReqProfile.css";
 import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
 
+// PENDING MERCHANT PROFILE
 class MerchantReqProfile extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +30,7 @@ class MerchantReqProfile extends Component {
       merchantID: "",
       merchantToken: "",
       rejectReason: "",
-      discountRate: ""
+      discountRate: "",
     };
   }
   _handleChange(event) {
@@ -37,9 +38,13 @@ class MerchantReqProfile extends Component {
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
+
+  goBack = () => {
+    this.props.history.push("/app/merchants/pending");
+  };
 
   handleOpenAccept = () => {
     this.setState({ isOpenAccept: true });
@@ -69,9 +74,9 @@ class MerchantReqProfile extends Component {
           animationOut: ["animated", "fadeOut"],
           dismiss: {
             duration: 5000,
-            onScreen: true
+            onScreen: true,
           },
-          width: 250
+          width: 250,
         });
       } else {
         this.setState({ showPopupAccept: false });
@@ -85,9 +90,9 @@ class MerchantReqProfile extends Component {
           animationOut: ["animated", "fadeOut"],
           dismiss: {
             duration: 5000,
-            onScreen: true
+            onScreen: true,
           },
-          width: 250
+          width: 250,
         });
         setTimeout(() => {
           this.props.history.push("/app/merchants/pending");
@@ -107,9 +112,9 @@ class MerchantReqProfile extends Component {
         animationOut: ["animated", "fadeOut"],
         dismiss: {
           duration: 5000,
-          onScreen: true
+          onScreen: true,
         },
-        width: 250
+        width: 250,
       });
       setTimeout(() => {
         this.props.history.push("/app/merchants/pending");
@@ -118,12 +123,21 @@ class MerchantReqProfile extends Component {
   }
   render() {
     const e = this.props.PendingProfile;
+    let principalLength = this.props.PendingProfile?.principals?.length;
+
     //! render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
-        e.principals.map(e => {
+        e.principals.map((e, index) => {
           return (
             <div className="row" key={e.principalId}>
+              {Number(principalLength) >= 2 ? (
+                <div className="col-12">
+                  <h3 style={{ color: "#4251af", fontWeight: "500" }}>
+                    Principal {index + 1}
+                  </h3>
+                </div>
+              ) : null}
               <div className="col-4">
                 <h4>Name*</h4>
                 <p>{e.firstName + " " + e.lastName}</p>
@@ -188,7 +202,7 @@ class MerchantReqProfile extends Component {
     //! render question
     const renderQuestion =
       e.business !== undefined ? (
-        e.business.map(e => {
+        e.business.map((e) => {
           return (
             <div className="col-md-6" key={e.businessId}>
               <h4>{e.question}</h4>
@@ -212,7 +226,12 @@ class MerchantReqProfile extends Component {
           <div className="PendingLBody page-heading">
             <div className="PDL-Btn col-md-12">
               <h3>{"HP-" + e.merchantId}</h3>
+
               <span>
+                <Button className="btn btn-red" onClick={this.goBack}>
+                  {" "}
+                  BACK{" "}
+                </Button>
                 {/* REJECT BTN */}
                 <Popup
                   trigger={<Button className="btn btn-red">REJECT</Button>}
@@ -222,11 +241,29 @@ class MerchantReqProfile extends Component {
                   onOpen={this.handleOpenReject}
                   closeOnDocumentClick
                 >
+                  <a className="close" onClick={this.handleCloseReject}>
+                    &times;
+                  </a>
+                  <div
+                    className="header"
+                    style={{
+                      backgroundColor: "#4251af",
+                      height: "50px",
+                      padding: "10px",
+                      zIndex: "999",
+                      color: "white",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p style={{ fontSize: "22px", textAlign: "center" }}>
+                      Confirmation
+                    </p>
+                  </div>
                   <span>
                     {" "}
                     <Formik
                       initialValues={{ rejectReason: "" }}
-                      validate={values => {
+                      validate={(values) => {
                         let errors = {};
                         if (!values.rejectReason) {
                           errors.rejectReason = "Required";
@@ -252,9 +289,9 @@ class MerchantReqProfile extends Component {
                             />
                             <ErrorMessage
                               style={{
-                                color: "#0764b0",
+                                color: "#4251af",
                                 fontWeight: "500",
-                                fontSize: "18px"
+                                fontSize: "18px",
                               }}
                               name="rejectReason"
                               component="div"
@@ -278,6 +315,7 @@ class MerchantReqProfile extends Component {
                   </span>
                 </Popup>
                 {/* ACCEPT BTN */}
+
                 <Popup
                   trigger={<Button className="btn btn-green"> ACCEPT </Button>}
                   modal
@@ -287,18 +325,35 @@ class MerchantReqProfile extends Component {
                   closeOnDocumentClick
                 >
                   <span>
-                    {" "}
-                    <h2 className="title">
+                    <a className="close" onClick={this.handleCloseAccept}>
+                      &times;
+                    </a>
+                    <div
+                      className="header"
+                      style={{
+                        backgroundColor: "#4251af",
+                        height: "50px",
+                        padding: "10px",
+                        zIndex: "999",
+                        color: "white",
+                        alignItems: "center",
+                      }}
+                    >
+                      <p style={{ fontSize: "22px", textAlign: "center" }}>
+                        Confirmation
+                      </p>
+                    </div>
+                    <h3 className="title">
                       ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?
-                    </h2>
+                    </h3>
                     <Formik
                       initialValues={{
                         merchantID: "",
                         // merchantToken: "",
                         fee: "",
-                        discountRate: ""
+                        discountRate: "",
                       }}
-                      validate={values => {
+                      validate={(values) => {
                         let errors = {};
                         if (!values.merchantID) {
                           errors.merchantID = "Required";
@@ -323,7 +378,7 @@ class MerchantReqProfile extends Component {
                           transactionsFee,
                           merchantCode,
                           ID,
-                          discountRate
+                          discountRate,
                         };
                         this.props.sendApproval(data);
                       }}
@@ -338,27 +393,22 @@ class MerchantReqProfile extends Component {
                             <Field type="number" name="merchantID" />
                             <ErrorMessage
                               style={{
-                                color: "#0764b0",
+                                color: "#4251af",
                                 fontWeight: "500",
-                                fontSize: "18px"
+                                fontSize: "18px",
                               }}
                               name="merchantID"
                               component="div"
                             />
                           </div>
-                          {/* <div>
-                                                        <label>MERCHANT TOKEN</label> <br/>
-                                                        <Field type="text" name="merchantToken" />
-                                                        <ErrorMessage style={{color: '#0764b0', fontWeight: '500', fontSize: '18px'}} name="merchantToken" component="div" />
-                                                    </div> */}
                           <div>
                             <label>TRANSACTION FEE</label> <br />
                             <Field type="number" name="fee" />
                             <ErrorMessage
                               style={{
-                                color: "#0764b0",
+                                color: "#4251af",
                                 fontWeight: "500",
-                                fontSize: "18px"
+                                fontSize: "18px",
                               }}
                               name="fee"
                               component="div"
@@ -369,9 +419,9 @@ class MerchantReqProfile extends Component {
                             <Field type="number" name="discount" />
                             <ErrorMessage
                               style={{
-                                color: "#0764b0",
+                                color: "#4251af",
                                 fontWeight: "500",
-                                fontSize: "18px"
+                                fontSize: "18px",
                               }}
                               name="discount"
                               component="div"
@@ -411,7 +461,7 @@ class MerchantReqProfile extends Component {
                     </p>
                   </div>
                   <div className="col-4">
-                    <h4>Doing Business As (DBA)*</h4>
+                    <h4>Doing Business As Name (DBA)*</h4>
                     <p>
                       {e.general !== null ? e.general.doBusinessName : null}
                     </p>
@@ -506,23 +556,23 @@ class MerchantReqProfile extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   PendingProfile: state.ViewMerchant_Request,
   InfoUser_Login: state.User,
   ApprovalStatus: state.Approval,
-  RejectStatus: state.Reject
+  RejectStatus: state.Reject,
 });
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    sendApproval: payload => {
+    sendApproval: (payload) => {
       dispatch(MERCHANT_APPROVAL(payload));
     },
-    getAll_Merchants: payload => {
+    getAll_Merchants: (payload) => {
       dispatch(getAll_Merchants());
     },
-    sendReject: payload => {
+    sendReject: (payload) => {
       dispatch(MERCHANT_REJECT(payload));
-    }
+    },
   };
 };
 

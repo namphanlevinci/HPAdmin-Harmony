@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {
   getAll_Merchants,
   SearchMerchants,
-  ViewProfile_Merchants
+  ViewProfile_Merchants,
 } from "../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
 
@@ -26,7 +26,7 @@ class MerchantsList extends React.Component {
       // Pages
       page: 0,
       pageCount: 0,
-      data: []
+      data: [],
     };
   }
 
@@ -34,14 +34,14 @@ class MerchantsList extends React.Component {
     this.props.getAll_Merchants();
   }
 
-  _merchantsProfile = ID => {
+  _merchantsProfile = (ID) => {
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (Number(res.data.codeNumber) === 200) {
           this.props.ViewProfile_Merchants(res.data.data);
           this.props.history.push("/app/merchants/approved/profile");
@@ -49,47 +49,47 @@ class MerchantsList extends React.Component {
       });
   };
 
-  fetchData = async state => {
+  fetchData = async (state) => {
     const { page } = state;
     this.setState({ loading: true });
     await axios
       .get(URL + `/merchant/?page=${page === 0 ? 1 : page + 1}`, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         const data = res.data.data;
         this.setState({
           page,
           pageCount: res.data.pages,
           data: data,
-          loading: false
+          loading: false,
         });
       });
   };
 
-  changePage = pageIndex => {
+  changePage = (pageIndex) => {
     // console.log(`changePage(pageIndex: ${pageIndex})`);
     this.setState({
-      page: pageIndex
+      page: pageIndex,
     });
   };
 
-  _SearchMerchants = async e => {
+  _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
-  keyPressed = event => {
+  keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
       axios
         .get(URL + `/merchant/search?key=${this.state.search}&page=1`, {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           const data = res.data.data;
           if (!data) {
             store.addNotification({
@@ -102,9 +102,9 @@ class MerchantsList extends React.Component {
               animationOut: ["animated", "fadeOut"],
               dismiss: {
                 duration: 5000,
-                onScreen: true
+                onScreen: true,
               },
-              width: 250
+              width: 250,
             });
             this.setState({ loading: false });
           } else {
@@ -112,7 +112,7 @@ class MerchantsList extends React.Component {
               page: "0 ",
               pageCount: res.data.pages,
               data: data,
-              loading: false
+              loading: false,
             });
           }
         });
@@ -120,65 +120,68 @@ class MerchantsList extends React.Component {
   };
 
   render() {
+    // approved merchant list
     const { page, pageCount, data } = this.state;
 
     const columns = [
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 100
+        width: 100,
       },
       {
-        Header: "Bussiness name",
+        Header: "Bussiness Name",
         id: "general",
         accessor: "general",
-        Cell: e => (
-          <span>{e.value !== null ? e.value.doBusinessName : null}</span>
-        )
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
+            {e.value !== null ? e.value.doBusinessName : null}
+          </span>
+        ),
       },
       {
         id: "principals",
         Header: "Owner",
         width: 150,
-        accessor: e => e.principals[0],
-        Cell: e => (
-          <span>
+        accessor: (e) => e.principals[0],
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
             {e.value !== undefined
               ? e.value.firstName + " " + e.value.lastName
               : null}
           </span>
-        )
+        ),
       },
       {
         Header: "Email",
         accessor: "email",
-        width: 300
+        width: 300,
       },
       {
-        Header: "Phone number",
-        accessor: "phone"
+        Header: "Phone Number",
+        accessor: "phone",
       },
       {
         id: "Approvedby",
-        Header: "Approved by",
+        Header: "Approved By",
         accessor: "adminUser",
-        Cell: e => (
-          <span style={{ color: "#0764b0", fontWeight: 500 }}>
+        Cell: (e) => (
+          <span style={{ color: "#4251af", fontWeight: 500 }}>
             {e.value !== null
               ? e.value.first_name + " " + e.value.last_name
               : null}
           </span>
-        )
-      }
+        ),
+      },
     ];
 
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
-        onClick: e => {
+        onClick: (e) => {
           if (rowInfo !== undefined) {
             this._merchantsProfile(rowInfo.original.merchantId);
           }
-        }
+        },
       };
     };
     return (
@@ -212,8 +215,8 @@ class MerchantsList extends React.Component {
               pages={pageCount}
               data={data}
               // You should also control this...
-              onPageChange={pageIndex => this.changePage(pageIndex)}
-              onFetchData={state => this.fetchData(state)}
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onFetchData={(state) => this.fetchData(state)}
               // defaultPageSize={10}
               minRows={0}
               noDataText="NO DATA!"
@@ -228,19 +231,19 @@ class MerchantsList extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  Merchants_List: state.MerchantsList
+  Merchants_List: state.MerchantsList,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_Merchants: () => {
     dispatch(getAll_Merchants());
   },
-  SearchMerchants: payload => {
+  SearchMerchants: (payload) => {
     dispatch(SearchMerchants(payload));
   },
-  ViewProfile_Merchants: payload => {
+  ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MerchantsList);

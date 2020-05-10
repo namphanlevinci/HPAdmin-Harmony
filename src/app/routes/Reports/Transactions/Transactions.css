@@ -11,11 +11,11 @@
 }
 .Transactions thead tr th {
   color: white;
-  background-color: #0764b0;
+  background-color: #4251af;
   padding: 10px 20px;
   font-weight: 400;
   font-size: 16px;
-  border: 1px solid #0764b0;
+  border: 1px solid #4251af;
 }
 .Transactions tbody tr td {
   padding: 10px 20px;
@@ -48,7 +48,7 @@
   margin-top: 15px;
   display: inline-block;
   color: white;
-  background-color: #0764b0;
+  background-color: #4251af;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 13px;
@@ -61,7 +61,7 @@
   font-weight: 600;
 }
 .TransactionSearch button:hover {
-  background-color: #0074d9;
+  background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.5);
 }
 

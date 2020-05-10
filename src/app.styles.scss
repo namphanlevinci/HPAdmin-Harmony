@@ -1,3 +1,7 @@
 .container-fluid {
   max-width: 100%;
 }
+
+.ReactTable .rt-tr-group:nth-child(2n+1) {
+  background-color: #fafafa;
+}

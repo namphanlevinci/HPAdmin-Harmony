@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
   getAll_Merchant_Requests,
-  ViewMerchant_Request
+  ViewMerchant_Request,
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -18,25 +18,25 @@ class MerchantsRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ""
+      search: "",
     };
   }
 
   componentDidMount() {
     this.props.getAll_Merchant_Requests();
   }
-  _SearchMerchants = async e => {
+  _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
 
-  _merchantReqProfile = ID => {
+  _merchantReqProfile = (ID) => {
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (Number(res.data.codeNumber) === 200) {
           this.props.ViewMerchant_Request(res.data.data);
           this.props.history.push("/app/merchants/pending/profile");
@@ -47,7 +47,7 @@ class MerchantsRequest extends Component {
     let ReqList = this.props.MerchantRequests_List;
     if (ReqList) {
       if (this.state.search) {
-        ReqList = ReqList.filter(e => {
+        ReqList = ReqList.filter((e) => {
           if (e.general !== null) {
             return (
               e.general.doBusinessName
@@ -69,47 +69,49 @@ class MerchantsRequest extends Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 100
+        width: 100,
       },
       {
-        Header: "Bussiness name",
+        Header: "Bussiness Name",
         id: "general",
         accessor: "general",
-        Cell: e => (
-          <span>{e.value !== null ? e.value.doBusinessName : null}</span>
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
+            {e.value !== null ? e.value.doBusinessName : null}
+          </span>
         ),
-        width: 280
+        width: 280,
       },
       {
         id: "principals",
         Header: "Owner",
         width: 280,
-        accessor: e => e.principals[0],
-        Cell: e => (
-          <span>
+        accessor: (e) => e.principals[0],
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
             {e.value !== undefined
               ? e.value.firstName + " " + e.value.lastName
               : null}
           </span>
-        )
+        ),
       },
       {
         Header: "Email",
         accessor: "email",
-        width: 350
+        width: 300,
       },
       {
-        Header: "Phone number",
-        accessor: "phone"
-      }
+        Header: "Phone Number",
+        accessor: "phone",
+      },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
-        onClick: e => {
+        onClick: (e) => {
           if (rowInfo !== undefined) {
             this._merchantReqProfile(rowInfo.original.merchantId);
           }
-        }
+        },
       };
     };
     return (
@@ -149,16 +151,16 @@ class MerchantsRequest extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  MerchantRequests_List: state.MerchantRequests_List
+  MerchantRequests_List: state.MerchantRequests_List,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_Merchant_Requests: () => {
     dispatch(getAll_Merchant_Requests());
   },
-  ViewMerchant_Request: payload => {
+  ViewMerchant_Request: (payload) => {
     dispatch(ViewMerchant_Request(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);

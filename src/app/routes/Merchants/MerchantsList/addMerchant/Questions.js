@@ -4,7 +4,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 
 const Questions = ({ handleQuestions, businessInfo }) => {
-  console.log("value", businessInfo);
+  // console.log("value", businessInfo);
   const mapQuestion = businessInfo.map((e, index) => {
     return (
       <div className="col-6" key={e.questionId}>
@@ -15,12 +15,20 @@ const Questions = ({ handleQuestions, businessInfo }) => {
             name={`isAccept${e.questionId}`}
             // value={`isAccept${e.questionId}`}
             onChange={
-              (e => console.log("TARGET", e.target.checked),
+              ((e) => console.log("TARGET", e.target.checked),
               handleQuestions([e, `isAccept${e.questionId}`]))
             }
           >
-            <FormControlLabel value="false" control={<Radio color='primary' />} label="No" />
-            <FormControlLabel value="true" control={<Radio color='primary' />} label="Yes" />
+            <FormControlLabel
+              value="false"
+              control={<Radio color="primary" />}
+              label="No"
+            />
+            <FormControlLabel
+              value="true"
+              control={<Radio color="primary" />}
+              label="Yes"
+            />
           </RadioGroup>
         </div>
       </div>

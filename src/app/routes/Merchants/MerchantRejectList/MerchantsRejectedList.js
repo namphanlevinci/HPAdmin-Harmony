@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
   getAll_Rejected_Merchants,
-  ViewMerchant_Rejected_Merchants
+  ViewMerchant_Rejected_Merchants,
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 
@@ -19,25 +19,25 @@ class MerchantsRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ""
+      search: "",
     };
   }
   componentDidMount() {
     this.props.getAll_Rejected_Merchants();
   }
-  _SearchMerchants = async e => {
+  _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
 
   //goto merchant profile
-  _merchantReqProfile = ID => {
+  _merchantReqProfile = (ID) => {
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (Number(res.data.codeNumber) === 200) {
           this.props.ViewMerchant_Rejected_Merchants(res.data.data);
           this.props.history.push("/app/merchants/rejected/profile");
@@ -48,7 +48,7 @@ class MerchantsRequest extends Component {
     let ReqList = this.props.RejectedList;
     if (ReqList) {
       if (this.state.search) {
-        ReqList = ReqList.filter(e => {
+        ReqList = ReqList.filter((e) => {
           if (e.general !== null) {
             return (
               e.general.doBusinessName
@@ -70,58 +70,60 @@ class MerchantsRequest extends Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 100
+        width: 100,
       },
       {
-        Header: "Bussiness name",
+        Header: "Bussiness Name",
         id: "general",
         accessor: "general",
-        Cell: e => (
-          <span>{e.value !== null ? e.value.doBusinessName : null}</span>
-        )
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
+            {e.value !== null ? e.value.doBusinessName : null}
+          </span>
+        ),
       },
       {
         id: "principals",
         Header: "Owner",
         width: 150,
-        accessor: e => e.principals[0],
-        Cell: e => (
-          <span>
+        accessor: (e) => e.principals[0],
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
             {e.value !== undefined
               ? e.value.firstName + " " + e.value.lastName
               : null}
           </span>
-        )
+        ),
       },
       {
         Header: "Email",
         accessor: "email",
-        width: 300
+        width: 300,
       },
       {
-        Header: "Phone number",
-        accessor: "phone"
+        Header: "Phone Number",
+        accessor: "phone",
       },
       {
         id: "RejectedBy",
-        Header: "Rejected by",
+        Header: "Rejected By",
         accessor: "adminUser",
-        Cell: e => (
-          <span style={{ color: "#0764b0", fontWeight: 500 }}>
+        Cell: (e) => (
+          <span style={{ color: "#4251af", fontWeight: 500 }}>
             {e.value !== null
               ? e.value.first_name + " " + e.value.last_name
               : null}
           </span>
-        )
-      }
+        ),
+      },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
-        onClick: e => {
+        onClick: (e) => {
           if (rowInfo !== undefined) {
             this._merchantReqProfile(rowInfo.original.merchantId);
           }
-        }
+        },
       };
     };
     return (
@@ -162,16 +164,16 @@ class MerchantsRequest extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  RejectedList: state.Merchants_RejectedList
+  RejectedList: state.Merchants_RejectedList,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_Rejected_Merchants: () => {
     dispatch(getAll_Rejected_Merchants());
   },
-  ViewMerchant_Rejected_Merchants: payload => {
+  ViewMerchant_Rejected_Merchants: (payload) => {
     dispatch(ViewMerchant_Rejected_Merchants(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);

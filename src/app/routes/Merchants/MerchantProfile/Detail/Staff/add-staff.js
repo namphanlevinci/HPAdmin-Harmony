@@ -419,7 +419,7 @@ class AddStaff extends Component {
     return (
       <div className="container-fluid react-transition swipe-right add-staff">
         <div style={{ textAlign: "center" }}>
-          <h1 style={{ color: "#0764b0" }}>New Staff</h1>
+          <h1 style={{ color: "#4251af" }}>New Staff</h1>
         </div>
         <div className="MerList" style={{ padding: "30px" }}>
           <div className="w-100">

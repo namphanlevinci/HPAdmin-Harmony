@@ -127,7 +127,7 @@ class EditCategory extends Component {
                     )}
                     <div className="Disable-Button">
                       <Button
-                        style={{ marginTop: "20px", color: "#0764b0" }}
+                        style={{ marginTop: "20px", color: "#4251af" }}
                         className="btn btn-red"
                         onClick={() =>
                           this.props.history.push(
@@ -140,7 +140,7 @@ class EditCategory extends Component {
                       <Button
                         style={{
                           marginTop: "20px",
-                          backgroundColor: "#0764b0",
+                          backgroundColor: "#4251af",
                           color: "white",
                         }}
                         className="btn btn-green"

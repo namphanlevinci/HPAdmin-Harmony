@@ -60,10 +60,10 @@ input[type="number"]::-webkit-outer-spin-button {
 /* test */
 .profile-nav ul {
   display: flex;
-  background-color: #0764b0;
+  background-color: #4251af;
 }
 .detail-content {
-  padding-top: 10px;
+  /* padding-top: 10px; */
 }
 ul.detail-tab li {
   display: inline-block;
@@ -75,7 +75,7 @@ ul.detail-tab li a {
   font-weight: 300;
   display: block;
   padding: 10px 20px;
-  background: #0764b0;
+  background: #4251af;
   color: white;
   font-size: 19px;
   border: none;
@@ -88,5 +88,5 @@ ul.detail-tab .active {
   font-weight: 400;
   color: white;
   border-bottom: 3px solid red;
-  background: #0764b0;
+  background: #4251af;
 }

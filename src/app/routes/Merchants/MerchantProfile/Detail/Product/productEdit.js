@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import URL, { upfileUrl } from "../../../../../../url/url";
-import Button from "@material-ui/core/Button";
 import { store } from "react-notifications-component";
 
+import Button from "@material-ui/core/Button";
+import Select from "react-select";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
 
@@ -35,7 +36,7 @@ class EditProduct extends Component {
       imageUrl: "",
       productId: "",
       //~ preview image
-      imagePreviewUrl: ""
+      imagePreviewUrl: "",
     };
   }
   componentDidMount() {
@@ -43,10 +44,10 @@ class EditProduct extends Component {
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.setState({ category: res.data.data });
       });
     const product = this.props.SERVICE;
@@ -65,16 +66,16 @@ class EditProduct extends Component {
         minThreshold: product.minThreshold,
         sku: product.sku,
         imageUrl: product.imageUrl,
-        productId: product.productId
+        productId: product.productId,
       });
     }
   }
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  _handleImageChange = e => {
+  _handleImageChange = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -83,7 +84,7 @@ class EditProduct extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
@@ -91,14 +92,14 @@ class EditProduct extends Component {
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
       .post(upfileUrl, formData, config)
-      .then(res => {
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -121,7 +122,7 @@ class EditProduct extends Component {
       minThreshold,
       sku,
       imageUrl,
-      productId
+      productId,
     } = this.state;
     const merchantId = this.props.MerchantProfile.merchantId;
 
@@ -142,15 +143,15 @@ class EditProduct extends Component {
           minThreshold,
           sku,
           imageUrl,
-          merchantId
+          merchantId,
         },
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         let message = res.data.message;
         if (res.data.codeNumber === 200) {
           store.addNotification({
@@ -163,9 +164,9 @@ class EditProduct extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
           setTimeout(() => {
             this.props.history.push("/app/merchants/profile/product");
@@ -181,9 +182,9 @@ class EditProduct extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
         }
       });
@@ -193,8 +194,8 @@ class EditProduct extends Component {
     const product = this.props.SERVICE;
     const { category } = this.state;
     const mapCategory = category
-      .filter(e => e.categoryType !== "Product")
-      .map(e => (
+      .filter((e) => e.categoryType !== "Product")
+      .map((e) => (
         <option value={e.categoryId} key={e.categoryId}>
           {e.name}
         </option>
@@ -220,10 +221,14 @@ class EditProduct extends Component {
         />
       );
     }
+    const serviceStatus = [
+      { value: "0", label: "Active" },
+      { value: "1", label: "Disable" },
+    ];
 
     return (
       <div className="react-transition swipe-up service-container">
-        <h2 style={{ color: "#0764b0" }}>Edit Product</h2>
+        <h2 style={{ color: "#4251af" }}>Edit Product</h2>
         <div className="container Service">
           <div className="row">
             <div className="col-5">
@@ -237,7 +242,7 @@ class EditProduct extends Component {
                 style={{
                   width: "auto",
                   borderBottom: "none",
-                  paddingTop: "20px"
+                  paddingTop: "20px",
                 }}
               />
             </div>
@@ -266,8 +271,8 @@ class EditProduct extends Component {
                 <div className="col-4">
                   <label>Category</label>
                   <br />
-                  <select
-                    onChange={e =>
+                  {/* <select
+                    onChange={(e) =>
                       this.setState({ categoryId: e.target.value })
                     }
                   >
@@ -275,7 +280,44 @@ class EditProduct extends Component {
                       {product.categoryName}
                     </option>
                     {mapCategory}
-                  </select>
+                  </select> */}
+
+                  <Select
+                    styles={colourStyles}
+                    options={
+                      this.state.category
+                        ? this.state.category
+                            .filter((e) => e.categoryType !== "Product")
+                            .map((e) => {
+                              return {
+                                id: e.categoryId,
+                                value: e.categoryId,
+                                label: e.name,
+                              };
+                            })
+                        : []
+                    }
+                    defaultValue={{
+                      value: this.state.categoryId,
+                      label: this.state.categoryId,
+                    }}
+                    value={this.state.category
+                      .filter((e) => e.categoryType !== "Product")
+                      .map((e) => {
+                        if (e.categoryId === this.state.categoryId) {
+                          return {
+                            label: e.name,
+                            value: e.categoryId,
+                          };
+                        }
+                      })}
+                    onChange={(selectedOption) => {
+                      this.setState({ categoryId: selectedOption.value });
+                    }}
+                    placeholder="- Select -"
+                    loadingMessage={() => "Fetching Service"}
+                    noOptionsMessage={() => "Service appears here!"}
+                  />
                 </div>
                 <div className="col-4">
                   <label>Items In Stock*</label>
@@ -321,7 +363,7 @@ class EditProduct extends Component {
                   <label>Status</label>
                   <br />
                   <select
-                    onChange={e =>
+                    onChange={(e) =>
                       this.setState({ isDisabled: e.target.value })
                     }
                   >
@@ -332,6 +374,21 @@ class EditProduct extends Component {
                       Disable
                     </option>
                   </select>
+
+                  {/* <Select
+                    styles={colourStyles}
+                    options={serviceStatus}
+                    defaultValue={{
+                      value: this.state.isDisabled,
+                      label:
+                        this.state.isDisabled === 0 ? "Active" : "Disabled",
+                    }}
+                    onChange={(e) => {
+                      this.setState({ isDisabled: e.value }, () =>
+                        console.log(this.state.isDisabled)
+                      );
+                    }}
+                  /> */}
                 </div>
                 <div className="col-12">
                   <label>Description</label>
@@ -347,24 +404,43 @@ class EditProduct extends Component {
             </div>
           </div>
 
-          <Button
-            className="btn btn-green"
-            style={{ backgroundColor: "#0074d9", color: "white" }}
-            onClick={this.updateProduct}
-          >
-            SAVE
-          </Button>
-          <Button className="btn btn-red" onClick={this.goBack}>
-            BACK
-          </Button>
+          <div style={{ marginTop: "15px" }}>
+            <Button
+              className="btn btn-green"
+              style={{ backgroundColor: "#4251af", color: "white" }}
+              onClick={this.updateProduct}
+            >
+              SAVE
+            </Button>
+            <Button className="btn btn-red" onClick={this.goBack}>
+              BACK
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  SERVICE: state.serviceProps
+  SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(EditProduct);
+
+const colourStyles = {
+  control: (styles) => ({
+    ...styles,
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderRadius: 0,
+  }),
+  input: (styles) => ({
+    ...styles,
+    borderWidth: 0,
+    fontSize: 16,
+    paddingLeft: 0,
+  }),
+  placeholder: (styles) => ({ ...styles }),
+  // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
+};

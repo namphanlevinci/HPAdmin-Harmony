@@ -1,9 +1,18 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import StateID from "../../../../../util/getState";
-import NumberFormat from "react-number-format";
+import PhoneInput from "react-phone-input-2";
+import selectState from "../../../../../util/selectState";
+import Select from "react-select";
 
-const General = ({ handleChange, value, validator, handleNumber }) => {
+import "react-phone-input-2/lib/high-res.css";
+const General = ({
+  handleChange,
+  value,
+  validator,
+  handleNumber,
+  handleSelect,
+}) => {
   return (
     <div className="general-container">
       <h1>General Information</h1>
@@ -64,7 +73,7 @@ const General = ({ handleChange, value, validator, handleNumber }) => {
         </div>
       </div>
       <div className="row">
-        <div className="col-3">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="address"
@@ -79,7 +88,7 @@ const General = ({ handleChange, value, validator, handleNumber }) => {
             {validator.message("address", value.address, "required|string")}
           </div>
         </div>
-        <div className="col-md-3">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="city"
@@ -94,19 +103,20 @@ const General = ({ handleChange, value, validator, handleNumber }) => {
             {validator.message("city", value.city, "required|string")}
           </div>
         </div>
-        <div className="col-3">
+        <div className="col-4">
           <label>State</label>
           <div>
-            <select
+            <Select
+              // value={this.state.state}
+              onChange={handleSelect}
               name="state"
-              style={{ padding: "11px", width: "100%" }}
-              onChange={handleChange}
-            >
-              <StateID />
-            </select>
+              options={selectState}
+            />
           </div>
         </div>
-        <div className="col-3">
+      </div>
+      <div className="row">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="zip"
@@ -121,44 +131,18 @@ const General = ({ handleChange, value, validator, handleNumber }) => {
             {validator.message("zip", value.zip, "required|string")}
           </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="col-3">
-          <label>Country Code*</label>
-          <div>
-            <select
-              name="businessPhoneCode"
-              style={{ padding: "10px", width: "100%" }}
-            >
-              <option
-                checked={value.businessPhoneCode === +1 ? true : false}
-                value="+1"
-              >
-                +1
-              </option>
-              <option
-                checked={value.businessPhoneCode === +84 ? true : false}
-                value="+84"
-              >
-                +84
-              </option>
-            </select>
-          </div>
-        </div>
-        <div className="col-5">
-          <div className="form-group">
-            <TextField
+        <div className="col-4">
+          <div style={{ width: "100%" }}>
+            <label>Business Phone Number</label>
+            <PhoneInput
+              style={{ marginTop: "10px" }}
+              country={"us"}
+              placeholder="Business Phone Number"
               name="businessPhone"
-              label="Phone number"
-              type="number"
-              margin="normal"
-              fullWidth
-              required
-              onChange={(e) => handleNumber(e.target.value, "businessPhone")}
               value={value.businessPhone}
-              maxLength="9"
+              onChange={(e) => handleNumber(e, "businessPhone")}
             />
-            {/* <NumberFormat format="#### #### #### ####" /> */}
+
             {validator.message(
               "businessPhone",
               value.businessPhone,
@@ -184,8 +168,8 @@ const General = ({ handleChange, value, validator, handleNumber }) => {
       </div>
       <div>
         <h1>Representative Information</h1>
-        <div className="row">
-          <div className="col-4">
+        <div className="row  justify-content-center">
+          <div className="col-6">
             <div className="form-group">
               <TextField
                 name="firstName"
@@ -204,7 +188,7 @@ const General = ({ handleChange, value, validator, handleNumber }) => {
               )}
             </div>
           </div>
-          <div className="col-4">
+          <div className="col-6">
             <div className="form-group">
               <TextField
                 name="lastName"
@@ -219,7 +203,9 @@ const General = ({ handleChange, value, validator, handleNumber }) => {
               {validator.message("lastName", value.lastName, "required|string")}
             </div>
           </div>
-          <div className="col-4">
+        </div>
+        <div className="row justify-content-center">
+          <div className="col-6">
             <div className="form-group">
               <TextField
                 name="position"
@@ -234,44 +220,17 @@ const General = ({ handleChange, value, validator, handleNumber }) => {
               {validator.message("position", value.position, "required|string")}
             </div>
           </div>
-        </div>
-        <div className="row align-items-center justify-content-center">
-          <div className="col-2">
-            <div className="">
-              <label>Country Code</label>
-              <select
-                name="contactPhoneCode"
-                onChange={handleChange}
-                style={{ padding: "10px", width: "100%" }}
-              >
-                <option
-                  checked={value.contactPhoneCode === +1 ? true : false}
-                  value="+1"
-                >
-                  +1
-                </option>
-                <option
-                  checked={value.contactPhoneCode === +84 ? true : false}
-                  value="+84"
-                >
-                  +84
-                </option>
-              </select>
-            </div>
-          </div>
-          <div className="col-3">
-            <div className="form-group">
-              <TextField
+          <div className="col-6">
+            <div>
+              <label>Phone Number</label>
+              <PhoneInput
+                country={"us"}
+                style={{ marginTop: "10px" }}
+                placeholder="Phone Number"
                 name="contactPhone"
-                label="Phone number"
-                type="number"
-                margin="normal"
-                fullWidth
-                required
-                onChange={handleChange}
                 value={value.contactPhone}
+                onChange={(e) => handleNumber(e, "contactPhone")}
               />
-
               {validator.message(
                 "contactPhone",
                 value.contactPhone,

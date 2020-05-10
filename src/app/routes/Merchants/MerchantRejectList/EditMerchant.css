@@ -3,7 +3,7 @@
   height: 100%;
 }
 .RejectedInfo h2 {
-  color: #0764b0;
+  color: #4251af;
 }
 .RejectedInfo input {
   width: 350px;
@@ -36,19 +36,19 @@
   border-color: rgba(0, 0, 0, 0.9);
 }
 .RejectedInfo button.btn.btn-green {
-  background-color: #0764b0;
+  background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 
 .RejectedInfo button.btn.btn-green:hover {
-  background-color: #0764b0;
+  background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .RejectedInfo button.btn.btn-green:active {
-  background-color: #0764b0;
+  background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
@@ -56,7 +56,7 @@
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #0764b0;
+  color: #4251af;
 }
 
 .RejectedInfo button.btn.btn-red:hover {

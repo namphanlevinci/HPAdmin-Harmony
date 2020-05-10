@@ -7,20 +7,25 @@ import axios from "axios";
 import defaultImage from "./hpadmin2.png";
 import ErrorMessage from "../../MerchantProfile/Detail/Service/error-message";
 import Button from "@material-ui/core/Button";
-import StateID from "../../../../../util/getState";
-
+// import StateID from "../../../../../util/getState";
+import PhoneInput from "react-phone-input-2";
 import * as Yup from "yup";
+
+import Select from "react-select";
+import selectState from "../../../../../util/selectState";
+
+import "react-phone-input-2/lib/high-res.css";
 
 class Principal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       imagePreviewUrl: "",
-      fileId: 0
+      fileId: 0,
     };
   }
 
-  _handleImageChange = e => {
+  _handleImageChange = (e) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -29,22 +34,23 @@ class Principal extends Component {
     const file = e.target.files[0];
     reader.onloadend = () => {
       this.setState({
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
       .post(upfileUrl, formData, config)
-      .then(res => {
+      .then((res) => {
         // console.log("RES IMAGE", res);
+
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -78,7 +84,7 @@ class Principal extends Component {
           lastName: Yup.string().required("Required"),
           position: Yup.string().required("Required"),
           ownership: Yup.string().required("Required"),
-          homePhone: Yup.string().required("Required"),
+          // homePhone: Yup.string().required("Required"),
           mobilePhone: Yup.string().required("Required"),
           yearAtThisAddress: Yup.string().required("Required"),
           ssn: Yup.string().required("Required"),
@@ -91,16 +97,16 @@ class Principal extends Component {
             address: Yup.string().required("Required"),
             city: Yup.string().required("Required"),
             state: Yup.string().required("Required"),
-            zip: Yup.string().required("Required")
-          })
+            zip: Yup.string().required("Required"),
+          }),
         })
-      )
+      ),
     });
 
     return (
       <div className="principal-container">
         <Formik
-          // enableReinitialize={true}
+          enableReinitialize={true}
           validationSchema={validationSchema}
           initialValues={{
             principalInfo: [
@@ -115,7 +121,7 @@ class Principal extends Component {
                   address: "",
                   city: "",
                   state: "",
-                  zip: ""
+                  zip: "",
                 },
                 yearAtThisAddress: 0,
                 ssn: "",
@@ -123,128 +129,34 @@ class Principal extends Component {
                 email: "",
                 driverLicense: "",
                 stateIssued: "",
-                fileId: this.state.fileId
-              }
-            ]
+                fileId: 0,
+              },
+            ],
           }}
           onSubmit={(values, { setSubmitting }) => {
-            // console.log("VALUES", values);
+            console.log("VALUES", values);
             // console.log("THIS SUPER STATE", this.props.Info);
-
-            // const data = this.props.Info;
             this.props.handleNext();
-            this.props.setDataPrincipal(values?.principalInfo)
-            // axios
-            //   .post(URL + "/merchant", {
-            //     generalInfo: {
-            //       businessName: data?.businessName,
-            //       doingBusiness: data?.doingBusiness,
-            //       tax: data?.tax,
-            //       businessAddress: {
-            //         address: data?.address,
-            //         city: data?.city,
-            //         state: data?.state,
-            //         zip: data?.zip
-            //       },
-            //       businessPhone: data?.businessPhoneCode + data?.businessPhone,
-            //       email: data?.email,
-            //       firstName: data?.firstName,
-            //       lastName: data?.lastName,
-            //       position: data?.position,
-            //       contactPhone: data?.contactPhoneCode + data?.contactPhone
-            //     },
-            //     businessInfo: {
-            //       question1: {
-            //         isAccept: data?.isAccept1,
-            //         desc: "",
-            //         question: data?.question1
-            //       },
-            //       question2: {
-            //         isAccept: data?.isAccept2,
-            //         desc: "",
-            //         question: data?.question2
-            //       },
-            //       question3: {
-            //         isAccept: data?.isAccept3,
-            //         desc: "",
-            //         question: data?.question3
-            //       },
-            //       question4: {
-            //         isAccept: data?.isAccept4,
-            //         desc: "",
-            //         question: data?.question4
-            //       },
-            //       question5: {
-            //         isAccept: data?.isAccept5,
-            //         desc: "",
-            //         question: data?.question5
-            //       }
-            //     },
-            //     bankInfo: {
-            //       bankName: data?.bankName,
-            //       routingNumber: data?.routingNumber,
-            //       accountNumber: data?.accountNumber,
-            //       fileId: data.fileId ? data.fileId : 0,
-            //     },
-            //     principalInfo: values?.principalInfo
-            //   })
-            //   .then(res => {
-            //     console.log("RESULT ADD MERCHANT", res);
-
-            //     if ((res.status = 200)) {
-            //       store.addNotification({
-            //         title: "Success!",
-            //         message: `${res.data.message}`,
-            //         type: "success",
-            //         insert: "top",
-            //         container: "top-right",
-            //         animationIn: ["animated", "fadeIn"],
-            //         animationOut: ["animated", "fadeOut"],
-            //         dismiss: {
-            //           duration: 5000,
-            //           onScreen: true
-            //         },
-            //         width: 250
-            //       });
-            //       setTimeout(() => {
-            //         this.props.returnMerchantList();
-            //       }, 1500);
-            //     } else {
-            //       store.addNotification({
-            //         title: "ERROR!",
-            //         message: "Something went wrong",
-            //         type: "danger",
-            //         insert: "top",
-            //         container: "top-right",
-            //         animationIn: ["animated", "fadeIn"],
-            //         animationOut: ["animated", "fadeOut"],
-            //         dismiss: {
-            //           duration: 5000,
-            //           onScreen: true
-            //         },
-            //         width: 250
-            //       });
-            //     }
-            //   })
-            //   .catch(error => {
-            //     console.log(error);
-            //   });
+            this.props.setDataPrincipal(
+              values?.principalInfo,
+              this.state.fileId
+            );
           }}
           render={({ values, setFieldValue }) => (
             <Form className="principal-form">
               <FieldArray
                 name="principalInfo"
-                render={arrayHelpers => (
+                render={(arrayHelpers) => (
                   <div>
                     {values.principalInfo && values.principalInfo.length > 0 ? (
                       values.principalInfo.map((principal, index) => (
                         <div key={index}>
-                          <h2>Prinncipal Information</h2>
+                          <h2>Principal Information</h2>
                           <div className="row align-items-center justify-content-center">
                             <div className="col-4">
                               <h4>First Name</h4>
                               <Field
-                                placeholder="First name"
+                                placeholder="First Name"
                                 name={`principalInfo.${index}.firstName`}
                                 values={`principalInfo.${index}.firstName`}
                               />
@@ -259,7 +171,7 @@ class Principal extends Component {
                               <Field
                                 name={`principalInfo.${index}.lastName`}
                                 values={`principalInfo.${index}.lastName`}
-                                placeholder="Last name"
+                                placeholder="Last Name"
                               />
                               <div className="input-feedback">
                                 <ErrorMessage
@@ -296,25 +208,53 @@ class Principal extends Component {
                             </div>
                             <div className="col-4">
                               <h4>Home Phone</h4>
-                              <Field
+                              {/* <Field
                                 name={`principalInfo.${index}.homePhone`}
                                 values={`principalInfo.${index}.homePhone`}
                                 placeholder="Home Phone"
                                 type="number"
+                              /> */}
+                              <PhoneInput
+                                style={{ marginTop: "10px" }}
+                                country={"us"}
+                                placeholder="Home Phone Number"
+                                name={`principalInfo.${index}.mobilePhone`}
+                                value={values.homePhone}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `principalInfo.${index}.homePhone`,
+                                    e
+                                  )
+                                }
                               />
-                              <div className="input-feedback">
+                              {/* <div className="input-feedback">
                                 <ErrorMessage
                                   name={`principalInfo.${index}.homePhone`}
                                 />
-                              </div>
+                              </div> */}
                             </div>
                             <div className="col-4">
                               <h4>Mobile Phone</h4>
-                              <Field
+                              {/* <Field
                                 name={`principalInfo.${index}.mobilePhone`}
                                 placeholder="Mobile Phone"
                                 type="number"
+                              /> */}
+
+                              <PhoneInput
+                                style={{ marginTop: "10px" }}
+                                country={"us"}
+                                placeholder="Business Phone Number"
+                                name={`principalInfo.${index}.mobilePhone`}
+                                value={values.mobilePhone}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `principalInfo.${index}.mobilePhone`,
+                                    e
+                                  )
+                                }
                               />
+
                               <div className="input-feedback">
                                 <ErrorMessage
                                   name={`principalInfo.${index}.mobilePhone`}
@@ -351,10 +291,10 @@ class Principal extends Component {
                             <div className="col-4">
                               <h4>State</h4>
 
-                              <select
+                              {/* <select
                                 name={`principalInfo.${index}.addressPrincipal.state`}
                                 style={{ padding: "11px", width: "100%" }}
-                                onChange={e =>
+                                onChange={(e) =>
                                   setFieldValue(
                                     `principalInfo.${index}.addressPrincipal.state`,
                                     e.target.value
@@ -362,7 +302,20 @@ class Principal extends Component {
                                 }
                               >
                                 <StateID />
-                              </select>
+                              </select> */}
+
+                              <Select
+                                // value={this.state.state}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `principalInfo.${index}.addressPrincipal.state`,
+                                    e.value
+                                  )
+                                }
+                                name={`principalInfo.${index}.addressPrincipal.state`}
+                                options={selectState}
+                              />
+
                               <div className="input-feedback">
                                 <ErrorMessage
                                   name={`principalInfo.${index}.addressPrincipal.state`}
@@ -437,10 +390,10 @@ class Principal extends Component {
                             </div>
                             <div className="col-4">
                               <h4>State Issued*</h4>
-                              <select
+                              {/* <select
                                 name={`principalInfo.${index}.stateIssued`}
                                 style={{ padding: "11px", width: "100%" }}
-                                onChange={e =>
+                                onChange={(e) =>
                                   setFieldValue(
                                     `principalInfo.${index}.stateIssued`,
                                     e.target.value
@@ -448,7 +401,19 @@ class Principal extends Component {
                                 }
                               >
                                 <StateID />
-                              </select>
+                              </select> */}
+
+                              <Select
+                                // value={this.state.state}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `principalInfo.${index}.stateIssued`,
+                                    e.value
+                                  )
+                                }
+                                name={`principalInfo.${index}.stateIssued`}
+                                options={selectState}
+                              />
                               <div className="input-feedback">
                                 <ErrorMessage
                                   name={`principalInfo.${index}.stateIssued`}
@@ -466,7 +431,7 @@ class Principal extends Component {
                                   <input
                                     type="file"
                                     className="upload"
-                                    onChange={e => this._handleImageChange(e)}
+                                    onChange={(e) => this._handleImageChange(e)}
                                   />
                                 </div>
                               </div>
@@ -498,17 +463,17 @@ class Principal extends Component {
                       </p>
                     )}
                     <div style={{ marginTop: "15px" }}>
-                    <Button
-												onClick={()=>this.props.handleBack()}
-												className="mr-2"
-												style={{ color: 'black' }}
-											>
-												Back
-											</Button>
+                      <Button
+                        onClick={() => this.props.handleBack()}
+                        className="mr-2"
+                        style={{ color: "black" }}
+                      >
+                        Back
+                      </Button>
                       <Button
                         type="submit"
                         variant="contained"
-                        style={{ backgroundColor: "#0764b0", color: "white" }}
+                        style={{ backgroundColor: "#4251af", color: "white" }}
                       >
                         Next
                       </Button>

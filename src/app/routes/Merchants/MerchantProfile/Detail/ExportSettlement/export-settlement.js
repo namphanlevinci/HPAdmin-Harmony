@@ -103,7 +103,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
       <Button
         type="button"
         onClick={handleClickOpen}
-        style={{ color: "#0764b0", backgroundColor: "white" }}
+        style={{ color: "#4251af", backgroundColor: "white" }}
         className="btn btn-green"
       >
         EXPORT SETTLEMENT
@@ -119,7 +119,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
         fullWidth
       >
         <DialogTitle id="alert-dialog-slide-title">
-          <span style={{ color: "#0764b0" }}>EXPORT SETTLEMENT</span>
+          <span style={{ color: "#4251af" }}>EXPORT SETTLEMENT</span>
         </DialogTitle>
         <DialogContent>
           <div>
@@ -164,7 +164,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
               <PulseLoader
                 css={override}
                 size={16}
-                color={"#0764b0"}
+                color={"#4251af"}
                 loading={loading}
               />
             </div>
@@ -174,14 +174,14 @@ function ExportSettlement({ IDMERCHANT, Token }) {
           <Button
             onClick={handleClose}
             color="primary"
-            style={{ color: "#0764b0" }}
+            style={{ color: "#4251af" }}
           >
             Close
           </Button>
           <Button
             onClick={getReportSettlement}
             color="primary"
-            style={{ color: "#0764b0" }}
+            style={{ color: "#4251af" }}
           >
             Download
           </Button>

@@ -159,7 +159,7 @@ class AddService extends Component {
 
     return (
       <div className="react-transition swipe-up service-container">
-        <h2 style={{ color: "#0764b0", marginBottom: "40px" }}>Add Service</h2>
+        <h2 style={{ color: "#4251af", marginBottom: "40px" }}>Add Service</h2>
         <Formik
           initialValues={{
             name: "",
@@ -487,7 +487,7 @@ class AddService extends Component {
 
                 <Button
                   className="btn btn-green"
-                  style={{ backgroundColor: "#0074d9", color: "white" }}
+                  style={{ backgroundColor: "#4251af", color: "white" }}
                   type="submit"
                   disabled={isSubmitting}
                 >

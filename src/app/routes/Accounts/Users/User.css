@@ -7,7 +7,7 @@
 }
 .UserSearchBox .addAdmin {
   padding: 10px 20px;
-  background: #0764b0;
+  background: #4251af;
   color: white;
 }
 .AdminProfile {
@@ -32,7 +32,7 @@
   padding: 9px;
   margin-top: 20px;
   color: white;
-  background: #0764b0;
+  background: #4251af;
   font-weight: 500;
   font-size: 14px;
 } */
@@ -48,7 +48,7 @@
   font-weight: 550;
 }
 .AdminProfile h4 {
-  color: #0764b0;
+  color: #4251af;
   font-weight: 400;
 }
 .AdminProfile table {
@@ -100,7 +100,7 @@ th {
 .AdminProfile .adminForm input:focus,
 input:focus {
   outline: none;
-  border-bottom: 1px solid #0764b0;
+  border-bottom: 1px solid #4251af;
 }
 
 .AdminProfile .adminForm input.error {

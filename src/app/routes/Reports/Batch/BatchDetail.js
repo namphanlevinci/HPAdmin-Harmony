@@ -89,7 +89,7 @@ class Transactions extends React.Component {
             <div className="MReqSP TransactionsBox">
               <h3>Merchant ID:</h3>
               <Button
-                style={{ color: "#0764b0", backgroundColor: "white" }}
+                style={{ color: "#4251af", backgroundColor: "white" }}
                 className="btn btn-green"
                 onClick={this._goBack}
               >

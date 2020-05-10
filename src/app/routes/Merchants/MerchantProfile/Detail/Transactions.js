@@ -158,7 +158,7 @@ class Transactions extends Component {
                 <Button
                   style={{
                     padding: "10px 20px",
-                    color: "#0764b0",
+                    color: "#4251af",
                     backgroundColor: "#fff",
                     fontWeight: "600"
                   }}

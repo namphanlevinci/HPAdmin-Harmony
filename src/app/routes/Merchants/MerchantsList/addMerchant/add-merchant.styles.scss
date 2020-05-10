@@ -1,14 +1,14 @@
 .MuiStepIcon-root.MuiStepIcon-active {
-  color: #0764b0 !important;
+  color: #4251af !important;
 }
 .MuiStepIcon-root.MuiStepIcon-completed {
-  color: #0764b0 !important;
+  color: #4251af !important;
 }
 
 .add-merchant-container {
   .general-container {
     h1 {
-      color: #0764b0;
+      color: #4251af;
     }
 
     input {
@@ -48,7 +48,7 @@
     }
 
     input:hover {
-      border-bottom: 1px solid#0764b0;
+      border-bottom: 1px solid#4251af;
     }
 
     .driver-image {
@@ -60,7 +60,7 @@
     }
 
     .add-remove-principal {
-      color: #0764b0;
+      color: #4251af;
       font-weight: 500;
       padding: 10px;
       cursor: pointer;
@@ -68,7 +68,7 @@
     }
     .add-remove-principal:hover {
       font-weight: 600;
-      color: #0764b0;
+      color: #4251af;
     }
   }
 }

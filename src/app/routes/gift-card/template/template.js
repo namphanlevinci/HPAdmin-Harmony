@@ -141,7 +141,7 @@ class Generation extends Component {
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#0764b0" }}
+              style={{ color: "#4251af" }}
             />
           </div>
         )
@@ -153,7 +153,7 @@ class Generation extends Component {
         Cell: row => {
           return (
             <Tooltip title="Delete" arrow>
-              <div style={{ color: "#0764b0", textAlign: "center" }}>
+              <div style={{ color: "#4251af", textAlign: "center" }}>
                 <GoTrashcan
                   size={22}
                   onClick={() =>

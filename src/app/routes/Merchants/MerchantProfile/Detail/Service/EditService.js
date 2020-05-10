@@ -53,7 +53,6 @@ class EditService extends Component {
         this.setState({ category: res.data.data });
       });
     const service = this.props.SERVICE;
-    console.log("SERVICE", service);
     if (service !== null) {
       this.setState({
         categoryId: service.categoryId,
@@ -250,7 +249,7 @@ class EditService extends Component {
             <div className="service-container PendingLBody">
               <h2
                 style={{
-                  color: "#0074d9",
+                  color: "#4251af",
                   marginBottom: "65px",
                   marginTop: 2,
                   textAlign: "center",
@@ -268,7 +267,7 @@ class EditService extends Component {
                         <label
                           style={{
                             textAlign: "left",
-                            color: "#0074d9",
+                            color: "#4251af",
                           }}
                         >
                           Category *
@@ -323,7 +322,7 @@ class EditService extends Component {
                         />
                       </div>
                       <div className="col-12" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#0074d9" }}>
+                        <label style={{ color: "#4251af" }}>
                           Service Name*
                         </label>
                         <br />
@@ -339,7 +338,7 @@ class EditService extends Component {
                         />
                       </div>
                       <div className="col-12" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#0074d9" }}>Description</label>
+                        <label style={{ color: "#4251af" }}>Description</label>
                         <br />
                         <textarea
                           name="description"
@@ -351,7 +350,7 @@ class EditService extends Component {
                         <label
                           style={{
                             paddingTop: "10px",
-                            color: "#0074d9",
+                            color: "#4251af",
                             marginBottom: 8,
                           }}
                         >
@@ -374,7 +373,7 @@ class EditService extends Component {
                         </div>
                       </div>
                       <div className="col-4" style={{ marginTop: 5 }}>
-                        <label style={{ color: "#0074d9" }}>Duration</label>
+                        <label style={{ color: "#4251af" }}>Duration</label>
                         <br />
                         <label style={{ color: "#333" }}>
                           <span className="small-label">Minutes</span>
@@ -410,7 +409,7 @@ class EditService extends Component {
                         />
                       </div>
                       <div className="col-6" style={{ marginTop: 60 }}>
-                        <label style={{ color: "#0074d9" }}>Price *</label>
+                        <label style={{ color: "#4251af" }}>Price *</label>
                         <br />
                         <input
                           name="price"
@@ -426,7 +425,7 @@ class EditService extends Component {
                         />
                       </div>
                       <div className="col-6" style={{ marginTop: 60 }}>
-                        <label style={{ color: "#0074d9" }}>Status</label>
+                        <label style={{ color: "#4251af" }}>Status</label>
                         <br />
 
                         <Select
@@ -440,9 +439,7 @@ class EditService extends Component {
                                 : "Disable",
                           }}
                           onChange={(e) => {
-                            this.setState({ isDisabled: e.value }, () =>
-                              console.log(this.state.isDisabled)
-                            );
+                            this.setState({ isDisabled: e.value });
                           }}
                         />
                       </div>
@@ -485,7 +482,7 @@ class EditService extends Component {
                               className="btn btn-green"
                               type="submit"
                               style={{
-                                backgroundColor: "#0074d9",
+                                backgroundColor: "#4251af",
                                 color: "white",
                               }}
                               disabled={isSubmitting}

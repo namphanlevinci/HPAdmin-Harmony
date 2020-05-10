@@ -11,3 +11,16 @@
 .MReq div:nth-child(2n + 2) {
   background-color: #fff;
 }
+
+.popup-content  {
+  padding: 0px 0px 15px 0px !important;
+  border: none !important;
+}
+
+.close {
+  cursor: pointer;
+  text-align: center;
+  color: white !important;
+  margin-right: 5px;
+  font-size: 42px;
+}

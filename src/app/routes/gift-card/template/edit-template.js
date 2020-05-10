@@ -341,7 +341,7 @@ class EditTemplate extends Component {
                         onChange={this._handleCheckbox}
                         value="isConsumer"
                         inputProps={{ "aria-label": "primary checkbox" }}
-                        style={{ color: "#0764b0" }}
+                        style={{ color: "#4251af" }}
                       />
                       Visible on Consumer App
                     </div>

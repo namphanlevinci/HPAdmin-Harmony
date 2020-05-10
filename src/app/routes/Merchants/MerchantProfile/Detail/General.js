@@ -18,7 +18,7 @@ class General extends Component {
       cellphone: "",
       address: "",
       city: "",
-      stateId: ""
+      stateId: "",
     };
   }
   _toggleEdit = () => {
@@ -33,38 +33,38 @@ class General extends Component {
         <div className="container-fuild">
           <h2>General Information</h2>
           <div className="row justify-content-between">
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Legal Business Name*</h4>
               <p>{e.general !== null ? e.general.legalBusinessName : null}</p>
             </div>
-            <div className="col-md-4">
-              <h4>Doing Business As (DBA)*</h4>
+            <div className="col-4">
+              <h4>Doing Business As Name (DBA)*</h4>
               <p>{e.general !== null ? e.general.doBusinessName : null}</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Federal Tax ID*</h4>
               <p>{e.general !== null ? e.general.tax : null}</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>DBA Business Address*</h4>
               <p>{e.addressFull}</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Zip code*</h4>
               <p>{e.general !== null ? e.general.zip : null}</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Business Phone Number*</h4>
               <p>{e.general !== null ? e.general.phoneBusiness : null}</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Contact Email Address*</h4>
               <p>{e.general !== null ? e.general.emailContact : null}</p>
             </div>
           </div>
           <h2>Representative Information</h2>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Contact Name*</h4>
               <p>
                 {e.general !== null
@@ -72,11 +72,11 @@ class General extends Component {
                   : null}
               </p>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Title/Position*</h4>
               <p>{e.general !== null ? e.general.title : null}</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-4">
               <h4>Contact Phone Number*</h4>
               <p>{e.general !== null ? e.general.phoneContact : null}</p>
             </div>
@@ -87,9 +87,9 @@ class General extends Component {
 
     const renderQuestion =
       e.business !== undefined ? (
-        e.business.map(e => {
+        e.business.map((e) => {
           return (
-            <div className="col-md-6" key={e.businessId}>
+            <div className="col-6" key={e.businessId}>
               <h4>{e.question}</h4>
               <Checkbox checked={e.answer === false} />
               No <Checkbox checked={e.answer === true} /> Yes
@@ -118,13 +118,13 @@ class General extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_Merchants: () => {
     dispatch(getAll_Merchants());
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);

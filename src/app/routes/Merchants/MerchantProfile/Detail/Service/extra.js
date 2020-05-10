@@ -60,7 +60,7 @@ const Extra = ({
                 <div style={{ marginBottom: 40 }}>
                   <div
                     style={{
-                      backgroundColor: "#f7f7f7",
+                      backgroundColor: "#fafafa",
                       width: "80%",
                       position: "relative",
                     }}
@@ -83,7 +83,7 @@ const Extra = ({
                       <label
                         style={{
                           fontSize: 14,
-                          color: "#0074d9",
+                          color: "#4251af",
                           fontWeight: "600",
                           letterSpacing: 0.3,
                         }}
@@ -118,7 +118,7 @@ const Extra = ({
                       /> */}
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
-                      <label style={{ fontSize: 14, color: "#0074d9" }}>
+                      <label style={{ fontSize: 14, color: "#4251af" }}>
                         Description
                       </label>
                       <br />
@@ -132,14 +132,14 @@ const Extra = ({
                   </div>
                   <div
                     style={{
-                      backgroundColor: "#f7f7f7",
+                      backgroundColor: "#fafafa",
                       width: "80%",
                       paddingBottom: 20,
                     }}
                     className="row"
                   >
                     <div className="col-10" style={{ marginTop: 20 }}>
-                      <label style={{ fontSize: 14, color: "#0074d9" }}>
+                      <label style={{ fontSize: 14, color: "#4251af" }}>
                         <span className="small-label">Duration*</span>
                       </label>
                       <Field
@@ -153,7 +153,7 @@ const Extra = ({
                       </div>
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
-                      <label style={{ fontSize: 14, color: "#0074d9" }}>
+                      <label style={{ fontSize: 14, color: "#4251af" }}>
                         Price*
                       </label>
                       <Field
@@ -167,7 +167,7 @@ const Extra = ({
                       </div>
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
-                      <label style={{ fontSize: 14, color: "#0074d9" }}>
+                      <label style={{ fontSize: 14, color: "#4251af" }}>
                         Status
                       </label>
                       <Select
@@ -198,7 +198,7 @@ const Extra = ({
                     <p
                       style={{
                         marginLeft: -15,
-                        color: "#0074d9",
+                        color: "#4251af",
                         fontWeight: "600",
                         fontSize: 14,
                         marginTop: 30,

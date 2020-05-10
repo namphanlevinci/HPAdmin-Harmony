@@ -127,7 +127,7 @@ class ApprovedReport extends Component {
         <div className="container-fluid  ReportBox page-heading">
           <span>
             <Button
-              style={{ color: "#0764b0", backgroundColor: "white" }}
+              style={{ color: "#4251af", backgroundColor: "white" }}
               className="btn btn-green"
               onClick={() =>
                 this.props.history.push("/app/reports/general-reports")
@@ -189,7 +189,7 @@ class ApprovedReport extends Component {
               </div>
               <div className="col-md-2">
                 <Button
-                  style={{ color: "white", backgroundColor: "#0764b0" }}
+                  style={{ color: "white", backgroundColor: "#4251af" }}
                   className="btn btn-green"
                   variant="contained"
                   onClick={this._Filter}
@@ -200,7 +200,7 @@ class ApprovedReport extends Component {
             </div>
             <div>
               <h2>Result</h2>
-              <h3 style={{ color: "#0764b0" }}>
+              <h3 style={{ color: "#4251af" }}>
                 Approved Merchant Accounts From
                 {" " + moment(this.state.fromDate).format("MM/DD/YYYY")} To
                 {" " + moment(this.state.toDate).format("MM/DD/YYYY")}

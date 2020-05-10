@@ -17,7 +17,7 @@ class productDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: []
+      category: [],
     };
   }
   componentDidMount() {
@@ -25,10 +25,10 @@ class productDetail extends Component {
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.setState({ category: res.data.data });
       });
   }
@@ -46,7 +46,7 @@ class productDetail extends Component {
     //~ preview image
     return (
       <div className="react-transition swipe-up service-container">
-        <h2 style={{ color: "#0764b0" }}>Product Detail</h2>
+        <h2 style={{ color: "#4251af" }}>Product Detail</h2>
         <div className="container Service">
           <div className="row">
             <div className="col-md-5">
@@ -122,8 +122,8 @@ class productDetail extends Component {
             <Button
               className="btn btn-green"
               style={{
-                backgroundColor: "#0074d9",
-                color: "white"
+                backgroundColor: "#4251af",
+                color: "white",
               }}
               onClick={this.gotoEdit}
             >
@@ -138,9 +138,9 @@ class productDetail extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  SERVICE: state.serviceProps
+  SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(productDetail);

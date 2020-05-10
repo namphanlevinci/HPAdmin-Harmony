@@ -149,7 +149,7 @@ class Generation extends Component {
         Cell: row => {
           return (
             <Tooltip title="Delete" arrow>
-              <div style={{ color: "#0764b0", textAlign: "center" }}>
+              <div style={{ color: "#4251af", textAlign: "center" }}>
                 <GoTrashcan
                   size={22}
                   onClick={() =>

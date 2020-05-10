@@ -38,7 +38,7 @@ const initialState = {
   email: "",
   firstName: "",
   lastName: "",
-  position: 1,
+  position: "",
   contactPhoneCode: "+1",
   contactPhone: "",
 
@@ -50,6 +50,7 @@ const initialState = {
   bankName: "",
   routingNumber: "",
   accountNumber: "",
+  accountHolderName: "",
   fileId: "",
   valuePricingPlane: 1,
   principalInfo: "",
@@ -97,8 +98,13 @@ class AddMerchant extends React.Component {
     this.props.history.push("/app/merchants/list");
   }
 
-  setDataPrincipal = (info) => {
-    this.setState({ principalInfo: info });
+  setDataPrincipal = (info, fileId) => {
+    const principalInfo = { ...info };
+    const currentState = principalInfo[0];
+    currentState["fileId"] = fileId;
+    this.setState({ principalInfo: currentState }, () =>
+      console.log("BOI", this.state.principalInfo)
+    );
   };
 
   getStepContent = (stepIndex) => {
@@ -107,8 +113,9 @@ class AddMerchant extends React.Component {
         return (
           <General
             handleChange={this.handleChange}
-            handleNumber={this.changeNum}
+            handleSelect={this.handleSelect}
             value={this.state}
+            handleNumber={this.handleNumber}
             validator={this.validator}
           />
         );
@@ -213,6 +220,15 @@ class AddMerchant extends React.Component {
     this.setState({ [name]: value });
   };
 
+  handleNumber = (value, name) => {
+    this.setState({ [name]: value });
+  };
+
+  handleSelect = (value, name) => {
+    let stateName = name.name;
+    this.setState({ [stateName]: value.value }, () => console.log(this.state));
+  };
+
   handleQuestions = (name) => (event) => {
     if (Number(name[1].charAt(8)) === Number(name[0].questionId)) {
       this.setState({
@@ -220,14 +236,6 @@ class AddMerchant extends React.Component {
         ["question" + name[0].questionId]: name[0].value,
       });
     }
-  };
-
-  changeNum = (num, name) => {
-    console.log(name, num);
-    const formatNum = num.replace(/(\d{1,2}?)((\d{3})+)$/, "$1,$2");
-    this.setState({
-      [name]: formatNum,
-    });
   };
 
   submitAddMerchant = () => {
@@ -393,7 +401,7 @@ class AddMerchant extends React.Component {
                             this.submitAddMerchant();
                           else this.handleNext();
                         }}
-                        style={{ backgroundColor: "#0764b0", color: "white" }}
+                        style={{ backgroundColor: "#4251af", color: "white" }}
                       >
                         {activeStep === steps.length - 1 ? "Submit" : "Next"}
                       </Button>
