@@ -140,10 +140,10 @@ const Extra = ({
                   >
                     <div className="col-10" style={{ marginTop: 20 }}>
                       <label style={{ fontSize: 14, color: "#4251af" }}>
-                        <span className="small-label">Duration*</span>
+                        <span className="small-label">Duration (Min)*</span>
                       </label>
                       <Field
-                        placeholder="min"
+                        placeholder="Min"
                         style={styles.input}
                         name={`extras.${index}.duration`}
                         type="number"
@@ -154,7 +154,7 @@ const Extra = ({
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
                       <label style={{ fontSize: 14, color: "#4251af" }}>
-                        Price*
+                        Price ($)*
                       </label>
                       <Field
                         placeholder="$"

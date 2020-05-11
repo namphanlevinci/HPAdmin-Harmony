@@ -39,6 +39,12 @@ const Merchants = ({ match }) => (
       />
       {/* PENDING LIST */}
       <Route
+        path={`${match.url}/pending/profile/edit`}
+        component={asyncComponent(() =>
+          import("./MerchantsRequest/EditPendingMerchant")
+        )}
+      />
+      <Route
         path={`${match.url}/pending/profile`}
         component={asyncComponent(() =>
           import("./MerchantsRequest/MerchantReqProfile")

@@ -83,7 +83,8 @@
 .PendingLBody .content .container-fuild h2 {
   color: #4251af;
   font-weight: 500;
-  padding: 10px 0px;
+  margin: 0;
+  /* padding: 10px 0px; */
 }
 .PendingLBody .content .container-fuild p {
   padding-bottom: 10px;

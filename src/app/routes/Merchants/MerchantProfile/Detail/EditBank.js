@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import URL, { upfileUrl } from "../../../../../url/url";
 import {
   ViewProfile_Merchants,
-  GetMerchant_byID
+  GetMerchant_byID,
 } from "../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
 
@@ -24,7 +24,7 @@ class EditBank extends Component {
       accountNumber: "",
       Token: "",
       //~ preview image
-      imagePreviewUrl: ""
+      imagePreviewUrl: "",
     };
   }
   async componentDidMount() {
@@ -37,20 +37,20 @@ class EditBank extends Component {
         fileId: data.fileId,
         routingNumber: data.routingNumber,
         accountNumber: data.accountNumber,
-        newFileId: null
+        newFileId: null,
       });
     }
   }
 
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
-  _uploadFile = e => {
+  _uploadFile = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -59,7 +59,7 @@ class EditBank extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
@@ -67,14 +67,14 @@ class EditBank extends Component {
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
       .post(upfileUrl, formData, config)
-      .then(res => {
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -86,7 +86,7 @@ class EditBank extends Component {
     const IDMerchant = this.props.MerchantProfile.merchantId;
     let token = JSON.parse(this.state.Token);
     const config = {
-      headers: { Authorization: "bearer " + token.token }
+      headers: { Authorization: "bearer " + token.token },
     };
     const { name, fileId, routingNumber, accountNumber } = this.state;
     axios
@@ -95,7 +95,7 @@ class EditBank extends Component {
         { name, fileId, routingNumber, accountNumber },
         config
       )
-      .then(res => {
+      .then((res) => {
         if (res.data.message === "Update bank completed") {
           store.addNotification({
             title: "SUCCESS!",
@@ -107,9 +107,9 @@ class EditBank extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
           setTimeout(() => {
             this.props.GetMerchant_byID(IDMerchant);
@@ -120,7 +120,7 @@ class EditBank extends Component {
           }, 2500);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -141,7 +141,7 @@ class EditBank extends Component {
     const renderOldImg =
       e.businessBank !== null ? (
         e.businessBank.imageUrlOldFiles !== null ? (
-          <div className="col-md-12" style={{ paddingTop: "10px" }}>
+          <div className="col-12" style={{ paddingTop: "10px" }}>
             <h4>Old Void Check*</h4>
             {e.businessBank.imageUrlOldFiles.map((e, index) => {
               return (
@@ -199,7 +199,7 @@ class EditBank extends Component {
                   style={{ width: "250px !important", border: "none" }}
                   name="image"
                   id="file"
-                  onChange={e => this._uploadFile(e)}
+                  onChange={(e) => this._uploadFile(e)}
                 ></input>
               </div>
             </div>
@@ -221,17 +221,17 @@ class EditBank extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  getMerchant: state.getMerchant
+  getMerchant: state.getMerchant,
 });
-const mapDispatchToProps = dispatch => ({
-  ViewProfile_Merchants: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
   },
-  GetMerchant_byID: ID => {
+  GetMerchant_byID: (ID) => {
     dispatch(GetMerchant_byID(ID));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditBank);

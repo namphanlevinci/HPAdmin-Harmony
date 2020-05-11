@@ -41,6 +41,7 @@ class EditProduct extends Component {
   }
   componentDidMount() {
     const ID = this.props.MerchantProfile.merchantId;
+    const CategoryID = this.props.SERVICE?.categoryId;
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
@@ -194,7 +195,7 @@ class EditProduct extends Component {
     const product = this.props.SERVICE;
     const { category } = this.state;
     const mapCategory = category
-      .filter((e) => e.categoryType !== "Product")
+      .filter((e) => e.categoryType !== "Service")
       .map((e) => (
         <option value={e.categoryId} key={e.categoryId}>
           {e.name}
@@ -271,7 +272,7 @@ class EditProduct extends Component {
                 <div className="col-4">
                   <label>Category</label>
                   <br />
-                  {/* <select
+                  <select
                     onChange={(e) =>
                       this.setState({ categoryId: e.target.value })
                     }
@@ -280,9 +281,9 @@ class EditProduct extends Component {
                       {product.categoryName}
                     </option>
                     {mapCategory}
-                  </select> */}
+                  </select>
 
-                  <Select
+                  {/* <Select
                     styles={colourStyles}
                     options={
                       this.state.category
@@ -297,10 +298,10 @@ class EditProduct extends Component {
                             })
                         : []
                     }
-                    defaultValue={{
-                      value: this.state.categoryId,
-                      label: this.state.categoryId,
-                    }}
+                    // defaultValue={{
+                    //   value: this.state.categoryId,
+                    //   label: this.state.name,
+                    // }}
                     value={this.state.category
                       .filter((e) => e.categoryType !== "Product")
                       .map((e) => {
@@ -317,7 +318,7 @@ class EditProduct extends Component {
                     placeholder="- Select -"
                     loadingMessage={() => "Fetching Service"}
                     noOptionsMessage={() => "Service appears here!"}
-                  />
+                  /> */}
                 </div>
                 <div className="col-4">
                   <label>Items In Stock*</label>

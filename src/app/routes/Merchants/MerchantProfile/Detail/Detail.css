@@ -88,12 +88,12 @@
 }
 
 .GeneralContent button.btn.btn-green:hover {
-  background-color: #0074d9;
+  background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .GeneralContent button.btn.btn-green:active {
-  background-color: #0074d9;
+  background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */

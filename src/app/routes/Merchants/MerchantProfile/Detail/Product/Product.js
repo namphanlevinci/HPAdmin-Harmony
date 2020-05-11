@@ -279,6 +279,7 @@ class Product extends Component {
           >
             <DialogContent>
               <ProductAdd
+                getProduct={this.getProduct}
                 closePopup={() => this.setState({ isPopupAddProduct: false })}
               />
             </DialogContent>

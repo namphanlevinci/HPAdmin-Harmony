@@ -45,6 +45,9 @@ class MerchantReqProfile extends Component {
   goBack = () => {
     this.props.history.push("/app/merchants/pending");
   };
+  handleEdit = () => {
+    this.props.history.push("/app/merchants/pending/profile/edit");
+  };
 
   handleOpenAccept = () => {
     this.setState({ isOpenAccept: true });
@@ -231,6 +234,11 @@ class MerchantReqProfile extends Component {
                 <Button className="btn btn-red" onClick={this.goBack}>
                   {" "}
                   BACK{" "}
+                </Button>
+                {/* HANDLE EDIT */}
+                <Button className="btn btn-red" onClick={this.handleEdit}>
+                  {" "}
+                  EDIT{" "}
                 </Button>
                 {/* REJECT BTN */}
                 <Popup
@@ -454,7 +462,7 @@ class MerchantReqProfile extends Component {
               <div className="container-fuild">
                 <h2>General Information</h2>
                 <div className="row justify-content-between">
-                  <div className="col-md-4">
+                  <div className="col-4">
                     <h4>Legal Business Name*</h4>
                     <p>
                       {e.general !== null ? e.general.legalBusinessName : null}

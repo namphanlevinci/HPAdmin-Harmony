@@ -42,7 +42,7 @@ class productDetail extends Component {
   };
   render() {
     const product = this.props.SERVICE;
-    console.log("PRODUCT", product);
+    // console.log("PRODUCT", product);
     //~ preview image
     return (
       <div className="react-transition swipe-up service-container">
@@ -98,7 +98,7 @@ class productDetail extends Component {
                 <div className="col-4">
                   <label>Price ($)</label>
                   <br />
-                  <p>{product.price}</p>
+                  <p>$ {product.price}</p>
                 </div>
                 <div className="col-4">
                   <label>Status</label>
