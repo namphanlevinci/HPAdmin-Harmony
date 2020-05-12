@@ -460,7 +460,7 @@ class MerchantReqProfile extends Component {
             <hr />
             <div className="content react-transition swipe-right">
               <div className="container-fuild">
-                <h2>General Information</h2>
+                <h2 style={styles.h2}>General Information</h2>
                 <div className="row justify-content-between">
                   <div className="col-4">
                     <h4>Legal Business Name*</h4>
@@ -495,7 +495,7 @@ class MerchantReqProfile extends Component {
                     <p>{e.email}</p>
                   </div>
                 </div>
-                <h2>Representative Information</h2>
+                <h2 style={styles.h2}>Representative Information</h2>
                 <div className="row">
                   <div className="col-4">
                     <h4>Contact Name*</h4>
@@ -514,9 +514,9 @@ class MerchantReqProfile extends Component {
                     <p>{e.general !== null ? e.general.phoneContact : null}</p>
                   </div>
                 </div>
-                <h2>Business Information</h2>
+                <h2 style={styles.h2}>Business Information</h2>
                 <div className="row">{renderQuestion}</div>
-                <h2>Bank Information</h2>
+                <h2 style={styles.h2}>Bank Information</h2>
                 <div className="row">
                   <div className="col-4">
                     <h4>Bank Name*</h4>
@@ -551,7 +551,7 @@ class MerchantReqProfile extends Component {
                     ) : null}
                   </div>
                 </div>
-                <h2>Principal Information</h2>
+                <h2 style={styles.h2}>Principal Information</h2>
                 {renderPrincipal}
               </div>
             </div>
@@ -587,3 +587,9 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(MerchantReqProfile)
 );
+
+const styles = {
+  h2: {
+    padding: "10px 0px",
+  },
+};

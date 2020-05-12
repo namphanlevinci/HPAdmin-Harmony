@@ -193,7 +193,7 @@ class Principal extends Component {
                               </div>
                             </div>
                             <div className="col-4">
-                              <h4>Ownership</h4>
+                              <label>Ownership</label>
                               <Field
                                 name={`principalInfo.${index}.ownership`}
                                 values={`principalInfo.${index}.ownership`}
@@ -207,7 +207,7 @@ class Principal extends Component {
                               </div>
                             </div>
                             <div className="col-4">
-                              <h4>Home Phone</h4>
+                              <label>Home Phone</label>
                               {/* <Field
                                 name={`principalInfo.${index}.homePhone`}
                                 values={`principalInfo.${index}.homePhone`}

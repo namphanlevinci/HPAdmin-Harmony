@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import URL, { upfileUrl } from "../../../../url/url";
 
+import EditPrincipal from "./EditPrincipal";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
@@ -13,7 +14,7 @@ import PhoneInput from "react-phone-input-2";
 import axios from "axios";
 
 import "./MerchantReqProfile.css";
-import "./MerchantsRequest.css";
+// import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
 import "react-phone-input-2/lib/high-res.css";
 
@@ -82,15 +83,29 @@ class EditPendingMerchant extends Component {
         accountHolderName: pendingProfile?.businessBank?.accountHolderName,
         accountNumber: pendingProfile?.businessBank?.accountNumber,
         routingNumber: pendingProfile?.businessBank?.routingNumber,
-
-        loading: true,
+        // Principal Information
+        principals: pendingProfile?.principals,
       },
-      () => console.log("this.state", this.state)
+      () => this.setState({ loading: true }),
+      console.log("this.state", this.state)
     );
   }
 
   goBack = () => {
     this.props.history.push("/app/merchants/pending/profile");
+  };
+
+  // handle Input
+  handleChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => console.log("AFTER STATE CHANGE", this.state)
+    );
   };
 
   render() {
@@ -100,11 +115,21 @@ class EditPendingMerchant extends Component {
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (
-        <img className="bankVoid" src={imagePreviewUrl} alt="void" />
+        <img
+          className="bankVoid"
+          src={imagePreviewUrl}
+          alt="void"
+          style={styles.image}
+        />
       );
     } else {
       $imagePreview = (
-        <img className="bankVoid" src={e.businessBank.imageUrl} alt="void" />
+        <img
+          className="bankVoid"
+          style={styles.image}
+          src={e.businessBank.imageUrl}
+          alt="void"
+        />
       );
     }
 
@@ -129,32 +154,49 @@ class EditPendingMerchant extends Component {
           </div>
           <hr />
           <div className="content react-transition swipe-right">
-            <div className="container-fuild">
-              <h2>General Information</h2>
+            <div className="container-fluid">
+              <h2 style={{ color: "#4251af", fontWeight: "500" }}>
+                General Information
+              </h2>
               <div className="row justify-content-between">
                 <PendingInput
                   label="Legal Business Name*"
+                  name="legalBusinessName"
                   initValue={this.state.legalBusinessName}
+                  onChangeInput={this.handleChange}
                 />
 
                 <PendingInput
                   label="Doing Business As Name (DBA)*"
+                  name="doBusinessName"
                   initValue={this.state.doBusinessName}
+                  onChangeInput={this.handleChange}
                 />
 
                 <PendingInput
                   label="Federal Tax ID*"
+                  name="tax"
                   initValue={this.state.tax}
+                  onChangeInput={this.handleChange}
                 />
 
-                <PendingInput label="Address*" initValue={this.state.address} />
-                <PendingInput label="City" initValue={this.state.city} />
+                <PendingInput
+                  label="Address*"
+                  name=""
+                  initValue={this.state.address}
+                  onChangeInput={this.handleChange}
+                />
+                <PendingInput
+                  label="City"
+                  initValue={this.state.city}
+                  onChangeInput={this.handleChange}
+                />
                 <div className="col-4" style={{ paddingTop: "10px" }}>
                   <label>State</label>
                   <div>
                     {this.state.loading === true ? (
                       <Select
-                        // onChange={handleSelect}
+                        onChange={(e) => this.setState({ stateId: e.value })}
                         defaultValue={{
                           label: `${this.state.stateName}`,
                           value: this.state.stateId,
@@ -166,10 +208,17 @@ class EditPendingMerchant extends Component {
                   </div>
                 </div>
 
-                <PendingInput label="Zip*" initValue={this.state.zip} />
+                <PendingInput
+                  label="Zip*"
+                  name="zip"
+                  initValue={this.state.zip}
+                  onChangeInput={this.handleChange}
+                />
                 <PendingInput
                   label="Email Contact*"
+                  name="emailContact"
                   initValue={this.state.emailContact}
+                  onChangeInput={this.handleChange}
                 />
                 <div className="col-4" style={{ paddingTop: "10px" }}>
                   <label>Business Phone Number</label>
@@ -179,26 +228,42 @@ class EditPendingMerchant extends Component {
                     placeholder="Business Phone Number"
                     name="businessPhone"
                     value={this.state.phoneBusiness}
-                    // onChange={(e) => (e, "businessPhone")}
+                    onChange={(phone) =>
+                      this.setState({ phoneBusiness: phone })
+                    }
                   />
                 </div>
               </div>
-              <h2 style={{ paddingTop: "15px" }}>Representative Information</h2>
+              <h2
+                style={{
+                  paddingTop: "15px",
+                  color: "#4251af",
+                  fontWeight: "500",
+                }}
+              >
+                Representative Information
+              </h2>
               <div className="row justify-content-between">
                 <PendingInput
                   styles="col-3"
                   label="First Name"
+                  name="firstName"
                   initValue={this.state.firstName}
+                  onChangeInput={this.handleChange}
                 />
                 <PendingInput
                   styles="col-3"
                   label="Last Name"
+                  name="lastName"
                   initValue={this.state.lastName}
+                  onChangeInput={this.handleChange}
                 />
                 <PendingInput
                   styles="col-3"
                   label="Title"
+                  name="title"
                   initValue={this.state.title}
+                  onChangeInput={this.handleChange}
                 />
 
                 <div className="col-3" style={{ paddingTop: "10px" }}>
@@ -209,34 +274,85 @@ class EditPendingMerchant extends Component {
                     placeholder="Contact Phone Number"
                     name="phoneContact"
                     value={this.state.phoneContact}
-                    // onChange={(e) => (e, "businessPhone")}
+                    onChange={(phone) => this.setState({ phoneContact: phone })}
                   />
                 </div>
               </div>
               {/* BANK INFORMATION */}
-              <h2 style={{ paddingTop: "15px" }}>Bank Information</h2>
-              <div className="row justify-content-between">
+              <h2
+                style={{
+                  paddingTop: "15px",
+                  color: "#4251af",
+                  fontWeight: "500",
+                }}
+              >
+                Bank Information
+              </h2>
+              <div className="row ">
                 <PendingInput
                   styles="col-3"
                   label="Bank Name"
+                  name="bankName"
                   initValue={this.state.bankName}
+                  onChangeInput={this.handleChange}
                 />
                 <PendingInput
                   styles="col-3"
                   label="Account Holder Name"
+                  name="accountHolderName"
                   initValue={this.state.accountHolderName}
+                  onChangeInput={this.handleChange}
                 />
                 <PendingInput
                   styles="col-3"
                   label="ABA Routing Number"
+                  name="routingNumber"
                   initValue={this.state.routingNumber}
+                  onChangeInput={this.handleChange}
                 />
                 <PendingInput
                   styles="col-3"
                   label="Account Number (DDA)*"
+                  name="accountNumber"
                   initValue={this.state.accountNumber}
+                  onChangeInput={this.handleChange}
                 />
+                <div className="col-3" style={{ paddingTop: "10px" }}>
+                  <label>Void Check*</label> <br />
+                  {$imagePreview}
+                </div>
+                <div
+                  className="col-9"
+                  style={{ paddingTop: "10px", float: "left" }}
+                >
+                  <label>Upload new Void Check:</label>
+                  <input
+                    type="file"
+                    style={styles.imageInput}
+                    name="image"
+                    id="file"
+                    onChange={(e) => this._uploadFile(e)}
+                  ></input>
+                </div>
               </div>
+              {/* PRINCIPAL INFORMATION */}
+              <h2
+                style={{
+                  paddingTop: "15px",
+                  color: "#4251af",
+                  fontWeight: "500",
+                }}
+              >
+                Principal Information
+              </h2>
+            </div>
+            <div className="container-fluid justify-content-between">
+              {this.state.loading && (
+                <EditPrincipal
+                  principals={this.state.principals}
+                  uploadFile={this._uploadFile}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -253,3 +369,13 @@ const mapStateToProps = (state) => ({
 });
 
 export default withRouter(connect(mapStateToProps)(EditPendingMerchant));
+
+const styles = {
+  image: {
+    width: "250px",
+    height: "200px",
+  },
+  imageInput: {
+    border: "none",
+  },
+};
