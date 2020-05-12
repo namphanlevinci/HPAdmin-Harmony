@@ -24,6 +24,7 @@ class EditPendingMerchant extends Component {
 
     this.state = {
       loading: false,
+      imagePreviewUrlPrincipal: "",
     };
   }
 
@@ -106,6 +107,33 @@ class EditPendingMerchant extends Component {
       },
       () => console.log("AFTER STATE CHANGE", this.state)
     );
+  };
+
+  getData = async (e, setFieldValue, name) => {
+    e.preventDefault();
+
+    // handle preview Image
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrlPrincipal: reader.result,
+      });
+
+      console.log("reader.result,", reader.result);
+    };
+    reader.readAsDataURL(file);
+    // handle upload image
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+    let formData = new FormData();
+    formData.append("Filename3", file);
+    const response = await axios.post(upfileUrl, formData, config);
+    setFieldValue(name, response.data.data.fileId);
+
+    return response.data.data.fileId;
   };
 
   render() {
@@ -213,12 +241,14 @@ class EditPendingMerchant extends Component {
                   name="zip"
                   initValue={this.state.zip}
                   onChangeInput={this.handleChange}
+                  inputStyles="inputPadding"
                 />
                 <PendingInput
                   label="Email Contact*"
                   name="emailContact"
                   initValue={this.state.emailContact}
                   onChangeInput={this.handleChange}
+                  inputStyles="inputPadding"
                 />
                 <div className="col-4" style={{ paddingTop: "10px" }}>
                   <label>Business Phone Number</label>
@@ -250,6 +280,7 @@ class EditPendingMerchant extends Component {
                   name="firstName"
                   initValue={this.state.firstName}
                   onChangeInput={this.handleChange}
+                  inputStyles="inputPadding"
                 />
                 <PendingInput
                   styles="col-3"
@@ -257,6 +288,8 @@ class EditPendingMerchant extends Component {
                   name="lastName"
                   initValue={this.state.lastName}
                   onChangeInput={this.handleChange}
+                  inputStyles="inputPadding"
+                  v
                 />
                 <PendingInput
                   styles="col-3"
@@ -264,6 +297,7 @@ class EditPendingMerchant extends Component {
                   name="title"
                   initValue={this.state.title}
                   onChangeInput={this.handleChange}
+                  inputStyles="inputPadding"
                 />
 
                 <div className="col-3" style={{ paddingTop: "10px" }}>
@@ -350,7 +384,8 @@ class EditPendingMerchant extends Component {
               {this.state.loading && (
                 <EditPrincipal
                   principals={this.state.principals}
-                  uploadFile={this._uploadFile}
+                  getData={this.getData}
+                  imagePreviewUrlPrincipal={this.state.imagePreviewUrlPrincipal}
                 />
               )}
             </div>

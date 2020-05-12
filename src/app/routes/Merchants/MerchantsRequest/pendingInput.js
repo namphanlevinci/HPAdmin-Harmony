@@ -1,4 +1,5 @@
 import React from "react";
+import "./MerchantsRequest.css";
 
 const pendingInput = ({
   label,
@@ -7,6 +8,7 @@ const pendingInput = ({
   type,
   initValue,
   styles,
+  inputStyles,
 }) => (
   <div className={styles ? styles : "col-4"} style={{ paddingTop: "10px" }}>
     <label>{label}</label>
@@ -15,7 +17,7 @@ const pendingInput = ({
       onChange={onChangeInput}
       value={initValue}
       type={type ? type : "text"}
-      className="form-control"
+      className={inputStyles ? `${inputStyles} form-control` : "form-control"}
       placeholder={label}
       required
     />

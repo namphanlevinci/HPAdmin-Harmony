@@ -15,39 +15,12 @@ import selectState from "../../../../util/selectState";
 import axios from "axios";
 import "./MerchantReqProfile.css";
 
-const EditPrincipal = ({ principals, uploadFile }) => {
-  uploadFile = (e, setFieldValue, name) => {
-    e.preventDefault();
-    console.log("e", e);
-    console.log("setFieldValue", setFieldValue);
-    console.log("name", name);
-    // handle preview Image
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    reader.onloadend = () => {
-      //   this.setState({
-      //     file: file,
-      //     imagePreviewUrl: reader.result,
-      //   });
-    };
-    reader.readAsDataURL(file);
-    // handle upload image
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upfileUrl, formData, config)
-      .then((res) => {
-        setFieldValue(`${name}`, res.data.data.fileId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  console.log("principals", principals);
+const EditPrincipal = ({
+  principals,
+  getData,
+  newFileID,
+  imagePreviewUrlPrincipal,
+}) => {
   return (
     // <h1>YEET</h1>
     <div>
@@ -63,10 +36,9 @@ const EditPrincipal = ({ principals, uploadFile }) => {
                 <div>
                   {values.principal && values.principal.length > 0 ? (
                     values.principal.map((principal, index) => {
-                      console.log("PRINCIPAL MAPPP", principal);
-
+                      // console.log("PRINCIPAL MAPPP", principal);
                       // Image
-                      let imagePreviewUrl = principal?.imageUrl;
+                      let imagePreviewUrl = imagePreviewUrlPrincipal;
                       let $imagePreview = null;
                       if (imagePreviewUrl) {
                         $imagePreview = (
@@ -82,7 +54,7 @@ const EditPrincipal = ({ principals, uploadFile }) => {
                           <img
                             className="bankVoid"
                             style={styles.image}
-                            // src={e.businessBank.imageUrl}
+                            src={principal?.imageUrl}
                             alt="void"
                           />
                         );
@@ -264,14 +236,21 @@ const EditPrincipal = ({ principals, uploadFile }) => {
                               style={styles.imageInput}
                               name={`principal.${index}.fileId`}
                               id="file"
-                              onChange={(e, index) =>
-                                uploadFile(
+                              // onChange={(e, index) =>
+                              //   uploadFile(
+                              //     e,
+                              //     setFieldValue,
+                              //     `principal.${index}.fileId`
+                              //   )
+                              // }
+                              onChange={(e, name) => [
+                                getData(
                                   e,
                                   setFieldValue,
                                   `principal.${index}.fileId`
-                                )
-                              }
-                            ></input>
+                                ),
+                              ]}
+                            />
                           </div>
                           <hr />
                           {/* <button
