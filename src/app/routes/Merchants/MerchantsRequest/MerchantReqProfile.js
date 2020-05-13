@@ -126,6 +126,7 @@ class MerchantReqProfile extends Component {
   }
   render() {
     const e = this.props.PendingProfile;
+    console.log("e", e);
     let principalLength = this.props.PendingProfile?.principals?.length;
 
     //! render Principal

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { upfileUrl } from "../../../../../../url/url";
+import { upFileUrl } from "../../../../../../url/url";
 import {
   ViewProfile_Merchants,
-  GetMerchant_byID
+  GetMerchant_byID,
 } from "../../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
 
@@ -31,7 +31,7 @@ class EditPrincipal extends Component {
       Token: "",
       stateName: "",
       email: "",
-      imagePreviewUrl: ""
+      imagePreviewUrl: "",
     };
   }
   _editPrincipal = () => {
@@ -50,20 +50,20 @@ class EditPrincipal extends Component {
         DriverNumber: data.driverNumber,
         FileId: data.fileId,
         stateName: data.state.name,
-        email: data.email
+        email: data.email,
       });
     }
   }
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
-  _uploadFile = e => {
+  _uploadFile = (e) => {
     e.preventDefault();
     // handle preview Image
     let reader = new FileReader();
@@ -71,7 +71,7 @@ class EditPrincipal extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
@@ -79,14 +79,14 @@ class EditPrincipal extends Component {
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
-      .then(res => {
+      .post(upFileUrl, formData, config)
+      .then((res) => {
         this.setState({ FileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -98,7 +98,7 @@ class EditPrincipal extends Component {
     const IDMerchant = this.props.MerchantProfile.merchantId;
     let token = JSON.parse(this.state.Token);
     const config = {
-      headers: { Authorization: "bearer " + token.token }
+      headers: { Authorization: "bearer " + token.token },
     };
     const {
       Address,
@@ -107,14 +107,14 @@ class EditPrincipal extends Component {
       HomePhone,
       MobilePhone,
       StateId,
-      email
+      email,
     } = this.state;
     Axios.put(
       URL + "/merchant/principal/" + ID,
       { Address, FileId, DriverNumber, HomePhone, MobilePhone, StateId, email },
       config
     )
-      .then(res => {
+      .then((res) => {
         if (res.data.message === "Update pricipal completed") {
           store.addNotification({
             title: "SUCCESS!",
@@ -126,9 +126,9 @@ class EditPrincipal extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
           setTimeout(() => {
             this.props.GetMerchant_byID(IDMerchant);
@@ -139,11 +139,11 @@ class EditPrincipal extends Component {
           }, 2500);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
-  getStateId = e => {
+  getStateId = (e) => {
     this.setState({ StateId: e });
   };
   render() {
@@ -276,7 +276,7 @@ class EditPrincipal extends Component {
               style={{ width: "250px !important", border: "none" }}
               name="image"
               id="file"
-              onChange={e => this._uploadFile(e)}
+              onChange={(e) => this._uploadFile(e)}
             ></input>
           </div>
           <div
@@ -303,19 +303,19 @@ class EditPrincipal extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   principalInfo: state.viewPrincipal,
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  getMerchant: state.getMerchant
+  getMerchant: state.getMerchant,
 });
-const mapDispatchToProps = dispatch => ({
-  ViewProfile_Merchants: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
   },
-  GetMerchant_byID: ID => {
+  GetMerchant_byID: (ID) => {
     dispatch(GetMerchant_byID(ID));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPrincipal);

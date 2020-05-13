@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import URL, { upfileUrl } from "../../../../url/url";
+import { upFileUrl } from "../../../../url/url";
+import { ViewMerchant_Request } from "../../../../actions/merchants/actions";
 
 import EditPrincipal from "./EditPrincipal";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -12,7 +13,10 @@ import Select from "react-select";
 import selectState from "../../../../util/selectState";
 import PhoneInput from "react-phone-input-2";
 import axios from "axios";
-
+import Radio from "@material-ui/core/Radio";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Questions from "../MerchantsList/addMerchant/Questions";
 import "./MerchantReqProfile.css";
 // import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
@@ -24,9 +28,13 @@ class EditPendingMerchant extends Component {
 
     this.state = {
       loading: false,
-      imagePreviewUrlPrincipal: "",
     };
   }
+
+  // handleEdit = (value, name) => {
+  //   console.log("value", value);
+  //   console.log("name", name);
+  // };
 
   _uploadFile = (e) => {
     e.preventDefault();
@@ -48,7 +56,7 @@ class EditPendingMerchant extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
+      .post(upFileUrl, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -60,9 +68,9 @@ class EditPendingMerchant extends Component {
   componentDidMount() {
     const pendingProfile = this.props.PendingProfile;
     let phone = pendingProfile?.general.phoneBusiness;
-    console.log("PendingProfile", pendingProfile);
     this.setState(
       {
+        ID: pendingProfile?.merchantId,
         // General
         doBusinessName: pendingProfile?.general?.doBusinessName,
         legalBusinessName: pendingProfile?.general?.legalBusinessName,
@@ -79,16 +87,18 @@ class EditPendingMerchant extends Component {
         lastName: pendingProfile?.general?.lastName,
         title: pendingProfile?.general?.title,
         phoneContact: pendingProfile?.general?.phoneContact,
+        // Business Questions
+        business: pendingProfile?.business,
         // Bank Information
         bankName: pendingProfile?.businessBank?.name,
         accountHolderName: pendingProfile?.businessBank?.accountHolderName,
         accountNumber: pendingProfile?.businessBank?.accountNumber,
         routingNumber: pendingProfile?.businessBank?.routingNumber,
+        fileId: pendingProfile?.businessBank?.fileId,
         // Principal Information
         principals: pendingProfile?.principals,
       },
-      () => this.setState({ loading: true }),
-      console.log("this.state", this.state)
+      () => this.setState({ loading: true })
     );
   }
 
@@ -101,27 +111,22 @@ class EditPendingMerchant extends Component {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-    this.setState(
-      {
-        [name]: value,
-      },
-      () => console.log("AFTER STATE CHANGE", this.state)
-    );
+    this.setState({
+      [name]: value,
+    });
   };
 
   getData = async (e, setFieldValue, name) => {
     e.preventDefault();
-
+    let imagePreview =
+      name == "PrincipalInfo.0.fileId"
+        ? "PrincipalInfo.0.imageUrl"
+        : "PrincipalInfo.1.imageUrl";
     // handle preview Image
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrlPrincipal: reader.result,
-      });
-
-      console.log("reader.result,", reader.result);
+      setFieldValue(imagePreview, reader.result);
     };
     reader.readAsDataURL(file);
     // handle upload image
@@ -130,14 +135,24 @@ class EditPendingMerchant extends Component {
     };
     let formData = new FormData();
     formData.append("Filename3", file);
-    const response = await axios.post(upfileUrl, formData, config);
+    const response = await axios.post(upFileUrl, formData, config);
     setFieldValue(name, response.data.data.fileId);
 
     return response.data.data.fileId;
   };
 
+  // handleQuestions = (name) => (event) => {
+  //   if (Number(name[1].charAt(8)) === Number(name[0].questionId)) {
+  //     this.setState({
+  //       [name[1]]: event.target.value,
+  //       ["question" + name[0].questionId]: name[0].value,
+  //     });
+  //   }
+  // };
+
   render() {
     const e = this.props.PendingProfile;
+
     // BANK IMAGE
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
@@ -175,9 +190,9 @@ class EditPendingMerchant extends Component {
               <Button className="btn btn-red" onClick={this.goBack}>
                 BACK
               </Button>
-              <Button className="btn btn-green" onClick={this.handleEdit}>
+              {/* <Button className="btn btn-green" onClick={this.handleEdit}>
                 SAVE
-              </Button>
+              </Button> */}
             </span>
           </div>
           <hr />
@@ -210,12 +225,13 @@ class EditPendingMerchant extends Component {
 
                 <PendingInput
                   label="Address*"
-                  name=""
+                  name="address"
                   initValue={this.state.address}
                   onChangeInput={this.handleChange}
                 />
                 <PendingInput
                   label="City"
+                  name="city"
                   initValue={this.state.city}
                   onChangeInput={this.handleChange}
                 />
@@ -312,6 +328,7 @@ class EditPendingMerchant extends Component {
                   />
                 </div>
               </div>
+
               {/* BANK INFORMATION */}
               <h2
                 style={{
@@ -354,19 +371,13 @@ class EditPendingMerchant extends Component {
                 <div className="col-3" style={{ paddingTop: "10px" }}>
                   <label>Void Check*</label> <br />
                   {$imagePreview}
-                </div>
-                <div
-                  className="col-9"
-                  style={{ paddingTop: "10px", float: "left" }}
-                >
-                  <label>Upload new Void Check:</label>
                   <input
                     type="file"
                     style={styles.imageInput}
                     name="image"
                     id="file"
                     onChange={(e) => this._uploadFile(e)}
-                  ></input>
+                  />
                 </div>
               </div>
               {/* PRINCIPAL INFORMATION */}
@@ -383,9 +394,12 @@ class EditPendingMerchant extends Component {
             <div className="container-fluid justify-content-between">
               {this.state.loading && (
                 <EditPrincipal
+                  initValue={this.state}
                   principals={this.state.principals}
                   getData={this.getData}
-                  imagePreviewUrlPrincipal={this.state.imagePreviewUrlPrincipal}
+                  token={this.props.InfoUser_Login.User.token}
+                  ViewMerchant_Request={this.props.ViewMerchant_Request}
+                  history={this.props.history}
                 />
               )}
             </div>
@@ -403,7 +417,14 @@ const mapStateToProps = (state) => ({
   RejectStatus: state.Reject,
 });
 
-export default withRouter(connect(mapStateToProps)(EditPendingMerchant));
+const mapDispatchToProps = (dispatch) => ({
+  ViewMerchant_Request: (payload) => {
+    dispatch(ViewMerchant_Request(payload));
+  },
+});
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(EditPendingMerchant)
+);
 
 const styles = {
   image: {
@@ -412,5 +433,6 @@ const styles = {
   },
   imageInput: {
     border: "none",
+    marginTop: "10px",
   },
 };

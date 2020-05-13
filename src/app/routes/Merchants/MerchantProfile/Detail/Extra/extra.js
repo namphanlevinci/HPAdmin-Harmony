@@ -12,7 +12,7 @@ import ReactTable from "react-table";
 import axios from "axios";
 import EditExtra from "./edit-extra";
 
-import URL, { upfileUrl } from "../../../../../../url/url";
+import URL, { upFileUrl } from "../../../../../../url/url";
 import defaultImage from "./hpadmin2.png";
 import "react-table/react-table.css";
 
@@ -41,11 +41,11 @@ class ExtraTab extends Component {
       imageUrl: "",
       fileId: "",
       // image
-      imagePreviewUrl: null
+      imagePreviewUrl: null,
     };
   }
 
-  handleImageChange = e => {
+  handleImageChange = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -54,7 +54,7 @@ class ExtraTab extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
@@ -62,14 +62,14 @@ class ExtraTab extends Component {
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
-      .then(res => {
+      .post(upFileUrl, formData, config)
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -79,10 +79,10 @@ class ExtraTab extends Component {
     axios
       .get(URL + "/extra/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.setState({ data: res.data.data, loading: false });
       });
   };
@@ -94,7 +94,7 @@ class ExtraTab extends Component {
   handleClose = (name, value) => {
     this.setState({ [name]: value });
   };
-  handleEdit = data => {
+  handleEdit = (data) => {
     const {
       duration,
       extraId,
@@ -103,7 +103,7 @@ class ExtraTab extends Component {
       price,
       quantity,
       description,
-      imageUrl
+      imageUrl,
     } = data;
     this.setState({
       duration,
@@ -113,32 +113,32 @@ class ExtraTab extends Component {
       price,
       quantity,
       description,
-      imageUrl
+      imageUrl,
     });
   };
 
-  handleArchive = ID => {
+  handleArchive = (ID) => {
     axios
       .put(URL + "/extra/archive/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {});
+      .then((res) => {});
     this.setState({ loading: true });
     setTimeout(() => {
       this.getExtra();
     }, 1500);
   };
 
-  handleRestore = ID => {
+  handleRestore = (ID) => {
     axios
       .put(URL + "/extra/restore/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {});
+      .then((res) => {});
     this.setState({ loading: true });
     setTimeout(() => {
       this.getExtra();
@@ -149,7 +149,7 @@ class ExtraTab extends Component {
     let extraList = this.state.data;
     if (extraList) {
       if (this.state.search) {
-        extraList = extraList.filter(e => {
+        extraList = extraList.filter((e) => {
           if (e !== null) {
             return (
               e.name
@@ -167,14 +167,14 @@ class ExtraTab extends Component {
       {
         Header: " Extra name",
         accessor: "name",
-        width: 150
+        width: 150,
       },
       {
         Header: "Image ",
         id: "Image",
         width: 150,
         accessor: "name",
-        Cell: row => {
+        Cell: (row) => {
           const image =
             row.original.imageUrl !== "" ? row.original.imageUrl : defaultImage;
           return (
@@ -185,50 +185,50 @@ class ExtraTab extends Component {
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 width: "100px",
-                height: "100px"
+                height: "100px",
               }}
             ></div>
           );
-        }
+        },
       },
       {
         id: "duration",
         Header: "Duration",
         accessor: "duration",
-        Cell: e => (
+        Cell: (e) => (
           <div>
             <p>{e.value} Min</p>
           </div>
         ),
-        width: 150
+        width: 150,
       },
       {
         id: "price",
         Header: "Price",
         accessor: "price",
-        Cell: e => (
+        Cell: (e) => (
           <div>
             <p>$ {e.value}</p>
           </div>
         ),
-        width: 150
+        width: 150,
       },
       {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: e => (
+        Cell: (e) => (
           <div>
             <p>{e.value === 0 ? "Active" : "Disable"}</p>
           </div>
         ),
-        width: 120
+        width: 120,
       },
       {
         id: "Actions",
         sortable: false,
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
-        Cell: row => {
+        Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
               {row.original.isDisabled !== 1 ? (
@@ -237,8 +237,8 @@ class ExtraTab extends Component {
                   onClick={() => [
                     this.setState({
                       extraId: row.original.extraId,
-                      dialog: true
-                    })
+                      dialog: true,
+                    }),
                   ]}
                 />
               ) : (
@@ -247,7 +247,7 @@ class ExtraTab extends Component {
                   onClick={() =>
                     this.setState({
                       extraId: row.original.extraId,
-                      restoreDialog: true
+                      restoreDialog: true,
                     })
                   }
                 />
@@ -257,14 +257,14 @@ class ExtraTab extends Component {
                   size={20}
                   onClick={() => [
                     this.handleEdit(row.original),
-                    this.setState({ edit: true })
+                    this.setState({ edit: true }),
                   ]}
                 />
               </span>
             </div>
           );
-        }
-      }
+        },
+      },
     ];
 
     return (
@@ -279,7 +279,7 @@ class ExtraTab extends Component {
                   className="textbox"
                   placeholder="Search.."
                   value={this.state.search}
-                  onChange={e => this.setState({ search: e.target.value })}
+                  onChange={(e) => this.setState({ search: e.target.value })}
                 />
               </form>
             </div>
@@ -329,7 +329,7 @@ class ExtraTab extends Component {
                 <Button
                   onClick={() => [
                     this.handleArchive(this.state.extraId),
-                    this.setState({ dialog: false, extraId: "" })
+                    this.setState({ dialog: false, extraId: "" }),
                   ]}
                   color="primary"
                   autoFocus
@@ -365,7 +365,7 @@ class ExtraTab extends Component {
                 <Button
                   onClick={() => [
                     this.handleRestore(this.state.extraId),
-                    this.setState({ restoreDialog: false, extraId: "" })
+                    this.setState({ restoreDialog: false, extraId: "" }),
                   ]}
                   color="primary"
                   autoFocus
@@ -381,13 +381,13 @@ class ExtraTab extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
-const mapDispatchToProps = dispatch => ({
-  VIEW_SERVICE: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  VIEW_SERVICE: (payload) => {
     dispatch(VIEW_SERVICE(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);

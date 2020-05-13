@@ -1,8 +1,9 @@
 import React from "react";
-import axios from "axios";
-import URL, { upfileUrl } from "../../../../../url/url";
-import SimpleReactValidator from "simple-react-validator";
+import URL, { upFileUrl } from "../../../../../url/url";
+import { store } from "react-notifications-component";
 
+import SimpleReactValidator from "simple-react-validator";
+import axios from "axios";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -15,7 +16,6 @@ import Questions from "./Questions";
 import Bank from "./Bank";
 import Principal from "./Principal";
 import PricingPlan from "./PricingPlan";
-import { store } from "react-notifications-component";
 
 import "../merchantsList.css";
 import "./add-merchant.styles.scss";
@@ -102,9 +102,7 @@ class AddMerchant extends React.Component {
     const principalInfo = { ...info };
     const currentState = principalInfo[0];
     currentState["fileId"] = fileId;
-    this.setState({ principalInfo: currentState }, () =>
-      console.log("BOI", this.state.principalInfo)
-    );
+    this.setState({ principalInfo: currentState });
   };
 
   getStepContent = (stepIndex) => {
@@ -178,7 +176,7 @@ class AddMerchant extends React.Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
+      .post(upFileUrl, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import URL, { upfileUrl } from "../../../../../../url/url";
+import URL, { upFileUrl } from "../../../../../../url/url";
 import { Formik, Form } from "formik";
 import { store } from "react-notifications-component";
 import { AiOutlineClose } from "react-icons/ai";
@@ -155,7 +155,7 @@ class EditServiceTEST extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
+      .post(upFileUrl, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -319,7 +319,7 @@ class EditServiceTEST extends Component {
                 <div className="service-container PendingLBody">
                   <h2
                     style={{
-                      color: "#0074d9",
+                      color: "#4251af",
                       marginBottom: "65px",
                       marginTop: 15,
                       textAlign: "center",
@@ -456,7 +456,7 @@ class EditServiceTEST extends Component {
                                   <label
                                     style={{
                                       textAlign: "left",
-                                      color: "#0074d9",
+                                      color: "#4251af",
                                     }}
                                   >
                                     TEST EDIT Category *
@@ -505,7 +505,7 @@ class EditServiceTEST extends Component {
                                   className="col-12"
                                   style={{ marginTop: 40 }}
                                 >
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Service Name*
                                   </label>
                                   <br />
@@ -535,7 +535,7 @@ class EditServiceTEST extends Component {
                                   className="col-12"
                                   style={{ marginTop: 40 }}
                                 >
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Description
                                   </label>
                                   <br />
@@ -550,7 +550,7 @@ class EditServiceTEST extends Component {
                                   <label
                                     style={{
                                       paddingTop: "10px",
-                                      color: "#0074d9",
+                                      color: "#4251af",
                                       marginBottom: 8,
                                     }}
                                   >
@@ -573,7 +573,7 @@ class EditServiceTEST extends Component {
                                 </div>
                                 <div className="col-4" style={{ marginTop: 5 }}>
                                   {" "}
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Duration
                                   </label>{" "}
                                   <br />
@@ -669,7 +669,7 @@ class EditServiceTEST extends Component {
                                   className="col-6"
                                   style={{ marginTop: 60 }}
                                 >
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Price *
                                   </label>
                                   <br />
@@ -702,7 +702,7 @@ class EditServiceTEST extends Component {
                                   className="col-6"
                                   style={{ marginTop: 60 }}
                                 >
-                                  <label style={{ color: "#0074d9" }}>
+                                  <label style={{ color: "#4251af" }}>
                                     Status
                                   </label>
                                   <br />
@@ -734,7 +734,7 @@ class EditServiceTEST extends Component {
                                     this.setState({ render: true })
                                   }
                                   style={{
-                                    color: "#0074d9",
+                                    color: "#4251af",
                                     fontWeight: "600",
                                     letterSpacing: 0.3,
                                     fontSize: 14,

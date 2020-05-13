@@ -13,7 +13,7 @@ import WorkTime from "./work-time";
 import Salary from "./salary";
 import License from "./license";
 import axios from "axios";
-import URL, { upfileUrl } from "../../../../../../url/url";
+import URL, { upFileUrl } from "../../../../../../url/url";
 
 import "./Staff.styles.scss";
 class AddStaff extends Component {
@@ -81,7 +81,7 @@ class AddStaff extends Component {
       fileId: 0,
 
       showPin: false,
-      showConfirmPin: false
+      showConfirmPin: false,
     };
 
     this.validator = new SimpleReactValidator();
@@ -91,7 +91,7 @@ class AddStaff extends Component {
     return ["General Information", "Working time", "Salary", "License"];
   };
 
-  getStepContent = stepIndex => {
+  getStepContent = (stepIndex) => {
     switch (stepIndex) {
       case 0:
         return this.getGeneralInformation();
@@ -154,7 +154,7 @@ class AddStaff extends Component {
   };
 
   //handle upload avatar
-  uploadFile = event => {
+  uploadFile = (event) => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -163,21 +163,21 @@ class AddStaff extends Component {
     const file = event.target.files[0];
     reader.onloadend = () => {
       this.setState({
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
-      .then(res => {
+      .post(upFileUrl, formData, config)
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -214,7 +214,7 @@ class AddStaff extends Component {
       isCheck5,
       isCheck6,
       isCheck7,
-      isCheck8
+      isCheck8,
     } = this.state;
     const nameRole = this.state.nameRole.value;
     const isDisabled = Number(this.state.isDisabled.value);
@@ -246,7 +246,7 @@ class AddStaff extends Component {
             street,
             city,
             state,
-            zip
+            zip,
           },
           merchantId,
           cellphone,
@@ -254,7 +254,7 @@ class AddStaff extends Component {
           pin,
           confirmPin,
           roles: {
-            nameRole
+            nameRole,
           },
           driverlicense,
           socialSecurityNumber,
@@ -265,73 +265,73 @@ class AddStaff extends Component {
             Monday: {
               timeStart: timeStart2,
               timeEnd: timeEnd2,
-              isCheck: isCheck2
+              isCheck: isCheck2,
             },
             Tuesday: {
               timeStart: timeStart3,
               timeEnd: timeEnd3,
-              isCheck: isCheck3
+              isCheck: isCheck3,
             },
             Wednesday: {
               timeStart: timeStart4,
               timeEnd: timeEnd4,
-              isCheck: isCheck4
+              isCheck: isCheck4,
             },
             Thursday: {
               timeStart: timeStart5,
               timeEnd: timeEnd5,
-              isCheck: isCheck5
+              isCheck: isCheck5,
             },
             Friday: {
               timeStart: timeStart6,
               timeEnd: timeEnd6,
-              isCheck: isCheck6
+              isCheck: isCheck6,
             },
             Saturday: {
               timeStart: timeStart7,
               timeEnd: timeEnd7,
-              isCheck: isCheck7
+              isCheck: isCheck7,
             },
             Sunday: {
               timeStart: timeStart8,
               timeEnd: timeEnd8,
-              isCheck: isCheck8
-            }
+              isCheck: isCheck8,
+            },
           },
           tipFee: {
             percent: {
               value: tipValue,
-              isCheck: tipIsCheck
+              isCheck: tipIsCheck,
             },
             fixedAmount: {
               value: fixValue,
-              isCheck: fixIsCheck
-            }
+              isCheck: fixIsCheck,
+            },
           },
           salary: {
             perHour: {
               isCheck: salaryIsCheck,
-              value: salaryValue
+              value: salaryValue,
             },
             commission: {
               isCheck: commIsCheck,
-              value: commValue
-            }
+              value: commValue,
+            },
           },
           productSalaries: {
             commission: {
               value: prodCommValue,
-              isCheck: prodCommIsCheck
-            }
-          }
+              isCheck: prodCommIsCheck,
+            },
+          },
         },
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         if (res.data.data.message === "Success") {
           store.addNotification({
             title: "SUCCESS!",
@@ -343,15 +343,15 @@ class AddStaff extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
-            }
+              onScreen: true,
+            },
           });
           this.props.history.push("/app/merchants/profile/staff");
         }
       });
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
@@ -359,13 +359,13 @@ class AddStaff extends Component {
   toogleVisibility = (name, value) => {
     this.setState(
       {
-        [name]: value
+        [name]: value,
       },
       () => console.log("state", this.state.showPin)
     );
   };
 
-  handleCheckBox = name => event => {
+  handleCheckBox = (name) => (event) => {
     this.setState({ ...this.state, [name]: event.target.checked });
   };
 
@@ -381,7 +381,7 @@ class AddStaff extends Component {
     } else {
       if (this.validator.allValid()) {
         this.setState({
-          activeStep: activeStep + 1
+          activeStep: activeStep + 1,
         });
       }
 
@@ -402,13 +402,13 @@ class AddStaff extends Component {
     this.validator.purgeFields();
     const { activeStep } = this.state;
     this.setState({
-      activeStep: activeStep - 1
+      activeStep: activeStep - 1,
     });
   };
 
   handleReset = () => {
     this.setState({
-      activeStep: 0
+      activeStep: 0,
     });
   };
 
@@ -477,8 +477,8 @@ class AddStaff extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 export default connect(mapStateToProps)(AddStaff);

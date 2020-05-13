@@ -4,7 +4,10 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import URL, { upfileUrl } from "../../../../url/url";
+import { store } from "react-notifications-component";
+
+import URL from "../../../../url/url";
+import Button from "@material-ui/core/Button";
 
 import PhoneInput from "react-phone-input-2";
 import Grid from "@material-ui/core/Grid";
@@ -13,63 +16,175 @@ import moment from "moment";
 import Select from "react-select";
 import selectState from "../../../../util/selectState";
 import axios from "axios";
+import * as Yup from "yup";
+import ErrorMessage from "./errorMessage";
+
 import "./MerchantReqProfile.css";
+// import "./MerchantsRequest.css";
+import "bootstrap/js/src/collapse.js";
+import "react-phone-input-2/lib/high-res.css";
+// ValidationSchema
+const validationSchema = Yup.object().shape({
+  PrincipalInfo: Yup.array().of(
+    Yup.object().shape({
+      firstName: Yup.string().required("Required"),
+      lastName: Yup.string().required("Required"),
+      title: Yup.string().required("Required"),
+      ownerShip: Yup.string().required("Required"),
+      homePhone: Yup.string().required("Required"),
+      mobilePhone: Yup.string().required("Required"),
+      // yearAtThisAddress: Yup.string().required("Required"),
+      fullSsn: Yup.string().required("Required"),
+      birthDate: Yup.string().required("Required"),
+      email: Yup.string().required("Required"),
+      driverNumber: Yup.string().required("Required"),
+      stateId: Yup.string().required("Required"),
+
+      address: Yup.string().required("Required"),
+      // city: Yup.string().required("Required"),
+      // state: Yup.string().required("Required"),
+      // zip: Yup.string().required("Required"),
+    })
+  ),
+});
 
 const EditPrincipal = ({
   principals,
   getData,
-  newFileID,
-  imagePreviewUrlPrincipal,
+  initValue,
+  token,
+  ViewMerchant_Request,
+  history,
 }) => {
+  const merchantReqProfile = (ID) => {
+    axios
+      .get(URL + "/merchant/" + ID, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (Number(res.data.codeNumber) === 200) {
+          ViewMerchant_Request(res.data.data);
+          history.push("/app/merchants/pending/profile");
+        }
+      });
+  };
+
+  const editMerchant = (principalInfo) => {
+    let PrincipalInfo = principalInfo.PrincipalInfo;
+    const body = {
+      generalInfo: {
+        businessName: initValue?.legalBusinessName,
+        doingBusiness: initValue?.doBusinessName,
+        tax: initValue?.tax,
+        businessAddress: {
+          address: initValue?.address,
+          city: initValue?.city,
+          state: initValue?.stateId,
+          zip: initValue?.zip,
+        },
+        businessPhone: initValue?.phoneBusiness,
+        email: initValue?.emailContact,
+        firstName: initValue?.firstName,
+        lastName: initValue?.lastName,
+        position: initValue?.title,
+        contactPhone: initValue?.phoneContact,
+        businessHourEnd: "11:00 PM",
+        businessHourStart: "10:00 AM",
+      },
+      businessInfo: {},
+      bankInfo: {
+        bankName: initValue?.bankName,
+        routingNumber: initValue?.routingNumber,
+        accountNumber: initValue?.accountNumber,
+        accountHolderName: initValue?.accountHolderName,
+        fileId: initValue.fileId ? initValue.fileId : 0,
+      },
+      PrincipalInfo,
+      packagePricing: "3",
+      currentRate: {
+        TransactionsFee: 15,
+        DiscountRate: 10,
+      },
+    };
+    console.log("body", body);
+
+    axios
+      .put(URL + `/merchant/${initValue?.ID}`, body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if ((res.status = 200)) {
+          store.addNotification({
+            title: "Success!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+          setTimeout(() => {
+            merchantReqProfile(`${initValue?.ID}`);
+          }, 1000);
+        } else {
+          store.addNotification({
+            title: "ERROR!",
+            message: "Something went wrong",
+            type: "danger",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
-    // <h1>YEET</h1>
     <div>
       <Formik
         enableReinitialize={true}
-        initialValues={{ principal: principals }}
-        onSubmit={(values) => console.log("Values", values)}
-        render={({ values, setFieldValue }) => (
+        validationSchema={validationSchema}
+        initialValues={{ PrincipalInfo: principals }}
+        onSubmit={(values) => editMerchant(values)}
+        render={({ values, setFieldValue, submitForm }) => (
           <Form>
             <FieldArray
-              name="principal"
+              name="PrincipalInfo"
               render={(arrayHelpers) => (
                 <div>
-                  {values.principal && values.principal.length > 0 ? (
-                    values.principal.map((principal, index) => {
-                      // console.log("PRINCIPAL MAPPP", principal);
-                      // Image
-                      let imagePreviewUrl = imagePreviewUrlPrincipal;
-                      let $imagePreview = null;
-                      if (imagePreviewUrl) {
-                        $imagePreview = (
-                          <img
-                            className="bankVoid"
-                            src={imagePreviewUrl}
-                            alt="void"
-                            style={styles.image}
-                          />
-                        );
-                      } else {
-                        $imagePreview = (
-                          <img
-                            className="bankVoid"
-                            style={styles.image}
-                            src={principal?.imageUrl}
-                            alt="void"
-                          />
-                        );
-                      }
-
-                      const homePhone = principal?.homePhone.replace(/-/g, "");
-                      const mobilePhone = principal?.mobilePhone.replace(
+                  {values.PrincipalInfo && values.PrincipalInfo.length > 0 ? (
+                    values.PrincipalInfo.map((PrincipalInfo, index) => {
+                      // console.log("PRINCIPAL MAPPP", PrincipalInfo);
+                      const homePhone = PrincipalInfo?.homePhone.replace(
                         /-/g,
                         ""
                       );
-                      const birthDate = moment(principal?.birthDate).format(
+                      const mobilePhone = PrincipalInfo?.mobilePhone.replace(
+                        /-/g,
+                        ""
+                      );
+                      const birthDate = moment(PrincipalInfo?.birthDate).format(
                         "MM/DD/YYYY"
                       );
 
-                      const stateName = principal?.state?.name;
+                      const stateName = PrincipalInfo?.state?.name;
                       return (
                         <div key={index} className="row ">
                           <div className="col-12">
@@ -77,31 +192,40 @@ const EditPrincipal = ({
                               Principal {index + 1}
                             </h3>
                           </div>
-                          <div className="col-4">
+                          <div className="col-4" style={{ textAlign: "left" }}>
                             <label>First Name</label>
                             <Field
                               className="form-control"
                               placeholder="First Name"
-                              name={`principal.${index}.firstName`}
-                              values={`principal.${index}.firstName`}
+                              name={`PrincipalInfo.${index}.firstName`}
+                              values={`PrincipalInfo.${index}.firstName`}
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.firstName`}
                             />
                           </div>
-                          <div className="col-4">
+                          <div className="col-4" style={{ textAlign: "left" }}>
                             <label>Last Name</label>
                             <Field
                               className="form-control"
                               placeholder="First Name"
-                              name={`principal.${index}.lastName`}
-                              values={`principal.${index}.lastName`}
+                              name={`PrincipalInfo.${index}.lastName`}
+                              values={`PrincipalInfo.${index}.lastName`}
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.lastName`}
                             />
                           </div>
-                          <div className="col-4">
+                          <div className="col-4" style={{ textAlign: "left" }}>
                             <label>Title</label>
                             <Field
                               className="form-control"
                               placeholder="First Name"
-                              name={`principal.${index}.lastName`}
-                              values={`principal.${index}.lastName`}
+                              name={`PrincipalInfo.${index}.title`}
+                              values={`PrincipalInfo.${index}.titletitle`}
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.title`}
                             />
                           </div>
                           <div className="col-4" style={styles.div}>
@@ -109,8 +233,11 @@ const EditPrincipal = ({
                             <Field
                               className="form-control"
                               placeholder="Ownership (%)"
-                              name={`principal.${index}.ownerShip`}
-                              values={`principal.${index}.ownerShip`}
+                              name={`PrincipalInfo.${index}.ownerShip`}
+                              values={`PrincipalInfo.${index}.ownerShip`}
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.ownerShip`}
                             />
                           </div>
 
@@ -119,8 +246,11 @@ const EditPrincipal = ({
                             <Field
                               className="form-control"
                               placeholder="Address"
-                              name={`principal.${index}.address`}
-                              values={`principal.${index}.address`}
+                              name={`PrincipalInfo.${index}.address`}
+                              values={`PrincipalInfo.${index}.address`}
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.address`}
                             />
                           </div>
 
@@ -129,8 +259,11 @@ const EditPrincipal = ({
                             <Field
                               className="form-control"
                               placeholder="Address"
-                              name={`principal.${index}.fullSsn`}
-                              values={`principal.${index}.fullSsn`}
+                              name={`PrincipalInfo.${index}.ssn`}
+                              values={`PrincipalInfo.${index}.fullSsn`}
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.fullSsn`}
                             />
                           </div>
 
@@ -139,25 +272,34 @@ const EditPrincipal = ({
                             <PhoneInput
                               className="form-control "
                               placeholder="Home Phone"
-                              name={`principal.${index}.homePhone`}
+                              name={`PrincipalInfo.${index}.homePhone`}
                               value={homePhone}
                               onChange={(e) =>
-                                setFieldValue(`principal.${index}.homePhone`, e)
+                                setFieldValue(
+                                  `PrincipalInfo.${index}.homePhone`,
+                                  e
+                                )
                               }
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.homePhone`}
                             />
                           </div>
                           <div className="col-4" style={styles.div}>
                             <label>Mobile Phone</label>
                             <PhoneInput
                               placeholder="Home Phone"
-                              name={`principal.${index}.mobilePhone`}
+                              name={`PrincipalInfo.${index}.mobilePhone`}
                               value={mobilePhone}
                               onChange={(e) =>
                                 setFieldValue(
-                                  `principal.${index}.mobilePhone`,
+                                  `PrincipalInfo.${index}.mobilePhone`,
                                   e
                                 )
                               }
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.mobilePhone`}
                             />
                           </div>
                           <div className="col-4" style={styles.div}>
@@ -165,24 +307,26 @@ const EditPrincipal = ({
                             <Field
                               className="form-control"
                               placeholder="Address"
-                              name={`principal.${index}.email`}
-                              values={`principal.${index}.email`}
+                              name={`PrincipalInfo.${index}.email`}
+                              values={`PrincipalInfo.${index}.email`}
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.email`}
                             />
                           </div>
 
                           <div className="col-4" style={{ marginTop: "5px" }}>
-                            {/* <label > Birthday</label> */}
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <Grid container justify="space-around">
                                 <KeyboardDatePicker
                                   margin="normal"
-                                  id="date-picker-dialog"
+                                  // id="date-picker-dialog"
                                   label="Birthday (MM/DD/YYYY)"
                                   format="MM/dd/yyyy"
                                   value={birthDate}
                                   onChange={(e) =>
                                     setFieldValue(
-                                      `principal.${index}.birthDate`,
+                                      `PrincipalInfo.${index}.birthDate`,
                                       moment(e).format("YYYY-MM-DD")
                                     )
                                   }
@@ -198,56 +342,57 @@ const EditPrincipal = ({
                             <Field
                               className="form-control"
                               placeholder="Driver License Number*"
-                              name={`principal.${index}.driverNumber`}
-                              values={`principal.${index}.driverNumber`}
+                              name={`PrincipalInfo.${index}.driverNumber`}
+                              values={`PrincipalInfo.${index}.driverNumber`}
+                            />
+                            <ErrorMessage
+                              name={`PrincipalInfo.${index}.driverNumber`}
                             />
                           </div>
 
                           <div className="col-4" style={styles.div}>
                             <label>State</label>
-                            <Select
-                              // value={this.state.state}
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `principal.${index}.stateId`,
-                                  e.value
-                                )
-                              }
-                              name={`principal.${index}.stateId`}
-                              options={selectState}
-                              defaultValue={{
-                                value: `principal.${index}.stateId`,
-                                label: stateName,
-                              }}
-                            />
+                            <div>
+                              <Select
+                                // value={this.state.state}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `PrincipalInfo.${index}.stateId`,
+                                    e.value
+                                  )
+                                }
+                                name={`PrincipalInfo.${index}.stateId`}
+                                options={selectState}
+                                defaultValue={{
+                                  value: `PrincipalInfo.${index}.stateId`,
+                                  label: stateName,
+                                }}
+                              />
+                              <ErrorMessage
+                                name={`PrincipalInfo.${index}.stateId`}
+                              />
+                            </div>
                           </div>
 
                           <div className="col-3" style={{ paddingTop: "10px" }}>
                             <label>Void Check*</label> <br />
-                            {$imagePreview}
-                          </div>
-                          <div
-                            className="col-9"
-                            style={{ paddingTop: "10px", float: "left" }}
-                          >
-                            <label>Upload new Void Check:</label>
+                            {/* {$imagePreview} */}
+                            <img
+                              className="bankVoid"
+                              style={styles.image}
+                              src={PrincipalInfo?.imageUrl}
+                              alt="void"
+                            />
                             <input
                               type="file"
                               style={styles.imageInput}
-                              name={`principal.${index}.fileId`}
-                              id="file"
-                              // onChange={(e, index) =>
-                              //   uploadFile(
-                              //     e,
-                              //     setFieldValue,
-                              //     `principal.${index}.fileId`
-                              //   )
-                              // }
+                              name={`PrincipalInfo.${index}.fileId`}
+                              // id="file"
                               onChange={(e, name) => [
                                 getData(
                                   e,
                                   setFieldValue,
-                                  `principal.${index}.fileId`
+                                  `PrincipalInfo.${index}.fileId`
                                 ),
                               ]}
                             />
@@ -275,8 +420,23 @@ const EditPrincipal = ({
                       Add a friend
                     </button>
                   )}
-                  <div>
-                    <button type="submit">Submit</button>
+                  <div className="PendingLBody">
+                    <div
+                      className="PDL-Btn"
+                      style={{ display: "inline-block" }}
+                    >
+                      <Button
+                        className="btn btn-red"
+                        onClick={() =>
+                          history.push("/app/merchants/pending/profile")
+                        }
+                      >
+                        CANCEL
+                      </Button>
+                      <Button type="submit" className="btn btn-green">
+                        SAVE
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -294,6 +454,7 @@ const styles = {
   label: { paddingTop: "10px" },
   div: {
     marginTop: "10px",
+    textAlign: "left",
   },
   image: {
     width: "250px",
@@ -301,5 +462,6 @@ const styles = {
   },
   imageInput: {
     border: "none",
+    marginTop: "10px",
   },
 };

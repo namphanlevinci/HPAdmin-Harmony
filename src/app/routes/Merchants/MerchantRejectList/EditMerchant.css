@@ -27,7 +27,7 @@
 
 /* GREEN BTN */
 .RejectedInfo button.btn:hover {
-  background-color: #0074d9;
+  background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.5);
 }
 

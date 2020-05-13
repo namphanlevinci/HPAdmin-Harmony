@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   getAll_Merchants,
   GetMerchant_byID,
-  ViewProfile_Merchants
+  ViewProfile_Merchants,
 } from "../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
 
@@ -30,7 +30,7 @@ class Settings extends Component {
       discountRate: "",
       pointRate: "",
       isOpenReject: false,
-      isOpenAccept: false
+      isOpenAccept: false,
     };
   }
   _gotoEdit = () => {
@@ -48,7 +48,7 @@ class Settings extends Component {
       discountRate: data.discountRate,
       pointRate: data?.pointRate,
       ID: data.merchantId,
-      Token: Token
+      Token: Token,
     });
   }
   handleOpenAccept = () => {
@@ -74,9 +74,9 @@ class Settings extends Component {
     let token = JSON.parse(this.state.Token);
     axios
       .put(URL + "/merchant/enable/" + ID, null, {
-        headers: { Authorization: `Bearer ${token.token}` }
+        headers: { Authorization: `Bearer ${token.token}` },
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.message === "Success") {
           store.addNotification({
             title: "SUCCESS!",
@@ -88,9 +88,9 @@ class Settings extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
           setTimeout(() => {
             this.props.GetMerchant_byID(ID);
@@ -177,7 +177,7 @@ class Settings extends Component {
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                     borderBottomWidth: "3px",
                     fontWeight: "900",
-                    marginLeft: "0px"
+                    marginLeft: "0px",
                   }}
                 >
                   DISABLE
@@ -193,7 +193,7 @@ class Settings extends Component {
               <span>
                 <Formik
                   initialValues={{ rejectReason: "" }}
-                  validate={values => {
+                  validate={(values) => {
                     let errors = {};
                     if (!values.rejectReason) {
                       errors.rejectReason = "Required";
@@ -207,11 +207,11 @@ class Settings extends Component {
                     axios
                       .delete(URL + "/merchant/" + ID, {
                         headers: {
-                          Authorization: `Bearer ${token.token}`
+                          Authorization: `Bearer ${token.token}`,
                         },
-                        data: { reason }
+                        data: { reason },
                       })
-                      .then(async res => {
+                      .then(async (res) => {
                         if (res.data.message === "Success") {
                           store.addNotification({
                             title: "SUCCESS!",
@@ -223,9 +223,9 @@ class Settings extends Component {
                             animationOut: ["animated", "fadeOut"],
                             dismiss: {
                               duration: 5000,
-                              onScreen: true
+                              onScreen: true,
                             },
-                            width: 250
+                            width: 250,
                           });
                           setTimeout(() => {
                             this.props.GetMerchant_byID(ID);
@@ -249,9 +249,9 @@ class Settings extends Component {
                             animationOut: ["animated", "fadeOut"],
                             dismiss: {
                               duration: 5000,
-                              onScreen: true
+                              onScreen: true,
                             },
-                            width: 250
+                            width: 250,
                           });
                         }
                       });
@@ -283,7 +283,7 @@ class Settings extends Component {
                               border: "1px solid rgba(0, 0, 0, 0.3)",
                               borderBottomWidth: "3px",
                               fontWeight: "900",
-                              marginLeft: "0px"
+                              marginLeft: "0px",
                             }}
                             type="submit"
                             className="btn btn-red"
@@ -294,7 +294,7 @@ class Settings extends Component {
                           <Button
                             style={{
                               color: "white",
-                              backgroundColor: "#0074d9",
+                              backgroundColor: "#4251af",
                               textTransform: "uppercase",
                               letterSpacing: "2px",
                               fontSize: "12px",
@@ -303,7 +303,7 @@ class Settings extends Component {
                               border: "1px solid rgba(0, 0, 0, 0.3)",
                               borderBottomWidth: "3px",
                               fontWeight: "900",
-                              marginLeft: "0px"
+                              marginLeft: "0px",
                             }}
                             type="submit"
                             className="btn btn-green"
@@ -331,7 +331,7 @@ class Settings extends Component {
                 border: "1px solid rgba(0, 0, 0, 0.3)",
                 borderBottomWidth: "3px",
                 fontWeight: "900",
-                marginLeft: "0px"
+                marginLeft: "0px",
               }}
               onClick={this._enable}
             >
@@ -344,22 +344,22 @@ class Settings extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  getMerchant: state.getMerchant
+  getMerchant: state.getMerchant,
 });
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getAll_Merchants: () => {
       dispatch(getAll_Merchants());
     },
-    ViewProfile_Merchants: payload => {
+    ViewProfile_Merchants: (payload) => {
       dispatch(ViewProfile_Merchants(payload));
     },
-    GetMerchant_byID: ID => {
+    GetMerchant_byID: (ID) => {
       dispatch(GetMerchant_byID(ID));
-    }
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

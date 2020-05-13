@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
-import URL, { upfileUrl } from "../../../../../url/url";
+import URL, { upFileUrl } from "../../../../../url/url";
 import { store } from "react-notifications-component";
 
 import axios from "axios";
@@ -44,7 +44,7 @@ class Principal extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
+      .post(upFileUrl, formData, config)
       .then((res) => {
         // console.log("RES IMAGE", res);
 

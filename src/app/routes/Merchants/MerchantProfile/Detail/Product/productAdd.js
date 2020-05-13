@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import URL, { upfileUrl } from "../../../../../../url/url";
+import URL, { upFileUrl } from "../../../../../../url/url";
 import { store } from "react-notifications-component";
 import { Formik } from "formik";
 
@@ -101,7 +101,7 @@ class AddProduct extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
+      .post(upFileUrl, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -601,7 +601,7 @@ class AddProduct extends Component {
 
                 <Button
                   className="btn btn-green"
-                  style={{ backgroundColor: "#0074d9", color: "white" }}
+                  style={{ backgroundColor: "#4251af", color: "white" }}
                   type="submit"
                   disabled={isSubmitting}
                   style={{

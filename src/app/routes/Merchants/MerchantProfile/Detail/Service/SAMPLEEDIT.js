@@ -6,7 +6,7 @@ import { store } from "react-notifications-component";
 import Extra from "./extra";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import URL, { upfileUrl } from "../../../../../../url/url";
+import URL, { upFileUrl } from "../../../../../../url/url";
 import * as Yup from "yup";
 import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
@@ -105,7 +105,7 @@ class EditServiceTEST extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
+      .post(upFileUrl, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -438,7 +438,7 @@ class EditServiceTEST extends Component {
                                 className="btn btn-green"
                                 type="submit"
                                 style={{
-                                  backgroundColor: "#0074d9",
+                                  backgroundColor: "#4251af",
                                   color: "white",
                                 }}
                                 disabled={isSubmitting}

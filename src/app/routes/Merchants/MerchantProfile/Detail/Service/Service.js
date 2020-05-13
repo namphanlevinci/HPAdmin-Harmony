@@ -11,7 +11,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
-import URL, { upfileUrl } from "../../../../../../url/url";
+import URL, { upFileUrl } from "../../../../../../url/url";
 import defaultImage from "../Extra/hpadmin2.png";
 import AddService from "./add-service";
 

@@ -9,7 +9,7 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import URL, { upfileUrl } from "../../../../url/url";
+import URL, { upFileUrl } from "../../../../url/url";
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
@@ -26,7 +26,7 @@ class EditTemplate extends Component {
       imagePreviewUrl: "",
       isConsumer: 0,
       openDelete: false,
-      isChecked: false
+      isChecked: false,
     };
   }
 
@@ -39,7 +39,7 @@ class EditTemplate extends Component {
       isDisabled: Data?.isDisabled,
       giftCardType: Data?.giftCardType,
       isConsumer: Data?.isConsumer,
-      ID: Data?.giftCardTemplateId
+      ID: Data?.giftCardTemplateId,
     });
 
     if (Data?.isConsumer === 1) {
@@ -49,7 +49,7 @@ class EditTemplate extends Component {
     }
   }
 
-  _handleCheckbox = event => {
+  _handleCheckbox = (event) => {
     if (event.target.checked === true) {
       this.setState({ isConsumer: 1, isChecked: true });
     } else {
@@ -66,10 +66,10 @@ class EditTemplate extends Component {
     axios
       .put(URL + "/giftcardtemplate/disabled/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.message === "Success") {
           store.addNotification({
             title: "Success!",
@@ -81,9 +81,9 @@ class EditTemplate extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 1000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
           this.setState({ openDelete: false });
           setTimeout(() => {
@@ -91,10 +91,10 @@ class EditTemplate extends Component {
           }, 1100);
         }
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
-  _uploadFile = e => {
+  _uploadFile = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -103,7 +103,7 @@ class EditTemplate extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
@@ -111,14 +111,14 @@ class EditTemplate extends Component {
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
-      .then(res => {
+      .post(upFileUrl, formData, config)
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -129,12 +129,12 @@ class EditTemplate extends Component {
       { value: "Happy Birthday", label: "Happy Birthday" },
       { value: "Happy New Year", label: "Happy New Year" },
       { value: "Valentine", label: "Valentine" },
-      { value: "Thank You", label: "Thank You" }
+      { value: "Thank You", label: "Thank You" },
     ];
 
     const Status = [
       { value: "1", label: "Active" },
-      { value: "2", label: "Disable" }
+      { value: "2", label: "Disable" },
     ];
 
     let { imagePreviewUrl } = this.state;
@@ -189,7 +189,7 @@ class EditTemplate extends Component {
             <Formik
               initialValues={this.state}
               enableReinitialize={true}
-              validate={values => {
+              validate={(values) => {
                 const errors = {};
                 if (!values.giftCardTemplateName) {
                   errors.giftCardTemplateName = "Required";
@@ -202,7 +202,7 @@ class EditTemplate extends Component {
                   isConsumer,
                   giftCardTemplateName,
                   giftCardType,
-                  isDisabled
+                  isDisabled,
                 } = values;
                 const { fileId, ID } = this.state;
                 axios
@@ -213,15 +213,15 @@ class EditTemplate extends Component {
                       giftCardType,
                       isConsumer,
                       fileId,
-                      isDisabled
+                      isDisabled,
                     },
                     {
                       headers: {
-                        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-                      }
+                        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                      },
                     }
                   )
-                  .then(res => {
+                  .then((res) => {
                     if (res.data.message === "Success") {
                       store.addNotification({
                         title: "Success!",
@@ -233,9 +233,9 @@ class EditTemplate extends Component {
                         animationOut: ["animated", "fadeOut"],
                         dismiss: {
                           duration: 2500,
-                          onScreen: true
+                          onScreen: true,
                         },
-                        width: 250
+                        width: 250,
                       });
                       this.props.history.push("/app/giftcard/template");
                     } else {
@@ -249,13 +249,13 @@ class EditTemplate extends Component {
                         animationOut: ["animated", "fadeOut"],
                         dismiss: {
                           duration: 2500,
-                          onScreen: true
+                          onScreen: true,
                         },
-                        width: 250
+                        width: 250,
                       });
                     }
                   })
-                  .catch(error => console.log(error));
+                  .catch((error) => console.log(error));
               }}
             >
               {({
@@ -266,7 +266,7 @@ class EditTemplate extends Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                isSubmitting
+                isSubmitting,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="row">
@@ -291,13 +291,13 @@ class EditTemplate extends Component {
                       <h4>Group</h4>
                       <Select
                         options={Group}
-                        onChange={selectedOption => {
+                        onChange={(selectedOption) => {
                           setFieldValue("giftCardType", selectedOption.value);
                         }}
                         placeholder="Select Group"
                         value={{
                           value: values.giftCardType,
-                          label: values.giftCardType
+                          label: values.giftCardType,
                         }}
                       />
                       {errors.giftCardType && touched.giftCardType && (
@@ -311,13 +311,13 @@ class EditTemplate extends Component {
                       <h4>Status</h4>
                       <Select
                         options={Status}
-                        onChange={selectedOption => {
+                        onChange={(selectedOption) => {
                           setFieldValue("isDisabled", selectedOption.value);
                         }}
                         placeholder="Select Status"
                         value={{
                           value: values.isDisabled,
-                          label: values.isDisabled === 0 ? "Active" : "Disable"
+                          label: values.isDisabled === 0 ? "Active" : "Disable",
                         }}
                       />
                       {errors.status && touched.status && (
@@ -330,7 +330,7 @@ class EditTemplate extends Component {
                       {$imagePreview}
                       <input
                         type="file"
-                        onChange={e => this._uploadFile(e)}
+                        onChange={(e) => this._uploadFile(e)}
                         style={{ width: "250px", border: "none" }}
                       />
                     </div>
@@ -361,15 +361,15 @@ class EditTemplate extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
   InfoUser_Login: state.User,
-  Detail: state.GiftCardData.detail
+  Detail: state.GiftCardData.detail,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   GET_TEMPLATE: () => {
     dispatch(GET_TEMPLATE());
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditTemplate);

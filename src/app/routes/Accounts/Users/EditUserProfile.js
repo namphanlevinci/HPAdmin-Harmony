@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
-import URL, { upfileUrl } from "../../../../url/url";
+import URL, { upFileUrl } from "../../../../url/url";
 import { ViewProfile_User } from "../../../../actions/user/actions";
 import { store } from "react-notifications-component";
 
@@ -40,10 +40,10 @@ class EditUserProfile extends Component {
       fileId: "",
       selectedOption: null,
       defaultValue: {
-        value: { label: "", value: "" }
+        value: { label: "", value: "" },
       },
       Token: null,
-      imagePreviewUrl: ""
+      imagePreviewUrl: "",
     };
   }
 
@@ -64,22 +64,22 @@ class EditUserProfile extends Component {
       phone: e.phone,
       stateId: e.stateId,
       fileId: e.fileId,
-      selectedOption: null
+      selectedOption: null,
       // defaultValue: { value: { label: e.roleName, value: e.waRoleId } }
     });
   }
 
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
     // console.log("THIS.STATE", this.state);
   };
 
-  _uploadFile = event => {
+  _uploadFile = (event) => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -88,26 +88,26 @@ class EditUserProfile extends Component {
     const file = event.target.files[0];
     reader.onloadend = () => {
       this.setState({
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
-      .then(res => {
+      .post(upFileUrl, formData, config)
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleDateChange = date => {
+  handleDateChange = (date) => {
     // setSelectedDate(date);
     this.setState({ birthDate: date });
   };
@@ -115,7 +115,7 @@ class EditUserProfile extends Component {
     const ID = this.props.UserProfile.waUserId;
     let token = JSON.parse(this.state.Token);
     const config = {
-      headers: { Authorization: "bearer " + token.token }
+      headers: { Authorization: "bearer " + token.token },
     };
     // const waRoleId = this.state.waRoleId.value;
     const {
@@ -129,7 +129,7 @@ class EditUserProfile extends Component {
       phone,
       stateId,
       fileId,
-      waRoleId
+      waRoleId,
     } = this.state;
     const password = null;
     axios
@@ -147,11 +147,11 @@ class EditUserProfile extends Component {
           waRoleId,
           phone,
           stateId,
-          fileId
+          fileId,
         },
         config
       )
-      .then(async res => {
+      .then(async (res) => {
         if (res.data.message === "Success") {
           // NotificationManager.success, null, 800);
           store.addNotification({
@@ -164,14 +164,14 @@ class EditUserProfile extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
 
           await axios
             .get(URL + "/adminuser/" + ID, config)
-            .then(res => {
+            .then((res) => {
               // console.log("res02", res);
               setTimeout(
                 () => this.props.ViewProfile_User(res.data.data),
@@ -182,12 +182,12 @@ class EditUserProfile extends Component {
                 1500
               );
             })
-            .catch(err => {
+            .catch((err) => {
               console.log(err);
             });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -232,7 +232,7 @@ class EditUserProfile extends Component {
                 style={{ width: "250px" }}
                 name="image"
                 id="file"
-                onChange={e => this._uploadFile(e)}
+                onChange={(e) => this._uploadFile(e)}
               ></input>
             </div>
           </div>
@@ -279,7 +279,7 @@ class EditUserProfile extends Component {
                       width: "10%",
                       color: "black",
                       fontWeight: "500",
-                      fontSize: "16px"
+                      fontSize: "16px",
                     }}
                   >
                     Phone
@@ -299,7 +299,7 @@ class EditUserProfile extends Component {
                       width: "10%",
                       color: "black",
                       fontWeight: "500",
-                      fontSize: "16px"
+                      fontSize: "16px",
                     }}
                   >
                     Email
@@ -319,7 +319,7 @@ class EditUserProfile extends Component {
                       width: "10%",
                       color: "black",
                       fontWeight: "500",
-                      fontSize: "16px"
+                      fontSize: "16px",
                     }}
                   >
                     Address
@@ -388,7 +388,7 @@ class EditUserProfile extends Component {
                     name="birthDate"
                     defaultValue={this.state.birthDate}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={this._handleChange}
                   />
@@ -422,13 +422,13 @@ class EditUserProfile extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  UserProfile: state.ViewProfile_User
+const mapStateToProps = (state) => ({
+  UserProfile: state.ViewProfile_User,
 });
-const mapDispatchToProps = dispatch => ({
-  ViewProfile_User: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_User: (payload) => {
     dispatch(ViewProfile_User(payload));
-  }
+  },
 });
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(EditUserProfile)

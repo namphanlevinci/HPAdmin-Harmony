@@ -9,7 +9,7 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import URL, { upfileUrl } from "../../../../url/url";
+import URL, { upFileUrl } from "../../../../url/url";
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
 
@@ -23,11 +23,11 @@ class NewTemplate extends Component {
     this.state = {
       fileId: "",
       imagePreviewUrl: "",
-      isConsumer: 0
+      isConsumer: 0,
     };
   }
 
-  _uploadFile = e => {
+  _uploadFile = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -36,7 +36,7 @@ class NewTemplate extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
@@ -44,14 +44,14 @@ class NewTemplate extends Component {
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upfileUrl, formData, config)
-      .then(res => {
+      .post(upFileUrl, formData, config)
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -64,12 +64,12 @@ class NewTemplate extends Component {
       { value: "Happy Valentine", label: "Happy Valentine" },
       { value: "Thank You", label: "Thank You" },
       { value: "I Love You", label: "I Love You" },
-      { value: "Merry Christmas", label: "Merry Christmas" }
+      { value: "Merry Christmas", label: "Merry Christmas" },
     ];
 
     const Status = [
       { value: "1", label: "Active" },
-      { value: "2", label: "Disable" }
+      { value: "2", label: "Disable" },
     ];
 
     let { imagePreviewUrl } = this.state;
@@ -113,9 +113,9 @@ class NewTemplate extends Component {
               initialValues={{
                 giftCardTemplateName: "",
                 giftCardType: "",
-                status: ""
+                status: "",
               }}
-              validate={values => {
+              validate={(values) => {
                 const errors = {};
                 if (!values.giftCardTemplateName) {
                   errors.giftCardTemplateName = "Required";
@@ -138,11 +138,11 @@ class NewTemplate extends Component {
                     { giftCardTemplateName, giftCardType, isConsumer, fileId },
                     {
                       headers: {
-                        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-                      }
+                        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                      },
                     }
                   )
-                  .then(res => {
+                  .then((res) => {
                     if (res.data.message === "Success") {
                       store.addNotification({
                         title: "Success!",
@@ -154,14 +154,14 @@ class NewTemplate extends Component {
                         animationOut: ["animated", "fadeOut"],
                         dismiss: {
                           duration: 2500,
-                          onScreen: true
+                          onScreen: true,
                         },
-                        width: 250
+                        width: 250,
                       });
                       this.setState({
                         status: null,
                         group: null,
-                        imagePreviewUrl: null
+                        imagePreviewUrl: null,
                       });
                     } else {
                       store.addNotification({
@@ -174,13 +174,13 @@ class NewTemplate extends Component {
                         animationOut: ["animated", "fadeOut"],
                         dismiss: {
                           duration: 2500,
-                          onScreen: true
+                          onScreen: true,
                         },
-                        width: 250
+                        width: 250,
                       });
                     }
                   })
-                  .catch(error => console.log(error));
+                  .catch((error) => console.log(error));
               }}
             >
               {({
@@ -192,7 +192,7 @@ class NewTemplate extends Component {
                 handleSubmit,
                 setFieldValue,
                 isSubmitting,
-                resetForm
+                resetForm,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="row">
@@ -217,7 +217,7 @@ class NewTemplate extends Component {
                       <h4>Group</h4>
                       <Select
                         options={Group}
-                        onChange={selectedOption => {
+                        onChange={(selectedOption) => {
                           setFieldValue("giftCardType", selectedOption.value);
                         }}
                         placeholder="Select Group"
@@ -234,7 +234,7 @@ class NewTemplate extends Component {
                       <h4>Status</h4>
                       <Select
                         options={Status}
-                        onChange={selectedOption => {
+                        onChange={(selectedOption) => {
                           setFieldValue("status", selectedOption.value);
                         }}
                         placeholder="Select Status"
@@ -250,7 +250,7 @@ class NewTemplate extends Component {
                       {$imagePreview}
                       <input
                         type="file"
-                        onChange={e => this._uploadFile(e)}
+                        onChange={(e) => this._uploadFile(e)}
                         style={{ width: "250px", border: "none" }}
                       />
                     </div>
@@ -258,7 +258,7 @@ class NewTemplate extends Component {
                       <Checkbox
                         // checked={checked}
                         id="isConsumer"
-                        onChange={e =>
+                        onChange={(e) =>
                           this.setState({ isConsumer: e.target.value })
                         }
                         value="1"
@@ -283,14 +283,14 @@ class NewTemplate extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   GET_TEMPLATE: () => {
     dispatch(GET_TEMPLATE());
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(NewTemplate);
