@@ -24,18 +24,11 @@
   font-size: 22px;
 }
 .AdminProfile div img {
-  width: 180px;
-  height: 180px;
+  width: 182px;
+  height: 200px;
   background-position: center;
 }
-/* .AdminProfile button {
-  padding: 9px;
-  margin-top: 20px;
-  color: white;
-  background: #4251af;
-  font-weight: 500;
-  font-size: 14px;
-} */
+
 .AdminProfile button:hover {
   /* padding: 9px;
   margin-top: 20px;
@@ -66,9 +59,26 @@ th {
   padding: 6px 0px;
 }
 .AdminProfile input {
-  width: 255px;
-  padding-left: 5px;
+  width: 100%;
+    font-weight: 500;
+    color: #000000;
+    border: none;
+    border-bottom: 2px solid #dcdcdc;
+    margin: 0px;
+    font-size: 16px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in;
+    border-radius: 0.25rem;
 }
+.AdminProfile input:focus {
+  outline: none;
+  border-color: #4251af;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(66, 81, 175, 0.25);
+}
+
+
+
+
 .AdminProfile .Birthday::placeholder {
   text-align: center;
 }
@@ -77,43 +87,125 @@ th {
   text-align: center;
 }
 
-/* .AdminProfile input {
-  font-size: 16px;
-  padding: 3px; */
-/* border-bottom: 1px solid black; */
-/* } */
+.admin-header-div {
+  display: flex;
+  justify-content: flex-end;
+}
 
-/* //! ADMIN SIGH UP FORM */
-/* .AdminProfile .adminForm label {
-  font-size: 12px;
-  color: #cfcfcf;
+
+.admin-header-div button.btn {
+  display: inline-block;
+  color: #666;
+  background-color: #eee;
   text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
 }
 
-.AdminProfile .adminForm input {
-  width: 100%;
-  text-align: center;
-  border: none;
-  border-bottom: 1px solid #cfcfcf;
-  margin-bottom: 10px;
-}
-.AdminProfile .adminForm input:focus,
-input:focus {
-  outline: none;
-  border-bottom: 1px solid #4251af;
+/* GREEN BTN */
+.admin-header-div button.btn:hover {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.5);
 }
 
-.AdminProfile .adminForm input.error {
-  border-bottom: 2px solid;
-  border-color: red;
+.admin-header-div button.btn:active {
+  background-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.9);
 }
-.AdminProfile .adminForm .input-feedback {
-  color: red;
-  font-size: 14px;
+.admin-header-div button.btn.btn-green {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #fff;
 }
-.AdminProfile .adminForm select {
-  width: 100%;
+
+.admin-header-div button.btn.btn-green:hover {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.admin-header-div button.btn.btn-green:active {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.9);
+}
+/* RED BUTTON */
+.admin-header-div button.btn.btn-red {
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #4251af;
+}
+
+.admin-header-div  button.btn.btn-red {
+  /* background-color: #fff; */
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: white;
+  background-color: #4251af; 
+
+}
+
+.admin-header-div  button.btn.btn-red:hover {
+  background-color:  #4251af; 
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.admin-header-div  button.btn.btn-red:active {
+  background-color: #4251af; 
+  border-color: rgba(0, 0, 0, 0.9);
+}
+
+.custom-input {
+  cursor: pointer;
+  width: 100px;
+  height: 34px;
+  overflow: hidden;
+  
+}
+
+.custom-input:before {
+  width: 100% !important;
+  height: 32px;
+  font-size: 16px;
+  line-height: 32px;
+  content: 'Upload';
+  font-weight: 500;
+  display: inline-block;
+  background: white;
+  border: 1px solid #cccccc;
+  padding: 0 10px;
   text-align: center;
-  text-align-last: center;
-  padding: 10px;
+
+
+}
+
+.custom-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+
+.spinning {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+} 
+
+/* .spinning{
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif') 
+              50% 50% no-repeat rgb(249,249,249);
 } */

@@ -4,15 +4,17 @@ import { withRouter, Redirect } from "react-router-dom";
 import URL, { upFileUrl } from "../../../../url/url";
 import { ViewProfile_User } from "../../../../actions/user/actions";
 import { store } from "react-notifications-component";
+import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
+import moment from "moment";
 // import Select from "react-select";
 import TextField from "@material-ui/core/TextField";
+import axios from "axios";
 
 import "./User.css";
-import axios from "axios";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
 
 // const options = [
@@ -44,29 +46,34 @@ class EditUserProfile extends Component {
       },
       Token: null,
       imagePreviewUrl: "",
+      loading: false,
+      showPassword: false,
     };
   }
 
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
-    await this.setState({ Token: Token });
     const e = this.props.UserProfile;
-    this.setState({
-      firstName: e.firstName,
-      lastName: e.lastName,
-      email: e.email,
-      birthDate: e.birthDate,
-      address: e.address,
-      city: e.city,
-      zip: e.zip,
-      password: e.password,
-      waRoleId: e.waRoleId,
-      phone: e.phone,
-      stateId: e.stateId,
-      fileId: e.fileId,
-      selectedOption: null,
-      // defaultValue: { value: { label: e.roleName, value: e.waRoleId } }
-    });
+    this.setState(
+      {
+        Token: Token,
+        firstName: e.firstName,
+        lastName: e.lastName,
+        email: e.email,
+        birthDate: moment(e.birthDate).format("yyyy-MM-DD"),
+        address: e.address,
+        city: e.city,
+        zip: e.zip,
+        password: e.password,
+        waRoleId: e.waRoleId,
+        phone: e.phone,
+        stateId: e.stateId,
+        fileId: e.fileId,
+        selectedOption: null,
+        // defaultValue: { value: { label: e.roleName, value: e.waRoleId } }
+      },
+      () => this.setState({ loading: true })
+    );
   }
 
   _handleChange = (event) => {
@@ -130,8 +137,8 @@ class EditUserProfile extends Component {
       stateId,
       fileId,
       waRoleId,
+      password,
     } = this.state;
-    const password = null;
     axios
       .put(
         URL + "/adminuser/" + ID,
@@ -172,7 +179,6 @@ class EditUserProfile extends Component {
           await axios
             .get(URL + "/adminuser/" + ID, config)
             .then((res) => {
-              // console.log("res02", res);
               setTimeout(
                 () => this.props.ViewProfile_User(res.data.data),
                 1000
@@ -195,6 +201,10 @@ class EditUserProfile extends Component {
     this.props.history.push("/app/accounts/admin/profile");
   };
 
+  showPassword = () => {
+    this.setState({ showPassword: !this.state.showPassword });
+  };
+
   render() {
     let { imagePreviewUrl } = this.state;
     const e = this.props.UserProfile;
@@ -212,211 +222,136 @@ class EditUserProfile extends Component {
           />
         );
     }
-    const renderProfile =
-      e.waUserId !== undefined ? (
-        <div className="row justify-content-md-center AdminProfile">
-          <div className="col-md-3 text-center">
-            {/* {e.imageUrl !== null ? (
-              <img src={e.imageUrl} alt="avatar" />
-            ) : (
-              <img
-                src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
-                alt="avatar"
-              />
-            )} */}
-            {$imagePreview}
-            <div>
-              <label>Upload new avatar:</label>
-              <input
-                type="file"
-                style={{ width: "250px" }}
-                name="image"
-                id="file"
-                onChange={(e) => this._uploadFile(e)}
-              ></input>
-            </div>
-          </div>
-          <div className="col-md-9">
-            {/* <p>
-              First Name:
-              <input
-                type="text"
-                name="firstName"
-                value={this.state.firstName}
-                onChange={this._handleChange}
-              ></input>
-            </p>
-            <p>
-              Last Name:
-              <input
-                type="text"
-                name="lastName"
-                value={this.state.lastName}
-                onChange={this._handleChange}
-              ></input>
-            </p> */}
-            <h1>{e.firstName + " " + e.lastName}</h1>
-            <h4>{e.roleName}</h4>
-            {/* <div className="col-md-4">
-              <p>
-                Role:
-                <Select
-                  value={this.state.waRoleId}
-                  onChange={value => this.setState({ waRoleId: value })}
-                  // defaultValue={this.state.waRoleId}
-                  options={options}
-                />
-              </p>
-            </div> */}
 
-            <hr />
-            <h2>Contact Information</h2>
-            <table style={{ width: "100%" }}>
-              <tbody>
-                <tr>
-                  <td
-                    style={{
-                      width: "10%",
-                      color: "black",
-                      fontWeight: "500",
-                      fontSize: "16px",
-                    }}
-                  >
-                    Phone
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="phone"
-                      value={this.state.phone}
-                      onChange={this._handleChange}
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    style={{
-                      width: "10%",
-                      color: "black",
-                      fontWeight: "500",
-                      fontSize: "16px",
-                    }}
-                  >
-                    Email
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="email"
-                      value={this.state.email}
-                      onChange={this._handleChange}
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    style={{
-                      width: "10%",
-                      color: "black",
-                      fontWeight: "500",
-                      fontSize: "16px",
-                    }}
-                  >
-                    Address
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="address"
-                      value={this.state.address}
-                      onChange={this._handleChange}
-                    ></input>
-                  </td>
-                </tr>
-                {/* <tr>
-                  <td style={{ width: "10%" }}>City</td>
-                  <td>
-                    <input
-                      type="text"
-                      name="city"
-                      value={this.state.city}
-                      onChange={this._handleChange}
-                    ></input>
-                  </td>
-                </tr> */}
-              </tbody>
-            </table>
-
-            <h2>Basic Information</h2>
-            <table style={{ width: "100%" }}>
-              <tbody>
-                {/* <tr>
-                  <td style={{ width: "10%" }}>Zip</td>
-                  <td>
-                    <input
-                      type="text"
-                      name="zip"
-                      value={this.state.zip}
-                      onChange={this._handleChange}
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{ width: "10%" }}>State ID</td>
-                  <td>
-                    <input
-                      type="text"
-                      name="stateId"
-                      value={this.state.stateId}
-                      onChange={this._handleChange}
-                    ></input>
-                  </td>
-                </tr> */}
-              </tbody>
-            </table>
-
-            <div style={{ display: "flex" }}>
-              <div style={{ display: "inline" }}>
-                <label>Birthday: </label>
-              </div>
-              <div style={{ display: "inline", paddingLeft: "15px" }}>
-                <form noValidate>
-                  <TextField
-                    id="date"
-                    // label="birthDate"
-                    type="date"
-                    name="birthDate"
-                    defaultValue={this.state.birthDate}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={this._handleChange}
-                  />
-                </form>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-12">
-            <div className="SettingsContent GeneralContent">
-              <Button className="btn btn-green" onClick={this._updateSettings}>
-                SAVE
-              </Button>
-              <Button className="btn btn-red" onClick={this._goBack}>
-                CANCEL
-              </Button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <Redirect to="/app/accounts/admin" />
-      );
     return (
       <div className="container-fluid UserProfile">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
         />
-        {renderProfile}
+        <div className="row justify-content-md-center AdminProfile page-heading">
+          <div className="admin-header-div col-12">
+            {/* <h2 style={{ fontWeight: 500 }}>ID: {e.waUserId}</h2> */}
+            <span>
+              <Button
+                style={{ color: "#4251af", backgroundColor: "white" }}
+                className="btn btn-green"
+                onClick={() =>
+                  this.props.history.push("/app/accounts/admin/profile")
+                }
+              >
+                CANCEL
+              </Button>
+              <Button className="btn btn-red" onClick={this._updateSettings}>
+                SAVE
+              </Button>
+            </span>
+          </div>
+          <hr style={styles.hr} />
+          <div className="col-3 text-center">
+            {$imagePreview}
+            <div style={{ paddingTop: "10px" }}>
+              <input
+                type="file"
+                // style={{ paddingTop: "10px" }}
+                name="image"
+                id="file"
+                className="custom-input"
+                onChange={(e) => this._uploadFile(e)}
+              />
+            </div>
+          </div>
+          <div className="col-9" style={{ paddingLeft: "30px" }}>
+            <h1>{e.firstName + " " + e.lastName}</h1>
+            <h4>{e.roleName}</h4>
+            <hr />
+            <h2>Contact Information</h2>
+            <div className="row">
+              <div className="col-6">
+                <label>Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={this.state.phone}
+                  onChange={this._handleChange}
+                />
+              </div>
+              <div className="col-6">
+                <label>Email</label>
+                <input
+                  type="text"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this._handleChange}
+                />
+              </div>
+
+              <div className="col-12" style={styles.div}>
+                <label>Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={this.state.address}
+                  onChange={this._handleChange}
+                />
+              </div>
+            </div>
+
+            <h2>Basic Information</h2>
+
+            <div>
+              <div style={{ display: "inline" }}>
+                <label>Birthday: </label>
+              </div>
+              <div style={{ display: "inline", paddingLeft: "15px" }}>
+                <form noValidate>
+                  {this.state.loading && (
+                    <TextField
+                      id="date"
+                      // label="birthDate"
+                      type="date"
+                      name="birthDate"
+                      defaultValue={this.state.birthDate}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      onChange={this._handleChange}
+                    />
+                  )}
+                </form>
+              </div>
+
+              <div style={styles.div}>
+                <label>Password</label>
+                <div style={{ display: "flex" }}>
+                  <input
+                    type={this.state.showPassword ? "text" : "password"}
+                    name="password"
+                    value={this.state.password}
+                    onChange={this._handleChange}
+                    style={styles.input}
+                    // className="form-control"
+                  />
+                  <span>
+                    {this.state.showPassword ? (
+                      <RiEyeLine
+                        onClick={this.showPassword}
+                        style={styles.icon}
+                        size={20}
+                      />
+                    ) : (
+                      <RiEyeOffLine
+                        onClick={this.showPassword}
+                        style={styles.icon}
+                        size={20}
+                      />
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -433,3 +368,22 @@ const mapDispatchToProps = (dispatch) => ({
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(EditUserProfile)
 );
+
+const styles = {
+  hr: {
+    height: "1px",
+    border: "0",
+    borderTop: "1px solid #4251af",
+    alignContent: "center",
+    width: "100%",
+  },
+  div: {
+    paddingTop: "10px",
+  },
+  input: {
+    width: "30%",
+  },
+  icon: {
+    cursor: "pointer",
+  },
+};

@@ -10,10 +10,7 @@ const Accounts = ({ match }) => (
         path={`${match.url}/admin/add`}
         component={asyncComponent(() => import("./Users/addAdmin2"))}
       />
-      <Route
-        path={`${match.url}/admin/add2`}
-        component={asyncComponent(() => import("./Users/addAdmin3"))}
-      />
+
       <Route
         path={`${match.url}/admin/profile/edit`}
         component={asyncComponent(() => import("./Users/EditUserProfile"))}

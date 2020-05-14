@@ -8,9 +8,8 @@ import Select from "react-select";
 import { ADD_ADMIN } from "../../../../actions/user/actions";
 import {
   NotificationContainer,
-  NotificationManager
+  NotificationManager,
 } from "react-notifications";
-import "./User.css";
 import axios from "axios";
 import { ViewProfile_User } from "../../../../actions/user/actions";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
@@ -18,12 +17,13 @@ import URL from "../../../../url/url";
 
 import DatePicker from "react-datepicker";
 
+import "./User.css";
 import "react-datepicker/dist/react-datepicker.css";
 const roles = [
   { value: "1", label: "Administrator" },
   { value: "2", label: "Manager" },
   { value: "3", label: "Staff Lv1" },
-  { value: "4", label: "Staff Lv2" }
+  { value: "4", label: "Staff Lv2" },
 ];
 
 const stateID = [
@@ -77,7 +77,7 @@ const stateID = [
   { value: "50", label: "Washington" },
   { value: "51", label: "Wisconsin" },
   { value: "52", label: "West Virginia" },
-  { value: "53", label: "Wyoming" }
+  { value: "53", label: "Wyoming" },
 ];
 
 class addAdmin2 extends Component {
@@ -96,26 +96,26 @@ class addAdmin2 extends Component {
       roles: undefined,
       phone: "",
       fileId: 0,
-      imagePreviewUrl: ""
+      imagePreviewUrl: "",
     };
   }
 
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
-  handleRoles = selectedOption => {
+  handleRoles = (selectedOption) => {
     this.setState({ roles: selectedOption.value });
   };
-  handleState = selectedOption => {
+  handleState = (selectedOption) => {
     this.setState({ stateID: selectedOption.value });
   };
-  _uploadFile = event => {
+  _uploadFile = (event) => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -124,7 +124,7 @@ class addAdmin2 extends Component {
 
     reader.onloadend = () => {
       this.setState({
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
@@ -132,18 +132,18 @@ class addAdmin2 extends Component {
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
-      headers: { "content-type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" },
     };
     axios
       .post(URL + "/file?category=service", formData, config)
-      .then(res => {
+      .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
-  _addAdminUser = e => {
+  _addAdminUser = (e) => {
     if (this.state.roles && this.state.stateID) {
       e.preventDefault();
       const WaRoleId = this.state.roles.value;
@@ -158,7 +158,7 @@ class addAdmin2 extends Component {
         zip,
         BirthDate,
         phone,
-        fileId
+        fileId,
       } = this.state;
       const fullname = `${firstname} ${lastname}`;
       const Data = {
@@ -174,7 +174,7 @@ class addAdmin2 extends Component {
         BirthDate,
         fullname,
         phone,
-        fileId
+        fileId,
       };
       this.props.addAdmin(Data);
     }
@@ -204,7 +204,7 @@ class addAdmin2 extends Component {
           BirthDate: undefined,
           roles: undefined,
           phone: "",
-          fileId: 0
+          fileId: 0,
         });
       }
     }
@@ -229,7 +229,25 @@ class addAdmin2 extends Component {
       );
     }
     const renderProfile = (
-      <div className="row justify-content-md-center AdminProfile">
+      <div className="row justify-content-md-center AdminProfile page-heading">
+        <div className="admin-header-div col-12">
+          {/* <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2> */}
+          <span>
+            <Button
+              style={{ color: "#4251af", backgroundColor: "white" }}
+              className="btn btn-green"
+              // onClick={this._goRevert}
+            >
+              BACK
+            </Button>
+            <Button
+              className="btn btn-red"
+              // onClick={this._goBack}
+            >
+              CREATE USER
+            </Button>
+          </span>
+        </div>
         <div className="col-md-3 text-center">
           {$imagePreview}
           <div>
@@ -240,7 +258,7 @@ class addAdmin2 extends Component {
               style={{ width: "250px" }}
               name="image"
               id="file"
-              onChange={e => this._uploadFile(e)}
+              onChange={(e) => this._uploadFile(e)}
             ></input>
           </div>
         </div>
@@ -325,7 +343,7 @@ class addAdmin2 extends Component {
                   <Select
                     required
                     value={this.state.roles}
-                    onChange={value => this.setState({ roles: value })}
+                    onChange={(value) => this.setState({ roles: value })}
                     options={roles}
                   />
                 </td>
@@ -408,7 +426,7 @@ class addAdmin2 extends Component {
                 <td style={{ width: "29%" }}>
                   <Select
                     value={this.state.stateID}
-                    onChange={value => this.setState({ stateID: value })}
+                    onChange={(value) => this.setState({ stateID: value })}
                     options={stateID}
                   />
                 </td>
@@ -422,7 +440,7 @@ class addAdmin2 extends Component {
                     className="Birthday"
                     placeholderText="MM/DD/YYYY"
                     selected={this.state.BirthDate}
-                    onChange={date => this.setState({ BirthDate: date })}
+                    onChange={(date) => this.setState({ BirthDate: date })}
                   />
                 </td>
               </tr>
@@ -455,17 +473,17 @@ class addAdmin2 extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   UserProfile: state.ViewProfile_User,
-  AddStatus: state.addAdminUser
+  AddStatus: state.addAdminUser,
 });
-const mapDispatchToProps = dispatch => ({
-  ViewProfile_User: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_User: (payload) => {
     dispatch(ViewProfile_User(payload));
   },
-  addAdmin: payload => {
+  addAdmin: (payload) => {
     dispatch(ADD_ADMIN(payload));
-  }
+  },
 });
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(addAdmin2)

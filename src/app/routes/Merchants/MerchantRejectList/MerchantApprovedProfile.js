@@ -24,7 +24,6 @@ class MerchantApprovedProfile extends Component {
     const e = this.props.MerchantProfile;
     let principalLength = this.props.MerchantProfile.principals.length;
 
-    console.log("Fix something", e);
     //!render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
