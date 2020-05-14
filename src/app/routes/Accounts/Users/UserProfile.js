@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { store } from "react-notifications-component";
+import { ViewProfile_User } from "../../../../actions/user/actions";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -26,6 +27,25 @@ class UserProfile extends Component {
   _Edit = () => {
     this.props.history.push("/app/accounts/admin/profile/edit");
   };
+
+  getUserByID = () => {
+    const ID = this.props.UserProfile.waUserId;
+    let token = JSON.parse(this.state.Token);
+    const config = {
+      headers: { Authorization: "bearer " + token.token },
+    };
+    axios
+      .get(URL + "/adminuser/" + ID, config)
+      .then((res) => {
+        this.props.ViewProfile_User(res.data.data);
+        // this.forceUpdate();
+        this.props.history.push("/app/accounts/admin/profile");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   _disable = () => {
     const ID = this.props.UserProfile.waUserId;
     let token = JSON.parse(this.state.Token);
@@ -50,6 +70,9 @@ class UserProfile extends Component {
           },
           width: 250,
         });
+        setTimeout(() => {
+          this.getUserByID();
+        }, 1000);
       })
       .catch((error) => {
         console.log("error", error);
@@ -80,11 +103,21 @@ class UserProfile extends Component {
           },
           width: 250,
         });
+        setTimeout(() => {
+          this.getUserByID();
+        }, 1000);
       })
       .catch((error) => {
         console.log("error", error);
       });
   };
+
+  //   static getDerivedStateFromProps(nextProps, prevState){
+  //     if(nextProps.UserProfile !== prevState.UserProfile){
+  //       return { e : nextProps.UserProfile};
+  //    }
+  //    else return null;
+  //  }
 
   render() {
     const e = this.props.UserProfile;
@@ -174,7 +207,14 @@ const mapStateToProps = (state) => ({
   UserProfile: state.ViewProfile_User,
 });
 
-export default withRouter(connect(mapStateToProps)(UserProfile));
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_User: (payload) => {
+    dispatch(ViewProfile_User(payload));
+  },
+});
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(UserProfile)
+);
 
 const styles = {
   hr: {

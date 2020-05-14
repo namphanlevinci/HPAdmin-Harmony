@@ -42,12 +42,6 @@ class Users extends Component {
     const config = {
       headers: { Authorization: "bearer " + this.state.User.token },
     };
-    // await axios
-    //   .get(URL + "/adminuser/" + ID, config)
-    //   .then((res) => {})
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
 
     await axios
       .get(URL + "/adminuser/" + ID, config)
