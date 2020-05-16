@@ -10,15 +10,15 @@ export class license extends Component {
         <div className="container">
           <div className="row justify-content-between">
             <div className="col-8">
-              <h4>Driver Lincense</h4>
+              <label>Driver Lincense</label>
               <p>{Staff?.driverLicense}</p>
             </div>
             <div className="col-8">
-              <h4>Social Security Number</h4>
+              <label>Social Security Number</label>
               <p>{Staff?.ssn}</p>
             </div>
             <div className="col-8">
-              <h4>Professional Lincense</h4>
+              <label>Professional Lincense</label>
               <p>{Staff?.professionalLicense}</p>
             </div>
           </div>
@@ -28,10 +28,19 @@ export class license extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  Staff: state.staffDetail
+const mapStateToProps = (state) => ({
+  Staff: state.staffDetail,
 });
 
 const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(license);
+
+const styles = {
+  h2: {
+    paddingBottom: "10px",
+  },
+  input: {
+    marginBottom: "10px",
+  },
+};

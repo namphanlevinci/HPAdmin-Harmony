@@ -31,41 +31,41 @@ class General extends Component {
       // e.general !== undefined ? (
       <div className="react-transition swipe-up">
         <div className="container-fuild">
-          <h2>General Information</h2>
+          <h2 style={styles.h2}>General Information</h2>
           <div className="row justify-content-between">
             <div className="col-4">
-              <h4>Legal Business Name*</h4>
+              <label>Legal Business Name*</label>
               <p>{e.general !== null ? e.general.legalBusinessName : null}</p>
             </div>
             <div className="col-4">
-              <h4>Doing Business As Name (DBA)*</h4>
+              <label>Doing Business As Name (DBA)*</label>
               <p>{e.general !== null ? e.general.doBusinessName : null}</p>
             </div>
             <div className="col-4">
-              <h4>Federal Tax ID*</h4>
+              <label>Federal Tax ID*</label>
               <p>{e.general !== null ? e.general.tax : null}</p>
             </div>
             <div className="col-4">
-              <h4>DBA Business Address*</h4>
+              <label>DBA Business Address*</label>
               <p>{e.addressFull}</p>
             </div>
             <div className="col-4">
-              <h4>Zip code*</h4>
+              <label>Zip code*</label>
               <p>{e.general !== null ? e.general.zip : null}</p>
             </div>
             <div className="col-4">
-              <h4>Business Phone Number*</h4>
+              <label>Business Phone Number*</label>
               <p>{e.general !== null ? e.general.phoneBusiness : null}</p>
             </div>
             <div className="col-4">
-              <h4>Contact Email Address*</h4>
+              <label>Contact Email Address*</label>
               <p>{e.general !== null ? e.general.emailContact : null}</p>
             </div>
           </div>
-          <h2>Representative Information</h2>
+          <h2 style={styles.h2}>Representative Information</h2>
           <div className="row">
             <div className="col-4">
-              <h4>Contact Name*</h4>
+              <label>Contact Name*</label>
               <p>
                 {e.general !== null
                   ? e.general.firstName + " " + e.general.lastName
@@ -73,11 +73,11 @@ class General extends Component {
               </p>
             </div>
             <div className="col-4">
-              <h4>Title/Position*</h4>
+              <label>Title/Position*</label>
               <p>{e.general !== null ? e.general.title : null}</p>
             </div>
             <div className="col-4">
-              <h4>Contact Phone Number*</h4>
+              <label>Contact Phone Number*</label>
               <p>{e.general !== null ? e.general.phoneContact : null}</p>
             </div>
           </div>
@@ -90,7 +90,7 @@ class General extends Component {
         e.business.map((e) => {
           return (
             <div className="col-6" key={e.businessId}>
-              <h4>{e.question}</h4>
+              <label>{e.question}</label>
               <Checkbox checked={e.answer === false} />
               No <Checkbox checked={e.answer === true} /> Yes
               <h5>Answer: {e.answerReply} </h5>
@@ -98,14 +98,14 @@ class General extends Component {
           );
         })
       ) : (
-        <h4>&nbsp;- NO BUSINESS INFORMATION</h4>
+        <label>&nbsp;- NO BUSINESS INFORMATION</label>
       );
     return (
       <div className="content GeneralContent">
         {renderGeneral}
 
         <div className="container-fuild">
-          <h2>Business Information</h2>
+          <h2 style={styles.h2}>Business Information</h2>
           <div className="row justify-content-between">{renderQuestion}</div>
         </div>
         <div className="SettingsContent GeneralContent">
@@ -128,3 +128,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);
+
+const styles = {
+  h2: {
+    paddingBottom: "10px",
+  },
+};

@@ -117,7 +117,7 @@
   background-color: white !important;
 }
 .GeneralContent input {
-  padding: 5px;
+  padding: 5px 5px 0px 5px;
   width: 100% !important;
   font-weight: 500;
   color: #000000;
@@ -137,8 +137,11 @@
 }
 /* bank img */
 .bankVoid {
-  width: 250px;
-  height: 200px;
+  width: 350px;
+  /* height: 200px; */
+  /* width: 100%; */
+  object-fit: cover;
+  /* height: 100%; */
 }
 /* pop up confirm */
 .POPUP .SettingsPopup2 h3 {
@@ -251,7 +254,7 @@ thead th {
   float: left;
 }
 .SettingsContent label {
-  font-size: 18px;
+  font-size: 17px;
 }
 
 /*  SERVICE  */

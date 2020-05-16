@@ -141,8 +141,11 @@ class EditBank extends Component {
     const renderOldImg =
       e.businessBank !== null ? (
         e.businessBank.imageUrlOldFiles !== null ? (
-          <div className="col-12" style={{ paddingTop: "10px" }}>
-            <h4>Old Void Check*</h4>
+          <div
+            className="col-12"
+            style={{ paddingTop: "10px", width: "350px", height: "300px" }}
+          >
+            <label>Old Void Check*</label> <br />
             {e.businessBank.imageUrlOldFiles.map((e, index) => {
               return (
                 <img
@@ -160,37 +163,39 @@ class EditBank extends Component {
 
     return (
       <div className="react-transition swipe-up GeneralContent">
-        <h2>Bank Information</h2>
+        <h2 style={styles.h2}>Bank Information</h2>
         <div className="container-fuild">
           <div className="row">
             <div className="col-3">
-              <h4>Bank Name*</h4>
+              <label>Bank Name*</label>
               <input
                 name="name"
                 value={this.state.name}
                 onChange={this._handleChange}
-              ></input>
+              />
             </div>
             <div className="col-4">
-              <h4>ABA Routing Number*</h4>
+              <label>ABA Routing Number*</label>
               <input
                 style={{ width: "250px" }}
                 name="routingNumber"
                 value={this.state.routingNumber}
                 onChange={this._handleChange}
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-5">
-              <h4>Checking Account Number (DDA)*</h4>
+              <label>Checking Account Number (DDA)*</label>
               <input
                 style={{ width: "250px" }}
                 name="accountNumber"
                 value={this.state.accountNumber}
                 onChange={this._handleChange}
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4" style={{ paddingTop: "20px" }}>
-              <h4>Void Check*</h4>
+              <label>Void Check*</label>
               {$imagePreview}
               <div>
                 <label>Upload new Void Check:</label>
@@ -200,7 +205,8 @@ class EditBank extends Component {
                   name="image"
                   id="file"
                   onChange={(e) => this._uploadFile(e)}
-                ></input>
+                  style={styles.input}
+                />
               </div>
             </div>
             {renderOldImg}
@@ -235,3 +241,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditBank);
+
+const styles = {
+  h2: {
+    paddingBottom: "10px",
+  },
+  input: {
+    marginBottom: "10px",
+  },
+};

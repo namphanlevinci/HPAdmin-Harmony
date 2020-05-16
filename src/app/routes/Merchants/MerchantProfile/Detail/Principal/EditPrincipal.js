@@ -174,99 +174,110 @@ class EditPrincipal extends Component {
         <React.Fragment>
           <div className="row">
             <div className="col-4">
-              <h4>Name*</h4>
+              <label>Name*</label>
               <input
                 name="name"
                 value={e.firstName + " " + e.lastName}
                 onChange={this._handleChange}
                 disabled
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>Title/Position*</h4>
+              <label>Title/Position*</label>
               <input
                 name="Title"
                 value={e.title}
                 onChange={this._handleChange}
                 disabled
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>Ownership(%)*</h4>
+              <label>Ownership(%)*</label>
               <input
                 name="name"
                 value={e.ownerShip}
                 onChange={this._handleChange}
                 disabled
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>Home Phone*</h4>
+              <label>Home Phone*</label>
               <input
                 name="HomePhone"
                 value={this.state.HomePhone}
                 onChange={this._handleChange}
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>Mobile Phone*</h4>
+              <label>Mobile Phone*</label>
               <input
                 name="MobilePhone"
                 value={this.state.MobilePhone}
                 onChange={this._handleChange}
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>Address*</h4>
+              <label>Address*</label>
               <input
                 name="Address"
                 value={this.state.Address}
                 onChange={this._handleChange}
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>Social Security Number (SSN)*</h4>
+              <label>Social Security Number (SSN)*</label>
               <input
                 name="ssn"
                 value={e.fullSsn}
                 onChange={this._handleChange}
                 disabled
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>Date of Birth (MM/DD/YYYY)*</h4>
+              <label>Date of Birth (MM/DD/YYYY)*</label>
               <input
                 name="birthday"
                 value={moment(e.birthDate).format("MM/DD/YYYY")}
                 onChange={this._handleChange}
                 disabled
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>Email Address*</h4>
+              <label>Email Address*</label>
               <input
                 name="email"
                 value={this.state.email}
                 onChange={this._handleChange}
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>Driver License Number*</h4>
+              <label>Driver License Number*</label>
               <input
                 name="DriverNumber"
                 value={this.state.DriverNumber}
                 onChange={this._handleChange}
-              ></input>
+                style={styles.input}
+              />
             </div>
             <div className="col-4">
-              <h4>State*</h4>
+              <label>State*</label>
               <StateComponent
                 getStateId={this.getStateId}
                 setvalue={this.state.stateName}
+                style={styles.input}
               />
             </div>
             <div className="col-12">
-              <h4>Driver License Picture</h4>
+              <label>Driver License Picture</label> <br />
               {$imagePreview}
             </div>
           </div>
@@ -277,7 +288,7 @@ class EditPrincipal extends Component {
               name="image"
               id="file"
               onChange={(e) => this._uploadFile(e)}
-            ></input>
+            />
           </div>
           <div
             className="SettingsContent GeneralContent"
@@ -292,11 +303,11 @@ class EditPrincipal extends Component {
           </div>
         </React.Fragment>
       ) : (
-        <h4>&nbsp;- NO PRINCIPAL INFORMATION</h4>
+        <label>&nbsp;- NO PRINCIPAL INFORMATION</label>
       );
     return (
       <div className="react-transition swipe-up GeneralContent principal-container container-fuild">
-        <h2>Principal Information</h2>
+        <h2 style={styles.h2}>Principal Information</h2>
         <div className="edit-principal">{renderPrincipal}</div>
       </div>
     );
@@ -319,3 +330,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPrincipal);
+
+const styles = {
+  h2: {
+    paddingBottom: "10px",
+  },
+  input: {
+    marginBottom: "10px",
+  },
+};

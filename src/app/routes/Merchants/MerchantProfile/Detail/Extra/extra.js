@@ -168,6 +168,11 @@ class ExtraTab extends Component {
         Header: " Extra name",
         accessor: "name",
         width: 150,
+        Cell: (e) => (
+          <div>
+            <span style={styles.span}> {e.value} </span>
+          </div>
+        ),
       },
       {
         Header: "Image ",
@@ -184,8 +189,8 @@ class ExtraTab extends Component {
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
-                width: "100px",
-                height: "100px",
+                width: "50px",
+                height: "50px",
               }}
             ></div>
           );
@@ -197,7 +202,7 @@ class ExtraTab extends Component {
         accessor: "duration",
         Cell: (e) => (
           <div>
-            <p>{e.value} Min</p>
+            <span style={styles.span}>{e.value} Min</span>
           </div>
         ),
         width: 150,
@@ -208,7 +213,7 @@ class ExtraTab extends Component {
         accessor: "price",
         Cell: (e) => (
           <div>
-            <p>$ {e.value}</p>
+            <span style={styles.span}>$ {e.value}</span>
           </div>
         ),
         width: 150,
@@ -219,7 +224,9 @@ class ExtraTab extends Component {
         accessor: "isDisabled",
         Cell: (e) => (
           <div>
-            <p>{e.value === 0 ? "Active" : "Disable"}</p>
+            <span style={styles.span}>
+              {e.value === 0 ? "Active" : "Disable"}
+            </span>
           </div>
         ),
         width: 120,
@@ -391,3 +398,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);
+
+const styles = {
+  span: {
+    fontWeight: "500",
+    color: "black",
+  },
+};

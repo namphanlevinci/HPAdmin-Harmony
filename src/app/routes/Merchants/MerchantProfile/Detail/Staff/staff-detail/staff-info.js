@@ -7,6 +7,7 @@ import IntlMessages from "../../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import General from "./general";
+import EditGeneral from "./edit-general";
 import workTime from "./work-time";
 import salary from "./salary";
 import license from "./license";
@@ -20,11 +21,11 @@ class staffGeneral extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: this.props.Staff?.firstName
+      firstName: this.props.Staff?.firstName,
     };
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -93,10 +94,15 @@ class staffGeneral extends Component {
                     <div className="detail-content">
                       <Switch>
                         <Route
+                          path="/app/merchants/staff/general/edit"
+                          render={(props) => <EditGeneral {...props} />}
+                        />
+
+                        <Route
                           path="/app/merchants/staff/general"
-                          // component={general}
-                          render={props => (
+                          render={(props) => (
                             <General
+                              {...props}
                               handleChange={this.handleChange}
                               data={this.state}
                             />
@@ -127,8 +133,8 @@ class staffGeneral extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  Staff: state.staffDetail
+const mapStateToProps = (state) => ({
+  Staff: state.staffDetail,
 });
 
 export default connect(mapStateToProps)(staffGeneral);

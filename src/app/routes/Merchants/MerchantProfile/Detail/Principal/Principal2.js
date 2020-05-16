@@ -13,7 +13,7 @@ class PrincipalInfo extends Component {
     super(props);
     this.state = {};
   }
-  _editPrincipal = data => {
+  _editPrincipal = (data) => {
     this.props.UPDATE_PRINCIPAL(data);
     this.props.history.push("/app/merchants/profile/pincipal/edit");
   };
@@ -23,60 +23,60 @@ class PrincipalInfo extends Component {
 
     return (
       <div className="react-transition swipe-up principal-container container-fuild">
-        <h2>Principal Information</h2>
+        <h2 style={styles.h2}>Principal Information</h2>
         <div className="row" key={e.principalId}>
           <div className="col-4">
-            <h4>Name*</h4>
+            <label>Name*</label>
             <p>{e.firstName + " " + e.lastName}</p>
           </div>
           <div className="col-4">
-            <h4>Title/Position*</h4>
+            <label>Title/Position*</label>
             <p>{e.title}</p>
           </div>
           <div className="col-4">
-            <h4>Ownership(%)*</h4>
+            <label>Ownership(%)*</label>
             <p>{e.ownerShip}%</p>
           </div>
           <div className="col-4">
-            <h4>Home Phone*</h4>
+            <label>Home Phone*</label>
             <p>{e.homePhone}</p>
           </div>
           <div className="col-4">
-            <h4>Mobile Phone*</h4>
+            <label>Mobile Phone*</label>
             <p>{e.mobilePhone}</p>
           </div>
           <div className="col-4">
-            <h4>Address*</h4>
+            <label>Address*</label>
             <p>{e.address}</p>
           </div>
           <div className="col-4">
-            <h4>Social Security Number (SSN)*</h4>
+            <label>Social Security Number (SSN)*</label>
             <p>{e.fullSsn}</p>
           </div>
           <div className="col-4">
-            <h4>Date of Birth (MM/DD/YYYY)*</h4>
+            <label>Date of Birth (MM/DD/YYYY)*</label>
             <p>{moment(e.birthDate).format("MM/DD/YYYY")}</p>
           </div>
           <div className="col-4">
-            <h4>Email Address*</h4>
+            <label>Email Address*</label>
             <p>{e.email}</p>
           </div>
           <div className="col-4">
-            <h4>Driver License Number*</h4>
+            <label>Driver License Number*</label>
             <p>{e.driverNumber}</p>
           </div>
           <div className="col-4">
-            <h4>State Issued*</h4>
+            <label>State Issued*</label>
             <p>{e.state !== undefined ? e.state.name : null}</p>
           </div>
           <div className="col-6">
-            <h4>Driver License Picture</h4>
+            <label>Driver License Picture</label>
             {
               <img
                 style={{
                   width: "250px",
                   height: "200px",
-                  marginBottom: "40px"
+                  marginBottom: "40px",
                 }}
                 src={`${e.imageUrl}`}
                 alt="void check"
@@ -106,28 +106,28 @@ class PrincipalInfo extends Component {
                 <div className="row" key={index}>
                   <hr />
                   <div className="col-4">
-                    <h4>Home Phone*</h4>
+                    <label>Home Phone*</label>
                     <p>{e.homePhone !== null ? e.homePhone : null}</p>
                   </div>
                   <div className="col-4">
-                    <h4>Mobile Phone*</h4>
+                    <label>Mobile Phone*</label>
                     <p>{e.mobilePhone !== null ? e.mobilePhone : null}</p>
                   </div>
                   <div className="col-4">
-                    <h4>Address*</h4>
+                    <label>Address*</label>
                     <p>{e.address !== null ? e.address : null}</p>
                   </div>
                   <div className="col-4">
-                    <h4>State*</h4>
+                    <label>State*</label>
                     <p>{e.stateName !== null ? e.stateName : null}</p>
                   </div>
                   <div className="col-4">
-                    <h4>Driver License Number*</h4>
+                    <label>Driver License Number*</label>
                     <p>{e.driverNumber !== null ? e.driverNumber : null}</p>
                   </div>
                   {e.ImageUrl !== null ? (
                     <div className="col-4">
-                      <h4>Driver License Picture*</h4>
+                      <label>Driver License Picture*</label>
                       <img
                         className="bankVoid"
                         src={`${e.ImageUrl}`}
@@ -144,18 +144,27 @@ class PrincipalInfo extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   principalInfo: state.viewPrincipal,
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    UPDATE_PRINCIPAL: payload => {
+    UPDATE_PRINCIPAL: (payload) => {
       dispatch(UPDATE_PRINCIPAL(payload));
-    }
+    },
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrincipalInfo);
+
+const styles = {
+  h2: {
+    paddingBottom: "10px",
+  },
+  input: {
+    marginBottom: "10px",
+  },
+};

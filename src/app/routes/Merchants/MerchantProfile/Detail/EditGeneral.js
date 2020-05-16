@@ -5,7 +5,7 @@ import {
   getAll_Merchants,
   ViewProfile_Merchants,
   UpdateMerchant_Infor,
-  GetMerchant_byID
+  GetMerchant_byID,
 } from "../../../../../actions/merchants/actions";
 
 import Button from "@material-ui/core/Button";
@@ -32,7 +32,7 @@ class General extends Component {
       lastName: "",
       title: "",
       doBusinessName: "",
-      stateName: ""
+      stateName: "",
     };
   }
   _goBack = () => {
@@ -55,7 +55,7 @@ class General extends Component {
       phoneContact,
       firstName,
       lastName,
-      title
+      title,
     } = this.state;
 
     const payload = {
@@ -72,26 +72,26 @@ class General extends Component {
       phoneContact,
       firstName,
       lastName,
-      title
-    }
+      title,
+    };
     this.props.updateMerchant(payload);
     setTimeout(() => {
       this.props.GetMerchant_byID(IDMerchant);
     }, 1000);
   };
 
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
   _toggleEdit = () => {
     this.setState({ edit: true });
   };
-  getStateId = e => {
+  getStateId = (e) => {
     this.setState({ stateId: e });
   };
   componentDidMount() {
@@ -110,7 +110,7 @@ class General extends Component {
       lastName: data.general.lastName,
       title: data.general.title,
       doBusinessName: data.general.doBusinessName,
-      stateName: data.state.name
+      stateName: data.state.name,
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -125,9 +125,9 @@ class General extends Component {
         animationOut: ["animated", "fadeOut"],
         dismiss: {
           duration: 5000,
-          onScreen: true
+          onScreen: true,
         },
-        width: 250
+        width: 250,
       });
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
@@ -140,54 +140,59 @@ class General extends Component {
     return (
       <div className="content GeneralContent react-transition swipe-right">
         <div className="container-fuild">
-          <h2>General Information</h2>
+          <h2 style={styles.h2}>General Information</h2>
           <div className="row">
             <div className="col-4">
-              <h4>Legal Business Name*</h4>
+              <label>Legal Business Name*</label>
               <input
                 name="legalBusinessName"
                 value={this.state.legalBusinessName}
                 onChange={this._handleChange}
+                style={styles.input}
               ></input>
             </div>
             <div className="col-4">
-              <h4>Doing Business As (DBA)*</h4>
+              <label>Doing Business As (DBA)*</label>
               <input
                 name="doBusinessName"
                 value={this.state.doBusinessName}
                 onChange={this._handleChange}
+                style={styles.input}
                 // disabled
               ></input>
             </div>
             <div className="col-4">
-              <h4>Federal Tax ID*</h4>
+              <label>Federal Tax ID*</label>
               <input
                 name="tax"
                 value={this.state.tax}
                 onChange={this._handleChange}
+                style={styles.input}
                 // disabled
               ></input>
             </div>
             <div className="col-4">
-              <h4>Address*</h4>
+              <label>Address*</label>
               <input
                 name="address"
                 value={this.state.address}
                 onChange={this._handleChange}
+                style={styles.input}
                 // disabled
               ></input>
             </div>
             <div className="col-4">
-              <h4>City*</h4>
+              <label>City*</label>
               <input
                 name="city"
                 value={this.state.city}
                 onChange={this._handleChange}
+                style={styles.input}
                 // disabled
               ></input>
             </div>
             <div className="col-4">
-              <h4>State*</h4>
+              <label>State*</label>
               {/* <input
                 name="stateId"
                 value={this.state.stateId}
@@ -199,34 +204,37 @@ class General extends Component {
               />
             </div>
             <div className="col-4">
-              <h4>Business Phone*</h4>
+              <label>Business Phone*</label>
               <input
                 name="phoneBusiness"
                 value={this.state.phoneBusiness}
                 onChange={this._handleChange}
+                style={styles.input}
               ></input>
             </div>
             <div className="col-4">
-              <h4>Zip*</h4>
+              <label>Zip*</label>
               <input
                 name="zip"
                 value={this.state.zip}
                 onChange={this._handleChange}
+                style={styles.input}
               ></input>
             </div>
             <div className="col-4">
-              <h4>Email Contact*</h4>
+              <label>Email Contact*</label>
               <input
                 name="emailContact"
                 value={this.state.emailContact}
                 onChange={this._handleChange}
+                style={styles.input}
               ></input>
             </div>
           </div>
-          <h2>Representative Information</h2>
+          <h2 style={styles.h2}>Representative Information</h2>
           <div className="row">
             <div className="col-4">
-              <h4>Contact Name*</h4>
+              <label>Contact Name*</label>
               <input
                 name="firstName"
                 value={this.state.firstName}
@@ -241,7 +249,7 @@ class General extends Component {
               ></input>
             </div>
             <div className="col-4">
-              <h4>Title/Position*</h4>
+              <label>Title/Position*</label>
               <input
                 name="title"
                 value={this.state.title}
@@ -249,12 +257,13 @@ class General extends Component {
               ></input>
             </div>
             <div className="col-4">
-              <h4>Contact Phone Number*</h4>
+              <label>Contact Phone Number*</label>
               <input
                 name="phoneContact"
                 value={this.state.phoneContact}
                 onChange={this._handleChange}
-              ></input>
+                style={styles.input}
+              />
             </div>
           </div>
           <div
@@ -274,26 +283,35 @@ class General extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
   UpdateStatus: state.updateMerchant_Infor,
-  getMerchant: state.getMerchant
+  getMerchant: state.getMerchant,
 });
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getAll_Merchants: () => {
       dispatch(getAll_Merchants());
     },
-    ViewProfile_Merchants: payload => {
+    ViewProfile_Merchants: (payload) => {
       dispatch(ViewProfile_Merchants(payload));
     },
-    updateMerchant: payload => {
+    updateMerchant: (payload) => {
       dispatch(UpdateMerchant_Infor(payload));
     },
-    GetMerchant_byID: ID => {
+    GetMerchant_byID: (ID) => {
       dispatch(GetMerchant_byID(ID));
-    }
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(General);
+
+const styles = {
+  h2: {
+    paddingBottom: "10px",
+  },
+  input: {
+    marginBottom: "10px",
+  },
+};

@@ -229,21 +229,18 @@ class addAdmin2 extends Component {
       );
     }
     const renderProfile = (
-      <div className="row justify-content-md-center AdminProfile page-heading">
+      <div className="row justify-content-center AdminProfile page-heading">
         <div className="admin-header-div col-12">
           {/* <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2> */}
           <span>
             <Button
               style={{ color: "#4251af", backgroundColor: "white" }}
               className="btn btn-green"
-              // onClick={this._goRevert}
+              onClick={this._goBack}
             >
-              BACK
+              CANCEL
             </Button>
-            <Button
-              className="btn btn-red"
-              // onClick={this._goBack}
-            >
+            <Button className="btn btn-red" onClick={this._addAdminUser}>
               CREATE USER
             </Button>
           </span>
@@ -446,7 +443,7 @@ class addAdmin2 extends Component {
               </tr>
             </tbody>
           </table>
-          <div className="col-md-12">
+          {/* <div className="col-md-12">
             <div className="SettingsContent GeneralContent">
               <Button className="btn btn-green" onClick={this._addAdminUser}>
                 CREATE USER
@@ -455,7 +452,7 @@ class addAdmin2 extends Component {
                 CANCEL
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     );

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Button from "@material-ui/core/Button";
 
 export class general extends Component {
   render() {
@@ -11,71 +12,70 @@ export class general extends Component {
         <div className="container">
           <div className="row justify-content-between">
             <div className="col-4">
-              <h4>First Name</h4>
+              <label>First Name</label>
               <p>{Staff?.firstName}</p>
-              {/* 
-              <input
-                name="firstName"
-                value={data?.firstName}
-                onChange={this.props.handleChange}
-              ></input> */}
             </div>
             <div className="col-4">
-              <h4>Last Name</h4>
+              <label>Last Name</label>
               <p>{Staff?.lastName}</p>
             </div>
             <div className="col-4">
-              <h4>Dispaly Name</h4>
+              <label>Display Name</label>
               <p>{Staff?.displayName}</p>
             </div>
             <div className="col-4">
-              <h4>Address</h4>
+              <label>Address</label>
               <p>{Staff?.address}</p>
             </div>
             <div className="col-4">
-              <h4>City</h4>
+              <label>City</label>
               <p>{Staff?.city}</p>
             </div>
             <div className="col-4">
-              <h4>State</h4>
+              <label>State</label>
               <p>{Staff?.stateName}</p>
             </div>
             <div className="col-4">
-              <h4>Cell Phone</h4>
+              <label>Cell Phone</label>
               <p>{Staff?.phone}</p>
             </div>
             <div className="col-4">
-              <h4>Contact Email</h4>
+              <label>Contact Email</label>
               <p>{Staff?.email}</p>
             </div>
             <div className="col-4">
-              <h4>PIN Code</h4>
+              <label>PIN Code</label>
               <p>****</p>
             </div>
           </div>
           <div className="row">
             <div className="col-4">
-              <h4>Role</h4>
+              <label>Role</label>
               <p>{Staff?.roleName}</p>
             </div>
             <div className="col-4">
-              <h4>Status</h4>
+              <label>Status</label>
               <p>{Staff?.isDisabled === 0 ? "Available" : "Not Available"}</p>
             </div>
           </div>
-          {/* <div className="SettingsContent GeneralContent">
-            <Button className="btn btn-green" onClick={this._toggleEdit}>
+          <div className="SettingsContent GeneralContent">
+            <Button
+              className="btn btn-green"
+              onClick={() =>
+                this.props.history.push("/app/merchants/staff/general/edit")
+              }
+            >
               EDIT
             </Button>
-          </div> */}
+          </div>
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  Staff: state.staffDetail
+const mapStateToProps = (state) => ({
+  Staff: state.staffDetail,
 });
 
 const mapDispatchToProps = {};

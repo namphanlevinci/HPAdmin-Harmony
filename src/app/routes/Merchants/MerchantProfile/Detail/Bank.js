@@ -19,7 +19,8 @@ class Bank extends Component {
       e.businessBank !== null ? (
         e.businessBank.imageUrlOldFiles !== null ? (
           <div className="col-md-12" style={{ paddingTop: "10px" }}>
-            <h4>Old Void Check*</h4>
+            <label>Old Void Check*</label>
+            <br />
             {e.businessBank.imageUrlOldFiles.map((e, index) => {
               return (
                 <img
@@ -36,27 +37,27 @@ class Bank extends Component {
       ) : null;
     return (
       <div className="react-transition swipe-up">
-        <h2>Bank Information</h2>
+        <h2 style={styles.h2}>Bank Information</h2>
         <div className="container-fuild">
           <div className="row">
             <div className="col-3">
-              <h4>Bank Name*</h4>
+              <label>Bank Name*</label>
               <p>{e.businessBank !== null ? e.businessBank.name : null}</p>
             </div>
             <div className="col-4">
-              <h4>ABA Routing Number*</h4>
+              <label>ABA Routing Number*</label>
               <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e.businessBank !== null ? e.businessBank.routingNumber : null}
               </p>
             </div>
             <div className="col-5">
-              <h4>Checking Account Number (DDA)*</h4>
+              <label>Checking Account Number (DDA)*</label>
               <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e.businessBank !== null ? e.businessBank.accountNumber : null}
               </p>
             </div>
             <div className="col-4">
-              <h4>Void Check*</h4>
+              <label>Void Check*</label>
               {e.businessBank !== null ? (
                 <img
                   className="bankVoid"
@@ -82,9 +83,15 @@ class Bank extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
 export default connect(mapStateToProps)(Bank);
+
+const styles = {
+  h2: {
+    paddingBottom: "10px",
+  },
+};

@@ -141,7 +141,7 @@ class MerchantApprovedProfile extends Component {
               <div
                 className="title"
                 style={{
-                  backgroundColor: "#33FF57",
+                  backgroundColor: "#01be52",
                   color: "white",
                 }}
               >

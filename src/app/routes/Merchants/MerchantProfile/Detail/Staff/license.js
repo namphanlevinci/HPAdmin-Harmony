@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 const License = ({
   validator,
   handleChange,
-  state: { driverlicense, socialSecurityNumber, professionalLicense }
+  state: { driverlicense, socialSecurityNumber, professionalLicense },
 }) => (
   <div className="container">
     <div className="row justify-content-center">
