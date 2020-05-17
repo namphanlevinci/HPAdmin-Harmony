@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Button from "@material-ui/core/Button";
 
 export class license extends Component {
   render() {
@@ -7,10 +8,10 @@ export class license extends Component {
 
     return (
       <div>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row justify-content-between">
             <div className="col-8">
-              <label>Driver Lincense</label>
+              <label>Driver License</label>
               <p>{Staff?.driverLicense}</p>
             </div>
             <div className="col-8">
@@ -18,9 +19,19 @@ export class license extends Component {
               <p>{Staff?.ssn}</p>
             </div>
             <div className="col-8">
-              <label>Professional Lincense</label>
+              <label>Professional License</label>
               <p>{Staff?.professionalLicense}</p>
             </div>
+          </div>
+          <div className="SettingsContent GeneralContent">
+            <Button
+              className="btn btn-green"
+              onClick={() =>
+                this.props.history.push("/app/merchants/staff/license/edit")
+              }
+            >
+              EDIT
+            </Button>
           </div>
         </div>
       </div>

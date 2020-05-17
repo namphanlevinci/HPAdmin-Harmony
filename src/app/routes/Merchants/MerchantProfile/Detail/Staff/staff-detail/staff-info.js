@@ -7,10 +7,13 @@ import IntlMessages from "../../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import General from "./general";
-import EditGeneral from "./edit-general";
 import workTime from "./work-time";
 import salary from "./salary";
 import license from "./license";
+
+import EditGeneral from "./edit-general";
+import EditWorkTime from "./edit-workTime";
+import EditLicense from "./edit-license";
 
 import "../../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../../MerchantsRequest/MerchantsRequest.css";
@@ -34,8 +37,6 @@ class staffGeneral extends Component {
 
   render() {
     const Staff = this.props.Staff;
-    console.log("THIS STATE", this.state);
-    console.log("IM GETTING RE-RENDER");
     return (
       <div>
         <div className="container-fluid PendingList">
@@ -76,7 +77,7 @@ class staffGeneral extends Component {
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/app/merchants/staff/worktime">
+                        <NavLink to="/app/merchants/staff/time">
                           Working Time
                         </NavLink>
                       </li>
@@ -95,22 +96,43 @@ class staffGeneral extends Component {
                       <Switch>
                         <Route
                           path="/app/merchants/staff/general/edit"
-                          render={(props) => <EditGeneral {...props} />}
+                          render={(props) => (
+                            <EditGeneral
+                              {...props}
+                              token={this.props.InfoUser_Login.User.token}
+                              merchantID={this.props.MerchantProfile.merchantId}
+                            />
+                          )}
                         />
 
                         <Route
                           path="/app/merchants/staff/general"
+                          render={(props) => <General {...props} />}
+                        />
+
+                        <Route
+                          path="/app/merchants/staff/time/edit"
                           render={(props) => (
-                            <General
+                            <EditWorkTime
                               {...props}
-                              handleChange={this.handleChange}
-                              data={this.state}
+                              token={this.props.InfoUser_Login.User.token}
+                              merchantID={this.props.MerchantProfile.merchantId}
                             />
                           )}
                         />
                         <Route
-                          path="/app/merchants/staff/worktime"
+                          path="/app/merchants/staff/time"
                           component={workTime}
+                        />
+                        <Route
+                          path="/app/merchants/staff/license/edit"
+                          render={(props) => (
+                            <EditLicense
+                              {...props}
+                              token={this.props.InfoUser_Login.User.token}
+                              merchantID={this.props.MerchantProfile.merchantId}
+                            />
+                          )}
                         />
                         <Route
                           path="/app/merchants/staff/salary"
@@ -135,6 +157,8 @@ class staffGeneral extends Component {
 
 const mapStateToProps = (state) => ({
   Staff: state.staffDetail,
+  InfoUser_Login: state.User,
+  MerchantProfile: state.ViewProfile_Merchants,
 });
 
 export default connect(mapStateToProps)(staffGeneral);

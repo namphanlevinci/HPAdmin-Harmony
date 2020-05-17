@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
+import { VIEW_STAFF } from "../../../../../../../actions/merchants/actions";
 
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
 import selectState from "../../../../../../../util/selectState";
 import PhoneInput from "react-phone-input-2";
+import updateStaff from "./updateStaff";
 
 import "react-phone-input-2/lib/high-res.css";
 export class EditGeneral extends Component {
@@ -49,6 +51,48 @@ export class EditGeneral extends Component {
     });
   };
 
+  handleUpdateStaff = () => {
+    const state = this.state;
+    const data = this.props.Staff;
+    const ID = this.props.Staff.staffId;
+    const MerchantId = this.props.merchantID;
+    const body = {
+      firstName: state.firstName,
+      lastName: state.lastName,
+      displayName: state.displayName,
+      address: {
+        street: state.address,
+        city: state.city,
+        state: state.stateId,
+      },
+      cellphone: state.phone.replace(/-/g, ""),
+      email: state.email,
+      pin: state.pin,
+      confirmPin: state.pin,
+      isDisabled: Number(state.isDisabled),
+      DriverLicense: data.DriverLicense,
+      socialSecurityNumber: data.socialSecurityNumber,
+      professionalLicense: "",
+      workingTime: data.workingTimes,
+      tipFee: data.tipFees,
+      salary: data.salaries,
+      Roles: {
+        NameRole: state.roleName,
+      },
+      MerchantId,
+    };
+
+    const path = "/app/merchants/staff/general";
+    updateStaff(
+      ID,
+      body,
+      this.props.token,
+      this.props.VIEW_STAFF,
+      this.props.history,
+      path
+    );
+  };
+
   render() {
     const status = [
       { label: "Available", value: "0" },
@@ -64,7 +108,7 @@ export class EditGeneral extends Component {
     console.log("Staff", Staff);
     return (
       <div className="content">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row justify-content-between">
             <div className="col-4">
               <label>First Name</label>
@@ -177,13 +221,12 @@ export class EditGeneral extends Component {
                     value: this.state.roles,
                   }}
                   options={roles}
-                  onChange={(e) => this.setState({ roles: e.value })}
+                  onChange={(e) => this.setState({ roles: e.label })}
                 />
               )}
             </div>
             <div className="col-4">
               <label>Status</label>
-              {/* <p>{Staff?.isDisabled === 0 ? "Available" : "Not Available"}</p> */}
               {this.state.loading && (
                 <Select
                   defaultValue={{
@@ -198,13 +241,16 @@ export class EditGeneral extends Component {
             </div>
           </div>
           <div className="SettingsContent GeneralContent" style={styles.div}>
+            <Button className="btn btn-green" onClick={this.handleUpdateStaff}>
+              SAVE
+            </Button>
             <Button
-              className="btn btn-green"
+              className="btn btn-red"
               onClick={() =>
-                this.props.history.push("/app/merchants/staff/general/edit")
+                this.props.history.push("/app/merchants/staff/general")
               }
             >
-              EDIT
+              CANCEL
             </Button>
           </div>
         </div>
@@ -217,7 +263,11 @@ const mapStateToProps = (state) => ({
   Staff: state.staffDetail,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch) => ({
+  VIEW_STAFF: (payload) => {
+    dispatch(VIEW_STAFF(payload));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditGeneral);
 

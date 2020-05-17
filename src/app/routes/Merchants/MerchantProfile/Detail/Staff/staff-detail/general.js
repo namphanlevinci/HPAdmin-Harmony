@@ -4,12 +4,10 @@ import Button from "@material-ui/core/Button";
 
 export class general extends Component {
   render() {
-    console.log("HANDLE CHANGE", this.props.handleChange);
-    // console.log("Staff", this.props.Staff);
     const Staff = this.props.Staff;
     return (
       <div className="content">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row justify-content-between">
             <div className="col-4">
               <label>First Name</label>

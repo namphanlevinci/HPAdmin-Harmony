@@ -28,29 +28,29 @@ const General = ({
     isDisabled,
     countryCode,
     showPin,
-    showConfirmPin
+    showConfirmPin,
   },
-  validator
+  validator,
 }) => {
   const roles = [
     { value: "admin", label: "Admin" },
-    { value: "staff", label: "Staff" }
+    { value: "staff", label: "Staff" },
   ];
 
   const status = [
     { value: "0", label: "Active" },
     {
       value: "1",
-      label: "Disable"
-    }
+      label: "Disable",
+    },
   ];
 
   const phoneCode = [
     { value: "+1", label: "+1" },
-    { value: "+84", label: "+84" }
+    { value: "+84", label: "+84" },
   ];
   return (
-    <div className="container-fuild">
+    <div className="container-fluid">
       <div className="row justify-content-center">
         <div className="col-6">
           <div className="form-group">
@@ -307,11 +307,11 @@ const General = ({
             style={{
               width: "250px",
               fontWeight: "normal",
-              borderBottom: "none"
+              borderBottom: "none",
             }}
             name="imagePreviewUrl"
             id="file"
-            onChange={e => uploadFile(e)}
+            onChange={(e) => uploadFile(e)}
           />
         </div>
       </div>
