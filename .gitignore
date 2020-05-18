@@ -6,6 +6,8 @@
 # testing
 /coverage
 
+/url/url.js
+
 # production
 /build
 build.zip
