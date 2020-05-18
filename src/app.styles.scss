@@ -5,3 +5,65 @@
 .ReactTable .rt-tr-group:nth-child(2n+1) {
   background-color: #fafafa !important;
 }
+
+
+ .btn {
+  display: inline-block;
+  color: #666;
+  background-color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
+  margin-top: 20px;
+}
+
+/* GREEN BTN */
+ .btn:hover {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+ .btn:active {
+  background-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.9);
+}
+ .btn.btn-green {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+ .btn.btn-green:hover {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+ .btn.btn-green:active {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.9);
+}
+/* RED BUTTON */
+ .btn.btn-red {
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #4251af;
+}
+
+ .btn.btn-red:hover {
+  background-color: #fcfcfc;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+ .btn.btn-red:active {
+  background-color: #f4f4f4;
+  border-color: rgba(0, 0, 0, 0.9);
+}

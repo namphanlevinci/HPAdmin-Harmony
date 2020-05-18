@@ -25,7 +25,7 @@ class Principal extends Component {
     };
   }
 
-  _handleImageChange = (e) => {
+  _handleImageChange = (e, setFieldValue, name) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -46,9 +46,8 @@ class Principal extends Component {
     axios
       .post(upFileUrl, formData, config)
       .then((res) => {
-        // console.log("RES IMAGE", res);
-
         this.setState({ fileId: res.data.data.fileId });
+        setFieldValue(name, res.data.data.fileId);
       })
       .catch((err) => {
         console.log(err);
@@ -92,6 +91,7 @@ class Principal extends Component {
           email: Yup.string().required("Required"),
           driverLicense: Yup.string().required("Required"),
           stateIssued: Yup.string().required("Required"),
+          fileId: Yup.string().required("Required"),
 
           addressPrincipal: Yup.object().shape({
             address: Yup.string().required("Required"),
@@ -129,7 +129,7 @@ class Principal extends Component {
                 email: "",
                 driverLicense: "",
                 stateIssued: "",
-                fileId: 0,
+                fileId: "",
               },
             ],
           }}
@@ -428,12 +428,25 @@ class Principal extends Component {
                                 </h4>
                                 <div className="Upload">
                                   {$imagePreview}
+                                  <div className="input-feedback">
+                                    <ErrorMessage
+                                      name={`principalInfo.${index}.fileId`}
+                                    />
+                                  </div>
                                   <input
                                     type="file"
                                     className="upload"
-                                    onChange={(e) => this._handleImageChange(e)}
+                                    name={`principalInfo.${index}.fileId`}
+                                    onChange={(e) =>
+                                      this._handleImageChange(
+                                        e,
+                                        setFieldValue,
+                                        `principalInfo.${index}.fileId`
+                                      )
+                                    }
                                   />
                                 </div>
+                                {}
                               </div>
                             </div>
                           </div>

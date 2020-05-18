@@ -44,26 +44,7 @@
 .Transactions tbody tr td:first-letter {
   text-transform: capitalize;
 }
-.TransactionSearch button {
-  margin-top: 15px;
-  display: inline-block;
-  color: white;
-  background-color: #4251af;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 13px;
-  padding: 8px 30px;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-bottom-width: 3px;
-  font-weight: 600;
-}
-.TransactionSearch button:hover {
-  background-color: #4251af;
-  border-color: rgba(0, 0, 0, 0.5);
-}
+
 
 .TransactionSearch select {
   outline: 0;
@@ -123,3 +104,75 @@
 .ReactTable .rt-th.-sort-desc .rt-resizer:before {
   background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOCAzdjkuMTNMNCA4IDMgOWw2IDYgNi02LTEtMS00IDQuMTNWM3oiIGZpbGw9IiMzMzMiLz48L3N2Zz4=);
 } */
+
+
+
+ 
+.TransactionsBox .btn {
+  display: inline-block;
+  color: #666;
+  background-color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
+  margin-top: 20px;
+}
+
+/* GREEN BTN */
+ 
+.TransactionsBox .btn:hover {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+ 
+.TransactionsBox .btn:active {
+  background-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.9);
+}
+ 
+.TransactionsBox .btn.btn-green {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+ 
+.TransactionsBox .btn.btn-green:hover {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+ 
+.TransactionsBox .btn.btn-green:active {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.9);
+}
+/* RED BUTTON */
+ 
+.TransactionsBox .btn.btn-red {
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  color: #4251af;
+}
+
+ 
+.TransactionsBox .btn.btn-red:hover {
+  background-color: #fcfcfc;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+ 
+.TransactionsBox .btn.btn-red:active {
+  background-color: #f4f4f4;
+  border-color: rgba(0, 0, 0, 0.9);
+}

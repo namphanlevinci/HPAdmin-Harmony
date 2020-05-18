@@ -203,9 +203,9 @@ class P2P extends React.Component {
 
             <div>
               <Button
-                style={{ backgroundColor: "#4251af", color: "white" }}
-                variant="contained"
+                style={{ color: "#4251af" }}
                 onClick={this.handleResetClick}
+                className="btn btn-red"
               >
                 RESET
               </Button>
