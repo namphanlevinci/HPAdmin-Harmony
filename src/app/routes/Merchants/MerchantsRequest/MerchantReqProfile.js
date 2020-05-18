@@ -397,8 +397,9 @@ class MerchantReqProfile extends Component {
                           style={{ textAlign: "center" }}
                           className="InputBox"
                         >
-                          <div>
-                            <label>MERCHANT ID</label> <br />
+                          <div style={styles.div}>
+                            <label>Merchant ID</label>
+                            <br />
                             <Field type="number" name="merchantID" />
                             <ErrorMessage
                               style={{
@@ -410,8 +411,8 @@ class MerchantReqProfile extends Component {
                               component="div"
                             />
                           </div>
-                          <div>
-                            <label>TRANSACTION FEE</label> <br />
+                          <div style={styles.div}>
+                            <label>Transaction Fee</label> <br />
                             <Field type="number" name="fee" />
                             <ErrorMessage
                               style={{
@@ -423,8 +424,8 @@ class MerchantReqProfile extends Component {
                               component="div"
                             />
                           </div>
-                          <div>
-                            <label>DISCOUNT RATE</label> <br />
+                          <div style={styles.div}>
+                            <label>Discount Rate</label> <br />
                             <Field type="number" name="discount" />
                             <ErrorMessage
                               style={{
@@ -592,5 +593,10 @@ export default withRouter(
 const styles = {
   h2: {
     padding: "10px 0px",
+  },
+  div: {
+    marginLeft: "35%",
+    textAlign: "left",
+    marginBottom: "10px",
   },
 };

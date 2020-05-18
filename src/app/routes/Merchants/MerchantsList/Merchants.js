@@ -17,6 +17,7 @@ import axios from "axios";
 
 import "react-table/react-table.css";
 import "./merchantsList.css";
+import "../MerchantsRequest/MerchantReqProfile.css";
 
 class Merchants extends React.Component {
   constructor(props) {
@@ -128,7 +129,7 @@ class Merchants extends React.Component {
         width: 100,
       },
       {
-        Header: "Bussiness Name",
+        Header: "Business Name",
         id: "general",
         accessor: "general",
         Cell: (e) => (
@@ -200,9 +201,8 @@ class Merchants extends React.Component {
                 style={{
                   backgroundColor: "#4251af",
                   color: "white",
-                  padding: "10px 20px",
-                  fontWeight: "550",
                 }}
+                className="btn btn-red"
                 onClick={this.addMerchant}
               >
                 ADD MERCHANT

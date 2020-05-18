@@ -130,7 +130,7 @@ class MerchantsList extends React.Component {
         width: 100,
       },
       {
-        Header: "Bussiness Name",
+        Header: "Business Name",
         id: "general",
         accessor: "general",
         Cell: (e) => (
