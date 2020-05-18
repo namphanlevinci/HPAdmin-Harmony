@@ -62,7 +62,6 @@ export class EditWorkTime extends Component {
   handleUpdateStaff = () => {
     const state = this.state;
     const data = this.props.Staff;
-    console.log("data", data);
     const ID = this.props.Staff.staffId;
     const MerchantId = this.props.merchantID;
     const body = {
@@ -81,11 +80,11 @@ export class EditWorkTime extends Component {
       isDisabled: data.isDisabled,
       DriverLicense: data.DriverLicense,
       socialSecurityNumber: data.socialSecurityNumber,
-      professionalLicense: "",
+      professionalLicense: data.professionalLicense,
       tipFee: data.tipFees,
       salary: data.salaries,
       Roles: {
-        NameRole: state.roleName,
+        NameRole: data.roleName,
       },
       MerchantId,
 

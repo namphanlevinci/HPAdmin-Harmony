@@ -95,7 +95,6 @@ class Users extends Component {
     ];
 
     let UserList = this.props.UserList;
-    // console.log(UserList);
     if (UserList) {
       if (this.state.search) {
         UserList = UserList.filter((e) => {

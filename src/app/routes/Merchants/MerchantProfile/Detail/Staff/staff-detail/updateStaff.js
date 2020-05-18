@@ -3,7 +3,7 @@ import axios from "axios";
 import URL from "../.../../../../../../../../url/url";
 
 const updateStaff = (ID, body, token, viewStaff, history, path) => {
-  console.log("ID", ID, body);
+  const MerchantID = body?.MerchantId;
   axios
     .put(URL + `/staff/${ID}`, body, {
       headers: {
@@ -14,7 +14,7 @@ const updateStaff = (ID, body, token, viewStaff, history, path) => {
       console.log("res", res.data);
       if (res.data.message === "Success") {
         axios
-          .get(URL + `/staff/${ID}`, {
+          .get(URL + `/staff/${ID}?merchantId=${MerchantID}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

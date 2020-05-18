@@ -23,7 +23,6 @@ export class EditLicense extends Component {
   };
 
   componentDidMount() {
-    console.log("this.props.Staff", this.props.Staff);
     const data = this.props.Staff;
     this.setState(
       {
