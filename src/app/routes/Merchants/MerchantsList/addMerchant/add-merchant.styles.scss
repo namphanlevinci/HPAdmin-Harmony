@@ -5,6 +5,34 @@
   color: #4251af !important;
 }
 
+.btn {
+  display: inline-block;
+  color: #666;
+  background-color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
+  margin-top: 20px;
+}
+
+/* GREEN BTN */
+ .btn:hover {
+  background-color: #4251af;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+ .btn:active {
+  background-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.9);
+}
+
 .add-merchant-container {
   .general-container {
     h1 {

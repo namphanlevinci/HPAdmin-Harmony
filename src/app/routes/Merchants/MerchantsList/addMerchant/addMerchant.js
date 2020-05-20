@@ -386,14 +386,14 @@ class AddMerchant extends React.Component {
                       <Button
                         disabled={activeStep === 0}
                         onClick={this.handleBack}
-                        className="mr-2"
+                        className="btn btn-red"
                         style={{ color: "black" }}
                       >
                         Back
                       </Button>
 
                       <Button
-                        variant="contained"
+                        className="btn btn-red"
                         onClick={() => {
                           if (activeStep === steps.length - 1)
                             this.submitAddMerchant();
