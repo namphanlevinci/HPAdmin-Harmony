@@ -400,7 +400,7 @@ class MerchantReqProfile extends Component {
                           <div style={styles.div}>
                             <label>Merchant ID</label>
                             <br />
-                            <Field type="number" name="merchantID" />
+                            <Field type="text" name="merchantID" />
                             <ErrorMessage
                               style={{
                                 color: "#4251af",
