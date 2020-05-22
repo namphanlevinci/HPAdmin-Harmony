@@ -17,7 +17,7 @@ const pendingInput = ({
       onChange={onChangeInput}
       value={initValue}
       type={type ? type : "text"}
-      className={inputStyles ? `${inputStyles} form-control` : "form-control"}
+      className={inputStyles ? `${inputStyles} ` : ""}
       placeholder={label}
       required
     />

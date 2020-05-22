@@ -133,7 +133,7 @@ class Principal extends Component {
                 email: "",
                 driverLicense: "",
                 stateIssued: "",
-                fileId: 0,
+                fileId: "",
               },
             ],
           }}
@@ -396,7 +396,7 @@ class Principal extends Component {
                                   <div className="Upload">
                                     {/* {$imagePreview} */}
 
-                                    {principal?.fileId !== 0 ? (
+                                    {principal?.fileId !== "" ? (
                                       <div
                                         className="driver-image"
                                         style={{

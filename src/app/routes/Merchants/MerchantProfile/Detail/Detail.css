@@ -389,6 +389,26 @@ thead th {
   }
 }
 
-.addMoreExtra{
+.addMoreExtra {
   background-color: #FAFAFA;
+}
+
+
+
+.input-box { position: relative; }
+
+.input-box input {
+   display: block; 
+   /* border: 1px solid #d7d6d6; */
+   background: #fff;
+   padding: 10px 10px 0px 50px ; 
+   text-align: right;
+}
+
+.unit { 
+  position: absolute; 
+  display: block; 
+  left: 5px; 
+  top: 13px; 
+  z-index: 9; 
 }

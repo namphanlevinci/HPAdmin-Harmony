@@ -18,7 +18,7 @@ class General extends Component {
     this.state = {
       Token: "",
       isOpenReject: false,
-      isOpenAccept: false
+      isOpenAccept: false,
     };
   }
   handleOpenAccept = () => {
@@ -42,9 +42,9 @@ class General extends Component {
     const ID = this.props.MerchantProfile?.userId;
     let token = JSON.parse(this.state.Token);
     const config = {
-      headers: { Authorization: "bearer " + token.token }
+      headers: { Authorization: "bearer " + token.token },
     };
-    axios.put(URL + "/user/restore/" + ID, null, config).then(res => {
+    axios.put(URL + "/user/restore/" + ID, null, config).then((res) => {
       if (res.data.message === "Success") {
         store.addNotification({
           title: "SUCCESS!",
@@ -56,12 +56,12 @@ class General extends Component {
           animationOut: ["animated", "fadeOut"],
           dismiss: {
             duration: 5000,
-            onScreen: true
+            onScreen: true,
           },
-          width: 250
+          width: 250,
         });
         setTimeout(() => {
-          axios.get(URL + "/user/" + ID, config).then(res => {
+          axios.get(URL + "/user/" + ID, config).then((res) => {
             if (res.data.data !== null) {
               this.props.ViewProfile_Merchants(res.data.data);
               this.props.history.push("/app/consumers/profile/general");
@@ -116,7 +116,7 @@ class General extends Component {
           <div className="input-group">
             <input
               type="text"
-              className="col-4 form-control"
+              className="col-4 "
               name="totalAmountLimit"
               value={e.limitAmount}
               onChange={this._handleChange}
@@ -146,7 +146,7 @@ class General extends Component {
               <span>
                 <Formik
                   initialValues={{ rejectReason: "" }}
-                  validate={values => {
+                  validate={(values) => {
                     let errors = {};
                     if (!values.rejectReason) {
                       errors.rejectReason = "Required";
@@ -158,16 +158,16 @@ class General extends Component {
                     const ID = this.props.MerchantProfile?._original?.userId;
                     let token = JSON.parse(this.state.Token);
                     const config = {
-                      headers: { Authorization: "bearer " + token.token }
+                      headers: { Authorization: "bearer " + token.token },
                     };
                     axios
                       .delete(URL + "/user/" + ID, {
                         headers: {
-                          Authorization: `Bearer ${token.token}`
+                          Authorization: `Bearer ${token.token}`,
                         },
-                        data: { reason }
+                        data: { reason },
                       })
-                      .then(async res => {
+                      .then(async (res) => {
                         if (res.data.message === "Success") {
                           store.addNotification({
                             title: "SUCCESS!",
@@ -179,19 +179,23 @@ class General extends Component {
                             animationOut: ["animated", "fadeOut"],
                             dismiss: {
                               duration: 5000,
-                              onScreen: true
+                              onScreen: true,
                             },
-                            width: 250
+                            width: 250,
                           });
                           setTimeout(() => {
-                            axios.get(URL + "/user/" + ID, config).then(res => {
-                              if (res.data.data !== null) {
-                                this.props.ViewProfile_Merchants(res.data.data);
-                                this.props.history.push(
-                                  "/app/consumers/profile/general"
-                                );
-                              }
-                            });
+                            axios
+                              .get(URL + "/user/" + ID, config)
+                              .then((res) => {
+                                if (res.data.data !== null) {
+                                  this.props.ViewProfile_Merchants(
+                                    res.data.data
+                                  );
+                                  this.props.history.push(
+                                    "/app/consumers/profile/general"
+                                  );
+                                }
+                              });
                           }, 1500);
                         } else {
                           store.addNotification({
@@ -204,9 +208,9 @@ class General extends Component {
                             animationOut: ["animated", "fadeOut"],
                             dismiss: {
                               duration: 5000,
-                              onScreen: true
+                              onScreen: true,
                             },
-                            width: 250
+                            width: 250,
                           });
                         }
                       });
@@ -262,13 +266,13 @@ class General extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
-const mapDispatchToProps = dispatch => ({
-  ViewProfile_Merchants: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);

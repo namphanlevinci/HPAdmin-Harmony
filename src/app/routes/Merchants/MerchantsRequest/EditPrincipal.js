@@ -195,7 +195,7 @@ const EditPrincipal = ({
                           <div className="col-4" style={{ textAlign: "left" }}>
                             <label>First Name</label>
                             <Field
-                              className="form-control"
+                              // className="form-control"
                               placeholder="First Name"
                               name={`PrincipalInfo.${index}.firstName`}
                               values={`PrincipalInfo.${index}.firstName`}
@@ -207,7 +207,7 @@ const EditPrincipal = ({
                           <div className="col-4" style={{ textAlign: "left" }}>
                             <label>Last Name</label>
                             <Field
-                              className="form-control"
+                              // className="form-control"
                               placeholder="First Name"
                               name={`PrincipalInfo.${index}.lastName`}
                               values={`PrincipalInfo.${index}.lastName`}
@@ -219,7 +219,7 @@ const EditPrincipal = ({
                           <div className="col-4" style={{ textAlign: "left" }}>
                             <label>Title</label>
                             <Field
-                              className="form-control"
+                              // className="form-control"
                               placeholder="First Name"
                               name={`PrincipalInfo.${index}.title`}
                               values={`PrincipalInfo.${index}.titletitle`}
@@ -231,7 +231,7 @@ const EditPrincipal = ({
                           <div className="col-4" style={styles.div}>
                             <label>Ownership (%)</label>
                             <Field
-                              className="form-control"
+                              // className="form-control"
                               placeholder="Ownership (%)"
                               name={`PrincipalInfo.${index}.ownerShip`}
                               values={`PrincipalInfo.${index}.ownerShip`}
@@ -244,7 +244,7 @@ const EditPrincipal = ({
                           <div className="col-4" style={styles.div}>
                             <label>Address</label>
                             <Field
-                              className="form-control"
+                              // className="form-control"
                               placeholder="Address"
                               name={`PrincipalInfo.${index}.address`}
                               values={`PrincipalInfo.${index}.address`}
@@ -257,7 +257,7 @@ const EditPrincipal = ({
                           <div className="col-4" style={styles.div}>
                             <label>Social Security Number (SSN)*</label>
                             <Field
-                              className="form-control"
+                              // className="form-control"
                               placeholder="Address"
                               name={`PrincipalInfo.${index}.ssn`}
                               values={`PrincipalInfo.${index}.fullSsn`}
@@ -270,7 +270,7 @@ const EditPrincipal = ({
                           <div className="col-4" style={styles.div}>
                             <label>Home Phone</label>
                             <PhoneInput
-                              className="form-control "
+                              // className="form-control "
                               placeholder="Home Phone"
                               name={`PrincipalInfo.${index}.homePhone`}
                               value={homePhone}
@@ -305,7 +305,7 @@ const EditPrincipal = ({
                           <div className="col-4" style={styles.div}>
                             <label>Email Address *</label>
                             <Field
-                              className="form-control"
+                              // className="form-control"
                               placeholder="Address"
                               name={`PrincipalInfo.${index}.email`}
                               values={`PrincipalInfo.${index}.email`}
@@ -340,7 +340,7 @@ const EditPrincipal = ({
                           <div className="col-4" style={styles.div}>
                             <label>Driver License Number*</label>
                             <Field
-                              className="form-control"
+                              // className="form-control"
                               placeholder="Driver License Number*"
                               name={`PrincipalInfo.${index}.driverNumber`}
                               values={`PrincipalInfo.${index}.driverNumber`}

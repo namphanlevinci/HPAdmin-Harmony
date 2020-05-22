@@ -142,12 +142,15 @@ const Extra = ({
                       <label style={{ fontSize: 14, color: "#4251af" }}>
                         <span className="small-label">Duration (Min)*</span>
                       </label>
-                      <Field
-                        placeholder="Min"
-                        style={styles.input}
-                        name={`extras.${index}.duration`}
-                        type="number"
-                      />
+                      <div class="input-box">
+                        <Field
+                          // placeholder="Min"
+                          style={styles.input}
+                          name={`extras.${index}.duration`}
+                          type="number"
+                        />
+                        <span class="unit">Min</span>
+                      </div>
                       <div className="input-feedback">
                         <ErrorMessage name={`extras.${index}.duration`} />
                       </div>
@@ -156,12 +159,15 @@ const Extra = ({
                       <label style={{ fontSize: 14, color: "#4251af" }}>
                         Price ($)*
                       </label>
-                      <Field
-                        placeholder="$"
-                        style={styles.input}
-                        name={`extras.${index}.price`}
-                        type="number"
-                      />
+                      <div class="input-box">
+                        <Field
+                          // placeholder="$"
+                          style={styles.input}
+                          name={`extras.${index}.price`}
+                          type="number"
+                        />
+                        <span class="unit">$</span>
+                      </div>
                       <div className="input-feedback">
                         <ErrorMessage name={`extras.${index}.price`} />
                       </div>

@@ -487,32 +487,34 @@ class AddService extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4" style={{ marginTop: 5 }}>
-                                  {" "}
                                   <label style={{ color: "#4251af" }}>
                                     Duration
-                                  </label>{" "}
+                                  </label>
                                   <br />
                                   <label style={{ color: "#333" }}>
                                     <span className="small-label">Minutes</span>
                                   </label>
                                   <br />
-                                  <input
-                                    name="duration"
-                                    type="number"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.duration}
-                                    placeholder="Min"
-                                    style={{
-                                      borderBottomColor: "#dddddd",
-                                      borderBottomWidth: 1,
-                                    }}
-                                    className={
-                                      errors.duration && touched.duration
-                                        ? "text-input error"
-                                        : "text-input"
-                                    }
-                                  />
+                                  <div class="input-box">
+                                    <input
+                                      name="duration"
+                                      type="number"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.duration}
+                                      // placeholder="Min"
+                                      style={{
+                                        borderBottomColor: "#dddddd",
+                                        borderBottomWidth: 1,
+                                      }}
+                                      className={
+                                        errors.duration && touched.duration
+                                          ? "text-input error"
+                                          : "text-input"
+                                      }
+                                    />
+                                    <span class="unit">Min</span>
+                                  </div>
                                   {errors.duration && touched.duration && (
                                     <div className="input-feedback">
                                       {errors.duration}
@@ -529,18 +531,21 @@ class AddService extends Component {
                                     </span>
                                   </label>
                                   <br />
-                                  <input
-                                    name="openTime"
-                                    type="number"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.openTime}
-                                    placeholder="Min"
-                                    style={{
-                                      borderBottomColor: "#dddddd",
-                                      borderBottomWidth: 1,
-                                    }}
-                                  />
+                                  <div class="input-box">
+                                    <input
+                                      name="openTime"
+                                      type="number"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.openTime}
+                                      // placeholder="Min"
+                                      style={{
+                                        borderBottomColor: "#dddddd",
+                                        borderBottomWidth: 1,
+                                      }}
+                                    />
+                                    <span class="unit">Min</span>
+                                  </div>
                                 </div>
                                 {/* <div
                                   className="col-4"
@@ -588,24 +593,27 @@ class AddService extends Component {
                                     Price *
                                   </label>
                                   <br />
-                                  <input
-                                    name="price"
-                                    type="number"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.price}
-                                    placeholder="$"
-                                    style={{
-                                      borderBottomColor: "#dddddd",
-                                      borderBottomWidth: 1,
-                                      marginTop: 10,
-                                    }}
-                                    className={
-                                      errors.price && touched.price
-                                        ? "text-input error"
-                                        : "text-input"
-                                    }
-                                  />
+                                  <div class="input-box">
+                                    <input
+                                      name="price"
+                                      type="number"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.price}
+                                      // placeholder="$"
+                                      style={{
+                                        borderBottomColor: "#dddddd",
+                                        borderBottomWidth: 1,
+                                        marginTop: 4,
+                                      }}
+                                      className={
+                                        errors.price && touched.price
+                                          ? "text-input error"
+                                          : "text-input"
+                                      }
+                                    />
+                                    <span class="unit">$</span>
+                                  </div>
                                   {errors.price && touched.price && (
                                     <div className="input-feedback">
                                       {errors.price}

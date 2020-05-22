@@ -321,48 +321,17 @@ class AddProduct extends Component {
                   />
                 </div>
                 <div className="row">
-                  {/* <div className="col-md-5">
-										<label style={{ marginBottom: '20px' }}>Image</label>
-										<br />
-										{$imagePreview}
-										<input
-											name="price"
-											type="file"
-											onChange={this._handleImageChange}
-											style={{
-												width: 'auto',
-												borderBottom: 'none',
-												paddingTop: '20px'
-											}}
-										/>
-									</div> */}
-                  <div className="col-md-6">
+                  <div className="col-6">
                     <div className="row">
                       <div className="col-6">
                         <label style={{ color: "#4054B2" }}>Category*</label>
                         <br />
-                        {/* <select
-													name="categoryId"
-													onChange={handleChange}
-													onBlur={handleBlur}
-													value={values.categoryId}
-													className={
-														errors.categoryId && touched.categoryId ? (
-															'text-input error'
-														) : (
-															'text-input'
-														)
-													}
-												>
-													<option value="">Select</option>
-													{mapCategory}
-												</select> */}
+
                         <Select
                           styles={colourStyles}
                           options={mapCategory2}
                           onChange={(selectedOption) => {
                             setFieldValue("categoryId", selectedOption.value);
-                            // this.setState({ categoryId: selectedOption.value });
                           }}
                         />
                         {errors.categoryId && touched.categoryId && (
@@ -372,7 +341,6 @@ class AddProduct extends Component {
                         )}
                       </div>
                       <div className="col-12" style={{ marginTop: 20 }}>
-                        {/* <label>Product Name*</label> */}
                         <br />
                         <input
                           name="name"
@@ -439,8 +407,6 @@ class AddProduct extends Component {
                       </div>
 
                       <div className="col-6" style={{ marginTop: 40 }}>
-                        {/* <label>SKU Number*</label>
-												<br /> */}
                         <input
                           name="sku"
                           type="text"
@@ -469,24 +435,28 @@ class AddProduct extends Component {
                           Items in Stock*
                         </label>
                         <br />
-                        <input
-                          name="quantity"
-                          type="number"
-                          placeholder="Items in Stock*"
-                          style={{
-                            borderBottomColor: "#dddddd",
-                            borderBottomWidth: 1,
-                            width: "50%",
-                          }}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.quantity}
-                          className={
-                            errors.quantity && touched.quantity
-                              ? "text-input error"
-                              : "text-input"
-                          }
-                        />
+                        <div class="input-box">
+                          <input
+                            name="quantity"
+                            type="number"
+                            // placeholder="Items in Stock*"
+                            style={{
+                              borderBottomColor: "#dddddd",
+                              borderBottomWidth: 1,
+                              width: "50%",
+                            }}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.quantity}
+                            className={
+                              errors.quantity && touched.quantity
+                                ? "text-input error"
+                                : "text-input"
+                            }
+                          />
+                          <span class="unit">Item</span>
+                        </div>
+
                         {errors.quantity && touched.quantity && (
                           <div className="input-feedback">
                             {errors.quantity}
@@ -499,23 +469,26 @@ class AddProduct extends Component {
                           Low Threshold*
                         </label>
                         <br />
-                        <input
-                          name="minThreshold"
-                          type="number"
-                          style={{
-                            borderBottomColor: "#dddddd",
-                            borderBottomWidth: 1,
-                          }}
-                          placeholder="Item"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.minThreshold}
-                          className={
-                            errors.minThreshold && touched.minThreshold
-                              ? "text-input error"
-                              : "text-input"
-                          }
-                        />
+                        <div class="input-box">
+                          <input
+                            name="minThreshold"
+                            type="number"
+                            style={{
+                              borderBottomColor: "#dddddd",
+                              borderBottomWidth: 1,
+                            }}
+                            // placeholder="Item"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.minThreshold}
+                            className={
+                              errors.minThreshold && touched.minThreshold
+                                ? "text-input error"
+                                : "text-input"
+                            }
+                          />
+                          <span class="unit">Item</span>
+                        </div>
                         {errors.minThreshold && touched.minThreshold && (
                           <div className="input-feedback">
                             {errors.minThreshold}
@@ -527,23 +500,26 @@ class AddProduct extends Component {
                           Max Threshold*
                         </label>
                         <br />
-                        <input
-                          name="maxThreshold"
-                          type="number"
-                          style={{
-                            borderBottomColor: "#dddddd",
-                            borderBottomWidth: 1,
-                          }}
-                          placeholder="Item"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.maxThreshold}
-                          className={
-                            errors.maxThreshold && touched.maxThreshold
-                              ? "text-input error"
-                              : "text-input"
-                          }
-                        />
+                        <div class="input-box">
+                          <input
+                            name="maxThreshold"
+                            type="number"
+                            style={{
+                              borderBottomColor: "#dddddd",
+                              borderBottomWidth: 1,
+                            }}
+                            // placeholder="Item"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.maxThreshold}
+                            className={
+                              errors.maxThreshold && touched.maxThreshold
+                                ? "text-input error"
+                                : "text-input"
+                            }
+                          />
+                          <span class="unit">Item</span>
+                        </div>
                         {errors.maxThreshold && touched.maxThreshold && (
                           <div className="input-feedback">
                             {errors.maxThreshold}
@@ -553,23 +529,26 @@ class AddProduct extends Component {
                       <div className="col-6" style={{ marginTop: 40 }}>
                         <label style={{ color: "#4054B2" }}>Price*</label>
                         <br />
-                        <input
-                          name="price"
-                          type="number"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.price}
-                          style={{
-                            marginTop: 11,
-                            borderBottomWidth: 1,
-                            borderBottomColor: "#dddddd",
-                          }}
-                          className={
-                            errors.price && touched.price
-                              ? "text-input error"
-                              : "text-input"
-                          }
-                        />
+                        <div class="input-box">
+                          <input
+                            name="price"
+                            type="number"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.price}
+                            style={{
+                              marginTop: 5,
+                              borderBottomWidth: 1,
+                              borderBottomColor: "#dddddd",
+                            }}
+                            className={
+                              errors.price && touched.price
+                                ? "text-input error"
+                                : "text-input"
+                            }
+                          />
+                          <span class="unit">$</span>
+                        </div>
                         {errors.price && touched.price && (
                           <div className="input-feedback">{errors.price}</div>
                         )}
@@ -577,12 +556,7 @@ class AddProduct extends Component {
                       <div className="col-6" style={{ marginTop: 40 }}>
                         <label style={{ color: "#4054B2" }}>Status</label>
                         <br />
-                        {/* <select onChange={(e) => this.setState({ isDisabled: e.target.value })}>
-													<option value="0" checked>
-														Active
-													</option>
-													<option value="1">Disable</option>
-												</select> */}
+
                         <Select
                           styles={colourStyles}
                           options={[
@@ -591,7 +565,6 @@ class AddProduct extends Component {
                           ]}
                           onChange={(selectedOption) => {
                             setFieldValue("isDisabled", selectedOption.value);
-                            // this.setState({ isDisabled: selectedOption.value });
                           }}
                         />
                       </div>
