@@ -100,9 +100,11 @@ class AddMerchant extends React.Component {
 
   setDataPrincipal = (info, fileId) => {
     const principalInfo = { ...info };
-    const currentState = principalInfo[0];
-    currentState["fileId"] = fileId;
-    this.setState({ principalInfo: currentState });
+    // const currentState = principalInfo[0];
+    // currentState["fileId"] = fileId;
+    this.setState({ principalInfo: info }, () =>
+      console.log("this.state", this.state)
+    );
   };
 
   getStepContent = (stepIndex) => {
