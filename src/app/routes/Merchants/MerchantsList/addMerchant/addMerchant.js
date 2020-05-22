@@ -85,12 +85,9 @@ class AddMerchant extends React.Component {
     axios.get(URL + "/question").then((res) => {
       const data = res.data.data;
 
-      this.setState(
-        {
-          initialBusinessQuestions: data,
-        },
-        () => console.log("THIS STATE", this.state)
-      );
+      this.setState({
+        initialBusinessQuestions: data,
+      });
     });
   }
 
@@ -102,9 +99,7 @@ class AddMerchant extends React.Component {
     const principalInfo = { ...info };
     // const currentState = principalInfo[0];
     // currentState["fileId"] = fileId;
-    this.setState({ principalInfo: info }, () =>
-      console.log("this.state", this.state)
-    );
+    this.setState({ principalInfo: info });
   };
 
   getStepContent = (stepIndex) => {
@@ -226,7 +221,7 @@ class AddMerchant extends React.Component {
 
   handleSelect = (value, name) => {
     let stateName = name.name;
-    this.setState({ [stateName]: value.value }, () => console.log(this.state));
+    this.setState({ [stateName]: value.value });
   };
 
   handleQuestions = (name) => (event) => {
@@ -298,8 +293,6 @@ class AddMerchant extends React.Component {
     axios
       .post(URL + "/merchant", body)
       .then((res) => {
-        console.log("RESULT ADD MERCHANT", res);
-
         if ((res.status = 200)) {
           store.addNotification({
             title: "Success!",

@@ -461,7 +461,7 @@ class MerchantReqProfile extends Component {
             </div>
             <hr />
             <div className="content react-transition swipe-right">
-              <div className="container-fuild">
+              <div className="container-fluid">
                 <h2 style={styles.h2}>General Information</h2>
                 <div className="row justify-content-between">
                   <div className="col-4">

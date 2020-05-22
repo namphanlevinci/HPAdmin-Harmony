@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
 import URL, { upFileUrl } from "../../../../../url/url";
 import { store } from "react-notifications-component";
+import { IoIosClose } from "react-icons/io";
 
 import axios from "axios";
 import defaultImage from "./hpadmin2.png";
@@ -94,10 +95,8 @@ class Principal extends Component {
       <div className="principal-container">
         {this.state.loading && (
           <Formik
-            enableReinitialize={true}
+            // enableReinitialize={true}
             validationSchema={validationSchema}
-            validateOnChange={false}
-            validateOnBlur={false}
             initialValues={{
               principalInfo: [
                 {
@@ -119,7 +118,28 @@ class Principal extends Component {
                   email: "",
                   driverLicense: "",
                   stateIssued: "",
-                  fileId: 0,
+                  fileId: "",
+                },
+                {
+                  firstName: "",
+                  lastName: "",
+                  position: "",
+                  ownership: "",
+                  homePhone: "",
+                  mobilePhone: "",
+                  addressPrincipal: {
+                    address: "",
+                    city: "",
+                    state: "",
+                    zip: "",
+                  },
+                  yearAtThisAddress: 0,
+                  ssn: "",
+                  dateOfBirth: "",
+                  email: "",
+                  driverLicense: "",
+                  stateIssued: "",
+                  fileId: "",
                 },
               ],
             }}
@@ -143,7 +163,17 @@ class Principal extends Component {
                               <h1 style={{ color: "#4251af" }}>
                                 Principal Information
                               </h1>
-                              <div className="row align-items-center justify-content-center">
+                              <div className="row align-items-center justify-content-center add-merchant-div">
+                                <div className="col-12 add-merchant-title">
+                                  <IoIosClose
+                                    size={32}
+                                    onClick={() => arrayHelpers.remove(index)}
+                                    style={{
+                                      cursor: "pointer",
+                                      position: "absolute",
+                                    }}
+                                  />
+                                </div>
                                 <div className="col-4">
                                   <h4>First Name</h4>
                                   <Field
@@ -410,13 +440,13 @@ class Principal extends Component {
                                   </div>
                                 </div>
                               </div>
-                              {/* <div style={{ display: "flex" }}>
-                                <p
+                              <div style={{ display: "flex" }}>
+                                {/* <p
                                   className="add-remove-principal"
                                   onClick={() => arrayHelpers.remove(index)} // remove a principal from the list
                                 >
                                   - Remove Principal
-                                </p>
+                                </p> */}
                                 {values.principalInfo.length >= 2 ? null : (
                                   <p
                                     className="add-remove-principal"
@@ -427,7 +457,7 @@ class Principal extends Component {
                                     + Add Principal
                                   </p>
                                 )}
-                              </div> */}
+                              </div>
                             </div>
                           );
                         })
