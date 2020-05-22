@@ -154,26 +154,41 @@ class Principal extends Component {
                   name="principalInfo"
                   render={(arrayHelpers) => (
                     <div>
+                      <h1 style={{ color: "#4251af" }}>
+                        Principal Information
+                      </h1>
                       {values.principalInfo &&
                       values.principalInfo.length > 0 ? (
                         values.principalInfo.map((principal, index) => {
                           const PrincipalImage = principal?.imageUrl;
                           return (
                             <div key={index}>
-                              <h1 style={{ color: "#4251af" }}>
-                                Principal Information
-                              </h1>
+                              {index === 1 ? (
+                                <hr
+                                  style={{
+                                    width: "90%",
+                                    border: "1px solid rgb(66, 81, 175)",
+                                  }}
+                                />
+                              ) : null}
+
                               <div className="row align-items-center justify-content-center add-merchant-div">
                                 <div className="col-12 add-merchant-title">
-                                  <IoIosClose
-                                    size={32}
-                                    onClick={() => arrayHelpers.remove(index)}
-                                    style={{
-                                      cursor: "pointer",
-                                      position: "absolute",
-                                    }}
-                                  />
+                                  <h2 style={{ color: "rgb(66, 81, 175)" }}>
+                                    Principal {index + 1}
+                                  </h2>
+                                  {values.principalInfo.length >= 2 ? (
+                                    <IoIosClose
+                                      size={32}
+                                      onClick={() => arrayHelpers.remove(index)}
+                                      style={{
+                                        cursor: "pointer",
+                                        // position: "absolute",
+                                      }}
+                                    />
+                                  ) : null}
                                 </div>
+
                                 <div className="col-4">
                                   <h4>First Name</h4>
                                   <Field
@@ -436,7 +451,6 @@ class Principal extends Component {
                                         }
                                       />
                                     </div>
-                                    {}
                                   </div>
                                 </div>
                               </div>

@@ -24,7 +24,7 @@ const initialState = {
   imagePreviewUrl: "",
   initialBusinessQuestions: {},
 
-  activeStep: 0,
+  activeStep: 3,
   // General Info
   businessName: "",
   doingBusiness: "",
