@@ -4,15 +4,17 @@ import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-import TextField from "@material-ui/core/TextField";
 import ReactTable from "react-table";
+import DateInput from "./date-input";
 
 import "react-table/react-table.css";
+import "../../../Accounts/Logs/Logs.css";
+import "react-datepicker/dist/react-datepicker.css";
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
-import "../../../Merchants/MerchantsList/merchantsList.css";
 import "./Consumer.css";
+import "../../../Merchants/MerchantsList/merchantsList.css";
 
 class Acti extends Component {
   constructor(props) {
@@ -20,7 +22,7 @@ class Acti extends Component {
     this.state = {
       data: [],
       from: undefined,
-      to: undefined
+      to: undefined,
     };
   }
 
@@ -28,13 +30,13 @@ class Acti extends Component {
     this.setState({
       from: undefined,
       to: undefined,
-      selectedOption: null
+      selectedOption: null,
     });
   };
-  fromDate = e => {
+  fromDate = (e) => {
     this.setState({ from: e.target.value });
   };
-  toDate = e => {
+  toDate = (e) => {
     this.setState({ to: e.target.value });
   };
   render() {
@@ -42,66 +44,81 @@ class Acti extends Component {
       {
         id: "createDate",
         Header: "Date/time",
-        accessor: e => {
+        accessor: (e) => {
           return moment
             .utc(e.createDate)
             .local()
             .format("MM/DD/YYYY HH:mm A");
-        }
+        },
       },
       {
         Header: "Activity",
-        accessor: "action"
-      }
+        accessor: "action",
+      },
     ];
     const { from, to } = this.state;
     let renderTable = this.props.userActivity;
     if (this.state.from) {
-      renderTable = renderTable.filter(e => {
+      renderTable = renderTable.filter((e) => {
         let date = moment(e.createDate).format("YYYY-MM-DD");
         return date >= from && date <= to;
       });
     }
     return (
-      <div className="content GeneralContent react-transition swipe-right">
+      <div className="content ConsumerTransactions  react-transition swipe-right">
         <div>
-          <div className="container">
-            <h2>Activities Logs</h2>
+          <div className="container-fluid">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                textAlign: "center",
+              }}
+            >
+              <h2>Activities Logs</h2>
+              <div>
+                <Button className="btn btn-red" onClick={this.handleResetClick}>
+                  Reset
+                </Button>
+              </div>
+            </div>
+
             <div className="row">
-              <div className="col-md-4">
-                <form noValidate>
-                  <TextField
-                    id="date"
-                    label="From"
-                    type="date"
-                    // defaultValue={newToday}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    onChange={this.fromDate}
-                  />
-                </form>
+              <div className="col-4">
+                <h6
+                  style={{
+                    color: "rgba(0, 0, 0, 0.54)",
+                    fontSize: "0,7rem",
+                    textAlign: "left",
+                  }}
+                >
+                  From
+                </h6>
+                <div>
+                  <form noValidate>
+                    <DateInput fromDate={this.fromDate} />
+                  </form>
+                </div>
               </div>
-              <div className="col-md-4">
+
+              <div className="col-4">
                 <form noValidate>
-                  <TextField
-                    id="date"
-                    label="To"
-                    type="date"
-                    // defaultValue={this.state.to}
-                    InputLabelProps={{
-                      shrink: true
+                  <h6
+                    style={{
+                      color: "rgba(0, 0, 0, 0.54)",
+                      fontSize: "0,7rem",
+                      textAlign: "left",
                     }}
-                    onChange={this.toDate}
-                  />
+                  >
+                    To
+                  </h6>
+                  <div>
+                    <DateInput fromDate={this.toDate} />
+                  </div>
                 </form>
-              </div>
-              <div className="col-md-4 resetBtn">
-                <Button onClick={this.handleResetClick}>Reset</Button>
               </div>
             </div>
             <div className="TransactionTable ActivityTable">
-              <h2>Summary Data</h2>
               <ReactTable
                 data={renderTable}
                 columns={columns}
@@ -117,10 +134,10 @@ class Acti extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  userActivity: state.userActivity
+  userActivity: state.userActivity,
 });
 
 export default connect(mapStateToProps)(Acti);

@@ -80,24 +80,26 @@ class General extends Component {
     const renderGeneral = (
       // e.email !== undefined ? (
       <div className="react-transition swipe-right">
-        <div className="container">
+        <div className="container-fluid">
           <h2>General Information</h2>
           <div className="row">
             <div className="col-md-3">
               <h4>First Name</h4>
-              <p>{e.firstName !== null ? e.firstName : null}</p>
+              <p style={styles.p}>
+                {e.firstName !== null ? e.firstName : null}
+              </p>
             </div>
             <div className="col-md-3">
               <h4>Last Name</h4>
-              <p>{e.lastName !== null ? e.lastName : null}</p>
+              <p style={styles.p}>{e.lastName !== null ? e.lastName : null}</p>
             </div>
             <div className="col-md-3">
               <h4>Phone Number</h4>
-              <p>{e.phone !== null ? e.phone : null}</p>
+              <p style={styles.p}>{e.phone !== null ? e.phone : null}</p>
             </div>
             <div className="col-md-3">
               <h4>Email</h4>
-              <p>{e.email !== null ? e.email : null}</p>
+              <p style={styles.p}>{e.email !== null ? e.email : null}</p>
             </div>
           </div>
           <h2>Daily transactions limit (unit $)</h2>
@@ -130,7 +132,10 @@ class General extends Component {
     return (
       <div className="content ">
         {renderGeneral}
-        <div className="SettingsContent GeneralContent">
+        <div
+          className="SettingsContent GeneralContent"
+          style={{ marginTop: "20px" }}
+        >
           <Button className="btn btn-green" onClick={this._goToEdit}>
             EDIT
           </Button>
@@ -218,10 +223,28 @@ class General extends Component {
                 >
                   {({ values, _handleChange, isSubmitting }) => (
                     <div className="rejectInput">
-                      <h2 className="title">
-                        Are you sure you want to disable this user?
-                      </h2>
-                      <Form>
+                      <a className="close" onClick={this.handleCloseReject}>
+                        &times;
+                      </a>
+                      <div
+                        className="header"
+                        style={{
+                          backgroundColor: "#4251af",
+                          height: "50px",
+                          padding: "10px",
+                          zIndex: "999",
+                          color: "white",
+                          alignItems: "center",
+                        }}
+                      >
+                        <p style={{ fontSize: "22px", textAlign: "center" }}>
+                          Warning !
+                        </p>
+                      </div>
+                      <Form style={styles.Form}>
+                        <h2 className="">
+                          Are you sure you want to disable this user?
+                        </h2>
                         <Field
                           type="textarea"
                           name="rejectReason"
@@ -229,20 +252,21 @@ class General extends Component {
                           placeholder="Please enter your reason."
                         />
                         <ErrorMessage name="rejectReason" component="div" />
-                        <div>
-                          <Button
-                            type="submit"
-                            className="btn btn-red"
-                            onClick={this.handleCloseReject}
-                          >
-                            BACK
-                          </Button>
+                        <div style={styles.btnDiv}>
                           <Button
                             type="submit"
                             className="btn btn-green"
                             onClick={this.onSubmit}
                           >
-                            COMFIRM
+                            CONFIRM
+                          </Button>
+
+                          <Button
+                            type="submit"
+                            className="btn btn-red"
+                            onClick={this.handleCloseReject}
+                          >
+                            CANCEL
                           </Button>
                         </div>
                       </Form>
@@ -276,3 +300,13 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);
+
+const styles = {
+  p: { fontWeight: 600, color: "black" },
+  Form: {
+    marginTop: "10px",
+  },
+  btnDiv: {
+    marginTop: "10px",
+  },
+};

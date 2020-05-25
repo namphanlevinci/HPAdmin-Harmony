@@ -314,7 +314,7 @@ class MerchantReqProfile extends Component {
                                 BACK
                               </Button>
                               <Button type="submit" className="btn btn-green">
-                                COMFIRM
+                                CONFIRM
                               </Button>
                             </div>
                           </Form>
@@ -595,7 +595,7 @@ const styles = {
     padding: "10px 0px",
   },
   div: {
-    marginLeft: "35%",
+    marginLeft: "40%",
     textAlign: "left",
     marginBottom: "10px",
   },

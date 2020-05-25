@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   GET_TEMPLATE,
-  VIEW_DETAIL
+  VIEW_DETAIL,
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { GET_GIFTCARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
@@ -40,12 +40,12 @@ class Codes extends Component {
       search: "",
       isActive: 0,
       isPhysical: -1,
-      isUsed: -1
+      isUsed: -1,
     };
   }
 
   // logs
-  _handleLogs = Data => {
+  _handleLogs = (Data) => {
     this.setState({ open: true, serialNumber: Data?.serialNumber });
     this.props.getCodeLog(Data?.giftCardId);
   };
@@ -63,22 +63,22 @@ class Codes extends Component {
           `/giftcard/search?keySearch=${search}&isActive=${isActive}&isPhysical=${isPhysical}&isUsed=${isUsed}&page=0`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         const data = res.data.data;
         this.setState({
           page,
           pageCount: res.data.pages,
           data: data,
-          loading: false
+          loading: false,
         });
       });
   };
 
-  fetchData = async state => {
+  fetchData = async (state) => {
     const { page } = state;
     this.setState({ loading: true });
     await axios
@@ -89,31 +89,31 @@ class Codes extends Component {
           }`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         const data = res.data.data;
         this.setState({
           page,
           pageCount: res.data.pages,
           data: data,
-          loading: false
+          loading: false,
         });
       });
   };
 
-  changePage = pageIndex => {
+  changePage = (pageIndex) => {
     // console.log(`changePage(pageIndex: ${pageIndex})`);
     this.setState({
-      page: pageIndex
+      page: pageIndex,
     });
   };
 
-  handleChange = name => value => {
+  handleChange = (name) => (value) => {
     this.setState({
-      [name]: value.value
+      [name]: value.value,
     });
   };
 
@@ -127,90 +127,90 @@ class Codes extends Component {
       {
         Header: "ID",
         accessor: "giftCardId",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ fontWeight: "600", textAlign: "center" }}>
             {e.value}
           </div>
         ),
-        width: 70
+        width: 70,
       },
       {
         Header: "Serial",
         accessor: "serialNumber",
-        Cell: e => <span style={{ fontWeight: "600" }}>{e.value}</span>,
-        width: 200
+        Cell: (e) => <span style={{ fontWeight: "600" }}>{e.value}</span>,
+        width: 200,
       },
       {
         id: "Pincode",
         Header: "Pincode",
         accessor: "pincode",
-        Cell: e => (
+        Cell: (e) => (
           <span style={{ fontWeight: "600", textAlign: "center" }}>
             {e.value}
           </span>
         ),
-        width: 100
+        width: 100,
       },
       {
         Header: "Created Date",
         accessor: "createdDate",
-        Cell: e => moment(e.value).format("MM/DD/YYYY"),
-        width: 160
+        Cell: (e) => moment(e.value).format("MM/DD/YYYY"),
+        width: 160,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}>Physical</div>,
         accessor: "isPhysical",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
             />
           </div>
-        )
+        ),
       },
       {
         id: "Actived",
         Header: () => <div style={{ textAlign: "center" }}>Actived</div>,
         accessor: "isActive",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
             />
           </div>
-        )
+        ),
       },
       {
         id: "Used",
         Header: () => <div style={{ textAlign: "center" }}>Used</div>,
         accessor: "isUsed",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
             />
           </div>
-        )
+        ),
       },
       {
         id: "Time",
         Header: "Time Used",
         accessor: "usedDate",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ textAlign: "center" }}>
             {moment(e.value) > moment(defaultDate)
               ? moment(e.value).format("MM/DD/YYYY")
               : "--"}
           </div>
-        )
+        ),
       },
       {
         id: "actions",
         Header: () => <div style={{ textAlign: "center" }}>Actions</div>,
-        Cell: row => {
+        Cell: (row) => {
           return (
             <Tooltip title="Info" arrow>
               <div style={{ color: "#4251af", textAlign: "center" }}>
@@ -221,23 +221,23 @@ class Codes extends Component {
               </div>
             </Tooltip>
           );
-        }
-      }
+        },
+      },
     ];
 
     const isPhysical = [
       { value: 0, label: "False" },
-      { value: 1, label: "True" }
+      { value: 1, label: "True" },
     ];
 
     const isActive = [
       { value: 0, label: "False" },
-      { value: 1, label: "True" }
+      { value: 1, label: "True" },
     ];
 
     const isUsed = [
       { value: 0, label: "False" },
-      { value: 1, label: "True" }
+      { value: 1, label: "True" },
     ];
     return (
       <div className="container-fluid react-transition swipe-right">
@@ -255,11 +255,11 @@ class Codes extends Component {
                   className="textbox"
                   placeholder="Search"
                   value={this.state.search}
-                  onChange={e => this.setState({ search: e.target.value })}
+                  onChange={(e) => this.setState({ search: e.target.value })}
                 />
               </form>
             </div>
-            <Button className="giftcard_button" onClick={this.handleSearch}>
+            <Button className="btn btn-green" onClick={this.handleSearch}>
               Search
             </Button>
           </div>
@@ -314,8 +314,8 @@ class Codes extends Component {
               pages={pageCount}
               data={data}
               // You should also control this...
-              onPageChange={pageIndex => this.changePage(pageIndex)}
-              onFetchData={state => this.fetchData(state)}
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onFetchData={(state) => this.fetchData(state)}
               // defaultPageSize={10}
               minRows={0}
               noDataText="NO DATA!"
@@ -329,21 +329,21 @@ class Codes extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   GET_TEMPLATE: () => {
     dispatch(GET_TEMPLATE());
   },
-  VIEW_DETAIL: payload => {
+  VIEW_DETAIL: (payload) => {
     dispatch(VIEW_DETAIL(payload));
   },
-  getCodeLog: ID => {
+  getCodeLog: (ID) => {
     dispatch(GET_GIFTCARD_CODE_LOG_BY_ID(ID));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Codes);

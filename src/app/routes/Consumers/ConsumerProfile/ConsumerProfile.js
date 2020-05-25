@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
 import {
   getUser_Transaction,
-  getUser_Activity
+  getUser_Activity,
 } from "../../../../actions/transactions/actions";
 
 import IntlMessages from "../../../../util/IntlMessages";
@@ -37,10 +37,6 @@ class ConsumerProfile extends Component {
   render() {
     // render staff
     const e = this.props.MerchantProfile;
-    console.log(
-      "EEEEEEEEEEEEEEEEE",
-      this.props.MerchantProfile?._original?.userId
-    );
 
     const renderConsumer = (
       // e.firstName !== undefined ? (
@@ -64,7 +60,7 @@ class ConsumerProfile extends Component {
           </div>
           <hr />
           <div className="content">
-            <div className="container">
+            <div className="container-fluid">
               <div className="">
                 <div className="profile-nav">
                   <ul className="detail-tab">
@@ -130,18 +126,18 @@ class ConsumerProfile extends Component {
     return <div>{renderConsumer}</div>;
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getTransactions: id => {
+    getTransactions: (id) => {
       dispatch(getUser_Transaction(id));
     },
-    getActivity: id => {
+    getActivity: (id) => {
       dispatch(getUser_Activity(id));
-    }
+    },
   };
 };
 

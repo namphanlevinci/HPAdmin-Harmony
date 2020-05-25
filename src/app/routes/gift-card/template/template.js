@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   GET_TEMPLATE,
-  VIEW_DETAIL
+  VIEW_DETAIL,
 } from "../../../../actions/gift-card/actions";
 import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
@@ -27,7 +27,7 @@ class Generation extends Component {
     this.state = {
       openDelete: false,
       loading: false,
-      search: ""
+      search: "",
     };
   }
 
@@ -39,7 +39,7 @@ class Generation extends Component {
     this.setState({ openDelete: false });
   };
 
-  _handleOpenDelete = ID => {
+  _handleOpenDelete = (ID) => {
     this.setState({ openDelete: true, deleteID: ID });
   };
 
@@ -49,10 +49,10 @@ class Generation extends Component {
     axios
       .put(URL + "/giftcardtemplate/disabled/" + deleteID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.message === "Success") {
           store.addNotification({
             title: "Success!",
@@ -64,23 +64,22 @@ class Generation extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 2500,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
           this.props.GET_TEMPLATE();
           this.setState({ loading: false, deleteID: "", openDelete: false });
         }
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   render() {
     let TemplateList = this.props.Template;
-    console.log("TemplateList", TemplateList);
     if (TemplateList) {
       if (this.state.search) {
-        TemplateList = TemplateList.filter(e => {
+        TemplateList = TemplateList.filter((e) => {
           if (e !== null) {
             return (
               e.giftCardTemplateName
@@ -103,7 +102,7 @@ class Generation extends Component {
       {
         Header: "Thumbnail",
         accessor: "imageUrl",
-        Cell: row => (
+        Cell: (row) => (
           <div
             style={{
               backgroundImage: `url(${row.original.imageUrl})`,
@@ -111,46 +110,46 @@ class Generation extends Component {
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               width: "100px",
-              height: "100px"
+              height: "50px",
             }}
           />
         ),
-        width: 200
+        width: 180,
       },
       {
         Header: "Name",
         accessor: "giftCardTemplateName",
-        width: 250
+        width: 250,
       },
       {
         id: "Group",
         Header: "Group",
         accessor: "giftCardType",
-        width: 200
+        width: 200,
       },
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: e => <span>{e.value === 0 ? "Active" : "Disable"}</span>,
-        width: 200
+        Cell: (e) => <span>{e.value === 0 ? "Active" : "Disable"}</span>,
+        width: 200,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}>Visible on App</div>,
         accessor: "isConsumer",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
             />
           </div>
-        )
+        ),
       },
       {
         id: "Actions",
         Header: () => <div style={{ textAlign: "center" }}>Actions</div>,
         accessor: "Action",
-        Cell: row => {
+        Cell: (row) => {
           return (
             <Tooltip title="Delete" arrow>
               <div style={{ color: "#4251af", textAlign: "center" }}>
@@ -163,17 +162,17 @@ class Generation extends Component {
               </div>
             </Tooltip>
           );
-        }
-      }
+        },
+      },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
-        onClick: e => {
+        onClick: (e) => {
           if (column?.id !== "Actions") {
             this.props.VIEW_DETAIL(rowInfo.original);
             this.props.history.push("/app/giftcard/template/edit");
           }
-        }
+        },
       };
     };
     return (
@@ -191,11 +190,11 @@ class Generation extends Component {
                 className="textbox"
                 placeholder="Search by Name, Group"
                 value={this.state.search}
-                onChange={e => this.setState({ search: e.target.value })}
+                onChange={(e) => this.setState({ search: e.target.value })}
               />
             </form>
             <Button
-              className="giftcard_button"
+              className="btn btn-green"
               onClick={() =>
                 this.props.history.push("/app/giftcard/template/add")
               }
@@ -225,18 +224,18 @@ class Generation extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   GET_TEMPLATE: () => {
     dispatch(GET_TEMPLATE());
   },
-  VIEW_DETAIL: payload => {
+  VIEW_DETAIL: (payload) => {
     dispatch(VIEW_DETAIL(payload));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Generation);

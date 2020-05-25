@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
 import moment from "moment";
 import "moment/locale/it";
-import TextField from "@material-ui/core/TextField";
 import ReactTable from "react-table";
+import DateInput from "./date-input";
 
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
@@ -135,8 +136,9 @@ class Transactions extends Component {
         ),
       },
     ];
+
     return (
-      <div className="content GeneralContent ConsumerTransactions react-transition swipe-right">
+      <div className="content ConsumerTransactions react-transition swipe-right">
         <div>
           <div className="container-fluid">
             <div
@@ -167,32 +169,24 @@ class Transactions extends Component {
                     From
                   </h6>
                   <div>
-                    <TextField
-                      className="date-picker"
-                      id="date"
-                      // label="From"
-                      type="date"
-                      // defaultValue={newToday}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={this.fromDate}
-                    />{" "}
+                    <DateInput fromDate={this.fromDate} />
                   </div>
                 </form>
               </div>
               <div className="col-4">
                 <form noValidate>
-                  <TextField
-                    id="date"
-                    label="To"
-                    type="date"
-                    // defaultValue={this.state.to}
-                    InputLabelProps={{
-                      shrink: true,
+                  <h6
+                    style={{
+                      color: "rgba(0, 0, 0, 0.54)",
+                      fontSize: "0,7rem",
+                      textAlign: "left",
                     }}
-                    onChange={this.toDate}
-                  />
+                  >
+                    To
+                  </h6>
+                  <div>
+                    <DateInput fromDate={this.toDate} />
+                  </div>
                 </form>
               </div>
               <div className="col-4">
@@ -235,3 +229,14 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Transactions);
+
+const styles = {
+  input: {
+    width: "100%",
+    fontWeight: "500",
+    color: "#000000",
+    border: "none",
+    borderBottom: "2px solid #dcdcdc",
+    fontSize: "16px",
+  },
+};

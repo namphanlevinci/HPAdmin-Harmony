@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   GET_GIFTCARD_BY_ID,
-  GET_GIFTCARD_CODE_LOG_BY_ID
+  GET_GIFTCARD_CODE_LOG_BY_ID,
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { store } from "react-notifications-component";
@@ -34,7 +34,7 @@ class Generation_Detail extends Component {
       serialNumber: "",
       loading: false,
       deleteID: "",
-      openDelete: false
+      openDelete: false,
     };
   }
 
@@ -45,7 +45,7 @@ class Generation_Detail extends Component {
   }
 
   // logs
-  _handleLogs = Data => {
+  _handleLogs = (Data) => {
     this.setState({ open: true, serialNumber: Data?.serialNumber });
     this.props.getCodeLog(Data?.giftCardId);
   };
@@ -68,9 +68,9 @@ class Generation_Detail extends Component {
         animationOut: ["animated", "fadeOut"],
         dismiss: {
           duration: 3500,
-          onScreen: true
+          onScreen: true,
         },
-        width: 250
+        width: 250,
       });
     } else {
       this.setState({ loading: true });
@@ -80,11 +80,11 @@ class Generation_Detail extends Component {
           { giftCardGeneralId, quantity },
           {
             headers: {
-              Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-            }
+              Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.message === "Success") {
             store.addNotification({
               title: "Success!",
@@ -96,15 +96,15 @@ class Generation_Detail extends Component {
               animationOut: ["animated", "fadeOut"],
               dismiss: {
                 duration: 3500,
-                onScreen: true
+                onScreen: true,
               },
-              width: 250
+              width: 250,
             });
             this.props.getGenerationCode(giftCardGeneralId);
             this.setState({ loading: false, quantity: 0 });
           }
         })
-        .catch(error => console.log(error));
+        .catch((error) => console.log(error));
     }
   };
 
@@ -118,10 +118,10 @@ class Generation_Detail extends Component {
     axios
       .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.message === "Success") {
           store.addNotification({
             title: "Success!",
@@ -133,9 +133,9 @@ class Generation_Detail extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 2000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
           this.setState({ openDelete: false });
           setTimeout(() => {
@@ -143,7 +143,7 @@ class Generation_Detail extends Component {
           }, 1100);
         }
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   render() {
@@ -153,7 +153,7 @@ class Generation_Detail extends Component {
 
     if (GenerationCode) {
       if (this.state.search) {
-        GenerationCode = GenerationCode.filter(e => {
+        GenerationCode = GenerationCode.filter((e) => {
           if (e !== null) {
             return (
               e?.serialNumber
@@ -175,90 +175,90 @@ class Generation_Detail extends Component {
       {
         Header: "ID",
         accessor: "giftCardId",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ fontWeight: "600", textAlign: "center" }}>
             {e.value}
           </div>
         ),
-        width: 70
+        width: 70,
       },
       {
         Header: "Serial",
         accessor: "serialNumber",
-        Cell: e => <span style={{ fontWeight: "600" }}>{e.value}</span>,
-        width: 200
+        Cell: (e) => <span style={{ fontWeight: "600" }}>{e.value}</span>,
+        width: 200,
       },
       {
         id: "Pincode",
         Header: "Pincode",
         accessor: "pincode",
-        Cell: e => (
+        Cell: (e) => (
           <span style={{ fontWeight: "600", textAlign: "center" }}>
             {e.value}
           </span>
         ),
-        width: 100
+        width: 100,
       },
       {
         Header: "Created Date",
         accessor: "createdDate",
-        Cell: e => moment(e.value).format("MM/DD/YYYY"),
-        width: 160
+        Cell: (e) => moment(e.value).format("MM/DD/YYYY"),
+        width: 160,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}>Physical</div>,
         accessor: "isPhysical",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
             />
           </div>
-        )
+        ),
       },
       {
         id: "Actived",
         Header: () => <div style={{ textAlign: "center" }}>Actived</div>,
         accessor: "isActive",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
             />
           </div>
-        )
+        ),
       },
       {
         id: "Used",
         Header: () => <div style={{ textAlign: "center" }}>Used</div>,
         accessor: "isUsed",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
             />
           </div>
-        )
+        ),
       },
       {
         id: "Time",
         Header: "Time Used",
         accessor: "usedDate",
-        Cell: e => (
+        Cell: (e) => (
           <div style={{ textAlign: "center" }}>
             {moment(e.value) > moment(defaultDate)
               ? moment(e.value).format("MM/DD/YYYY")
               : "--"}
           </div>
-        )
+        ),
       },
       {
         id: "actions",
         Header: () => <div style={{ textAlign: "center" }}>Actions</div>,
-        Cell: row => {
+        Cell: (row) => {
           return (
             <Tooltip title="Info" arrow>
               <div style={{ color: "#4251af", textAlign: "center" }}>
@@ -269,8 +269,8 @@ class Generation_Detail extends Component {
               </div>
             </Tooltip>
           );
-        }
-      }
+        },
+      },
     ];
 
     return (
@@ -284,6 +284,7 @@ class Generation_Detail extends Component {
             <h3>{`HP${Detail?.giftCardGeneralId}`}</h3>
             <div>
               <Button
+                className="btn btn-green"
                 onClick={() =>
                   this.props.history.push("/app/giftcard/generation")
                 }
@@ -291,7 +292,7 @@ class Generation_Detail extends Component {
                 BACK
               </Button>
               <Button
-                className="btn-red"
+                className="btn btn-red"
                 onClick={() => this.setState({ openDelete: true })}
               >
                 DELETE
@@ -332,12 +333,13 @@ class Generation_Detail extends Component {
                   type="number"
                   name="amount"
                   className="add-codes"
-                  onChange={e => this.setState({ quantity: e.target.value })}
+                  onChange={(e) => this.setState({ quantity: e.target.value })}
                   style={{ width: "20%" }}
                 />
                 <br />
                 <Button
-                  className="generation-btn"
+                  className="btn btn-red"
+                  style={{ marginTop: "10px" }}
                   onClick={this.handleGenerate}
                 >
                   Generate
@@ -359,7 +361,7 @@ class Generation_Detail extends Component {
                     placeholder="Search by ID, Serial, Pincode"
                     style={{ paddingTop: "6px" }}
                     value={this.state.search}
-                    onChange={e => this.setState({ search: e.target.value })}
+                    onChange={(e) => this.setState({ search: e.target.value })}
                   />
                 </form>
                 <h4>Export To </h4>
@@ -392,19 +394,19 @@ class Generation_Detail extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
   Detail: state.GiftCardData.detail,
-  GenerationCode: state.GiftCardData.generation_code
+  GenerationCode: state.GiftCardData.generation_code,
 });
 
-const mapDispatchToProps = dispatch => ({
-  getGenerationCode: ID => {
+const mapDispatchToProps = (dispatch) => ({
+  getGenerationCode: (ID) => {
     dispatch(GET_GIFTCARD_BY_ID(ID));
   },
-  getCodeLog: ID => {
+  getCodeLog: (ID) => {
     dispatch(GET_GIFTCARD_CODE_LOG_BY_ID(ID));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Generation_Detail);

@@ -21,7 +21,7 @@ class EditGeneral extends Component {
       phone: "",
       limitAmount: "",
       ID: "",
-      Token: ""
+      Token: "",
     };
   }
 
@@ -35,23 +35,23 @@ class EditGeneral extends Component {
       lastName: data.lastName,
       email: data.email,
       phone: data.phone,
-      limitAmount: data.limitAmount
+      limitAmount: data.limitAmount,
     });
   }
 
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
   _Update = () => {
     const { ID, firstName, lastName, phone, email, limitAmount } = this.state;
     let token = JSON.parse(this.state.Token);
     const config = {
-      headers: { Authorization: "bearer " + token.token }
+      headers: { Authorization: "bearer " + token.token },
     };
     axios
       .put(
@@ -61,11 +61,11 @@ class EditGeneral extends Component {
           lastName,
           phone,
           email,
-          limitAmount
+          limitAmount,
         },
         config
       )
-      .then(async res => {
+      .then(async (res) => {
         if (res.data.message === "Success") {
           store.addNotification({
             title: "SUCCESS!",
@@ -77,11 +77,11 @@ class EditGeneral extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
-            }
+              onScreen: true,
+            },
           });
           setTimeout(() => {
-            axios.get(URL + "/user/" + this.state.ID, config).then(res => {
+            axios.get(URL + "/user/" + this.state.ID, config).then((res) => {
               if (res.data.data !== null) {
                 this.props.ViewProfile_Merchants(res.data.data);
                 this.props.history.push("/app/consumers/profile/general");
@@ -99,8 +99,8 @@ class EditGeneral extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
-            }
+              onScreen: true,
+            },
           });
         }
       });
@@ -112,55 +112,43 @@ class EditGeneral extends Component {
     // const e = this.props.MerchantProfile;
     const renderGeneral = (
       <div className="react-transition swipe-right">
-        <div className="container">
+        <div className="container-fluid">
           <h2>General Information</h2>
           <div className="row">
-            <div className="col-md-3">
+            <div className="col-3">
               <h4>First Name</h4>
-              {/* <p>{e.firstName !== null ? e.firstName : null}</p> */}
-              <div>
-                <input
-                  type="text"
-                  className="col-6 "
-                  name="firstName"
-                  value={this.state.firstName}
-                  onChange={this._handleChange}
-                />
-              </div>
+              <input
+                type="text"
+                name="firstName"
+                value={this.state.firstName}
+                onChange={this._handleChange}
+              />
             </div>
-            <div className="col-md-3">
+            <div className="col-3">
               <h4>Last Name</h4>
-              {/* <p>{e.lastName !== null ? e.lastName : null}</p> */}
-              <div>
-                <input
-                  type="text"
-                  className="col-6"
-                  name="lastName"
-                  value={this.state.lastName}
-                  onChange={this._handleChange}
-                />
-              </div>
+              <input
+                type="text"
+                name="lastName"
+                value={this.state.lastName}
+                onChange={this._handleChange}
+              />
             </div>
-            <div className="col-md-3">
+            <div className="col-3">
               <h4>Phone Number</h4>
-              {/* <p>{e.phone !== null ? e.phone : null}</p> */}
               <div>
                 <input
                   type="text"
-                  className="col-8"
                   name="phone"
                   value={this.state.phone}
                   onChange={this._handleChange}
                 />
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-3">
               <h4>Email</h4>
-              {/* <p>{e.email !== null ? e.email : null}</p> */}
               <div>
                 <input
                   type="text"
-                  className="col-12"
                   name="email"
                   value={this.state.email}
                   onChange={this._handleChange}
@@ -168,7 +156,9 @@ class EditGeneral extends Component {
               </div>
             </div>
           </div>
-          <h2>Daily transactions limit (unit $)</h2>
+          <h2 style={{ marginTop: "15px" }}>
+            Daily transactions limit (unit $)
+          </h2>
           <label>
             The HarmonyPay system will alert any user and pervent any use
             involved monetary transfer or transfers that are:
@@ -181,19 +171,21 @@ class EditGeneral extends Component {
           <br />
           <label>c. Is conducted on the same business day.</label>
           <br />
-          <div>
+          <div style={{ marginTop: "3px" }}>
             <input
               type="text"
-              className="col-4"
               name="limitAmount"
               value={this.state.limitAmount}
               onChange={this._handleChange}
-              style={{ padding: "10px" }}
+              className="col-3"
             />
           </div>
         </div>
 
-        <div className="SettingsContent GeneralContent">
+        <div
+          className="SettingsContent GeneralContent"
+          style={{ marginTop: "20px" }}
+        >
           <Button className="btn btn-green" onClick={this._Update}>
             SAVE
           </Button>
@@ -208,14 +200,14 @@ class EditGeneral extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
-const mapDispatchToProps = dispatch => ({
-  ViewProfile_Merchants: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditGeneral);

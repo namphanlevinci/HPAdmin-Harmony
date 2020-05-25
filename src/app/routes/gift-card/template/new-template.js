@@ -91,192 +91,203 @@ class NewTemplate extends Component {
           title={<IntlMessages id="sidebar.dashboard.template-add" />}
         />
         <div className="giftcard">
-          <div className="id-and-btn">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <MdAddToPhotos size={23} />
-              <h3>New Template</h3>
-            </div>
-
-            <div>
-              <Button
-                onClick={() =>
-                  this.props.history.push("/app/giftcard/template")
-                }
-              >
-                BACK
-              </Button>
-            </div>
-          </div>
-          <div className="information container-fluid">
-            <h3 className="title">General Information</h3>
-            <Formik
-              initialValues={{
-                giftCardTemplateName: "",
-                giftCardType: "",
-                status: "",
-              }}
-              validate={(values) => {
-                const errors = {};
-                if (!values.giftCardTemplateName) {
-                  errors.giftCardTemplateName = "Required";
-                }
-                if (!values.giftCardType) {
-                  errors.giftCardType = "Required";
-                }
-                if (!values.status) {
-                  errors.status = "Required";
-                }
-                return errors;
-              }}
-              onSubmit={(values, { setSubmitting, resetForm }) => {
-                const { giftCardTemplateName, giftCardType } = values;
-                const { fileId, isConsumer } = this.state;
-                resetForm();
-                axios
-                  .post(
-                    URL + "/giftcardtemplate",
-                    { giftCardTemplateName, giftCardType, isConsumer, fileId },
-                    {
-                      headers: {
-                        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          <Formik
+            initialValues={{
+              giftCardTemplateName: "",
+              giftCardType: "",
+              status: "",
+            }}
+            validate={(values) => {
+              const errors = {};
+              if (!values.giftCardTemplateName) {
+                errors.giftCardTemplateName = "Required";
+              }
+              if (!values.giftCardType) {
+                errors.giftCardType = "Required";
+              }
+              if (!values.status) {
+                errors.status = "Required";
+              }
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {
+              const { giftCardTemplateName, giftCardType } = values;
+              const { fileId, isConsumer } = this.state;
+              resetForm();
+              axios
+                .post(
+                  URL + "/giftcardtemplate",
+                  { giftCardTemplateName, giftCardType, isConsumer, fileId },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                    },
+                  }
+                )
+                .then((res) => {
+                  if (res.data.message === "Success") {
+                    store.addNotification({
+                      title: "Success!",
+                      message: `${res.data.message}`,
+                      type: "success",
+                      insert: "top",
+                      container: "top-right",
+                      animationIn: ["animated", "fadeIn"],
+                      animationOut: ["animated", "fadeOut"],
+                      dismiss: {
+                        duration: 2500,
+                        onScreen: true,
                       },
-                    }
-                  )
-                  .then((res) => {
-                    if (res.data.message === "Success") {
-                      store.addNotification({
-                        title: "Success!",
-                        message: `${res.data.message}`,
-                        type: "success",
-                        insert: "top",
-                        container: "top-right",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 2500,
-                          onScreen: true,
-                        },
-                        width: 250,
-                      });
-                      this.setState({
-                        status: null,
-                        group: null,
-                        imagePreviewUrl: null,
-                      });
-                    } else {
-                      store.addNotification({
-                        title: "ERROR!",
-                        message: `${res.data.message}`,
-                        type: "danger",
-                        insert: "top",
-                        container: "top-right",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 2500,
-                          onScreen: true,
-                        },
-                        width: 250,
-                      });
-                    }
-                  })
-                  .catch((error) => console.log(error));
-              }}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                setFieldValue,
-                isSubmitting,
-                resetForm,
-              }) => (
+                      width: 250,
+                    });
+                    this.setState({
+                      status: null,
+                      group: null,
+                      imagePreviewUrl: null,
+                    });
+                    this.props.history.push("/app/giftcard/template");
+                  } else {
+                    store.addNotification({
+                      title: "ERROR!",
+                      message: `${res.data.message}`,
+                      type: "danger",
+                      insert: "top",
+                      container: "top-right",
+                      animationIn: ["animated", "fadeIn"],
+                      animationOut: ["animated", "fadeOut"],
+                      dismiss: {
+                        duration: 2500,
+                        onScreen: true,
+                      },
+                      width: 250,
+                    });
+                  }
+                })
+                .catch((error) => console.log(error));
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue,
+              isSubmitting,
+              resetForm,
+            }) => (
+              <React.Fragment>
                 <form onSubmit={handleSubmit}>
-                  <div className="row">
-                    <div className="col-4">
-                      <h4>Template Name</h4>
-                      <input
-                        type="text"
-                        name="giftCardTemplateName"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.giftCardTemplateName}
-                      />
-                      {errors.giftCardTemplateName &&
-                        touched.giftCardTemplateName && (
-                          <div className="input-feedback">
-                            {errors.giftCardTemplateName}
-                          </div>
-                        )}
+                  <div className="id-and-btn">
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <MdAddToPhotos size={23} />
+                      <h3>New Template</h3>
                     </div>
 
-                    <div className="col-4">
-                      <h4>Group</h4>
-                      <Select
-                        options={Group}
-                        onChange={(selectedOption) => {
-                          setFieldValue("giftCardType", selectedOption.value);
-                        }}
-                        placeholder="Select Group"
-                        value={this.state.group}
-                      />
-                      {errors.giftCardType && touched.giftCardType && (
-                        <div className="input-feedback">
-                          {errors.giftCardType}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="col-4">
-                      <h4>Status</h4>
-                      <Select
-                        options={Status}
-                        onChange={(selectedOption) => {
-                          setFieldValue("status", selectedOption.value);
-                        }}
-                        placeholder="Select Status"
-                        value={this.state.status}
-                      />
-                      {errors.status && touched.status && (
-                        <div className="input-feedback">{errors.status}</div>
-                      )}
-                    </div>
-
-                    <div className="col-4" style={{ paddingTop: "10px" }}>
-                      <h4>Image</h4>
-                      {$imagePreview}
-                      <input
-                        type="file"
-                        onChange={(e) => this._uploadFile(e)}
-                        style={{ width: "250px", border: "none" }}
-                      />
-                    </div>
-                    <div className="col-8" style={{ paddingTop: "45px" }}>
-                      <Checkbox
-                        // checked={checked}
-                        id="isConsumer"
-                        onChange={(e) =>
-                          this.setState({ isConsumer: e.target.value })
+                    <div>
+                      <Button
+                        className="btn btn-green"
+                        onClick={() =>
+                          this.props.history.push("/app/giftcard/template")
                         }
-                        value="1"
-                        inputProps={{ "aria-label": "primary checkbox" }}
-                        style={{ color: "#4251af" }}
-                      />
-                      Visible on Consumer App
-                    </div>
-                    <div className="id-and-btn" style={{ paddingTop: "20px" }}>
-                      <Button className="btn-red" type="submit">
+                      >
+                        BACK
+                      </Button>
+                      <Button className="btn btn-red" type="submit">
                         SAVE
                       </Button>
                     </div>
                   </div>
+                  <div className="information container-fluid">
+                    <h3 className="title">General Information</h3>
+
+                    <div className="row">
+                      <div className="col-4">
+                        <h4>Template Name</h4>
+                        <input
+                          type="text"
+                          name="giftCardTemplateName"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.giftCardTemplateName}
+                        />
+                        {errors.giftCardTemplateName &&
+                          touched.giftCardTemplateName && (
+                            <div className="input-feedback">
+                              {errors.giftCardTemplateName}
+                            </div>
+                          )}
+                      </div>
+
+                      <div className="col-4">
+                        <h4>Group</h4>
+                        <Select
+                          options={Group}
+                          onChange={(selectedOption) => {
+                            setFieldValue("giftCardType", selectedOption.value);
+                          }}
+                          placeholder="Select Group"
+                          value={this.state.group}
+                        />
+                        {errors.giftCardType && touched.giftCardType && (
+                          <div className="input-feedback">
+                            {errors.giftCardType}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-4">
+                        <h4>Status</h4>
+                        <Select
+                          options={Status}
+                          onChange={(selectedOption) => {
+                            setFieldValue("status", selectedOption.value);
+                          }}
+                          placeholder="Select Status"
+                          value={this.state.status}
+                        />
+                        {errors.status && touched.status && (
+                          <div className="input-feedback">{errors.status}</div>
+                        )}
+                      </div>
+
+                      <div className="col-4" style={{ paddingTop: "10px" }}>
+                        <h4>Image</h4>
+                        {$imagePreview}
+                        <input
+                          type="file"
+                          onChange={(e) => this._uploadFile(e)}
+                          style={{ width: "250px", border: "none" }}
+                        />
+                      </div>
+                      <div className="col-8" style={{ paddingTop: "45px" }}>
+                        <Checkbox
+                          // checked={checked}
+                          id="isConsumer"
+                          onChange={(e) =>
+                            this.setState({ isConsumer: e.target.value })
+                          }
+                          value="1"
+                          inputProps={{ "aria-label": "primary checkbox" }}
+                          style={{ color: "#4251af" }}
+                        />
+                        Visible on Consumer App
+                      </div>
+                      {/* <div
+                        className="id-and-btn"
+                        style={{ paddingTop: "20px" }}
+                      >
+                        <Button className="btn btn-red" type="submit">
+                          SAVE
+                        </Button>
+                      </div> */}
+                    </div>
+                  </div>
                 </form>
-              )}
-            </Formik>
-          </div>
+              </React.Fragment>
+            )}
+          </Formik>
         </div>
       </div>
     );

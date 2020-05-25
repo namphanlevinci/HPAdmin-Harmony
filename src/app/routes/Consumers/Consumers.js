@@ -24,46 +24,46 @@ class Consumers extends React.Component {
       // Pages
       page: 0,
       pageCount: 0,
-      data: []
+      data: [],
     };
   }
 
-  _ConsumerProfile = e => {
+  _ConsumerProfile = (e) => {
     this.props.ViewProfile_Merchants(e);
     this.props.history.push("/app/consumers/profile/general");
   };
 
-  fetchData = async state => {
+  fetchData = async (state) => {
     const { page } = state;
     this.setState({ loading: true });
     await axios
       .get(URL + `/user/?page=${page === 0 ? 1 : page + 1}`, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         const data = res.data.data;
         this.setState({
           page,
           pageCount: res.data.pages,
           data: data,
-          loading: false
+          loading: false,
         });
       });
   };
-  changePage = pageIndex => {
+  changePage = (pageIndex) => {
     // console.log(`changePage(pageIndex: ${pageIndex})`);
     this.setState({
-      page: pageIndex
+      page: pageIndex,
     });
   };
 
-  _SearchMerchants = async e => {
+  _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
 
-  keyPressed = async event => {
+  keyPressed = async (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
@@ -75,10 +75,10 @@ class Consumers extends React.Component {
       await axios
         .get(URL + searchValue, {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           const data = res.data.data;
           if (!data) {
             store.addNotification({
@@ -91,9 +91,9 @@ class Consumers extends React.Component {
               animationOut: ["animated", "fadeOut"],
               dismiss: {
                 duration: 5000,
-                onScreen: true
+                onScreen: true,
               },
-              width: 250
+              width: 250,
             });
             this.setState({ loading: false });
           } else {
@@ -101,7 +101,7 @@ class Consumers extends React.Component {
               page: "0 ",
               pageCount: res.data.pages,
               data: data,
-              loading: false
+              loading: false,
             });
           }
         });
@@ -113,71 +113,71 @@ class Consumers extends React.Component {
       {
         Header: "Harmony ID",
         accessor: "accountId",
-        width: 170
+        width: 170,
       },
       {
         Header: "First name",
         accessor: "firstName",
-        width: 130
+        width: 130,
       },
       {
         Header: "Last name",
         accessor: "lastName",
-        width: 130
+        width: 130,
       },
       {
         Header: "Phone number",
         accessor: "phone",
-        width: 180
+        width: 180,
       },
       {
         Header: "Email",
         accessor: "email",
-        width: 300
+        width: 300,
       },
       {
         Header: "Balance",
         // accessor: "credit",
-        id: "balnce",
-        accessor: e => e.credit,
-        Cell: e => <span>${e.value}</span>
+        id: "balance",
+        accessor: (e) => e.credit,
+        Cell: (e) => <span>${e.value}</span>,
       },
       {
         id: "totalAmount",
         Header: "Money spent/Daily",
-        accessor: e => Number(e.totalAmount).toFixed(2),
+        accessor: (e) => Number(e.totalAmount).toFixed(2),
         sortMethod: (a, b) => Number(a) - Number(b),
-        Cell: e => (
+        Cell: (e) => (
           <span className={Number(e.value) > 10000 ? "BIG" : ""}>
             ${e.value}
           </span>
-        )
+        ),
       },
       {
         accessor: "limitAmount",
-        show: false
+        show: false,
       },
       {
         accessor: "banks",
-        show: false
+        show: false,
       },
       {
         accessor: "stateName",
-        show: false
+        show: false,
       },
       {
         accessor: "isDisabled",
-        show: false
-      }
+        show: false,
+      },
     ];
 
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
-        onClick: e => {
+        onClick: (e) => {
           if (rowInfo !== undefined) {
             this._ConsumerProfile(rowInfo.row);
           }
-        }
+        },
       };
     };
     return (
@@ -212,8 +212,8 @@ class Consumers extends React.Component {
                 pages={pageCount}
                 data={data}
                 // You should also control this...
-                onPageChange={pageIndex => this.changePage(pageIndex)}
-                onFetchData={state => this.fetchData(state)}
+                onPageChange={(pageIndex) => this.changePage(pageIndex)}
+                onFetchData={(state) => this.fetchData(state)}
                 defaultPageSize={10}
                 minRows={0}
                 noDataText="NO DATA!"
@@ -229,13 +229,13 @@ class Consumers extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  ConsumerList: state.getConsumerUsers
+  ConsumerList: state.getConsumerUsers,
 });
-const mapDispatchToProps = dispatch => ({
-  ViewProfile_Merchants: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Consumers);

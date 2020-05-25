@@ -156,205 +156,209 @@ class EditTemplate extends Component {
           title={<IntlMessages id="sidebar.dashboard.template-add" />}
         />
         <div className="giftcard">
-          <div className="id-and-btn">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <MdAddToPhotos size={23} />
-              <h3>Edit Template</h3>
-            </div>
+          <Delete
+            handleCloseDelete={this._handleCloseDelete}
+            open={this.state.openDelete}
+            deleteGeneration={this._Delete}
+            text={"Template"}
+          />
+          <Formik
+            initialValues={this.state}
+            enableReinitialize={true}
+            validate={(values) => {
+              const errors = {};
+              if (!values.giftCardTemplateName) {
+                errors.giftCardTemplateName = "Required";
+              }
 
-            <div>
-              <Button
-                onClick={() =>
-                  this.props.history.push("/app/giftcard/template")
-                }
-              >
-                BACK
-              </Button>
-              <Button
-                className="btn-red"
-                onClick={() => this.setState({ openDelete: true })}
-              >
-                DELETE
-              </Button>
-            </div>
-          </div>
-          <div className="information container-fluid">
-            <h3 className="title">General Information</h3>
-            <Delete
-              handleCloseDelete={this._handleCloseDelete}
-              open={this.state.openDelete}
-              deleteGeneration={this._Delete}
-              text={"Template"}
-            />
-            <Formik
-              initialValues={this.state}
-              enableReinitialize={true}
-              validate={(values) => {
-                const errors = {};
-                if (!values.giftCardTemplateName) {
-                  errors.giftCardTemplateName = "Required";
-                }
-
-                return errors;
-              }}
-              onSubmit={(values, { setSubmitting }) => {
-                const {
-                  isConsumer,
-                  giftCardTemplateName,
-                  giftCardType,
-                  isDisabled,
-                } = values;
-                const { fileId, ID } = this.state;
-                axios
-                  .put(
-                    URL + "/giftcardtemplate/" + ID,
-                    {
-                      giftCardTemplateName,
-                      giftCardType,
-                      isConsumer,
-                      fileId,
-                      isDisabled,
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              const {
+                isConsumer,
+                giftCardTemplateName,
+                giftCardType,
+                isDisabled,
+              } = values;
+              const { fileId, ID } = this.state;
+              axios
+                .put(
+                  URL + "/giftcardtemplate/" + ID,
+                  {
+                    giftCardTemplateName,
+                    giftCardType,
+                    isConsumer,
+                    fileId,
+                    isDisabled,
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
                     },
-                    {
-                      headers: {
-                        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                  }
+                )
+                .then((res) => {
+                  if (res.data.message === "Success") {
+                    store.addNotification({
+                      title: "Success!",
+                      message: `${res.data.message}`,
+                      type: "success",
+                      insert: "top",
+                      container: "top-right",
+                      animationIn: ["animated", "fadeIn"],
+                      animationOut: ["animated", "fadeOut"],
+                      dismiss: {
+                        duration: 2500,
+                        onScreen: true,
                       },
-                    }
-                  )
-                  .then((res) => {
-                    if (res.data.message === "Success") {
-                      store.addNotification({
-                        title: "Success!",
-                        message: `${res.data.message}`,
-                        type: "success",
-                        insert: "top",
-                        container: "top-right",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 2500,
-                          onScreen: true,
-                        },
-                        width: 250,
-                      });
-                      this.props.history.push("/app/giftcard/template");
-                    } else {
-                      store.addNotification({
-                        title: "ERROR!",
-                        message: `${res.data.message}`,
-                        type: "danger",
-                        insert: "top",
-                        container: "top-right",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 2500,
-                          onScreen: true,
-                        },
-                        width: 250,
-                      });
-                    }
-                  })
-                  .catch((error) => console.log(error));
-              }}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                setFieldValue,
-                isSubmitting,
-              }) => (
+                      width: 250,
+                    });
+                    this.props.history.push("/app/giftcard/template");
+                  } else {
+                    store.addNotification({
+                      title: "ERROR!",
+                      message: `${res.data.message}`,
+                      type: "danger",
+                      insert: "top",
+                      container: "top-right",
+                      animationIn: ["animated", "fadeIn"],
+                      animationOut: ["animated", "fadeOut"],
+                      dismiss: {
+                        duration: 2500,
+                        onScreen: true,
+                      },
+                      width: 250,
+                    });
+                  }
+                })
+                .catch((error) => console.log(error));
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue,
+              isSubmitting,
+            }) => (
+              <React.Fragment>
                 <form onSubmit={handleSubmit}>
-                  <div className="row">
-                    <div className="col-4">
-                      <h4>Template Name</h4>
-                      <input
-                        type="text"
-                        name="giftCardTemplateName"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.giftCardTemplateName}
-                      />
-                      {errors.giftCardTemplateName &&
-                        touched.giftCardTemplateName && (
-                          <div className="input-feedback">
-                            {errors.giftCardTemplateName}
-                          </div>
-                        )}
+                  <div className="id-and-btn">
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <MdAddToPhotos size={23} />
+                      <h3>Edit Template</h3>
                     </div>
 
-                    <div className="col-4">
-                      <h4>Group</h4>
-                      <Select
-                        options={Group}
-                        onChange={(selectedOption) => {
-                          setFieldValue("giftCardType", selectedOption.value);
-                        }}
-                        placeholder="Select Group"
-                        value={{
-                          value: values.giftCardType,
-                          label: values.giftCardType,
-                        }}
-                      />
-                      {errors.giftCardType && touched.giftCardType && (
-                        <div className="input-feedback">
-                          {errors.giftCardType}
-                        </div>
-                      )}
-                    </div>
+                    <div>
+                      <Button
+                        className="btn btn-green"
+                        onClick={() =>
+                          this.props.history.push("/app/giftcard/template")
+                        }
+                      >
+                        BACK
+                      </Button>
+                      <Button
+                        className="btn btn-green"
+                        onClick={() => this.setState({ openDelete: true })}
+                      >
+                        DELETE
+                      </Button>
 
-                    <div className="col-4">
-                      <h4>Status</h4>
-                      <Select
-                        options={Status}
-                        onChange={(selectedOption) => {
-                          setFieldValue("isDisabled", selectedOption.value);
-                        }}
-                        placeholder="Select Status"
-                        value={{
-                          value: values.isDisabled,
-                          label: values.isDisabled === 0 ? "Active" : "Disable",
-                        }}
-                      />
-                      {errors.status && touched.status && (
-                        <div className="input-feedback">{errors.status}</div>
-                      )}
-                    </div>
-
-                    <div className="col-4" style={{ paddingTop: "10px" }}>
-                      <h4>Image</h4>
-                      {$imagePreview}
-                      <input
-                        type="file"
-                        onChange={(e) => this._uploadFile(e)}
-                        style={{ width: "250px", border: "none" }}
-                      />
-                    </div>
-                    <div className="col-8" style={{ paddingTop: "45px" }}>
-                      <Checkbox
-                        id="isConsumer"
-                        checked={this.state.isChecked}
-                        onChange={this._handleCheckbox}
-                        value="isConsumer"
-                        inputProps={{ "aria-label": "primary checkbox" }}
-                        style={{ color: "#4251af" }}
-                      />
-                      Visible on Consumer App
-                    </div>
-                    <div className="id-and-btn" style={{ paddingTop: "20px" }}>
-                      <Button className="btn-red" type="submit">
+                      <Button className="btn btn-red" type="submit">
                         SAVE
                       </Button>
                     </div>
                   </div>
+                  <div className="information container-fluid">
+                    <h3 className="title">General Information</h3>
+
+                    <div className="row">
+                      <div className="col-4">
+                        <h4>Template Name</h4>
+                        <input
+                          type="text"
+                          name="giftCardTemplateName"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.giftCardTemplateName}
+                        />
+                        {errors.giftCardTemplateName &&
+                          touched.giftCardTemplateName && (
+                            <div className="input-feedback">
+                              {errors.giftCardTemplateName}
+                            </div>
+                          )}
+                      </div>
+
+                      <div className="col-4">
+                        <h4>Group</h4>
+                        <Select
+                          options={Group}
+                          onChange={(selectedOption) => {
+                            setFieldValue("giftCardType", selectedOption.value);
+                          }}
+                          placeholder="Select Group"
+                          value={{
+                            value: values.giftCardType,
+                            label: values.giftCardType,
+                          }}
+                        />
+                        {errors.giftCardType && touched.giftCardType && (
+                          <div className="input-feedback">
+                            {errors.giftCardType}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-4">
+                        <h4>Status</h4>
+                        <Select
+                          options={Status}
+                          onChange={(selectedOption) => {
+                            setFieldValue("isDisabled", selectedOption.value);
+                          }}
+                          placeholder="Select Status"
+                          value={{
+                            value: values.isDisabled,
+                            label:
+                              values.isDisabled === 0 ? "Active" : "Disable",
+                          }}
+                        />
+                        {errors.status && touched.status && (
+                          <div className="input-feedback">{errors.status}</div>
+                        )}
+                      </div>
+
+                      <div className="col-4" style={{ paddingTop: "10px" }}>
+                        <h4>Image</h4>
+                        {$imagePreview}
+                        <input
+                          type="file"
+                          onChange={(e) => this._uploadFile(e)}
+                          style={{ width: "250px", border: "none" }}
+                        />
+                      </div>
+                      <div className="col-8" style={{ paddingTop: "45px" }}>
+                        <Checkbox
+                          id="isConsumer"
+                          checked={this.state.isChecked}
+                          onChange={this._handleCheckbox}
+                          value="isConsumer"
+                          inputProps={{ "aria-label": "primary checkbox" }}
+                          style={{ color: "#4251af" }}
+                        />
+                        Visible on Consumer App
+                      </div>
+                    </div>
+                  </div>
                 </form>
-              )}
-            </Formik>
-          </div>
+              </React.Fragment>
+            )}
+          </Formik>
         </div>
       </div>
     );
