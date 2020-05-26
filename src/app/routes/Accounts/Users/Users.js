@@ -65,12 +65,12 @@ class Users extends Component {
         accessor: "waUserId",
         width: 50,
       },
-      {
-        Header: "Status",
-        accessor: "nope",
-        width: 100,
-        Cell: (e) => <span>Online</span>,
-      },
+      // {
+      //   Header: "Status",
+      //   accessor: "nope",
+      //   width: 100,
+      //   Cell: (e) => <span>Online</span>,
+      // },
       {
         id: "Name",
         Header: "Full name",
@@ -142,7 +142,7 @@ class Users extends Component {
                 />
               </form>
             </div>
-            <Button className="addAdmin" onClick={this.addAdmin}>
+            <Button className="btn btn-green" onClick={this.addAdmin}>
               ADD NEW USER
             </Button>
           </div>

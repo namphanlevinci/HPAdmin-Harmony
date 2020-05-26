@@ -70,18 +70,16 @@ class PrincipalInfo extends Component {
             <p>{e.state !== undefined ? e.state.name : null}</p>
           </div>
           <div className="col-6">
-            <label>Driver License Picture</label>
-            {
-              <img
-                style={{
-                  width: "250px",
-                  height: "200px",
-                  marginBottom: "40px",
-                }}
-                src={`${e.imageUrl}`}
-                alt="void check"
-              />
-            }
+            <label>Driver License Picture</label> <br />
+            <img
+              style={{
+                width: "250px",
+                height: "200px",
+                marginBottom: "40px",
+              }}
+              src={`${e.imageUrl}`}
+              alt="void check"
+            />
           </div>
         </div>
         <span className="SettingsContent GeneralContent">

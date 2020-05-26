@@ -62,9 +62,9 @@ class Principal extends Component {
       });
   };
   render() {
-    // console.log("niggaaaaaaaa");
+    console.log("bruh");
     // ValidationSchema
-    let validationSchema = Yup.object().shape({
+    const validationSchema = Yup.object().shape({
       principalInfo: Yup.array().of(
         Yup.object().shape({
           firstName: Yup.string().required("Required"),
@@ -95,7 +95,7 @@ class Principal extends Component {
       <div className="principal-container">
         {this.state.loading && (
           <Formik
-            // enableReinitialize={true}
+            enableReinitialize={true}
             validationSchema={validationSchema}
             initialValues={{
               principalInfo: [
@@ -120,35 +120,15 @@ class Principal extends Component {
                   stateIssued: "",
                   fileId: "",
                 },
-                {
-                  firstName: "",
-                  lastName: "",
-                  position: "",
-                  ownership: "",
-                  homePhone: "",
-                  mobilePhone: "",
-                  addressPrincipal: {
-                    address: "",
-                    city: "",
-                    state: "",
-                    zip: "",
-                  },
-                  yearAtThisAddress: 0,
-                  ssn: "",
-                  dateOfBirth: "",
-                  email: "",
-                  driverLicense: "",
-                  stateIssued: "",
-                  fileId: "",
-                },
               ],
             }}
             onSubmit={(values, { setSubmitting }) => {
+              console.log("Clicking");
               // console.log("THIS SUPER STATE", this.props.Info);
               this.props.handleNext();
               this.props.setDataPrincipal(values?.principalInfo);
             }}
-            render={({ values, setFieldValue }) => (
+            render={({ values, setFieldValue, isSubmitting }) => (
               <Form className="principal-form">
                 <FieldArray
                   name="principalInfo"
@@ -163,27 +143,17 @@ class Principal extends Component {
                           const PrincipalImage = principal?.imageUrl;
                           return (
                             <div key={index}>
-                              {index === 1 ? (
-                                <hr
-                                  style={{
-                                    width: "90%",
-                                    border: "1px solid rgb(66, 81, 175)",
-                                  }}
-                                />
-                              ) : null}
-
                               <div className="row align-items-center justify-content-center add-merchant-div">
                                 <div className="col-12 add-merchant-title">
                                   <h2 style={{ color: "rgb(66, 81, 175)" }}>
                                     Principal {index + 1}
                                   </h2>
-                                  {values.principalInfo.length >= 2 ? (
+                                  {index === 1 ? (
                                     <IoIosClose
                                       size={32}
                                       onClick={() => arrayHelpers.remove(index)}
                                       style={{
                                         cursor: "pointer",
-                                        // position: "absolute",
                                       }}
                                     />
                                   ) : null}
@@ -353,7 +323,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Date of Birth</h4>
+                                  <h4>Date of Birth (mm/dd/yyyy)</h4>
                                   <Field
                                     type="date"
                                     name={`principalInfo.${index}.dateOfBirth`}
@@ -455,18 +425,10 @@ class Principal extends Component {
                                 </div>
                               </div>
                               <div style={{ display: "flex" }}>
-                                {/* <p
-                                  className="add-remove-principal"
-                                  onClick={() => arrayHelpers.remove(index)} // remove a principal from the list
-                                >
-                                  - Remove Principal
-                                </p> */}
                                 {values.principalInfo.length >= 2 ? null : (
                                   <p
                                     className="add-remove-principal"
-                                    onClick={() =>
-                                      arrayHelpers.insert(index, "")
-                                    } // insert an empty string at a position
+                                    onClick={() => arrayHelpers.insert(1)} // insert an empty string at a position
                                   >
                                     + Add Principal
                                   </p>
@@ -494,6 +456,7 @@ class Principal extends Component {
                         </Button>
                         <Button
                           type="submit"
+                          disable={isSubmitting}
                           className="btn btn-red"
                           style={{ backgroundColor: "#4251af", color: "white" }}
                         >

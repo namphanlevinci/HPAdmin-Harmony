@@ -86,12 +86,16 @@
   margin: 0;
   /* padding: 10px 0px; */
 }
-.PendingLBody .content .container-fuild p {
+.PendingLBody .content  p {
   padding-bottom: 10px;
   font-weight: 600;
   color: black;
   overflow-wrap: break-word;
   font-size: 15px;
+}
+
+h4 {
+  margin-bottom: 4px;
 }
 /* POP UP  */
 .PendingList .PendingLBody .POPUP {
@@ -120,6 +124,7 @@
 .requestStatus h4 {
   color: #4251af;
   font-size: 17px;
+
 }
 .PendingList .PendingLBody form {
   text-align: center;

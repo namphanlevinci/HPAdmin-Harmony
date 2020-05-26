@@ -253,7 +253,6 @@ class EditUserProfile extends Component {
             <div style={{ paddingTop: "10px" }}>
               <input
                 type="file"
-                // style={{ paddingTop: "10px" }}
                 name="image"
                 id="file"
                 className="custom-input"
@@ -308,7 +307,6 @@ class EditUserProfile extends Component {
                   {this.state.loading && (
                     <TextField
                       id="date"
-                      // label="birthDate"
                       type="date"
                       name="birthDate"
                       defaultValue={this.state.birthDate}
@@ -330,7 +328,6 @@ class EditUserProfile extends Component {
                     value={this.state.password}
                     onChange={this._handleChange}
                     style={styles.input}
-                    // className="form-control"
                   />
                   <span>
                     {this.state.showPassword ? (

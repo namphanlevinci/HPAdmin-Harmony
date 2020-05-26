@@ -177,7 +177,7 @@ class MerchantRejectedProfile extends Component {
       ) : (
         <h4>&nbsp;- NO PRINCIPALS INFORMATION</h4>
       );
-    //!! render questions
+    //! render questions
     const renderQuestion =
       e.business !== undefined ? (
         e.business.map((e) => {
@@ -193,7 +193,7 @@ class MerchantRejectedProfile extends Component {
       ) : (
         <h4>&nbsp;- NO BUSINESS INFORMATION</h4>
       );
-    //!! render rejected list
+    //! render rejected list
     const renderPendingProfile =
       e.merchantId !== undefined ? (
         <div className="container-fluid PendingList react-transition swipe-right">
@@ -256,7 +256,7 @@ class MerchantRejectedProfile extends Component {
             <hr />
             <div className="content">
               <div className="container-fuild">
-                <h2>General Information</h2>
+                <h2 style={styles.h2}>General Information</h2>
                 <div className="row justify-content-between">
                   <div className="col-4">
                     <h4>Legal Business Name*</h4>
@@ -289,7 +289,7 @@ class MerchantRejectedProfile extends Component {
                     <p>{e.general !== null ? e.general.emailContact : null}</p>
                   </div>
                 </div>
-                <h2>Representative Information</h2>
+                <h2 style={styles.h2}>Representative Information</h2>
                 <div className="row">
                   <div className="col-4">
                     <h4>Contact Name*</h4>
@@ -308,9 +308,9 @@ class MerchantRejectedProfile extends Component {
                     <p>{e.general !== null ? e.general.phoneContact : null}</p>
                   </div>
                 </div>
-                <h2>Business Information</h2>
+                <h2 style={styles.h2}>Business Information</h2>
                 <div className="row">{renderQuestion}</div>
-                <h2>Bank Information</h2>
+                <h2 style={styles.h2}>Bank Information</h2>
                 <div className="row">
                   <div className="col-4">
                     <h4>Bank Name*</h4>
@@ -345,7 +345,7 @@ class MerchantRejectedProfile extends Component {
                     ) : null}
                   </div>
                 </div>
-                <h2>Principal Information</h2>
+                <h2 style={styles.h2}>Principal Information</h2>
                 {renderPrincipal}
               </div>
             </div>
@@ -373,3 +373,17 @@ const mapDispatchToProps = (dispatch) => ({
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(MerchantRejectedProfile)
 );
+
+const styles = {
+  h2: {
+    padding: "10px 0px",
+    color: "#4251af",
+    fontWeight: "500",
+    margin: "0",
+  },
+  div: {
+    marginLeft: "40%",
+    textAlign: "left",
+    marginBottom: "10px",
+  },
+};

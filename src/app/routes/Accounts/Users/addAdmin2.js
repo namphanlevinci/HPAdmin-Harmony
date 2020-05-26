@@ -10,15 +10,19 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
-import axios from "axios";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ViewProfile_User } from "../../../../actions/user/actions";
+
+import axios from "axios";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
 import URL from "../../../../url/url";
-
+import PhoneInput from "react-phone-input-2";
 import DatePicker from "react-datepicker";
 
 import "./User.css";
 import "react-datepicker/dist/react-datepicker.css";
+import "react-phone-input-2/lib/high-res.css";
+
 const roles = [
   { value: "1", label: "Administrator" },
   { value: "2", label: "Manager" },
@@ -228,232 +232,212 @@ class addAdmin2 extends Component {
         />
       );
     }
+
     const renderProfile = (
       <div className="row justify-content-center AdminProfile page-heading">
-        <div className="admin-header-div col-12">
-          {/* <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2> */}
-          <span>
-            <Button
-              style={{ color: "#4251af", backgroundColor: "white" }}
-              className="btn btn-green"
-              onClick={this._goBack}
-            >
-              CANCEL
-            </Button>
-            <Button className="btn btn-red" onClick={this._addAdminUser}>
-              CREATE USER
-            </Button>
-          </span>
-        </div>
-        <div className="col-md-3 text-center">
-          {$imagePreview}
-          <div>
-            <label>Upload avatar</label>
-            <br />
-            <input
-              type="file"
-              style={{ width: "250px" }}
-              name="image"
-              id="file"
-              onChange={(e) => this._uploadFile(e)}
-            ></input>
-          </div>
-        </div>
-        <div className="col-md-9">
-          <h2>Contact Information</h2>
-          {/* <p>
-            First Name
-            <input
-              type="text"
-              name="firstname"
-              value={this.state.firstName}
-              onChange={this._handleChange}
-            ></input>
-          </p>
-          <p>
-            Last Name
-            <input
-              type="text"
-              name="lastname"
-              value={this.state.lastName}
-              onChange={this._handleChange}
-            ></input>
-          </p>
-          <p>
-            Password &nbsp;
-            <input
-              type="text"
-              name="password"
-              value={this.state.password}
-              onChange={this._handleChange}
-            ></input>
-          </p> */}
+        <React.Fragment>
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            validate={(values) => {
+              const errors = {};
+              if (!values.email) {
+                errors.email = "Required";
+              } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+              ) {
+                errors.email = "Invalid email address";
+              }
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 400);
+            }}
+          >
+            {({ isSubmitting, setFieldValue }) => (
+              <Form style={{ width: "100%" }}>
+                <div className="admin-header-div col-12" style={styles.div}>
+                  <div>
+                    <h2 style={{ fontWeight: 600, color: "#4251af" }}>
+                      Create New User
+                    </h2>
+                  </div>
+                  <span>
+                    <Button
+                      style={{ color: "#4251af", backgroundColor: "white" }}
+                      className="btn btn-green"
+                      onClick={this._goBack}
+                    >
+                      CANCEL
+                    </Button>
+                    <Button
+                      className="btn btn-red"
+                      onClick={this._addAdminUser}
+                    >
+                      SAVE
+                    </Button>
+                  </span>
+                </div>
+                <div className="row">
+                  <div className="col-3 text-center">
+                    {$imagePreview}
+                    <div>
+                      <label>Upload avatar</label>
+                      <br />
+                      <input
+                        type="file"
+                        name="image"
+                        id="file"
+                        className="custom-input"
+                        onChange={(e) => this._uploadFile(e)}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-9">
+                    <h2>Contact Information</h2>
+                    <hr />
+                    <div className="row">
+                      <div className="col-6">
+                        <label>First name</label>
+                        <Field
+                          type="text"
+                          name="firstName"
+                          placeholder="First Name"
+                        />
+                        <ErrorMessage name="firstName" component="div" />
+                      </div>
+                      <div className="col-6">
+                        <label>Last name</label>
+                        <Field
+                          type="text"
+                          name="lastName"
+                          placeholder="Last Name"
+                        />
+                        <ErrorMessage name="lastName" component="div" />
+                      </div>
+                      <div className="col-6" style={styles.margin}>
+                        <label>Password</label>
+                        <Field
+                          type="password"
+                          name="password"
+                          placeholder="Password"
+                        />
+                        <ErrorMessage name="password" component="div" />
+                      </div>
+                      <div className="col-6" style={styles.margin}>
+                        <label>Confirm Password</label>
+                        <Field
+                          type="password"
+                          name="confirmPassword"
+                          placeholder="Confirm Password"
+                        />
+                        <ErrorMessage name="confirmPassword" component="div" />
+                      </div>
+                      <div className="col-6" style={styles.margin}>
+                        <label>Role</label>
+                        <Select
+                          required
+                          name="role"
+                          onChange={(value) => this.setState({ roles: value })}
+                          options={roles}
+                        />
+                      </div>
+                      <div className="col-6" style={styles.margin}>
+                        <label>Phone</label>
+                        <PhoneInput
+                          country={"us"}
+                          style={{ marginTop: "10px" }}
+                          placeholder="Contact Phone Number"
+                          name="phoneContact"
+                          value={this.state.phoneContact}
+                          onChange={(phone) =>
+                            this.setState({ phoneContact: phone })
+                          }
+                        />
+                      </div>
+                      <div className="col-6" style={styles.margin}>
+                        <label>Email</label>
+                        <Field type="email" name="email" placeholder="Email" />
+                        <ErrorMessage name="email" component="div" />
+                      </div>
+                      <div className="col-6" style={styles.margin}>
+                        <label>Address</label>
+                        <Field
+                          type="text"
+                          name="address"
+                          placeholder="Address"
+                        />
+                        <ErrorMessage name="address" component="div" />
+                      </div>
+                      <div className="col-6" style={styles.margin}>
+                        <label>City</label>
+                        <Field type="text" name="city" placeholder="City" />
+                        <ErrorMessage name="city" component="div" />
+                      </div>
+                    </div>
 
-          <hr />
-
-          <table style={{ width: "100%" }}>
-            <tbody>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>First Name</p>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="firstname"
-                    value={this.state.firstName}
-                    onChange={this._handleChange}
-                  ></input>
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>Last name </p>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="lastname"
-                    value={this.state.lastName}
-                    onChange={this._handleChange}
-                  ></input>
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>Password </p>
-                </td>
-                <td>
-                  <input
-                    type="password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this._handleChange}
-                  ></input>
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>Role</p>
-                </td>
-                <td style={{ width: "29%" }}>
-                  <Select
-                    required
-                    value={this.state.roles}
-                    onChange={(value) => this.setState({ roles: value })}
-                    options={roles}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>Phone</p>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={this.state.phone}
-                    onChange={this._handleChange}
-                  ></input>
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>Email</p>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this._handleChange}
-                  ></input>
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>Address</p>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="address"
-                    value={this.state.address}
-                    onChange={this._handleChange}
-                  ></input>
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>City</p>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="city"
-                    value={this.state.city}
-                    onChange={this._handleChange}
-                  ></input>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h2>Basic Information</h2>
-          <table style={{ width: "100%" }}>
-            <tbody>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>Zip</p>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="zip"
-                    value={this.state.zip}
-                    onChange={this._handleChange}
-                  ></input>
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>State</p>
-                </td>
-                <td style={{ width: "29%" }}>
-                  <Select
-                    value={this.state.stateID}
-                    onChange={(value) => this.setState({ stateID: value })}
-                    options={stateID}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "15%" }}>
-                  <p>Birthday </p>
-                </td>
-                <td className="Birthday">
-                  <DatePicker
-                    className="Birthday"
-                    placeholderText="MM/DD/YYYY"
-                    selected={this.state.BirthDate}
-                    onChange={(date) => this.setState({ BirthDate: date })}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          {/* <div className="col-md-12">
-            <div className="SettingsContent GeneralContent">
-              <Button className="btn btn-green" onClick={this._addAdminUser}>
-                CREATE USER
-              </Button>
-              <Button className="btn btn-red" onClick={this._goBack}>
-                CANCEL
-              </Button>
-            </div>
-          </div> */}
-        </div>
+                    <h2>Basic Information</h2>
+                    <table style={{ width: "100%" }}>
+                      <tbody>
+                        <tr>
+                          <td style={{ width: "15%" }}>
+                            <p>Zip</p>
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              name="zip"
+                              value={this.state.zip}
+                              onChange={this._handleChange}
+                            ></input>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style={{ width: "15%" }}>
+                            <p>State</p>
+                          </td>
+                          <td style={{ width: "29%" }}>
+                            <Select
+                              value={this.state.stateID}
+                              onChange={(value) =>
+                                this.setState({ stateID: value })
+                              }
+                              options={stateID}
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style={{ width: "15%" }}>
+                            <p>Birthday </p>
+                          </td>
+                          <td className="Birthday">
+                            <DatePicker
+                              className="Birthday"
+                              placeholderText="MM/DD/YYYY"
+                              selected={this.state.BirthDate}
+                              onChange={(date) =>
+                                this.setState({ BirthDate: date })
+                              }
+                            />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  {/* <Field type="email" name="email" />
+                <ErrorMessage name="email" component="div" />
+                <Field type="password" name="password" />
+                <ErrorMessage name="password" component="div" /> */}
+                  {/* <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button> */}
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </React.Fragment>
       </div>
     );
 
@@ -485,3 +469,13 @@ const mapDispatchToProps = (dispatch) => ({
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(addAdmin2)
 );
+
+const styles = {
+  div: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  margin: {
+    marginTop: "10px",
+  },
+};

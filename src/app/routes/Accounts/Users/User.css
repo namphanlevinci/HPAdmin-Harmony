@@ -58,7 +58,7 @@ th {
   text-align: left;
   padding: 6px 0px;
 }
-.AdminProfile input {
+ /* input {
   width: 100%;
     font-weight: 500;
     color: #000000;
@@ -69,7 +69,26 @@ th {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in;
     border-radius: 0.25rem;
+} */
+ input {
+  width: 100% ;
+  font-weight: 500;
+  color: #000000;
+  border: none;
+  border-bottom: 2px solid #dcdcdc;
+  margin: 0px;
+  font-size: 16px;
 }
+
+ input:focus {
+  outline: none;
+  border-color: #4251af;
+}
+
+.react-tel-input {
+  margin-top: 0 !important
+}
+
 .AdminProfile input:focus {
   outline: none;
   border-color: #4251af;

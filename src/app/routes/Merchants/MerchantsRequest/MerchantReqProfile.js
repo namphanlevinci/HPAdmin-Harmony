@@ -593,6 +593,9 @@ export default withRouter(
 const styles = {
   h2: {
     padding: "10px 0px",
+    color: "#4251af",
+    fontWeight: "500",
+    margin: "0",
   },
   div: {
     marginLeft: "40%",

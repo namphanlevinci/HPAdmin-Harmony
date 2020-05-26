@@ -5,7 +5,6 @@
 }
 .MReq span {
   font-weight: 600;
-  /* font-size: 18px; */
   margin-right: 40px;
 }
 .MReq div:nth-child(2n + 2) {
@@ -29,7 +28,5 @@
   margin-top: 10px !important;
 }
 label {
-  /* margin-bottom: 8px !important;
-  float: left; */
   font-size: 17px;
 }
