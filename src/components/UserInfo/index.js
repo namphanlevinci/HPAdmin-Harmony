@@ -12,10 +12,10 @@ import AvatarIcon from "./avatar.png";
 class UserInfo extends React.Component {
   state = {
     anchorEl: null,
-    open: false
+    open: false,
   };
 
-  handleClick = event => {
+  handleClick = (event) => {
     this.setState({ open: true, anchorEl: event.currentTarget });
   };
 
@@ -30,10 +30,11 @@ class UserInfo extends React.Component {
   //   this.setState({ open: false });
   //   this.props.history.push("/app/settings");
   // };
-  // _gotoProfile = () => {
-  //   this.setState({open: false});
-  //   this.props.history.push('/app/profile')
-  // }
+  _gotoProfile = () => {
+    this.setState({ open: false });
+    this.props.history.push("/app/profile/general");
+    console.log("sss");
+  };
   render() {
     const User = this.props.InfoUser_Login.User.userAdmin;
     return (
@@ -60,11 +61,11 @@ class UserInfo extends React.Component {
             style: {
               minWidth: 120,
               paddingTop: 0,
-              paddingBottom: 0
-            }
+              paddingBottom: 0,
+            },
           }}
         >
-          <MenuItem>
+          <MenuItem onClick={this._gotoProfile}>
             <i className="zmdi zmdi-account zmdi-hc-fw mr-2" />
             <IntlMessages id="popup.profile" />
           </MenuItem>
@@ -81,13 +82,13 @@ class UserInfo extends React.Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  InfoUser_Login: state.User
+const mapStateToProps = (state) => ({
+  InfoUser_Login: state.User,
 });
-const mapDispatchToProps = dispatch => ({
-  logout_User: agent_info => {
+const mapDispatchToProps = (dispatch) => ({
+  logout_User: (agent_info) => {
     dispatch(logout_User(agent_info));
-  }
+  },
 });
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(UserInfo)

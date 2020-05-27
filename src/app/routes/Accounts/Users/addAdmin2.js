@@ -18,6 +18,7 @@ import "../../Merchants/MerchantProfile/Detail/Detail.css";
 import URL from "../../../../url/url";
 import PhoneInput from "react-phone-input-2";
 import DatePicker from "react-datepicker";
+import moment from "moment";
 
 import "./User.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -88,30 +89,9 @@ class addAdmin2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      address: "",
-      city: "",
-      zip: "",
-      stateID: undefined,
-      BirthDate: undefined,
-      roles: undefined,
-      phone: "",
-      fileId: 0,
       imagePreviewUrl: "",
     };
   }
-
-  _handleChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  };
 
   handleRoles = (selectedOption) => {
     this.setState({ roles: selectedOption.value });
@@ -119,7 +99,7 @@ class addAdmin2 extends Component {
   handleState = (selectedOption) => {
     this.setState({ stateID: selectedOption.value });
   };
-  _uploadFile = (event) => {
+  _uploadFile = (event, setFieldValue) => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -141,48 +121,13 @@ class addAdmin2 extends Component {
     axios
       .post(URL + "/file?category=service", formData, config)
       .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
+        setFieldValue("fileId", res.data.data.fileId);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  _addAdminUser = (e) => {
-    if (this.state.roles && this.state.stateID) {
-      e.preventDefault();
-      const WaRoleId = this.state.roles.value;
-      const stateID = this.state.stateID.value;
-      const {
-        firstname,
-        lastname,
-        email,
-        password,
-        address,
-        city,
-        zip,
-        BirthDate,
-        phone,
-        fileId,
-      } = this.state;
-      const fullname = `${firstname} ${lastname}`;
-      const Data = {
-        stateID,
-        WaRoleId,
-        firstname,
-        lastname,
-        email,
-        password,
-        address,
-        city,
-        zip,
-        BirthDate,
-        fullname,
-        phone,
-        fileId,
-      };
-      this.props.addAdmin(Data);
-    }
-  };
+
   _goBack = () => {
     this.props.history.push("/app/accounts/admin");
   };
@@ -196,20 +141,6 @@ class addAdmin2 extends Component {
         NotificationManager.success(Message);
         setTimeout(() => localStorage.removeItem("ADD_STATUS"), 1000);
         setTimeout(() => this.props.history.push("/app/accounts/admin", 1200));
-        this.setState({
-          firstname: "",
-          lastname: "",
-          email: "",
-          password: "",
-          address: "",
-          city: "",
-          zip: "",
-          stateID: undefined,
-          BirthDate: undefined,
-          roles: undefined,
-          phone: "",
-          fileId: 0,
-        });
       }
     }
   }
@@ -234,10 +165,26 @@ class addAdmin2 extends Component {
     }
 
     const renderProfile = (
-      <div className="row justify-content-center AdminProfile page-heading">
+      <div
+        className="row justify-content-center AdminProfile page-heading"
+        style={{ minHeight: "650px" }}
+      >
         <React.Fragment>
           <Formik
-            initialValues={{ email: "", password: "" }}
+            initialValues={{
+              email: "",
+              password: "",
+              WaRoleId: "",
+              stateID: "",
+              firstname: "",
+              lastname: "",
+              address: "",
+              city: "",
+              zip: "",
+              BirthDate: "",
+              phone: "",
+              fileId: 0,
+            }}
             validate={(values) => {
               const errors = {};
               if (!values.email) {
@@ -247,16 +194,78 @@ class addAdmin2 extends Component {
               ) {
                 errors.email = "Invalid email address";
               }
+              if (!values.firstname) {
+                errors.firstname = "Required";
+              }
+              if (!values.lastname) {
+                errors.lastname = "Required";
+              }
+              if (!values.password) {
+                errors.password = "Password cannot be empty ";
+              }
+              if (!values.confirmPassword) {
+                errors.confirmPassword = "Please confirm your password";
+              } else if (values.password !== values.confirmPassword) {
+                errors.confirmPassword = "Confirm password didn't match";
+              }
+              if (!values.WaRoleId) {
+                errors.WaRoleId = "Please choose a Role";
+              }
+              if (!values.phone) {
+                errors.phone = "Please enter Phone number";
+              }
+              if (!values.address) {
+                errors.address = "Required";
+              }
+              if (!values.zip) {
+                errors.zip = "Required";
+              }
+              if (!values.city) {
+                errors.city = "Required";
+              }
+              if (!values.stateID) {
+                errors.stateID = "Required";
+              }
+              if (!values.BirthDate) {
+                errors.BirthDate = "Required";
+              }
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
+              const {
+                stateID,
+                WaRoleId,
+                firstname,
+                lastname,
+                email,
+                password,
+                address,
+                city,
+                zip,
+                BirthDate,
+                phone,
+                fileId,
+              } = values;
+              const fullname = firstname + lastname;
+              const Data = {
+                stateID,
+                WaRoleId,
+                firstname,
+                lastname,
+                email,
+                password,
+                address,
+                city,
+                zip,
+                BirthDate,
+                fullname,
+                phone,
+                fileId,
+              };
+              this.props.addAdmin(Data);
             }}
           >
-            {({ isSubmitting, setFieldValue }) => (
+            {({ isSubmitting, setFieldValue, values }) => (
               <Form style={{ width: "100%" }}>
                 <div className="admin-header-div col-12" style={styles.div}>
                   <div>
@@ -270,12 +279,9 @@ class addAdmin2 extends Component {
                       className="btn btn-green"
                       onClick={this._goBack}
                     >
-                      CANCEL
+                      BACK
                     </Button>
-                    <Button
-                      className="btn btn-red"
-                      onClick={this._addAdminUser}
-                    >
+                    <Button type="submit" className="btn btn-red">
                       SAVE
                     </Button>
                   </span>
@@ -284,14 +290,14 @@ class addAdmin2 extends Component {
                   <div className="col-3 text-center">
                     {$imagePreview}
                     <div>
-                      <label>Upload avatar</label>
+                      {/* <label>Upload avatar</label> */}
                       <br />
                       <input
                         type="file"
                         name="image"
                         id="file"
                         className="custom-input"
-                        onChange={(e) => this._uploadFile(e)}
+                        onChange={(e) => this._uploadFile(e, setFieldValue)}
                       />
                     </div>
                   </div>
@@ -303,19 +309,27 @@ class addAdmin2 extends Component {
                         <label>First name</label>
                         <Field
                           type="text"
-                          name="firstName"
+                          name="firstname"
                           placeholder="First Name"
                         />
-                        <ErrorMessage name="firstName" component="div" />
+                        <ErrorMessage
+                          name="firstname"
+                          component="div"
+                          className="error"
+                        />
                       </div>
                       <div className="col-6">
                         <label>Last name</label>
                         <Field
                           type="text"
-                          name="lastName"
+                          name="lastname"
                           placeholder="Last Name"
                         />
-                        <ErrorMessage name="lastName" component="div" />
+                        <ErrorMessage
+                          name="lastname"
+                          component="div"
+                          className="error"
+                        />
                       </div>
                       <div className="col-6" style={styles.margin}>
                         <label>Password</label>
@@ -324,7 +338,11 @@ class addAdmin2 extends Component {
                           name="password"
                           placeholder="Password"
                         />
-                        <ErrorMessage name="password" component="div" />
+                        <ErrorMessage
+                          name="password"
+                          component="div"
+                          className="error"
+                        />
                       </div>
                       <div className="col-6" style={styles.margin}>
                         <label>Confirm Password</label>
@@ -333,15 +351,26 @@ class addAdmin2 extends Component {
                           name="confirmPassword"
                           placeholder="Confirm Password"
                         />
-                        <ErrorMessage name="confirmPassword" component="div" />
+                        <ErrorMessage
+                          name="confirmPassword"
+                          component="div"
+                          className="error"
+                        />
                       </div>
                       <div className="col-6" style={styles.margin}>
                         <label>Role</label>
                         <Select
                           required
-                          name="role"
-                          onChange={(value) => this.setState({ roles: value })}
+                          name="WaRoleId"
+                          onChange={(value) =>
+                            setFieldValue("WaRoleId", value.value)
+                          }
                           options={roles}
+                        />
+                        <ErrorMessage
+                          name="WaRoleId"
+                          component="div"
+                          className="error"
                         />
                       </div>
                       <div className="col-6" style={styles.margin}>
@@ -350,17 +379,23 @@ class addAdmin2 extends Component {
                           country={"us"}
                           style={{ marginTop: "10px" }}
                           placeholder="Contact Phone Number"
-                          name="phoneContact"
-                          value={this.state.phoneContact}
-                          onChange={(phone) =>
-                            this.setState({ phoneContact: phone })
-                          }
+                          name="phone"
+                          onChange={(phone) => setFieldValue("phone", phone)}
+                        />
+                        <ErrorMessage
+                          name="phone"
+                          component="div"
+                          className="error"
                         />
                       </div>
                       <div className="col-6" style={styles.margin}>
                         <label>Email</label>
                         <Field type="email" name="email" placeholder="Email" />
-                        <ErrorMessage name="email" component="div" />
+                        <ErrorMessage
+                          name="email"
+                          component="div"
+                          className="error"
+                        />
                       </div>
                       <div className="col-6" style={styles.margin}>
                         <label>Address</label>
@@ -369,70 +404,68 @@ class addAdmin2 extends Component {
                           name="address"
                           placeholder="Address"
                         />
-                        <ErrorMessage name="address" component="div" />
+                        <ErrorMessage
+                          name="address"
+                          component="div"
+                          className="error"
+                        />
                       </div>
                       <div className="col-6" style={styles.margin}>
                         <label>City</label>
                         <Field type="text" name="city" placeholder="City" />
-                        <ErrorMessage name="city" component="div" />
+                        <ErrorMessage
+                          name="city"
+                          component="div"
+                          className="error"
+                        />
+                      </div>
+
+                      <div className="col-6" style={styles.margin}>
+                        <label>Zip</label>
+                        <Field type="text" name="zip" placeholder="Zip" />
+                        <ErrorMessage
+                          name="zip"
+                          component="div"
+                          className="error"
+                        />
+                      </div>
+                      <div className="col-6" style={styles.margin}>
+                        <label>State</label>
+                        <Select
+                          value={this.state.stateID}
+                          onChange={(value) =>
+                            setFieldValue("stateID", value.value)
+                          }
+                          options={stateID}
+                          name="stateID"
+                        />
+                        <ErrorMessage
+                          name="stateID"
+                          component="div"
+                          className="error"
+                        />
+                      </div>
+                      <div className="col-6" style={styles.margin}>
+                        <label>Birthday</label> <br />
+                        <DatePicker
+                          placeholderText="MM/DD/YYYY"
+                          name="BirthDate"
+                          value={values.BirthDate}
+                          onChange={(date) =>
+                            setFieldValue(
+                              "BirthDate",
+                              moment(date).format("MM/DD/YYYY")
+                            )
+                          }
+                        />
+                        <ErrorMessage
+                          name="BirthDate"
+                          component="div"
+                          className="error"
+                        />
                       </div>
                     </div>
-
-                    <h2>Basic Information</h2>
-                    <table style={{ width: "100%" }}>
-                      <tbody>
-                        <tr>
-                          <td style={{ width: "15%" }}>
-                            <p>Zip</p>
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              name="zip"
-                              value={this.state.zip}
-                              onChange={this._handleChange}
-                            ></input>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style={{ width: "15%" }}>
-                            <p>State</p>
-                          </td>
-                          <td style={{ width: "29%" }}>
-                            <Select
-                              value={this.state.stateID}
-                              onChange={(value) =>
-                                this.setState({ stateID: value })
-                              }
-                              options={stateID}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style={{ width: "15%" }}>
-                            <p>Birthday </p>
-                          </td>
-                          <td className="Birthday">
-                            <DatePicker
-                              className="Birthday"
-                              placeholderText="MM/DD/YYYY"
-                              selected={this.state.BirthDate}
-                              onChange={(date) =>
-                                this.setState({ BirthDate: date })
-                              }
-                            />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
                   </div>
-                  {/* <Field type="email" name="email" />
-                <ErrorMessage name="email" component="div" />
-                <Field type="password" name="password" />
-                <ErrorMessage name="password" component="div" /> */}
-                  {/* <button type="submit" disabled={isSubmitting}>
-            Submit
-          </button> */}
                 </div>
               </Form>
             )}

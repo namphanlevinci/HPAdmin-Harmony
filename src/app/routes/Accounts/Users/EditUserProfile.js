@@ -4,15 +4,23 @@ import { withRouter, Redirect } from "react-router-dom";
 import URL, { upFileUrl } from "../../../../url/url";
 import { ViewProfile_User } from "../../../../actions/user/actions";
 import { store } from "react-notifications-component";
-import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from "react-router-dom";
+import { GiCheckedShield } from "react-icons/gi";
+import { FaPen } from "react-icons/fa";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
-// import Select from "react-select";
-import TextField from "@material-ui/core/TextField";
 import axios from "axios";
+
+import General from "./General";
+import Password from "./Password";
 
 import "./User.css";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
@@ -35,7 +43,8 @@ class EditUserProfile extends Component {
       address: "",
       city: "",
       zip: "",
-      password: "",
+      password: null,
+      confirmPassword: null,
       waRoleId: "",
       phone: "",
       stateId: "",
@@ -70,13 +79,12 @@ class EditUserProfile extends Component {
         stateId: e.stateId,
         fileId: e.fileId,
         selectedOption: null,
-        // defaultValue: { value: { label: e.roleName, value: e.waRoleId } }
       },
       () => this.setState({ loading: true })
     );
   }
 
-  _handleChange = (event) => {
+  handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -118,13 +126,13 @@ class EditUserProfile extends Component {
     // setSelectedDate(date);
     this.setState({ birthDate: date });
   };
-  _updateSettings = () => {
+
+  updateAdmin = () => {
     const ID = this.props.UserProfile.waUserId;
     let token = JSON.parse(this.state.Token);
     const config = {
       headers: { Authorization: "bearer " + token.token },
     };
-    // const waRoleId = this.state.waRoleId.value;
     const {
       firstName,
       lastName,
@@ -197,11 +205,38 @@ class EditUserProfile extends Component {
         console.log(err);
       });
   };
+
+  _updateSettings = () => {
+    this.setState({ error: "", confirmError: "" });
+    let patchURL = this.props.history.location.pathname;
+    console.log("patchURL", patchURL);
+    if (patchURL === "/app/accounts/admin/profile/edit/password") {
+      const { password, confirmPassword } = this.state;
+      if (password === null) {
+        this.setState({ error: "Please enter Password " });
+      }
+      if (confirmPassword === null) {
+        this.setState({ confirmError: "Please enter Confirm Password" });
+      }
+      if (password !== confirmPassword) {
+        this.setState({ confirmError: "Confirm Password didn't match" });
+      }
+      if (
+        password !== null &&
+        confirmPassword !== null &&
+        password === confirmPassword
+      ) {
+        this.updateAdmin();
+      }
+    } else {
+      this.updateAdmin();
+    }
+  };
   _goBack = () => {
     this.props.history.push("/app/accounts/admin/profile");
   };
 
-  showPassword = () => {
+  handleShowPassword = () => {
     this.setState({ showPassword: !this.state.showPassword });
   };
 
@@ -224,132 +259,110 @@ class EditUserProfile extends Component {
     }
 
     return (
-      <div className="container-fluid UserProfile">
-        <ContainerHeader
-          match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
-        />
-        <div className="row justify-content-md-center AdminProfile page-heading">
-          <div className="admin-header-div col-12">
-            {/* <h2 style={{ fontWeight: 500 }}>ID: {e.waUserId}</h2> */}
-            <span>
-              <Button
-                style={{ color: "#4251af", backgroundColor: "white" }}
-                className="btn btn-green"
-                onClick={() =>
-                  this.props.history.push("/app/accounts/admin/profile")
-                }
-              >
-                CANCEL
-              </Button>
-              <Button className="btn btn-red" onClick={this._updateSettings}>
-                SAVE
-              </Button>
-            </span>
-          </div>
-          <hr style={styles.hr} />
-          <div className="col-3 text-center">
-            {$imagePreview}
-            <div style={{ paddingTop: "10px" }}>
-              <input
-                type="file"
-                name="image"
-                id="file"
-                className="custom-input"
-                onChange={(e) => this._uploadFile(e)}
-              />
-            </div>
-          </div>
-          <div className="col-9" style={{ paddingLeft: "30px" }}>
-            <h1>{e.firstName + " " + e.lastName}</h1>
-            <h4>{e.roleName}</h4>
-            <hr />
-            <h2>Contact Information</h2>
-            <div className="row">
-              <div className="col-6">
-                <label>Phone</label>
+      <Router>
+        <div className="container-fluid UserProfile">
+          <ContainerHeader
+            match={this.props.match}
+            title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
+          />
+          <div
+            className="row justify-content-md-center AdminProfile page-heading"
+            style={{ minHeight: "500px" }}
+          >
+            <div className="col-3 text-center">
+              {$imagePreview}
+              <div style={{ paddingTop: "10px" }}>
                 <input
-                  type="text"
-                  name="phone"
-                  value={this.state.phone}
-                  onChange={this._handleChange}
+                  type="file"
+                  name="image"
+                  id="file"
+                  className="custom-input"
+                  onChange={(e) => this._uploadFile(e)}
                 />
               </div>
-              <div className="col-6">
-                <label>Email</label>
-                <input
-                  type="text"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this._handleChange}
-                />
-              </div>
+              <div className="nav-btn">
+                <NavLink
+                  to="/app/accounts/admin/profile/edit/general"
+                  activeStyle={{
+                    fontWeight: "500",
+                    color: "#4251af",
+                    textDecoration: "underline",
+                  }}
+                >
+                  <div style={styles.navIcon}>
+                    <FaPen size={19} />
+                    <span style={{ paddingLeft: "10px" }}>Profile</span>
+                  </div>
+                </NavLink>
 
-              <div className="col-12" style={styles.div}>
-                <label>Address</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={this.state.address}
-                  onChange={this._handleChange}
-                />
+                {/* <br /> */}
+                <NavLink
+                  to="/app/accounts/admin/profile/edit/password"
+                  activeStyle={{
+                    fontWeight: "500",
+                    color: "#4251af",
+                    textDecoration: "underline",
+                  }}
+                >
+                  <div style={styles.navIcon}>
+                    <GiCheckedShield size={20} />
+                    <span style={{ paddingLeft: "10px" }}>
+                      {" "}
+                      Change password
+                    </span>
+                  </div>
+                </NavLink>
               </div>
             </div>
-
-            <h2>Basic Information</h2>
-
-            <div>
-              <div style={{ display: "inline" }}>
-                <label>Birthday: </label>
-              </div>
-              <div style={{ display: "inline", paddingLeft: "15px" }}>
-                <form noValidate>
-                  {this.state.loading && (
-                    <TextField
-                      id="date"
-                      type="date"
-                      name="birthDate"
-                      defaultValue={this.state.birthDate}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={this._handleChange}
-                    />
-                  )}
-                </form>
-              </div>
-
-              <div style={styles.div}>
-                <label>Password</label>
-                <div style={{ display: "flex" }}>
-                  <input
-                    type={this.state.showPassword ? "text" : "password"}
-                    name="password"
-                    value={this.state.password}
-                    onChange={this._handleChange}
-                    style={styles.input}
-                  />
-                  <span>
-                    {this.state.showPassword ? (
-                      <RiEyeLine
-                        onClick={this.showPassword}
-                        style={styles.icon}
-                        size={20}
-                      />
-                    ) : (
-                      <RiEyeOffLine
-                        onClick={this.showPassword}
-                        style={styles.icon}
-                        size={20}
-                      />
-                    )}
-                  </span>
+            <div className="col-9" style={{ paddingLeft: "30px" }}>
+              <div className="row">
+                <div className="col-4">
+                  <h1>{e.firstName + " " + e.lastName}</h1>
+                  <h4>{e.roleName}</h4>
+                </div>
+                <div className="col-8 admin-header-div">
+                  <Button
+                    className="btn btn-green"
+                    style={styles.button}
+                    onClick={() =>
+                      this.props.history.push("/app/accounts/admin/profile")
+                    }
+                  >
+                    BACK
+                  </Button>
+                  <Button
+                    className="btn btn-red"
+                    style={styles.button}
+                    onClick={this._updateSettings}
+                  >
+                    SAVE
+                  </Button>
                 </div>
               </div>
+
+              <hr />
+              {this.state.loading && (
+                <Switch>
+                  <Route path="/app/accounts/admin/profile/edit/general">
+                    <General
+                      data={this.state}
+                      handleChange={this.handleChange}
+                      showPassword={this.showPassword}
+                    />
+                  </Route>
+                  <Route path="/app/accounts/admin/profile/edit/password">
+                    <Password
+                      data={this.state}
+                      handleChange={this.handleChange}
+                      handleShowPassword={this.handleShowPassword}
+                    />
+                  </Route>
+                </Switch>
+              )}
             </div>
           </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
@@ -382,5 +395,14 @@ const styles = {
   },
   icon: {
     cursor: "pointer",
+  },
+  button: {
+    padding: "3px 20px",
+    height: "40px",
+  },
+  navIcon: {
+    display: "flex",
+    alignItems: "center",
+    paddingBottom: "7px",
   },
 };

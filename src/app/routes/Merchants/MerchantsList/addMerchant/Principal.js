@@ -27,7 +27,6 @@ class Principal extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    console.log("reloading");
   }
 
   _handleImageChange = (e, setFieldValue, name) => {
@@ -62,7 +61,6 @@ class Principal extends Component {
       });
   };
   render() {
-    console.log("bruh");
     // ValidationSchema
     const validationSchema = Yup.object().shape({
       principalInfo: Yup.array().of(
@@ -73,7 +71,7 @@ class Principal extends Component {
           ownership: Yup.string().required("Required"),
           // homePhone: Yup.string().required("Required"),
           mobilePhone: Yup.string().required("Required"),
-          yearAtThisAddress: Yup.string().required("Required"),
+          // yearAtThisAddress: Yup.string().required("Required"),
           ssn: Yup.string().required("Required"),
           dateOfBirth: Yup.string().required("Required"),
           email: Yup.string().required("Required"),
@@ -123,8 +121,6 @@ class Principal extends Component {
               ],
             }}
             onSubmit={(values, { setSubmitting }) => {
-              console.log("Clicking");
-              // console.log("THIS SUPER STATE", this.props.Info);
               this.props.handleNext();
               this.props.setDataPrincipal(values?.principalInfo);
             }}
@@ -428,7 +424,7 @@ class Principal extends Component {
                                 {values.principalInfo.length >= 2 ? null : (
                                   <p
                                     className="add-remove-principal"
-                                    onClick={() => arrayHelpers.insert(1)} // insert an empty string at a position
+                                    onClick={() => arrayHelpers.insert(1, "")} // insert an empty string at a position
                                   >
                                     + Add Principal
                                   </p>
@@ -443,7 +439,7 @@ class Principal extends Component {
                           className="add-remove-principal"
                           onClick={() => [arrayHelpers.push("")]}
                         >
-                          + Add Principal
+                          + Add Principal 222
                         </p>
                       )}
                       <div style={{ marginTop: "15px" }}>

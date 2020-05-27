@@ -14,7 +14,7 @@ const Bank = ({ value, handleChange, uploadFile }) => {
             <TextField
               name="bankName"
               value={value.bankName}
-              id="cardHolder"
+              id="cardHolder1"
               label="Bank Name"
               margin="normal"
               fullWidth
@@ -27,7 +27,7 @@ const Bank = ({ value, handleChange, uploadFile }) => {
             <TextField
               name="accountHolderName"
               value={value.accountHolderName}
-              id="cardHolder"
+              id="cardHolder2"
               label="Account Holder Name"
               margin="normal"
               fullWidth
@@ -40,7 +40,7 @@ const Bank = ({ value, handleChange, uploadFile }) => {
             <TextField
               name="routingNumber"
               value={value.routingNumber}
-              id="cardHolder"
+              id="cardHolder3"
               label="ABA Routing Number"
               margin="normal"
               fullWidth
@@ -53,7 +53,7 @@ const Bank = ({ value, handleChange, uploadFile }) => {
             <TextField
               name="accountNumber"
               value={value.accountNumber}
-              id="cardHolder"
+              id="cardHolder4"
               label="Checking Account Number (DDA)"
               margin="normal"
               fullWidth

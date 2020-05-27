@@ -1,3 +1,636 @@
-.ProfileCSS {
-    padding-top: 30px;
-}
+.UserProfile {
+    font-family: "Work Sans", sans-serif;
+  }
+  .UserSearchBox {
+    display: flex;
+    justify-content: space-between;
+  }
+  .UserSearchBox .addAdmin {
+    padding: 10px 20px;
+    background: #4251af;
+    color: white;
+  }
+  .AdminProfile {
+    width: 100%;
+    background: #fff;
+    margin-left: 0px;
+    padding: 10px;
+    font-size: 16px;
+    /* min-height: 650px; */
+  }
+  .AdminProfile h2 {
+    padding-top: 15px;
+    color: black;
+    font-weight: 400;
+    font-size: 20px;
+    opacity: 0.7;
+  }
+  .AdminProfile div img {
+    width: 200px;
+    height: 200px;
+    background-position: center;
+  }
+  
+  .AdminProfile .error {
+    color: red;
+  }
+  .AdminProfile button:hover {
+  
+    background: #4251af;
+  
+  }
+  .AdminProfile h1 {
+    color: black;
+    font-weight: 550;
+  }
+  .AdminProfile h4 {
+    color: #4251af;
+    font-weight: 400;
+  }
+  .AdminProfile table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .AdminProfile p {
+    margin-bottom: 0px;
+  }
+  .AdminProfile td,
+  th {
+    display: inline-block !important;
+    text-align: left;
+    padding: 6px 0px;
+  }
+  
+   input {
+    width: 100% ;
+    font-weight: 500;
+    color: #000000;
+    border: none;
+    border-bottom: 2px solid #dcdcdc;
+    margin: 0px;
+    font-size: 16px;
+  }
+  
+   input:focus {
+    outline: none;
+    border-color: #4251af;
+  }
+  
+  .react-tel-input {
+    margin-top: 0 !important
+  }
+  
+  .AdminProfile input:focus {
+    outline: none;
+    border-color: #4251af;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(66, 81, 175, 0.25);
+  }
+  
+  
+  
+  
+  .AdminProfile .Birthday::placeholder {
+    text-align: center;
+  }
+  .AdminProfile .Birthday {
+    padding: 3px;
+    text-align: center;
+  }
+  
+  .admin-header-div {
+    display: flex;
+    justify-content: flex-end;
+    max-height: 50px;
+  }
+  
+  
+  .admin-header-div button.btn {
+    /* display: inline-block; */
+    color: #666;
+    background-color: #eee;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom-width: 3px;
+    font-weight: 900;
+  }
+  
+  /* GREEN BTN */
+  .admin-header-div button.btn:hover {
+    background-color: #4251af;
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .admin-header-div button.btn:active {
+    background-color: #ccc;
+    border-color: rgba(0, 0, 0, 0.9);
+  }
+  .admin-header-div button.btn.btn-green {
+    background-color: white;
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    color: #4251af;
+  }
+  
+  .admin-header-div button.btn.btn-green:hover {
+    background-color:  white;
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .admin-header-div button.btn.btn-green:active {
+    background-color: white;
+    border-color: rgba(0, 0, 0, 0.9);
+  }
+  /* RED BUTTON */
+  .admin-header-div button.btn.btn-red {
+    background-color: #fff;
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    color: #4251af;
+  }
+  
+  .admin-header-div  button.btn.btn-red {
+    /* background-color: #fff; */
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    color: white;
+    background-color: #4251af; 
+  
+  }
+  
+  .admin-header-div  button.btn.btn-red:hover {
+    background-color:  #4251af; 
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .admin-header-div  button.btn.btn-red:active {
+    background-color: #4251af; 
+    border-color: rgba(0, 0, 0, 0.9);
+  }
+  
+  .custom-input {
+    cursor: pointer;
+    width: 100px;
+    height: 34px;
+    overflow: hidden;
+    
+  }
+  
+  .custom-input:before {
+    width: 100% !important;
+    height: 32px;
+    font-size: 16px;
+    line-height: 32px;
+    content: 'Upload';
+    font-weight: 500;
+    display: inline-block;
+    background: white;
+    border: 1px solid #cccccc;
+    padding: 0 10px;
+    text-align: center;
+  
+  
+  }
+  
+  .custom-input::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+  
+  
+  .spinning {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  } 
+  
+  .UserProfile .nav-btn {
+    text-align: start;
+    padding-left: 5%;
+  }
+  .AdminProfile a {
+    font-weight: 300;
+  }
+
+
+  .container .SettingsContent input {
+    width: 250px !important;
+    font-weight: 500;
+    color: #000000;
+    border: none;
+    border-bottom: 2px solid #dcdcdc;
+    margin: 0px;
+    font-size: 16px;
+  }
+  .container h4 {
+    margin: 6px 0px;
+  }
+  .SettingsContent button {
+    margin-left: 100px;
+    display: inline-block;
+    color: #666;
+    background-color: #eee;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom-width: 3px;
+    font-weight: 900;
+  }
+  .SettingsContent button:hover {
+    background-color: #4251af;
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .SettingsContent button:active {
+    background-color: #ccc;
+    border-color: rgba(0, 0, 0, 0.9);
+  }
+  .SettingsContent button {
+    background-color: #4251af;
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    color: #fff;
+  }
+  .container .input-group .btn.btn-green {
+    margin-bottom: 0px;
+    margin-left: 10px;
+    height: 40px;
+    background-color: #4251af;
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    color: #fff;
+  }
+  .container .input-group {
+    padding: 10px 0px 20px 0px;
+  }
+  
+  .GeneralContent button {
+    display: inline-block;
+    color: #666;
+    background-color: #eee;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom-width: 3px;
+    font-weight: 900;
+    margin-left: 0px;
+  }
+  .GeneralContent button.btn:hover {
+    background-color: #4251af;
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .GeneralContent button.btn:active {
+    background-color: #ccc;
+    border-color: rgba(0, 0, 0, 0.9);
+  }
+  .GeneralContent button.btn.btn-green {
+    background-color: #4251af;
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    color: #fff;
+    margin-right: 40px;
+  }
+  
+  .GeneralContent button.btn.btn-green:hover {
+    background-color: #4251af;
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .GeneralContent button.btn.btn-green:active {
+    background-color: #4251af;
+    border-color: rgba(0, 0, 0, 0.9);
+  }
+  /* RED BUTTON */
+  .GeneralContent button.btn.btn-red {
+    background-color: #fff;
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    color: #4251af;
+  }
+  
+  .GeneralContent button.btn.btn-red:hover {
+    background-color: #fcfcfc;
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .GeneralContent button.btn.btn-red:active {
+    background-color: #f4f4f4;
+    border-color: rgba(0, 0, 0, 0.9);
+  }
+  .GeneralContent .paginating-table ul li {
+    background-color: white !important;
+  }
+  .GeneralContent input {
+    padding: 5px 5px 0px 5px;
+    width: 100% !important;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 2px solid #dcdcdc;
+  }
+  .GeneralContent input:focus {
+    outline: none;
+    border-color: #4251af;
+    /* border-bottom: 2px solid #4251af; */
+  }
+  .GeneralContent select {
+    padding: 8px;
+    width: 100%;
+    font-weight: 500;
+  }
+  /* bank img */
+  .bankVoid {
+    width: 350px;
+    /* height: 200px; */
+    /* width: 100%; */
+    object-fit: cover;
+    /* height: 100%; */
+  }
+  /* pop up confirm */
+  .POPUP .SettingsPopup2 h3 {
+    padding: 10px;
+    color: white !important;
+  }
+  .POPUP .SettingsPopup2 {
+    padding-top: 0px !important;
+    width: 400px;
+    left: 25%;
+    right: 25%;
+    top: 30%;
+    bottom: 45%;
+  }
+  .SettingsPopup2 .SettingsInner2 {
+    background-color: #4251af;
+  }
+  .SettingsPopup2 .settingText h4 {
+    padding: 15px;
+  }
+  .SettingsPopup2 .btn {
+    margin-left: 20px;
+    display: inline-block;
+    color: #666;
+    background-color: #eee;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    padding: 10px 25px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom-width: 3px;
+    font-weight: 900;
+  }
+  .SettingsPopup2 .btn-red {
+    background-color: #fff;
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    color: #4251af;
+  }
+  .SettingsPopup2 .btn-green {
+    background-color: #4251af;
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    color: #fff;
+  }
+  .TransactionTable thead tr th {
+    color: white;
+    background-color: #4251af;
+    padding: 10px 20px;
+    font-weight: 400;
+    font-size: 16px;
+    border: 1px solid #4251af;
+  }
+  .TransactionTable tbody tr td {
+    padding: 10px 12px;
+    font-weight: 400;
+    font-size: 16px;
+    border: 1px solid grey;
+  }
+  .TransactionTable tbody tr td:first-letter {
+    text-transform: capitalize;
+  }
+  /* MERCHANT TRANSACTIONS  */
+  .MuiSelect-root-427 .MuiSelect-selectMenu-431 {
+    width: 120px !important;
+  }
+  
+  .StaffTable th {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .StaffTable td {
+    font-weight: 500;
+    font-size: 16px;
+    border-bottom: 1px solid black;
+  }
+  
+  .StaffTable table {
+    width: 100%;
+    border-spacing: 0;
+  }
+  
+  .StaffTable thead tr {
+    /* fallback */
+    width: 97%;
+    /* minus scroll bar width */
+    width: -webkit-calc(100% - 16px);
+    width: -moz-calc(100% - 16px);
+    width: calc(100% - 16px);
+  }
+  
+  .StaffTable tr:after {
+    /* clearing float */
+    content: " ";
+    display: block;
+    visibility: hidden;
+    clear: both;
+  }
+  
+  .StaffTable tbody {
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .StaffTable tbody td,
+  thead th {
+    width: 19%; /* 19% is less than (100% / 5 cols) = 20% */
+    float: left;
+  }
+  .SettingsContent label {
+    font-size: 17px;
+  }
+  
+  /*  SERVICE  */
+  .Service div {
+    /* padding-bottom: 20px; */
+  }
+  .Service .small-label {
+    font-size: 12px;
+  }
+  .Service select {
+    padding: 8px;
+    width: 100%;
+  }
+  .Service button {
+    color: #666;
+    background-color: #eee;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom-width: 3px;
+    font-weight: 900;
+    padding: 10px 20px;
+  }
+  .Service button:hover {
+    background-color: #eee;
+  }
+  /* .SettingsContent .popup-content {
+    top: -300px;
+  } */
+  /* .GeneralContent .popup-overlay {
+    background: none !important;
+  } */
+  
+  .Disable-Popup {
+    padding: 20px 50px;
+  }
+  .Disable-Button {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  /* FORMIK for Add Service */
+  .Service select.error {
+    border-color: red;
+  }
+  
+  .Service input.error {
+    border-color: red;
+  }
+  .Service input {
+    width: 100% !important;
+    font-weight: 500;
+    color: #000000;
+    border: none;
+    border-bottom: 2px solid #dcdcdc;
+    margin: 0px;
+    font-size: 16px;
+  }
+  
+  .Service .input-feedback {
+    color: red;
+    margin-top: 0.25rem;
+  }
+  
+  @media (min-width: 1024px) and (max-width: 1280px) {
+    .POPUP-INNER2 {
+      padding-top: 20px;
+      left: 25%;
+      right: 25%;
+      top: 15%;
+      bottom: 30%;
+    }
+    .POPUP .SettingsPopup {
+      bottom: 48%;
+    }
+    .POPUP-INNER2 label {
+      width: 210px;
+    }
+    .POPUP-INNER2 input {
+      width: 250px;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .PendingLBody .content .container h2 {
+      padding-top: 5px;
+    }
+    .POPUP-INNER2 {
+      padding-top: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      left: 25%;
+      right: 25%;
+      top: 15%;
+      bottom: 33%;
+      margin: auto;
+      background: white;
+    }
+    .POPUP-INNER2 label {
+      display: inline-block;
+      width: 159px;
+      text-align: right;
+      line-height: 28pt;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .POPUP-INNER2 input {
+      width: 200px;
+      text-align: center;
+    }
+  }
+  @media (min-width: 320px) and (max-width: 480px) {
+    .POPUP-INNER2 {
+      padding-top: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      left: 17%;
+      right: 17%;
+      top: 15%;
+      bottom: 33%;
+      background: white;
+    }
+    .POPUP-INNER2 label {
+      width: 143px;
+      font-size: 13px;
+    }
+    .POPUP-INNER2 input {
+      width: 120px;
+    }
+  }
+  
+  .addMoreExtra {
+    background-color: #FAFAFA;
+  }
+  
+  
+  
+  .input-box { position: relative; }
+  
+  .input-box input {
+     display: block; 
+     /* border: 1px solid #d7d6d6; */
+     background: #fff;
+     padding: 10px 10px 0px 50px ; 
+     text-align: right;
+  }
+  
+  .unit { 
+    position: absolute; 
+    display: block; 
+    left: 5px; 
+    top: 13px; 
+    z-index: 9; 
+  }

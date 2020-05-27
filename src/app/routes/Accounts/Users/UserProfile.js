@@ -25,7 +25,7 @@ class UserProfile extends Component {
     this.setState({ Token: Token });
   }
   _Edit = () => {
-    this.props.history.push("/app/accounts/admin/profile/edit");
+    this.props.history.push("/app/accounts/admin/profile/edit/general");
   };
 
   getUserByID = () => {
@@ -112,13 +112,6 @@ class UserProfile extends Component {
       });
   };
 
-  //   static getDerivedStateFromProps(nextProps, prevState){
-  //     if(nextProps.UserProfile !== prevState.UserProfile){
-  //       return { e : nextProps.UserProfile};
-  //    }
-  //    else return null;
-  //  }
-
   render() {
     const e = this.props.UserProfile;
 
@@ -128,36 +121,7 @@ class UserProfile extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
         />
-        <div className="row justify-content-md-center AdminProfile page-heading">
-          <div className="admin-header-div col-12">
-            {/* <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2> */}
-            <span>
-              <Button
-                style={{ color: "#4251af", backgroundColor: "white" }}
-                className="btn btn-green"
-                onClick={() => this.props.history.push("/app/accounts/admin")}
-              >
-                BACK
-              </Button>
-              {e.isDisabled === 0 ? (
-                <Button className="btn btn-green" onClick={this._disable}>
-                  DISABLE
-                </Button>
-              ) : (
-                <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
-                  className="btn btn-green"
-                  onClick={this._enable}
-                >
-                  ENABLE
-                </Button>
-              )}
-              <Button className="btn btn-red" onClick={this._Edit}>
-                EDIT
-              </Button>
-            </span>
-          </div>
-          <hr style={styles.hr} />
+        <div className="row AdminProfile page-heading">
           <div className="col-3 text-center">
             {e.imageUrl !== null ? (
               <img src={e.imageUrl} alt="avatar" />
@@ -169,9 +133,47 @@ class UserProfile extends Component {
             )}
           </div>
           <div className="col-9" style={{ paddingLeft: "30px" }}>
-            <h1>{e.firstName + " " + e.lastName}</h1>
-            <h4>{e.roleName}</h4>
-            <hr />
+            <div className="row">
+              <div className="col-4">
+                <h1>{e.firstName + " " + e.lastName}</h1>
+                <h4>{e.roleName}</h4>
+                <hr />
+              </div>
+              <div className="col-8 admin-header-div">
+                <Button
+                  className="btn btn-green"
+                  style={styles.button}
+                  onClick={() => this.props.history.push("/app/accounts/admin")}
+                >
+                  BACK
+                </Button>
+                {e.isDisabled === 0 ? (
+                  <Button
+                    className="btn btn-green"
+                    style={styles.button}
+                    onClick={this._disable}
+                  >
+                    DISABLE
+                  </Button>
+                ) : (
+                  <Button
+                    className="btn btn-green"
+                    style={styles.button}
+                    onClick={this._enable}
+                  >
+                    ENABLE
+                  </Button>
+                )}
+                <Button
+                  className="btn btn-red"
+                  style={styles.button}
+                  onClick={this._Edit}
+                >
+                  EDIT
+                </Button>
+              </div>
+            </div>
+
             <h2>Contact Information</h2>
             <div className="row">
               <div className="col-6">
@@ -228,5 +230,9 @@ const styles = {
     color: "black",
     fontWeight: "500",
     fontSize: "16px",
+  },
+  button: {
+    padding: "3px 20px",
+    height: "40px",
   },
 };
