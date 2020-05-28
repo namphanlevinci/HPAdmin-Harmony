@@ -221,7 +221,11 @@ class AddService extends Component {
 
     return (
       <div>
-        <Button className="btn btn-green" onClick={this.handleClickOpen}>
+        <Button
+          className="btn btn-green"
+          style={{ marginRight: "0px" }}
+          onClick={this.handleClickOpen}
+        >
           NEW SERVICE
         </Button>
         <Dialog
@@ -241,10 +245,7 @@ class AddService extends Component {
           <DialogContent>
             <div className="profile-nav PendingLBody">
               <div className="detail-content">
-                <div
-                  className="service-container PendingLBody"
-                  // style={{ paddingtop: "70px" }}
-                >
+                <div className="service-container PendingLBody">
                   <h2
                     style={{
                       color: "#4251af",
@@ -271,8 +272,6 @@ class AddService extends Component {
                     }}
                     validationSchema={validationSchema}
                     onSubmit={(values, { setSubmitting }) => {
-                      // console.log("VALUES", values);
-                      // console.log("NOT RUNNING");
                       const {
                         categoryId,
                         name,
@@ -502,7 +501,6 @@ class AddService extends Component {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.duration}
-                                      // placeholder="Min"
                                       style={{
                                         borderBottomColor: "#dddddd",
                                         borderBottomWidth: 1,
@@ -547,43 +545,33 @@ class AddService extends Component {
                                     <span class="unit">Min</span>
                                   </div>
                                 </div>
-                                {/* <div
+
+                                <div
                                   className="col-4"
                                   style={{ marginTop: 40 }}
-                                > */}
-                                {/* <label style={{ color: "#333" }}>
-                                    <span
-                                      //   style={{ color: "#dddddd" }}
-                                      className="small-label"
-                                    >
+                                >
+                                  <label style={{ color: "#333" }}>
+                                    <span className="small-label">
                                       Second time
                                     </span>
                                   </label>
                                   <br />
-                                  <input
-                                    name="secondTime"
-                                    type="number"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.secondTime}
-                                    placeholder="Min"
-                                    style={{
-                                      borderBottomColor: "#dddddd",
-                                      borderBottomWidth: 1,
-                                      color: "#dddddd",
-                                    }}
-                                    className={
-                                      errors.secondTime && touched.secondTime
-                                        ? "text-input error"
-                                        : "text-input"
-                                    }
-                                  /> */}
-                                {/* {errors.secondTime && touched.secondTime && (
-                                    <div className="input-feedback">
-                                      {errors.secondTime}
-                                    </div>
-                                  )} */}
-                                {/* </div> */}
+                                  <div class="input-box">
+                                    <input
+                                      name="secondTime"
+                                      type="number"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.secondTime}
+                                      // placeholder="Min"
+                                      style={{
+                                        borderBottomColor: "#dddddd",
+                                        borderBottomWidth: 1,
+                                      }}
+                                    />
+                                    <span class="unit">Min</span>
+                                  </div>
+                                </div>
 
                                 <div
                                   className="col-6"
@@ -650,32 +638,15 @@ class AddService extends Component {
 
                             {/* EXTRA BÊN NÀY */}
                             <div className="col-5">
-                              {this.state.render === false ? (
-                                <p
-                                  className="extra-btn"
-                                  onClick={() =>
-                                    this.setState({ render: true })
-                                  }
-                                  style={{
-                                    color: "#4251af",
-                                    fontWeight: "600",
-                                    letterSpacing: 0.3,
-                                    fontSize: 14,
-                                  }}
-                                >
-                                  + Add Extra
-                                </p>
-                              ) : (
-                                <Extra
-                                  setFieldValue={setFieldValue}
-                                  validationSchema={validationSchema}
-                                  errors={errors}
-                                  values={values}
-                                  handleChange={handleChange}
-                                  handleBlur={handleBlur}
-                                  touched={touched}
-                                />
-                              )}
+                              <Extra
+                                setFieldValue={setFieldValue}
+                                validationSchema={validationSchema}
+                                errors={errors}
+                                values={values}
+                                handleChange={handleChange}
+                                handleBlur={handleBlur}
+                                touched={touched}
+                              />
                             </div>
                           </div>
 

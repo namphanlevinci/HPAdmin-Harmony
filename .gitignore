@@ -6,7 +6,7 @@
 # testing
 /coverage
 
-# /url/url.js
+/url/url.js
 
 # production
 /build

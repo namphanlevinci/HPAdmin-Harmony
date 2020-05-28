@@ -39,6 +39,7 @@ class EditService extends Component {
       extras: [],
       //~ preview image
       imagePreviewUrl: "",
+      loading: false,
     };
   }
   componentDidMount() {
@@ -54,23 +55,26 @@ class EditService extends Component {
       });
     const service = this.props.SERVICE;
     if (service !== null) {
-      this.setState({
-        categoryId: service.categoryId,
-        categoryName: service.categoryName,
-        description: service.description,
-        discount: service.discount,
-        fileId: service.fileId,
-        name: service.name,
-        openTime: service.openTime,
-        position: service.position,
-        price: service.price,
-        secondTime: service.secondTime,
-        duration: service.duration,
-        isDisabled: service.isDisabled,
-        imageUrl: service.imageUrl,
-        extras: service.extras,
-        serviceId: service.serviceId,
-      });
+      this.setState(
+        {
+          categoryId: service.categoryId,
+          categoryName: service.categoryName,
+          description: service.description,
+          discount: service.discount,
+          fileId: service.fileId,
+          name: service.name,
+          openTime: service.openTime,
+          position: service.position,
+          price: service.price,
+          secondTime: service.secondTime,
+          duration: service.duration,
+          isDisabled: service.isDisabled,
+          imageUrl: service.imageUrl,
+          extras: service.extras,
+          serviceId: service.serviceId,
+        },
+        () => this.setState({ loading: true })
+      );
     }
   }
   handleChange = (e) => {
@@ -194,6 +198,7 @@ class EditService extends Component {
       { value: "1", label: "Disable" },
     ];
     const service = this.props.SERVICE;
+    console.log("service", service);
     // const { category } = this.state;
     // const mapCategory = category
     //   .filter((e) => e.categoryType !== "Product")
@@ -238,7 +243,10 @@ class EditService extends Component {
       ),
     });
 
-    const extraItem = service.extras.filter((e) => e.isDeleted !== 1);
+    const extraItem =
+      service?.extras.length !== 0
+        ? service?.extras.filter((e) => e?.isDeleted !== 1)
+        : null;
     return (
       <div
         className="react-transition swipe-up service-container"
@@ -273,17 +281,6 @@ class EditService extends Component {
                           Category *
                         </label>
                         <br />
-                        {/* <select
-                          onChange={(e) =>
-                            this.setState({ categoryId: e.target.value })
-                          }
-                        >
-                          <option value={service.categoryId}>
-                            {service.categoryName}
-                          </option>
-                          {mapCategory}
-                        </select> */}
-
                         <Select
                           styles={colourStyles}
                           options={
@@ -427,21 +424,22 @@ class EditService extends Component {
                       <div className="col-6" style={{ marginTop: 60 }}>
                         <label style={{ color: "#4251af" }}>Status</label>
                         <br />
-
-                        <Select
-                          styles={colourStyles}
-                          options={serviceStatus}
-                          defaultValue={{
-                            value: this.state.isDisabled,
-                            label:
-                              Number(this.state.isDisabled) === 0
-                                ? "Active"
-                                : "Disable",
-                          }}
-                          onChange={(e) => {
-                            this.setState({ isDisabled: e.value });
-                          }}
-                        />
+                        {this.state.loading && (
+                          <Select
+                            styles={colourStyles}
+                            options={serviceStatus}
+                            defaultValue={{
+                              value: this.state.isDisabled,
+                              label:
+                                Number(this.state.isDisabled) === 0
+                                  ? "Active"
+                                  : "Disable",
+                            }}
+                            onChange={(e) => {
+                              this.setState({ isDisabled: e.value });
+                            }}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
@@ -476,6 +474,7 @@ class EditService extends Component {
                             handleChange={handleChange}
                             handleBlur={handleBlur}
                             touched={touched}
+                            loading={this.state.loading}
                           />
                           <div className="Save-fixed-bottom">
                             <Button

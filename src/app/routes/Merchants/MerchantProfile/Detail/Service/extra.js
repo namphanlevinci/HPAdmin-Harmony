@@ -36,6 +36,7 @@ const Extra = ({
   values,
   touched,
   errors,
+  loading,
 }) => (
   <Form noValidate autoComplete="off">
     <FieldArray
@@ -45,17 +46,8 @@ const Extra = ({
         <div>
           {values.extras && values.extras.length > 0 ? (
             values.extras.map((extras, index) => {
-              // const extraName = `extras.${index}.name`;
-              // const touchedExtraName = getIn(touched, extraName);
-              // const errorExtraName = getIn(errors, extraName);
-
-              // const duration = `extras.${index}.duration`;
-              // const touchedDuration = getIn(touched, duration);
-              // const errorDuration = getIn(errors, duration);
-
-              // const price = `extras.${index}.price`;
-              // const touchedprice = getIn(touched, price);
-              // const errorPrice = getIn(errors, price);
+              const statusLabel =
+                extras?.isDisabled === 0 ? "Active" : "Disable";
               return (
                 <div style={{ marginBottom: 40 }}>
                   <div
@@ -100,22 +92,6 @@ const Extra = ({
                       <div className="input-feedback">
                         <ErrorMessage name={`extras.${index}.name`} />
                       </div>
-
-                      {/* <TextField
-                        margin="normal"
-                        variant="outlined"
-                        label="First name"
-                        name={extraName}
-                        value={extras.extraName}
-                        helperText={
-                          touchedExtraName && errorExtraName
-                            ? errorExtraName
-                            : ""
-                        }
-                        error={Boolean(touchedExtraName && errorExtraName)}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      /> */}
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
                       <label style={{ fontSize: 14, color: "#4251af" }}>
@@ -144,7 +120,6 @@ const Extra = ({
                       </label>
                       <div class="input-box">
                         <Field
-                          // placeholder="Min"
                           style={styles.input}
                           name={`extras.${index}.duration`}
                           type="number"
@@ -161,7 +136,6 @@ const Extra = ({
                       </label>
                       <div class="input-box">
                         <Field
-                          // placeholder="$"
                           style={styles.input}
                           name={`extras.${index}.price`}
                           type="number"
@@ -176,16 +150,22 @@ const Extra = ({
                       <label style={{ fontSize: 14, color: "#4251af" }}>
                         Status
                       </label>
-                      <Select
-                        styles={colourStyles}
-                        options={extraStatus}
-                        onChange={(selectOptions) => {
-                          setFieldValue(
-                            `extras.${index}.isDisabled`,
-                            selectOptions.value
-                          );
-                        }}
-                      />
+                      {loading && (
+                        <Select
+                          styles={colourStyles}
+                          options={extraStatus}
+                          onChange={(selectOptions) => {
+                            setFieldValue(
+                              `extras.${index}.isDisabled`,
+                              selectOptions.value
+                            );
+                          }}
+                          defaultValue={{
+                            value: `extras.${index}.isDisabled`,
+                            label: statusLabel,
+                          }}
+                        />
+                      )}
 
                       <div className="input-feedback">
                         <ErrorMessage name={`extras.${index}.isDisabled`} />
@@ -201,20 +181,22 @@ const Extra = ({
                     </div>
                   </div>
                   {values.extras.length - 1 === index ? (
-                    <p
-                      style={{
-                        marginLeft: -15,
-                        color: "#4251af",
-                        fontWeight: "600",
-                        fontSize: 14,
-                        marginTop: 30,
-                        cursor: "pointer",
-                        letterSpacing: 0.3,
-                      }}
-                      onClick={() => arrayHelpers.insert(index, "")}
-                    >
-                      + Add Extra
-                    </p>
+                    <div style={{ textAlign: "left" }}>
+                      <p
+                        style={{
+                          marginLeft: -15,
+                          color: "#4251af",
+                          fontWeight: "600",
+                          fontSize: 14,
+                          marginTop: 30,
+                          cursor: "pointer",
+                          letterSpacing: 0.3,
+                        }}
+                        onClick={() => arrayHelpers.insert(index, "")}
+                      >
+                        + Add Extra
+                      </p>
+                    </div>
                   ) : (
                     ""
                   )}

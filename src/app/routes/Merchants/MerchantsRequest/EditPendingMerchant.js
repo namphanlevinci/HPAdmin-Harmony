@@ -187,9 +187,13 @@ class EditPendingMerchant extends Component {
             <h3>{"HP-" + e.merchantId}</h3>
 
             <span>
-              <Button className="btn btn-red" onClick={this.goBack}>
+              {/* <Button
+                className="btn btn-red"
+                style={{ marginTop: "0px" }}
+                onClick={this.goBack}
+              >
                 BACK
-              </Button>
+              </Button> */}
               {/* <Button className="btn btn-green" onClick={this.handleEdit}>
                 SAVE
               </Button> */}

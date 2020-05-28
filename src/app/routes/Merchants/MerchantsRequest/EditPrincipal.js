@@ -108,7 +108,6 @@ const EditPrincipal = ({
         DiscountRate: 10,
       },
     };
-    console.log("body", body);
 
     axios
       .put(URL + `/merchant/${initValue?.ID}`, body, {
@@ -378,8 +377,8 @@ const EditPrincipal = ({
                             <label>Void Check*</label> <br />
                             {/* {$imagePreview} */}
                             <img
-                              className="bankVoid"
-                              style={styles.image}
+                              className="pending-image"
+                              // style={styles.image}
                               src={PrincipalInfo?.imageUrl}
                               alt="void"
                             />
@@ -431,7 +430,7 @@ const EditPrincipal = ({
                           history.push("/app/merchants/pending/profile")
                         }
                       >
-                        CANCEL
+                        BACK
                       </Button>
                       <Button type="submit" className="btn btn-green">
                         SAVE

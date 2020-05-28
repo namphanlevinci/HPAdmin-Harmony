@@ -126,7 +126,6 @@ class MerchantReqProfile extends Component {
   }
   render() {
     const e = this.props.PendingProfile;
-    console.log("e", e);
     let principalLength = this.props.PendingProfile?.principals?.length;
 
     //! render Principal
@@ -190,7 +189,7 @@ class MerchantReqProfile extends Component {
                 <h4>Driver License Picture</h4>
                 {
                   <img
-                    style={{ width: "250px", height: "200px" }}
+                    className="pending-image"
                     src={`${e.imageUrl}`}
                     alt="void check"
                   />
@@ -520,13 +519,15 @@ class MerchantReqProfile extends Component {
                 <div className="row">{renderQuestion}</div>
                 <h2 style={styles.h2}>Bank Information</h2>
                 <div className="row">
-                  <div className="col-4">
+                  <div className="col-3">
                     <h4>Bank Name*</h4>
-                    <p>
-                      {e.businessBank !== null ? e.businessBank.name : null}
-                    </p>
+                    <p>{e?.businessBank?.name}</p>
                   </div>
-                  <div className="col-4">
+                  <div className="col-3">
+                    <h4>Account Holder Name*</h4>
+                    <p>{e?.businessBank?.accountHolderName}</p>
+                  </div>
+                  <div className="col-3">
                     <h4>ABA Routing Number*</h4>
                     <p>
                       {e.businessBank !== null
@@ -534,7 +535,7 @@ class MerchantReqProfile extends Component {
                         : null}
                     </p>
                   </div>
-                  <div className="col-4">
+                  <div className="col-3">
                     <h4>Checking Account Number (DDA)*</h4>
                     <p>
                       {e.businessBank !== null
@@ -546,7 +547,7 @@ class MerchantReqProfile extends Component {
                     <h4>Void Check*</h4>
                     {e.businessBank !== null ? (
                       <img
-                        style={{ width: "250px", height: "200px" }}
+                        className="pending-image"
                         src={`${e.businessBank.imageUrl}`}
                         alt="void check"
                       />

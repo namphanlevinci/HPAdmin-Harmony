@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
+import URL, { upFileUrl } from "../../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -11,7 +12,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
-import URL, { upFileUrl } from "../../../../../../url/url";
 import defaultImage from "../Extra/hpadmin2.png";
 import AddService from "./add-service";
 
@@ -105,7 +105,6 @@ class Service extends Component {
   render() {
     // Search
     let serviceList = this.state.data;
-    console.log("SERIVE LIST", serviceList);
     if (serviceList) {
       if (this.state.search) {
         serviceList = serviceList.filter((e) => {

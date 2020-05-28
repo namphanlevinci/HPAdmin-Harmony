@@ -285,6 +285,7 @@ class AddMerchant extends React.Component {
         routingNumber: data?.routingNumber,
         accountNumber: data?.accountNumber,
         fileId: data.fileId ? data.fileId : 0,
+        accountHolderName: data?.accountHolderName,
       },
       principalInfo: data.principalInfo,
       packagePricing: data.valuePricingPlane,

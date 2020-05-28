@@ -201,6 +201,7 @@ class Merchants extends React.Component {
                 style={{
                   backgroundColor: "#4251af",
                   color: "white",
+                  marginTop: "0px",
                 }}
                 className="btn btn-red"
                 onClick={this.addMerchant}
