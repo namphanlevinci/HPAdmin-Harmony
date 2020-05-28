@@ -55,7 +55,6 @@ class proFile extends Component {
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
     const e = this.props.UserProfile?.User?.userAdmin;
-    console.log("e", e);
     this.setState(
       {
         Token: Token,
@@ -198,10 +197,9 @@ class proFile extends Component {
   };
 
   _updateSettings = () => {
-    console.log("this.props.history", this.props.history.location.pathname);
+    this.setState({ error: "", confirmError: "" });
     const patchURL = this.props.history.location.pathname;
     if (patchURL === "/app/profile/password") {
-      this.setState({ error: "", confirmError: "" });
       const { password, confirmPassword } = this.state;
       if (password === null) {
         this.setState({ error: "Please enter Password " });
@@ -235,6 +233,7 @@ class proFile extends Component {
   render() {
     let { imagePreviewUrl } = this.state;
     const e = this.props.UserProfile?.User?.userAdmin;
+    console.log("e", e);
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = <img src={imagePreviewUrl} alt="avatar" />;
@@ -297,10 +296,7 @@ class proFile extends Component {
                 >
                   <div style={styles.navIcon}>
                     <GiCheckedShield size={20} />
-                    <span style={{ paddingLeft: "10px" }}>
-                      {" "}
-                      Change password
-                    </span>
+                    <span style={{ paddingLeft: "10px" }}>Change password</span>
                   </div>
                 </NavLink>
               </div>

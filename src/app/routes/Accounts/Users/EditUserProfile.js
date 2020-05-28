@@ -43,7 +43,7 @@ class EditUserProfile extends Component {
       address: "",
       city: "",
       zip: "",
-      password: null,
+      currentPassword: null,
       confirmPassword: null,
       waRoleId: "",
       phone: "",
@@ -57,6 +57,8 @@ class EditUserProfile extends Component {
       imagePreviewUrl: "",
       loading: false,
       showPassword: false,
+      isPass: false,
+      newPassword: null,
     };
   }
 
@@ -73,7 +75,7 @@ class EditUserProfile extends Component {
         address: e.address,
         city: e.city,
         zip: e.zip,
-        password: e.password,
+        currentPassword: e.password,
         waRoleId: e.waRoleId,
         phone: e.phone,
         stateId: e.stateId,
@@ -145,8 +147,10 @@ class EditUserProfile extends Component {
       stateId,
       fileId,
       waRoleId,
-      password,
+      currentPassword,
+      newPassword,
     } = this.state;
+    const password = newPassword !== null ? newPassword : currentPassword;
     axios
       .put(
         URL + "/adminuser/" + ID,
@@ -208,23 +212,22 @@ class EditUserProfile extends Component {
 
   _updateSettings = () => {
     this.setState({ error: "", confirmError: "" });
-    let patchURL = this.props.history.location.pathname;
-    console.log("patchURL", patchURL);
-    if (patchURL === "/app/accounts/admin/profile/edit/password") {
-      const { password, confirmPassword } = this.state;
-      if (password === null) {
+
+    if (this.state.isPass) {
+      const { newPassword, confirmPassword } = this.state;
+      if (newPassword === null) {
         this.setState({ error: "Please enter Password " });
       }
       if (confirmPassword === null) {
         this.setState({ confirmError: "Please enter Confirm Password" });
       }
-      if (password !== confirmPassword) {
+      if (newPassword !== confirmPassword) {
         this.setState({ confirmError: "Confirm Password didn't match" });
       }
       if (
-        password !== null &&
+        newPassword !== null &&
         confirmPassword !== null &&
-        password === confirmPassword
+        newPassword === confirmPassword
       ) {
         this.updateAdmin();
       }
@@ -288,6 +291,7 @@ class EditUserProfile extends Component {
                     color: "#4251af",
                     textDecoration: "underline",
                   }}
+                  onClick={() => this.setState({ isPass: false })}
                 >
                   <div style={styles.navIcon}>
                     <FaPen size={19} />
@@ -303,13 +307,11 @@ class EditUserProfile extends Component {
                     color: "#4251af",
                     textDecoration: "underline",
                   }}
+                  onClick={() => this.setState({ isPass: true })}
                 >
                   <div style={styles.navIcon}>
                     <GiCheckedShield size={20} />
-                    <span style={{ paddingLeft: "10px" }}>
-                      {" "}
-                      Change password
-                    </span>
+                    <span style={{ paddingLeft: "10px" }}>Change password</span>
                   </div>
                 </NavLink>
               </div>

@@ -26,8 +26,9 @@
   opacity: 0.7;
 }
 .AdminProfile div img {
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: auto;
+  max-width: 720px;
   background-position: center;
 }
 

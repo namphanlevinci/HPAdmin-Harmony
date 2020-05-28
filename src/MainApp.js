@@ -3,6 +3,8 @@ import { ConnectedRouter } from "connected-react-router";
 import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
+import { hot } from "react-hot-loader/root";
+
 import configureStore, { history } from "./store";
 import App from "./containers/App";
 
@@ -22,4 +24,4 @@ const MainApp = () => (
   </Provider>
 );
 
-export default MainApp;
+export default hot(MainApp);

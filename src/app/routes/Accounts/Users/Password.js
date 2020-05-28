@@ -41,7 +41,7 @@ function Password({
           <div style={{ display: "flex" }}>
             <input
               type={showPassword ? "text" : "password"}
-              name="password"
+              name="newPassword"
               //   value={password}
               onChange={handleChange}
               //   style={styles.input}

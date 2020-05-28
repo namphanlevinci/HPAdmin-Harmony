@@ -1,8 +1,8 @@
 // Dev
-const URL = "https://api2.levincidemo.com/api";
-export const SignalURL = "https://api2.levincidemo.com";
-export const upFileUrl =
-  "https://api2.levincidemo.com/api/file?category=service";
+// const URL = "https://api2.levincidemo.com/api";
+// export const SignalURL = "https://api2.levincidemo.com";
+// export const upFileUrl =
+//   "https://api2.levincidemo.com/api/file?category=service";
 
 // PRODUCT
 
@@ -19,9 +19,9 @@ export const upFileUrl =
 // export default URL;
 
 // STAGING
-// const URL = "https://staging.harmonypayment.com/api";
-// export const SignalURL = "https://staging.harmonypayment.com";
-// export const upFileUrl =
-//   "https://staging.harmonypayment.com/api/file?category=service";
+const URL = "https://staging.harmonypayment.com/api";
+export const SignalURL = "https://staging.harmonypayment.com";
+export const upFileUrl =
+  "https://staging.harmonypayment.com/api/file?category=service";
 
 export default URL;
