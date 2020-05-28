@@ -4,14 +4,22 @@ import StateID from "../../../../../util/getState";
 import PhoneInput from "react-phone-input-2";
 import selectState from "../../../../../util/selectState";
 import Select from "react-select";
+import MaskedInput from "react-text-mask";
 
 import "react-phone-input-2/lib/high-res.css";
+
+const countryCode = [
+  { value: "+1", label: "+1" },
+  { value: "+84", label: "+84" },
+];
+
 const General = ({
   handleChange,
   value,
   validator,
   handleNumber,
   handleSelect,
+  handleCountryCode,
 }) => {
   return (
     <div className="general-container">
@@ -133,7 +141,7 @@ const General = ({
         </div>
         <div className="col-4">
           <div style={{ width: "100%" }}>
-            <label>Business Phone Number</label>
+            {/* <label>Business Phone Number</label>
             <PhoneInput
               style={{ marginTop: "10px" }}
               country={"us"}
@@ -147,7 +155,50 @@ const General = ({
               "businessPhone",
               value.businessPhone,
               "required|string"
-            )}
+            )} */}
+            <div className="row form-group" style={{ marginTop: "10px" }}>
+              <div className="col-5">
+                <label> Code</label>
+                <Select
+                  options={countryCode}
+                  defaultValue={{
+                    label: `${value.businessPhoneCode}`,
+                  }}
+                  name="businessPhoneCode"
+                  onChange={handleCountryCode}
+                />
+              </div>
+              <div className="col-7" style={styles.phoneInput}>
+                <label> Business Phone Number</label>
+                <MaskedInput
+                  mask={[
+                    /[1-9]/,
+                    /\d/,
+                    /\d/,
+                    "-",
+
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                    "-",
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                  ]}
+                  className="form-control"
+                  style={{ padding: "8px 0px" }}
+                  guide={false}
+                  name="businessPhone"
+                  onChange={handleNumber}
+                />
+                {validator.message(
+                  "businessPhone",
+                  value.businessPhone,
+                  "required|string"
+                )}
+              </div>
+            </div>
           </div>
         </div>
         <div className="col-4">
@@ -222,8 +273,8 @@ const General = ({
           </div>
           <div className="col-6">
             <div>
-              <label>Phone Number</label>
-              <PhoneInput
+              {/* <label>Phone Number</label> */}
+              {/* <PhoneInput
                 country={"us"}
                 style={{ marginTop: "10px" }}
                 placeholder="Phone Number"
@@ -235,7 +286,49 @@ const General = ({
                 "contactPhone",
                 value.contactPhone,
                 "required|string"
-              )}
+              )} */}
+              <div className="row form-group" style={{ marginTop: "10px" }}>
+                <div className="col-5">
+                  <label>Code</label>
+                  <Select
+                    options={countryCode}
+                    defaultValue={{
+                      label: `${value.contactPhoneCode}`,
+                    }}
+                    name="contactPhoneCode"
+                    onChange={handleCountryCode}
+                  />
+                </div>
+                <div className="col-7" style={styles.phoneInput}>
+                  <label> Contact Phone Number</label>
+                  <MaskedInput
+                    mask={[
+                      /[1-9]/,
+                      /\d/,
+                      /\d/,
+                      "-",
+                      /\d/,
+                      /\d/,
+                      /\d/,
+                      "-",
+                      /\d/,
+                      /\d/,
+                      /\d/,
+                      /\d/,
+                    ]}
+                    className="form-control"
+                    style={{ padding: "8px 0px" }}
+                    guide={false}
+                    name="contactPhone"
+                    onChange={handleNumber}
+                  />
+                  {validator.message(
+                    "contactPhone",
+                    value.contactPhone,
+                    "required|string"
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -245,3 +338,10 @@ const General = ({
 };
 
 export default General;
+
+const styles = {
+  phoneInput: {
+    padding: "0px 0px",
+    // marginTop: "3px",
+  },
+};

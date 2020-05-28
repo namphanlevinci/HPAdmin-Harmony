@@ -24,7 +24,7 @@ const initialState = {
   imagePreviewUrl: "",
   initialBusinessQuestions: {},
 
-  activeStep: 0,
+  activeStep: 3,
   // General Info
   businessName: "",
   doingBusiness: "",
@@ -97,8 +97,6 @@ class AddMerchant extends React.Component {
 
   setDataPrincipal = (info, fileId) => {
     const principalInfo = { ...info };
-    // const currentState = principalInfo[0];
-    // currentState["fileId"] = fileId;
     this.setState({ principalInfo: info });
   };
 
@@ -110,7 +108,8 @@ class AddMerchant extends React.Component {
             handleChange={this.handleChange}
             handleSelect={this.handleSelect}
             value={this.state}
-            handleNumber={this.handleNumber}
+            handleNumber={this.handleChangeNumber}
+            handleCountryCode={this.handleCountryCode}
             validator={this.validator}
           />
         );
@@ -215,8 +214,15 @@ class AddMerchant extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleNumber = (value, name) => {
+  handleCountryCode = ({ value }, { name }) => {
     this.setState({ [name]: value });
+  };
+
+  handleChangeNumber = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () =>
+      console.log("this.state", this.state)
+    );
   };
 
   handleSelect = (value, name) => {
@@ -232,6 +238,13 @@ class AddMerchant extends React.Component {
       });
     }
   };
+
+  // formatPhone = (Phone) => {
+  //   return Phone.replace(/[{( )}]/g, "").replace(
+  //     /(\d{3})\-?(\d{3})\-?(\d{4})/,
+  //     "$1-$2-$3"
+  //   );
+  // };
 
   submitAddMerchant = () => {
     const data = this.state;

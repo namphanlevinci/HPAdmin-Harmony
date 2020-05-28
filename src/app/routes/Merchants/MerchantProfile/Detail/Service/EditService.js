@@ -198,15 +198,6 @@ class EditService extends Component {
       { value: "1", label: "Disable" },
     ];
     const service = this.props.SERVICE;
-    console.log("service", service);
-    // const { category } = this.state;
-    // const mapCategory = category
-    //   .filter((e) => e.categoryType !== "Product")
-    //   .map((e) => (
-    //     <option value={e.categoryId} key={e.categoryId}>
-    //       {e.name}
-    //     </option>
-    //   ));
 
     //~ preview image
     let { imagePreviewUrl } = this.state;

@@ -13,6 +13,7 @@ import * as Yup from "yup";
 
 import Select from "react-select";
 import selectState from "../../../../../util/selectState";
+import MaskedInput from "react-text-mask";
 
 import "react-phone-input-2/lib/high-res.css";
 
@@ -60,7 +61,19 @@ class Principal extends Component {
         console.log(err);
       });
   };
+
+  formatPhone = (Phone) => {
+    return Phone.replace(/[{( )}]/g, "").replace(
+      /(\d{3})\-?(\d{3})\-?(\d{4})/,
+      "$1-$2-$3"
+    );
+  };
+
   render() {
+    const countryCode = [
+      { value: "+1", label: "+1" },
+      { value: "+84", label: "+84" },
+    ];
     // ValidationSchema
     const validationSchema = Yup.object().shape({
       principalInfo: Yup.array().of(
@@ -209,7 +222,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Home Phone</label>
+                                  {/* <label>Home Phone</label>
                                   <PhoneInput
                                     style={{ marginTop: "10px" }}
                                     country={"us"}
@@ -222,10 +235,58 @@ class Principal extends Component {
                                         e
                                       )
                                     }
-                                  />
+                                  /> */}
+                                  <div
+                                    className="row form-group"
+                                    style={{ marginTop: "10px" }}
+                                  >
+                                    <div className="col-5">
+                                      <label> Code</label>
+                                      <Select
+                                        options={countryCode}
+                                        defaultValue={{
+                                          label: "+1",
+                                        }}
+                                        name="businessPhoneCode"
+                                        // onChange={handleCountryCode}
+                                      />
+                                    </div>
+                                    <div
+                                      className="col-7"
+                                      style={styles.phoneInput}
+                                    >
+                                      <label>Home Phone</label>
+                                      <MaskedInput
+                                        mask={[
+                                          /[1-9]/,
+                                          /\d/,
+                                          /\d/,
+                                          "-",
+                                          /\d/,
+                                          /\d/,
+                                          /\d/,
+                                          "-",
+                                          /\d/,
+                                          /\d/,
+                                          /\d/,
+                                          /\d/,
+                                        ]}
+                                        className="form-control"
+                                        style={{ padding: "8px 0px" }}
+                                        guide={false}
+                                        name={`principalInfo.${index}.mobilePhone`}
+                                        onChange={(e) =>
+                                          setFieldValue(
+                                            `principalInfo.${index}.homePhone`,
+                                            e
+                                          )
+                                        }
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Mobile Phone</h4>
+                                  {/* <h4>Mobile Phone</h4>
                                   <PhoneInput
                                     style={{ marginTop: "10px" }}
                                     country={"us"}
@@ -238,7 +299,55 @@ class Principal extends Component {
                                         e
                                       )
                                     }
-                                  />
+                                  /> */}
+                                  <div
+                                    className="row form-group"
+                                    style={{ marginTop: "10px" }}
+                                  >
+                                    <div className="col-5">
+                                      <label> Code</label>
+                                      <Select
+                                        options={countryCode}
+                                        defaultValue={{
+                                          label: "+1",
+                                        }}
+                                        name="businessPhoneCode"
+                                        // onChange={handleCountryCode}
+                                      />
+                                    </div>
+                                    <div
+                                      className="col-6"
+                                      style={styles.phoneInput}
+                                    >
+                                      <label>Mobile Phone</label>
+                                      <MaskedInput
+                                        mask={[
+                                          /[1-9]/,
+                                          /\d/,
+                                          /\d/,
+                                          "-",
+                                          /\d/,
+                                          /\d/,
+                                          /\d/,
+                                          "-",
+                                          /\d/,
+                                          /\d/,
+                                          /\d/,
+                                          /\d/,
+                                        ]}
+                                        className="form-control"
+                                        style={{ padding: "8px 0px" }}
+                                        guide={false}
+                                        name={`principalInfo.${index}.mobilePhone`}
+                                        onChange={(e) =>
+                                          setFieldValue(
+                                            `principalInfo.${index}.mobilePhone`,
+                                            e
+                                          )
+                                        }
+                                      />
+                                    </div>
+                                  </div>
 
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -472,3 +581,9 @@ class Principal extends Component {
 }
 
 export default Principal;
+const styles = {
+  phoneInput: {
+    padding: "0px 0px",
+    // marginTop: "3px",
+  },
+};
