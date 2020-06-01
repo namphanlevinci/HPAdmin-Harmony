@@ -63,10 +63,17 @@ class Principal extends Component {
   };
 
   formatPhone = (Phone) => {
-    return Phone.replace(/[{( )}]/g, "").replace(
-      /(\d{3})\-?(\d{3})\-?(\d{4})/,
-      "$1-$2-$3"
-    );
+    if (Phone.startsWith("1")) {
+      return Phone.replace(/[{( )}]/g, "").replace(
+        /(\d{4})\-?(\d{3})\-?(\d{4})/,
+        "+$1-$2-$3"
+      );
+    }
+    if (Phone.startsWith("84"))
+      return Phone.replace(/[{( )}]/g, "").replace(
+        /(\d{5})\-?(\d{3})\-?(\d{4})/,
+        "+$1-$2-$3"
+      );
   };
 
   render() {
@@ -169,7 +176,7 @@ class Principal extends Component {
                                 </div>
 
                                 <div className="col-4">
-                                  <h4>First Name</h4>
+                                  <label>First Name</label>
                                   <Field
                                     placeholder="First Name"
                                     name={`principalInfo.${index}.firstName`}
@@ -182,7 +189,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Last Name</h4>
+                                  <label>Last Name</label>
                                   <Field
                                     name={`principalInfo.${index}.lastName`}
                                     values={`principalInfo.${index}.lastName`}
@@ -195,7 +202,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Position</h4>
+                                  <label>Position</label>
                                   <Field
                                     name={`principalInfo.${index}.position`}
                                     values={`principalInfo.${index}.position`}
@@ -208,8 +215,11 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Ownership</label>
+                                  <label style={{ marginTop: "10px" }}>
+                                    Ownership
+                                  </label>
                                   <Field
+                                    style={{ marginTop: "10px" }}
                                     name={`principalInfo.${index}.ownership`}
                                     values={`principalInfo.${index}.ownership`}
                                     placeholder="Ownership (%)"
@@ -222,9 +232,9 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  {/* <label>Home Phone</label>
+                                  <label>Home Phone</label>
                                   <PhoneInput
-                                    style={{ marginTop: "10px" }}
+                                    // style={{ marginTop: "10px" }}
                                     country={"us"}
                                     placeholder="Home Phone Number"
                                     name={`principalInfo.${index}.mobilePhone`}
@@ -232,11 +242,11 @@ class Principal extends Component {
                                     onChange={(e) =>
                                       setFieldValue(
                                         `principalInfo.${index}.homePhone`,
-                                        e
+                                        this.formatPhone(e)
                                       )
                                     }
-                                  /> */}
-                                  <div
+                                  />
+                                  {/* <div
                                     className="row form-group"
                                     style={{ marginTop: "10px" }}
                                   >
@@ -283,12 +293,12 @@ class Principal extends Component {
                                         }
                                       />
                                     </div>
-                                  </div>
+                                  </div> */}
                                 </div>
                                 <div className="col-4">
-                                  {/* <h4>Mobile Phone</h4>
+                                  <label>Mobile Phone</label>
                                   <PhoneInput
-                                    style={{ marginTop: "10px" }}
+                                    // style={{ marginTop: "10px" }}
                                     country={"us"}
                                     placeholder="Business Phone Number"
                                     name={`principalInfo.${index}.mobilePhone`}
@@ -296,11 +306,11 @@ class Principal extends Component {
                                     onChange={(e) =>
                                       setFieldValue(
                                         `principalInfo.${index}.mobilePhone`,
-                                        e
+                                        this.formatPhone(e)
                                       )
                                     }
-                                  /> */}
-                                  <div
+                                  />
+                                  {/* <div
                                     className="row form-group"
                                     style={{ marginTop: "10px" }}
                                   >
@@ -347,7 +357,7 @@ class Principal extends Component {
                                         }
                                       />
                                     </div>
-                                  </div>
+                                  </div> */}
 
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -356,7 +366,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Address</h4>
+                                  <label>Address</label>
                                   <Field
                                     name={`principalInfo.${index}.addressPrincipal.address`}
                                     values={`principalInfo.${index}.addressPrincipal.address`}
@@ -370,7 +380,7 @@ class Principal extends Component {
                                 </div>
 
                                 <div className="col-4">
-                                  <h4>City</h4>
+                                  <label>City</label>
                                   <Field
                                     name={`principalInfo.${index}.addressPrincipal.city`}
                                     values={`principalInfo.${index}.addressPrincipal.city`}
@@ -383,7 +393,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>State</h4>
+                                  <label>State</label>
                                   <Select
                                     onChange={(e) =>
                                       setFieldValue(
@@ -402,7 +412,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Zip</h4>
+                                  <label>Zip</label>
                                   <Field
                                     name={`principalInfo.${index}.addressPrincipal.zip`}
                                     values={`principalInfo.${index}.addressPrincipal.zip`}
@@ -415,11 +425,39 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Social security Number (SSN)</h4>
-                                  <Field
+                                  <label>Social security Number (SSN)</label>
+                                  {/* <Field
                                     name={`principalInfo.${index}.ssn`}
                                     values={`principalInfo.${index}.ssn`}
                                     placeholder="SSN"
+                                  /> */}
+                                  <MaskedInput
+                                    mask={[
+                                      /[1-9]/,
+                                      /\d/,
+                                      /\d/,
+                                      "-",
+                                      /\d/,
+                                      /\d/,
+                                      "-",
+                                      /\d/,
+                                      /\d/,
+                                      /\d/,
+                                      /\d/,
+                                    ]}
+                                    // className="form-control"
+                                    // style={{ padding: "8px 0px" }}
+                                    guide={false}
+                                    values={`principalInfo.${index}.ssn`}
+                                    name={`principalInfo.${index}.ssn`}
+                                    onChange={(e) => [
+                                      e.persist(),
+                                      setFieldValue(
+                                        `principalInfo.${index}.ssn`,
+                                        e.target.value
+                                      ),
+                                      // console.log("e", e.target.value),
+                                    ]}
                                   />
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -428,7 +466,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Date of Birth (mm/dd/yyyy)</h4>
+                                  <label>Date of Birth (mm/dd/yyyy)</label>
                                   <Field
                                     type="date"
                                     name={`principalInfo.${index}.dateOfBirth`}
@@ -442,7 +480,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Email Address*</h4>
+                                  <label>Email Address*</label>
                                   <Field
                                     name={`principalInfo.${index}.email`}
                                     values={`principalInfo.${index}.email`}
@@ -455,7 +493,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>Driver License Number*</h4>
+                                  <label>Driver License Number*</label>
                                   <Field
                                     name={`principalInfo.${index}.driverLicense`}
                                     values={`principalInfo.${index}.driverLicense`}
@@ -468,7 +506,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <h4>State Issued*</h4>
+                                  <label>State Issued*</label>
                                   <Select
                                     onChange={(e) =>
                                       setFieldValue(
@@ -488,9 +526,10 @@ class Principal extends Component {
 
                                 <div className="col-12">
                                   <div className="form-group">
-                                    <h4>
-                                      Driver License Picture* <br />
-                                    </h4>
+                                    <label style={{ marginBottom: "10px" }}>
+                                      Driver License Picture*
+                                    </label>
+                                    <br />
                                     <div className="Upload">
                                       {PrincipalImage ? (
                                         <div
@@ -515,7 +554,11 @@ class Principal extends Component {
                                       </div>
                                       <input
                                         type="file"
-                                        className="upload"
+                                        className="custom-input"
+                                        style={{
+                                          width: "26%",
+                                          marginTop: "10px",
+                                        }}
                                         name={`principalInfo.${index}.fileId`}
                                         onChange={(e) =>
                                           this._handleImageChange(
@@ -561,7 +604,6 @@ class Principal extends Component {
                         </Button>
                         <Button
                           type="submit"
-                          disable={isSubmitting}
                           className="btn btn-red"
                           style={{ backgroundColor: "#4251af", color: "white" }}
                         >

@@ -385,6 +385,7 @@ const EditPrincipal = ({
                             <input
                               type="file"
                               style={styles.imageInput}
+                              className="custom-input"
                               name={`PrincipalInfo.${index}.fileId`}
                               // id="file"
                               onChange={(e, name) => [

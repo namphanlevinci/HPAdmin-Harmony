@@ -1,3 +1,25 @@
+
+
+.password label, input {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.password input {
+  padding: .5rem 1rem;
+}
+
+.password .password-trigger {
+  position: absolute;
+  top: 50%;
+  right: .5rem;
+  color: #666;
+  z-index: 9999;
+  user-select: none;
+}
+
 .container .SettingsContent input {
   width: 250px !important;
   font-weight: 500;

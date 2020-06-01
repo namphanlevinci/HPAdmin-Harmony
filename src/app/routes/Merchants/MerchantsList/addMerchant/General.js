@@ -8,10 +8,10 @@ import MaskedInput from "react-text-mask";
 
 import "react-phone-input-2/lib/high-res.css";
 
-const countryCode = [
-  { value: "+1", label: "+1" },
-  { value: "+84", label: "+84" },
-];
+// const countryCode = [
+//   { value: "+1", label: "+1" },
+//   { value: "+84", label: "+84" },
+// ];
 
 const General = ({
   handleChange,
@@ -19,7 +19,8 @@ const General = ({
   validator,
   handleNumber,
   handleSelect,
-  handleCountryCode,
+  // handleCountryCode,
+  handlePhone,
 }) => {
   return (
     <div className="general-container">
@@ -141,22 +142,22 @@ const General = ({
         </div>
         <div className="col-4">
           <div style={{ width: "100%" }}>
-            {/* <label>Business Phone Number</label>
+            <label>Business Phone Number</label>
             <PhoneInput
               style={{ marginTop: "10px" }}
               country={"us"}
               placeholder="Business Phone Number"
               name="businessPhone"
               value={value.businessPhone}
-              onChange={(e) => handleNumber(e, "businessPhone")}
+              onChange={(e) => handlePhone(e, "businessPhone")}
             />
 
             {validator.message(
               "businessPhone",
               value.businessPhone,
               "required|string"
-            )} */}
-            <div className="row form-group" style={{ marginTop: "10px" }}>
+            )}
+            {/* <div className="row form-group" style={{ marginTop: "10px" }}>
               <div className="col-5">
                 <label> Code</label>
                 <Select
@@ -198,7 +199,7 @@ const General = ({
                   "required|string"
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="col-4">
@@ -273,21 +274,21 @@ const General = ({
           </div>
           <div className="col-6">
             <div>
-              {/* <label>Phone Number</label> */}
-              {/* <PhoneInput
+              <label>Phone Number</label>
+              <PhoneInput
                 country={"us"}
                 style={{ marginTop: "10px" }}
                 placeholder="Phone Number"
                 name="contactPhone"
                 value={value.contactPhone}
-                onChange={(e) => handleNumber(e, "contactPhone")}
+                onChange={(e) => handlePhone(e, "contactPhone")}
               />
               {validator.message(
                 "contactPhone",
                 value.contactPhone,
                 "required|string"
-              )} */}
-              <div className="row form-group" style={{ marginTop: "10px" }}>
+              )}
+              {/* <div className="row form-group" style={{ marginTop: "10px" }}>
                 <div className="col-5">
                   <label>Code</label>
                   <Select
@@ -298,8 +299,8 @@ const General = ({
                     name="contactPhoneCode"
                     onChange={handleCountryCode}
                   />
-                </div>
-                <div className="col-7" style={styles.phoneInput}>
+                </div> */}
+              {/* <div className="col-7" style={styles.phoneInput}>
                   <label> Contact Phone Number</label>
                   <MaskedInput
                     mask={[
@@ -328,7 +329,7 @@ const General = ({
                     "required|string"
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

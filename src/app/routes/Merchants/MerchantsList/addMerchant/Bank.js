@@ -4,8 +4,7 @@ import defaultImage from "./hpadmin2.png";
 
 import "./addMerchant.css";
 
-const Bank = ({ value, handleChange, uploadFile }) => {
-  console.log("Value", value);
+const Bank = ({ value, handleChange, uploadFile, validator }) => {
   return (
     <div>
       <div className="row">
@@ -20,6 +19,7 @@ const Bank = ({ value, handleChange, uploadFile }) => {
               fullWidth
               onChange={handleChange}
             />
+            {validator.message("bankName", value.bankName, "required|string")}
           </div>
         </div>
         <div className="col-6">
@@ -33,6 +33,11 @@ const Bank = ({ value, handleChange, uploadFile }) => {
               fullWidth
               onChange={handleChange}
             />
+            {validator.message(
+              "accountHolderName",
+              value.accountHolderName,
+              "required|string"
+            )}
           </div>
         </div>
         <div className="col-6">
@@ -46,6 +51,11 @@ const Bank = ({ value, handleChange, uploadFile }) => {
               fullWidth
               onChange={handleChange}
             />
+            {validator.message(
+              "routingNumber",
+              value.routingNumber,
+              "required|string"
+            )}
           </div>
         </div>
         <div className="col-6">
@@ -59,6 +69,11 @@ const Bank = ({ value, handleChange, uploadFile }) => {
               fullWidth
               onChange={handleChange}
             />
+            {validator.message(
+              "accountNumber",
+              value.accountNumber,
+              "required|string"
+            )}
           </div>
         </div>
 
@@ -78,10 +93,12 @@ const Bank = ({ value, handleChange, uploadFile }) => {
                   }
                   alt="void"
                 />
+                {validator.message("fileId", value.fileId, "required|integer")}
               </div>
               <input
                 type="file"
-                className="upload"
+                style={{ marginTop: "10px" }}
+                className="custom-input"
                 onChange={(e) => uploadFile(e)}
               />
             </div>

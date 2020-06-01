@@ -380,6 +380,7 @@ class EditPendingMerchant extends Component {
                     style={styles.imageInput}
                     name="image"
                     id="file"
+                    className="custom-input"
                     onChange={(e) => this._uploadFile(e)}
                   />
                 </div>

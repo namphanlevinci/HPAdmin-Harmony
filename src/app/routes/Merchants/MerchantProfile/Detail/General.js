@@ -19,6 +19,7 @@ class General extends Component {
       address: "",
       city: "",
       stateId: "",
+      showP: false,
     };
   }
   _toggleEdit = () => {
@@ -28,9 +29,8 @@ class General extends Component {
   render() {
     const e = this.props.MerchantProfile;
     const renderGeneral = (
-      // e.general !== undefined ? (
       <div className="react-transition swipe-up">
-        <div className="container-fuild">
+        <div className="container-fluid">
           <h2 style={styles.h2}>General Information</h2>
           <div className="row justify-content-between">
             <div className="col-4">
@@ -60,6 +60,26 @@ class General extends Component {
             <div className="col-4">
               <label>Contact Email Address*</label>
               <p>{e.general !== null ? e.general.emailContact : null}</p>
+            </div>
+            <div className="col-4">
+              {/* <label>Password*</label>
+              <p>{e?.password}</p> */}
+              <div className="password">
+                <label className="pasword__label">
+                  Password
+                  <input
+                    type={this.state.showP ? "text" : "password"}
+                    value={e?.password}
+                    disabled
+                  />
+                  <span
+                    className="password-trigger"
+                    onClick={() => this.setState({ showP: !this.state.showP })}
+                  >
+                    {this.state.showP ? "Hide" : "Show"}
+                  </span>
+                </label>
+              </div>
             </div>
           </div>
           <h2 style={styles.h2}>Representative Information</h2>
@@ -104,7 +124,7 @@ class General extends Component {
       <div className="content GeneralContent">
         {renderGeneral}
 
-        <div className="container-fuild">
+        <div className="container-fluid">
           <h2 style={styles.h2}>Business Information</h2>
           <div className="row justify-content-between">{renderQuestion}</div>
         </div>

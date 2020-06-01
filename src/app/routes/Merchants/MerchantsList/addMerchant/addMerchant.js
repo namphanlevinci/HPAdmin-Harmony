@@ -24,7 +24,7 @@ const initialState = {
   imagePreviewUrl: "",
   initialBusinessQuestions: {},
 
-  activeStep: 3,
+  activeStep: 0,
   // General Info
   businessName: "",
   doingBusiness: "",
@@ -96,7 +96,7 @@ class AddMerchant extends React.Component {
   }
 
   setDataPrincipal = (info, fileId) => {
-    const principalInfo = { ...info };
+    // const principalInfo = { ...info };
     this.setState({ principalInfo: info });
   };
 
@@ -109,6 +109,7 @@ class AddMerchant extends React.Component {
             handleSelect={this.handleSelect}
             value={this.state}
             handleNumber={this.handleChangeNumber}
+            handlePhone={this.handlePhone}
             handleCountryCode={this.handleCountryCode}
             validator={this.validator}
           />
@@ -127,6 +128,7 @@ class AddMerchant extends React.Component {
             uploadFile={this.uploadFile}
             handleChange={this.handleChange}
             value={this.state}
+            validator={this.validator}
           />
         );
       case 3:
@@ -148,7 +150,7 @@ class AddMerchant extends React.Component {
         );
 
       default:
-        return "Uknown stepIndex";
+        return "Unknown stepIndex";
     }
   };
 
@@ -218,11 +220,13 @@ class AddMerchant extends React.Component {
     this.setState({ [name]: value });
   };
 
+  handlePhone = (value, name) => {
+    this.setState({ [name]: value });
+  };
+
   handleChangeNumber = (e) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value }, () =>
-      console.log("this.state", this.state)
-    );
+    this.setState({ [name]: value });
   };
 
   handleSelect = (value, name) => {
@@ -239,12 +243,25 @@ class AddMerchant extends React.Component {
     }
   };
 
-  // formatPhone = (Phone) => {
-  //   return Phone.replace(/[{( )}]/g, "").replace(
-  //     /(\d{3})\-?(\d{3})\-?(\d{4})/,
-  //     "$1-$2-$3"
-  //   );
-  // };
+  ssnFormat = (ssn) => {
+    return ssn
+      .replace(/[{( )}]/g, "")
+      .replace(/(\d{4})\-?(\d{3})\-?(\d{4})/, "+$1-$2-$3");
+  };
+
+  formatPhone = (Phone) => {
+    if (Phone.startsWith("1")) {
+      return Phone.replace(/[{( )}]/g, "").replace(
+        /(\d{4})\-?(\d{3})\-?(\d{4})/,
+        "+$1-$2-$3"
+      );
+    }
+    if (Phone.startsWith("84"))
+      return Phone.replace(/[{( )}]/g, "").replace(
+        /(\d{5})\-?(\d{3})\-?(\d{4})/,
+        "+$1-$2-$3"
+      );
+  };
 
   submitAddMerchant = () => {
     const data = this.state;
@@ -259,12 +276,12 @@ class AddMerchant extends React.Component {
           state: data?.state,
           zip: data?.zip,
         },
-        businessPhone: data?.businessPhoneCode + data?.businessPhone,
+        businessPhone: this.formatPhone(data?.businessPhone),
         email: data?.email,
         firstName: data?.firstName,
         lastName: data?.lastName,
         position: data?.position,
-        contactPhone: data?.contactPhoneCode + data?.contactPhone,
+        contactPhone: this.formatPhone(data?.contactPhone),
       },
       businessInfo: {
         question1: {
