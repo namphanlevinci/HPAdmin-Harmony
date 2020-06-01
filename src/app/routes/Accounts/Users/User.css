@@ -177,7 +177,7 @@ th {
 
 .custom-input {
   cursor: pointer;
-  width: 100px;
+  /* width: 100px; */
   height: 34px;
   overflow: hidden;
   

@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
       lastName: Yup.string().required("Required"),
       title: Yup.string().required("Required"),
       ownerShip: Yup.string().required("Required"),
-      homePhone: Yup.string().required("Required"),
+      // homePhone: Yup.string().required("Required"),
       mobilePhone: Yup.string().required("Required"),
       // yearAtThisAddress: Yup.string().required("Required"),
       fullSsn: Yup.string().required("Required"),
@@ -316,11 +316,13 @@ const EditPrincipal = ({
 
                           <div className="col-4" style={{ marginTop: "5px" }}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                              <Grid container justify="space-around">
+                              <Grid container justify="left">
+                                <label>Date of Birth (mm/dd/yyyy)</label>
                                 <KeyboardDatePicker
+                                  style={{ marginTop: "0px" }}
                                   margin="normal"
                                   // id="date-picker-dialog"
-                                  label="Birthday (MM/DD/YYYY)"
+                                  // label="Birthday (MM/DD/YYYY)"
                                   format="MM/dd/yyyy"
                                   value={birthDate}
                                   onChange={(e) =>
@@ -373,8 +375,14 @@ const EditPrincipal = ({
                             </div>
                           </div>
 
-                          <div className="col-3" style={{ paddingTop: "10px" }}>
-                            <label>Void Check*</label> <br />
+                          <div
+                            className="col-3"
+                            style={{ paddingTop: "10px", textAlign: "left" }}
+                          >
+                            <label style={{ paddingBottom: "10px" }}>
+                              Void Check*
+                            </label>{" "}
+                            <br />
                             {/* {$imagePreview} */}
                             <img
                               className="pending-image"

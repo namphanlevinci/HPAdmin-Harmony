@@ -373,7 +373,8 @@ class EditPendingMerchant extends Component {
                   onChangeInput={this.handleChange}
                 />
                 <div className="col-3" style={{ paddingTop: "10px" }}>
-                  <label>Void Check*</label> <br />
+                  <label style={{ paddingBottom: "10px" }}>Void Check*</label>{" "}
+                  <br />
                   {$imagePreview}
                   <input
                     type="file"

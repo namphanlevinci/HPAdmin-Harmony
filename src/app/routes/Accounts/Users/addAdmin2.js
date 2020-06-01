@@ -14,15 +14,24 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ViewProfile_User } from "../../../../actions/user/actions";
 
 import axios from "axios";
-import "../../Merchants/MerchantProfile/Detail/Detail.css";
 import URL from "../../../../url/url";
 import PhoneInput from "react-phone-input-2";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 
+import "date-fns";
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+
 import "./User.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/high-res.css";
+import "../../Merchants/MerchantProfile/Detail/Detail.css";
 
 const roles = [
   { value: "1", label: "Administrator" },
@@ -242,10 +251,10 @@ class addAdmin2 extends Component {
                 address,
                 city,
                 zip,
-                BirthDate,
                 phone,
                 fileId,
               } = values;
+              const BirthDate = moment(values.BirthDate).format("MM/DD/YYYY");
               const fullname = firstname + lastname;
               const Data = {
                 stateID,
@@ -446,18 +455,36 @@ class addAdmin2 extends Component {
                         />
                       </div>
                       <div className="col-6" style={styles.margin}>
-                        <label>Birthday</label> <br />
-                        <DatePicker
+                        {/* <label>Birthday</label> <br /> */}
+                        {/* <DatePicker
                           placeholderText="MM/DD/YYYY"
                           name="BirthDate"
                           value={values.BirthDate}
-                          onChange={(date) =>
-                            setFieldValue(
-                              "BirthDate",
-                              moment(date).format("MM/DD/YYYY")
-                            )
-                          }
-                        />
+                          onChange={(date) => setFieldValue("BirthDate", date)}
+                        /> */}
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          {/* <Grid container justify="flex-start"> */}
+                          <label>Birthday</label> <br />
+                          <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            placeholder="MM/DD/YYYY"
+                            // label="Birthday"
+                            // value={moment(values.BirthDate).format(
+                            //   "MM/dd/yyyy"
+                            // )}
+                            onChange={(date) =>
+                              setFieldValue("BirthDate", date)
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                            style={{ marginTop: "0px" }}
+                          />
+                          {/* </Grid> */}
+                        </MuiPickersUtilsProvider>
                         <ErrorMessage
                           name="BirthDate"
                           component="div"

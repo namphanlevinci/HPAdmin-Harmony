@@ -3,7 +3,17 @@ import { Formik, Form, Field, FieldArray } from "formik";
 import URL, { upFileUrl } from "../../../../../url/url";
 import { store } from "react-notifications-component";
 import { IoIosClose } from "react-icons/io";
+import {
+  MuiPickersUtilsProvider,
+  // KeyboardDatePicker,
+} from "@material-ui/pickers";
+// import { DatePicker } from "@material-ui/pickers";
 
+import { KeyboardDatePicker } from "@material-ui/pickers";
+
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
+import moment from "moment";
 import axios from "axios";
 import defaultImage from "./hpadmin2.png";
 import ErrorMessage from "../../MerchantProfile/Detail/Service/error-message";
@@ -132,7 +142,7 @@ class Principal extends Component {
                   },
                   yearAtThisAddress: 0,
                   ssn: "",
-                  dateOfBirth: "",
+                  dateOfBirth: new Date(),
                   email: "",
                   driverLicense: "",
                   stateIssued: "",
@@ -473,6 +483,7 @@ class Principal extends Component {
                                     values={`principalInfo.${index}.dateOfBirth`}
                                     placeholder="MM/DD/YYYY"
                                   />
+
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.dateOfBirth`}
