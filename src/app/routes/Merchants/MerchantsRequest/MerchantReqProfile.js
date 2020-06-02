@@ -126,7 +126,22 @@ class MerchantReqProfile extends Component {
   }
   render() {
     const e = this.props.PendingProfile;
+    console.log("e", e);
     let principalLength = this.props.PendingProfile?.principals?.length;
+
+    const principalPhone = (Phone) => {
+      if (Phone.startsWith("1")) {
+        return Phone?.replace(/[{( )}]/g, "").replace(
+          /(\d{4})\-?(\d{3})\-?(\d{4})/,
+          "+$1-$2-$3"
+        );
+      }
+      if (Phone.startsWith("84"))
+        return Phone?.replace(/[{( )}]/g, "").replace(
+          /(\d{5})\-?(\d{3})\-?(\d{5})/,
+          "+$1-$2-$3"
+        );
+    };
 
     //! render Principal
     const renderPrincipal =
@@ -155,11 +170,11 @@ class MerchantReqProfile extends Component {
               </div>
               <div className="col-4">
                 <h4>Home Phone</h4>
-                <p>{e.homePhone}</p>
+                <p>{principalPhone(e.homePhone)}</p>
               </div>
               <div className="col-4">
                 <h4>Mobile Phone*</h4>
-                <p>{e.mobilePhone}</p>
+                <p>{principalPhone(e.mobilePhone)}</p>
               </div>
               <div className="col-4">
                 <h4>Address*</h4>
@@ -167,7 +182,7 @@ class MerchantReqProfile extends Component {
               </div>
               <div className="col-4">
                 <h4>Social Security Number (SSN)*</h4>
-                <p>{e.fullSsn}</p>
+                <p>{e.ssn}</p>
               </div>
               <div className="col-4">
                 <h4>Date of Birth (mm/dd/yy)*</h4>
@@ -268,7 +283,6 @@ class MerchantReqProfile extends Component {
                     </p>
                   </div>
                   <span>
-                    {" "}
                     <Formik
                       initialValues={{ rejectReason: "" }}
                       validate={(values) => {

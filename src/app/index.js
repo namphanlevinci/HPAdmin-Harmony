@@ -10,7 +10,7 @@ import {
   BELOW_THE_HEADER,
   COLLAPSED_DRAWER,
   FIXED_DRAWER,
-  HORIZONTAL_NAVIGATION
+  HORIZONTAL_NAVIGATION,
 } from "../constants/ActionTypes";
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "../util/asyncComponent";
@@ -30,16 +30,16 @@ class App extends React.Component {
     this.state = {};
   }
 
-  onAction = e => {
+  onAction = (e) => {
     // console.log("user did something", e);
   };
 
-  onActive = e => {
+  onActive = (e) => {
     // console.log("user is active", e);
     // console.log("time remaining", this.idleTimer.getRemainingTime());
   };
 
-  onIdle = e => {
+  onIdle = (e) => {
     //! REMOVE USER AFTER 30' IDLE
     console.log("BYE");
     localStorage.removeItem("User_login");
@@ -51,7 +51,7 @@ class App extends React.Component {
       match,
       drawerType,
       navigationStyle,
-      horizontalNavPosition
+      horizontalNavPosition,
     } = this.props;
 
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
@@ -89,7 +89,12 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
-                <Route path={`${match.url}/merchants`} component={Merchants} />
+                <Route
+                  path={`${match.url}/merchants`}
+                  component={asyncComponent(() =>
+                    import("./routes/Merchants/Merchants")
+                  )}
+                />
                 <Route path={`${match.url}/adsettings`} component={Settings} />
                 <Route path={`${match.url}/accounts`} component={Accounts} />
                 <Route
@@ -110,6 +115,12 @@ class App extends React.Component {
                 <Route path={`${match.url}/reports`} component={Reports} />
                 <Route path={`${match.url}/giftcard`} component={GiftCard} />
                 <Route
+                  path={`${match.url}/pricing`}
+                  component={asyncComponent(() =>
+                    import("./routes/PricingPlan/index")
+                  )}
+                />
+                <Route
                   component={asyncComponent(() =>
                     import("../components/Error404/index.js")
                   )}
@@ -118,7 +129,7 @@ class App extends React.Component {
             </div>
             <div>
               <IdleTimer
-                ref={ref => {
+                ref={(ref) => {
                   this.idleTimer = ref;
                 }}
                 element={document}

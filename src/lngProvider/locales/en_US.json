@@ -595,6 +595,7 @@
   "sidebar.dashboard.listing": "Listing",
   "sidebar.dashboard.addmerchant": "Add Merchant",
   "sidebar.dashboard.giftcard": "Gift Card",
+  "sidebar.dashboard.pricingPlan": "Pricing Plan",
   "sidebar.dashboard.generation": "Generation",
   "sidebar.dashboard.generation-detail": "Gift Card Detail",
   "sidebar.dashboard.generation-add": "New Gift Card",

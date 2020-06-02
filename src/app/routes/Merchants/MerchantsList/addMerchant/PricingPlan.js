@@ -11,9 +11,7 @@ const PricingPlan = ({ value, handleChangePricingPlan }) => {
   return (
     <div>
       <p className="txtPricingPlan">Package & Pricing</p>
-      <p>
-        Try Harmony MerchantMerchant free for 3 months , no credit card required
-      </p>
+      <p>Try Harmony Merchant free for 3 months , no credit card required</p>
       <FormControl component="fieldset">
         <RadioGroup
           aria-label={`PricingPlan`}

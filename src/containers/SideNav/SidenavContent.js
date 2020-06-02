@@ -62,7 +62,7 @@ class SidenavContent extends Component {
         "webkitMatchesSelector",
         "mozMatchesSelector",
         "msMatchesSelector",
-        "oMatchesSelector"
+        "oMatchesSelector",
       ].some(function(fn) {
         if (typeof document.body[fn] == "function") {
           matchesFn = fn;
@@ -184,6 +184,15 @@ class SidenavContent extends Component {
                 </NavLink>
               </li>
             </ul>
+          </li>
+          {/* PRICING PLAN */}
+          <li className="menu no-arrow">
+            <NavLink to="/app/pricing">
+              <i className="zmdi zmdi-money-box zmdi-hc-fw" />
+              <span className="nav-text">
+                <IntlMessages id="sidebar.dashboard.pricingPlan" />
+              </span>
+            </NavLink>
           </li>
           {/* ACCOUNTS */}
           <li className="menu collapse-box">
@@ -339,8 +348,8 @@ class SidenavContent extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   PendingProfile: state.ViewMerchant_Request,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 export default withRouter(connect(mapStateToProps)(SidenavContent));

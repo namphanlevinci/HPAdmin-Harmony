@@ -18,6 +18,7 @@ import selectState from "../../../../util/selectState";
 import axios from "axios";
 import * as Yup from "yup";
 import ErrorMessage from "./errorMessage";
+import MaskedInput from "react-text-mask";
 
 import "./MerchantReqProfile.css";
 // import "./MerchantsRequest.css";
@@ -71,8 +72,30 @@ const EditPrincipal = ({
       });
   };
 
+  const formatPhone = (Phone) => {
+    return Phone.replace(/(\d{4})(\d{3})(\d{4})/, "+$1-$2-$3");
+  };
+
+  const principalPhone = (Phone) => {
+    if (Phone !== undefined) {
+      if (Phone.startsWith("1")) {
+        return Phone?.replace(/[{( )}]/g, "").replace(
+          /(\d{4})\-?(\d{3})\-?(\d{5})/,
+          "+$1-$2-$3"
+        );
+      }
+      if (Phone.startsWith("84"))
+        return Phone?.replace(/[{( )}]/g, "").replace(
+          /(\d{5})\-?(\d{3})\-?(\d{5})/,
+          "+$1-$2-$3"
+        );
+    } else {
+    }
+  };
+
   const editMerchant = (principalInfo) => {
     let PrincipalInfo = principalInfo.PrincipalInfo;
+
     const body = {
       generalInfo: {
         businessName: initValue?.legalBusinessName,
@@ -84,12 +107,12 @@ const EditPrincipal = ({
           state: initValue?.stateId,
           zip: initValue?.zip,
         },
-        businessPhone: initValue?.phoneBusiness,
+        businessPhone: formatPhone(initValue?.phoneBusiness),
         email: initValue?.emailContact,
         firstName: initValue?.firstName,
         lastName: initValue?.lastName,
         position: initValue?.title,
-        contactPhone: initValue?.phoneContact,
+        contactPhone: formatPhone(initValue?.phoneContact),
         businessHourEnd: "11:00 PM",
         businessHourStart: "10:00 AM",
       },
@@ -170,8 +193,7 @@ const EditPrincipal = ({
                 <div>
                   {values.PrincipalInfo && values.PrincipalInfo.length > 0 ? (
                     values.PrincipalInfo.map((PrincipalInfo, index) => {
-                      // console.log("PRINCIPAL MAPPP", PrincipalInfo);
-                      const homePhone = PrincipalInfo?.homePhone.replace(
+                      const homePhone = PrincipalInfo?.homePhone?.replace(
                         /-/g,
                         ""
                       );
@@ -182,7 +204,7 @@ const EditPrincipal = ({
                       const birthDate = moment(PrincipalInfo?.birthDate).format(
                         "MM/DD/YYYY"
                       );
-
+                      const SSN = PrincipalInfo?.fullSsn;
                       const stateName = PrincipalInfo?.state?.name;
                       return (
                         <div key={index} className="row ">
@@ -257,10 +279,36 @@ const EditPrincipal = ({
                             <label>Social Security Number (SSN)*</label>
                             <Field
                               // className="form-control"
-                              placeholder="Address"
+                              placeholder="SSN"
                               name={`PrincipalInfo.${index}.ssn`}
-                              values={`PrincipalInfo.${index}.fullSsn`}
+                              values={SSN}
+                              maxLength="9"
                             />
+                            {/* 
+                            <MaskedInput
+                              mask={[
+                                /[1-9]/,
+                                /\d/,
+                                /\d/,
+                                "-",
+                                /\d/,
+                                /\d/,
+                                "-",
+                                /\d/,
+                                /\d/,
+                                /\d/,
+                                /\d/,
+                              ]}
+                              value={`PrincipalInfo.${index}.fullSsn`}
+                              name={`PrincipalInfo.${index}.fullSsn`}
+                              onChange={(e) => [
+                                setFieldValue(
+                                  `principalInfo.${index}.fullSsn`,
+                                  e.target.value
+                                ),
+                              ]}
+                            /> */}
+
                             <ErrorMessage
                               name={`PrincipalInfo.${index}.fullSsn`}
                             />
@@ -273,6 +321,7 @@ const EditPrincipal = ({
                               placeholder="Home Phone"
                               name={`PrincipalInfo.${index}.homePhone`}
                               value={homePhone}
+                              country="us"
                               onChange={(e) =>
                                 setFieldValue(
                                   `PrincipalInfo.${index}.homePhone`,
@@ -316,7 +365,7 @@ const EditPrincipal = ({
 
                           <div className="col-4" style={{ marginTop: "5px" }}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                              <Grid container justify="left">
+                              <Grid container justify="flex-start">
                                 <label>Date of Birth (mm/dd/yyyy)</label>
                                 <KeyboardDatePicker
                                   style={{ marginTop: "0px" }}

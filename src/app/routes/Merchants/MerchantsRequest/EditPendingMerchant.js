@@ -272,16 +272,17 @@ class EditPendingMerchant extends Component {
                 />
                 <div className="col-4" style={{ paddingTop: "10px" }}>
                   <label>Business Phone Number</label>
-                  <PhoneInput
-                    style={{ marginTop: "10px" }}
-                    country={"us"}
-                    placeholder="Business Phone Number"
-                    name="businessPhone"
-                    value={this.state.phoneBusiness}
-                    onChange={(phone) =>
-                      this.setState({ phoneBusiness: phone })
-                    }
-                  />
+                  {this.state.loading && (
+                    <PhoneInput
+                      style={{ marginTop: "10px" }}
+                      placeholder="Business Phone Number"
+                      name="businessPhone"
+                      value={this.state.phoneBusiness}
+                      onChange={(phone) =>
+                        this.setState({ phoneBusiness: phone })
+                      }
+                    />
+                  )}
                 </div>
               </div>
               <h2
@@ -322,14 +323,17 @@ class EditPendingMerchant extends Component {
 
                 <div className="col-3" style={{ paddingTop: "10px" }}>
                   <label>Contact Phone Number*</label>
-                  <PhoneInput
-                    country={"us"}
-                    style={{ marginTop: "10px" }}
-                    placeholder="Contact Phone Number"
-                    name="phoneContact"
-                    value={this.state.phoneContact}
-                    onChange={(phone) => this.setState({ phoneContact: phone })}
-                  />
+                  {this.state.loading && (
+                    <PhoneInput
+                      style={{ marginTop: "10px" }}
+                      placeholder="Contact Phone Number"
+                      name="phoneContact"
+                      value={this.state.phoneContact}
+                      onChange={(phone) =>
+                        this.setState({ phoneContact: phone })
+                      }
+                    />
+                  )}
                 </div>
               </div>
 

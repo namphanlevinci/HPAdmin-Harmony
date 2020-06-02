@@ -5,7 +5,6 @@
 //   "https://api2.levincidemo.com/api/file?category=service";
 
 // PRODUCT
-
 // const URL = "https://hp-admin-prod-westus.azurewebsites.net/api";
 // export const SignalURL = "https://hp-admin-prod-westus.azurewebsites.net";
 // export const upFileUrl =
