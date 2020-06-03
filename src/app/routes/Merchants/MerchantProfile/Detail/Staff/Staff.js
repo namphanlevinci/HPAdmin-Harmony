@@ -24,7 +24,7 @@ class Staff extends Component {
       staff: [],
       loading: true,
       dialog: false,
-      restoreDialog: false
+      restoreDialog: false,
     };
   }
 
@@ -37,46 +37,46 @@ class Staff extends Component {
     axios
       .get(URL + "/staff/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         const data = res.data.data;
         this.setState({ staff: data, loading: false });
       });
   };
 
-  handleArchive = ID => {
+  handleArchive = (ID) => {
     const MerchantID = this.props.MerchantProfile.merchantId;
     axios
       .put(URL + "/staff/archive/" + ID + "?merchantId=" + MerchantID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {});
+      .then((res) => {});
     this.setState({ loading: true });
     setTimeout(() => {
       this.getStaff();
     }, 1500);
   };
 
-  handleRestore = ID => {
+  handleRestore = (ID) => {
     const MerchantID = this.props.MerchantProfile.merchantId;
     axios
       .put(URL + "/staff/restore/" + ID + "?merchantId=" + MerchantID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
       })
-      .then(res => {});
+      .then((res) => {});
     this.setState({ loading: true });
     setTimeout(() => {
       this.getStaff();
     }, 1500);
   };
 
-  _SearchMerchants = async e => {
+  _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
 
@@ -84,7 +84,7 @@ class Staff extends Component {
     let e = this.state.staff;
     if (e) {
       if (this.state.search) {
-        e = e.filter(e => {
+        e = e.filter((e) => {
           if (e !== null) {
             return (
               e.email
@@ -105,10 +105,10 @@ class Staff extends Component {
     }
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
-        onClick: e => [
+        onClick: (e) => [
           this.props.history.push("/app/merchants/staff/general"),
-          this.props.VIEW_STAFF(rowInfo.original)
-        ]
+          this.props.VIEW_STAFF(rowInfo.original),
+        ],
       };
     };
 
@@ -116,52 +116,52 @@ class Staff extends Component {
       {
         Header: "ID",
         accessor: "staffId",
-        width: 50
+        width: 50,
       },
       {
         Header: "Name",
         id: "fullname",
         width: 200,
-        accessor: d => (
+        accessor: (d) => (
           <span
             style={{ fontWeight: 500 }}
           >{`${d.firstName} ${d.lastName}`}</span>
-        )
+        ),
       },
       {
         id: "Display",
         Header: "Display Name",
         width: 200,
-        accessor: d => (
+        accessor: (d) => (
           <span style={{ fontWeight: 500 }}>{`${d.displayName}`}</span>
-        )
+        ),
       },
       {
         Header: "Phone",
         accessor: "phone",
-        width: 150
+        width: 150,
       },
       {
         Header: "Email",
         accessor: "email",
-        width: 240
+        width: 240,
       },
       {
         Header: "Role",
         accessor: "roleName",
-        width: 100
+        width: 100,
       },
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: e => <span>{e.value === 1 ? "Disabled" : "Active"}</span>,
-        width: 100
+        Cell: (e) => <span>{e.value === 1 ? "Disabled" : "Active"}</span>,
+        width: 100,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
         sortable: false,
         accessor: "roleName",
-        Cell: row => {
+        Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
               {row.original.isDisabled !== 1 ? (
@@ -170,8 +170,8 @@ class Staff extends Component {
                   onClick={() => [
                     this.setState({
                       extraId: row.original.staffId,
-                      dialog: true
-                    })
+                      dialog: true,
+                    }),
                   ]}
                 />
               ) : (
@@ -180,15 +180,15 @@ class Staff extends Component {
                   onClick={() =>
                     this.setState({
                       extraId: row.original.staffId,
-                      restoreDialog: true
+                      restoreDialog: true,
                     })
                   }
                 />
               )}
             </div>
           );
-        }
-      }
+        },
+      },
     ];
     return (
       <div className="content GeneralContent react-transition swipe-up Staff">
@@ -210,6 +210,7 @@ class Staff extends Component {
             <div>
               <Button
                 className="btn btn-green"
+                style={{ marginRight: "0px" }}
                 onClick={() =>
                   this.props.history.push("/app/merchants/profile/staff/add")
                 }
@@ -254,7 +255,7 @@ class Staff extends Component {
                 <Button
                   onClick={() => [
                     this.handleArchive(this.state.extraId),
-                    this.setState({ dialog: false, extraId: "" })
+                    this.setState({ dialog: false, extraId: "" }),
                   ]}
                   color="primary"
                   autoFocus
@@ -290,7 +291,7 @@ class Staff extends Component {
                 <Button
                   onClick={() => [
                     this.handleRestore(this.state.extraId),
-                    this.setState({ restoreDialog: false, extraId: "" })
+                    this.setState({ restoreDialog: false, extraId: "" }),
                   ]}
                   color="primary"
                   autoFocus
@@ -306,14 +307,14 @@ class Staff extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
-const mapDispatchToProps = dispatch => ({
-  VIEW_STAFF: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  VIEW_STAFF: (payload) => {
     dispatch(VIEW_STAFF(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Staff);

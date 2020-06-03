@@ -52,7 +52,7 @@ const initialState = {
   accountNumber: "",
   accountHolderName: "",
   fileId: "",
-  valuePricingPlane: 1,
+  valuePricingPlane: "1",
   principalInfo: "",
 };
 
@@ -318,7 +318,7 @@ class AddMerchant extends React.Component {
         accountHolderName: data?.accountHolderName,
       },
       principalInfo: data.principalInfo,
-      packagePricing: data.valuePricingPlane,
+      packagePricing: Number(data.valuePricingPlane),
     };
 
     axios

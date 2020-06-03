@@ -454,7 +454,7 @@ class AddProduct extends Component {
                                 : "text-input"
                             }
                           />
-                          <span class="unit">Item</span>
+                          <span className="unit">Item</span>
                         </div>
 
                         {errors.quantity && touched.quantity && (
@@ -469,7 +469,7 @@ class AddProduct extends Component {
                           Low Threshold*
                         </label>
                         <br />
-                        <div class="input-box">
+                        <div className="input-box">
                           <input
                             name="minThreshold"
                             type="number"
@@ -487,7 +487,7 @@ class AddProduct extends Component {
                                 : "text-input"
                             }
                           />
-                          <span class="unit">Item</span>
+                          <span className="unit">Item</span>
                         </div>
                         {errors.minThreshold && touched.minThreshold && (
                           <div className="input-feedback">
@@ -500,7 +500,7 @@ class AddProduct extends Component {
                           Max Threshold*
                         </label>
                         <br />
-                        <div class="input-box">
+                        <div className="input-box">
                           <input
                             name="maxThreshold"
                             type="number"
@@ -518,7 +518,7 @@ class AddProduct extends Component {
                                 : "text-input"
                             }
                           />
-                          <span class="unit">Item</span>
+                          <span className="unit">Item</span>
                         </div>
                         {errors.maxThreshold && touched.maxThreshold && (
                           <div className="input-feedback">
@@ -547,7 +547,7 @@ class AddProduct extends Component {
                                 : "text-input"
                             }
                           />
-                          <span class="unit">$</span>
+                          <span className="unit">$</span>
                         </div>
                         {errors.price && touched.price && (
                           <div className="input-feedback">{errors.price}</div>

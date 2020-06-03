@@ -4,10 +4,17 @@ import DialogContent from "@material-ui/core/DialogContent";
 import axios from "axios";
 import URL from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
-import { Formik } from "formik";
 import defaultImg from "./hpadmin2.png";
+import Select from "react-select";
+
+import { Formik } from "formik";
 
 import "./extra.styles.scss";
+
+const options = [
+  { value: 1, label: "Disable" },
+  { value: 0, label: "Active" },
+];
 
 const EditExtra = ({
   handleImageChange,
@@ -28,8 +35,8 @@ const EditExtra = ({
     tax,
     imageUrl,
     fileId,
-    imagePreviewUrl
-  }
+    imagePreviewUrl,
+  },
 }) => {
   let $imagePreview = null;
   if (imagePreviewUrl) {
@@ -39,12 +46,9 @@ const EditExtra = ({
       <img src={imageUrl === "" ? defaultImg : imageUrl} alt="void" />
     );
   }
+
   return (
-    <Dialog
-      open={edit}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
+    <Dialog open={edit}>
       <DialogContent>
         <div className="category extra">
           <div className="extra-container">
@@ -63,9 +67,9 @@ const EditExtra = ({
                 quantity,
                 tax,
                 merchantId,
-                imageUrl
+                imageUrl,
               }}
-              validate={values => {
+              validate={(values) => {
                 const errors = {};
                 if (!values.duration) {
                   errors.duration = "Required";
@@ -89,7 +93,7 @@ const EditExtra = ({
                   name,
                   quantity,
                   tax,
-                  merchantId
+                  merchantId,
                 } = values;
                 axios
                   .put(
@@ -104,15 +108,15 @@ const EditExtra = ({
                       name,
                       quantity,
                       tax,
-                      fileId
+                      fileId,
                     },
                     {
                       headers: {
-                        Authorization: `Bearer ${token}`
-                      }
+                        Authorization: `Bearer ${token}`,
+                      },
                     }
                   )
-                  .then(res => {
+                  .then((res) => {
                     if (res.data.codeNumber === 200) {
                       handleClose("loading", true);
                       handleClose("edit", false);
@@ -132,7 +136,8 @@ const EditExtra = ({
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                isSubmitting
+                isSubmitting,
+                setFieldValue,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <label style={{ padding: "10px 0px" }}>Extra name*</label>
@@ -188,8 +193,8 @@ const EditExtra = ({
                       />
                     </div>
                     <div style={{ width: "30%" }}>
-                      <label style={{ padding: "10px 0px" }}>Status*</label>
-                      <select
+                      <label style={{ paddingTop: "10px " }}>Status*</label>
+                      {/* <select
                         onChange={handleChange}
                         name="isDisabled"
                         value={values.isDisabled}
@@ -206,28 +211,35 @@ const EditExtra = ({
                         >
                           Disable
                         </option>
-                      </select>
+                      </select> */}
+                      <Select
+                        options={options}
+                        name="isDisabled"
+                        onChange={(e) => setFieldValue("isDisabled", e.value)}
+                        defaultValue={{
+                          label:
+                            Number(isDisabled) === 0 ? "Active" : "Disable",
+                        }}
+                      />
                     </div>
                   </div>
                   <label style={{ paddingTop: "10px" }}>Image</label>
                   <div className="extra-image-container">
-                    <div>{$imagePreview}</div>
+                    {$imagePreview} <br />
                     <input
-                      name="price"
+                      name="image"
+                      className="custom-input"
                       type="file"
                       onChange={handleImageChange}
                       style={{
-                        width: "auto",
-                        borderBottom: "none",
-                        paddingTop: "20px",
-                        fontWeight: 400
+                        width: "42%",
                       }}
                     />
                   </div>
                   <div className="category-button">
                     <Button
                       style={{ marginTop: "20px" }}
-                      className="green"
+                      className="btn btn-green"
                       type="submit"
                       disabled={isSubmitting}
                     >
@@ -235,7 +247,7 @@ const EditExtra = ({
                     </Button>
                     <Button
                       style={{ marginTop: "20px" }}
-                      className="red"
+                      className="btn btn-red"
                       onClick={() => handleClose("edit", false)}
                     >
                       CANCEL

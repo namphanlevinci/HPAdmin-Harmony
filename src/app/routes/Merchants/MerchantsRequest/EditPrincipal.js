@@ -77,19 +77,11 @@ const EditPrincipal = ({
   };
 
   const principalPhone = (Phone) => {
-    if (Phone !== undefined) {
-      if (Phone.startsWith("1")) {
-        return Phone?.replace(/[{( )}]/g, "").replace(
-          /(\d{4})\-?(\d{3})\-?(\d{5})/,
-          "+$1-$2-$3"
-        );
-      }
-      if (Phone.startsWith("84"))
-        return Phone?.replace(/[{( )}]/g, "").replace(
-          /(\d{5})\-?(\d{3})\-?(\d{5})/,
-          "+$1-$2-$3"
-        );
-    } else {
+    if (Phone?.startsWith("1") || Phone?.startsWith("84")) {
+      return Phone?.replace(/[{( )}]/g, "").replace(
+        /(\d{5})\-?(\d{3})\-?(\d{4})/,
+        "+$1-$2-$3"
+      );
     }
   };
 
@@ -243,7 +235,7 @@ const EditPrincipal = ({
                               // className="form-control"
                               placeholder="First Name"
                               name={`PrincipalInfo.${index}.title`}
-                              values={`PrincipalInfo.${index}.titletitle`}
+                              values={`PrincipalInfo.${index}.title`}
                             />
                             <ErrorMessage
                               name={`PrincipalInfo.${index}.title`}
@@ -325,7 +317,7 @@ const EditPrincipal = ({
                               onChange={(e) =>
                                 setFieldValue(
                                   `PrincipalInfo.${index}.homePhone`,
-                                  e
+                                  principalPhone(e)
                                 )
                               }
                             />
@@ -342,7 +334,7 @@ const EditPrincipal = ({
                               onChange={(e) =>
                                 setFieldValue(
                                   `PrincipalInfo.${index}.mobilePhone`,
-                                  e
+                                  principalPhone(e)
                                 )
                               }
                             />

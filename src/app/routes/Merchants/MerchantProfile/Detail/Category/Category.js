@@ -361,7 +361,7 @@ class Category extends Component {
                             <div className="category-button">
                               <Button
                                 style={{ marginTop: "20px" }}
-                                className="green"
+                                className="btn btn-green"
                                 type="submit"
                                 disabled={isSubmitting}
                               >
@@ -369,7 +369,7 @@ class Category extends Component {
                               </Button>
                               <Button
                                 style={{ marginTop: "20px" }}
-                                className="red"
+                                className="btn btn-red"
                                 onClick={() =>
                                   this.setState({ cateDialog: false })
                                 }

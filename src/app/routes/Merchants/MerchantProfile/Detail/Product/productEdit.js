@@ -37,11 +37,11 @@ class EditProduct extends Component {
       productId: "",
       //~ preview image
       imagePreviewUrl: "",
+      loading: false,
     };
   }
   componentDidMount() {
     const ID = this.props.MerchantProfile.merchantId;
-    const CategoryID = this.props.SERVICE?.categoryId;
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
@@ -68,6 +68,7 @@ class EditProduct extends Component {
         sku: product.sku,
         imageUrl: product.imageUrl,
         productId: product.productId,
+        loading: true,
       });
     }
   }
@@ -282,43 +283,44 @@ class EditProduct extends Component {
                     </option>
                     {mapCategory}
                   </select>
-
-                  {/* <Select
-                    styles={colourStyles}
-                    options={
-                      this.state.category
-                        ? this.state.category
-                            .filter((e) => e.categoryType !== "Product")
-                            .map((e) => {
-                              return {
-                                id: e.categoryId,
-                                value: e.categoryId,
-                                label: e.name,
-                              };
-                            })
-                        : []
-                    }
-                    // defaultValue={{
-                    //   value: this.state.categoryId,
-                    //   label: this.state.name,
-                    // }}
-                    value={this.state.category
-                      .filter((e) => e.categoryType !== "Product")
-                      .map((e) => {
-                        if (e.categoryId === this.state.categoryId) {
-                          return {
-                            label: e.name,
-                            value: e.categoryId,
-                          };
-                        }
-                      })}
-                    onChange={(selectedOption) => {
-                      this.setState({ categoryId: selectedOption.value });
-                    }}
-                    placeholder="- Select -"
-                    loadingMessage={() => "Fetching Service"}
-                    noOptionsMessage={() => "Service appears here!"}
-                  /> */}
+                  {/* {this.state.loading && (
+                    <Select
+                      styles={colourStyles}
+                      options={
+                        this.state.category
+                          ? this.state.category
+                              .filter((e) => e.categoryType !== "Product")
+                              .map((e) => {
+                                return {
+                                  id: e.categoryId,
+                                  value: e.categoryId,
+                                  label: e.name,
+                                };
+                              })
+                          : []
+                      }
+                      defaultValue={{
+                        value: this.state.categoryId,
+                        label: this.state.name,
+                      }}
+                      value={this.state.category
+                        .filter((e) => e.categoryType !== "Product")
+                        .map((e) => {
+                          if (e.categoryId === this.state.categoryId) {
+                            return {
+                              label: e.name,
+                              value: e.categoryId,
+                            };
+                          }
+                        })}
+                      onChange={(selectedOption) => {
+                        this.setState({ categoryId: selectedOption.value });
+                      }}
+                      placeholder="- Select -"
+                      loadingMessage={() => "Fetching Service"}
+                      noOptionsMessage={() => "Service appears here!"}
+                    />
+                  )} */}
                 </div>
                 <div className="col-4">
                   <label>Items In Stock*</label>

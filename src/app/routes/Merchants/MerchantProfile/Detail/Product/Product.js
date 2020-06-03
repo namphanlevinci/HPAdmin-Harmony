@@ -250,6 +250,7 @@ class Product extends Component {
             <div>
               <Button
                 className="btn btn-green"
+                style={{ marginRight: "0px" }}
                 onClick={() =>
                   // this.props.history.push("/app/merchants/profile/product/add")
                   this.setState({ isPopupAddProduct: true })

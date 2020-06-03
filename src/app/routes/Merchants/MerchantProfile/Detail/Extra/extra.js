@@ -104,6 +104,7 @@ class ExtraTab extends Component {
       quantity,
       description,
       imageUrl,
+      fileId,
     } = data;
     this.setState({
       duration,
@@ -114,6 +115,7 @@ class ExtraTab extends Component {
       quantity,
       description,
       imageUrl,
+      fileId,
     });
   };
 
@@ -312,16 +314,10 @@ class ExtraTab extends Component {
             />
 
             {/* ARCHIVE */}
-            <Dialog
-              open={this.state.dialog}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">
-                {"Archive this extra ?"}
-              </DialogTitle>
+            <Dialog open={this.state.dialog}>
+              <DialogTitle>{"Archive this extra ?"}</DialogTitle>
               <DialogContent>
-                <DialogContentText id="alert-dialog-description">
+                <DialogContentText>
                   This extra will not appear on the app. You can restore this
                   extra by clicking the Restore button.
                 </DialogContentText>
@@ -346,16 +342,10 @@ class ExtraTab extends Component {
               </DialogActions>
             </Dialog>
             {/* RESTORE */}
-            <Dialog
-              open={this.state.restoreDialog}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">
-                {"Restore this extra ?"}
-              </DialogTitle>
+            <Dialog open={this.state.restoreDialog}>
+              <DialogTitle>{"Restore this extra ?"}</DialogTitle>
               <DialogContent>
-                <DialogContentText id="alert-dialog-description">
+                <DialogContentText>
                   This extra will appear on the app as well as the related
                   lists.
                 </DialogContentText>

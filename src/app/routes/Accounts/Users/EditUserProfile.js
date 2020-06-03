@@ -65,6 +65,7 @@ class EditUserProfile extends Component {
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
     const e = this.props.UserProfile;
+    console.log("e", e);
     this.setState(
       {
         Token: Token,
@@ -93,7 +94,6 @@ class EditUserProfile extends Component {
     this.setState({
       [name]: value,
     });
-    // console.log("THIS.STATE", this.state);
   };
 
   _uploadFile = (event) => {
@@ -125,7 +125,6 @@ class EditUserProfile extends Component {
   };
 
   handleDateChange = (date) => {
-    // setSelectedDate(date);
     this.setState({ birthDate: date });
   };
 
@@ -149,12 +148,14 @@ class EditUserProfile extends Component {
       waRoleId,
       currentPassword,
       newPassword,
+      isPass,
+      password,
     } = this.state;
-    const password = newPassword !== null ? newPassword : currentPassword;
-    axios
-      .put(
-        URL + "/adminuser/" + ID,
-        {
+    // const password = newPassword !== null ? newPassword : currentPassword;
+    const adminUrl = isPass ? "/adminUser/changepassword/" : "/adminuser/";
+    let body = isPass
+      ? { oldPassword: currentPassword, newPassword }
+      : {
           firstName,
           lastName,
           email,
@@ -162,17 +163,15 @@ class EditUserProfile extends Component {
           address,
           city,
           zip,
-          password,
           waRoleId,
           phone,
           stateId,
           fileId,
-        },
-        config
-      )
+        };
+    axios
+      .put(URL + adminUrl + ID, body, config)
       .then(async (res) => {
-        if (res.data.message === "Success") {
-          // NotificationManager.success, null, 800);
+        if (res.data.message) {
           store.addNotification({
             title: "Success!",
             message: `${res.data.message}`,
@@ -187,17 +186,13 @@ class EditUserProfile extends Component {
             },
             width: 250,
           });
-
           await axios
             .get(URL + "/adminuser/" + ID, config)
             .then((res) => {
               setTimeout(
                 () => this.props.ViewProfile_User(res.data.data),
+                this.props.history.push("/app/accounts/admin/profile"),
                 1000
-              );
-              setTimeout(
-                () => this.props.history.push("/app/accounts/admin/profile"),
-                1500
               );
             })
             .catch((err) => {
