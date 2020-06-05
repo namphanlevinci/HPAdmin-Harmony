@@ -4,7 +4,7 @@ const initialState = {
   User: JSON.parse(localStorage.getItem("User_login"))
     ? JSON.parse(localStorage.getItem("User_login"))
     : "",
-  message_error: localStorage.getItem("Message")
+  message_error: localStorage.getItem("Message"),
 };
 
 const UserLogin = (state = initialState, action) => {

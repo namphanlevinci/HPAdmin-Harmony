@@ -20,13 +20,17 @@ import ErrorMessage from "../../MerchantProfile/Detail/Service/error-message";
 import Button from "@material-ui/core/Button";
 import PhoneInput from "react-phone-input-2";
 import * as Yup from "yup";
+import ReactPlaceholder from "react-placeholder";
+// import CircularProgress from "../components/CircularProgress/index";
+import CircularProgress from "../../../../../components/CircularProgress/index";
 
 import Select from "react-select";
 import selectState from "../../../../../util/selectState";
 import MaskedInput from "react-text-mask";
 
 import "react-phone-input-2/lib/high-res.css";
-
+import "nprogress/nprogress.css";
+import "react-placeholder/lib/reactPlaceholder.css";
 class Principal extends Component {
   constructor(props) {
     super(props);
@@ -536,28 +540,44 @@ class Principal extends Component {
                                 </div>
 
                                 <div className="col-12">
+                                  {/* <ReactPlaceholder
+                                    type="text"
+                                    rows={7}
+                                    // ready={Component !== null}
+                                    ready={true}
+                                  >
+                                    <div
+                                      className="loader-view"
+                                      style={{ height: "calc(100vh - 200px)" }}
+                                    > */}
+                                  {/* <CircularProgress /> */}
+                                  {/* </div>
+                                  </ReactPlaceholder> */}
+
                                   <div className="form-group">
                                     <label style={{ marginBottom: "10px" }}>
                                       Driver License Picture*
                                     </label>
                                     <br />
                                     <div className="Upload">
-                                      {PrincipalImage ? (
-                                        <div
-                                          className="driver-image"
-                                          style={{
-                                            backgroundImage: `url("${PrincipalImage}")`,
-                                          }}
-                                        />
-                                      ) : (
-                                        <div
-                                          className="driver-image"
-                                          style={{
-                                            backgroundImage: `url("${defaultImage}")`,
-                                          }}
-                                        />
-                                      )}
-
+                                      <div style={{ display: "flex" }}>
+                                        {PrincipalImage ? (
+                                          <div
+                                            className="driver-image"
+                                            style={{
+                                              backgroundImage: `url("${PrincipalImage}")`,
+                                            }}
+                                          />
+                                        ) : (
+                                          <div
+                                            className="driver-image"
+                                            style={{
+                                              backgroundImage: `url("${defaultImage}")`,
+                                            }}
+                                          />
+                                        )}
+                                        {/* <CircularProgress /> */}
+                                      </div>
                                       <div className="input-feedback">
                                         <ErrorMessage
                                           name={`principalInfo.${index}.fileId`}
@@ -567,7 +587,7 @@ class Principal extends Component {
                                         type="file"
                                         className="custom-input"
                                         style={{
-                                          width: "26%",
+                                          width: "30%",
                                           marginTop: "10px",
                                         }}
                                         name={`principalInfo.${index}.fileId`}

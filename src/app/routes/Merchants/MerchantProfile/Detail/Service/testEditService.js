@@ -109,7 +109,7 @@ class EditServiceTEST extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log("PROPS MỚI", props.serviceData);
+    // console.log("PROPS MỚI", props.serviceData);
     let service = props.serviceData;
     return {
       categoryId: service.categoryId,
@@ -293,7 +293,7 @@ class EditServiceTEST extends Component {
     });
 
     const extraItem = service.extras.filter((e) => e.isDeleted !== 1);
-    console.log("SERVICE LUC RENDER", service);
+    // console.log("SERVICE LUC RENDER", service);
     return (
       <div>
         {/* <Button className="btn btn-green" onClick={this.handleClickOpen}>

@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { GiCheckedShield } from "react-icons/gi";
 import { FaPen } from "react-icons/fa";
+import { useFormik } from "formik";
 
 import IntlMessages from "../../util/IntlMessages";
 import ContainerHeader from "../../components/ContainerHeader/index";
@@ -35,8 +36,6 @@ class proFile extends Component {
       address: "",
       city: "",
       zip: "",
-      password: null,
-      confirmPassword: null,
       waRoleId: "",
       phone: "",
       stateId: "",
@@ -49,12 +48,18 @@ class proFile extends Component {
       imagePreviewUrl: "",
       loading: false,
       showPassword: false,
+      isPass: false,
+      password: null,
+      currentPassword: null,
+      confirmPassword: null,
+      newPassword: null,
     };
   }
 
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
     const e = this.props.UserProfile?.User?.userAdmin;
+    console.log("e", e);
     this.setState(
       {
         Token: Token,
@@ -137,11 +142,15 @@ class proFile extends Component {
       fileId,
       waRoleId,
       password,
+      isPass,
+      newPassword,
+      currentPassword,
     } = this.state;
-    axios
-      .put(
-        URL + "/adminuser/" + ID,
-        {
+
+    const adminUrl = isPass ? "/adminUser/changepassword/" : "/adminuser/";
+    let body = isPass
+      ? { oldPassword: currentPassword, newPassword }
+      : {
           firstName,
           lastName,
           email,
@@ -149,14 +158,14 @@ class proFile extends Component {
           address,
           city,
           zip,
-          password,
           waRoleId,
           phone,
           stateId,
           fileId,
-        },
-        config
-      )
+        };
+
+    axios
+      .put(URL + adminUrl + ID, body, config)
       .then(async (res) => {
         if (res.data.message === "Success") {
           store.addNotification({
@@ -179,6 +188,9 @@ class proFile extends Component {
             .then((res) => {
               setTimeout(
                 () => this.props.ViewProfile_User(res.data.data),
+                // localStorage.setItem("User_login", {
+                //   userAdmin: JSON.stringify(res.data.data),
+                // }),
                 1000
               );
               setTimeout(
@@ -197,24 +209,43 @@ class proFile extends Component {
   };
 
   _updateSettings = () => {
-    this.setState({ error: "", confirmError: "" });
-    const patchURL = this.props.history.location.pathname;
-    if (patchURL === "/app/profile/password") {
-      const { password, confirmPassword } = this.state;
-      if (password === null) {
-        this.setState({ error: "Please enter Password " });
+    this.setState({
+      errorCurrentPassword: "",
+      errorConfirmError: "",
+      errorNewPassword: "",
+    });
+    const {
+      password,
+      confirmPassword,
+      currentPassword,
+      newPassword,
+      isPass,
+    } = this.state;
+    if (isPass) {
+      if (currentPassword === null) {
+        this.setState({
+          errorCurrentPassword: "Please enter current password",
+        });
+        return;
+      }
+      if (currentPassword !== password) {
+        this.setState({
+          errorCurrentPassword: "Current password did not match",
+        });
+        return;
+      }
+      if (newPassword === null) {
+        this.setState({ errorNewPassword: "Please enter new password" });
+        return;
       }
       if (confirmPassword === null) {
-        this.setState({ confirmError: "Please enter Confirm Password" });
+        this.setState({ errorConfirmError: "Please enter confirm password" });
+        return;
       }
-      if (password !== confirmPassword) {
-        this.setState({ confirmError: "Confirm Password didn't match" });
-      }
-      if (
-        password !== null &&
-        confirmPassword !== null &&
-        password === confirmPassword
-      ) {
+      if (newPassword !== confirmPassword) {
+        this.setState({ errorConfirmError: "Confirm password did not match" });
+        return;
+      } else {
         this.updateAdmin();
       }
     } else {
@@ -248,9 +279,13 @@ class proFile extends Component {
           />
         );
     }
+
     return (
       <Router>
-        <div className="container-fluid UserProfile">
+        <div
+          className="container-fluid UserProfile"
+          style={{ marginTop: "30px" }}
+        >
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
@@ -270,7 +305,7 @@ class proFile extends Component {
                   onChange={(e) => this._uploadFile(e)}
                 />
               </div>
-              <div className="nav-btn">
+              <div className="nav-btn" style={{ marginTop: "5px" }}>
                 <NavLink
                   to="/app/profile/general"
                   activeStyle={{
@@ -278,6 +313,7 @@ class proFile extends Component {
                     color: "#4251af",
                     textDecoration: "underline",
                   }}
+                  onClick={() => this.setState({ isPass: false })}
                 >
                   <div style={styles.navIcon}>
                     <FaPen size={19} />
@@ -293,6 +329,7 @@ class proFile extends Component {
                     color: "#4251af",
                     textDecoration: "underline",
                   }}
+                  onClick={() => this.setState({ isPass: true })}
                 >
                   <div style={styles.navIcon}>
                     <GiCheckedShield size={20} />

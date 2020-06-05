@@ -13,18 +13,18 @@ class PrincipalList extends Component {
     this.state = {};
   }
 
-  viewPrincipalInfo = data => {
+  viewPrincipalInfo = (data) => {
     this.props.UPDATE_PRINCIPAL(data);
     this.props.history.push("/app/merchants/profile/pincipal/info");
   };
 
   render() {
     const e = this.props.MerchantProfile;
-    console.log({e})
+    // console.log({e})
     const PrincipalData = e.principals;
     let Principal =
       PrincipalData !== undefined
-        ? PrincipalData.map(data => (
+        ? PrincipalData.map((data) => (
             <React.Fragment key={data.principalId}>
               <ListItem button>
                 <ListItemText
@@ -40,16 +40,16 @@ class PrincipalList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    UPDATE_PRINCIPAL: payload => {
+    UPDATE_PRINCIPAL: (payload) => {
       dispatch(UPDATE_PRINCIPAL(payload));
-    }
+    },
   };
 };
 

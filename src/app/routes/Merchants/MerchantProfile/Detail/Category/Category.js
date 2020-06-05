@@ -236,14 +236,14 @@ class Category extends Component {
                           const { categoryType, name } = values;
                           const merchantId = this.props.MerchantProfile
                             .merchantId;
-                          console.log("CATEGORY", values);
+                          // console.log("CATEGORY", values);
                           const body = {
                             categoryType,
                             name,
                             merchantId,
                           };
 
-                          console.log({ body });
+                          // console.log({ body });
                           axios
                             .post(
                               URL + "/category",
@@ -321,7 +321,7 @@ class Category extends Component {
                                     : "text-input"
                                 }
                                 onChange={(selectedOption) => {
-                                  console.log({ value: selectedOption.value });
+                                  // console.log({ value: selectedOption.value });
                                   setFieldValue(
                                     "categoryType",
                                     selectedOption.value

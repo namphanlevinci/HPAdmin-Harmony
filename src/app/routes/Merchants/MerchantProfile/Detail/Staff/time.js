@@ -23,8 +23,8 @@ const Time = [
   { value: "10:30 AM", label: "10:30 AM" },
   { value: "11:00 AM", label: "11:00 AM" },
   { value: "11:30 AM", label: "11:30 AM" },
-  { value: "12:00 AM", label: "12:00 AM" },
-  { value: "00:00 PM", label: "12:30 AM" },
+  { value: "12:00 PM", label: "12:00 PM" },
+  { value: "12:30 PM", label: "12:30 PM" },
 
   { value: "01:00 PM", label: "01:00 PM" },
   { value: "01:30 PM", label: "01:30 PM" },
@@ -47,7 +47,7 @@ const Time = [
   { value: "10:00 PM", label: "10:00 PM" },
   { value: "10:30 PM", label: "10:30 PM" },
   { value: "11:00 PM", label: "11:00 PM" },
-  { value: "11:30 PM", label: "11:30 PM" }
+  { value: "11:30 PM", label: "11:30 PM" },
 ];
 
 export default Time;

@@ -14,11 +14,11 @@ class Bank extends Component {
 
   render() {
     const e = this.props.MerchantProfile.banks;
-    console.log("BANK INFORMATION", e);
-    console.log("BANK INFORMATION", this.props.MerchantProfile);
+    // console.log("BANK INFORMATION", e);
+    // console.log("BANK INFORMATION", this.props.MerchantProfile);
     const renderBank =
       e !== undefined ? (
-        e.map(i => {
+        e.map((i) => {
           return (
             <div className="container" key={i.bankAcountId}>
               <h2>Bank Information</h2>
@@ -63,14 +63,14 @@ class Bank extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
-const mapDispatchToProps = dispatch => ({
-  ViewProfile_Merchants: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Bank);

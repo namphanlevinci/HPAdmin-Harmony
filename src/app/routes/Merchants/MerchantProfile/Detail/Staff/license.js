@@ -17,7 +17,7 @@ const License = ({
             type="text"
             fullWidth
             onChange={handleChange}
-            required
+            // required
             value={driverlicense}
           />
           {/* {validator.message(
@@ -36,7 +36,7 @@ const License = ({
             type="text"
             fullWidth
             onChange={handleChange}
-            required
+            // required
             value={socialSecurityNumber}
           />
           {/* {validator.message(
@@ -55,7 +55,7 @@ const License = ({
             type="text"
             fullWidth
             onChange={handleChange}
-            required
+            // required
             value={professionalLicense}
           />
           {/* {validator.message(

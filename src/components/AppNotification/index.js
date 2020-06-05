@@ -19,8 +19,8 @@ class AppNotification extends Component {
 
   render() {
     if (this.props.e !== undefined) {
-      let Notidata = this.props.e;
-      const renderNoti = Notidata.map(e => {
+      let notiData = this.props.e;
+      const renderNoti = notiData?.map((e) => {
         const { createdDate, waNotificationId, content } = e;
         const time = moment
           .utc(createdDate)
@@ -62,14 +62,14 @@ class AppNotification extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  Noti_List: state.getNoti
+  Noti_List: state.getNoti,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_Notifications: () => {
     dispatch(getAll_Notifications());
-  }
+  },
 });
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(AppNotification)

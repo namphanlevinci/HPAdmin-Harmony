@@ -65,7 +65,7 @@ class EditUserProfile extends Component {
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
     const e = this.props.UserProfile;
-    console.log("e", e);
+    // console.log("e", e);
     this.setState(
       {
         Token: Token,

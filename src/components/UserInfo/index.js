@@ -41,13 +41,13 @@ class UserInfo extends React.Component {
       <div className="user-profile d-flex flex-row align-items-center">
         <Avatar
           alt="..."
-          src={User.imageUrl !== null ? User.imageUrl : AvatarIcon}
+          src={User?.imageUrl !== null ? User?.imageUrl : AvatarIcon}
           className="user-avatar"
           style={{ objectFit: "cover" }}
         />
         <div className="user-detail">
           <h4 className="user-name" onClick={this.handleClick}>
-            {User.firstName + " " + User.lastName}
+            {User?.firstName + " " + User?.lastName}
             <i className="zmdi zmdi-caret-down zmdi-hc-fw align-middle" />
           </h4>
         </div>

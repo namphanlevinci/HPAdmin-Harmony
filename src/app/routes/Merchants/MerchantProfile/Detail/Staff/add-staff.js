@@ -447,7 +447,9 @@ class AddStaff extends Component {
                   <Typography className="my-2">
                     <h1>Complete™</h1>
                   </Typography>
-                  <Button onClick={this.handleReset}>Reset</Button>
+                  <Button className="btn btn-green" onClick={this.handleReset}>
+                    Reset
+                  </Button>
                 </div>
               ) : (
                 <div>
@@ -456,7 +458,7 @@ class AddStaff extends Component {
                     <Button
                       disabled={activeStep === 0}
                       onClick={this.handleBack}
-                      className="mr-2"
+                      className="btn btn-red"
                     >
                       Back
                     </Button>
@@ -464,6 +466,7 @@ class AddStaff extends Component {
                       variant="contained"
                       color="primary"
                       onClick={this.handleNext}
+                      className="btn btn-green"
                     >
                       {activeStep === steps.length - 1 ? "Finish" : "Next"}
                     </Button>
