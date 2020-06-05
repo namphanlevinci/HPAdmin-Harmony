@@ -175,7 +175,6 @@ class MerchantsRequest extends Component {
     };
     return (
       <div className="container-fluid  react-transition swipe-right">
-        <h1>NIGGA</h1>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.pendingRequest" />}
