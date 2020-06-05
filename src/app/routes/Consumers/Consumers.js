@@ -34,10 +34,10 @@ class Consumers extends React.Component {
   };
 
   fetchData = async (state) => {
-    const { page } = state;
+    const { page, pageSize } = state;
     this.setState({ loading: true });
     await axios
-      .get(URL + `/user/?page=${page === 0 ? 1 : page + 1}`, {
+      .get(URL + `/user/?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`, {
         headers: {
           Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
         },
@@ -211,10 +211,9 @@ class Consumers extends React.Component {
                 page={page}
                 pages={pageCount}
                 data={data}
-                // You should also control this...
                 onPageChange={(pageIndex) => this.changePage(pageIndex)}
                 onFetchData={(state) => this.fetchData(state)}
-                defaultPageSize={10}
+                defaultPageSize={20}
                 minRows={0}
                 noDataText="NO DATA!"
                 loading={this.state.loading}

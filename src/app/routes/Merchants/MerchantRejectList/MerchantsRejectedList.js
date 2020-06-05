@@ -4,6 +4,7 @@ import {
   ViewMerchant_Rejected_Merchants,
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
+import { store } from "react-notifications-component";
 
 import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -22,9 +23,41 @@ class MerchantsRequest extends Component {
       search: "",
     };
   }
-  componentDidMount() {
-    this.props.getAll_Rejected_Merchants();
-  }
+  // componentDidMount() {
+  //   this.props.getAll_Rejected_Merchants();
+  // }
+
+  fetchData = async (state) => {
+    const { page, pageSize } = state;
+    this.setState({ loading: true });
+    await axios
+      .get(
+        URL +
+          `/merchant/reject?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({
+          page,
+          pageCount: res.data.pages,
+          data: data,
+          loading: false,
+          pageSize: 5,
+        });
+      });
+  };
+
+  changePage = (pageIndex) => {
+    this.setState({
+      page: pageIndex,
+    });
+  };
+
   _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
@@ -44,28 +77,50 @@ class MerchantsRequest extends Component {
         }
       });
   };
+
+  keyPressed = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setState({ loading: true });
+      axios
+        .get(URL + `/merchant/reject?key=${this.state.search}&page=1&row=20`, {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        })
+        .then((res) => {
+          const data = res.data.data;
+          if (!data) {
+            store.addNotification({
+              title: "ERROR!",
+              message: "That Merchant doesn't exist.",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: true,
+              },
+              width: 250,
+            });
+            this.setState({ loading: false });
+          } else {
+            this.setState({
+              page: "0 ",
+              pageCount: res.data.pages,
+              data: data,
+              loading: false,
+            });
+          }
+        });
+    }
+  };
+
   render() {
     let ReqList = this.props.RejectedList;
-    if (ReqList) {
-      if (this.state.search) {
-        ReqList = ReqList.filter((e) => {
-          if (e.general !== null) {
-            return (
-              e.general.doBusinessName
-                .trim()
-                .toLowerCase()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              e.email
-                .trim()
-                .toLowerCase()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              parseInt(e.merchantId) === parseInt(this.state.search)
-            );
-          }
-          return null;
-        });
-      }
-    }
+
     const columns = [
       {
         Header: "ID",
@@ -73,20 +128,17 @@ class MerchantsRequest extends Component {
         width: 100,
       },
       {
-        Header: "Bussiness Name",
+        Header: "Business Name",
         id: "general",
-        accessor: "general",
-        Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>
-            {e.value !== null ? e.value.doBusinessName : null}
-          </span>
+        accessor: (e) => (
+          <span style={{ fontWeight: 500 }}>{e?.businessName}</span>
         ),
       },
       {
         id: "principals",
         Header: "Owner",
         width: 150,
-        accessor: (e) => e.principals[0],
+        accessor: (e) => e.principals?.[0],
         Cell: (e) => (
           <span style={{ fontWeight: 500 }}>
             {e.value !== undefined
@@ -126,6 +178,8 @@ class MerchantsRequest extends Component {
         },
       };
     };
+    const { page, pageCount, data, pageSize } = this.state;
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -144,18 +198,26 @@ class MerchantsRequest extends Component {
                   placeholder="Search.."
                   value={this.state.search}
                   onChange={this._SearchMerchants}
+                  onKeyPress={this.keyPressed}
                 />
               </form>
             </div>
           </div>
           <div className="MListContainer">
             <ReactTable
-              data={ReqList}
-              columns={columns}
-              defaultPageSize={10}
-              minRows={1}
-              getTdProps={onRowClick}
+              manual
+              page={page}
+              pages={pageCount}
+              data={data}
+              // row={pageSize}
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onFetchData={(state) => this.fetchData(state)}
+              defaultPageSize={20}
+              minRows={0}
               noDataText="NO DATA!"
+              loading={this.state.loading}
+              columns={columns}
+              getTdProps={onRowClick}
             />
           </div>
         </div>

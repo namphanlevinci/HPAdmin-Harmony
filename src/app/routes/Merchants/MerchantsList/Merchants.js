@@ -29,18 +29,26 @@ class Merchants extends React.Component {
       page: 0,
       pageCount: 0,
       data: [],
+      pageLoading: false,
     };
   }
 
+  componentDidMount() {
+    this.setState({ pageLoading: true });
+  }
+
   fetchData = async (state) => {
-    const { page } = state;
+    const { page, pageSize } = state;
     this.setState({ loading: true });
     await axios
-      .get(URL + `/merchant/?page=${page === 0 ? 1 : page + 1}`, {
-        headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
-        },
-      })
+      .get(
+        URL + `/merchant/?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -48,12 +56,12 @@ class Merchants extends React.Component {
           pageCount: res.data.pages,
           data: data,
           loading: false,
+          pageSize: 5,
         });
       });
   };
 
   changePage = (pageIndex) => {
-    // console.log(`changePage(pageIndex: ${pageIndex})`);
     this.setState({
       page: pageIndex,
     });
@@ -121,7 +129,7 @@ class Merchants extends React.Component {
     await this.setState({ search: e.target.value });
   };
   render() {
-    const { page, pageCount, data } = this.state;
+    const { page, pageCount, data, pageSize } = this.state;
     const columns = [
       {
         Header: "ID",
@@ -143,7 +151,7 @@ class Merchants extends React.Component {
         id: "principals",
         Header: "Owner",
         width: 200,
-        accessor: (e) => e.principals[0],
+        accessor: (e) => e?.principals?.[0],
         Cell: (e) => (
           <span style={{ fontWeight: 500 }}>
             {e?.value ? e.value.firstName + " " + e.value.lastName : null}
@@ -216,10 +224,11 @@ class Merchants extends React.Component {
               page={page}
               pages={pageCount}
               data={data}
+              row={pageSize}
               // You should also control this...
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
-              // defaultPageSize={10}
+              defaultPageSize={20}
               minRows={0}
               noDataText="NO DATA!"
               loading={this.state.loading}

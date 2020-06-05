@@ -6,6 +6,7 @@ import {
   ViewProfile_User,
 } from "../../../../actions/user/actions";
 import { connect } from "react-redux";
+import { store } from "react-notifications-component";
 
 import URL from "../../../../url/url";
 import BounceLoader from "react-spinners/BounceLoader";
@@ -18,6 +19,7 @@ import axios from "axios";
 import "../../Merchants/MerchantsList/merchantsList.css";
 import "./User.css";
 import "react-table/react-table.css";
+
 class Users extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +32,7 @@ class Users extends Component {
     const User = localStorage.getItem("User_login");
     this.setState({ User: JSON.parse(User) });
 
-    this.props.getAll_User();
+    // this.props.getAll_User();
   }
   _SearchUsers = async (e) => {
     await this.setState({ search: e.target.value });
@@ -39,12 +41,13 @@ class Users extends Component {
   _userProfile = async (e) => {
     this.setState({ loading: true });
     const ID = e?.waUserId;
-    const config = {
-      headers: { Authorization: "bearer " + this.state.User.token },
-    };
 
     await axios
-      .get(URL + "/adminuser/" + ID, config)
+      .get(URL + "/adminuser/" + ID, {
+        headers: {
+          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+        },
+      })
       .then((res) => {
         this.props.ViewProfile_User(res.data.data);
 
@@ -55,10 +58,81 @@ class Users extends Component {
       });
   };
 
+  fetchData = async (state) => {
+    const { page, pageSize } = state;
+    this.setState({ loading: true });
+    await axios
+      .get(
+        URL + `/adminuser/?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({
+          page,
+          pageCount: res.data.pages,
+          data: data,
+          loading: false,
+          pageSize: 5,
+        });
+      });
+  };
+
+  changePage = (pageIndex) => {
+    this.setState({
+      page: pageIndex,
+    });
+  };
+  keyPressed = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setState({ loading: true });
+      axios
+        .get(URL + `/adminuser/search?key=${this.state.search}&page=1`, {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        })
+        .then((res) => {
+          const data = res.data.data;
+          if (!data) {
+            store.addNotification({
+              title: "ERROR!",
+              message: "That User doesn't exist.",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: true,
+              },
+              width: 250,
+            });
+            this.setState({ loading: false });
+          } else {
+            this.setState({
+              page: "0 ",
+              pageCount: res.data.pages,
+              data: data,
+              loading: false,
+            });
+          }
+        });
+    }
+  };
+
   addAdmin = () => {
     this.props.history.push("/app/accounts/admin/add");
   };
   render() {
+    const { page, pageCount, data, pageSize } = this.state;
+
     const columns = [
       {
         Header: "ID",
@@ -95,24 +169,7 @@ class Users extends Component {
     ];
 
     let UserList = this.props.UserList;
-    if (UserList) {
-      if (this.state.search) {
-        UserList = UserList.filter((e) => {
-          return (
-            e.firstName
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.email
-              .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            parseInt(e.merchantId) === parseInt(this.state.search)
-          );
-        });
-      } else {
-      }
-    }
+
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
@@ -148,19 +205,21 @@ class Users extends Component {
           </div>
 
           <div className="MListContainer">
-            {this.state.loading && (
-              <div className="spinning">
-                <ProgressLoading loading={this.state.loading} size={50} />
-              </div>
-            )}
-
             <ReactTable
-              data={UserList}
-              columns={columns}
-              defaultPageSize={10}
+              manual
+              page={page}
+              pages={pageCount}
+              data={data}
+              row={pageSize}
+              // You should also control this...
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onFetchData={(state) => this.fetchData(state)}
+              defaultPageSize={20}
               minRows={0}
-              getTdProps={onRowClick}
               noDataText="NO DATA!"
+              loading={this.state.loading}
+              columns={columns}
+              getTdProps={onRowClick}
             />
           </div>
         </div>
@@ -170,6 +229,7 @@ class Users extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  InfoUser_Login: state.User,
   UserList: state.getAllUser,
 });
 const mapDispatchToProps = (dispatch) => ({

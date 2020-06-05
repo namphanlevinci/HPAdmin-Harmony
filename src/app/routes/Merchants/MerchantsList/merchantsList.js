@@ -30,10 +30,6 @@ class MerchantsList extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.props.getAll_Merchants();
-  }
-
   _merchantsProfile = (ID) => {
     axios
       .get(URL + "/merchant/" + ID, {
@@ -50,14 +46,17 @@ class MerchantsList extends React.Component {
   };
 
   fetchData = async (state) => {
-    const { page } = state;
+    const { page, pageSize } = state;
     this.setState({ loading: true });
     await axios
-      .get(URL + `/merchant/?page=${page === 0 ? 1 : page + 1}`, {
-        headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
-        },
-      })
+      .get(
+        URL + `/merchant/?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -70,7 +69,6 @@ class MerchantsList extends React.Component {
   };
 
   changePage = (pageIndex) => {
-    // console.log(`changePage(pageIndex: ${pageIndex})`);
     this.setState({
       page: pageIndex,
     });
