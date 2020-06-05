@@ -11,7 +11,7 @@ import {
   COLLAPSED_DRAWER,
   FIXED_DRAWER,
   HORIZONTAL_NAVIGATION,
-  INSIDE_THE_HEADER
+  INSIDE_THE_HEADER,
 } from "../../constants/ActionTypes";
 // import SearchBox from 'components/SearchBox';
 // import MailNotification from '../MailNotification/index';
@@ -25,7 +25,7 @@ import UserInfoPopup from "../../components/UserInfo/UserInfoPopup";
 import axios from "axios";
 import {
   ViewProfile_Merchants,
-  ViewMerchant_Request
+  ViewMerchant_Request,
 } from "../../actions/merchants/actions";
 // import playMessageAudio from "../../util/sound";
 import URL from "../../url/url";
@@ -46,39 +46,39 @@ class Header extends React.Component {
     //     let newData = JSON.parse(data);
     //     this.setState({ noti: newData.json, appNotificationIcon: false });
     //   }
-    // });
-    await this.LoadNoti();
-    setInterval(this.LoadNoti, 180000);
+    // // });
+    // await this.LoadNoti();
+    // setInterval(this.LoadNoti, 180000);
   }
 
   //GỌI API LOAD DATA NOTI TỪ SERVER MỖI 3'
-  LoadNoti = () => {
-    try {
-      const User = localStorage.getItem("User_login");
-      let token = JSON.parse(User);
-      const UserToken = token.token;
-      axios
-        .get(URL + "/notification", {
-          headers: { Authorization: `Bearer ${UserToken}` }
-        })
-        .then(res => {
-          console.log("1 2 3 NOT ME", res);
-          this.setState({ noti: res.data.data });
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // LoadNoti = () => {
+  //   try {
+  //     const User = localStorage.getItem("User_login");
+  //     let token = JSON.parse(User);
+  //     const UserToken = token.token;
+  //     axios
+  //       .get(URL + "/notification", {
+  //         headers: { Authorization: `Bearer ${UserToken}` }
+  //       })
+  //       .then(res => {
+  //         console.log("1 2 3 NOT ME", res);
+  //         this.setState({ noti: res.data.data });
+  //       });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-  gotoList = async e => {
+  gotoList = async (e) => {
     let data = JSON.parse(this.state.User);
     const UserToken = data.token;
     if (e.type === "payment") {
       await axios
         .get(URL + "/merchant/" + e.senderId, {
-          headers: { Authorization: `Bearer ${UserToken}` }
+          headers: { Authorization: `Bearer ${UserToken}` },
         })
-        .then(async res => {
+        .then(async (res) => {
           if (res.data.data !== null) {
             if (
               res.data.data.isApproved === 0 &&
@@ -98,9 +98,9 @@ class Header extends React.Component {
     } else {
       axios
         .get(URL + "/user/" + e.senderId, {
-          headers: { Authorization: `Bearer ${UserToken}` }
+          headers: { Authorization: `Bearer ${UserToken}` },
         })
-        .then(async res => {
+        .then(async (res) => {
           await this.props.ViewProfile_Merchants(res.data.data);
           await this.setState({ appNotification: false });
           await this.props.history.push("/app/consumers/profile/general");
@@ -108,25 +108,25 @@ class Header extends React.Component {
         });
     }
   };
-  handleDelete = e => {
+  handleDelete = (e) => {
     let data = JSON.parse(this.state.User);
     const UserToken = data.token;
     this.setState({
       noti: this.state.noti.filter(
-        el => el.waNotificationId !== e.waNotificationId
-      )
+        (el) => el.waNotificationId !== e.waNotificationId
+      ),
     });
     const ID = e.waNotificationId;
     axios
       .delete(URL + "/notification/" + ID, {
         headers: {
-          Authorization: `Bearer ${UserToken}`
-        }
+          Authorization: `Bearer ${UserToken}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         // console.log(res)
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -134,33 +134,33 @@ class Header extends React.Component {
   onAppNotificationSelect = () => {
     this.setState({
       appNotification: !this.state.appNotification,
-      appNotificationIcon: true
+      appNotificationIcon: true,
     });
   };
   onMailNotificationSelect = () => {
     this.setState({
-      mailNotification: !this.state.mailNotification
+      mailNotification: !this.state.mailNotification,
     });
   };
-  onLangSwitcherSelect = event => {
+  onLangSwitcherSelect = (event) => {
     this.setState({
       langSwitcher: !this.state.langSwitcher,
-      anchorEl: event.currentTarget
+      anchorEl: event.currentTarget,
     });
   };
   onSearchBoxSelect = () => {
     this.setState({
-      searchBox: !this.state.searchBox
+      searchBox: !this.state.searchBox,
     });
   };
   onAppsSelect = () => {
     this.setState({
-      apps: !this.state.apps
+      apps: !this.state.apps,
     });
   };
   onUserInfoSelect = () => {
     this.setState({
-      userInfo: !this.state.userInfo
+      userInfo: !this.state.userInfo,
     });
   };
   handleRequestClose = () => {
@@ -170,10 +170,10 @@ class Header extends React.Component {
       mailNotification: false,
       appNotification: false,
       searchBox: false,
-      apps: false
+      apps: false,
     });
   };
-  onToggleCollapsedNav = e => {
+  onToggleCollapsedNav = (e) => {
     const val = !this.props.navCollapsed;
     this.props.toggleCollapsedNav(val);
   };
@@ -189,13 +189,13 @@ class Header extends React.Component {
       langSwitcher: false,
       appNotification: false,
       appNotificationIcon: false,
-      User: []
+      User: [],
     };
   }
 
   updateSearchText(evt) {
     this.setState({
-      searchText: evt.target.value
+      searchText: evt.target.value,
     });
   }
 
@@ -474,24 +474,24 @@ const mapStateToProps = ({ settings }) => {
     locale,
     navigationStyle,
     horizontalNavPosition,
-    User
+    User,
   } = settings;
   return { drawerType, locale, navigationStyle, horizontalNavPosition, User };
 };
 
-const mapDispatchToProps = dispatch => ({
-  ViewMerchant_Request: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  ViewMerchant_Request: (payload) => {
     dispatch(ViewMerchant_Request(payload));
   },
-  ViewProfile_Merchants: payload => {
+  ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
   },
-  toggleCollapsedNav: payload => {
+  toggleCollapsedNav: (payload) => {
     dispatch(toggleCollapsedNav(payload));
   },
-  switchLanguage: payload => {
+  switchLanguage: (payload) => {
     dispatch(switchLanguage(payload));
-  }
+  },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
