@@ -33,7 +33,6 @@ class UserInfo extends React.Component {
   _gotoProfile = () => {
     this.setState({ open: false });
     this.props.history.push("/app/profile/general");
-    console.log("sss");
   };
   render() {
     const User = this.props.InfoUser_Login.User.userAdmin;

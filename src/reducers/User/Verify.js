@@ -4,7 +4,7 @@ const initalState = {
   User: JSON.parse(localStorage.getItem("User_login"))
     ? JSON.parse(localStorage.getItem("User_login"))
     : "",
-  verify_error: localStorage.getItem("VERIFY_ERROR")
+  verify_error: localStorage.getItem("VERIFY_ERROR"),
 };
 
 const Verify = (state = initalState, action) => {

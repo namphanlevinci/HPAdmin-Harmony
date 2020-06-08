@@ -75,7 +75,7 @@ class ConsumerProfile extends Component {
                     <li>
                       <NavLink
                         to="/app/consumers/profile/transactions"
-                        onClick={this.handleTransactions}
+                        // onClick={this.handleTransactions}
                       >
                         Transactions
                       </NavLink>

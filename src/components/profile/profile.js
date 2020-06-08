@@ -59,7 +59,6 @@ class proFile extends Component {
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
     const e = this.props.UserProfile?.User?.userAdmin;
-    console.log("e", e);
     this.setState(
       {
         Token: Token,
@@ -188,9 +187,6 @@ class proFile extends Component {
             .then((res) => {
               setTimeout(
                 () => this.props.ViewProfile_User(res.data.data),
-                // localStorage.setItem("User_login", {
-                //   userAdmin: JSON.stringify(res.data.data),
-                // }),
                 1000
               );
               setTimeout(

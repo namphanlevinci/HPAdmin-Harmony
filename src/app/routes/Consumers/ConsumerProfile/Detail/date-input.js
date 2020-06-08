@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-
+import moment from "moment";
 import Input from "@material-ui/core/Input";
 
 const useStyles = makeStyles({
@@ -21,9 +21,8 @@ const useStyles = makeStyles({
   error: {},
 });
 
-const DateInput = ({ fromDate }) => {
+const DateInput = ({ fromDate, date }) => {
   const classes = useStyles();
-
   return (
     <Input
       type="date"
@@ -32,6 +31,7 @@ const DateInput = ({ fromDate }) => {
       classes={classes}
       placeholder="placeholder"
       onChange={fromDate}
+      value={date}
     />
   );
 };

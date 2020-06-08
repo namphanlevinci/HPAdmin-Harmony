@@ -7,6 +7,8 @@ import moment from "moment";
 import "moment/locale/it";
 import ReactTable from "react-table";
 import DateInput from "./date-input";
+import axios from "axios";
+import URL from "../../../../../url/url";
 
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
@@ -25,6 +27,7 @@ class Transactions extends Component {
       to: undefined,
       selectedOption: null,
       range: "",
+      loadingDate: false,
     };
   }
   handleResetClick = () => {
@@ -46,33 +49,89 @@ class Transactions extends Component {
       range: e.target.value,
     });
   };
+
+  componentDidMount() {
+    console.log("this.props.MerchantProfile", this.props.MerchantProfile);
+    const ID = this.props.MerchantProfile?._original?.userId;
+    this.setState(
+      {
+        ID: ID,
+        from: moment()
+          .startOf("month")
+          .format("YYYY-MM-DD"),
+        to: moment()
+          .endOf("month")
+          .format("YYYY-MM-DD"),
+        timeRange: "thisWeek",
+      },
+      () => this.setState({ loadingDate: true })
+    );
+  }
+
+  fetchData = async (state) => {
+    console.log("state", state);
+    const { page, pageSize } = state;
+    const { ID, from, to, timeRange } = this.state;
+
+    this.setState({ loading: true });
+    await axios
+      .get(
+        URL +
+          `/paymenttransaction/${ID}?page=${
+            page === 0 ? 1 : page + 1
+          }&row=${pageSize}&quickFilter=${timeRange}&from=${from}&to=${to}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({
+          page,
+          pageCount: res.data.pages,
+          data: data,
+          loading: false,
+          pageSize: 5,
+        });
+      });
+  };
+
+  changePage = (pageIndex) => {
+    this.setState({
+      page: pageIndex,
+    });
+  };
+
   render() {
     let renderTable = this.props.TransactionsList;
     const { from, to } = this.state;
-    if (this.state.from) {
-      renderTable = renderTable.filter((e) => {
-        let date = moment(e.createDate).format("YYYY-MM-DD");
-        return date >= from && date <= to;
-      });
+    if (from && to) {
+      // this.fetchData(("state": { page: 1, pageSize: 20 }));
+      // renderTable = renderTable.filter((e) => {
+      //   let date = moment(e.createDate).format("YYYY-MM-DD");
+      //   return date >= from && date <= to;
+      // });
     }
     if (this.state.range) {
-      if (this.state.range === "week") {
-        const today = moment();
-        const from_date = today.startOf("week").format("YYYY-MM-DD");
-        const to_date = today.endOf("week").format("YYYY-MM-DD");
-        renderTable = renderTable.filter((e) => {
-          let date = moment(e.createDate).format("YYYY-MM-DD");
-          return date >= from_date && date <= to_date;
-        });
-      } else {
-        const today = moment();
-        const from_month = today.startOf("month").format("YYYY-MM-DD");
-        const to_month = today.endOf("month").format("YYYY-MM-DD");
-        renderTable = renderTable.filter((e) => {
-          let date = moment(e.createDate).format("YYYY-MM-DD");
-          return date >= from_month && date <= to_month;
-        });
-      }
+      // if (this.state.range === "week") {
+      //   const today = moment();
+      //   const from_date = today.startOf("week").format("YYYY-MM-DD");
+      //   const to_date = today.endOf("week").format("YYYY-MM-DD");
+      //   renderTable = renderTable.filter((e) => {
+      //     let date = moment(e.createDate).format("YYYY-MM-DD");
+      //     return date >= from_date && date <= to_date;
+      //   });
+      // } else {
+      //   const today = moment();
+      //   const from_month = today.startOf("month").format("YYYY-MM-DD");
+      //   const to_month = today.endOf("month").format("YYYY-MM-DD");
+      //   renderTable = renderTable.filter((e) => {
+      //     let date = moment(e.createDate).format("YYYY-MM-DD");
+      //     return date >= from_month && date <= to_month;
+      //   });
+      // }
     }
 
     const columns = [
@@ -137,6 +196,8 @@ class Transactions extends Component {
       },
     ];
 
+    const { page, pageCount, data, pageSize } = this.state;
+
     return (
       <div className="content ConsumerTransactions react-transition swipe-right">
         <div>
@@ -169,7 +230,7 @@ class Transactions extends Component {
                     From
                   </h6>
                   <div>
-                    <DateInput fromDate={this.fromDate} />
+                    <DateInput fromDate={this.fromDate} date={from} />
                   </div>
                 </form>
               </div>
@@ -185,7 +246,7 @@ class Transactions extends Component {
                     To
                   </h6>
                   <div>
-                    <DateInput fromDate={this.toDate} />
+                    <DateInput fromDate={this.toDate} date={to} />
                   </div>
                 </form>
               </div>
@@ -207,13 +268,30 @@ class Transactions extends Component {
               </div>
             </div>
             <div className="TransactionTable">
-              <ReactTable
+              {/* <ReactTable
                 data={renderTable}
                 columns={columns}
                 defaultPageSize={5}
                 minRows={1}
                 noDataText="NO DATA!"
-              />
+              /> */}
+              {this.state.loadingDate && (
+                <ReactTable
+                  manual
+                  page={page}
+                  pages={pageCount}
+                  data={data}
+                  row={pageSize}
+                  // You should also control this...
+                  onPageChange={(pageIndex) => this.changePage(pageIndex)}
+                  onFetchData={(state) => this.fetchData(state)}
+                  defaultPageSize={20}
+                  minRows={0}
+                  noDataText="NO DATA!"
+                  loading={this.state.loading}
+                  columns={columns}
+                />
+              )}
             </div>
           </div>
         </div>
