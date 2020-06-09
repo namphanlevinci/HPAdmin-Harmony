@@ -26,32 +26,38 @@ class Transactions extends Component {
       from: undefined,
       to: undefined,
       selectedOption: null,
-      range: "",
+      timeRange: "All",
       loadingDate: false,
     };
   }
   handleResetClick = () => {
     this.setState({
-      from: undefined,
-      to: undefined,
-      range: "",
+      from: moment()
+        .startOf("month")
+        .format("YYYY-MM-DD"),
+      to: moment()
+        .endOf("month")
+        .format("YYYY-MM-DD"),
+      timeRange: "All",
     });
   };
 
-  fromDate = (e) => {
-    this.setState({ from: e.target.value });
+  fromDate = async (e) => {
+    await this.setState({ from: e.target.value });
+    await this.fetchData();
   };
-  toDate = (e) => {
-    this.setState({ to: e.target.value });
+  toDate = async (e) => {
+    await this.setState({ to: e.target.value });
+    await this.fetchData();
   };
   _TimeRange = async (e) => {
     await this.setState({
-      range: e.target.value,
+      timeRange: e.target.value,
     });
+    await this.fetchData();
   };
 
   componentDidMount() {
-    console.log("this.props.MerchantProfile", this.props.MerchantProfile);
     const ID = this.props.MerchantProfile?._original?.userId;
     this.setState(
       {
@@ -62,15 +68,16 @@ class Transactions extends Component {
         to: moment()
           .endOf("month")
           .format("YYYY-MM-DD"),
-        timeRange: "thisWeek",
+        timeRange: "All",
       },
       () => this.setState({ loadingDate: true })
     );
   }
 
   fetchData = async (state) => {
-    console.log("state", state);
-    const { page, pageSize } = state;
+    // const { page, pageSize } = state;
+    const page = state?.page ? state?.page : 0;
+    const pageSize = state?.pageSize ? state?.pageSize : 20;
     const { ID, from, to, timeRange } = this.state;
 
     this.setState({ loading: true });
@@ -105,34 +112,7 @@ class Transactions extends Component {
   };
 
   render() {
-    let renderTable = this.props.TransactionsList;
     const { from, to } = this.state;
-    if (from && to) {
-      // this.fetchData(("state": { page: 1, pageSize: 20 }));
-      // renderTable = renderTable.filter((e) => {
-      //   let date = moment(e.createDate).format("YYYY-MM-DD");
-      //   return date >= from && date <= to;
-      // });
-    }
-    if (this.state.range) {
-      // if (this.state.range === "week") {
-      //   const today = moment();
-      //   const from_date = today.startOf("week").format("YYYY-MM-DD");
-      //   const to_date = today.endOf("week").format("YYYY-MM-DD");
-      //   renderTable = renderTable.filter((e) => {
-      //     let date = moment(e.createDate).format("YYYY-MM-DD");
-      //     return date >= from_date && date <= to_date;
-      //   });
-      // } else {
-      //   const today = moment();
-      //   const from_month = today.startOf("month").format("YYYY-MM-DD");
-      //   const to_month = today.endOf("month").format("YYYY-MM-DD");
-      //   renderTable = renderTable.filter((e) => {
-      //     let date = moment(e.createDate).format("YYYY-MM-DD");
-      //     return date >= from_month && date <= to_month;
-      //   });
-      // }
-    }
 
     const columns = [
       {
@@ -155,7 +135,7 @@ class Transactions extends Component {
         Header: "Activity",
         accessor: (e) => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
-            {e.paymentData.transaction_type.toUpperCase()}
+            {e?.paymentData?.transaction_type?.toUpperCase()}
           </p>
         ),
       },
@@ -164,14 +144,14 @@ class Transactions extends Component {
         Header: "Payment Method",
         accessor: (e) => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
-            {e.paymentData.method.toUpperCase()}
+            {e?.paymentData?.method?.toUpperCase()}
           </p>
         ),
       },
       {
         id: "cardtype",
         Header: "Card type",
-        accessor: (e) => e.paymentData.card_type,
+        accessor: (e) => e?.paymentData.card_type,
       },
       {
         id: "amount",
@@ -190,7 +170,7 @@ class Transactions extends Component {
         Header: "Status",
         accessor: (e) => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
-            {e.paymentData.validation_status.toUpperCase()}
+            {e.paymentData?.validation_status?.toUpperCase()}
           </p>
         ),
       },
@@ -262,8 +242,8 @@ class Transactions extends Component {
                   onChange={this._TimeRange}
                 >
                   <option value="">ALL </option>
-                  <option value="week">This week</option>
-                  <option value="month">This month</option>
+                  <option value="thisWeek">This Week</option>
+                  <option value="thisMonth">This Month</option>
                 </select>
               </div>
             </div>

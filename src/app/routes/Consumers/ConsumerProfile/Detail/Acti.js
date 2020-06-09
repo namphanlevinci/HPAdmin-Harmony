@@ -6,6 +6,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import ReactTable from "react-table";
 import DateInput from "./date-input";
+import axios from "axios";
+import URL from "../../../../../url/url";
 
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
@@ -23,23 +25,84 @@ class Acti extends Component {
       data: [],
       from: undefined,
       to: undefined,
+      loadingDate: false,
     };
   }
 
   handleResetClick = () => {
     this.setState({
-      from: undefined,
-      to: undefined,
-      selectedOption: null,
+      from: moment()
+        .startOf("month")
+        .format("YYYY-MM-DD"),
+      to: moment()
+        .endOf("month")
+        .format("YYYY-MM-DD"),
+    });
+    this.fetchData();
+  };
+  fromDate = async (e) => {
+    await this.setState({ from: e.target.value });
+    await this.fetchData();
+  };
+  toDate = async (e) => {
+    await this.setState({ to: e.target.value });
+    await this.fetchData();
+  };
+
+  componentDidMount() {
+    const ID = this.props.MerchantProfile?._original?.userId;
+    this.setState(
+      {
+        ID: ID,
+        from: moment()
+          .startOf("month")
+          .format("YYYY-MM-DD"),
+        to: moment()
+          .endOf("month")
+          .format("YYYY-MM-DD"),
+      },
+      () => this.setState({ loadingDate: true })
+    );
+  }
+  fetchData = async (state) => {
+    // const { page, pageSize } = state;
+    const page = state?.page ? state?.page : 0;
+    const pageSize = state?.pageSize ? state?.pageSize : 20;
+    const { ID, from, to, timeRange } = this.state;
+
+    this.setState({ loading: true });
+    await axios
+      .get(
+        URL +
+          `/useractivity/${ID}?page=${
+            page === 0 ? 1 : page + 1
+          }&row=${pageSize}&from=${from}&to=${to}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({
+          page,
+          pageCount: res.data.pages,
+          data: data,
+          loading: false,
+          pageSize: 5,
+        });
+      });
+  };
+  changePage = (pageIndex) => {
+    this.setState({
+      page: pageIndex,
     });
   };
-  fromDate = (e) => {
-    this.setState({ from: e.target.value });
-  };
-  toDate = (e) => {
-    this.setState({ to: e.target.value });
-  };
+
   render() {
+    const { page, pageCount, data, pageSize } = this.state;
+
     const columns = [
       {
         id: "createDate",
@@ -96,7 +159,7 @@ class Acti extends Component {
                 </h6>
                 <div>
                   <form noValidate>
-                    <DateInput fromDate={this.fromDate} />
+                    <DateInput fromDate={this.fromDate} date={from} />
                   </form>
                 </div>
               </div>
@@ -113,19 +176,29 @@ class Acti extends Component {
                     To
                   </h6>
                   <div>
-                    <DateInput fromDate={this.toDate} />
+                    <DateInput fromDate={this.toDate} date={to} />
                   </div>
                 </form>
               </div>
             </div>
             <div className="TransactionTable ActivityTable">
-              <ReactTable
-                data={renderTable}
-                columns={columns}
-                defaultPageSize={10}
-                minRows={1}
-                noDataText="NO DATA!"
-              />
+              {this.state.loadingDate && (
+                <ReactTable
+                  manual
+                  page={page}
+                  pages={pageCount}
+                  data={data !== null ? data : ""}
+                  row={pageSize}
+                  // You should also control this...
+                  onPageChange={(pageIndex) => this.changePage(pageIndex)}
+                  onFetchData={(state) => this.fetchData(state)}
+                  defaultPageSize={20}
+                  minRows={0}
+                  noDataText="NO DATA!"
+                  loading={this.state.loading}
+                  columns={columns}
+                />
+              )}
             </div>
           </div>
         </div>

@@ -44,6 +44,7 @@ class Consumers extends React.Component {
       })
       .then((res) => {
         const data = res.data.data;
+        console.log("data", data);
         this.setState({
           page,
           pageCount: res.data.pages,
@@ -71,7 +72,7 @@ class Consumers extends React.Component {
 
       const searchValue = !search
         ? `/user/?page=1`
-        : `/user?key=${search}&page=1`;
+        : `/user?key=${search}&page=1&row=20`;
       await axios
         .get(URL + searchValue, {
           headers: {
