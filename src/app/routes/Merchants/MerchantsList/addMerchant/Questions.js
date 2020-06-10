@@ -2,21 +2,24 @@ import React from "react";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
+import TextField from "@material-ui/core/TextField";
 
-const Questions = ({ handleQuestions, businessInfo }) => {
+const Questions = ({ handleQuestions, businessInfo, handleChange }) => {
   // console.log("value", businessInfo);
-  const mapQuestion = businessInfo.map((e, index) => {
+  const mapQuestion = businessInfo.map((data, index) => {
     return (
-      <div className="col-6" key={e.questionId}>
-        <h4>{e.value}</h4>
+      <div className="col-6" key={data.questionId}>
+        <h4>{data.value}</h4>
         <div style={{ display: "flex" }}>
           <RadioGroup
-            aria-label={`isAccept${e.questionId}`}
-            name={`isAccept${e.questionId}`}
-            // value={`isAccept${e.questionId}`}
-            onChange={
-              ((e) => console.log("TARGET", e.target.checked),
-              handleQuestions([e, `isAccept${e.questionId}`]))
+            aria-label={`isAccept${data.questionId}`}
+            name={`isAccept${data.questionId}`}
+            onChange={(e) =>
+              handleQuestions(
+                data,
+                e.target.value,
+                `isAccept${data.questionId}`
+              )
             }
           >
             <FormControlLabel
@@ -29,8 +32,17 @@ const Questions = ({ handleQuestions, businessInfo }) => {
               control={<Radio color="primary" />}
               label="Yes"
             />
-          </RadioGroup>
+          </RadioGroup>{" "}
+          <br />
         </div>
+        <TextField
+          style={{ marginTop: "0px", width: "82%", float: "right" }}
+          name={`isAnswer${data.questionId}`}
+          type="text"
+          margin="normal"
+          fullWidth
+          onChange={(e) => handleChange(e)}
+        />
       </div>
     );
   });

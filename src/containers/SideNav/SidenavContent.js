@@ -217,13 +217,13 @@ class SidenavContent extends Component {
                   </span>
                 </NavLink>
               </li> */}
-              {/* <li>
+              <li>
                 <NavLink className="prepend-icon" to="/app/accounts/logs">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.Logs" />
                   </span>
                 </NavLink>
-              </li> */}
+              </li>
             </ul>
           </li>
           {/* REPORTS */}

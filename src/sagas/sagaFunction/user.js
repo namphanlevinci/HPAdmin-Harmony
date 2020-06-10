@@ -3,26 +3,26 @@ import {
   login_User_api,
   getAll_User_api,
   Verify_User_api,
-  add_Admin_api
+  add_Admin_api,
 } from "../api/user";
-import { takeLatest, put } from "redux-saga/effects";
+import { takeLatest, put, takeLeading } from "redux-saga/effects";
 
 //! login user admin
 export function* login_User_Saga() {
-  yield takeLatest(typeUser.checkLogin_User, function*(action) {
+  yield takeLeading(typeUser.checkLogin_User, function*(action) {
     try {
       const { email, password } = action.payload;
       const check = yield login_User_api({ email, password });
       if (check.data !== null) {
         yield put({
           type: typeUser.checkLogin_User_Success,
-          payload: check.data
+          payload: check.data,
         });
       }
       if (check.data === null) {
         yield put({
           type: typeUser.checkLogin_User_Error,
-          payload: check.message
+          payload: check.message,
         });
       }
     } catch (error) {
@@ -59,7 +59,7 @@ export function* getAll_User_Saga() {
       } else {
         yield put({
           type: typeUser.getAll_User_Error,
-          payload: "Something went wrong, please try again later!"
+          payload: "Something went wrong, please try again later!",
         });
       }
     } catch (error) {
@@ -76,7 +76,7 @@ export function* add_Admin_Saga() {
       if (check.data !== null) {
         yield put({
           type: typeUser.ADD_ADMIN_SUCCESS,
-          payload: check.data.message
+          payload: check.data.message,
         });
       }
       if (check.data === null) {

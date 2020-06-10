@@ -263,7 +263,7 @@ class MerchantRejectedProfile extends Component {
                     <p>{e.general.legalBusinessName}</p>
                   </div>
                   <div className="col-4">
-                    <h4>Doing Business As Name (DBA)*</h4>
+                    <h4>Doing Business As* (DBA)</h4>
                     <p>
                       {e.general !== null ? e.general.doBusinessName : null}
                     </p>
@@ -273,7 +273,7 @@ class MerchantRejectedProfile extends Component {
                     <p>{e.general !== null ? e.general.tax : null}</p>
                   </div>
                   <div className="col-4">
-                    <h4>DBA Business Address*</h4>
+                    <h4>Business Address* (no P.O. Boxes)</h4>
                     <p>{e.addressFull !== null ? e.addressFull : null}</p>
                   </div>
                   <div className="col-4">

@@ -30,11 +30,10 @@ const General = ({
           <div className="form-group">
             <TextField
               name="businessName"
-              label="Legal Business Name"
+              label="Legal Business Name*"
               margin="normal"
               type="text"
               fullWidth
-              required
               onChange={handleChange}
               value={value.businessName}
             />
@@ -49,12 +48,11 @@ const General = ({
           <div className="form-group">
             <TextField
               name="doingBusiness"
-              label="DBA"
+              label="Doing Business As* (DBA)"
               type="text"
               autoComplete="doingBusiness"
               margin="normal"
               fullWidth
-              required
               onChange={handleChange}
               value={value.doingBusiness}
             />
@@ -69,11 +67,10 @@ const General = ({
           <div className="form-group">
             <TextField
               name="tax"
-              label="Federal Tax ID"
+              label="Federal Tax ID*"
               type="text"
               margin="normal"
               fullWidth
-              required
               onChange={handleChange}
               value={value.tax}
             />
@@ -86,11 +83,10 @@ const General = ({
           <div className="form-group">
             <TextField
               name="address"
-              label="DBA Address"
+              label="Business Address* (no P.O. Boxes)"
               margin="normal"
               type="text"
               fullWidth
-              required
               onChange={handleChange}
               value={value.address}
             />
@@ -101,11 +97,10 @@ const General = ({
           <div className="form-group">
             <TextField
               name="city"
-              label="City"
+              label="City*"
               type="text"
               margin="normal"
               fullWidth
-              required
               onChange={handleChange}
               value={value.city}
             />
@@ -121,6 +116,7 @@ const General = ({
               name="state"
               options={selectState}
             />
+            {validator.message("state", value.state, "required|string")}
           </div>
         </div>
       </div>
@@ -129,11 +125,10 @@ const General = ({
           <div className="form-group">
             <TextField
               name="zip"
-              label="Zip"
+              label="Zip*"
               type="number"
               margin="normal"
               fullWidth
-              required
               onChange={handleChange}
               value={value.zip}
             />
@@ -142,7 +137,7 @@ const General = ({
         </div>
         <div className="col-4">
           <div style={{ width: "100%" }}>
-            <label>Business Phone Number</label>
+            <label>Business Phone Number*</label>
             <PhoneInput
               style={{ marginTop: "10px" }}
               country={"us"}
@@ -206,11 +201,10 @@ const General = ({
           <div className="form-group">
             <TextField
               name="email"
-              label="Email"
+              label="Email*"
               type="email"
               margin="normal"
               fullWidth
-              required
               onChange={handleChange}
               value={value.email}
             />
@@ -225,11 +219,10 @@ const General = ({
             <div className="form-group">
               <TextField
                 name="firstName"
-                label="First Name"
+                label="First Name*"
                 type="text"
                 margin="normal"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={value.firstName}
               />
@@ -244,11 +237,10 @@ const General = ({
             <div className="form-group">
               <TextField
                 name="lastName"
-                label="Last Name"
+                label="Last Name*"
                 type="text"
                 margin="normal"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={value.lastName}
               />
@@ -261,11 +253,10 @@ const General = ({
             <div className="form-group">
               <TextField
                 name="position"
-                label="Position"
+                label="Position*"
                 type="text"
                 margin="normal"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={value.position}
               />
@@ -274,7 +265,7 @@ const General = ({
           </div>
           <div className="col-6">
             <div>
-              <label>Phone Number</label>
+              <label>Phone Number*</label>
               <PhoneInput
                 country={"us"}
                 style={{ marginTop: "10px" }}

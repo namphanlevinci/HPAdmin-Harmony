@@ -38,7 +38,7 @@ class General extends Component {
               <p>{e.general !== null ? e.general.legalBusinessName : null}</p>
             </div>
             <div className="col-4">
-              <label>Doing Business As Name (DBA)*</label>
+              <label>Doing Business As* (DBA)</label>
               <p>{e.general !== null ? e.general.doBusinessName : null}</p>
             </div>
             <div className="col-4">
@@ -46,7 +46,7 @@ class General extends Component {
               <p>{e.general !== null ? e.general.tax : null}</p>
             </div>
             <div className="col-4">
-              <label>DBA Business Address*</label>
+              <label>Business Address* (no P.O. Boxes)</label>
               <p>{e.addressFull}</p>
             </div>
             <div className="col-4">
@@ -62,8 +62,6 @@ class General extends Component {
               <p>{e.general !== null ? e.general.emailContact : null}</p>
             </div>
             <div className="col-4">
-              {/* <label>Password*</label>
-              <p>{e?.password}</p> */}
               <div className="password">
                 <label className="pasword__label">
                   Password

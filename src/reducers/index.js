@@ -42,14 +42,14 @@ import getUser_Activity from "./Transactions/getUser_Activity";
 import getAllBatch from "./Transactions/getBatch";
 import getAllP2P_Transactions from "./Transactions/getP2P";
 import getBatchDetail from "./Transactions/getBatchDetail";
-//! REPORT STATICS
+// REPORT STATICS
 import Approved_Static from "./Reports/Approved";
-//! View Principal Infor
+// View Principal InFor
 import viewPrincipalInfo from "./Merchants/getPrincipal_Info";
-//! GIFTCARD
+// Gift Card
 import GiftCardReducer from "./gift-card/gift-card.reducer";
 
-export default history =>
+export default (history) =>
   combineReducers({
     router: connectRouter(history),
     settings: Settings,
@@ -84,5 +84,5 @@ export default history =>
     viewPrincipal: viewPrincipalInfo,
     serviceProps: VIEW_SERVICE_EDIT,
     GiftCardData: GiftCardReducer,
-    staffDetail: VIEW_STAFF_DETAIL
+    staffDetail: VIEW_STAFF_DETAIL,
   });

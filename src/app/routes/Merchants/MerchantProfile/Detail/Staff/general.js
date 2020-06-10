@@ -4,6 +4,9 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import TextField from "@material-ui/core/TextField";
 import State from "../../../../../../util/InitialState";
 import Select from "react-select";
+import PhoneInput from "react-phone-input-2";
+
+import "react-phone-input-2/lib/high-res.css";
 
 const General = ({
   handleSelect,
@@ -152,7 +155,7 @@ const General = ({
       </div>
       <div className="row justify-content-center">
         <div className="col-6">
-          <div style={{ display: "flex" }}>
+          <div>
             <div style={{ width: "50%", padding: "8px 20px 0px 0px" }}>
               <label>Country Code</label>
               <Select
@@ -171,6 +174,14 @@ const General = ({
               onChange={handleChange}
               value={cellphone}
             />
+            {/* <label>Cellphone</label>
+            <PhoneInput
+              country={"us"}
+              style={{ marginTop: "10px" }}
+              placeholder="Phone Number"
+              name="cellphone"
+              onChange={handleChange}
+            /> */}
           </div>
         </div>
         <div className="col-6">

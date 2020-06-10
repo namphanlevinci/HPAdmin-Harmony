@@ -23,7 +23,7 @@ import * as Yup from "yup";
 import ReactPlaceholder from "react-placeholder";
 // import CircularProgress from "../components/CircularProgress/index";
 import CircularProgress from "../../../../../components/CircularProgress/index";
-
+import TextField from "@material-ui/core/TextField";
 import Select from "react-select";
 import selectState from "../../../../../util/selectState";
 import MaskedInput from "react-text-mask";
@@ -146,7 +146,7 @@ class Principal extends Component {
                   },
                   yearAtThisAddress: 0,
                   ssn: "",
-                  dateOfBirth: new Date(),
+                  dateOfBirth: "",
                   email: "",
                   driverLicense: "",
                   stateIssued: "",
@@ -173,7 +173,7 @@ class Principal extends Component {
                           const PrincipalImage = principal?.imageUrl;
                           return (
                             <div key={index}>
-                              <div className="row align-items-center justify-content-center add-merchant-div">
+                              <div className="row align-items-center  add-merchant-div">
                                 <div className="col-12 add-merchant-title">
                                   <h2 style={{ color: "rgb(66, 81, 175)" }}>
                                     Principal {index + 1}
@@ -190,11 +190,18 @@ class Principal extends Component {
                                 </div>
 
                                 <div className="col-4">
-                                  <label>First Name</label>
-                                  <Field
-                                    placeholder="First Name"
+                                  <TextField
                                     name={`principalInfo.${index}.firstName`}
                                     values={`principalInfo.${index}.firstName`}
+                                    label="First Name*"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.firstName`,
+                                        e.target.value
+                                      )
+                                    }
                                   />
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -203,11 +210,18 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Last Name</label>
-                                  <Field
+                                  <TextField
                                     name={`principalInfo.${index}.lastName`}
                                     values={`principalInfo.${index}.lastName`}
-                                    placeholder="Last Name"
+                                    label="Last Name*"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.lastName`,
+                                        e.target.value
+                                      )
+                                    }
                                   />
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -216,11 +230,18 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Position</label>
-                                  <Field
+                                  <TextField
                                     name={`principalInfo.${index}.position`}
                                     values={`principalInfo.${index}.position`}
-                                    placeholder="Position"
+                                    label="Title/Position*"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.position`,
+                                        e.target.value
+                                      )
+                                    }
                                   />
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -229,16 +250,21 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label style={{ marginTop: "10px" }}>
-                                    Ownership
-                                  </label>
-                                  <Field
-                                    style={{ marginTop: "10px" }}
+                                  <TextField
                                     name={`principalInfo.${index}.ownership`}
                                     values={`principalInfo.${index}.ownership`}
-                                    placeholder="Ownership (%)"
+                                    label="Ownership* (%)"
+                                    margin="normal"
                                     type="number"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.ownership`,
+                                        e.target.value
+                                      )
+                                    }
                                   />
+
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.ownership`}
@@ -380,11 +406,18 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Address</label>
-                                  <Field
+                                  <TextField
                                     name={`principalInfo.${index}.addressPrincipal.address`}
                                     values={`principalInfo.${index}.addressPrincipal.address`}
-                                    placeholder="Address"
+                                    label="Address*"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.addressPrincipal.address`,
+                                        e.target.value
+                                      )
+                                    }
                                   />
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -394,12 +427,20 @@ class Principal extends Component {
                                 </div>
 
                                 <div className="col-4">
-                                  <label>City</label>
-                                  <Field
+                                  <TextField
                                     name={`principalInfo.${index}.addressPrincipal.city`}
                                     values={`principalInfo.${index}.addressPrincipal.city`}
-                                    placeholder="City"
+                                    label="City*"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.addressPrincipal.city`,
+                                        e.target.value
+                                      )
+                                    }
                                   />
+
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.addressPrincipal.city`}
@@ -426,12 +467,20 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Zip</label>
-                                  <Field
+                                  <TextField
                                     name={`principalInfo.${index}.addressPrincipal.zip`}
                                     values={`principalInfo.${index}.addressPrincipal.zip`}
-                                    placeholder="Zip"
+                                    label="Zip Code*"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.addressPrincipal.zip`,
+                                        e.target.value
+                                      )
+                                    }
                                   />
+
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.addressPrincipal.zip`}
@@ -439,12 +488,30 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Social security Number (SSN)</label>
-                                  {/* <Field
-                                    name={`principalInfo.${index}.ssn`}
-                                    values={`principalInfo.${index}.ssn`}
-                                    placeholder="SSN"
-                                  /> */}
+                                  <TextField
+                                    name={`principalInfo.${index}.yearAtThisAddress`}
+                                    values={`principalInfo.${index}.yearAtThisAddress`}
+                                    label="Year at This Address"
+                                    type="number"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.yearAtThisAddress`,
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                  <div className="input-feedback">
+                                    <ErrorMessage
+                                      name={`principalInfo.${index}.yearAtThisAddress`}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-4">
+                                  <label style={{ marginTop: "7px" }}>
+                                    Social security Number (SSN)
+                                  </label>
                                   <MaskedInput
                                     mask={[
                                       /[1-9]/,
@@ -459,8 +526,6 @@ class Principal extends Component {
                                       /\d/,
                                       /\d/,
                                     ]}
-                                    // className="form-control"
-                                    // style={{ padding: "8px 0px" }}
                                     guide={false}
                                     values={`principalInfo.${index}.ssn`}
                                     name={`principalInfo.${index}.ssn`}
@@ -470,7 +535,6 @@ class Principal extends Component {
                                         `principalInfo.${index}.ssn`,
                                         e.target.value
                                       ),
-                                      // console.log("e", e.target.value),
                                     ]}
                                   />
                                   <div className="input-feedback">
@@ -480,7 +544,9 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Date of Birth (mm/dd/yyyy)</label>
+                                  <label style={{ marginTop: "12px" }}>
+                                    Date of Birth (mm/dd/yyyy)
+                                  </label>
                                   <Field
                                     type="date"
                                     name={`principalInfo.${index}.dateOfBirth`}
@@ -495,11 +561,18 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Email Address*</label>
-                                  <Field
+                                  <TextField
                                     name={`principalInfo.${index}.email`}
                                     values={`principalInfo.${index}.email`}
-                                    placeholder="Email"
+                                    label="Email Address*"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.email`,
+                                        e.target.value
+                                      )
+                                    }
                                   />
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -508,11 +581,18 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Driver License Number*</label>
-                                  <Field
+                                  <TextField
                                     name={`principalInfo.${index}.driverLicense`}
                                     values={`principalInfo.${index}.driverLicense`}
-                                    placeholder="Driver License"
+                                    label="Driver License Number*"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.driverLicense`,
+                                        e.target.value
+                                      )
+                                    }
                                   />
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -540,22 +620,8 @@ class Principal extends Component {
                                 </div>
 
                                 <div className="col-12">
-                                  {/* <ReactPlaceholder
-                                    type="text"
-                                    rows={7}
-                                    // ready={Component !== null}
-                                    ready={true}
-                                  >
-                                    <div
-                                      className="loader-view"
-                                      style={{ height: "calc(100vh - 200px)" }}
-                                    > */}
-                                  {/* <CircularProgress /> */}
-                                  {/* </div>
-                                  </ReactPlaceholder> */}
-
                                   <div className="form-group">
-                                    <label style={{ marginBottom: "10px" }}>
+                                    <label style={{ margin: "10px" }}>
                                       Driver License Picture*
                                     </label>
                                     <br />
@@ -576,7 +642,6 @@ class Principal extends Component {
                                             }}
                                           />
                                         )}
-                                        {/* <CircularProgress /> */}
                                       </div>
                                       <div className="input-feedback">
                                         <ErrorMessage

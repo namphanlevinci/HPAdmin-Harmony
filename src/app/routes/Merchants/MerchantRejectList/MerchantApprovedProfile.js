@@ -22,7 +22,7 @@ class MerchantApprovedProfile extends Component {
   };
   render() {
     const e = this.props.MerchantProfile;
-    let principalLength = this.props.MerchantProfile.principals.length;
+    let principalLength = this.props.MerchantProfile?.principals?.length;
 
     //!render Principal
     const renderPrincipal =
@@ -177,7 +177,7 @@ class MerchantApprovedProfile extends Component {
                     </p>
                   </div>
                   <div className="col-4">
-                    <h4>Doing Business As Name (DBA)*</h4>
+                    <h4>Doing Business As* (DBA)</h4>
                     <p>
                       {e.general !== null ? e.general.doBusinessName : null}
                     </p>
@@ -187,7 +187,7 @@ class MerchantApprovedProfile extends Component {
                     <p>{e.taxId}</p>
                   </div>
                   <div className="col-4">
-                    <h4>DBA Business Address*</h4>
+                    <h4>Business Address* (no P.O. Boxes)</h4>
                     <p>{e.address + " " + e.city + " " + e.stateId}</p>
                   </div>
                   <div className="col-4">

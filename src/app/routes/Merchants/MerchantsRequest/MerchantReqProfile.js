@@ -484,7 +484,7 @@ class MerchantReqProfile extends Component {
                     </p>
                   </div>
                   <div className="col-4">
-                    <h4>Doing Business As Name (DBA)*</h4>
+                    <h4>Doing Business As* (DBA)</h4>
                     <p>
                       {e.general !== null ? e.general.doBusinessName : null}
                     </p>
@@ -494,7 +494,7 @@ class MerchantReqProfile extends Component {
                     <p>{e.taxId}</p>
                   </div>
                   <div className="col-4">
-                    <h4>DBA Business Address*</h4>
+                    <h4>Business Address* (no P.O. Boxes)</h4>
                     <p>{e.general !== null ? e.general.address : null}</p>
                   </div>
                   <div className="col-4">

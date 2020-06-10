@@ -214,7 +214,7 @@ class EditPendingMerchant extends Component {
                 />
 
                 <PendingInput
-                  label="Doing Business As Name (DBA)*"
+                  label=" Doing Business As* (DBA)"
                   name="doBusinessName"
                   initValue={this.state.doBusinessName}
                   onChangeInput={this.handleChange}
@@ -228,7 +228,7 @@ class EditPendingMerchant extends Component {
                 />
 
                 <PendingInput
-                  label="Address*"
+                  label="Business Address* (no P.O. Boxes)"
                   name="address"
                   initValue={this.state.address}
                   onChangeInput={this.handleChange}

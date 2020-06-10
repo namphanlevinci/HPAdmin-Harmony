@@ -249,7 +249,7 @@ class AddStaff extends Component {
             zip,
           },
           merchantId,
-          cellphone,
+          cellphone: cellphone.replace(/(\d{4})(\d{3})(\d{4})/, "+$1-$2-$3"),
           email,
           pin,
           confirmPin,
@@ -392,10 +392,6 @@ class AddStaff extends Component {
         this.forceUpdate();
       }
     }
-
-    // this.setState({
-    //   activeStep: activeStep + 1
-    // });
   };
 
   handleBack = () => {

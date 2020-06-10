@@ -24,7 +24,7 @@ const initialState = {
   imagePreviewUrl: "",
   initialBusinessQuestions: {},
 
-  activeStep: 3,
+  activeStep: 0,
   // General Info
   businessName: "",
   doingBusiness: "",
@@ -54,6 +54,9 @@ const initialState = {
   fileId: "",
   valuePricingPlane: "1",
   principalInfo: "",
+
+  //
+  isSubmitting: false,
 };
 
 class AddMerchant extends React.Component {
@@ -118,6 +121,7 @@ class AddMerchant extends React.Component {
         return (
           <Questions
             handleQuestions={this.handleQuestions}
+            handleChange={this.handleChange}
             businessInfo={this.state.initialBusinessQuestions}
             validator={this.validator}
           />
@@ -197,6 +201,9 @@ class AddMerchant extends React.Component {
         this.forceUpdate();
       }
     }
+    // this.setState({
+    //   activeStep: activeStep + 1,
+    // });
   };
 
   handleBack = () => {
@@ -234,13 +241,11 @@ class AddMerchant extends React.Component {
     this.setState({ [stateName]: value.value });
   };
 
-  handleQuestions = (name) => (event) => {
-    if (Number(name[1].charAt(8)) === Number(name[0].questionId)) {
-      this.setState({
-        [name[1]]: event.target.value,
-        ["question" + name[0].questionId]: name[0].value,
-      });
-    }
+  handleQuestions = (event, value, name) => {
+    this.setState({
+      [name]: value,
+      [`question${event?.questionId}`]: event?.value,
+    });
   };
 
   ssnFormat = (ssn) => {
@@ -264,6 +269,7 @@ class AddMerchant extends React.Component {
   };
 
   submitAddMerchant = () => {
+    this.setState({ isSubmitting: true });
     const data = this.state;
     const body = {
       generalInfo: {
@@ -286,27 +292,27 @@ class AddMerchant extends React.Component {
       businessInfo: {
         question1: {
           isAccept: data?.isAccept1,
-          desc: "",
+          desc: data?.isAnswer1,
           question: data?.question1,
         },
         question2: {
           isAccept: data?.isAccept2,
-          desc: "",
+          desc: data?.isAnswer2,
           question: data?.question2,
         },
         question3: {
           isAccept: data?.isAccept3,
-          desc: "",
+          desc: data?.isAnswer3,
           question: data?.question3,
         },
         question4: {
           isAccept: data?.isAccept4,
-          desc: "",
+          desc: data?.isAnswer4,
           question: data?.question4,
         },
         question5: {
           isAccept: data?.isAccept5,
-          desc: "",
+          desc: data?.isAnswer5,
           question: data?.question5,
         },
       },
@@ -343,6 +349,7 @@ class AddMerchant extends React.Component {
             this.navigateToMerchantList();
           }, 1500);
         } else {
+          console.log("Yeet");
           store.addNotification({
             title: "ERROR!",
             message: "Something went wrong",
@@ -358,6 +365,7 @@ class AddMerchant extends React.Component {
             width: 250,
           });
         }
+        this.setState({ isSubmitting: false });
       })
       .catch((error) => {
         console.log(error);
@@ -408,27 +416,48 @@ class AddMerchant extends React.Component {
                   {this.getStepContent(activeStep)}
 
                   {this.state.activeStep === 3 ? null : (
-                    <div style={{ marginTop: "15px" }}>
-                      <Button
-                        disabled={activeStep === 0}
-                        onClick={this.handleBack}
-                        className="btn btn-red"
-                        style={{ color: "black" }}
-                      >
-                        Back
-                      </Button>
+                    <div
+                      style={{
+                        marginTop: "15px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div>
+                        <Button
+                          disabled={activeStep === 0}
+                          onClick={this.handleBack}
+                          className="btn btn-red"
+                          style={{ color: "black" }}
+                        >
+                          Back
+                        </Button>
 
-                      <Button
-                        className="btn btn-red"
-                        onClick={() => {
-                          if (activeStep === steps.length - 1)
-                            this.submitAddMerchant();
-                          else this.handleNext();
-                        }}
-                        style={{ backgroundColor: "#4251af", color: "white" }}
-                      >
-                        {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                      </Button>
+                        <Button
+                          className="btn btn-red"
+                          onClick={() => {
+                            if (activeStep === steps.length - 1)
+                              this.submitAddMerchant();
+                            else this.handleNext();
+                          }}
+                          style={{ backgroundColor: "#4251af", color: "white" }}
+                          disabled={this.state.isSubmitting}
+                        >
+                          {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                        </Button>
+                      </div>
+
+                      <div>
+                        <Button
+                          onClick={() =>
+                            this.props.history.push("/app/merchants/list")
+                          }
+                          className="btn btn-red"
+                          style={{ color: "black" }}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
                     </div>
                   )}
                 </div>

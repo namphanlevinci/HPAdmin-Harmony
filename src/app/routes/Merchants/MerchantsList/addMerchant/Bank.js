@@ -81,7 +81,6 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
           <div className="form-group">
             <label>
               Void Check* <br />
-              {/* Please upload photos of void check */}
             </label>
             <div className="Upload">
               <div className="void-Image">
