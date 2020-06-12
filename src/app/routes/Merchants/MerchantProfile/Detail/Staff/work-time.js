@@ -30,26 +30,42 @@ const WorkTime = ({
     isCheck7,
     timeStart8,
     timeEnd8,
-    isCheck8
-  }
+    isCheck8,
+  },
 }) => {
   return (
     <div className="container Staff">
       {/* Monday */}
+      <div
+        className="row justify-content-center"
+        style={{ paddingBottom: "10px" }}
+      >
+        <div className="col-2">
+          <label style={{ color: "#4251af" }}>Date</label>
+        </div>
+        <div className="col-5">
+          <label>Shift Start</label>
+        </div>
+        <div className="col-5">
+          <label>Shift End</label>
+        </div>
+      </div>
       <div className="row justify-content-center">
-        <div className="col-6">
+        <div className="col-2" style={style.col2}>
           <Checkbox
             name="isCheck2"
             checked={isCheck2}
             onChange={handleCheckBox("isCheck2")}
             value="false"
             inputProps={{
-              "aria-label": "primary checkbox"
+              "aria-label": "primary checkbox",
             }}
           />
           <label>Monday</label>
+        </div>
+
+        <div className="col-5">
           <div className="time-select">
-            <label>From</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -59,9 +75,8 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-5">
           <div className="time-select pad-down">
-            <label>To</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -72,21 +87,22 @@ const WorkTime = ({
           </div>
         </div>
       </div>
-      {/* Tueday */}
+      {/* Tuesday */}
       <div className="row justify-content-center">
-        <div className="col-6">
+        <div className="col-2" style={style.col2}>
           <Checkbox
             name="isCheck3"
             checked={isCheck3}
             onChange={handleCheckBox("isCheck3")}
             value="false"
             inputProps={{
-              "aria-label": "primary checkbox"
+              "aria-label": "primary checkbox",
             }}
           />
-          <label>Tueday</label>
+          <label>Tuesday</label>
+        </div>
+        <div className="col-5">
           <div className="time-select">
-            <label>From</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -96,9 +112,8 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-6">
-          <div className="time-select pad-down">
-            <label>To</label> <br />
+        <div className="col-5">
+          <div className="time-select">
             <Select
               options={Time}
               onChange={handleSelect}
@@ -111,19 +126,20 @@ const WorkTime = ({
       </div>
       {/* Wednesday */}
       <div className="row justify-content-center">
-        <div className="col-6">
+        <div className="col-2" style={{ padding: "0px 0px 0px 5px" }}>
           <Checkbox
             name="isCheck4"
             checked={isCheck4}
             onChange={handleCheckBox("isCheck4")}
             value="false"
             inputProps={{
-              "aria-label": "primary checkbox"
+              "aria-label": "primary checkbox",
             }}
           />
           <label>Wednesday</label>
+        </div>
+        <div className="col-5">
           <div className="time-select">
-            <label>From</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -133,9 +149,8 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-6">
-          <div className="time-select pad-down">
-            <label>To</label> <br />
+        <div className="col-5">
+          <div className="time-select">
             <Select
               options={Time}
               onChange={handleSelect}
@@ -148,19 +163,20 @@ const WorkTime = ({
       </div>
       {/* Thursday */}
       <div className="row justify-content-center">
-        <div className="col-6">
+        <div className="col-2" style={style.col2}>
           <Checkbox
             name="isCheck5"
             checked={isCheck5}
             onChange={handleCheckBox("isCheck5")}
             value="false"
             inputProps={{
-              "aria-label": "primary checkbox"
+              "aria-label": "primary checkbox",
             }}
           />
-          <label>Thurday</label>
+          <label>Thursday</label>
+        </div>
+        <div className="col-5">
           <div className="time-select">
-            <label>From</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -170,9 +186,8 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-6">
-          <div className="time-select pad-down">
-            <label>To</label> <br />
+        <div className="col-5">
+          <div className="time-select">
             <Select
               options={Time}
               onChange={handleSelect}
@@ -185,19 +200,20 @@ const WorkTime = ({
       </div>
       {/* Friday */}
       <div className="row justify-content-center">
-        <div className="col-6">
+        <div className="col-2" style={style.col2}>
           <Checkbox
             name="isCheck6"
             checked={isCheck6}
             onChange={handleCheckBox("isCheck6")}
             value="false"
             inputProps={{
-              "aria-label": "primary checkbox"
+              "aria-label": "primary checkbox",
             }}
           />
           <label>Friday</label>
+        </div>
+        <div className="col-5">
           <div className="time-select">
-            <label>From</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -207,9 +223,8 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-5">
           <div className="time-select pad-down">
-            <label>To</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -222,19 +237,20 @@ const WorkTime = ({
       </div>
       {/* Saturday */}
       <div className="row justify-content-center">
-        <div className="col-6">
+        <div className="col-2" style={style.col2}>
           <Checkbox
             name="isCheck7"
             checked={isCheck7}
             onChange={handleCheckBox("isCheck7")}
             value="false"
             inputProps={{
-              "aria-label": "primary checkbox"
+              "aria-label": "primary checkbox",
             }}
           />
           <label>Saturday</label>
+        </div>
+        <div className="col-5">
           <div className="time-select">
-            <label>From</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -244,9 +260,8 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-6">
-          <div className="time-select pad-down">
-            <label>To</label> <br />
+        <div className="col-5">
+          <div className="time-select">
             <Select
               options={Time}
               onChange={handleSelect}
@@ -259,19 +274,20 @@ const WorkTime = ({
       </div>
       {/* Sunday */}
       <div className="row justify-content-center">
-        <div className="col-6">
+        <div className="col-2" style={style.col2}>
           <Checkbox
             name="isCheck8"
             checked={isCheck8}
             onChange={handleCheckBox("isCheck8")}
             value="false"
             inputProps={{
-              "aria-label": "primary checkbox"
+              "aria-label": "primary checkbox",
             }}
           />
           <label>Sunday</label>
+        </div>
+        <div className="col-5">
           <div className="time-select">
-            <label>From</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -281,9 +297,8 @@ const WorkTime = ({
             />
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-5">
           <div className="time-select pad-down">
-            <label>To</label> <br />
             <Select
               options={Time}
               onChange={handleSelect}
@@ -298,3 +313,9 @@ const WorkTime = ({
   );
 };
 export default WorkTime;
+
+const style = {
+  col2: {
+    paddingLeft: "5px",
+  },
+};

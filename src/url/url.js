@@ -11,15 +11,15 @@
 //   "https://hp-admin-prod-westus.azurewebsites.net/api/file?category=product";
 
 // TEST 02
-// const URL = "https://api.harmonypayment.com/api";
-// export const SignalURL = "https://api.harmonypayment.com";
-// export const upFileUrl =
-//   "https://api.harmonypayment.com/api/file?category=product";
+const URL = "https://api.harmonypayment.com/api";
+export const SignalURL = "https://api.harmonypayment.com";
+export const upFileUrl =
+  "https://api.harmonypayment.com/api/file?category=product";
 
 // STAGING
-const URL = "https://staging.harmonypayment.com/api";
-export const SignalURL = "https://staging.harmonypayment.com";
-export const upFileUrl =
-  "https://staging.harmonypayment.com/api/file?category=service";
+// const URL = "https://staging.harmonypayment.com/api";
+// export const SignalURL = "https://staging.harmonypayment.com";
+// export const upFileUrl =
+//   "https://staging.harmonypayment.com/api/file?category=service";
 
 export default URL;

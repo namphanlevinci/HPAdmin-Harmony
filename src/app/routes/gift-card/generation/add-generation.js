@@ -43,6 +43,7 @@ class AddGeneration extends Component {
                 onClick={() =>
                   this.props.history.push("/app/giftcard/generation")
                 }
+                className="btn btn-green"
               >
                 BACK
               </Button>
@@ -52,7 +53,7 @@ class AddGeneration extends Component {
             <h3 className="title">General Information</h3>
             <Formik
               initialValues={{ name: "", amount: "", giftCardTemplateId: "" }}
-              validate={values => {
+              validate={(values) => {
                 const errors = {};
                 if (!values.name) {
                   errors.name = "Required";
@@ -74,11 +75,11 @@ class AddGeneration extends Component {
                     { giftCardTemplateId, name, amount },
                     {
                       headers: {
-                        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-                      }
+                        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                      },
                     }
                   )
-                  .then(res => {
+                  .then((res) => {
                     if (res.data.message === "Success") {
                       store.addNotification({
                         title: "Success!",
@@ -90,9 +91,9 @@ class AddGeneration extends Component {
                         animationOut: ["animated", "fadeOut"],
                         dismiss: {
                           duration: 2500,
-                          onScreen: true
+                          onScreen: true,
                         },
-                        width: 250
+                        width: 250,
                       });
                     } else {
                       store.addNotification({
@@ -105,13 +106,13 @@ class AddGeneration extends Component {
                         animationOut: ["animated", "fadeOut"],
                         dismiss: {
                           duration: 2500,
-                          onScreen: true
+                          onScreen: true,
                         },
-                        width: 250
+                        width: 250,
                       });
                     }
                   })
-                  .catch(error => console.log(error));
+                  .catch((error) => console.log(error));
               }}
             >
               {({
@@ -123,7 +124,7 @@ class AddGeneration extends Component {
                 handleSubmit,
                 setFieldValue,
                 isSubmitting,
-                resetForm
+                resetForm,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="row">
@@ -158,8 +159,8 @@ class AddGeneration extends Component {
                       <h4>Template</h4>
                       <Select
                         options={this.props.Template.filter(
-                          e => e.categoryType !== "Product"
-                        ).map(e => {
+                          (e) => e.categoryType !== "Product"
+                        ).map((e) => {
                           return {
                             id: e.giftCardTemplateId,
                             label: (
@@ -174,10 +175,10 @@ class AddGeneration extends Component {
                                 {e.giftCardTemplateName}
                               </div>
                             ),
-                            value: e.giftCardTemplateId
+                            value: e.giftCardTemplateId,
                           };
                         })}
-                        onChange={selectedOption => {
+                        onChange={(selectedOption) => {
                           setFieldValue(
                             "giftCardTemplateId",
                             selectedOption.value
@@ -199,7 +200,7 @@ class AddGeneration extends Component {
                       Submit
                     </button> */}
                     <div className="id-and-btn" style={{ paddingTop: "20px" }}>
-                      <Button className="btn-red" type="submit">
+                      <Button className="btn btn-red" type="submit">
                         SAVE
                       </Button>
                     </div>
@@ -214,14 +215,14 @@ class AddGeneration extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   GET_TEMPLATE: () => {
     dispatch(GET_TEMPLATE());
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(AddGeneration);

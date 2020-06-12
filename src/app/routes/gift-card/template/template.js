@@ -31,16 +31,82 @@ class Generation extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.GET_TEMPLATE();
-  }
-
   _handleCloseDelete = () => {
     this.setState({ openDelete: false });
   };
 
   _handleOpenDelete = (ID) => {
     this.setState({ openDelete: true, deleteID: ID });
+  };
+
+  fetchData = async (state) => {
+    const { page, pageSize } = state;
+    this.setState({ loading: true });
+    await axios
+      .get(
+        URL +
+          `/giftcardTemplate?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({
+          page,
+          pageCount: res.data.pages,
+          data: data,
+          loading: false,
+        });
+      });
+  };
+
+  changePage = (pageIndex) => {
+    this.setState({
+      page: pageIndex,
+    });
+  };
+
+  keyPressed = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setState({ loading: true });
+      axios
+        .get(URL + `/giftcardTemplate?keySearch=${this.state.search}&page=1`, {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        })
+        .then((res) => {
+          const data = res.data.data;
+          if (!data) {
+            store.addNotification({
+              title: "ERROR!",
+              message: "That Gift Card doesn't exist.",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: true,
+              },
+              width: 250,
+            });
+            this.setState({ loading: false });
+          } else {
+            this.setState({
+              page: "0 ",
+              pageCount: res.data.pages,
+              data: data,
+              loading: false,
+            });
+          }
+        });
+    }
   };
 
   _Delete = () => {
@@ -77,26 +143,6 @@ class Generation extends Component {
 
   render() {
     let TemplateList = this.props.Template;
-    if (TemplateList) {
-      if (this.state.search) {
-        TemplateList = TemplateList.filter((e) => {
-          if (e !== null) {
-            return (
-              e.giftCardTemplateName
-                .trim()
-                .toLowerCase()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              e.giftCardType
-                .trim()
-                .toLowerCase()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              parseInt(e?.giftCardTemplateId) === parseInt(this.state.search)
-            );
-          }
-          return null;
-        });
-      }
-    }
 
     const columns = [
       {
@@ -114,24 +160,24 @@ class Generation extends Component {
             }}
           />
         ),
-        width: 180,
+        width: 130,
       },
       {
         Header: "Name",
         accessor: "giftCardTemplateName",
-        width: 250,
+        width: 180,
       },
       {
         id: "Group",
         Header: "Group",
         accessor: "giftCardType",
-        width: 200,
+        width: 180,
       },
       {
         Header: "Status",
         accessor: "isDisabled",
         Cell: (e) => <span>{e.value === 0 ? "Active" : "Disable"}</span>,
-        width: 200,
+        width: 150,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}>Visible on App</div>,
@@ -175,6 +221,9 @@ class Generation extends Component {
         },
       };
     };
+
+    const { page, pageCount, data } = this.state;
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -209,13 +258,20 @@ class Generation extends Component {
               deleteGeneration={this._Delete}
               text={"Template"}
             />
+
             <ReactTable
-              data={TemplateList}
-              columns={columns}
-              defaultPageSize={10}
+              manual
+              page={page}
+              pages={pageCount}
+              data={data}
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onFetchData={(state) => this.fetchData(state)}
               minRows={0}
-              getTdProps={onRowClick}
               noDataText="NO DATA!"
+              loading={this.state.loading}
+              columns={columns}
+              getTdProps={onRowClick}
+              defaultPageSize={10}
             />
           </div>
         </div>

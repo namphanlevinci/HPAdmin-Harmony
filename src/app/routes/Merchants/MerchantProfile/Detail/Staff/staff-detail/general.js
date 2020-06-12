@@ -2,12 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 
+import "../Staff.styles.scss";
 export class general extends Component {
   render() {
     const Staff = this.props.Staff;
     return (
       <div className="content">
         <div className="container-fluid">
+          <div className="header">
+            <h2>General Information</h2>
+          </div>
           <div className="row justify-content-between">
             <div className="col-4">
               <label>First Name</label>

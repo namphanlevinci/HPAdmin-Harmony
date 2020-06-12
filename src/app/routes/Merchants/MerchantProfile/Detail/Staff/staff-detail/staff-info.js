@@ -13,6 +13,7 @@ import license from "./license";
 
 import EditGeneral from "./edit-general";
 import EditWorkTime from "./edit-workTime";
+import EditSalary from "./edit-salary";
 import EditLicense from "./edit-license";
 
 import "../../../../MerchantsRequest/MerchantReqProfile.css";
@@ -124,10 +125,11 @@ class staffGeneral extends Component {
                           path="/app/merchants/staff/time"
                           component={workTime}
                         />
+
                         <Route
-                          path="/app/merchants/staff/license/edit"
+                          path="/app/merchants/staff/salary/edit"
                           render={(props) => (
-                            <EditLicense
+                            <EditSalary
                               {...props}
                               token={this.props.InfoUser_Login.User.token}
                               merchantID={this.props.MerchantProfile.merchantId}
@@ -137,6 +139,17 @@ class staffGeneral extends Component {
                         <Route
                           path="/app/merchants/staff/salary"
                           component={salary}
+                        />
+
+                        <Route
+                          path="/app/merchants/staff/license/edit"
+                          render={(props) => (
+                            <EditLicense
+                              {...props}
+                              token={this.props.InfoUser_Login.User.token}
+                              merchantID={this.props.MerchantProfile.merchantId}
+                            />
+                          )}
                         />
                         <Route
                           path="/app/merchants/staff/license"

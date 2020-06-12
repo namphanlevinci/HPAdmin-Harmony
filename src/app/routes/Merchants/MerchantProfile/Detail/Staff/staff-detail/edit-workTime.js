@@ -19,9 +19,7 @@ export class EditWorkTime extends Component {
   }
 
   componentDidMount() {
-    // console.log("Staff", this.props.Staff);
     const time = this.props.Staff.workingTimes;
-    console.log("time", time);
     this.setState(
       {
         timeStart2: time?.Monday?.timeStart,
@@ -78,11 +76,12 @@ export class EditWorkTime extends Component {
       pin: data.pin,
       confirmPin: data.confirmPin,
       isDisabled: data.isDisabled,
-      DriverLicense: data.DriverLicense,
+      driverLicense: data.driverLicense,
       socialSecurityNumber: data.socialSecurityNumber,
       professionalLicense: data.professionalLicense,
       tipFee: data.tipFees,
       salary: data.salaries,
+      productSalaries: data.productSalaries,
       Roles: {
         NameRole: data.roleName,
       },
@@ -144,8 +143,27 @@ export class EditWorkTime extends Component {
         <div className="container Staff">
           {this.state.loading && (
             <React.Fragment>
+              <div className="header">
+                <h2>Working Time</h2>
+              </div>
+
+              <div
+                className="row justify-content-center"
+                style={{ paddingBottom: "10px" }}
+              >
+                <div className="col-2">
+                  <label style={{ color: "#4251af" }}>Date</label>
+                </div>
+                <div className="col-5">
+                  <label>Shift Start</label>
+                </div>
+                <div className="col-5">
+                  <label>Shift End</label>
+                </div>
+              </div>
+
               <div className="row justify-content-center">
-                <div className="col-6">
+                <div className="col-2" style={style.col2}>
                   <Checkbox
                     name="isCheck2"
                     checked={this.state.isCheck2}
@@ -156,8 +174,9 @@ export class EditWorkTime extends Component {
                     }}
                   />
                   <label>Monday</label>
+                </div>
+                <div className="col-5">
                   <div className="time-select">
-                    <label>From</label> <br />
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -167,9 +186,8 @@ export class EditWorkTime extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-6">
-                  <div className="time-select pad-down">
-                    <label>To</label> <br />
+                <div className="col-5">
+                  <div className="time-select">
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -182,7 +200,7 @@ export class EditWorkTime extends Component {
               </div>
 
               <div className="row justify-content-center">
-                <div className="col-6">
+                <div className="col-2" style={style.col2}>
                   <Checkbox
                     name="isCheck3"
                     checked={this.state.isCheck3}
@@ -193,8 +211,9 @@ export class EditWorkTime extends Component {
                     }}
                   />
                   <label>Tuesday</label>
+                </div>
+                <div className="col-5">
                   <div className="time-select">
-                    <label>From</label> <br />
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -204,9 +223,8 @@ export class EditWorkTime extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-6">
-                  <div className="time-select pad-down">
-                    <label>To</label> <br />
+                <div className="col-5">
+                  <div className="time-select">
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -219,7 +237,7 @@ export class EditWorkTime extends Component {
               </div>
 
               <div className="row justify-content-center">
-                <div className="col-6">
+                <div className="col-2" style={style.col2}>
                   <Checkbox
                     name="isCheck4"
                     checked={this.state.isCheck4}
@@ -230,8 +248,9 @@ export class EditWorkTime extends Component {
                     }}
                   />
                   <label>Wednesday</label>
+                </div>
+                <div className="col-5">
                   <div className="time-select">
-                    <label>From</label> <br />
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -241,9 +260,8 @@ export class EditWorkTime extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-6">
-                  <div className="time-select pad-down">
-                    <label>To</label> <br />
+                <div className="col-5">
+                  <div className="time-select ">
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -256,7 +274,7 @@ export class EditWorkTime extends Component {
               </div>
 
               <div className="row justify-content-center">
-                <div className="col-6">
+                <div className="col-2" style={style.col2}>
                   <Checkbox
                     name="isCheck5"
                     checked={this.state.isCheck5}
@@ -267,8 +285,9 @@ export class EditWorkTime extends Component {
                     }}
                   />
                   <label>Thursday</label>
+                </div>
+                <div className="col-5">
                   <div className="time-select">
-                    <label>From</label> <br />
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -278,9 +297,8 @@ export class EditWorkTime extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-6">
-                  <div className="time-select pad-down">
-                    <label>To</label> <br />
+                <div className="col-5">
+                  <div className="time-select ">
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -293,7 +311,7 @@ export class EditWorkTime extends Component {
               </div>
 
               <div className="row justify-content-center">
-                <div className="col-6">
+                <div className="col-2" style={style.col2}>
                   <Checkbox
                     name="isCheck6"
                     checked={this.state.isCheck6}
@@ -304,8 +322,9 @@ export class EditWorkTime extends Component {
                     }}
                   />
                   <label>Friday</label>
+                </div>
+                <div className="col-5">
                   <div className="time-select">
-                    <label>From</label> <br />
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -315,9 +334,8 @@ export class EditWorkTime extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-6">
-                  <div className="time-select pad-down">
-                    <label>To</label> <br />
+                <div className="col-5">
+                  <div className="time-select ">
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -330,7 +348,7 @@ export class EditWorkTime extends Component {
               </div>
 
               <div className="row justify-content-center">
-                <div className="col-6">
+                <div className="col-2" style={style.col2}>
                   <Checkbox
                     name="isCheck7"
                     checked={this.state.isCheck7}
@@ -341,8 +359,9 @@ export class EditWorkTime extends Component {
                     }}
                   />
                   <label>Saturday</label>
+                </div>
+                <div className="col-5">
                   <div className="time-select">
-                    <label>From</label> <br />
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -352,9 +371,8 @@ export class EditWorkTime extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-6">
-                  <div className="time-select pad-down">
-                    <label>To</label> <br />
+                <div className="col-5">
+                  <div className="time-select">
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -367,7 +385,7 @@ export class EditWorkTime extends Component {
               </div>
 
               <div className="row justify-content-center">
-                <div className="col-6">
+                <div className="col-2" style={style.col2}>
                   <Checkbox
                     name="isCheck8"
                     checked={this.state.isCheck8}
@@ -378,8 +396,9 @@ export class EditWorkTime extends Component {
                     }}
                   />
                   <label>Sunday</label>
+                </div>
+                <div className="col-5">
                   <div className="time-select">
-                    <label>From</label> <br />
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -389,9 +408,8 @@ export class EditWorkTime extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-6">
-                  <div className="time-select pad-down">
-                    <label>To</label> <br />
+                <div className="col-5">
+                  <div className="time-select ">
                     <Select
                       options={Time}
                       onChange={this.handleSelect}
@@ -438,3 +456,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditWorkTime);
+
+const style = {
+  col2: {
+    paddingLeft: "5px",
+  },
+};

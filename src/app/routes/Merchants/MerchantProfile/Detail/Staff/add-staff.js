@@ -111,6 +111,7 @@ class AddStaff extends Component {
     return (
       <General
         handleChange={this.handleChange}
+        handlePhone={this.handlePhone}
         state={this.state}
         validator={this.validator}
         uploadFile={this.uploadFile}
@@ -233,7 +234,7 @@ class AddStaff extends Component {
     const timeEnd7 = this.state.timeEnd7.value;
     const timeStart8 = this.state.timeStart8.value;
     const timeEnd8 = this.state.timeEnd8.value;
-    const cellphone = this.state.countryCode.value + this.state.cellphone;
+    const cellphone = this.state.cellphone;
 
     axios
       .post(
@@ -332,10 +333,10 @@ class AddStaff extends Component {
         }
       )
       .then((res) => {
-        if (res.data.data.message === "Success") {
+        if (res.data.message) {
           store.addNotification({
             title: "SUCCESS!",
-            message: `${res.data.data.message}`,
+            message: `${res.data.message}`,
             type: "success",
             insert: "top",
             container: "top-right",
@@ -356,13 +357,14 @@ class AddStaff extends Component {
     this.setState({ [name]: value });
   };
 
+  handlePhone = (e) => {
+    this.setState({ cellphone: e });
+  };
+
   toogleVisibility = (name, value) => {
-    this.setState(
-      {
-        [name]: value,
-      },
-      () => console.log("state", this.state.showPin)
-    );
+    this.setState({
+      [name]: value,
+    });
   };
 
   handleCheckBox = (name) => (event) => {

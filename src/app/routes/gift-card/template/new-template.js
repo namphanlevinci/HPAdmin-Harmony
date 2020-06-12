@@ -182,7 +182,7 @@ class NewTemplate extends Component {
                   <div className="id-and-btn">
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <MdAddToPhotos size={23} />
-                      <h3>New Template</h3>
+                      <h3 style={{ paddingLeft: "5px" }}>New Template</h3>
                     </div>
 
                     <div>

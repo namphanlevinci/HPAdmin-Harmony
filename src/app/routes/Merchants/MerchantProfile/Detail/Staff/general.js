@@ -13,6 +13,7 @@ const General = ({
   handleChange,
   uploadFile,
   toogleVisibility,
+  handlePhone,
   state: {
     match,
     firstName,
@@ -155,8 +156,10 @@ const General = ({
       </div>
       <div className="row justify-content-center">
         <div className="col-6">
-          <div>
-            <div style={{ width: "50%", padding: "8px 20px 0px 0px" }}>
+          {/* <div>
+            <div
+              style={{ width: "50% !important", padding: "8px 20px 0px 0px" }}
+            >
               <label>Country Code</label>
               <Select
                 options={phoneCode}
@@ -173,16 +176,16 @@ const General = ({
               fullWidth
               onChange={handleChange}
               value={cellphone}
-            />
-            {/* <label>Cellphone</label>
-            <PhoneInput
-              country={"us"}
-              style={{ marginTop: "10px" }}
-              placeholder="Phone Number"
-              name="cellphone"
-              onChange={handleChange}
             /> */}
-          </div>
+          <label>Cellphone</label>
+          <PhoneInput
+            country={"us"}
+            style={{ marginTop: "10px" }}
+            placeholder="Phone Number"
+            name="cellphone"
+            onChange={handlePhone}
+          />
+          {/* </div> */}
         </div>
         <div className="col-6">
           <div className="form-group">

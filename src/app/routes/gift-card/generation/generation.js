@@ -32,10 +32,6 @@ class Generation extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.GET_DATA();
-  }
-
   _handleCloseDelete = () => {
     this.setState({ openDelete: false });
   };
@@ -76,46 +72,94 @@ class Generation extends Component {
       .catch((error) => console.log(error));
   };
 
-  render() {
-    let GiftList = this.props.GiftList;
-    if (GiftList) {
-      if (this.state.search) {
-        GiftList = GiftList.filter((e) => {
-          if (e !== null) {
-            return (
-              e?.name
-                .trim()
-                .toLowerCase()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              e?.giftCardTemplateName
-                .trim()
-                .toLowerCase()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              parseInt(e?.giftCardGeneralId) === parseInt(this.state.search)
-            );
-          }
-          return null;
+  fetchData = async (state) => {
+    const { page, pageSize } = state;
+    this.setState({ loading: true });
+    await axios
+      .get(
+        URL +
+          `/giftcardgeneral?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({
+          page,
+          pageCount: res.data.pages,
+          data: data,
+          loading: false,
         });
-      }
-    }
+      });
+  };
 
+  changePage = (pageIndex) => {
+    this.setState({
+      page: pageIndex,
+    });
+  };
+
+  keyPressed = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setState({ loading: true });
+      axios
+        .get(URL + `/giftcardgeneral?keySearch=${this.state.search}&page=1`, {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        })
+        .then((res) => {
+          const data = res.data.data;
+          if (!data) {
+            store.addNotification({
+              title: "ERROR!",
+              message: "That Gift Card doesn't exist.",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: true,
+              },
+              width: 250,
+            });
+            this.setState({ loading: false });
+          } else {
+            this.setState({
+              page: "0 ",
+              pageCount: res.data.pages,
+              data: data,
+              loading: false,
+            });
+          }
+        });
+    }
+  };
+
+  render() {
     const columns = [
       {
         Header: "ID",
         accessor: "giftCardGeneralId",
         Cell: (e) => <span>{`HP${e.value}`}</span>,
-        width: 100,
+        width: 70,
       },
       {
         Header: "Name",
         accessor: "name",
         Cell: (e) => <span className="giftcard-name">{e.value}</span>,
-        width: 250,
+        width: 200,
       },
       {
         id: "Value",
         Header: "Value",
-        width: 150,
+        width: 100,
         accessor: (row) => `${row.amount}`,
         Cell: (e) => <span style={{ textAlign: "start" }}>$ {e.value}</span>,
       },
@@ -135,11 +179,13 @@ class Generation extends Component {
         id: "Quantity",
         Header: "Quantity",
         accessor: "quantity",
+        width: 70,
       },
       {
         id: "Unused",
         Header: "Used",
         accessor: "unUsed",
+        width: 70,
       },
       {
         id: "Actions",
@@ -171,6 +217,7 @@ class Generation extends Component {
         },
       };
     };
+    const { page, pageCount, data } = this.state;
 
     return (
       <div className="container-fluid react-transition swipe-right">
@@ -188,6 +235,7 @@ class Generation extends Component {
                 placeholder="Search by ID, Name, Template"
                 value={this.state.search}
                 onChange={(e) => this.setState({ search: e.target.value })}
+                onKeyPress={this.keyPressed}
               />
             </form>
             <Button
@@ -207,13 +255,17 @@ class Generation extends Component {
               text={"Gift Card"}
             />
             <ReactTable
-              data={GiftList}
-              columns={columns}
-              defaultPageSize={10}
+              manual
+              page={page}
+              pages={pageCount}
+              data={data}
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onFetchData={(state) => this.fetchData(state)}
               minRows={0}
-              getTdProps={onRowClick}
               noDataText="NO DATA!"
               loading={this.state.loading}
+              columns={columns}
+              getTdProps={onRowClick}
             />
           </div>
         </div>

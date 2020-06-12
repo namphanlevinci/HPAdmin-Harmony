@@ -249,7 +249,7 @@ class EditTemplate extends Component {
                   <div className="id-and-btn">
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <MdAddToPhotos size={23} />
-                      <h3>Edit Template</h3>
+                      <h3 style={{ paddingLeft: "5px" }}>Edit Template</h3>
                     </div>
 
                     <div>

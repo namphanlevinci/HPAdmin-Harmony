@@ -9,21 +9,25 @@ export class license extends Component {
     return (
       <div>
         <div className="container-fluid">
+          <h2 style={{ paddingBottom: "10px" }}>Licenses</h2>
           <div className="row justify-content-between">
-            <div className="col-8">
+            <div className="col-4">
               <label>Driver License</label>
               <p>{Staff?.driverLicense}</p>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <label>Social Security Number</label>
               <p>{Staff?.ssn}</p>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <label>Professional License</label>
               <p>{Staff?.professionalLicense}</p>
             </div>
           </div>
-          <div className="SettingsContent GeneralContent">
+          <div
+            className="SettingsContent GeneralContent"
+            style={{ marginTop: "200px" }}
+          >
             <Button
               className="btn btn-green"
               onClick={() =>

@@ -10,6 +10,8 @@ import PhoneInput from "react-phone-input-2";
 import updateStaff from "./updateStaff";
 
 import "react-phone-input-2/lib/high-res.css";
+import "../Staff.styles.scss";
+
 export class EditGeneral extends Component {
   constructor(props) {
     super(props);
@@ -56,6 +58,7 @@ export class EditGeneral extends Component {
     const data = this.props.Staff;
     const ID = this.props.Staff.staffId;
     const MerchantId = this.props.merchantID;
+
     const body = {
       firstName: state.firstName,
       lastName: state.lastName,
@@ -65,17 +68,18 @@ export class EditGeneral extends Component {
         city: state.city,
         state: state.stateId,
       },
-      cellphone: state.phone.replace(/-/g, ""),
+      cellphone: this.formatPhone(state.phone),
       email: state.email,
       pin: state.pin,
       confirmPin: state.pin,
       isDisabled: Number(state.isDisabled),
-      DriverLicense: data.DriverLicense,
+      driverLicense: data.driverLicense,
       socialSecurityNumber: data.socialSecurityNumber,
-      professionalLicense: "",
+      professionalLicense: data?.professionalLicense,
       workingTime: data.workingTimes,
       tipFee: data.tipFees,
       salary: data.salaries,
+      productSalaries: data.productSalaries,
       Roles: {
         NameRole: state.roleName,
       },
@@ -91,6 +95,20 @@ export class EditGeneral extends Component {
       this.props.history,
       path
     );
+  };
+
+  formatPhone = (Phone) => {
+    if (Phone.startsWith("1")) {
+      return Phone.replace(/[{( )}]/g, "").replace(
+        /(\d{4})\-?(\d{3})\-?(\d{4})/,
+        "+$1-$2-$3"
+      );
+    }
+    if (Phone.startsWith("84"))
+      return Phone.replace(/[{( )}]/g, "").replace(
+        /(\d{5})\-?(\d{3})\-?(\d{4})/,
+        "+$1-$2-$3"
+      );
   };
 
   render() {
@@ -109,6 +127,9 @@ export class EditGeneral extends Component {
     return (
       <div className="content">
         <div className="container-fluid">
+          <div className="header">
+            <h2>General Information</h2>
+          </div>
           <div className="row justify-content-between">
             <div className="col-4">
               <label>First Name</label>

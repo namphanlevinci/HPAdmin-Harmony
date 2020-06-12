@@ -35,13 +35,13 @@ class Generation_Detail extends Component {
       loading: false,
       deleteID: "",
       openDelete: false,
+      loadingData: false,
     };
   }
 
   componentDidMount() {
     const ID = this.props.Detail?.giftCardGeneralId;
-    this.props.getGenerationCode(ID);
-    this.setState({ deleteID: ID });
+    this.setState({ deleteID: ID, loadingData: true });
   }
 
   // logs
@@ -100,8 +100,8 @@ class Generation_Detail extends Component {
               },
               width: 250,
             });
-            this.props.getGenerationCode(giftCardGeneralId);
             this.setState({ loading: false, quantity: 0 });
+            this.fetchData();
           }
         })
         .catch((error) => console.log(error));
@@ -111,6 +111,86 @@ class Generation_Detail extends Component {
   // Delete
   _handleCloseDelete = () => {
     this.setState({ openDelete: false });
+  };
+
+  fetchData = async (state) => {
+    const ID = this.props.Detail?.giftCardGeneralId;
+    // const { page, pageSize } = state;
+    const page = state?.page ? state?.page : 0;
+    const pageSize = state?.pageSize ? state?.pageSize : 20;
+    this.setState({ loading: true });
+    await axios
+      .get(
+        URL +
+          `/giftcard/getByGeneral/${ID}?page=${
+            page === 0 ? 1 : page + 1
+          }&row=${pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({
+          page,
+          pageCount: res.data.pages,
+          data: data,
+          loading: false,
+        });
+      });
+  };
+
+  changePage = (pageIndex) => {
+    this.setState({
+      page: pageIndex,
+    });
+  };
+
+  keyPressed = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setState({ loading: true });
+      const ID = this.props.Detail?.giftCardGeneralId;
+      axios
+        .get(
+          URL +
+            `/giftcard/getByGeneral/${ID}?keySearch=${this.state.search}&page=1`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          const data = res.data.data;
+          if (!data) {
+            store.addNotification({
+              title: "ERROR!",
+              message: "That Gift Card doesn't exist.",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: true,
+              },
+              width: 250,
+            });
+            this.setState({ loading: false });
+          } else {
+            this.setState({
+              page: "0 ",
+              pageCount: res.data.pages,
+              data: data,
+              loading: false,
+            });
+          }
+        });
+    }
   };
 
   _Delete = () => {
@@ -149,27 +229,7 @@ class Generation_Detail extends Component {
   render() {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
     const Detail = this.props.Detail;
-    let GenerationCode = this.props.GenerationCode;
-
-    if (GenerationCode) {
-      if (this.state.search) {
-        GenerationCode = GenerationCode.filter((e) => {
-          if (e !== null) {
-            return (
-              e?.serialNumber
-                .trim()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              e?.pincode
-                .trim()
-                .toLowerCase()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              parseInt(e?.giftCardId) === parseInt(this.state.search)
-            );
-          }
-          return null;
-        });
-      }
-    }
+    const { page, pageCount, data } = this.state;
 
     const columns = [
       {
@@ -362,6 +422,7 @@ class Generation_Detail extends Component {
                     style={{ paddingTop: "6px" }}
                     value={this.state.search}
                     onChange={(e) => this.setState({ search: e.target.value })}
+                    onKeyPress={this.keyPressed}
                   />
                 </form>
                 <h4>Export To </h4>
@@ -377,15 +438,21 @@ class Generation_Detail extends Component {
                 handleClose={this._handleClose}
                 Serial={this.state.serialNumber}
               />
-              <ReactTable
-                data={GenerationCode}
-                columns={columns}
-                defaultPageSize={10}
-                minRows={0}
-                // getTdProps={onRowClick}
-                noDataText="NO DATA!"
-                loading={this.state.loading}
-              />
+              {this.state.loadingData && (
+                <ReactTable
+                  manual
+                  page={page}
+                  pages={pageCount}
+                  data={data ? data : []}
+                  onPageChange={(pageIndex) => this.changePage(pageIndex)}
+                  onFetchData={(state) => this.fetchData(state)}
+                  minRows={0}
+                  noDataText="NO DATA!"
+                  loading={this.state.loading}
+                  columns={columns}
+                  defaultPageSize={10}
+                />
+              )}
             </div>
           </div>
         </div>

@@ -8,14 +8,32 @@ import Button from "@material-ui/core/Button";
 import "../Staff.styles.scss";
 export class workTime extends Component {
   render() {
-    console.log("Staff", this.props.Staff);
     const Time = this.props.Staff?.workingTimes;
     return (
       <div>
         <div className="container-fluid Staff">
           {/* Monday */}
+          <div className="header">
+            <h2>Working Time</h2>
+          </div>
+
+          <div
+            className="row justify-content-center"
+            style={{ paddingBottom: "10px" }}
+          >
+            <div className="col-2">
+              <label style={{ color: "#4251af" }}>Date</label>
+            </div>
+            <div className="col-5">
+              <label>Shift Start</label>
+            </div>
+            <div className="col-5">
+              <label>Shift End</label>
+            </div>
+          </div>
+
           <div className="row justify-content-center">
-            <div className="col-6">
+            <div className="col-2" style={style.col2}>
               <Checkbox
                 name="isCheck2"
                 checked={Time?.Monday?.isCheck}
@@ -25,8 +43,9 @@ export class workTime extends Component {
                 }}
               />
               <label>Monday</label>
+            </div>
+            <div className="col-5">
               <div className="time-select">
-                <label>From</label> <br />
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Monday?.timeStart }}
@@ -34,9 +53,8 @@ export class workTime extends Component {
                 />
               </div>
             </div>
-            <div className="col-6">
-              <div className="time-select pad-down">
-                <label>To</label> <br />
+            <div className="col-5">
+              <div className="time-select">
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Monday?.timeEnd }}
@@ -47,7 +65,7 @@ export class workTime extends Component {
           </div>
           {/* Tuesday */}
           <div className="row justify-content-center">
-            <div className="col-6">
+            <div className="col-2" style={style.col2}>
               <Checkbox
                 name="isCheck3"
                 checked={Time?.Tuesday?.isCheck}
@@ -57,8 +75,9 @@ export class workTime extends Component {
                 }}
               />
               <label>Tuesday</label>
+            </div>
+            <div className="col-5">
               <div className="time-select">
-                <label>From</label> <br />
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Tuesday?.timeEnd }}
@@ -66,9 +85,8 @@ export class workTime extends Component {
                 />
               </div>
             </div>
-            <div className="col-6">
-              <div className="time-select pad-down">
-                <label>To</label> <br />
+            <div className="col-5">
+              <div className="time-select ">
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Tuesday?.timeEnd }}
@@ -79,7 +97,7 @@ export class workTime extends Component {
           </div>
           {/* Wednesday */}
           <div className="row justify-content-center">
-            <div className="col-6">
+            <div className="col-2" style={style.col2}>
               <Checkbox
                 checked={Time?.Wednesday?.isCheck}
                 value="false"
@@ -88,8 +106,9 @@ export class workTime extends Component {
                 }}
               />
               <label>Wednesday</label>
+            </div>
+            <div className="col-5">
               <div className="time-select">
-                <label>From</label> <br />
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Wednesday?.timeStart }}
@@ -97,9 +116,8 @@ export class workTime extends Component {
                 />
               </div>
             </div>
-            <div className="col-6">
-              <div className="time-select pad-down">
-                <label>To</label> <br />
+            <div className="col-5">
+              <div className="time-select">
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Wednesday?.timeEnd }}
@@ -110,16 +128,17 @@ export class workTime extends Component {
           </div>
           {/* Thursday */}
           <div className="row justify-content-center">
-            <div className="col-6">
+            <div className="col-2" style={style.col2}>
               <Checkbox
                 checked={Time?.Thursday?.isCheck}
                 inputProps={{
                   "aria-label": "primary checkbox",
                 }}
               />
-              <label>Thurday</label>
+              <label>Thursday</label>
+            </div>
+            <div className="col-5">
               <div className="time-select">
-                <label>From</label> <br />
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Thursday?.timeStart }}
@@ -127,9 +146,8 @@ export class workTime extends Component {
                 />
               </div>
             </div>
-            <div className="col-6">
-              <div className="time-select pad-down">
-                <label>To</label> <br />
+            <div className="col-5">
+              <div className="time-select">
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Thursday?.timeEnd }}
@@ -140,17 +158,18 @@ export class workTime extends Component {
           </div>
           {/* Friday */}
           <div className="row justify-content-center">
-            <div className="col-6">
+            <div className="col-2" style={style.col2}>
               <Checkbox
-                name="isCheck6"
+                name="isCheck5"
                 checked={Time?.Friday?.isCheck}
                 inputProps={{
                   "aria-label": "primary checkbox",
                 }}
               />
               <label>Friday</label>
+            </div>
+            <div className="col-5">
               <div className="time-select">
-                <label>From</label> <br />
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Friday?.timeStart }}
@@ -158,9 +177,8 @@ export class workTime extends Component {
                 />
               </div>
             </div>
-            <div className="col-6">
-              <div className="time-select pad-down">
-                <label>To</label> <br />
+            <div className="col-5">
+              <div className="time-select">
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Friday?.timeEnd }}
@@ -171,7 +189,7 @@ export class workTime extends Component {
           </div>
           {/* Saturday */}
           <div className="row justify-content-center">
-            <div className="col-6">
+            <div className="col-2" style={style.col2}>
               <Checkbox
                 checked={Time?.Saturday?.isCheck}
                 inputProps={{
@@ -179,8 +197,9 @@ export class workTime extends Component {
                 }}
               />
               <label>Saturday</label>
+            </div>
+            <div className="col-5">
               <div className="time-select">
-                <label>From</label> <br />
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Saturday?.timeStart }}
@@ -188,9 +207,8 @@ export class workTime extends Component {
                 />
               </div>
             </div>
-            <div className="col-6">
-              <div className="time-select pad-down">
-                <label>To</label> <br />
+            <div className="col-5">
+              <div className="time-select">
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Saturday?.timeEnd }}
@@ -201,7 +219,7 @@ export class workTime extends Component {
           </div>
           {/* Sunday */}
           <div className="row justify-content-center">
-            <div className="col-6">
+            <div className="col-2" style={style.col2}>
               <Checkbox
                 checked={Time?.Sunday?.isCheck}
                 inputProps={{
@@ -209,8 +227,9 @@ export class workTime extends Component {
                 }}
               />
               <label>Sunday</label>
+            </div>
+            <div className="col-5">
               <div className="time-select">
-                <label>From</label> <br />
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Sunday?.timeStart }}
@@ -218,9 +237,8 @@ export class workTime extends Component {
                 />
               </div>
             </div>
-            <div className="col-6">
-              <div className="time-select pad-down">
-                <label>To</label> <br />
+            <div className="col-5">
+              <div className="time-select">
                 <Select
                   options={Time}
                   defaultValue={{ label: Time?.Sunday?.timeEnd }}
@@ -255,3 +273,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(workTime);
+
+const style = {
+  col2: {
+    paddingLeft: "5px",
+  },
+};

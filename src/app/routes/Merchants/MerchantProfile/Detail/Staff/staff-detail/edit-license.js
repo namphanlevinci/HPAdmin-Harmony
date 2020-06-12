@@ -59,6 +59,7 @@ export class EditLicense extends Component {
       workingTime: data.workingTimes,
       tipFee: data.tipFees,
       salary: data.salaries,
+      productSalaries: data.productSalaries,
       Roles: {
         NameRole: data.roleName,
       },
@@ -81,9 +82,10 @@ export class EditLicense extends Component {
       <div>
         <div>
           <div className="container-fluid">
+            <h2>Licenses</h2>
             {this.state.loading && (
               <div className="row justify-content-between">
-                <div className="col-8" style={styles.div}>
+                <div className="col-4" style={styles.div}>
                   <label>Driver License</label>
                   <input
                     name="driverLicense"
@@ -91,7 +93,7 @@ export class EditLicense extends Component {
                     onChange={this.handleChange}
                   />
                 </div>
-                <div className="col-8" style={styles.div}>
+                <div className="col-4" style={styles.div}>
                   <label>Social Security Number</label>
                   <input
                     name="ssn"
@@ -99,7 +101,7 @@ export class EditLicense extends Component {
                     onChange={this.handleChange}
                   />
                 </div>
-                <div className="col-8" style={styles.div}>
+                <div className="col-4" style={styles.div}>
                   <label>Professional License</label>
                   <input
                     name="professionalLicense"
@@ -112,7 +114,7 @@ export class EditLicense extends Component {
 
             <div
               className="SettingsContent GeneralContent"
-              style={{ paddingTop: "10px" }}
+              style={{ paddingTop: "200px" }}
             >
               <Button
                 className="btn btn-green"
@@ -123,7 +125,7 @@ export class EditLicense extends Component {
               <Button
                 className="btn btn-red"
                 onClick={() =>
-                  this.props.history.push("/app/merchants/staff/general")
+                  this.props.history.push("/app/merchants/staff/license")
                 }
               >
                 CANCEL

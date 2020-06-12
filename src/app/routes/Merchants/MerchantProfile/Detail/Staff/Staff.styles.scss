@@ -16,18 +16,18 @@
 }
 
 .Staff {
-  .pad-down {
-    padding-top: 42px;
+  label {
+    color: #4251af;
   }
 }
 
 .Salary {
-  .salary-box {
-    display: flex;
-
-    span {
-      padding-top: 20px;
-    }
+  .row .col-6 .checkbox {
+    display: inline-flex;
+    align-items: center;
+  }
+  label {
+    color: #4251af;
   }
 }
 
@@ -83,4 +83,33 @@ button.btn.btn-red {
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #4251af;
+}
+
+.header  {
+  margin-bottom: 10px;
+}
+.Staff .row {
+  padding-bottom: 10px;
+}
+.input-box { 
+  position: relative;
+  margin-left: 40px; 
+}
+  
+.input-box input {
+   display: block; 
+   /* border: 1px solid #d7d6d6; */
+   background: #fff;
+   padding: 10px 10px 0px 30px ; 
+   text-align: left;
+  
+}
+
+.unit { 
+  position: absolute; 
+  display: block; 
+  left: 5px; 
+  top: 10px; 
+  z-index: 9; 
+  font-size: 15px;
 }
