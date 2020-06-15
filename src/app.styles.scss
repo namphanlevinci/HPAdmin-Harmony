@@ -67,3 +67,21 @@
   background-color: #f4f4f4;
   border-color: rgba(0, 0, 0, 0.9);
 }
+
+.ReactTable .rt-tr-group:nth-child(2n+1) {
+  background-color: #fafafa;
+}
+.ReactTable .-pagination .-btn {
+  font-weight: 500;
+}
+
+.ReactTable .-pagination .-btn:not([disabled]):hover {
+  background: #4251af !important;
+  color: white;
+  font-weight: 500;
+}
+.ReactTable .rt-thead .rt-th,
+.ReactTable .rt-thead .rt-td {
+  padding: 0px;
+  background: #4251af;
+}

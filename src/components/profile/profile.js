@@ -12,7 +12,6 @@ import {
 } from "react-router-dom";
 import { GiCheckedShield } from "react-icons/gi";
 import { FaPen } from "react-icons/fa";
-import { useFormik } from "formik";
 
 import IntlMessages from "../../util/IntlMessages";
 import ContainerHeader from "../../components/ContainerHeader/index";

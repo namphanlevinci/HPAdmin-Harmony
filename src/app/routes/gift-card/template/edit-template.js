@@ -338,6 +338,7 @@ class EditTemplate extends Component {
                         {$imagePreview}
                         <input
                           type="file"
+                          className="custom-input"
                           onChange={(e) => this._uploadFile(e)}
                           style={{ width: "250px", border: "none" }}
                         />

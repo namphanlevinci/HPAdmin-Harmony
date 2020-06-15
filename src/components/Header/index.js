@@ -33,7 +33,8 @@ class Header extends React.Component {
   //load signalR
   async componentDidMount() {
     const User = localStorage.getItem("User_login");
-    await this.setState({ User: User });
+    await this.setState({ User: JSON.parse(User) });
+    console.log("User", this.state.User);
     // let rID = ID.waUserId;
     // const signalR = require("@aspnet/signalr");
     // let connection = new signalR.HubConnectionBuilder()

@@ -95,6 +95,7 @@
 .ReactTable .-pagination .-btn:not([disabled]):hover {
   background: #4251af !important;
   color: white;
+  font-weight: 500;
 }
 .ReactTable .rt-thead .rt-th,
 .ReactTable .rt-thead .rt-td {

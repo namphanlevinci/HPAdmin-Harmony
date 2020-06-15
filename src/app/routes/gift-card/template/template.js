@@ -6,6 +6,8 @@ import {
 } from "../../../../actions/gift-card/actions";
 import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
+import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+import { FiEdit } from "react-icons/fi";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -197,16 +199,19 @@ class Generation extends Component {
         accessor: "Action",
         Cell: (row) => {
           return (
-            <Tooltip title="Delete" arrow>
-              <div style={{ color: "#4251af", textAlign: "center" }}>
+            <div style={{ color: "#4251af", textAlign: "center" }}>
+              <Tooltip title="Delete">
                 <GoTrashcan
                   size={22}
                   onClick={() =>
                     this._handleOpenDelete(row?.original?.giftCardTemplateId)
                   }
                 />
-              </div>
-            </Tooltip>
+              </Tooltip>
+              {/* <Tooltip title="Edit">
+                <FaRegEdit size={22} />
+              </Tooltip> */}
+            </div>
           );
         },
       },
