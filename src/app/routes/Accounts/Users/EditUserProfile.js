@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import URL, { upFileUrl } from "../../../../url/url";
-import { ViewProfile_User } from "../../../../actions/user/actions";
+import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 import { store } from "react-notifications-component";
 import {
   BrowserRouter as Router,
@@ -190,7 +190,7 @@ class EditUserProfile extends Component {
             .get(URL + "/adminuser/" + ID, config)
             .then((res) => {
               setTimeout(
-                () => this.props.ViewProfile_User(res.data.data),
+                () => this.props.VIEW_PROFILE_USER(res.data.data),
                 this.props.history.push("/app/accounts/admin/profile"),
                 1000
               );
@@ -365,11 +365,11 @@ class EditUserProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.ViewProfile_User,
+  UserProfile: state.VIEW_PROFILE_USER,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_User: (payload) => {
-    dispatch(ViewProfile_User(payload));
+  VIEW_PROFILE_USER: (payload) => {
+    dispatch(VIEW_PROFILE_USER(payload));
   },
 });
 export default withRouter(

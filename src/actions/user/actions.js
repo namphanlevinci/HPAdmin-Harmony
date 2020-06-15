@@ -1,65 +1,80 @@
 import * as types from "./types";
 
-//! LOGIN USER
-export const checkLogin_User = payload => ({
-  type: types.checkLogin_User,
-  payload: payload
+// LOGIN USER
+export const USER_LOGIN_REQUEST = (payload) => ({
+  type: types.USER_LOGIN_REQUEST,
+  payload: payload,
 });
-export const checkLogin_User_Success = payload => ({
-  type: types.checkLogin_User_Success,
-  payload: payload
-});
-
-export const checkLogin_User_Error = payload => ({
-  type: types.checkLogin_User_Error,
-  payload: payload
-});
-//! LOGOUT USER
-export const logout_User = payload => ({
-  type: types.logout_User,
-  payload: payload
+export const USER_LOGIN_SUCCESS = (payload) => ({
+  type: types.USER_LOGIN_SUCCESS,
+  payload: payload,
 });
 
-//! VERIFY USER
-export const Verify = payload => ({
+export const USER_LOGIN_FAILURE = (payload) => ({
+  type: types.USER_LOGIN_FAILURE,
+  payload: payload,
+});
+// LOGOUT USER
+export const USER_LOGOUT = (payload) => ({
+  type: types.USER_LOGOUT,
+  payload: payload,
+});
+
+// VERIFY USER
+export const Verify = (payload) => ({
   type: types.Verify,
-  payload: payload
+  payload: payload,
 });
-export const Verify_Success = payload => ({
-  type: types.Verify_Success,
-  payload: payload
+export const VERIFY_SUCCESS = (payload) => ({
+  type: types.VERIFY_SUCCESS,
+  payload: payload,
 });
-export const Verify_Error = payload => ({
-  type: types.Verify_Error,
-  payload: payload
+export const VERIFY_FAILURE = (payload) => ({
+  type: types.VERIFY_FAILURE,
+  payload: payload,
 });
-//! GET ALL USER
-export const getAll_User = payload => ({
-  type: types.getAll_User,
-  payload: payload
+
+// GET ALL USER
+export const GET_USER_REQUEST = (payload) => ({
+  type: types.GET_USER_REQUEST,
+  payload: payload,
 });
-export const getAll_User_Success = payload => ({
-  type: types.getAll_User_Success,
-  payload: payload
+export const GET_USER_SUCCESS = (payload) => ({
+  type: types.GET_USER_SUCCESS,
+  payload: payload,
 });
-export const getAll_User_Error = payload => ({
-  type: types.getAll_User_Error,
-  payload: payload
+export const GET_USER_FAILURE = (payload) => ({
+  type: types.GET_USER_FAILURE,
+  payload: payload,
 });
-export const ViewProfile_User = payload => ({
-  type: types.ViewProfile_User,
-  payload: payload
+export const VIEW_PROFILE_USER = (payload) => ({
+  type: types.VIEW_PROFILE_USER,
+  payload: payload,
 });
-//! ADD ADMIN USER
-export const ADD_ADMIN = payload => ({
+
+// GET ADMIN USER BY ID
+export const GET_USER_BY_ID = (payload) => ({
+  type: types.GET_USER_BY_ID,
+  payload: payload,
+});
+export const GET_USER_BY_ID_SUCCESS = (payload) => ({
+  type: types.GET_USER_BY_ID_SUCCESS,
+  payload: payload,
+});
+export const GET_USER_BY_ID_FAILURE = (payload) => ({
+  type: types.GET_USER_BY_ID_FAILURE,
+  payload: payload,
+});
+// ADD ADMIN USER
+export const ADD_ADMIN = (payload) => ({
   type: types.ADD_ADMIN,
-  payload: payload
+  payload: payload,
 });
-export const ADD_ADMIN_SUCCESS = payload => ({
+export const ADD_ADMIN_SUCCESS = (payload) => ({
   type: types.ADD_ADMIN_SUCCESS,
-  payload: payload
+  payload: payload,
 });
-export const ADD_ADMIN_ERROR = payload => ({
-  type: types.ADD_ADMIN_ERROR,
-  payload: payload
+export const ADD_ADMIN_FAILURE = (payload) => ({
+  type: types.ADD_ADMIN_FAILURE,
+  payload: payload,
 });

@@ -9,17 +9,17 @@ const initialState = {
 
 const UserLogin = (state = initialState, action) => {
   switch (action.type) {
-    case typeUser.checkLogin_User_Success:
+    case typeUser.USER_LOGIN_SUCCESS:
       state.User = action.payload;
       localStorage.setItem("User_login", JSON.stringify(action.payload));
       window.location.href = "/verify";
       return { ...state };
 
-    case typeUser.checkLogin_User_Error:
+    case typeUser.USER_LOGIN_FAILURE:
       localStorage.setItem("Message", action.payload);
       return { ...state };
 
-    case typeUser.logout_User:
+    case typeUser.USER_LOGOUT:
       state.User = "";
       localStorage.removeItem("User_login");
       window.location.href = "/signin";

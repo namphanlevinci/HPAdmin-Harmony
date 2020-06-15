@@ -1,18 +1,26 @@
-//! LOGIN USER (ADMIN)
-export const checkLogin_User = "checkLogin_User";
-export const checkLogin_User_Success = "checkLogin_User_Success";
-export const checkLogin_User_Error = "checkLogin_User_Error";
-export const logout_User = "logout_User";
-//! VERIFY USER (ADMIN)
+// LOGIN USER (ADMIN)
+export const USER_LOGIN_REQUEST = "USER_LOGIN_REQUEST";
+export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
+export const USER_LOGIN_FAILURE = "USER_LOGIN_FAILURE";
+export const USER_LOGOUT = "USER_LOGOUT";
+
+// VERIFY USER (ADMIN)
 export const Verify = "Verify";
-export const Verify_Success = "Verify_Success";
-export const Verify_Error = "Verify_Error";
-//! GET ALL USER (ADMIN)
-export const getAll_User = "getAll_User";
-export const getAll_User_Success = "getAll_User_Success";
-export const getAll_User_Error = "getAll_User_Error";
-export const ViewProfile_User = "ViewProfile_User";
-//! ADD NEW ADMIN USER
+export const VERIFY_SUCCESS = "VERIFY_SUCCESS";
+export const VERIFY_FAILURE = "VERIFY_FAILURE";
+
+// GET ALL USER (ADMIN)
+export const GET_USER_REQUEST = "GET_USER_REQUEST";
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+export const GET_USER_FAILURE = "GET_USER_FAILURE";
+export const VIEW_PROFILE_USER = "VIEW_PROFILE_USER";
+
+// GET ADMIN USER BY ID
+export const GET_USER_BY_ID = "GET_USER_BY_ID";
+export const GET_USER_BY_ID_SUCCESS = "GET_USER_BY_ID_SUCCESS";
+export const GET_USER_BY_ID_FAILURE = "GET_USER_BY_ID_FAILURE";
+
+// ADD NEW ADMIN USER
 export const ADD_ADMIN = "ADD_ADMIN";
 export const ADD_ADMIN_SUCCESS = "ADD_ADMIN_SUCCESS";
-export const ADD_ADMIN_ERROR = "ADD_ADMIN_ERROR";
+export const ADD_ADMIN_FAILURE = "ADD_ADMIN_FAILURE";

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { store } from "react-notifications-component";
-import { ViewProfile_User } from "../../../../actions/user/actions";
+import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -37,7 +37,7 @@ class UserProfile extends Component {
     axios
       .get(URL + "/adminuser/" + ID, config)
       .then((res) => {
-        this.props.ViewProfile_User(res.data.data);
+        this.props.VIEW_PROFILE_USER(res.data.data);
         // this.forceUpdate();
         this.props.history.push("/app/accounts/admin/profile");
       })
@@ -206,12 +206,12 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.ViewProfile_User,
+  UserProfile: state.VIEW_PROFILE_USER,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_User: (payload) => {
-    dispatch(ViewProfile_User(payload));
+  VIEW_PROFILE_USER: (payload) => {
+    dispatch(VIEW_PROFILE_USER(payload));
   },
 });
 export default withRouter(

@@ -1,64 +1,65 @@
 import * as typeUser from "../../actions/user/types";
 import {
-  login_User_api,
-  getAll_User_api,
-  Verify_User_api,
-  add_Admin_api,
+  USER_LOGIN_API,
+  GET_ALL_USER_API,
+  USER_VERIFY_API,
+  ADD_USER_API,
+  GET_USER_BY_ID_API,
 } from "../api/user";
 import { takeLatest, put, takeLeading } from "redux-saga/effects";
 
-//! login user admin
-export function* login_User_Saga() {
-  yield takeLeading(typeUser.checkLogin_User, function*(action) {
+// USER ADMIN LOGIN
+export function* USER_LOGIN_SAGA() {
+  yield takeLeading(typeUser.USER_LOGIN_REQUEST, function*(action) {
     try {
       const { email, password } = action.payload;
-      const check = yield login_User_api({ email, password });
+      const check = yield USER_LOGIN_API({ email, password });
       if (check.data !== null) {
         yield put({
-          type: typeUser.checkLogin_User_Success,
+          type: typeUser.USER_LOGIN_SUCCESS,
           payload: check.data,
         });
       }
       if (check.data === null) {
         yield put({
-          type: typeUser.checkLogin_User_Error,
+          type: typeUser.USER_LOGIN_FAILURE,
           payload: check.message,
         });
       }
     } catch (error) {
-      yield put({ type: typeUser.checkLogin_User_Error, payload: error });
+      yield put({ type: typeUser.USER_LOGIN_FAILURE, payload: error });
     }
   });
 }
 
-//! Verify user admin
-export function* Verify_User_Saga() {
+// USER VERIFY
+export function* USER_VERIFY_SAGA() {
   yield takeLatest(typeUser.Verify, function*(action) {
     try {
       const { SERIAL, code } = action.payload;
-      const check = yield Verify_User_api({ SERIAL, code });
+      const check = yield USER_VERIFY_API({ SERIAL, code });
       if (check.data !== null) {
-        yield put({ type: typeUser.Verify_Success, payload: check.data });
+        yield put({ type: typeUser.VERIFY_SUCCESS, payload: check.data });
       }
       if (check.data === null) {
-        yield put({ type: typeUser.Verify_Error, payload: check.message });
+        yield put({ type: typeUser.VERIFY_FAILURE, payload: check.message });
       }
     } catch (error) {
-      yield put({ type: typeUser.Verify_Error, payload: error });
+      yield put({ type: typeUser.VERIFY_FAILURE, payload: error });
     }
   });
 }
 
-//! get all user admin
-export function* getAll_User_Saga() {
-  yield takeLatest(typeUser.getAll_User, function*() {
+// GET ALL USER
+export function* GET_ALL_USER_SAGA() {
+  yield takeLatest(typeUser.GET_USER_REQUEST, function*() {
     try {
-      const UserList = yield getAll_User_api();
+      const UserList = yield GET_ALL_USER_API();
       if (UserList.data !== null) {
-        yield put({ type: typeUser.getAll_User_Success, payload: UserList });
+        yield put({ type: typeUser.GET_USER_SUCCESS, payload: UserList });
       } else {
         yield put({
-          type: typeUser.getAll_User_Error,
+          type: typeUser.GET_USER_FAILURE,
           payload: "Something went wrong, please try again later!",
         });
       }
@@ -68,11 +69,11 @@ export function* getAll_User_Saga() {
   });
 }
 
-//! ADD ADMIN USER
-export function* add_Admin_Saga() {
+// ADD ADMIN USER
+export function* ADD_USER_SAGA() {
   yield takeLatest(typeUser.ADD_ADMIN, function*(action) {
     try {
-      const check = yield add_Admin_api(action.payload);
+      const check = yield ADD_USER_API(action.payload);
       if (check.data !== null) {
         yield put({
           type: typeUser.ADD_ADMIN_SUCCESS,
@@ -80,10 +81,33 @@ export function* add_Admin_Saga() {
         });
       }
       if (check.data === null) {
-        yield put({ type: typeUser.ADD_ADMIN_ERROR, payload: check.message });
+        yield put({ type: typeUser.ADD_ADMIN_FAILURE, payload: check.message });
       }
     } catch (error) {
-      yield put({ type: typeUser.ADD_ADMIN_ERROR, payload: error });
+      yield put({ type: typeUser.ADD_ADMIN_FAILURE, payload: error });
+    }
+  });
+}
+
+// GET USER BY ID
+export function* GET_USER_BY_ID_SAGA() {
+  yield takeLatest(typeUser.GET_USER_BY_ID, function*(action) {
+    try {
+      const check = yield GET_USER_BY_ID_API(action.payload);
+      if (check.data !== null) {
+        yield put({
+          type: typeUser.GET_USER_BY_ID_SUCCESS,
+          payload: check.data.message,
+        });
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeUser.GET_USER_BY_ID_FAILURE,
+          payload: check.message,
+        });
+      }
+    } catch (error) {
+      yield put({ type: typeUser.GET_USER_BY_ID_FAILURE, payload: error });
     }
   });
 }

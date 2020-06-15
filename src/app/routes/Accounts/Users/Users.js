@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import {
-  getAll_User,
-  ViewProfile_User,
+  GET_USER_REQUEST,
+  VIEW_PROFILE_USER,
 } from "../../../../actions/user/actions";
 import { connect } from "react-redux";
 import { store } from "react-notifications-component";
@@ -32,7 +32,7 @@ class Users extends Component {
     const User = localStorage.getItem("User_login");
     this.setState({ User: JSON.parse(User) });
 
-    // this.props.getAll_User();
+    // this.props.GET_USER_REQUEST();
   }
   _SearchUsers = async (e) => {
     await this.setState({ search: e.target.value });
@@ -49,7 +49,7 @@ class Users extends Component {
         },
       })
       .then((res) => {
-        this.props.ViewProfile_User(res.data.data);
+        this.props.VIEW_PROFILE_USER(res.data.data);
 
         this.props.history.push("/app/accounts/admin/profile");
       })
@@ -233,11 +233,11 @@ const mapStateToProps = (state) => ({
   UserList: state.getAllUser,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_User: () => {
-    dispatch(getAll_User());
+  GET_USER_REQUEST: () => {
+    dispatch(GET_USER_REQUEST());
   },
-  ViewProfile_User: (payload) => {
-    dispatch(ViewProfile_User(payload));
+  VIEW_PROFILE_USER: (payload) => {
+    dispatch(VIEW_PROFILE_USER(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

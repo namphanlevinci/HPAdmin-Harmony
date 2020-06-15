@@ -1,10 +1,6 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import AppBar from "@material-ui/core/AppBar";
-import Avatar from "@material-ui/core/Avatar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
 import { Dropdown, DropdownMenu, DropdownToggle } from "reactstrap";
 import {
   BELOW_THE_HEADER,
@@ -13,20 +9,26 @@ import {
   HORIZONTAL_NAVIGATION,
   INSIDE_THE_HEADER,
 } from "../../constants/ActionTypes";
-// import SearchBox from 'components/SearchBox';
-// import MailNotification from '../MailNotification/index';
-import AppNotification from "../AppNotification/index";
-import CardHeader from "../../components/dashboard/Common/CardHeader/index";
-import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
-import IntlMessages from "../../util/IntlMessages";
-// import LanguageSwitcher from 'components/LanguageSwitcher/index';
-import Menu from "../../components/TopNav/Menu";
-import UserInfoPopup from "../../components/UserInfo/UserInfoPopup";
-import axios from "axios";
 import {
   ViewProfile_Merchants,
   ViewMerchant_Request,
 } from "../../actions/merchants/actions";
+import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
+import { GET_USER_BY_ID } from "../../actions/user/actions";
+// import SearchBox from 'components/SearchBox';
+// import MailNotification from '../MailNotification/index';
+import AppNotification from "../AppNotification/index";
+import CardHeader from "../../components/dashboard/Common/CardHeader/index";
+import IntlMessages from "../../util/IntlMessages";
+import AppBar from "@material-ui/core/AppBar";
+import Avatar from "@material-ui/core/Avatar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+// import LanguageSwitcher from 'components/LanguageSwitcher/index';
+import Menu from "../../components/TopNav/Menu";
+import UserInfoPopup from "../../components/UserInfo/UserInfoPopup";
+import axios from "axios";
+
 // import playMessageAudio from "../../util/sound";
 import URL from "../../url/url";
 class Header extends React.Component {
@@ -34,7 +36,10 @@ class Header extends React.Component {
   async componentDidMount() {
     const User = localStorage.getItem("User_login");
     await this.setState({ User: JSON.parse(User) });
+    const ID = this.state.User?.userAdmin?.waUserId;
+    await this.props.getUserByID(ID);
     console.log("User", this.state.User);
+
     // let rID = ID.waUserId;
     // const signalR = require("@aspnet/signalr");
     // let connection = new signalR.HubConnectionBuilder()
@@ -492,6 +497,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   switchLanguage: (payload) => {
     dispatch(switchLanguage(payload));
+  },
+  getUserByID: (ID) => {
+    dispatch(GET_USER_BY_ID(ID));
   },
 });
 

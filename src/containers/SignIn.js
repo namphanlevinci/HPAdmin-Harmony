@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { checkLogin_User } from "../actions/user/actions";
+import { USER_LOGIN_REQUEST } from "../actions/user/actions";
 import { store } from "react-notifications-component";
 
 import TextField from "@material-ui/core/TextField";
@@ -18,15 +18,15 @@ class SignIn extends React.Component {
       password: "",
       loading: false,
       isRight: false,
-      error: false
+      error: false,
     };
   }
 
-  onSubmit = async e => {
+  onSubmit = async (e) => {
     this.setState({ loading: true });
     // await e.preventDefault();
     const { email, password } = await this.state;
-    await this.props.checkLogin_User({ email, password });
+    await this.props.USER_LOGIN_REQUEST({ email, password });
   };
   componentDidMount() {
     document.addEventListener("keypress", this.keyPressed);
@@ -35,7 +35,7 @@ class SignIn extends React.Component {
   //   document.removeEventListener("keypress", this.keyPressed);
   // }
 
-  keyPressed = e => {
+  keyPressed = (e) => {
     if (e.code === "Enter") {
       // console.log("1");
       this.onSubmit();
@@ -55,9 +55,9 @@ class SignIn extends React.Component {
         animationOut: ["animated", "fadeOut"],
         dismiss: {
           duration: 5000,
-          onScreen: true
+          onScreen: true,
         },
-        width: 250
+        width: 250,
       });
       setTimeout(() => localStorage.removeItem("Message"), 1000);
     }
@@ -92,7 +92,7 @@ class SignIn extends React.Component {
                   <TextField
                     label={<IntlMessages id="appModule.email" />}
                     fullWidth
-                    onChange={event =>
+                    onChange={(event) =>
                       this.setState({ email: event.target.value })
                     }
                     defaultValue={email}
@@ -103,7 +103,7 @@ class SignIn extends React.Component {
                     type="password"
                     label={<IntlMessages id="appModule.password" />}
                     fullWidth
-                    onChange={event =>
+                    onChange={(event) =>
                       this.setState({ password: event.target.value })
                     }
                     defaultValue={password}
@@ -141,13 +141,13 @@ class SignIn extends React.Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  InfoUser_Login: state.User
+const mapStateToProps = (state) => ({
+  InfoUser_Login: state.User,
 });
-const mapDispatchToProps = dispatch => ({
-  checkLogin_User: user_info => {
-    dispatch(checkLogin_User(user_info));
-  }
+const mapDispatchToProps = (dispatch) => ({
+  USER_LOGIN_REQUEST: (user_info) => {
+    dispatch(USER_LOGIN_REQUEST(user_info));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

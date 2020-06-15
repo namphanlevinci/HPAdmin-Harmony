@@ -11,7 +11,7 @@ import {
   NotificationManager,
 } from "react-notifications";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { ViewProfile_User } from "../../../../actions/user/actions";
+import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 
 import axios from "axios";
 import URL from "../../../../url/url";
@@ -515,12 +515,12 @@ class addAdmin2 extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.ViewProfile_User,
+  UserProfile: state.VIEW_PROFILE_USER,
   AddStatus: state.addAdminUser,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_User: (payload) => {
-    dispatch(ViewProfile_User(payload));
+  VIEW_PROFILE_USER: (payload) => {
+    dispatch(VIEW_PROFILE_USER(payload));
   },
   addAdmin: (payload) => {
     dispatch(ADD_ADMIN(payload));

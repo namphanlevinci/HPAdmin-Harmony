@@ -4,7 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IntlMessages from "../../util/IntlMessages";
 import { connect } from "react-redux";
-import { logout_User } from "../../actions/user/actions";
+import { USER_LOGOUT } from "../../actions/user/actions";
 import { withRouter } from "react-router-dom";
 import AvatarIcon from "./avatar.png";
 // const signalR = require("@aspnet/signalr");
@@ -24,7 +24,7 @@ class UserInfo extends React.Component {
   };
 
   onLogout = () => {
-    this.props.logout_User();
+    this.props.USER_LOGOUT();
   };
   // _gotoSetting = () => {
   //   this.setState({ open: false });
@@ -34,6 +34,7 @@ class UserInfo extends React.Component {
     this.setState({ open: false });
     this.props.history.push("/app/profile/general");
   };
+
   render() {
     const User = this.props.InfoUser_Login.User.userAdmin;
     return (
@@ -85,8 +86,8 @@ const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  logout_User: (agent_info) => {
-    dispatch(logout_User(agent_info));
+  USER_LOGOUT: (agent_info) => {
+    dispatch(USER_LOGOUT(agent_info));
   },
 });
 export default withRouter(

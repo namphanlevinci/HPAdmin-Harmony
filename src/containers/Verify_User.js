@@ -11,13 +11,13 @@ class Verify_User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      verify_code: ""
+      verify_code: "",
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.Verify_User !== this.props.Verify_User) {
-      const Message = localStorage.getItem("VERIFY_ERROR");
+      const Message = localStorage.getItem("VERIFY_FAILURE");
       if (Message !== null) {
         store.addNotification({
           title: "Error!",
@@ -29,12 +29,12 @@ class Verify_User extends React.Component {
           animationOut: ["animated", "fadeOut"],
           dismiss: {
             duration: 5000,
-            onScreen: true
+            onScreen: true,
           },
-          width: 250
+          width: 250,
         });
 
-        setTimeout(() => localStorage.removeItem("VERIFY_ERROR"), 1000);
+        setTimeout(() => localStorage.removeItem("VERIFY_FAILURE"), 1000);
       }
     }
   }
@@ -44,12 +44,12 @@ class Verify_User extends React.Component {
   componentWillUnmount() {
     document.removeEventListener("keypress", this.keyPressed);
   }
-  keyPressed = e => {
+  keyPressed = (e) => {
     if (e.code === "Enter") {
       this._Login();
     }
   };
-  _Login = async e => {
+  _Login = async (e) => {
     // await e.preventDefault();
     const SERIAL = this.props.InfoUser_Login.User;
     const code = await this.state.verify_code;
@@ -85,7 +85,7 @@ class Verify_User extends React.Component {
               defaultValue=""
               margin="normal"
               className="mt-0 mb-4"
-              onChange={e => this.setState({ verify_code: e.target.value })}
+              onChange={(e) => this.setState({ verify_code: e.target.value })}
             />
 
             <div className="mb-2">
@@ -109,13 +109,13 @@ class Verify_User extends React.Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  Verify_User: state.Verify_User
+  Verify_User: state.Verify_User,
 });
-const mapDispatchToProps = dispatch => ({
-  Verify: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  Verify: (payload) => {
     dispatch(Verify(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Verify_User);
