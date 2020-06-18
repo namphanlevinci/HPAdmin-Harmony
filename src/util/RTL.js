@@ -26,7 +26,11 @@ const generateClassName = createGenerateClassName();
 // }
 
 function RTL(props) {
-  return <StylesProvider jss={jss}>{props.children}</StylesProvider>;
+  return (
+    <StylesProvider generateClassName={generateClassName} jss={jss}>
+      {props.children}
+    </StylesProvider>
+  );
 }
 
 export default RTL;

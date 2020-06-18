@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   getBatch,
-  getBatchDetail
+  getBatchDetail,
 } from "../../../../actions/transactions/actions";
 import { Redirect } from "react-router-dom";
 
@@ -22,7 +22,7 @@ class Transactions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ""
+      search: "",
     };
   }
   _goBack = () => {
@@ -35,44 +35,44 @@ class Transactions extends React.Component {
       {
         Header: "Transaction ID",
         id: "transaction id",
-        accessor: e => e.paymentData.transaction_id,
-        width: 250
+        accessor: (e) => e.paymentData.transaction_id,
+        width: 250,
       },
       {
         id: "Customer",
         Header: "Date/Time",
-        accessor: e => (
+        accessor: (e) => (
           <span style={{ fontWeight: 600 }}>
             {moment
               .utc(e.createdDate)
               .local()
               .format("MM/DD/YYYY HH:mm A")}
           </span>
-        )
+        ),
       },
       {
         Header: "Invoice Number",
         id: "invoice number",
         accessor: "checkoutId",
-        width: 170
+        width: 170,
       },
       {
         Header: "Status",
         id: "status",
-        accessor: e =>
+        accessor: (e) =>
           e.status !== null ? <p className="BatchStatus">{e.status}</p> : null,
-        width: 100
+        width: 100,
       },
       {
         Header: "Payment",
         id: "payment",
-        accessor: e => e.paymentData.transaction_type
+        accessor: (e) => e.paymentData.transaction_type,
       },
       {
         Header: "Total",
         id: "total",
-        accessor: e => <span style={{ fontWeight: 600 }}>${e.amount}</span>
-      }
+        accessor: (e) => <span style={{ fontWeight: 600 }}>${e.amount}</span>,
+      },
     ];
 
     const renderBatchDetail =
@@ -89,7 +89,11 @@ class Transactions extends React.Component {
             <div className="MReqSP TransactionsBox">
               <h3>Merchant ID:</h3>
               <Button
-                style={{ color: "#4251af", backgroundColor: "white" }}
+                style={{
+                  color: "#4251af",
+                  backgroundColor: "white",
+                  marginTop: "0",
+                }}
                 className="btn btn-green"
                 onClick={this._goBack}
               >
@@ -114,17 +118,17 @@ class Transactions extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
   Batch: state.getAllBatch,
-  BatchDetail: state.BatchDetail
+  BatchDetail: state.BatchDetail,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getBatch: () => {
     dispatch(getBatch());
   },
-  fetchBatchDetail: payload => {
+  fetchBatchDetail: (payload) => {
     dispatch(getBatchDetail(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

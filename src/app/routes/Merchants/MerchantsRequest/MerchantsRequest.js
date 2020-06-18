@@ -123,7 +123,6 @@ class MerchantsRequest extends Component {
       });
   };
   render() {
-    let ReqList = this.props.MerchantRequests_List;
     const { page, pageCount, data, pageSize } = this.state;
 
     const columns = [
@@ -187,7 +186,7 @@ class MerchantsRequest extends Component {
                 <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
-                  className="textbox"
+                  className="textBox"
                   placeholder="Search.."
                   value={this.state.search}
                   onChange={this._SearchMerchants}

@@ -51,11 +51,11 @@ const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(license);
 
-const styles = {
-  h2: {
-    paddingBottom: "10px",
-  },
-  input: {
-    marginBottom: "10px",
-  },
-};
+// const styles = {
+//   h2: {
+//     paddingBottom: "10px",
+//   },
+//   input: {
+//     marginBottom: "10px",
+//   },
+// };

@@ -97,7 +97,7 @@ export function* GET_USER_BY_ID_SAGA() {
       if (check.data !== null) {
         yield put({
           type: typeUser.GET_USER_BY_ID_SUCCESS,
-          payload: check.data.message,
+          payload: check.data,
         });
       }
       if (check.data === null) {

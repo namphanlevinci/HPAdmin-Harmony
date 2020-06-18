@@ -6,8 +6,8 @@ import {
 } from "../../../../actions/gift-card/actions";
 import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
-import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
-import { FiEdit } from "react-icons/fi";
+// import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+// import { FiEdit } from "react-icons/fi";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -144,8 +144,6 @@ class Generation extends Component {
   };
 
   render() {
-    let TemplateList = this.props.Template;
-
     const columns = [
       {
         Header: "Thumbnail",
@@ -241,7 +239,7 @@ class Generation extends Component {
               <SearchIcon className="button" title="Search" />
               <input
                 type="text"
-                className="textbox"
+                className="textBox"
                 placeholder="Search by Name, Group"
                 value={this.state.search}
                 onChange={(e) => this.setState({ search: e.target.value })}

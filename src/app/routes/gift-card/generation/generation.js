@@ -231,7 +231,7 @@ class Generation extends Component {
               <SearchIcon className="button" title="Search" />
               <input
                 type="text"
-                className="textbox"
+                className="textBox"
                 placeholder="Search by ID, Name, Template"
                 value={this.state.search}
                 onChange={(e) => this.setState({ search: e.target.value })}

@@ -59,7 +59,7 @@ export class EditLicense extends Component {
       workingTime: data.workingTimes,
       tipFee: data.tipFees,
       salary: data.salaries,
-      productSalaries: data.productSalaries,
+      productSalary: data.productSalaries,
       Roles: {
         NameRole: data.roleName,
       },

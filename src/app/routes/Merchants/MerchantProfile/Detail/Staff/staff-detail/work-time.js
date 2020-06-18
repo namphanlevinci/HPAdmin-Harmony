@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Checkbox from "@material-ui/core/Checkbox";
-import Time from "../time";
+// import Time from "../time";
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
 

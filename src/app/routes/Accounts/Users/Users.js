@@ -9,11 +9,9 @@ import { connect } from "react-redux";
 import { store } from "react-notifications-component";
 
 import URL from "../../../../url/url";
-import BounceLoader from "react-spinners/BounceLoader";
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
-import ProgressLoading from "../../../../util/progress";
 import axios from "axios";
 
 import "../../Merchants/MerchantsList/merchantsList.css";
@@ -72,6 +70,7 @@ class Users extends Component {
       )
       .then((res) => {
         const data = res.data.data;
+        console.log("USER ADMIN", data);
         this.setState({
           page,
           pageCount: res.data.pages,
@@ -92,7 +91,7 @@ class Users extends Component {
       event.preventDefault();
       this.setState({ loading: true });
       axios
-        .get(URL + `/adminuser/search?key=${this.state.search}&page=1`, {
+        .get(URL + `/adminuser?key=${this.state.search}&page=1`, {
           headers: {
             Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
           },
@@ -136,7 +135,8 @@ class Users extends Component {
     const columns = [
       {
         Header: "ID",
-        accessor: "waUserId",
+        id: "id",
+        accessor: (row) => <div style={styles.text}>{`${row.waUserId}`}</div>,
         width: 50,
       },
       // {
@@ -149,26 +149,30 @@ class Users extends Component {
         id: "Name",
         Header: "Full name",
         width: 200,
-        accessor: (row) => `${row.firstName} ${row.lastName}`,
-        Cell: (e) => <p>{e.value}</p>,
+        accessor: (row) => (
+          <div>
+            <img src={`${row.imageUrl}`} alt="Avatar" class="avatar" />
+            {`${row.firstName} ${row.lastName}`}
+          </div>
+        ),
       },
       {
+        id: "email",
         Header: "Email",
-        accessor: "email",
+        accessor: (row) => <div className="tr">{`${row.email}`}</div>,
         width: 300,
       },
       {
+        id: "phoneNumber",
         Header: "Phone number",
-        accessor: "phone",
+        accessor: (row) => <div className="tr">{`${row.phone}`}</div>,
       },
       {
         id: "Role",
         Header: "Role",
-        accessor: "roleName",
+        accessor: (row) => <div className="tr">{`${row.roleName}`}</div>,
       },
     ];
-
-    let UserList = this.props.UserList;
 
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
@@ -192,10 +196,11 @@ class Users extends Component {
                 <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
-                  className="textbox"
+                  className="textBox"
                   placeholder="Search.."
                   value={this.state.search}
                   onChange={this._SearchUsers}
+                  onKeyPress={this.keyPressed}
                 />
               </form>
             </div>
@@ -204,17 +209,16 @@ class Users extends Component {
             </Button>
           </div>
 
-          <div className="MListContainer">
+          <div className="MListContainer user-table">
             <ReactTable
               manual
               page={page}
               pages={pageCount}
               data={data}
               row={pageSize}
-              // You should also control this...
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
-              defaultPageSize={20}
+              defaultPageSize={10}
               minRows={0}
               noDataText="NO DATA!"
               loading={this.state.loading}
@@ -248,5 +252,8 @@ const styles = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+  },
+  text: {
+    marginTop: "37%",
   },
 };

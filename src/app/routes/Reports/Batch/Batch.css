@@ -24,7 +24,7 @@
   border-radius: 4px;
 }
 
-.BatchSearch form > .textbox {
+.BatchSearch form > .textBox {
   outline: 0;
   height: 42px;
   width: 244px;
@@ -38,7 +38,7 @@
   border-radius: 4px 0 0 4px;
 }
 
-.BatchSearch form > .textbox:focus {
+.BatchSearch form > .textBox:focus {
   outline: 0;
   background-color: #fff;
 }

@@ -4,7 +4,7 @@ import URL, { upFileUrl } from "../../../../../../url/url";
 import { store } from "react-notifications-component";
 
 import Button from "@material-ui/core/Button";
-import Select from "react-select";
+// import Select from "react-select";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
 
@@ -223,10 +223,10 @@ class EditProduct extends Component {
         />
       );
     }
-    const serviceStatus = [
-      { value: "0", label: "Active" },
-      { value: "1", label: "Disable" },
-    ];
+    // const serviceStatus = [
+    //   { value: "0", label: "Active" },
+    //   { value: "1", label: "Disable" },
+    // ];
 
     return (
       <div className="react-transition swipe-up service-container">
@@ -431,19 +431,19 @@ const mapStateToProps = (state) => ({
 });
 export default connect(mapStateToProps)(EditProduct);
 
-const colourStyles = {
-  control: (styles) => ({
-    ...styles,
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderRadius: 0,
-  }),
-  input: (styles) => ({
-    ...styles,
-    borderWidth: 0,
-    fontSize: 16,
-    paddingLeft: 0,
-  }),
-  placeholder: (styles) => ({ ...styles }),
-  // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
-};
+// const colourStyles = {
+//   control: (styles) => ({
+//     ...styles,
+//     borderWidth: 0,
+//     borderBottomWidth: 1,
+//     borderRadius: 0,
+//   }),
+//   input: (styles) => ({
+//     ...styles,
+//     borderWidth: 0,
+//     fontSize: 16,
+//     paddingLeft: 0,
+//   }),
+//   placeholder: (styles) => ({ ...styles }),
+//   // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
+// };

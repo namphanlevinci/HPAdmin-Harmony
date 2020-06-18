@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   getBatch,
-  getBatchDetail
+  getBatchDetail,
 } from "../../../../actions/transactions/actions";
 import "../../Merchants/MerchantsList/merchantsList.css";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -19,43 +19,43 @@ class Transactions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ""
+      search: "",
     };
   }
 
   componentDidMount() {
     this.props.getBatch();
   }
-  _SearchMerchants = async e => {
+  _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
   render() {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
-        onClick: e => {
+        onClick: (e) => {
           // console.log("1", rowInfo.original.settlementId);
           if (rowInfo !== undefined) {
             // console.log("2", rowInfo.original.settlementId);
             this.props.fetchBatchDetail(rowInfo.original.settlementId);
             this.props.history.push("/app/reports/batchs/detail");
           }
-        }
+        },
       };
     };
 
     let BatchList = this.props.Batch;
     if (BatchList) {
       if (this.state.search) {
-        BatchList = BatchList.filter(e => {
+        BatchList = BatchList.filter((e) => {
           if (e.doBusinessName !== null) {
             return (
               e.doBusinessName
@@ -78,14 +78,14 @@ class Transactions extends React.Component {
             Header: "",
             id: "dateTime",
             width: 120,
-            accessor: e => {
+            accessor: (e) => {
               return moment
                 .utc(e.settlementDate)
                 .local()
                 .format("MM/DD/YYYY HH:mm A");
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       {
         id: "Customer",
@@ -95,11 +95,11 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "DBA",
-            accessor: e => (
+            accessor: (e) => (
               <span style={{ fontWeight: 600 }}>{e.doBusinessName}</span>
-            )
-          }
-        ]
+            ),
+          },
+        ],
         // accessor: e => e.user.fullName
       },
       {
@@ -108,15 +108,15 @@ class Transactions extends React.Component {
           {
             Header: "",
             accessor: "merchantId",
-            width: 120
-          }
-        ]
+            width: 120,
+          },
+        ],
       },
       {
         Header: () => (
           <div
             style={{
-              textAlign: "center"
+              textAlign: "center",
             }}
           >
             Reports
@@ -128,24 +128,24 @@ class Transactions extends React.Component {
           {
             Header: "Harmony Credit",
             id: "paymentByHarmony",
-            accessor: e => <span>${e.paymentByHarmony}</span>
+            accessor: (e) => <span>${e.paymentByHarmony}</span>,
           },
           {
             Header: "Credit Card",
             id: "paymentByCreditCard",
-            accessor: e => <span>${e.paymentByCreditCard}</span>
+            accessor: (e) => <span>${e.paymentByCreditCard}</span>,
           },
           {
             Header: "Cash",
             id: "paymentByCash",
-            accessor: e => <span>${e.paymentByCash}</span>
+            accessor: (e) => <span>${e.paymentByCash}</span>,
           },
           {
             Header: "Other",
             id: "otherPayment",
-            accessor: e => <span>${e.otherPayment}</span>
-          }
-        ]
+            accessor: (e) => <span>${e.otherPayment}</span>,
+          },
+        ],
       },
       {
         Header: "Total",
@@ -154,10 +154,12 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "total",
-            accessor: e => <span style={{ fontWeight: 600 }}>${e.total}</span>
-          }
-        ]
-      }
+            accessor: (e) => (
+              <span style={{ fontWeight: 600 }}>${e.total}</span>
+            ),
+          },
+        ],
+      },
     ];
     return (
       <div className="container-fluid react-transition swipe-right Batchs">
@@ -175,7 +177,7 @@ class Transactions extends React.Component {
                 <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
-                  className="textbox"
+                  className="textBox"
                   placeholder="Search.."
                   value={this.state.search}
                   onChange={this._SearchMerchants}
@@ -199,16 +201,16 @@ class Transactions extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  Batch: state.getAllBatch
+  Batch: state.getAllBatch,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getBatch: () => {
     dispatch(getBatch());
   },
-  fetchBatchDetail: payload => {
+  fetchBatchDetail: (payload) => {
     dispatch(getBatchDetail(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

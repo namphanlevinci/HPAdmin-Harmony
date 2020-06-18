@@ -187,7 +187,7 @@ class EditBank extends Component {
             <div className="col-5">
               <label>Checking Account Number (DDA)*</label>
               <input
-                style={{ width: "250px" }}
+                // style={{ width: "250px" }}
                 name="accountNumber"
                 value={this.state.accountNumber}
                 onChange={this._handleChange}
@@ -198,10 +198,9 @@ class EditBank extends Component {
               <label>Void Check*</label>
               {$imagePreview}
               <div>
-                <label>Upload new Void Check:</label>
                 <input
                   type="file"
-                  style={{ width: "250px !important", border: "none" }}
+                  // style={{ width: "250px !important", border: "none" }}
                   name="image"
                   id="file"
                   onChange={(e) => this._uploadFile(e)}

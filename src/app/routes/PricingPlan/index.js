@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import IntlMessages from "../../../util/IntlMessages";
 import SearchIcon from "@material-ui/icons/Search";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import axios from "axios";
 import URL from "../../../url/url";
@@ -80,7 +80,7 @@ class Pricing extends Component {
                   <SearchIcon className="button" title="Search" />
                   <input
                     type="text"
-                    className="textbox"
+                    className="textBox"
                     placeholder="Search.."
                     value={this.state.search}
                     onChange={this._SearchMerchants}

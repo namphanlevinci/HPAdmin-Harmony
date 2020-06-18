@@ -97,7 +97,7 @@ class EditSalary extends Component {
           value: salaryValue,
         },
       },
-      productSalaries: {
+      productSalary: {
         commission: {
           isCheck: prodCommIsCheck,
           value: prodCommValue,

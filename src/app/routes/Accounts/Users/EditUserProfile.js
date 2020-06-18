@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import URL, { upFileUrl } from "../../../../url/url";
 import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 import { store } from "react-notifications-component";
@@ -149,7 +149,6 @@ class EditUserProfile extends Component {
       currentPassword,
       newPassword,
       isPass,
-      password,
     } = this.state;
     // const password = newPassword !== null ? newPassword : currentPassword;
     const adminUrl = isPass ? "/adminUser/changepassword/" : "/adminuser/";
@@ -365,7 +364,7 @@ class EditUserProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.VIEW_PROFILE_USER,
+  UserProfile: state.userReducer.viewUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   VIEW_PROFILE_USER: (payload) => {

@@ -1,10 +1,10 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import StateID from "../../../../../util/getState";
+// import StateID from "../../../../../util/getState";
 import PhoneInput from "react-phone-input-2";
 import selectState from "../../../../../util/selectState";
 import Select from "react-select";
-import MaskedInput from "react-text-mask";
+// import MaskedInput from "react-text-mask";
 
 import "react-phone-input-2/lib/high-res.css";
 
@@ -214,8 +214,8 @@ const General = ({
       </div>
       <div>
         <h1>Representative Information</h1>
-        <div className="row  justify-content-center">
-          <div className="col-6">
+        <div className="row">
+          <div className="col-4">
             <div className="form-group">
               <TextField
                 name="firstName"
@@ -233,7 +233,7 @@ const General = ({
               )}
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-4">
             <div className="form-group">
               <TextField
                 name="lastName"
@@ -247,9 +247,7 @@ const General = ({
               {validator.message("lastName", value.lastName, "required|string")}
             </div>
           </div>
-        </div>
-        <div className="row justify-content-center">
-          <div className="col-6">
+          <div className="col-4">
             <div className="form-group">
               <TextField
                 name="position"
@@ -331,9 +329,9 @@ const General = ({
 
 export default General;
 
-const styles = {
-  phoneInput: {
-    padding: "0px 0px",
-    // marginTop: "3px",
-  },
-};
+// const styles = {
+//   phoneInput: {
+//     padding: "0px 0px",
+//     // marginTop: "3px",
+//   },
+// };

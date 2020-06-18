@@ -36,7 +36,7 @@ class UserInfo extends React.Component {
   };
 
   render() {
-    const User = this.props.InfoUser_Login.User.userAdmin;
+    const User = this.props.CurrentUser;
     return (
       <div className="user-profile d-flex flex-row align-items-center">
         <Avatar
@@ -83,7 +83,7 @@ class UserInfo extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  CurrentUser: state.userReducer.userByID,
 });
 const mapDispatchToProps = (dispatch) => ({
   USER_LOGOUT: (agent_info) => {

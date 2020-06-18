@@ -8,13 +8,13 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
   return (
     <div>
       <div className="row">
-        <div className="col-6">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="bankName"
               value={value.bankName}
               id="cardHolder1"
-              label="Bank Name"
+              label="Bank Name*"
               margin="normal"
               fullWidth
               onChange={handleChange}
@@ -22,13 +22,13 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
             {validator.message("bankName", value.bankName, "required|string")}
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="accountHolderName"
               value={value.accountHolderName}
               id="cardHolder2"
-              label="Account Holder Name"
+              label="Account Holder Name*"
               margin="normal"
               fullWidth
               onChange={handleChange}
@@ -40,13 +40,13 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
             )}
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="routingNumber"
               value={value.routingNumber}
               id="cardHolder3"
-              label="ABA Routing Number"
+              label="ABA Routing Number*"
               margin="normal"
               fullWidth
               onChange={handleChange}
@@ -58,13 +58,13 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
             )}
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="accountNumber"
               value={value.accountNumber}
               id="cardHolder4"
-              label="Checking Account Number (DDA)"
+              label="Checking Account Number (DDA)*"
               margin="normal"
               fullWidth
               onChange={handleChange}
@@ -79,9 +79,7 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
 
         <div className="col-12">
           <div className="form-group">
-            <label>
-              Void Check* <br />
-            </label>
+            <label style={{ paddingBottom: "5px" }}>Void Check* </label>
             <div className="Upload">
               <div className="void-Image">
                 <img
@@ -96,7 +94,7 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
               </div>
               <input
                 type="file"
-                style={{ marginTop: "10px" }}
+                style={{ marginTop: "10px", width: "250px" }}
                 className="custom-input"
                 onChange={(e) => uploadFile(e)}
               />

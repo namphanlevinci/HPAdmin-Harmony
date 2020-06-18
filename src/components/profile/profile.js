@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { GiCheckedShield } from "react-icons/gi";
 import { FaPen } from "react-icons/fa";
+import { GET_USER_BY_ID } from "../../actions/user/actions";
 
 import IntlMessages from "../../util/IntlMessages";
 import ContainerHeader from "../../components/ContainerHeader/index";
@@ -57,7 +58,7 @@ class proFile extends Component {
 
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
-    const e = this.props.UserProfile?.User?.userAdmin;
+    const e = this.props.CurrentUser;
     this.setState(
       {
         Token: Token,
@@ -122,7 +123,7 @@ class proFile extends Component {
   };
 
   updateAdmin = () => {
-    const ID = this.props.UserProfile?.User?.userAdmin.waUserId;
+    const ID = this.props.CurrentUser?.waUserId;
     let token = JSON.parse(this.state.Token);
     const config = {
       headers: { Authorization: "bearer " + token.token },
@@ -181,21 +182,14 @@ class proFile extends Component {
             width: 250,
           });
 
-          await axios
-            .get(URL + "/adminuser/" + ID, config)
-            .then((res) => {
-              setTimeout(
-                () => this.props.VIEW_PROFILE_USER(res.data.data),
-                1000
-              );
-              setTimeout(
-                () => this.props.history.push("/app/profile/general"),
-                1500
-              );
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          this.props.getUserByID(ID);
+          setTimeout(
+            () => [
+              this.props.VIEW_PROFILE_USER(this.props.CurrentUser),
+              this.props.history.push("/app/profile/general"),
+            ],
+            1000
+          );
         }
       })
       .catch((err) => {
@@ -258,14 +252,13 @@ class proFile extends Component {
 
   render() {
     let { imagePreviewUrl } = this.state;
-    const e = this.props.UserProfile?.User?.userAdmin;
-    console.log("e", e);
+    const e = this.props.CurrentUser;
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = <img src={imagePreviewUrl} alt="avatar" />;
     } else {
       $imagePreview =
-        e.imageUrl !== null ? (
+        e?.imageUrl !== null ? (
           <img src={e.imageUrl} alt="avatar" />
         ) : (
           <img
@@ -336,8 +329,8 @@ class proFile extends Component {
             <div className="col-9" style={{ paddingLeft: "30px" }}>
               <div className="row">
                 <div className="col-4">
-                  <h1>{e.firstName + " " + e.lastName}</h1>
-                  <h4>{e.roleName}</h4>
+                  <h1>{e?.firstName + " " + e.lastName}</h1>
+                  <h4>{e?.roleName}</h4>
                 </div>
                 <div className="col-8 admin-header-div">
                   <Button
@@ -386,10 +379,14 @@ class proFile extends Component {
 
 const mapStateToProps = (state) => ({
   UserProfile: state.User,
+  CurrentUser: state.userReducer.userByID,
 });
 const mapDispatchToProps = (dispatch) => ({
   VIEW_PROFILE_USER: (payload) => {
     dispatch(VIEW_PROFILE_USER(payload));
+  },
+  getUserByID: (ID) => {
+    dispatch(GET_USER_BY_ID(ID));
   },
 });
 

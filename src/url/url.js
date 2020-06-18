@@ -29,8 +29,8 @@ export const upFileUrl =
 //   "https://staging.harmonypayment.com/api/file?category=service";
 
 // LEVINCI TEST
-// const URL = "http://localhost:5000/api";
-// export const SignalURL = "http://localhost:5000";
-// export const upFileUrl = "http://localhost:5000/api/file?category=service";
+// const URL = "https://admin.levinci.org/api";
+// export const SignalURL = "https://admin.levinci.org";
+// export const upFileUrl = "https://admin.levinci.org/api/file?category=service";
 
 export default URL;

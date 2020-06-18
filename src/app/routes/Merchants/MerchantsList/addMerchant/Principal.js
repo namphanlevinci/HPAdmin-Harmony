@@ -1,28 +1,28 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
-import URL, { upFileUrl } from "../../../../../url/url";
-import { store } from "react-notifications-component";
+import { upFileUrl } from "../../../../../url/url";
+// import { store } from "react-notifications-component";
 import { IoIosClose } from "react-icons/io";
-import {
-  MuiPickersUtilsProvider,
-  // KeyboardDatePicker,
-} from "@material-ui/pickers";
+// import {
+// MuiPickersUtilsProvider,
+// KeyboardDatePicker,
+// } from "@material-ui/pickers";
 // import { DatePicker } from "@material-ui/pickers";
 
-import { KeyboardDatePicker } from "@material-ui/pickers";
+// import { KeyboardDatePicker } from "@material-ui/pickers";
 
-import Grid from "@material-ui/core/Grid";
-import DateFnsUtils from "@date-io/date-fns";
-import moment from "moment";
+// import Grid from "@material-ui/core/Grid";
+// import DateFnsUtils from "@date-io/date-fns";
+// import moment from "moment";
 import axios from "axios";
 import defaultImage from "./hpadmin2.png";
 import ErrorMessage from "../../MerchantProfile/Detail/Service/error-message";
 import Button from "@material-ui/core/Button";
 import PhoneInput from "react-phone-input-2";
 import * as Yup from "yup";
-import ReactPlaceholder from "react-placeholder";
+// import ReactPlaceholder from "react-placeholder";
 // import CircularProgress from "../components/CircularProgress/index";
-import CircularProgress from "../../../../../components/CircularProgress/index";
+// import CircularProgress from "../../../../../components/CircularProgress/index";
 import TextField from "@material-ui/core/TextField";
 import Select from "react-select";
 import selectState from "../../../../../util/selectState";
@@ -91,10 +91,10 @@ class Principal extends Component {
   };
 
   render() {
-    const countryCode = [
-      { value: "+1", label: "+1" },
-      { value: "+84", label: "+84" },
-    ];
+    // const countryCode = [
+    //   { value: "+1", label: "+1" },
+    //   { value: "+84", label: "+84" },
+    // ];
     // ValidationSchema
     const validationSchema = Yup.object().shape({
       principalInfo: Yup.array().of(
@@ -336,9 +336,8 @@ class Principal extends Component {
                                   </div> */}
                                 </div>
                                 <div className="col-4">
-                                  <label>Mobile Phone</label>
+                                  <label>Mobile Phone*</label>
                                   <PhoneInput
-                                    // style={{ marginTop: "10px" }}
                                     country={"us"}
                                     placeholder="Business Phone Number"
                                     name={`principalInfo.${index}.mobilePhone`}
@@ -502,11 +501,11 @@ class Principal extends Component {
                                       )
                                     }
                                   />
-                                  <div className="input-feedback">
+                                  {/* <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.yearAtThisAddress`}
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                                 <div className="col-4">
                                   <label style={{ marginTop: "7px" }}>
@@ -545,7 +544,7 @@ class Principal extends Component {
                                 </div>
                                 <div className="col-4">
                                   <label style={{ marginTop: "12px" }}>
-                                    Date of Birth (mm/dd/yyyy)
+                                    Date of Birth* (mm/dd/yyyy)
                                   </label>
                                   <Field
                                     type="date"
@@ -652,7 +651,7 @@ class Principal extends Component {
                                         type="file"
                                         className="custom-input"
                                         style={{
-                                          width: "30%",
+                                          width: "25%",
                                           marginTop: "10px",
                                         }}
                                         name={`principalInfo.${index}.fileId`}
@@ -719,9 +718,9 @@ class Principal extends Component {
 }
 
 export default Principal;
-const styles = {
-  phoneInput: {
-    padding: "0px 0px",
-    // marginTop: "3px",
-  },
-};
+// const styles = {
+//   phoneInput: {
+//     padding: "0px 0px",
+//     // marginTop: "3px",
+//   },
+// };

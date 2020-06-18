@@ -115,7 +115,7 @@ export function* GET_USER_BY_ID_API(ID) {
   const kq = yield axios
     .get(URL + `/adminuser/${userID}`, config)
     .then((result) => {
-      return result.data.data;
+      return result.data;
     })
     .catch((err) => {
       console.log(err);

@@ -417,7 +417,7 @@ class Generation_Detail extends Component {
                   />
                   <input
                     type="text"
-                    className="textbox"
+                    className="textBox"
                     placeholder="Search by ID, Serial, Pincode"
                     style={{ paddingTop: "6px" }}
                     value={this.state.search}

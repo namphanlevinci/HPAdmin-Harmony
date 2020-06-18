@@ -18,7 +18,7 @@ import selectState from "../../../../util/selectState";
 import axios from "axios";
 import * as Yup from "yup";
 import ErrorMessage from "./errorMessage";
-import MaskedInput from "react-text-mask";
+// import MaskedInput from "react-text-mask";
 
 import "./MerchantReqProfile.css";
 // import "./MerchantsRequest.css";
@@ -79,7 +79,7 @@ const EditPrincipal = ({
   const principalPhone = (Phone) => {
     if (Phone?.startsWith("1") || Phone?.startsWith("84")) {
       return Phone?.replace(/[{( )}]/g, "").replace(
-        /(\d{5})\-?(\d{3})\-?(\d{4})/,
+        /(\d{5})\?(\d{3})\?(\d{4})/,
         "+$1-$2-$3"
       );
     }
@@ -201,7 +201,13 @@ const EditPrincipal = ({
                       return (
                         <div key={index} className="row ">
                           <div className="col-12">
-                            <h3 style={{ color: "#4251af", fontWeight: "500" }}>
+                            <h3
+                              style={{
+                                color: "#4251af",
+                                fontWeight: "500",
+                                float: "left",
+                              }}
+                            >
                               Principal {index + 1}
                             </h3>
                           </div>

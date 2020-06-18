@@ -38,7 +38,6 @@ class Header extends React.Component {
     await this.setState({ User: JSON.parse(User) });
     const ID = this.state.User?.userAdmin?.waUserId;
     await this.props.getUserByID(ID);
-    console.log("User", this.state.User);
 
     // let rID = ID.waUserId;
     // const signalR = require("@aspnet/signalr");
@@ -399,7 +398,6 @@ class Header extends React.Component {
                     {/* <i className="zmdi zmdi-notifications-none icon-alert animated infinite wobble"/> */}
                   </IconButton>
                 </DropdownToggle>
-
                 <DropdownMenu right>
                   <CardHeader
                     styleName="align-items-center"

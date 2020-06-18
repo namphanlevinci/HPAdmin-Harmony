@@ -68,7 +68,7 @@ class Acti extends Component {
     // const { page, pageSize } = state;
     const page = state?.page ? state?.page : 0;
     const pageSize = state?.pageSize ? state?.pageSize : 20;
-    const { ID, from, to, timeRange } = this.state;
+    const { ID, from, to } = this.state;
 
     this.setState({ loading: true });
     await axios
@@ -120,13 +120,7 @@ class Acti extends Component {
       },
     ];
     const { from, to } = this.state;
-    let renderTable = this.props.userActivity;
-    if (this.state.from) {
-      renderTable = renderTable.filter((e) => {
-        let date = moment(e.createDate).format("YYYY-MM-DD");
-        return date >= from && date <= to;
-      });
-    }
+
     return (
       <div className="content ConsumerTransactions  react-transition swipe-right">
         <div>

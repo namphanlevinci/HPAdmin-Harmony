@@ -17,7 +17,7 @@
   border-radius: 4px;
 }
 
-.search form > .textbox {
+.search form > .textBox {
   outline: 0;
   height: 42px;
   width: 244px;
@@ -31,7 +31,7 @@
   border-radius: 4px 0 0 4px;
 }
 
-.search form > .textbox:focus {
+.search form > .textBox:focus {
   outline: 0;
   background-color: #fff;
 }

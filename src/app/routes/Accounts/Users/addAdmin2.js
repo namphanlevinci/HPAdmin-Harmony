@@ -16,15 +16,15 @@ import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 import axios from "axios";
 import URL from "../../../../url/url";
 import PhoneInput from "react-phone-input-2";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import moment from "moment";
 
 import "date-fns";
-import Grid from "@material-ui/core/Grid";
+// import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
+  // KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
@@ -515,7 +515,7 @@ class addAdmin2 extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.VIEW_PROFILE_USER,
+  UserProfile: state.userReducer.viewUser,
   AddStatus: state.addAdminUser,
 });
 const mapDispatchToProps = (dispatch) => ({

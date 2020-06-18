@@ -49,10 +49,10 @@ const General = ({
     },
   ];
 
-  const phoneCode = [
-    { value: "+1", label: "+1" },
-    { value: "+84", label: "+84" },
-  ];
+  // const phoneCode = [
+  //   { value: "+1", label: "+1" },
+  //   { value: "+84", label: "+84" },
+  // ];
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">

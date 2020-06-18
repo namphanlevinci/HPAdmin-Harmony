@@ -227,7 +227,7 @@ class SidenavContent extends Component {
             </ul>
           </li>
           {/* REPORTS */}
-          {/* <li className="menu collapse-box">
+          <li className="menu collapse-box">
             <Button>
               <i className="zmdi zmdi-file-text zmdi-hc-fw" />
               <span className="nav-text">
@@ -273,7 +273,7 @@ class SidenavContent extends Component {
                 </NavLink>
               </li>
             </ul>
-          </li> */}
+          </li>
           {/* BUSINESS */}
           {/* <li className="menu collapse-box">
             <Button>

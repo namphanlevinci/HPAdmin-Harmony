@@ -20,27 +20,27 @@ class Users extends React.Component {
       currentPage: "",
       startIndex: "",
       endIndex: "",
-      PaginationFilter: false
+      PaginationFilter: false,
     };
   }
-  onChangePage = data => {
+  onChangePage = (data) => {
     this.setState({
       pageLimit: data.pageLimit,
       totalPages: data.totalPages,
       currentPage: data.page,
       startIndex: data.startIndex,
-      endIndex: data.endIndex
+      endIndex: data.endIndex,
     });
   };
 
   componentDidMount() {
     this.props.getAll_ConsumerUsers();
     this.setState({
-      totalRecords: this.props.ConsumerList.length
+      totalRecords: this.props.ConsumerList.length,
     });
   }
 
-  _SearchMerchants = async e => {
+  _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
     if (this.state.search.length === 1) {
       this.PaginationFilter();
@@ -60,7 +60,7 @@ class Users extends React.Component {
     let ConsumerList = this.props.ConsumerList;
     if (ConsumerList) {
       if (this.state.search) {
-        ConsumerList = ConsumerList.filter(e => {
+        ConsumerList = ConsumerList.filter((e) => {
           return (
             e.firstName
               .trim()
@@ -77,7 +77,7 @@ class Users extends React.Component {
       }
     }
     const renderConsumerList = ConsumerList.slice(startIndex, endIndex + 1).map(
-      e => {
+      (e) => {
         const birthday = moment(e.birthDate).format("DD/MM/YYYY");
         return (
           <tr key={e.userId}>
@@ -108,7 +108,7 @@ class Users extends React.Component {
               <input title="Search" value="" className="button" readOnly />
               <input
                 type="text"
-                className="textbox"
+                className="textBox"
                 placeholder="Search.."
                 value={this.state.search}
                 onChange={this._SearchMerchants}
@@ -160,13 +160,13 @@ class Users extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  ConsumerList: state.getConsumerUsers
+  ConsumerList: state.getConsumerUsers,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_ConsumerUsers: () => {
     dispatch(getAll_ConsumerUsers());
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

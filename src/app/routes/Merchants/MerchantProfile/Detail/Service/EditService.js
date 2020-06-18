@@ -292,14 +292,16 @@ class EditService extends Component {
                             label: this.state.categoryId,
                           }}
                           value={this.state.category
-                            .filter((e) => e.categoryType !== "Product")
+                            .filter(
+                              (e) =>
+                                e.categoryType !== "Product" &&
+                                e.categoryId === this.state.categoryId
+                            )
                             .map((e) => {
-                              if (e.categoryId === this.state.categoryId) {
-                                return {
-                                  label: e.name,
-                                  value: e.categoryId,
-                                };
-                              }
+                              return {
+                                label: e.name,
+                                value: e.categoryId,
+                              };
                             })}
                           onChange={(selectedOption) => {
                             this.setState({ categoryId: selectedOption.value });

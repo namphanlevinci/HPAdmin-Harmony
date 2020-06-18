@@ -123,8 +123,8 @@ class UserProfile extends Component {
         />
         <div className="row AdminProfile page-heading">
           <div className="col-3 text-center">
-            {e.imageUrl !== null ? (
-              <img src={e.imageUrl} alt="avatar" />
+            {e?.imageUrl !== null ? (
+              <img src={e?.imageUrl} alt="avatar" />
             ) : (
               <img
                 src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
@@ -135,8 +135,8 @@ class UserProfile extends Component {
           <div className="col-9" style={{ paddingLeft: "30px" }}>
             <div className="row">
               <div className="col-4">
-                <h1>{e.firstName + " " + e.lastName}</h1>
-                <h4>{e.roleName}</h4>
+                <h1>{e?.firstName + " " + e?.lastName}</h1>
+                <h4>{e?.roleName}</h4>
                 <hr />
               </div>
               <div className="col-8 admin-header-div">
@@ -147,7 +147,7 @@ class UserProfile extends Component {
                 >
                   BACK
                 </Button>
-                {e.isDisabled === 0 ? (
+                {e?.isDisabled === 0 ? (
                   <Button
                     className="btn btn-green"
                     style={styles.button}
@@ -178,15 +178,15 @@ class UserProfile extends Component {
             <div className="row">
               <div className="col-6">
                 <label>Phone:</label>
-                <p style={styles.p}>{e.phone}</p>
+                <p style={styles.p}>{e?.phone}</p>
               </div>
               <div className="col-6">
                 <label>Email:</label>
-                <p style={styles.p}>{e.email}</p>
+                <p style={styles.p}>{e?.email}</p>
               </div>
               <div className="col-12" style={{ paddingTop: "10px" }}>
                 <label>Address:</label>
-                <p style={styles.p}>{e.address}</p>
+                <p style={styles.p}>{e?.address}</p>
               </div>
             </div>
             <h2>Basic Information</h2>
@@ -194,7 +194,7 @@ class UserProfile extends Component {
               <div className="col-12">
                 <label>Birthday:</label>
                 <p style={styles.p}>
-                  {moment(e.birthDate).format("MM/DD/YYYY")}
+                  {moment(e?.birthDate).format("MM/DD/YYYY")}
                 </p>
               </div>
             </div>
@@ -206,7 +206,7 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.VIEW_PROFILE_USER,
+  UserProfile: state.userReducer.viewUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

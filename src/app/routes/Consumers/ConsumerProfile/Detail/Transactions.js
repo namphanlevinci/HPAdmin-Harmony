@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
 import moment from "moment";
@@ -288,13 +287,13 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(Transactions);
 
-const styles = {
-  input: {
-    width: "100%",
-    fontWeight: "500",
-    color: "#000000",
-    border: "none",
-    borderBottom: "2px solid #dcdcdc",
-    fontSize: "16px",
-  },
-};
+// const styles = {
+//   input: {
+//     width: "100%",
+//     fontWeight: "500",
+//     color: "#000000",
+//     border: "none",
+//     borderBottom: "2px solid #dcdcdc",
+//     fontSize: "16px",
+//   },
+// };

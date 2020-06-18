@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import URL, { upFileUrl } from "../../../../../../url/url";
 import { Formik, Form } from "formik";
@@ -16,10 +16,10 @@ import axios from "axios";
 import * as Yup from "yup";
 
 import Dialog from "@material-ui/core/Dialog";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+// import AppBar from "@material-ui/core/AppBar";
+// import Toolbar from "@material-ui/core/Toolbar";
+// import IconButton from "@material-ui/core/IconButton";
+// import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 
 import "react-table/react-table.css";
@@ -46,30 +46,30 @@ const colourStyles = {
   // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
 };
 
-const dot = (color = "#ccc") => ({
-  alignItems: "center",
-  display: "flex",
+// const dot = (color = "#ccc") => ({
+//   alignItems: "center",
+//   display: "flex",
 
-  ":before": {
-    backgroundColor: color,
-    borderRadius: 10,
-    content: '" "',
-    display: "block",
-    marginRight: 8,
-    height: 10,
-    width: 10,
-  },
-});
+//   ":before": {
+//     backgroundColor: color,
+//     borderRadius: 10,
+//     content: '" "',
+//     display: "block",
+//     marginRight: 8,
+//     height: 10,
+//     width: 10,
+//   },
+// });
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: "relative",
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   appBar: {
+//     position: "relative",
+//   },
+//   title: {
+//     marginLeft: theme.spacing(2),
+//     flex: 1,
+//   },
+// }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -616,7 +616,7 @@ class AddService extends Component {
                                   <label style={{ color: "#4251af" }}>
                                     Status
                                   </label>
-                                  <br />
+                                  {/* <br /> */}
                                   <Select
                                     styles={colourStyles}
                                     options={serviceStatus}

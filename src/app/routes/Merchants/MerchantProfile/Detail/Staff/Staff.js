@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+import {
+  // FaRegEdit,
+  FaTrash,
+  FaTrashRestoreAlt,
+} from "react-icons/fa";
 import { VIEW_STAFF } from "../../../../../../actions/merchants/actions";
 
 import ReactTable from "react-table";
@@ -105,10 +109,13 @@ class Staff extends Component {
     }
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
-        onClick: (e) => [
-          this.props.history.push("/app/merchants/staff/general"),
-          this.props.VIEW_STAFF(rowInfo.original),
-        ],
+        onClick: (e) => {
+          if (column.id !== "roleName") {
+            this.props.history.push("/app/merchants/staff/general");
+            this.props.VIEW_STAFF(rowInfo.original);
+          } else {
+          }
+        },
       };
     };
 
@@ -120,8 +127,8 @@ class Staff extends Component {
       },
       {
         Header: "Name",
-        id: "fullname",
-        width: 200,
+        id: "fullName",
+        width: 150,
         accessor: (d) => (
           <span
             style={{ fontWeight: 500 }}
@@ -131,7 +138,7 @@ class Staff extends Component {
       {
         id: "Display",
         Header: "Display Name",
-        width: 200,
+        width: 150,
         accessor: (d) => (
           <span style={{ fontWeight: 500 }}>{`${d.displayName}`}</span>
         ),
@@ -200,7 +207,7 @@ class Staff extends Component {
                 {/* <input title="Search" value="" className="button" readOnly /> */}
                 <input
                   type="text"
-                  className="textbox"
+                  className="textBox"
                   placeholder="Search.."
                   value={this.state.search}
                   onChange={this._SearchMerchants}

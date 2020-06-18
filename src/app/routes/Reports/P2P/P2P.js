@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getP2P_Transactions } from "../../../../actions/transactions/actions";
+import { store } from "react-notifications-component";
+import { DebounceInput } from "react-debounce-input";
+
+import axios from "axios";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
@@ -9,6 +13,8 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
+import URL from "../../../../url/url";
+import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
@@ -19,34 +25,47 @@ class P2P extends React.Component {
     super(props);
     this.state = {
       search: "",
-      from: undefined,
-      to: undefined,
+      from: "",
+      to: "",
       amount: "",
-      amountFrom: "",
-      amountTo: "",
-      range: "",
+      amountFrom: -1,
+      amountTo: -1,
+      range: "thisMonth",
     };
   }
 
   handleResetClick = () => {
     this.setState({
-      from: undefined,
-      to: undefined,
+      from: moment()
+        .startOf("month")
+        .format("YYYY-MM-DD"),
+      to: moment()
+        .endOf("month")
+        .format("YYYY-MM-DD"),
       amount: "",
-      amountFrom: "",
-      amountTo: "",
-      range: "",
+      amountFrom: -1,
+      amountTo: -1,
+      range: "thisMonth",
     });
   };
-  fromDate = (e) => {
-    this.setState({ from: e.target.value });
+  fromDate = async (e) => {
+    await this.setState({ from: e.target.value });
+    await this.fetchData();
   };
-  toDate = (e) => {
-    this.setState({ to: e.target.value });
+  toDate = async (e) => {
+    await this.setState({ to: e.target.value });
+    await this.fetchData();
   };
 
   componentDidMount() {
-    this.props.getP2P_Transactions();
+    this.setState({
+      from: moment()
+        .startOf("month")
+        .format("YYYY-MM-DD"),
+      to: moment()
+        .endOf("month")
+        .format("YYYY-MM-DD"),
+    });
   }
 
   _SearchMerchants = async (e) => {
@@ -63,86 +82,159 @@ class P2P extends React.Component {
     this.setState({
       [name]: value,
     });
+    this.fetchData();
   };
-  _TimeRange = async (e) => {
+  timeRange = async (e) => {
+    const value = e.target.value;
+    if (value === "today") {
+      this.setState({
+        from: moment()
+          .startOf("day")
+          .format("YYYY-MM-DD"),
+        to: moment()
+          .startOf("day")
+          .format("YYYY-MM-DD"),
+      });
+    }
+    if (value === "yesterday") {
+      this.setState({
+        from: moment()
+          .subtract(1, "day")
+          .format("YYYY-MM-DD"),
+        to: moment()
+          .subtract(1, "day")
+          .format("YYYY-MM-DD"),
+      });
+    }
+    if (value === "thisWeek") {
+      this.setState({
+        from: moment()
+          .startOf("week")
+          .format("YYYY-MM-DD"),
+        to: moment()
+          .endOf("week")
+          .format("YYYY-MM-DD"),
+      });
+    }
+    if (value === "lastWeek") {
+      this.setState({
+        from: moment()
+          .subtract(1, "week")
+          .format("YYYY-MM-DD"),
+        to: moment()
+          .subtract(1, "week")
+          .endOf("week")
+          .format("YYYY-MM-DD"),
+      });
+    }
+    if (value === "thisMonth") {
+      this.setState({
+        from: moment()
+          .startOf("month")
+          .format("YYYY-MM-DD"),
+        to: moment()
+          .endOf("month")
+          .format("YYYY-MM-DD"),
+      });
+    }
+    if (value === "lastMonth") {
+      this.setState({
+        from: moment()
+          .subtract(1, "month")
+          .startOf("month")
+          .format("YYYY-MM-DD"),
+        to: moment()
+          .subtract(1, "month")
+          .endOf("month")
+          .format("YYYY-MM-DD"),
+      });
+    }
     await this.setState({
-      range: e.target.value,
+      range: value,
     });
+    await this.fetchData();
   };
-  render() {
-    // console.log("YAYAYA", this.props.P2PList);
-    const { from, to } = this.state;
-    let TransactionsList = this.props.P2PList;
-    if (TransactionsList) {
-      if (this.state.search) {
-        TransactionsList = TransactionsList.filter((e) => {
-          return (
-            e.sender
-              //   .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            e.reciever
-              //   .trim()
-              .toLowerCase()
-              .indexOf(this.state.search.toLowerCase()) !== -1 ||
-            parseInt(e.merchantId) === parseInt(this.state.search)
-          );
-        });
-      }
-      if (this.state.from) {
-        TransactionsList = TransactionsList.filter((e) => {
-          let date = moment(e.createdDate).format("YYYY-MM-DD");
-          return date >= from && date <= to;
-        });
-      }
-      if (this.state.amount) {
-        TransactionsList = TransactionsList.filter((e) => {
-          const A = parseInt(e.amount);
-          const B = parseInt(this.state.amount);
-          return A === B;
-        });
-      }
-      if (this.state.amountFrom) {
-        TransactionsList = TransactionsList.filter((e) => {
-          const Amount = parseInt(e.amount);
-          const AmountFrom = parseInt(this.state.amountFrom);
-          const AmountTo = parseInt(this.state.amountTo);
-          return Amount >= AmountFrom && Amount <= AmountTo;
-        });
-      }
-      if (this.state.range) {
-        if (this.state.range === "week") {
-          const today = moment();
-          const from_date = today.startOf("week").format("YYYY-MM-DD");
-          const to_date = today.endOf("week").format("YYYY-MM-DD");
-          TransactionsList = TransactionsList.filter((e) => {
-            let date = moment(e.createdDate).format("YYYY-MM-DD");
-            return date >= from_date && date <= to_date;
-          });
+
+  fetchData = async (state) => {
+    const {
+      from,
+      to,
+      search,
+      range,
+      amount,
+      amountFrom,
+      amountTo,
+    } = this.state;
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 10;
+    this.setState({ loading: true });
+    await axios
+      .get(
+        URL +
+          `/p2pgiftcard/transaction?page=${
+            page === 0 ? 1 : page + 1
+          }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
+            amount ? amount : amountFrom
+          }&amountTo=${amount ? amount : amountTo}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
         }
-        if (this.state.range === "today") {
-          const today = moment().format("YYYY-MM-DD");
-          TransactionsList = TransactionsList.filter((e) => {
-            let date = moment(e.createdDate).format("YYYY-MM-DD");
-            return date === today;
+      )
+      .then((res) => {
+        const data = res.data.data;
+        if (Number(res.data.codeNumber) === 200) {
+          this.setState({
+            page,
+            pageCount: res.data.pages,
+            data: data,
+            loading: false,
+            pageSize: 5,
           });
         } else {
-          const today = moment();
-          const from_month = today.startOf("month").format("YYYY-MM-DD");
-          const to_month = today.endOf("month").format("YYYY-MM-DD");
-          TransactionsList = TransactionsList.filter((e) => {
-            let date = moment(e.createdDate).format("YYYY-MM-DD");
-            return date >= from_month && date <= to_month;
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
           });
         }
-      }
-    }
+        this.setState({ loading: false });
+      });
+  };
+
+  changePage = (pageIndex) => {
+    this.setState({
+      page: pageIndex,
+    });
+  };
+
+  render() {
+    const {
+      page,
+      pageCount,
+      data,
+      pageSize,
+      from,
+      to,
+      amountTo,
+      amountFrom,
+      amount,
+    } = this.state;
 
     const columns = [
       {
         id: "createDate",
         Header: "Date/time",
-        maxWidth: 200,
         accessor: (e) => {
           return moment
             .utc(e.createdDate)
@@ -153,18 +245,17 @@ class P2P extends React.Component {
       {
         id: "Sender",
         Header: "Sender",
-        accessor: "sender",
+        accessor: "senderUserName",
       },
       {
-        id: "Reciever",
-        Header: "Reciever",
-        accessor: "reciever",
+        id: "Receiver",
+        Header: "Receiver",
+        accessor: "receiveUserName",
       },
       {
         id: "Type ",
         Header: "Type",
-        width: 180,
-        accessor: "type",
+        accessor: (row) => <span>Gift Card</span>,
       },
       {
         id: "Status",
@@ -175,10 +266,10 @@ class P2P extends React.Component {
       {
         id: "Amount",
         Header: "Amount",
-        width: 180,
         accessor: (e) => (e.amount !== null ? <span>${e.amount}</span> : null),
       },
     ];
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -193,7 +284,7 @@ class P2P extends React.Component {
                 <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
-                  className="textbox"
+                  className="textBox"
                   placeholder="Search.."
                   value={this.state.search}
                   onChange={this._SearchMerchants}
@@ -203,7 +294,7 @@ class P2P extends React.Component {
 
             <div>
               <Button
-                style={{ color: "#4251af" }}
+                style={{ color: "#4251af", marginTop: "0" }}
                 onClick={this.handleResetClick}
                 className="btn btn-red"
               >
@@ -214,31 +305,14 @@ class P2P extends React.Component {
           <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
             <div className="col-4">
               <form noValidate>
-                <TextField
-                  id="date"
-                  label="From"
-                  type="date"
-                  className="datePicker"
-                  // defaultValue={newToday}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={this.fromDate}
-                />
+                <h6 style={styles.label}>From</h6>
+                <DateInput fromDate={this.fromDate} date={from} />
               </form>
             </div>
             <div className="col-4">
               <form noValidate>
-                <TextField
-                  id="date"
-                  label="To"
-                  type="date"
-                  // defaultValue={this.state.to}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={this.toDate}
-                />
+                <h6 style={styles.label}>To</h6>
+                <DateInput fromDate={this.toDate} date={to} />
               </form>
             </div>
             <div className="col-4">
@@ -248,15 +322,18 @@ class P2P extends React.Component {
               <select
                 className="search"
                 value={this.state.range}
-                onChange={this._TimeRange}
+                onChange={this.timeRange}
+                style={{ width: "100%" }}
               >
-                <option value="">ALL </option>
                 <option value="today">Today</option>
-                <option value="week">This week</option>
-                <option value="month">This month</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="thisWeek">This Week</option>
+                <option value="lastWeek">Last Week</option>
+                <option value="thisMonth">This Month</option>
+                <option value="lastMonth">Last Month</option>
               </select>
             </div>
-            <div className="col-4 searchx">
+            <div className="col-4 search">
               <h6
                 style={{
                   color: "rgba(0, 0, 0, 0.54)",
@@ -265,13 +342,14 @@ class P2P extends React.Component {
               >
                 Amount ($)
               </h6>
-              <form>
-                <input
+              <form style={{ width: "100%" }}>
+                <DebounceInput
                   type="text"
                   name="amount"
-                  className="textbox"
+                  className="textBox"
+                  debounceTimeout={500}
                   placeholder="Amount ($)"
-                  value={this.state.amount}
+                  value={amount}
                   onChange={this._handleChange}
                 />
               </form>
@@ -283,13 +361,14 @@ class P2P extends React.Component {
                 >
                   Amount From:
                 </h6>
-                <form>
-                  <input
+                <form style={{ width: "100%" }}>
+                  <DebounceInput
                     type="text"
-                    className="textbox"
+                    className="textBox"
                     name="amountFrom"
+                    debounceTimeout={500}
                     placeholder="Amount From"
-                    value={this.state.amountFrom}
+                    value={amountFrom === -1 ? 0 : amountFrom}
                     onChange={this._handleChange}
                   />
                 </form>
@@ -302,13 +381,14 @@ class P2P extends React.Component {
                 >
                   Amount To:
                 </h6>
-                <form>
-                  <input
+                <form style={{ width: "100%" }}>
+                  <DebounceInput
                     type="text"
-                    className="textbox"
+                    className="textBox"
                     name="amountTo"
+                    debounceTimeout={500}
                     placeholder="Amount To"
-                    value={this.state.amountTo}
+                    value={amountTo === -1 ? 0 : amountTo}
                     onChange={this._handleChange}
                   />
                 </form>
@@ -317,11 +397,18 @@ class P2P extends React.Component {
           </div>
           <div className="MListContainer Transactions">
             <ReactTable
-              data={TransactionsList}
-              columns={columns}
-              defaultPageSize={10}
-              minRows={1}
+              manual
+              page={page}
+              pages={pageCount}
+              data={data}
+              row={pageSize}
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onFetchData={(state) => this.fetchData(state)}
+              defaultPageSize={20}
+              minRows={0}
               noDataText="NO DATA!"
+              loading={this.state.loading}
+              columns={columns}
             />
           </div>
         </div>
@@ -341,3 +428,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(P2P);
+
+const styles = {
+  label: {
+    color: "rgba(0, 0, 0, 0.54)",
+    fontSize: "0,7rem",
+    textAlign: "left",
+  },
+};

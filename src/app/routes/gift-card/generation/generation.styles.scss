@@ -33,7 +33,7 @@
       -webkit-border-radius: 4px;
       border-radius: 4px;
     }
-    & form > .textbox {
+    & form > .textBox {
       outline: 0;
       height: 42px;
       width: 244px;
@@ -47,7 +47,7 @@
       border-radius: 4px 0 0 4px;
     }
 
-    & form > .textbox:focus {
+    & form > .textBox:focus {
       outline: 0;
       background-color: #fff;
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldArray, Field, getIn, Form } from "formik";
+import { FieldArray, Field, Form } from "formik";
 import ErrorMessage from "./error-message";
 import Select from "react-select";
 import "../Detail.css";
@@ -150,34 +150,26 @@ const Extra = ({
                       <label style={{ fontSize: 14, color: "#4251af" }}>
                         Status
                       </label>
-                      {loading && (
-                        <Select
-                          styles={colourStyles}
-                          options={extraStatus}
-                          onChange={(selectOptions) => {
-                            setFieldValue(
-                              `extras.${index}.isDisabled`,
-                              selectOptions.value
-                            );
-                          }}
-                          defaultValue={{
-                            value: `extras.${index}.isDisabled`,
-                            label: statusLabel,
-                          }}
-                        />
-                      )}
+                      {/* {loading && ( */}
+                      <Select
+                        styles={colourStyles}
+                        options={extraStatus}
+                        onChange={(selectOptions) => {
+                          setFieldValue(
+                            `extras.${index}.isDisabled`,
+                            selectOptions.value
+                          );
+                        }}
+                        defaultValue={{
+                          value: `extras.${index}.isDisabled`,
+                          label: statusLabel,
+                        }}
+                      />
+                      {/* )} */}
 
                       <div className="input-feedback">
                         <ErrorMessage name={`extras.${index}.isDisabled`} />
                       </div>
-                    </div>
-                    <div className="col-10" style={{ display: "flex" }}>
-                      {/* <p
-                          className="extra-btn"
-                          onClick={() => arrayHelpers.remove(index)}
-                        >
-                          - Remove Extra
-                      </p> */}
                     </div>
                   </div>
                   {values.extras.length - 1 === index ? (

@@ -19,7 +19,7 @@ import MerchantActi from "./Detail/Activity";
 // Service
 import Service from "./Detail/Service/Service";
 import EditService from "./Detail/Service/EditService";
-import AddService from "./Detail/Service/addService";
+// import AddService from "./Detail/Service/addService";
 // Category
 import EditCategory from "./Detail/Category/edit-category";
 import Category from "./Detail/Category/Category";
@@ -31,7 +31,7 @@ import ProductAdd from "./Detail/Product/productAdd";
 // Staff
 import Staff from "./Detail/Staff/Staff";
 import AddStaff from "./Detail/Staff/add-staff";
-import StaffGeneral from "./Detail/Staff/staff-detail/staff-info";
+// import StaffGeneral from "./Detail/Staff/staff-detail/staff-info";
 // Extra Tab
 import ExtraTab from "./Detail/Extra/extra";
 // REPORT SETTLEMENT
@@ -176,10 +176,10 @@ class merchantProfile2 extends Component {
                           path="/app/merchants/profile/service/edit"
                           component={EditService}
                         />
-                        <Route
+                        {/* <Route
                           path="/app/merchants/profile/service/add"
                           component={AddService}
-                        />
+                        /> */}
                         <Route
                           path="/app/merchants/profile/service"
                           component={Service}
@@ -238,9 +238,9 @@ class merchantProfile2 extends Component {
     return <div>{renderMerchantProfile}</div>;
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  InfoUser_Login: state.User,
 });
 
 export default withRouter(connect(mapStateToProps)(merchantProfile2));

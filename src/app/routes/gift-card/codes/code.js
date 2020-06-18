@@ -6,6 +6,7 @@ import {
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { GET_GIFTCARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
+import { store } from "react-notifications-component";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -38,7 +39,7 @@ class Codes extends Component {
       data: [],
       // Search
       search: "",
-      isActive: 0,
+      isActive: 1,
       isPhysical: -1,
       isUsed: -1,
     };
@@ -60,7 +61,7 @@ class Codes extends Component {
     axios
       .get(
         URL +
-          `/giftcard/search?keySearch=${search}&isActive=${isActive}&isPhysical=${isPhysical}&isUsed=${isUsed}&page=0`,
+          `/giftcard/search?keySearch=${search}&isActive=${isActive}&isPhysical=${isPhysical}&isUsed=${isUsed}&page=1&row=10`,
         {
           headers: {
             Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
@@ -69,24 +70,42 @@ class Codes extends Component {
       )
       .then((res) => {
         const data = res.data.data;
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false,
-        });
+        if (Number(res.data.codeNumber) === 200) {
+          this.setState({
+            page,
+            pageCount: res.data.pages,
+            data: data,
+            loading: false,
+          });
+        } else {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+          this.setState({ loading: false });
+        }
       });
   };
 
   fetchData = async (state) => {
-    const { page } = state;
+    const { page, pageSize } = state;
     this.setState({ loading: true });
     await axios
       .get(
         URL +
           `/giftcard/search?keySearch=&isActive=0&isPhysical=-1&isUsed=-1&page=${
             page === 0 ? 1 : page + 1
-          }`,
+          }&row=${pageSize}`,
         {
           headers: {
             Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
@@ -105,7 +124,6 @@ class Codes extends Component {
   };
 
   changePage = (pageIndex) => {
-    // console.log(`changePage(pageIndex: ${pageIndex})`);
     this.setState({
       page: pageIndex,
     });
@@ -120,8 +138,6 @@ class Codes extends Component {
   render() {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
     const { page, pageCount, data } = this.state;
-
-    // console.log(`render(page: ${page}, pageCount: ${pageCount})`);
 
     const columns = [
       {
@@ -252,7 +268,7 @@ class Codes extends Component {
                 <SearchIcon className="button" title="Search" />
                 <input
                   type="text"
-                  className="textbox"
+                  className="textBox"
                   placeholder="Search"
                   value={this.state.search}
                   onChange={(e) => this.setState({ search: e.target.value })}
@@ -270,7 +286,7 @@ class Codes extends Component {
               </h3>
               <Select
                 // value={this.state.isPhysical}
-                onChange={this.handleChange("isPhysical")}
+                onChange={(e) => this.setState({ isPhysical: e.value })}
                 name="isPhysical"
                 options={isPhysical}
               />
@@ -316,7 +332,7 @@ class Codes extends Component {
               // You should also control this...
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
-              // defaultPageSize={10}
+              defaultPageSize={10}
               minRows={0}
               noDataText="NO DATA!"
               loading={this.state.loading}

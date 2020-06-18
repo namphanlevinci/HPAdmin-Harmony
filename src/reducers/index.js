@@ -3,7 +3,7 @@ import { connectRouter } from "connected-react-router";
 import Settings from "./Settings";
 // USER
 import UserLogin from "./User/UserLogin";
-import VIEW_PROFILE_USER from "./User/UserReducer";
+import userReducer from "./User/UserReducer";
 import getAllUser from "./User/getAllUser";
 // import Verify from "./User/Verify";
 import addAdminUser from "./User/addAdmin";
@@ -55,7 +55,7 @@ export default (history) =>
     settings: Settings,
     User: UserLogin,
     getAllUser,
-    VIEW_PROFILE_USER,
+    userReducer,
     ViewProfile_Merchants,
     MerchantsList,
     SearchMerchants,

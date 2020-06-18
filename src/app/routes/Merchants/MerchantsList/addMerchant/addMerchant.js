@@ -349,7 +349,6 @@ class AddMerchant extends React.Component {
             this.navigateToMerchantList();
           }, 1500);
         } else {
-          console.log("Yeet");
           store.addNotification({
             title: "ERROR!",
             message: "Something went wrong",

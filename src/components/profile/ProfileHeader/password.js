@@ -1,5 +1,5 @@
 import React from "react";
-import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
+// import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 
 function Password({
   data: {

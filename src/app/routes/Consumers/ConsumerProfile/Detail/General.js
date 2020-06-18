@@ -12,6 +12,7 @@ import URL from "../../../../../url/url";
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
+import "./Consumer.css";
 class General extends Component {
   constructor(props) {
     super(props);
@@ -223,9 +224,9 @@ class General extends Component {
                 >
                   {({ values, _handleChange, isSubmitting }) => (
                     <div className="rejectInput">
-                      <a className="close" onClick={this.handleCloseReject}>
+                      <p className="close" onClick={this.handleCloseReject}>
                         &times;
-                      </a>
+                      </p>
                       <div
                         className="header"
                         style={{
@@ -237,13 +238,20 @@ class General extends Component {
                           alignItems: "center",
                         }}
                       >
-                        <p style={{ fontSize: "22px", textAlign: "center" }}>
-                          Warning !
+                        <p
+                          style={{
+                            fontSize: "22px",
+                            textAlign: "center",
+                            color: "white",
+                            fontWeight: "500",
+                          }}
+                        >
+                          Warning!
                         </p>
                       </div>
                       <Form style={styles.Form}>
-                        <h2 className="">
-                          Are you sure you want to disable this user?
+                        <h2 style={{ color: "black" }}>
+                          Are you sure you want to disable this consumer?
                         </h2>
                         <Field
                           type="textarea"

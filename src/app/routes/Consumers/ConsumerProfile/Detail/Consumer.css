@@ -94,3 +94,7 @@ h2 {
   border-bottom-width: 3px;
   font-weight: 900;
 }
+
+.rejectInput .close {
+  font-size: 35px !important;
+}
