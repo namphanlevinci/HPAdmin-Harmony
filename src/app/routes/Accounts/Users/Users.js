@@ -57,11 +57,15 @@ class Users extends Component {
   };
 
   fetchData = async (state) => {
-    const { page, pageSize } = state;
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 10;
     this.setState({ loading: true });
     await axios
       .get(
-        URL + `/adminuser/?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
+        URL +
+          `/adminuser?key=${this.state.search}&page=${
+            page === 0 ? 1 : page + 1
+          }&row=${pageSize}`,
         {
           headers: {
             Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
@@ -70,14 +74,31 @@ class Users extends Component {
       )
       .then((res) => {
         const data = res.data.data;
-        console.log("USER ADMIN", data);
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false,
-          pageSize: 5,
-        });
+        if (Number(res.data.codeNumber) === 200) {
+          this.setState({
+            page,
+            pageCount: res.data.pages,
+            data: data,
+            loading: false,
+            pageSize: 5,
+          });
+        } else {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+        }
+        this.setState({ loading: false });
       });
   };
 
@@ -90,39 +111,7 @@ class Users extends Component {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
-      axios
-        .get(URL + `/adminuser?key=${this.state.search}&page=1`, {
-          headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
-          },
-        })
-        .then((res) => {
-          const data = res.data.data;
-          if (!data) {
-            store.addNotification({
-              title: "ERROR!",
-              message: "That User doesn't exist.",
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-              },
-              width: 250,
-            });
-            this.setState({ loading: false });
-          } else {
-            this.setState({
-              page: "0 ",
-              pageCount: res.data.pages,
-              data: data,
-              loading: false,
-            });
-          }
-        });
+      this.fetchData();
     }
   };
 

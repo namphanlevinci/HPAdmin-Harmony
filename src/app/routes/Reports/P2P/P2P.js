@@ -49,11 +49,11 @@ class P2P extends React.Component {
     });
   };
   fromDate = async (e) => {
-    await this.setState({ from: e.target.value });
+    await this.setState({ from: e.target.value, range: "all" });
     await this.fetchData();
   };
   toDate = async (e) => {
-    await this.setState({ to: e.target.value });
+    await this.setState({ to: e.target.value, range: "all" });
     await this.fetchData();
   };
 
@@ -325,6 +325,7 @@ class P2P extends React.Component {
                 onChange={this.timeRange}
                 style={{ width: "100%" }}
               >
+                <option value="all">ALL</option>
                 <option value="today">Today</option>
                 <option value="yesterday">Yesterday</option>
                 <option value="thisWeek">This Week</option>

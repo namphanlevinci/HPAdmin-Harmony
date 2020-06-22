@@ -100,7 +100,7 @@ class Generation_Detail extends Component {
               },
               width: 250,
             });
-            this.setState({ loading: false, quantity: 0 });
+            this.setState({ loading: false, quantity: 0, search: "" });
             this.fetchData();
           }
         })
@@ -115,14 +115,13 @@ class Generation_Detail extends Component {
 
   fetchData = async (state) => {
     const ID = this.props.Detail?.giftCardGeneralId;
-    // const { page, pageSize } = state;
     const page = state?.page ? state?.page : 0;
     const pageSize = state?.pageSize ? state?.pageSize : 20;
     this.setState({ loading: true });
     await axios
       .get(
         URL +
-          `/giftcard/getByGeneral/${ID}?page=${
+          `/giftcard/getByGeneral/${ID}?keySearch=${this.state.search}&page=${
             page === 0 ? 1 : page + 1
           }&row=${pageSize}`,
         {
@@ -133,12 +132,31 @@ class Generation_Detail extends Component {
       )
       .then((res) => {
         const data = res.data.data;
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false,
-        });
+        if (Number(res.data.codeNumber) === 200) {
+          this.setState({
+            page,
+            pageCount: res.data.pages,
+            data: data,
+            loading: false,
+            pageSize: 5,
+          });
+        } else {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+        }
+        this.setState({ loading: false });
       });
   };
 
@@ -151,45 +169,7 @@ class Generation_Detail extends Component {
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.setState({ loading: true });
-      const ID = this.props.Detail?.giftCardGeneralId;
-      axios
-        .get(
-          URL +
-            `/giftcard/getByGeneral/${ID}?keySearch=${this.state.search}&page=1`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
-            },
-          }
-        )
-        .then((res) => {
-          const data = res.data.data;
-          if (!data) {
-            store.addNotification({
-              title: "ERROR!",
-              message: "That Gift Card doesn't exist.",
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-              },
-              width: 250,
-            });
-            this.setState({ loading: false });
-          } else {
-            this.setState({
-              page: "0 ",
-              pageCount: res.data.pages,
-              data: data,
-              loading: false,
-            });
-          }
-        });
+      this.fetchData();
     }
   };
 

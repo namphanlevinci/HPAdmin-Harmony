@@ -34,27 +34,51 @@ class Consumers extends React.Component {
   };
 
   fetchData = async (state) => {
-    const { page, pageSize } = state;
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 10;
     this.setState({ loading: true });
     await axios
-      .get(URL + `/user/?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`, {
-        headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
-        },
-      })
+      .get(
+        URL +
+          `/user/?key=${this.state.search}&page=${
+            page === 0 ? 1 : page + 1
+          }&row=${pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
       .then((res) => {
         const data = res.data.data;
-        console.log("data", data);
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false,
-        });
+        if (Number(res.data.codeNumber) === 200) {
+          this.setState({
+            page,
+            pageCount: res.data.pages,
+            data: data,
+            loading: false,
+            pageSize: 5,
+          });
+        } else {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+        }
+        this.setState({ loading: false });
       });
   };
   changePage = (pageIndex) => {
-    // console.log(`changePage(pageIndex: ${pageIndex})`);
     this.setState({
       page: pageIndex,
     });
@@ -67,47 +91,10 @@ class Consumers extends React.Component {
   keyPressed = async (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.setState({ loading: true });
-      const search = this.state.search;
-
-      const searchValue = !search
-        ? `/user/?page=1`
-        : `/user?key=${search}&page=1&row=20`;
-      await axios
-        .get(URL + searchValue, {
-          headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
-          },
-        })
-        .then((res) => {
-          const data = res.data.data;
-          if (!data) {
-            store.addNotification({
-              title: "ERROR!",
-              message: "That User doesn't exist.",
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-              },
-              width: 250,
-            });
-            this.setState({ loading: false });
-          } else {
-            this.setState({
-              page: "0 ",
-              pageCount: res.data.pages,
-              data: data,
-              loading: false,
-            });
-          }
-        });
+      this.fetchData();
     }
   };
+
   render() {
     const { page, pageCount, data } = this.state;
     const columns = [

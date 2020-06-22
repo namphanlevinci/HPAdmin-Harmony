@@ -48,16 +48,15 @@ class Transactions extends React.Component {
     });
   };
   fromDate = async (e) => {
-    await this.setState({ from: e.target.value });
+    await this.setState({ from: e.target.value, range: "all" });
     await this.fetchData();
   };
   toDate = async (e) => {
-    await this.setState({ to: e.target.value });
+    await this.setState({ to: e.target.value, range: "all" });
     await this.fetchData();
   };
 
   componentDidMount() {
-    // this.props.getAll_Transactions();
     this.setState({
       from: moment()
         .startOf("month")
@@ -172,10 +171,9 @@ class Transactions extends React.Component {
         URL +
           `/paymentTransaction/search?page=${
             page === 0 ? 1 : page + 1
-          }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}
-          &amountFrom=${amount ? amount : amountFrom}&amountTo=${
-            amount ? amount : amountTo
-          }`,
+          }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
+            amount ? amount : amountFrom
+          }&amountTo=${amount ? amount : amountTo}`,
         {
           headers: {
             Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
@@ -235,7 +233,7 @@ class Transactions extends React.Component {
       {
         id: "createDate",
         Header: "Date/time",
-        maxWidth: 200,
+        // maxWidth: 200,
         accessor: (e) => {
           return moment
             .utc(e.createDate)
@@ -246,25 +244,25 @@ class Transactions extends React.Component {
       {
         Header: "ID",
         accessor: "paymentTransactionId",
-        width: 100,
+        // width: 100,
       },
       {
         id: "Title",
         Header: "Method",
         accessor: "title",
-        width: 100,
+        // width: 100,
       },
       {
         id: "Customer",
         Header: "Original Account",
         accessor: (e) => e?.paymentData?.name_on_card,
-        width: 140,
+        // width: 140,
       },
 
       {
         id: "Account Details ",
         Header: "Card /Last 4 Digit",
-        width: 180,
+        // width: 180,
         accessor: (e) =>
           e?.paymentData?.card_type ? (
             <span>
@@ -276,7 +274,7 @@ class Transactions extends React.Component {
       {
         id: "MerchantCode",
         Header: "Merchant Account",
-        width: 180,
+        // width: 180,
         accessor: (e) => (
           <span>{`${e?.receiver === null ? "" : e?.receiver?.name}`}</span>
         ),
@@ -286,7 +284,7 @@ class Transactions extends React.Component {
         Header: "Amount",
         accessor: (e) => e.amount,
         Cell: (e) => <span style={{ fontWeight: 600 }}>${e.value}</span>,
-        width: 100,
+        // width: 100,
       },
       {
         Header: "IP",
@@ -355,6 +353,7 @@ class Transactions extends React.Component {
                 onChange={this.timeRange}
                 style={{ width: "100%" }}
               >
+                <option value="all">ALL</option>
                 <option value="today">Today</option>
                 <option value="yesterday">Yesterday</option>
                 <option value="thisWeek">This Week</option>

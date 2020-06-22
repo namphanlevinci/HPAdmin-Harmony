@@ -23,17 +23,17 @@ class MerchantsRequest extends Component {
       search: "",
     };
   }
-  // componentDidMount() {
-  //   this.props.getAll_Rejected_Merchants();
-  // }
 
   fetchData = async (state) => {
-    const { page, pageSize } = state;
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
     this.setState({ loading: true });
     await axios
       .get(
         URL +
-          `/merchant/reject?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
+          `/merchant/reject?key=${this.state.search}&page=${
+            page === 0 ? 1 : page + 1
+          }&row=${pageSize}`,
         {
           headers: {
             Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
@@ -42,13 +42,31 @@ class MerchantsRequest extends Component {
       )
       .then((res) => {
         const data = res.data.data;
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false,
-          pageSize: 5,
-        });
+        if (Number(res.data.codeNumber) === 200) {
+          this.setState({
+            page,
+            pageCount: res.data.pages,
+            data: data,
+            loading: false,
+            pageSize: 5,
+          });
+        } else {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+        }
+        this.setState({ loading: false });
       });
   };
 
@@ -63,7 +81,7 @@ class MerchantsRequest extends Component {
   };
 
   //goto merchant profile
-  _merchantReqProfile = (ID) => {
+  merchantProfile = (ID) => {
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
@@ -82,39 +100,7 @@ class MerchantsRequest extends Component {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
-      axios
-        .get(URL + `/merchant/reject?key=${this.state.search}&page=1&row=20`, {
-          headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
-          },
-        })
-        .then((res) => {
-          const data = res.data.data;
-          if (!data) {
-            store.addNotification({
-              title: "ERROR!",
-              message: "That Merchant doesn't exist.",
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-              },
-              width: 250,
-            });
-            this.setState({ loading: false });
-          } else {
-            this.setState({
-              page: "0 ",
-              pageCount: res.data.pages,
-              data: data,
-              loading: false,
-            });
-          }
-        });
+      this.fetchData();
     }
   };
 
@@ -173,7 +159,7 @@ class MerchantsRequest extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this._merchantReqProfile(rowInfo.original.merchantId);
+            this.merchantProfile(rowInfo.original.merchantId);
           }
         },
       };

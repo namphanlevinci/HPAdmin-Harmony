@@ -4,6 +4,10 @@ import {
   getBatch,
   getBatchDetail,
 } from "../../../../actions/transactions/actions";
+import { store } from "react-notifications-component";
+import axios from "axios";
+import URL from "../../../../url/url";
+
 import "../../Merchants/MerchantsList/merchantsList.css";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -23,52 +27,83 @@ class Transactions extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.props.getBatch();
-  }
-  _SearchMerchants = async (e) => {
+  searchMerchantBatch = async (e) => {
     await this.setState({ search: e.target.value });
   };
-  _handleChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+
+  fetchData = async (state) => {
+    const { search } = this.state;
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 10;
+    this.setState({ loading: true });
+
+    await axios
+      .get(
+        URL +
+          `/settlement?key=${search}&page=${
+            page === 0 ? 1 : page + 1
+          }&row=${pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data.data;
+        if (Number(res.data.codeNumber) === 200) {
+          this.setState({
+            page,
+            pageCount: res.data.pages,
+            data: data,
+            loading: false,
+            pageSize: 5,
+          });
+        } else {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+        }
+        this.setState({ loading: false });
+      });
+  };
+
+  changePage = (pageIndex) => {
     this.setState({
-      [name]: value,
+      page: pageIndex,
     });
+  };
+
+  keyPressed = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setState({ loading: true });
+      this.fetchData();
+    }
   };
 
   render() {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
-          // console.log("1", rowInfo.original.settlementId);
           if (rowInfo !== undefined) {
-            // console.log("2", rowInfo.original.settlementId);
             this.props.fetchBatchDetail(rowInfo.original.settlementId);
             this.props.history.push("/app/reports/batchs/detail");
           }
         },
       };
     };
-
-    let BatchList = this.props.Batch;
-    if (BatchList) {
-      if (this.state.search) {
-        BatchList = BatchList.filter((e) => {
-          if (e.doBusinessName !== null) {
-            return (
-              e.doBusinessName
-                .trim()
-                .toLowerCase()
-                .indexOf(this.state.search.toLowerCase()) !== -1 ||
-              parseInt(e.merchantId) === parseInt(this.state.search)
-            );
-          }
-          return null;
-        });
-      }
-    }
 
     const columns = [
       {
@@ -100,7 +135,6 @@ class Transactions extends React.Component {
             ),
           },
         ],
-        // accessor: e => e.user.fullName
       },
       {
         Header: "Merchant ID",
@@ -123,7 +157,6 @@ class Transactions extends React.Component {
           </div>
         ),
 
-        // accessor: "title"
         columns: [
           {
             Header: "Harmony Credit",
@@ -161,6 +194,8 @@ class Transactions extends React.Component {
         ],
       },
     ];
+
+    const { page, pageCount, data, pageSize } = this.state;
     return (
       <div className="container-fluid react-transition swipe-right Batchs">
         <ContainerHeader
@@ -180,18 +215,34 @@ class Transactions extends React.Component {
                   className="textBox"
                   placeholder="Search.."
                   value={this.state.search}
-                  onChange={this._SearchMerchants}
+                  onChange={this.searchMerchantBatch}
+                  onKeyPress={this.keyPressed}
                 />
               </form>
             </div>
           </div>
           <div className="MListContainer Transactions">
-            <ReactTable
+            {/* <ReactTable
               data={BatchList}
               columns={columns}
               defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
+              getTdProps={onRowClick}
+            /> */}
+            <ReactTable
+              manual
+              page={page}
+              pages={pageCount}
+              data={data}
+              row={pageSize}
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onFetchData={(state) => this.fetchData(state)}
+              defaultPageSize={20}
+              minRows={0}
+              noDataText="NO DATA!"
+              loading={this.state.loading}
+              columns={columns}
               getTdProps={onRowClick}
             />
           </div>

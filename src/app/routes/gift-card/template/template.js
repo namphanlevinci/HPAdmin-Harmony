@@ -42,12 +42,15 @@ class Generation extends Component {
   };
 
   fetchData = async (state) => {
-    const { page, pageSize } = state;
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 10;
     this.setState({ loading: true });
     await axios
       .get(
         URL +
-          `/giftcardTemplate?page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
+          `/giftcardTemplate?key=${this.state.search}&page=${
+            page === 0 ? 1 : page + 1
+          }&row=${pageSize}`,
         {
           headers: {
             Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
@@ -56,12 +59,31 @@ class Generation extends Component {
       )
       .then((res) => {
         const data = res.data.data;
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false,
-        });
+        if (Number(res.data.codeNumber) === 200) {
+          this.setState({
+            page,
+            pageCount: res.data.pages,
+            data: data,
+            loading: false,
+            pageSize: 5,
+          });
+        } else {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+        }
+        this.setState({ loading: false });
       });
   };
 
@@ -75,39 +97,7 @@ class Generation extends Component {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
-      axios
-        .get(URL + `/giftcardTemplate?keySearch=${this.state.search}&page=1`, {
-          headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
-          },
-        })
-        .then((res) => {
-          const data = res.data.data;
-          if (!data) {
-            store.addNotification({
-              title: "ERROR!",
-              message: "That Gift Card doesn't exist.",
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-              },
-              width: 250,
-            });
-            this.setState({ loading: false });
-          } else {
-            this.setState({
-              page: "0 ",
-              pageCount: res.data.pages,
-              data: data,
-              loading: false,
-            });
-          }
-        });
+      this.fetchData();
     }
   };
 
@@ -136,8 +126,13 @@ class Generation extends Component {
             },
             width: 250,
           });
-          this.props.GET_TEMPLATE();
-          this.setState({ loading: false, deleteID: "", openDelete: false });
+          this.setState({
+            loading: false,
+            deleteID: "",
+            openDelete: false,
+            search: "",
+          });
+          this.fetchData();
         }
       })
       .catch((error) => console.log(error));
@@ -243,6 +238,7 @@ class Generation extends Component {
                 placeholder="Search by Name, Group"
                 value={this.state.search}
                 onChange={(e) => this.setState({ search: e.target.value })}
+                onKeyPress={this.keyPressed}
               />
             </form>
             <Button

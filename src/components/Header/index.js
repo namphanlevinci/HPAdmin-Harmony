@@ -52,31 +52,31 @@ class Header extends React.Component {
     //     this.setState({ noti: newData.json, appNotificationIcon: false });
     //   }
     // // });
-    // await this.LoadNoti();
-    // setInterval(this.LoadNoti, 180000);
+    await this.LoadNoti();
+    setInterval(this.LoadNoti, 180000);
   }
 
   //GỌI API LOAD DATA NOTI TỪ SERVER MỖI 3'
-  // LoadNoti = () => {
-  //   try {
-  //     const User = localStorage.getItem("User_login");
-  //     let token = JSON.parse(User);
-  //     const UserToken = token.token;
-  //     axios
-  //       .get(URL + "/notification", {
-  //         headers: { Authorization: `Bearer ${UserToken}` }
-  //       })
-  //       .then(res => {
-  //         console.log("1 2 3 NOT ME", res);
-  //         this.setState({ noti: res.data.data });
-  //       });
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  LoadNoti = () => {
+    try {
+      const User = localStorage.getItem("User_login");
+      let token = JSON.parse(User);
+      const UserToken = token.token;
+      axios
+        .get(URL + "/notification", {
+          headers: { Authorization: `Bearer ${UserToken}` },
+        })
+        .then((res) => {
+          console.log("1 2 3 NOT ME", res);
+          this.setState({ noti: res.data.data });
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   gotoList = async (e) => {
-    let data = JSON.parse(this.state.User);
+    let data = this.state.User;
     const UserToken = data.token;
     if (e.type === "payment") {
       await axios
@@ -114,7 +114,7 @@ class Header extends React.Component {
     }
   };
   handleDelete = (e) => {
-    let data = JSON.parse(this.state.User);
+    let data = this.state.User;
     const UserToken = data.token;
     this.setState({
       noti: this.state.noti.filter(
