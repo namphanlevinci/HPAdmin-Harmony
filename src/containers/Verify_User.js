@@ -1,11 +1,12 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-import IntlMessages from "../util/IntlMessages";
 import { Verify } from "../actions/user/actions";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
+
+import IntlMessages from "../util/IntlMessages";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import firebase from "../firebase";
 
 class Verify_User extends React.Component {
   constructor(props) {
@@ -15,31 +16,21 @@ class Verify_User extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.Verify_User !== this.props.Verify_User) {
-      const Message = localStorage.getItem("VERIFY_FAILURE");
-      if (Message !== null) {
-        store.addNotification({
-          title: "Error!",
-          message: `${Message}`,
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 5000,
-            onScreen: true,
-          },
-          width: 250,
-        });
-
-        setTimeout(() => localStorage.removeItem("VERIFY_FAILURE"), 1000);
-      }
-    }
-  }
   componentDidMount() {
     document.addEventListener("keypress", this.keyPressed);
+    const messaging = firebase.messaging();
+
+    messaging
+      .requestPermission()
+      .then(() => {
+        return messaging.getToken();
+      })
+      .then((token) => {
+        this.setState({ token });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   componentWillUnmount() {
     document.removeEventListener("keypress", this.keyPressed);
@@ -53,7 +44,8 @@ class Verify_User extends React.Component {
     // await e.preventDefault();
     const SERIAL = this.props.InfoUser_Login.User;
     const code = await this.state.verify_code;
-    const data = { code, SERIAL };
+    const token = this.state.token;
+    const data = { code, SERIAL, token };
     await this.props.Verify(data);
   };
 

@@ -15,6 +15,8 @@ import {
 } from "../../actions/merchants/actions";
 import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
 import { GET_USER_BY_ID } from "../../actions/user/actions";
+import firebase from "../../firebase";
+
 // import SearchBox from 'components/SearchBox';
 // import MailNotification from '../MailNotification/index';
 import AppNotification from "../AppNotification/index";
@@ -53,7 +55,29 @@ class Header extends React.Component {
     //   }
     // // });
     await this.LoadNoti();
-    setInterval(this.LoadNoti, 180000);
+    // setInterval(this.LoadNoti, 180000);
+    const messaging = firebase.messaging();
+
+    messaging.onMessage((payload) => {
+      console.log("payload", payload);
+      console.log("object", JSON.parse(payload?.notification?.body));
+    });
+
+    // messaging
+    //   .requestPermission()
+    //   .then(() => {
+    //     return messaging.getToken();
+    //   })
+    //   .then((token) => {
+    //     console.log("Token : ", token);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    // messaging.setBackgroundMessageHandler((payload) => {
+    //   console.log("payload", payload);
+    // });
   }
 
   //GỌI API LOAD DATA NOTI TỪ SERVER MỖI 3'

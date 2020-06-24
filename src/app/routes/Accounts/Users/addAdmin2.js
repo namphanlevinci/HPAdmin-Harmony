@@ -1,33 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import Button from "@material-ui/core/Button";
-import Select from "react-select";
 import { ADD_ADMIN } from "../../../../actions/user/actions";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
+import { MdLibraryAdd } from "react-icons/md";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 import axios from "axios";
 import URL from "../../../../url/url";
 import PhoneInput from "react-phone-input-2";
-// import DatePicker from "react-datepicker";
 import moment from "moment";
+import TextField from "@material-ui/core/TextField";
+import DateFnsUtils from "@date-io/date-fns";
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
+import Button from "@material-ui/core/Button";
+import Select from "react-select";
 
 import "date-fns";
-// import Grid from "@material-ui/core/Grid";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  // KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-
 import "./User.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/high-res.css";
@@ -108,7 +102,7 @@ class addAdmin2 extends Component {
   handleState = (selectedOption) => {
     this.setState({ stateID: selectedOption.value });
   };
-  _uploadFile = (event, setFieldValue) => {
+  uploadFile = (event, setFieldValue) => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -140,19 +134,7 @@ class addAdmin2 extends Component {
   _goBack = () => {
     this.props.history.push("/app/accounts/admin");
   };
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.AddStatus !== this.props.AddStatus) {
-      const Message = localStorage.getItem("ADD_STATUS");
-      if (Message !== "Success") {
-        NotificationManager.error(Message);
-        setTimeout(() => localStorage.removeItem("ADD_STATUS"), 1000);
-      } else {
-        NotificationManager.success(Message);
-        setTimeout(() => localStorage.removeItem("ADD_STATUS"), 1000);
-        setTimeout(() => this.props.history.push("/app/accounts/admin", 1200));
-      }
-    }
-  }
+
   render() {
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
@@ -175,7 +157,7 @@ class addAdmin2 extends Component {
 
     const renderProfile = (
       <div
-        className="row justify-content-center AdminProfile page-heading"
+        className="row AdminProfile page-heading"
         style={{ minHeight: "650px" }}
       >
         <React.Fragment>
@@ -184,15 +166,17 @@ class addAdmin2 extends Component {
               email: "",
               password: "",
               WaRoleId: "",
+              confirmPassword: "",
               stateID: "",
               firstname: "",
               lastname: "",
               address: "",
               city: "",
               zip: "",
-              BirthDate: "",
+              BirthDate: Date(),
               phone: "",
               fileId: 0,
+              userName: "",
             }}
             validate={(values) => {
               const errors = {};
@@ -209,8 +193,14 @@ class addAdmin2 extends Component {
               if (!values.lastname) {
                 errors.lastname = "Required";
               }
+              if (!values.userName) {
+                errors.userName = "Required";
+              }
               if (!values.password) {
                 errors.password = "Password cannot be empty ";
+              }
+              if (!values.confirmPassword) {
+                errors.confirmPassword = "Confirm Password cannot be empty ";
               }
               if (!values.confirmPassword) {
                 errors.confirmPassword = "Please confirm your password";
@@ -226,9 +216,9 @@ class addAdmin2 extends Component {
               if (!values.address) {
                 errors.address = "Required";
               }
-              if (!values.zip) {
-                errors.zip = "Required";
-              }
+              // if (!values.zip) {
+              //   errors.zip = "Required";
+              // }
               if (!values.city) {
                 errors.city = "Required";
               }
@@ -271,15 +261,28 @@ class addAdmin2 extends Component {
                 phone,
                 fileId,
               };
-              this.props.addAdmin(Data);
+              this.props.addUserAdmin(Data);
             }}
           >
-            {({ isSubmitting, setFieldValue, values }) => (
+            {({
+              isSubmitting,
+              setFieldValue,
+              values,
+              handleChange,
+              handleBlur,
+            }) => (
               <Form style={{ width: "100%" }}>
                 <div className="admin-header-div col-12" style={styles.div}>
-                  <div>
-                    <h2 style={{ fontWeight: 600, color: "#4251af" }}>
-                      Create New User
+                  <div
+                    style={{
+                      alignItems: "center",
+                      display: "flex",
+                      color: "black",
+                    }}
+                  >
+                    <MdLibraryAdd size={24} />
+                    <h2 style={{ fontWeight: 600, paddingLeft: "10px" }}>
+                      New Account
                     </h2>
                   </div>
                   <span>
@@ -290,209 +293,253 @@ class addAdmin2 extends Component {
                     >
                       BACK
                     </Button>
-                    <Button type="submit" className="btn btn-red">
-                      SAVE
-                    </Button>
                   </span>
                 </div>
-                <div className="row">
-                  <div className="col-3 text-center">
-                    {$imagePreview}
-                    <div>
-                      {/* <label>Upload avatar</label> */}
-                      <br />
-                      <input
-                        type="file"
-                        name="image"
-                        id="file"
-                        className="custom-input"
-                        onChange={(e) => this._uploadFile(e, setFieldValue)}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-9">
-                    <h2>Contact Information</h2>
-                    <hr />
-                    <div className="row">
-                      <div className="col-6">
-                        <label>First name</label>
-                        <Field
-                          type="text"
-                          name="firstname"
-                          placeholder="First Name"
-                        />
-                        <ErrorMessage
-                          name="firstname"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6">
-                        <label>Last name</label>
-                        <Field
-                          type="text"
-                          name="lastname"
-                          placeholder="Last Name"
-                        />
-                        <ErrorMessage
-                          name="lastname"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6" style={styles.margin}>
-                        <label>Password</label>
-                        <Field
-                          type="password"
-                          name="password"
-                          placeholder="Password"
-                        />
-                        <ErrorMessage
-                          name="password"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6" style={styles.margin}>
-                        <label>Confirm Password</label>
-                        <Field
-                          type="password"
-                          name="confirmPassword"
-                          placeholder="Confirm Password"
-                        />
-                        <ErrorMessage
-                          name="confirmPassword"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6" style={styles.margin}>
-                        <label>Role</label>
-                        <Select
-                          required
-                          name="WaRoleId"
-                          onChange={(value) =>
-                            setFieldValue("WaRoleId", value.value)
-                          }
-                          options={roles}
-                        />
-                        <ErrorMessage
-                          name="WaRoleId"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6" style={styles.margin}>
-                        <label>Phone</label>
-                        <PhoneInput
-                          country={"us"}
-                          style={{ marginTop: "10px" }}
-                          placeholder="Contact Phone Number"
-                          name="phone"
-                          onChange={(phone) => setFieldValue("phone", phone)}
-                        />
-                        <ErrorMessage
-                          name="phone"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6" style={styles.margin}>
-                        <label>Email</label>
-                        <Field type="email" name="email" placeholder="Email" />
-                        <ErrorMessage
-                          name="email"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6" style={styles.margin}>
-                        <label>Address</label>
-                        <Field
-                          type="text"
-                          name="address"
-                          placeholder="Address"
-                        />
-                        <ErrorMessage
-                          name="address"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6" style={styles.margin}>
-                        <label>City</label>
-                        <Field type="text" name="city" placeholder="City" />
-                        <ErrorMessage
-                          name="city"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
 
-                      <div className="col-6" style={styles.margin}>
-                        <label>Zip</label>
-                        <Field type="text" name="zip" placeholder="Zip" />
-                        <ErrorMessage
-                          name="zip"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6" style={styles.margin}>
-                        <label>State</label>
-                        <Select
-                          value={this.state.stateID}
-                          onChange={(value) =>
-                            setFieldValue("stateID", value.value)
-                          }
-                          options={stateID}
-                          name="stateID"
-                        />
-                        <ErrorMessage
-                          name="stateID"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                      <div className="col-6" style={styles.margin}>
-                        {/* <label>Birthday</label> <br /> */}
-                        {/* <DatePicker
-                          placeholderText="MM/DD/YYYY"
-                          name="BirthDate"
-                          value={values.BirthDate}
-                          onChange={(date) => setFieldValue("BirthDate", date)}
-                        /> */}
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          {/* <Grid container justify="flex-start"> */}
-                          <label>Birthday</label> <br />
-                          <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="MM/dd/yyyy"
-                            margin="normal"
-                            placeholder="MM/DD/YYYY"
-                            // label="Birthday"
-                            // value={moment(values.BirthDate).format(
-                            //   "MM/dd/yyyy"
-                            // )}
-                            onChange={(date) =>
-                              setFieldValue("BirthDate", date)
-                            }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            style={{ marginTop: "0px" }}
-                          />
-                          {/* </Grid> */}
-                        </MuiPickersUtilsProvider>
-                        <ErrorMessage
-                          name="BirthDate"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
-                    </div>
+                <div className="col-12">
+                  <h2 style={styles.h2}>Personal Information</h2>
+                </div>
+                <div className="row" style={styles.row}>
+                  <div className="col-4" style={styles.margin}>
+                    <TextField
+                      label="First name*"
+                      name="firstname"
+                      className="form-control"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <ErrorMessage
+                      name="firstname"
+                      component="div"
+                      className="error"
+                    />
                   </div>
+                  <div className="col-4" style={styles.margin}>
+                    <TextField
+                      label="Last name*"
+                      name="lastname"
+                      className="form-control"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <ErrorMessage
+                      name="lastname"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="col-4">
+                    <label>Phone</label>
+                    <PhoneInput
+                      country={"us"}
+                      style={{ marginTop: "10px" }}
+                      placeholder="Contact Phone Number"
+                      name="phone"
+                      onChange={(phone) => setFieldValue("phone", phone)}
+                    />
+                    <ErrorMessage
+                      name="phone"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="col-4" style={styles.margin}>
+                    <TextField
+                      label="Address*"
+                      name="address"
+                      className="form-control"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <ErrorMessage
+                      name="address"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="col-4" style={styles.margin}>
+                    <TextField
+                      label="City"
+                      name="city"
+                      className="form-control"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {/* <ErrorMessage
+                      name="city"
+                      component="div"
+                      className="error"
+                    /> */}
+                  </div>
+                  <div className="col-4">
+                    <label>State</label>
+                    <Select
+                      value={this.state.stateID}
+                      onChange={(value) =>
+                        setFieldValue("stateID", value.value)
+                      }
+                      options={stateID}
+                      name="stateID"
+                    />
+                    {/* <ErrorMessage
+                      name="stateID"
+                      component="div"
+                      className="error"
+                    /> */}
+                  </div>
+                  <div className="col-4" style={styles.margin}>
+                    <TextField
+                      label="Email*"
+                      name="email"
+                      className="form-control"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="col-4" style={styles.margin}>
+                    <TextField
+                      label="Gender"
+                      name="gender"
+                      className="form-control"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <ErrorMessage
+                      name="gender"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="col-4">
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <label>Birthday</label> <br />
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        placeholder="MM/DD/YYYY"
+                        value={moment(values.BirthDate).format("YYYY-MM-DD")}
+                        onChange={(date) => setFieldValue("BirthDate", date)}
+                        KeyboardButtonProps={{
+                          "aria-label": "change date",
+                        }}
+                        style={{ marginTop: "0px" }}
+                      />
+                    </MuiPickersUtilsProvider>
+                    <ErrorMessage
+                      name="BirthDate"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="col-4" style={styles.margin}>
+                    <label>Role</label>
+                    <Select
+                      required
+                      name="WaRoleId"
+                      onChange={(value) =>
+                        setFieldValue("WaRoleId", value.value)
+                      }
+                      options={roles}
+                    />
+                    <ErrorMessage
+                      name="WaRoleId"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+                <div className="col-3">
+                  <label style={{ padding: "10px 0px", fontWeight: "600" }}>
+                    Avatar
+                  </label>
+
+                  {$imagePreview}
+                  <div>
+                    <br />
+                    <input
+                      type="file"
+                      name="image"
+                      id="file"
+                      className="custom-input"
+                      onChange={(e) => this.uploadFile(e, setFieldValue)}
+                    />
+                  </div>
+                </div>
+                <div className="col-12">
+                  <h2 style={styles.h2}>Account Information</h2>
+                </div>
+                <div className="row" style={styles.row}>
+                  <div className="col-4" style={styles.margin}>
+                    <TextField
+                      label="User Name*"
+                      type="text"
+                      name="userName"
+                      className="form-control"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <ErrorMessage
+                      name="userName"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="col-4" style={styles.margin}>
+                    <TextField
+                      label="Password"
+                      type="password"
+                      name="password"
+                      className="form-control"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="col-4" style={styles.margin}>
+                    <TextField
+                      label="Confirm Password"
+                      type="password"
+                      name="confirmPassword"
+                      className="form-control"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <ErrorMessage
+                      name="confirmPassword"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="admin-header-div"
+                  style={{
+                    display: "block",
+                    padding: "20px 15px 20px 15px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <Button
+                    style={{ color: "#4251af", backgroundColor: "white" }}
+                    className="btn btn-green"
+                    onClick={this._goBack}
+                  >
+                    BACK
+                  </Button>
+                  <Button type="submit" className="btn btn-red">
+                    SAVE
+                  </Button>
                 </div>
               </Form>
             )}
@@ -503,7 +550,6 @@ class addAdmin2 extends Component {
 
     return (
       <div className="container-fluid UserProfile">
-        <NotificationContainer />
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.addAdmin" />}
@@ -516,13 +562,13 @@ class addAdmin2 extends Component {
 
 const mapStateToProps = (state) => ({
   UserProfile: state.userReducer.viewUser,
-  AddStatus: state.addAdminUser,
+  AddUser: state.userReducer.AddUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   VIEW_PROFILE_USER: (payload) => {
     dispatch(VIEW_PROFILE_USER(payload));
   },
-  addAdmin: (payload) => {
+  addUserAdmin: (payload) => {
     dispatch(ADD_ADMIN(payload));
   },
 });
@@ -534,8 +580,16 @@ const styles = {
   div: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   margin: {
-    marginTop: "10px",
+    marginTop: "9px",
+  },
+  h2: {
+    color: "#4251af",
+    fontWeight: "600",
+  },
+  row: {
+    padding: "0px 15px 0px 15px",
   },
 };

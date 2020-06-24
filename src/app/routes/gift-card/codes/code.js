@@ -281,9 +281,7 @@ class Codes extends Component {
           </div>
           <div className="row">
             <div className="col-4">
-              <h3 style={{ paddingTop: "15px", paddingLeft: "5px" }}>
-                Physical Card
-              </h3>
+              <label style={styles.label}>Physical Card</label>
               <Select
                 // value={this.state.isPhysical}
                 onChange={(e) => this.setState({ isPhysical: e.value })}
@@ -292,9 +290,7 @@ class Codes extends Component {
               />
             </div>
             <div className="col-4">
-              <h3 style={{ paddingTop: "15px", paddingLeft: "5px" }}>
-                Active{" "}
-              </h3>
+              <label style={styles.label}>Active</label>
               <Select
                 // value={this.state.isActive}
                 onChange={this.handleChange("isActive")}
@@ -303,7 +299,7 @@ class Codes extends Component {
               />
             </div>
             <div className="col-4">
-              <h3 style={{ paddingTop: "15px", paddingLeft: "5px" }}>Used </h3>
+              <label style={styles.label}>Used</label>
               <Select
                 // value={this.state.isUsed}
                 onChange={this.handleChange("isUsed")}
@@ -363,3 +359,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Codes);
+
+const styles = {
+  label: {
+    fontSize: "16px",
+    padding: "15px 0px 3px 5px",
+  },
+};

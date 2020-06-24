@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { initializeFirebase } from "./util/push-notification";
 
 const rootEl = document.getElementById("app-site");
 

@@ -343,32 +343,34 @@ class Generation_Detail extends Component {
             <h3 className="title">General Information</h3>
             <div className="row">
               <div className="col-4">
-                <h4>Gift Card Name</h4>
+                <label>Gift Card Name</label>
                 <p>{Detail?.name}</p>
               </div>
               <div className="col-4">
-                <h4>Value</h4>
+                <label>Value</label>
                 <p>$ {Detail?.amount}</p>
               </div>
               <div className="col-4">
-                <h4>Date Created</h4>
+                <label>Date Created</label>
                 <p>{moment(Detail?.createdDate).format("MM/DD/YYYY")}</p>
               </div>
               <div className="col-4">
-                <h4>Unused Gift Codes</h4>
+                <label>Unused Gift Codes</label>
                 <p>{Detail?.unUsed}</p>
               </div>
               <div className="col-4">
-                <h4>Gift Card Quantity</h4>
+                <label>Gift Card Quantity*</label>
                 <p>{Detail?.quantity}</p>
               </div>
               <div className="col-4">
-                <h4>Template</h4>
-                <p>{Detail?.giftCardTemplateName}</p>
+                <label>Template</label>
+                <p style={{ color: "#4251af" }}>
+                  {Detail?.giftCardTemplateName}
+                </p>
               </div>
               <div className="col-12">
                 <h3 className="title">Add Gift Codes</h3>
-                <h4>Quantity*</h4>
+                <label>Quantity*</label> <br />
                 <input
                   type="number"
                   name="amount"
@@ -405,7 +407,7 @@ class Generation_Detail extends Component {
                     onKeyPress={this.keyPressed}
                   />
                 </form>
-                <h4>Export To </h4>
+                <label>Export To </label>
               </div>
               <Delete
                 handleCloseDelete={this._handleCloseDelete}

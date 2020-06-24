@@ -6,7 +6,7 @@ import UserLogin from "./User/UserLogin";
 import userReducer from "./User/UserReducer";
 import getAllUser from "./User/getAllUser";
 // import Verify from "./User/Verify";
-import addAdminUser from "./User/addAdmin";
+// import addAdminUser from "./User/addAdmin";
 // MERCHANT ACCEPTED LIST
 import MerchantsList from "./Merchants/Merchants_List";
 import SearchMerchants from "./Merchants/SearchMerchants";
@@ -76,7 +76,7 @@ export default (history) =>
     Reject,
     uQuestions: Update_Questions,
     ApprovedStatic: Approved_Static,
-    addAdminUser,
+    // addAdminUser,
     getAllBatch,
     GetP2P: getAllP2P_Transactions,
     BatchDetail: getBatchDetail,

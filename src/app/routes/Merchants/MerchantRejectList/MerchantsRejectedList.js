@@ -105,8 +105,6 @@ class MerchantsRequest extends Component {
   };
 
   render() {
-    let ReqList = this.props.RejectedList;
-
     const columns = [
       {
         Header: "ID",
@@ -164,7 +162,7 @@ class MerchantsRequest extends Component {
         },
       };
     };
-    const { page, pageCount, data, pageSize } = this.state;
+    const { page, pageCount, data } = this.state;
 
     return (
       <div className="container-fluid react-transition swipe-right">
@@ -195,7 +193,6 @@ class MerchantsRequest extends Component {
               page={page}
               pages={pageCount}
               data={data}
-              // row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={20}

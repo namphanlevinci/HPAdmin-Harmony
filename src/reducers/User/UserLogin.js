@@ -1,4 +1,6 @@
 import * as typeUser from "../../actions/user/types";
+import axios from "axios";
+import URL from "../../url/url";
 
 const initialState = {
   User: JSON.parse(localStorage.getItem("User_login"))
@@ -20,7 +22,16 @@ const UserLogin = (state = initialState, action) => {
       return { ...state };
 
     case typeUser.USER_LOGOUT:
-      state.User = "";
+      const ID = action.payload;
+      const token = JSON.parse(localStorage.getItem("User_login"));
+      const config = {
+        headers: { Authorization: "bearer " + token.token },
+      };
+
+      axios
+        .put(`${URL}/adminUser/logout/${ID}`, null, config)
+        .then((res) => console.log("res", res));
+
       localStorage.removeItem("User_login");
       window.location.href = "/signin";
       return { ...state };

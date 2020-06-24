@@ -126,7 +126,7 @@ class Users extends Component {
         Header: "ID",
         id: "id",
         accessor: (row) => <div style={styles.text}>{`${row.waUserId}`}</div>,
-        width: 50,
+        width: 70,
       },
       // {
       //   Header: "Status",
@@ -137,10 +137,10 @@ class Users extends Component {
       {
         id: "Name",
         Header: "Full name",
-        width: 200,
+        // width: 200,
         accessor: (row) => (
           <div>
-            <img src={`${row.imageUrl}`} alt="Avatar" class="avatar" />
+            <img src={`${row.imageUrl}`} alt="Avatar" className="avatar" />
             {`${row.firstName} ${row.lastName}`}
           </div>
         ),
@@ -149,7 +149,7 @@ class Users extends Component {
         id: "email",
         Header: "Email",
         accessor: (row) => <div className="tr">{`${row.email}`}</div>,
-        width: 300,
+        // width: 300,
       },
       {
         id: "phoneNumber",
@@ -243,6 +243,6 @@ const styles = {
     transform: "translate(-50%, -50%)",
   },
   text: {
-    marginTop: "37%",
+    marginTop: "30%",
   },
 };

@@ -140,7 +140,6 @@ class proFile extends Component {
       stateId,
       fileId,
       waRoleId,
-      password,
       isPass,
       newPassword,
       currentPassword,

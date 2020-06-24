@@ -30,6 +30,7 @@
   height: auto;
   max-width: 720px;
   background-position: center;
+  border-radius: 50%;
 }
 
 .AdminProfile .error {
@@ -82,11 +83,11 @@ th {
   margin-top: 0 !important
 }
 
-.AdminProfile input:focus {
+/* .AdminProfile input:focus {
   outline: none;
   border-color: #4251af;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(66, 81, 175, 0.25);
-}
+} */
 
 
 

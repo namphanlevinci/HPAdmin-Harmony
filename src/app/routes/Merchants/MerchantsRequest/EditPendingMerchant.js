@@ -7,18 +7,13 @@ import { ViewMerchant_Request } from "../../../../actions/merchants/actions";
 import EditPrincipal from "./EditPrincipal";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import Button from "@material-ui/core/Button";
 import PendingInput from "./pendingInput";
 import Select from "react-select";
 import selectState from "../../../../util/selectState";
 import PhoneInput from "react-phone-input-2";
 import axios from "axios";
-import Radio from "@material-ui/core/Radio";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import Questions from "../MerchantsList/addMerchant/Questions";
+
 import "./MerchantReqProfile.css";
-// import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
 import "react-phone-input-2/lib/high-res.css";
 
@@ -67,7 +62,7 @@ class EditPendingMerchant extends Component {
 
   componentDidMount() {
     const pendingProfile = this.props.PendingProfile;
-    let phone = pendingProfile?.general.phoneBusiness;
+    // let phone = pendingProfile?.general.phoneBusiness;
     this.setState(
       {
         ID: pendingProfile?.merchantId,
@@ -119,7 +114,7 @@ class EditPendingMerchant extends Component {
   getData = async (e, setFieldValue, name) => {
     e.preventDefault();
     let imagePreview =
-      name == "PrincipalInfo.0.fileId"
+      name === "PrincipalInfo.0.fileId"
         ? "PrincipalInfo.0.imageUrl"
         : "PrincipalInfo.1.imageUrl";
     // handle preview Image

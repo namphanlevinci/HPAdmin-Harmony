@@ -24,7 +24,8 @@ class UserInfo extends React.Component {
   };
 
   onLogout = () => {
-    this.props.USER_LOGOUT();
+    const ID = this.props.CurrentUser.waUserId;
+    this.props.USER_LOGOUT(ID);
   };
   // _gotoSetting = () => {
   //   this.setState({ open: false });
@@ -86,8 +87,8 @@ const mapStateToProps = (state) => ({
   CurrentUser: state.userReducer.userByID,
 });
 const mapDispatchToProps = (dispatch) => ({
-  USER_LOGOUT: (agent_info) => {
-    dispatch(USER_LOGOUT(agent_info));
+  USER_LOGOUT: (ID) => {
+    dispatch(USER_LOGOUT(ID));
   },
 });
 export default withRouter(

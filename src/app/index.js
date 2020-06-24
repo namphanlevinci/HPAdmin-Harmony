@@ -15,7 +15,7 @@ import {
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "../util/asyncComponent";
 import TopNav from "../components/TopNav";
-/////////////
+
 // import Merchants from "./routes/Merchants/Merchants";
 import Accounts from "./routes/Accounts/Accounts";
 import Settings from "./routes/AdminSettings/Settings";

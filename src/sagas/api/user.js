@@ -19,9 +19,10 @@ export function* USER_LOGIN_API({ email, password }) {
 }
 
 // VERIFY USER
-export function* USER_VERIFY_API({ SERIAL, code }) {
+export function* USER_VERIFY_API({ SERIAL, code, token }) {
+  console.log("token", token);
   const kq = yield axios
-    .post(URL + "/adminuser/verifycode/" + SERIAL, { code })
+    .post(URL + "/adminuser/verifycode/" + SERIAL, { code, token })
     .then((result) => {
       return result.data;
     })
