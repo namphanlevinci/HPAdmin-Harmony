@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  // FaRegEdit,
-  FaTrash,
-  FaTrashRestoreAlt,
-} from "react-icons/fa";
+import { FaTrashRestore } from "react-icons/fa";
+import { GoTrashcan } from "react-icons/go";
+
 import { VIEW_STAFF } from "../../../../../../actions/merchants/actions";
 
 import ReactTable from "react-table";
@@ -172,8 +170,8 @@ class Staff extends Component {
           return (
             <div style={{ textAlign: "center" }}>
               {row.original.isDisabled !== 1 ? (
-                <FaTrash
-                  size={20}
+                <GoTrashcan
+                  size={21}
                   onClick={() => [
                     this.setState({
                       extraId: row.original.staffId,
@@ -182,7 +180,7 @@ class Staff extends Component {
                   ]}
                 />
               ) : (
-                <FaTrashRestoreAlt
+                <FaTrashRestore
                   size={20}
                   onClick={() =>
                     this.setState({

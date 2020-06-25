@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+import { FaTrashRestoreAlt } from "react-icons/fa";
+import { GoTrashcan } from "react-icons/go";
+import { FiEdit } from "react-icons/fi";
+
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
 import URL from "../../../../../../url/url";
 
@@ -208,8 +211,8 @@ class Service extends Component {
           return (
             <div style={{ textAlign: "center" }}>
               {row.original.isDisabled !== 1 ? (
-                <FaTrash
-                  size={20}
+                <GoTrashcan
+                  size={22}
                   onClick={() => [
                     this.setState({
                       categoryId: row.original.serviceId,
@@ -229,7 +232,7 @@ class Service extends Component {
                 />
               )}
               <span style={{ paddingLeft: "20px" }}>
-                <FaRegEdit
+                <FiEdit
                   size={20}
                   onClick={() => this.handleEdit(row.original)}
                 />
@@ -270,11 +273,6 @@ class Service extends Component {
               noDataText="NO DATA!"
               loading={this.state.loading}
             />
-
-            {/* <EditServiceTEST
-              isOpen={this.state.openEdit}
-              CloseEdit={this.handleCloseEdit}
-            /> */}
 
             {/* ARCHIVE */}
             <Dialog open={this.state.dialog}>

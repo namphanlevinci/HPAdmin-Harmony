@@ -58,8 +58,9 @@ const userReducer = (state = initialState, { type, payload }) => {
         width: 250,
       });
       state.AddUser = payload;
-      return { ...state };
       window.location.href = "/app/accounts/admin";
+      return { ...state };
+
     case types.ADD_ADMIN_FAILURE:
       store.addNotification({
         title: "ERROR!",

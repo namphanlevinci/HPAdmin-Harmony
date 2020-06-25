@@ -43,33 +43,7 @@ const colourStyles = {
     paddingLeft: 0,
   }),
   placeholder: (styles) => ({ ...styles }),
-  // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
 };
-
-// const dot = (color = "#ccc") => ({
-//   alignItems: "center",
-//   display: "flex",
-
-//   ":before": {
-//     backgroundColor: color,
-//     borderRadius: 10,
-//     content: '" "',
-//     display: "block",
-//     marginRight: 8,
-//     height: 10,
-//     width: 10,
-//   },
-// });
-
-// const useStyles = makeStyles((theme) => ({
-//   appBar: {
-//     position: "relative",
-//   },
-//   title: {
-//     marginLeft: theme.spacing(2),
-//     flex: 1,
-//   },
-// }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -476,7 +450,7 @@ class AddService extends Component {
                                       display: "flex",
                                     }}
                                   >
-                                    {$imagePreview}
+                                    {$imagePreview} <br />
                                     <input
                                       name="price"
                                       type="file"
@@ -494,7 +468,7 @@ class AddService extends Component {
                                     <span className="small-label">Minutes</span>
                                   </label>
                                   <br />
-                                  <div class="input-box">
+                                  <div className="input-box">
                                     <input
                                       name="duration"
                                       type="number"
@@ -511,7 +485,7 @@ class AddService extends Component {
                                           : "text-input"
                                       }
                                     />
-                                    <span class="unit">Min</span>
+                                    <span className="unit">Min</span>
                                   </div>
                                   {errors.duration && touched.duration && (
                                     <div className="input-feedback">
@@ -529,7 +503,7 @@ class AddService extends Component {
                                     </span>
                                   </label>
                                   <br />
-                                  <div class="input-box">
+                                  <div className="input-box">
                                     <input
                                       name="openTime"
                                       type="number"
@@ -542,7 +516,7 @@ class AddService extends Component {
                                         borderBottomWidth: 1,
                                       }}
                                     />
-                                    <span class="unit">Min</span>
+                                    <span className="unit">Min</span>
                                   </div>
                                 </div>
 
@@ -556,7 +530,7 @@ class AddService extends Component {
                                     </span>
                                   </label>
                                   <br />
-                                  <div class="input-box">
+                                  <div className="input-box">
                                     <input
                                       name="secondTime"
                                       type="number"
@@ -569,7 +543,7 @@ class AddService extends Component {
                                         borderBottomWidth: 1,
                                       }}
                                     />
-                                    <span class="unit">Min</span>
+                                    <span className="unit">Min</span>
                                   </div>
                                 </div>
 
@@ -581,7 +555,7 @@ class AddService extends Component {
                                     Price *
                                   </label>
                                   <br />
-                                  <div class="input-box">
+                                  <div className="input-box">
                                     <input
                                       name="price"
                                       type="number"
@@ -600,7 +574,7 @@ class AddService extends Component {
                                           : "text-input"
                                       }
                                     />
-                                    <span class="unit">$</span>
+                                    <span className="unit">$</span>
                                   </div>
                                   {errors.price && touched.price && (
                                     <div className="input-feedback">

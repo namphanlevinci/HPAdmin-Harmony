@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+import { FaTrashRestoreAlt } from "react-icons/fa";
+import { GoTrashcan } from "react-icons/go";
+import { FiEdit } from "react-icons/fi";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
+
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -11,7 +14,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
 import EditExtra from "./edit-extra";
-
 import URL, { upFileUrl } from "../../../../../../url/url";
 import defaultImage from "./hpadmin2.png";
 import "react-table/react-table.css";
@@ -169,7 +171,6 @@ class ExtraTab extends Component {
       {
         Header: " Extra name",
         accessor: "name",
-        width: 150,
         Cell: (e) => (
           <div>
             <span style={styles.span}> {e.value} </span>
@@ -179,7 +180,6 @@ class ExtraTab extends Component {
       {
         Header: "Image ",
         id: "Image",
-        width: 150,
         accessor: "name",
         Cell: (row) => {
           const image =
@@ -207,7 +207,6 @@ class ExtraTab extends Component {
             <span style={styles.span}>{e.value} Min</span>
           </div>
         ),
-        width: 150,
       },
       {
         id: "price",
@@ -218,7 +217,6 @@ class ExtraTab extends Component {
             <span style={styles.span}>$ {e.value}</span>
           </div>
         ),
-        width: 150,
       },
       {
         Header: "Status",
@@ -231,7 +229,6 @@ class ExtraTab extends Component {
             </span>
           </div>
         ),
-        width: 120,
       },
       {
         id: "Actions",
@@ -241,8 +238,8 @@ class ExtraTab extends Component {
           return (
             <div style={{ textAlign: "center" }}>
               {row.original.isDisabled !== 1 ? (
-                <FaTrash
-                  size={20}
+                <GoTrashcan
+                  size={21}
                   onClick={() => [
                     this.setState({
                       extraId: row.original.extraId,
@@ -262,7 +259,7 @@ class ExtraTab extends Component {
                 />
               )}
               <span style={{ paddingLeft: "20px" }}>
-                <FaRegEdit
+                <FiEdit
                   size={20}
                   onClick={() => [
                     this.handleEdit(row.original),
@@ -282,7 +279,6 @@ class ExtraTab extends Component {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className="search">
               <form>
-                {/* <SearchIcon className="button" title="Search" /> */}
                 <input
                   type="text"
                   className="textBox"

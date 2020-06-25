@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
 import { Formik } from "formik";
 import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+import { GoTrashcan } from "react-icons/go";
+import { FiEdit } from "react-icons/fi";
 import { store } from "react-notifications-component";
 
 import ReactTable from "react-table";
@@ -148,8 +150,8 @@ class Category extends Component {
           return (
             <div style={{ textAlign: "center" }}>
               {row.original.isDisabled !== 1 ? (
-                <FaTrash
-                  size={20}
+                <GoTrashcan
+                  size={21}
                   onClick={() => [
                     this.setState({
                       categoryId: row.original.categoryId,
@@ -169,7 +171,7 @@ class Category extends Component {
                 />
               )}
               <span style={{ paddingLeft: "20px" }}>
-                <FaRegEdit
+                <FiEdit
                   size={20}
                   onClick={() => this.handleEdit(row.original)}
                 />
@@ -236,14 +238,6 @@ class Category extends Component {
                           const { categoryType, name } = values;
                           const merchantId = this.props.MerchantProfile
                             .merchantId;
-                          // console.log("CATEGORY", values);
-                          // const body = {
-                          //   categoryType,
-                          //   name,
-                          //   merchantId,
-                          // };
-
-                          // console.log({ body });
                           axios
                             .post(
                               URL + "/category",

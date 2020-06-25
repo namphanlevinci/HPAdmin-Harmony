@@ -54,6 +54,7 @@ class EditService extends Component {
         this.setState({ category: res.data.data });
       });
     const service = this.props.SERVICE;
+    // console.log("SERVICE", this.props.SERVICE);
     if (service !== null) {
       this.setState(
         {
@@ -126,9 +127,9 @@ class EditService extends Component {
       discount,
       isDisabled,
       fileId,
-      extras,
       serviceId,
     } = this.state;
+    const extras = this.state.extras.length !== 0 ? this.state.extras : [];
     const merchantId = this.props.MerchantProfile.merchantId;
     axios
       .put(
@@ -381,8 +382,8 @@ class EditService extends Component {
                           }}
                         />
                       </div>
-                      <div className="col-4" style={{ marginTop: 20 }}>
-                        <label style={{ color: "#333" }}>
+                      <div className="col-4" style={{ marginTop: "40px" }}>
+                        <label>
                           <span className="small-label">Open time</span>
                         </label>
                         <br />
@@ -398,7 +399,7 @@ class EditService extends Component {
                           }}
                         />
                       </div>
-                      <div className="col-6" style={{ marginTop: 60 }}>
+                      <div className="col-6" style={{ marginTop: 2 }}>
                         <label style={{ color: "#4251af" }}>Price *</label>
                         <br />
                         <input
@@ -414,7 +415,7 @@ class EditService extends Component {
                           }}
                         />
                       </div>
-                      <div className="col-6" style={{ marginTop: 60 }}>
+                      <div className="col-6">
                         <label style={{ color: "#4251af" }}>Status</label>
                         <br />
                         {this.state.loading && (
@@ -469,6 +470,7 @@ class EditService extends Component {
                             touched={touched}
                             loading={this.state.loading}
                           />
+
                           <div className="Save-fixed-bottom">
                             <Button
                               className="btn btn-green"

@@ -49,7 +49,7 @@ const Extra = ({
               const statusLabel =
                 extras?.isDisabled === 0 ? "Active" : "Disable";
               return (
-                <div style={{ marginBottom: 40 }}>
+                <div style={{ marginBottom: 40 }} key={index}>
                   <div
                     style={{
                       backgroundColor: "#fafafa",
@@ -118,13 +118,13 @@ const Extra = ({
                       <label style={{ fontSize: 14, color: "#4251af" }}>
                         <span className="small-label">Duration (Min)*</span>
                       </label>
-                      <div class="input-box">
+                      <div className="input-box">
                         <Field
                           style={styles.input}
                           name={`extras.${index}.duration`}
                           type="number"
                         />
-                        <span class="unit">Min</span>
+                        <span className="unit">Min</span>
                       </div>
                       <div className="input-feedback">
                         <ErrorMessage name={`extras.${index}.duration`} />
@@ -134,13 +134,13 @@ const Extra = ({
                       <label style={{ fontSize: 14, color: "#4251af" }}>
                         Price ($)*
                       </label>
-                      <div class="input-box">
+                      <div className="input-box">
                         <Field
                           style={styles.input}
                           name={`extras.${index}.price`}
                           type="number"
                         />
-                        <span class="unit">$</span>
+                        <span className="unit">$</span>
                       </div>
                       <div className="input-feedback">
                         <ErrorMessage name={`extras.${index}.price`} />
@@ -150,7 +150,6 @@ const Extra = ({
                       <label style={{ fontSize: 14, color: "#4251af" }}>
                         Status
                       </label>
-                      {/* {loading && ( */}
                       <Select
                         styles={colourStyles}
                         options={extraStatus}
@@ -165,7 +164,6 @@ const Extra = ({
                           label: statusLabel,
                         }}
                       />
-                      {/* )} */}
 
                       <div className="input-feedback">
                         <ErrorMessage name={`extras.${index}.isDisabled`} />

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {
   getAll_Merchants,
   GetMerchant_byID,
-  ViewProfile_Merchants
+  ViewProfile_Merchants,
 } from "../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
 
@@ -26,15 +26,15 @@ class EditSettings extends Component {
       limit: "10000",
       update: false,
       discountRate: "",
-      pointRate: ""
+      pointRate: "",
     };
   }
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
   componentDidMount() {
@@ -46,7 +46,7 @@ class EditSettings extends Component {
       transactionsFee: data.transactionsFee,
       totalAmountLimit: data.totalAmountLimit,
       discountRate: data.discountRate,
-      pointRate: data?.pointRate
+      pointRate: data?.pointRate,
     });
   }
   _toggleConfirm = () => {
@@ -64,7 +64,7 @@ class EditSettings extends Component {
       transactionsFee,
       totalAmountLimit,
       discountRate,
-      pointRate
+      pointRate,
     } = this.state;
     axios
       .put(
@@ -75,15 +75,15 @@ class EditSettings extends Component {
           transactionsfee: transactionsFee,
           totalAmountLimit,
           discountRate,
-          pointRate
+          pointRate,
         },
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          },
         }
       )
-      .then(async res => {
+      .then(async (res) => {
         if (res.data.message === "Success") {
           store.addNotification({
             title: "SUCCESS!",
@@ -95,9 +95,9 @@ class EditSettings extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
           setTimeout(() => {
             this.props.GetMerchant_byID(ID);
@@ -117,16 +117,16 @@ class EditSettings extends Component {
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 5000,
-              onScreen: true
+              onScreen: true,
             },
-            width: 250
+            width: 250,
           });
         }
       });
   };
   render() {
     return (
-      <div className="container-fuild react-transition swipe-up">
+      <div className="container-fluid react-transition swipe-up">
         {this.state.update !== false ? (
           <div className="POPUP">
             <div className="POPUP-INNER2 SettingsPopup2">
@@ -148,85 +148,83 @@ class EditSettings extends Component {
             </div>
           </div>
         ) : null}
-        <h2>Settings</h2>
-        <div className="container-fuild">
-          <div className="GeneralContent SettingsContent">
-            <div>
-              <h3>The charged percent fee of credit card transactions</h3>
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <label>Transactions Fee:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="transactionsFee"
-                        value={this.state.transactionsFee}
-                        onChange={this._handleChange}
-                      ></input>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Merchant ID:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="merchantCode"
-                        value={this.state.merchantCode}
-                        onChange={this._handleChange}
-                      ></input>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Merchant Token:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="merchantToken"
-                        value={this.state.merchantToken}
-                        onChange={this._handleChange}
-                      ></input>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Discount Rate:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="discountRate"
-                        value={this.state.discountRate}
-                        onChange={this._handleChange}
-                      ></input>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Point Rate:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="pointRate"
-                        value={this.state.pointRate}
-                        onChange={this._handleChange}
-                        max={100}
-                        min={1}
-                      ></input>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <br />
+        <h2 style={{ marginBottom: "10px" }}>Settings</h2>
+        <div className="GeneralContent SettingsContent">
+          <div>
+            <h3>The charged percent fee of credit card transactions</h3>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <label>Transactions Fee:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="transactionsFee"
+                      value={this.state.transactionsFee}
+                      onChange={this._handleChange}
+                    ></input>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Merchant ID:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="merchantCode"
+                      value={this.state.merchantCode}
+                      onChange={this._handleChange}
+                    ></input>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Merchant Token:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="merchantToken"
+                      value={this.state.merchantToken}
+                      onChange={this._handleChange}
+                    ></input>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Discount Rate:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      name="discountRate"
+                      value={this.state.discountRate}
+                      onChange={this._handleChange}
+                    ></input>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Point Rate:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      name="pointRate"
+                      value={this.state.pointRate}
+                      onChange={this._handleChange}
+                      max={100}
+                      min={1}
+                    ></input>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+          <br />
         </div>
         <div className="SettingsContent GeneralContent">
           <Button className="btn btn-green" onClick={this._updateSettings}>
@@ -241,22 +239,22 @@ class EditSettings extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
   InfoUser_Login: state.User,
-  getMerchant: state.getMerchant
+  getMerchant: state.getMerchant,
 });
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getAll_Merchants: () => {
       dispatch(getAll_Merchants());
     },
-    ViewProfile_Merchants: payload => {
+    ViewProfile_Merchants: (payload) => {
       dispatch(ViewProfile_Merchants(payload));
     },
-    GetMerchant_byID: ID => {
+    GetMerchant_byID: (ID) => {
       dispatch(GetMerchant_byID(ID));
-    }
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(EditSettings);

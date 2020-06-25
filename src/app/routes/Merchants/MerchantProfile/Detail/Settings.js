@@ -105,8 +105,8 @@ class Settings extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="container-fuild react-transition swipe-up">
-          <h2>Settings</h2>
+        <div className="container-fluid">
+          <h2 style={{ marginBottom: "10px" }}>Settings</h2>
           <div className="">
             <div className="SettingsContent">
               <div>
@@ -157,32 +157,14 @@ class Settings extends Component {
           </div>
         </div>
         <div style={{ display: "flex" }}>
-          <div className="SettingsContent GeneralContent react-transition swipe-up">
+          <div className="SettingsContent GeneralContent ">
             <Button className="btn btn-green" onClick={this._gotoEdit}>
               EDIT
             </Button>
           </div>
           {this.props.MerchantProfile.isDisabled !== 1 ? (
             <Popup
-              trigger={
-                <Button
-                  style={{
-                    color: "#666",
-                    backgroundColor: "#eee",
-                    textTransform: "uppercase",
-                    letterSpacing: "2px",
-                    fontSize: "12px",
-                    padding: "10px 30px",
-                    borderRadius: "5px",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                    borderBottomWidth: "3px",
-                    fontWeight: "900",
-                    marginLeft: "0px",
-                  }}
-                >
-                  DISABLE
-                </Button>
-              }
+              trigger={<Button className="btn btn-red">DISABLE</Button>}
               modal
               on="click"
               open={this.state.isOpenReject}
@@ -272,19 +254,6 @@ class Settings extends Component {
                         <ErrorMessage name="rejectReason" component="div" />
                         <div>
                           <Button
-                            style={{
-                              color: "#666",
-                              backgroundColor: "#eee",
-                              textTransform: "uppercase",
-                              letterSpacing: "2px",
-                              fontSize: "12px",
-                              padding: "10px 30px",
-                              borderRadius: "5px",
-                              border: "1px solid rgba(0, 0, 0, 0.3)",
-                              borderBottomWidth: "3px",
-                              fontWeight: "900",
-                              marginLeft: "0px",
-                            }}
                             type="submit"
                             className="btn btn-red"
                             onClick={this.handleCloseReject}
@@ -319,22 +288,7 @@ class Settings extends Component {
               </span>
             </Popup>
           ) : (
-            <Button
-              style={{
-                color: "#666",
-                backgroundColor: "#eee",
-                textTransform: "uppercase",
-                letterSpacing: "2px",
-                fontSize: "12px",
-                padding: "10px 30px",
-                borderRadius: "5px",
-                border: "1px solid rgba(0, 0, 0, 0.3)",
-                borderBottomWidth: "3px",
-                fontWeight: "900",
-                marginLeft: "0px",
-              }}
-              onClick={this._enable}
-            >
+            <Button className="btn btn-green" onClick={this._enable}>
               ENABLE
             </Button>
           )}

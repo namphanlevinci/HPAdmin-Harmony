@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
+import { FaTrashRestoreAlt } from "react-icons/fa";
+import { GoTrashcan } from "react-icons/go";
+import { FiEdit } from "react-icons/fi";
+
 import ReactTable from "react-table";
 import axios from "axios";
 import URL from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
-import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
-
-// import SearchIcon from "@material-ui/icons/Search";
-
-import { FaTrashRestoreAlt, FaTrash, FaRegEdit } from "react-icons/fa";
-import { GoFile } from "react-icons/go";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -199,8 +198,8 @@ class Product extends Component {
           return (
             <div style={{ textAlign: "center" }}>
               {row.original.isDisabled !== 1 ? (
-                <FaTrash
-                  size={20}
+                <GoTrashcan
+                  size={21}
                   onClick={() => [
                     this.setState({
                       productId: row.original.productId,
@@ -220,7 +219,7 @@ class Product extends Component {
                 />
               )}
               <span style={{ paddingLeft: "20px" }}>
-                <FaRegEdit
+                <FiEdit
                   size={20}
                   onClick={() => this.viewDetail(row.original)}
                 />
@@ -287,16 +286,10 @@ class Product extends Component {
           </Dialog>
 
           {/* ARCHIVE */}
-          <Dialog
-            open={this.state.dialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Archive this product ?"}
-            </DialogTitle>
+          <Dialog open={this.state.dialog}>
+            <DialogTitle>{"Archive this product ?"}</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
+              <DialogContentText>
                 This product will not appear on the app. You can restore this
                 product by clicking the Restore button.
               </DialogContentText>
@@ -321,16 +314,10 @@ class Product extends Component {
             </DialogActions>
           </Dialog>
           {/* RESTORE */}
-          <Dialog
-            open={this.state.restoreDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Restore this product ?"}
-            </DialogTitle>
+          <Dialog open={this.state.restoreDialog}>
+            <DialogTitle>{"Restore this product ?"}</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
+              <DialogContentText>
                 This product will appear on the app as well as the related
                 lists.
               </DialogContentText>

@@ -56,7 +56,7 @@ const General = ({
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
-        <div className="col-6">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="firstName"
@@ -67,11 +67,12 @@ const General = ({
               onChange={handleChange}
               required
               value={firstName}
+              style={styles.input}
             />
             {validator.message("firstName", firstName, "required|string")}
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="lastName"
@@ -82,11 +83,12 @@ const General = ({
               onChange={handleChange}
               required
               value={lastName}
+              style={styles.input}
             />
             {validator.message("lastName", lastName, "required|string")}
           </div>
         </div>
-        <div className="col-12">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="displayName"
@@ -97,11 +99,12 @@ const General = ({
               onChange={handleChange}
               required
               value={displayName}
+              style={styles.input}
             />
             {validator.message("displayName", displayName, "required|string")}
           </div>
         </div>
-        <div className="col-12">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="street"
@@ -111,11 +114,12 @@ const General = ({
               fullWidth
               onChange={handleChange}
               value={street}
+              style={styles.input}
             />
           </div>
         </div>
-      </div>
-      <div className="row justify-content-center">
+        {/* </div> */}
+        {/* <div className="row justify-content-center"> */}
         <div className="col-4">
           <div className="form-group">
             <TextField
@@ -126,11 +130,12 @@ const General = ({
               fullWidth
               onChange={handleChange}
               value={city}
+              style={styles.input}
             />
           </div>
         </div>
         <div className="col-4">
-          <div className="form-group" style={{ marginTop: "10px" }}>
+          <div className="form-group">
             <label>State</label>
             <Select
               name="state"
@@ -150,12 +155,13 @@ const General = ({
               fullWidth
               onChange={handleChange}
               value={zip}
+              style={{ marginTop: "10px" }}
             />
           </div>
         </div>
-      </div>
-      <div className="row justify-content-center">
-        <div className="col-6">
+        {/* </div> */}
+        {/* <div className="row justify-content-center"> */}
+        <div className="col-4">
           {/* <div>
             <div
               style={{ width: "50% !important", padding: "8px 20px 0px 0px" }}
@@ -180,14 +186,13 @@ const General = ({
           <label>Cellphone</label>
           <PhoneInput
             country={"us"}
-            style={{ marginTop: "10px" }}
             placeholder="Phone Number"
             name="cellphone"
             onChange={handlePhone}
           />
           {/* </div> */}
         </div>
-        <div className="col-6">
+        <div className="col-4">
           <div className="form-group">
             <TextField
               name="email"
@@ -197,25 +202,24 @@ const General = ({
               fullWidth
               onChange={handleChange}
               value={email}
+              style={{ marginTop: "9px" }}
             />
           </div>
         </div>
       </div>
-      <div className="row justify-content-center">
-        <div className="col-6">
-          <div
-            className="form-group"
-            style={{ display: "flex", alignItems: "baseline" }}
-          >
+      <div className="row">
+        <div className="col-4">
+          <div className="form-group" style={styles.pin}>
             <TextField
               name="pin"
-              label="PIN Code"
+              label="PIN Code*"
               margin="normal"
               type={showPin ? "text" : "password"}
               fullWidth
               value={pin}
               onChange={handleChange}
               inputProps={{ maxLength: 4 }}
+              style={styles.input}
             />
             {showPin ? (
               <i style={{ cursor: "pointer" }}>
@@ -231,20 +235,25 @@ const General = ({
           </div>
           {validator.message("pin", pin, "required|numeric")}
         </div>
-        <div className="col-6">
+        <div className="col-4">
           <div
             className="form-group"
-            style={{ display: "flex", alignItems: "baseline" }}
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              marginBottom: "0px",
+            }}
           >
             <TextField
               name="confirmPin"
-              label="Confirm PIN Code"
+              label="Confirm PIN Code*"
               margin="normal"
               type={showConfirmPin ? "text" : "password"}
               fullWidth
               onChange={handleChange}
               value={confirmPin}
               inputProps={{ maxLength: 4 }}
+              style={styles.input}
             />
             {showConfirmPin ? (
               <i style={{ cursor: "pointer" }}>
@@ -270,8 +279,8 @@ const General = ({
           )}
         </div>
       </div>
-      <div className="row justify-content-center">
-        <div className="col-6">
+      <div className="row ">
+        <div className="col-4">
           <div className="form-group">
             <label>Role</label>
             <Select
@@ -282,7 +291,7 @@ const General = ({
             />
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-4">
           <div className="form-group">
             <label>Status</label>
 
@@ -334,3 +343,14 @@ const General = ({
 };
 
 export default General;
+
+const styles = {
+  input: {
+    marginTop: "0px",
+  },
+  pin: {
+    display: "flex",
+    alignItems: "baseline",
+    marginBottom: "10px",
+  },
+};
