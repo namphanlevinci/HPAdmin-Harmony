@@ -1,0 +1,53 @@
+
+.role h3 {
+    color: black;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.role-department h3 {
+  margin: 20px 0px;
+}
+
+
+.role .role-permissions {
+    margin-top: 50px;
+
+    table {
+      width: 100%;
+      color: #4251af;
+    }
+    table thead tr th {
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+    }
+    table tr td {
+      text-align: center;
+    }
+    table tr td:first-child {
+      text-align: left;
+    }
+    
+    table th:first-child {
+      text-align: left;
+    }
+    table .module th {
+      padding: 15px 0px;
+      color: black;
+      font-weight: 600;
+      font-size: 15px;
+    }
+    table td:first-child {
+      padding-left: 10px;
+    }
+    table td {
+      // border-collapse: collapse;
+      // border-radius: 10px !important;
+      // border-style: hidden; /* hide standard table (collapsed) border */
+      box-shadow: 0 0 0 1px #dddddd; /* this draws the table border  */ 
+    }
+
+}
+
+

@@ -1,31 +1,28 @@
+import DateFnsUtils from "@date-io/date-fns";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import axios from "axios";
+import "date-fns";
+import { ErrorMessage, Form, Formik } from "formik";
+import moment from "moment";
 import React, { Component } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import { MdLibraryAdd } from "react-icons/md";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/high-res.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { ADD_ADMIN } from "../../../../actions/user/actions";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
-import { MdLibraryAdd } from "react-icons/md";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-
-import axios from "axios";
-import URL from "../../../../url/url";
-import PhoneInput from "react-phone-input-2";
-import moment from "moment";
-import TextField from "@material-ui/core/TextField";
-import DateFnsUtils from "@date-io/date-fns";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import Button from "@material-ui/core/Button";
 import Select from "react-select";
-
-import "date-fns";
-import "./User.css";
-import "react-datepicker/dist/react-datepicker.css";
-import "react-phone-input-2/lib/high-res.css";
+import { ADD_ADMIN, VIEW_PROFILE_USER } from "../../../../actions/user/actions";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
+import URL from "../../../../url/url";
+import IntlMessages from "../../../../util/IntlMessages";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
+import "./User.css";
 
 const roles = [
   { value: "1", label: "Administrator" },

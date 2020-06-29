@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import "./Logs.css";
-import { getAll_Logs } from "../../../../actions/Logs/actions";
-import { connect } from "react-redux";
-import "bootstrap/js/src/collapse.js";
-//DATE PICKER & MOMENT
-import "react-datepicker/dist/react-datepicker.css";
-
-import "moment/locale/it";
-import moment from "moment";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import "bootstrap/js/src/collapse.js";
+import moment from "moment";
+import "moment/locale/it";
+import React, { Component } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import { connect } from "react-redux";
+import { getAll_Logs } from "../../../../actions/Logs/actions";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
+//DATE PICKER & MOMENT
+import IntlMessages from "../../../../util/IntlMessages";
+import "./Logs.css";
+
 class Logs extends Component {
   constructor(props) {
     super(props);
     this.state = {
       User: "",
-      search_user: ""
+      search_user: "",
     };
   }
 
@@ -29,21 +29,21 @@ class Logs extends Component {
   }
   getUnique(arr, comp) {
     const unique = arr
-      .map(e => e[comp])
+      .map((e) => e[comp])
       .map((e, i, final) => final.indexOf(e) === i && i)
-      .filter(e => arr[e])
-      .map(e => arr[e]);
+      .filter((e) => arr[e])
+      .map((e) => arr[e]);
     return unique;
   }
-  _onChangeSearchUser = async e => {
+  _onChangeSearchUser = async (e) => {
     await this.setState({
-      search_user: e.target.value
+      search_user: e.target.value,
     });
   };
-  fromDate = e => {
+  fromDate = (e) => {
     this.setState({ from: e.target.value });
   };
-  toDate = e => {
+  toDate = (e) => {
     this.setState({ to: e.target.value });
   };
   render() {
@@ -51,7 +51,7 @@ class Logs extends Component {
     let dataList = this.props.LogList;
     let UserList = this.props.LogList;
     if (this.state.from) {
-      dataList = dataList.filter(datez => {
+      dataList = dataList.filter((datez) => {
         let date = moment(datez.createdDate).format("MM/DD/YYYY");
         let from = moment(valuez.start).format("MM/DD/YYYY");
         let to = moment(valuez.end).format("MM/DD/YYYY");
@@ -64,13 +64,13 @@ class Logs extends Component {
     }
 
     if (this.state.search_user) {
-      dataList = dataList.filter(e => {
+      dataList = dataList.filter((e) => {
         let name = e.adminUser.firstName + " " + e.adminUser.lastName;
         return name === this.state.search_user;
       });
     }
     let user = this.getUnique(UserList, "adminUserId");
-    const renderUser = user.map(e => {
+    const renderUser = user.map((e) => {
       const name = e.adminUser.firstName + " " + e.adminUser.lastName;
       const id = e.adminUser.waUserId;
       return (
@@ -79,7 +79,7 @@ class Logs extends Component {
         </option>
       );
     });
-    const renderDataList = dataList.map(e => {
+    const renderDataList = dataList.map((e) => {
       const time = moment
         .utc(e.createdDate)
         .local()
@@ -130,7 +130,7 @@ class Logs extends Component {
                     type="date"
                     // defaultValue={this.state.to}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={this.fromDate}
                   />
@@ -144,7 +144,7 @@ class Logs extends Component {
                     type="date"
                     // defaultValue={this.state.to}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={this.toDate}
                   />
@@ -193,13 +193,13 @@ class Logs extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   InfoUser_Login: state.User,
-  LogList: state.getLogs
+  LogList: state.getLogs,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_Logs: () => {
     dispatch(getAll_Logs());
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Logs);

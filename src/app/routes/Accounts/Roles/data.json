@@ -1,0 +1,22 @@
+[
+ { "title":"Manager", "number":5, "status":"Active", 
+    "image": [
+        "https://i.pravatar.cc/400?img=70"      
+    ] 
+ },
+ { "title":"Sale", "number":10, "status":"Active",   
+    "image": [
+        "https://i.pravatar.cc/400?img=22"      
+    ]  
+},
+ { "title":"Support", "number":7, "status":"Active",
+    "image": [
+        "https://i.pravatar.cc/400?img=45"      
+    ] 
+},
+ { "title":"Agent", "number":15, "status":"Active",
+    "image": [
+        "https://i.pravatar.cc/400?img=33"      
+    ] 
+}
+]
