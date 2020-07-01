@@ -75,7 +75,7 @@ class AddGeneration extends Component {
                     { giftCardTemplateId, name, amount },
                     {
                       headers: {
-                        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                        Authorization: `Bearer ${this.props.userLogin.token}`,
                       },
                     }
                   )
@@ -217,7 +217,7 @@ class AddGeneration extends Component {
 
 const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 
 const mapDispatchToProps = (dispatch) => ({

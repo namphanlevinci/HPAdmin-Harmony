@@ -1,8 +1,8 @@
 // Dev
-// const URL = "https://api2.levincidemo.com/api";
+// const URL = "https://dev.harmonypayment.com/api";
 // export const SignalURL = "https://api2.levincidemo.com";
 // export const upFileUrl =
-//   "https://api2.levincidemo.com/api/file?category=service";
+//   "https://dev.harmonypayment.com/api/file?category=service";
 
 // PRODUCT
 // const URL = "https://hp-admin-prod-westus.azurewebsites.net/api";

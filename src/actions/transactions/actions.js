@@ -1,98 +1,98 @@
 import * as types from "./types";
 
-export const getAll_Transactions = payload => ({
+export const getAll_Transactions = (payload) => ({
   type: types.getAll_Transactions,
-  payload: payload
+  payload: payload,
 });
 
-export const getAll_Transactions_Success = payload => ({
+export const getAll_Transactions_Success = (payload) => ({
   type: types.getAll_Transactions_Success,
-  payload: payload
+  payload: payload,
 });
 
-export const getAll_Transactions_Error = payload => ({
+export const getAll_Transactions_Error = (payload) => ({
   type: types.getAll_Transactions_Error,
-  payload: payload
+  payload: payload,
 });
 
-//! P2PTRANSACTIONS
+// P2PTRANSACTIONS
 
-export const getP2P_Transactions = payload => ({
+export const getP2P_Transactions = (payload) => ({
   type: types.getP2P_Transactions,
-  payload: payload
+  payload: payload,
 });
 
-export const getP2P_Transactions_Success = payload => ({
+export const getP2P_Transactions_Success = (payload) => ({
   type: types.getP2P_Transactions_Success,
-  payload: payload
+  payload: payload,
 });
 
-export const getP2P_Transactions_Error = payload => ({
+export const getP2P_Transactions_Error = (payload) => ({
   type: types.getP2P_Transactions_Error,
-  payload: payload
+  payload: payload,
 });
 
-//!! USER TRANSACTION
-export const getUser_Transaction = payload => ({
+//! USER TRANSACTION
+export const getUser_Transaction = (payload) => ({
   type: types.getUser_Transaction,
-  payload: payload
+  payload: payload,
 });
 
-export const getUser_Transaction_Success = payload => ({
+export const getUser_Transaction_Success = (payload) => ({
   type: types.getUser_Transaction_Success,
-  payload: payload
+  payload: payload,
 });
 
-export const getUser_Transaction_Error = payload => ({
+export const getUser_Transaction_Error = (payload) => ({
   type: types.getUser_Transaction_Error,
-  payload: payload
+  payload: payload,
 });
-//!! USER ACTIVITY
+//! USER ACTIVITY
 
-export const getUser_Activity = payload => ({
+export const getUser_Activity = (payload) => ({
   type: types.getUser_Activity,
-  payload: payload
+  payload: payload,
 });
 
-export const getUser_Activity_Success = payload => ({
+export const getUser_Activity_Success = (payload) => ({
   type: types.getUser_Activity_Success,
-  payload: payload
+  payload: payload,
 });
 
-export const getUser_Activity_Error = payload => ({
+export const getUser_Activity_Error = (payload) => ({
   type: types.getUser_Activity_Error,
-  payload: payload
+  payload: payload,
 });
 
-//!! BATCH SETTLEMENT
-export const getBatch = payload => ({
+//! BATCH SETTLEMENT
+export const getBatch = (payload) => ({
   type: types.getBatch,
-  payload: payload
+  payload: payload,
 });
 
-export const getBatch_Success = payload => ({
+export const getBatch_Success = (payload) => ({
   type: types.getBatch_Success,
-  payload: payload
+  payload: payload,
 });
 
-export const getBatch_Error = payload => ({
+export const getBatch_Error = (payload) => ({
   type: types.getBatch_Error,
-  payload: payload
+  payload: payload,
 });
 
-//!! GET BATCH DETAIL
+//! GET BATCH DETAIL
 
-export const getBatchDetail = payload => ({
+export const getBatchDetail = (payload) => ({
   type: types.getBatchDetail,
-  payload: payload
+  payload: payload,
 });
 
-export const getBatchDetail_Success = payload => ({
+export const getBatchDetail_Success = (payload) => ({
   type: types.getBatchDetail_Success,
-  payload: payload
+  payload: payload,
 });
 
-export const getBatchDetail_Error = payload => ({
+export const getBatchDetail_Error = (payload) => ({
   type: types.getBatchDetail_Error,
-  payload: payload
+  payload: payload,
 });

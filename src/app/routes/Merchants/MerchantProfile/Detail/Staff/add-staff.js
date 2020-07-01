@@ -39,26 +39,26 @@ class AddStaff extends Component {
       nameRole: { value: "admin", label: "Admin" },
       isDisabled: { value: "0", label: "Active" },
       // Work time
-      timeStart2: { value: "10:00 AM", label: "10:00 AM" },
-      timeEnd2: { value: "08:00 PM", label: "08:00 PM" },
+      timeStart2: { value: "09:30 AM", label: "09:30 AM" },
+      timeEnd2: { value: "07:00 PM", label: "07:00 PM" },
       isCheck2: true,
-      timeStart3: { value: "10:00 AM", label: "10:00 AM" },
-      timeEnd3: { value: "08:00 PM", label: "08:00 PM" },
+      timeStart3: { value: "09:30 AM", label: "09:30 AM" },
+      timeEnd3: { value: "07:00 PM", label: "07:00 PM" },
       isCheck3: true,
-      timeStart4: { value: "10:00 AM", label: "10:00 AM" },
-      timeEnd4: { value: "08:00 PM", label: "08:00 PM" },
+      timeStart4: { value: "09:30 AM", label: "09:30 AM" },
+      timeEnd4: { value: "07:00 PM", label: "07:00 PM" },
       isCheck4: true,
-      timeStart5: { value: "10:00 AM", label: "10:00 AM" },
-      timeEnd5: { value: "08:00 PM", label: "08:00 PM" },
+      timeStart5: { value: "09:30 AM", label: "09:30 AM" },
+      timeEnd5: { value: "07:00 PM", label: "07:00 PM" },
       isCheck5: true,
-      timeStart6: { value: "10:00 AM", label: "10:00 AM" },
-      timeEnd6: { value: "08:00 PM", label: "08:00 PM" },
+      timeStart6: { value: "09:30 AM", label: "09:30 AM" },
+      timeEnd6: { value: "07:00 PM", label: "07:00 PM" },
       isCheck6: true,
-      timeStart7: { value: "10:00 AM", label: "10:00 AM" },
-      timeEnd7: { value: "08:00 PM", label: "08:00 PM" },
+      timeStart7: { value: "09:30 AM", label: "09:30 AM" },
+      timeEnd7: { value: "07:00 PM", label: "07:00 PM" },
       isCheck7: true,
-      timeStart8: { value: "10:00 AM", label: "10:00 AM" },
-      timeEnd8: { value: "08:00 PM", label: "08:00 PM" },
+      timeStart8: { value: "09:30 AM", label: "09:30 AM" },
+      timeEnd8: { value: "07:00 PM", label: "07:00 PM" },
       isCheck8: true,
       // Salary
       tipValue: "",
@@ -218,7 +218,7 @@ class AddStaff extends Component {
       email,
     } = this.state;
     const checkEmail =
-      email !== "" ? email : this.props?.InfoUser_Login?.User?.userAdmin.email;
+      email !== "" ? email : this.props?.userLogin?.User?.userAdmin.email;
     const nameRole = this.state.nameRole.value;
     const isDisabled = Number(this.state.isDisabled.value);
     const state = this.state.state.value;
@@ -330,7 +330,7 @@ class AddStaff extends Component {
         },
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -482,6 +482,6 @@ class AddStaff extends Component {
 }
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 export default connect(mapStateToProps)(AddStaff);

@@ -2,28 +2,28 @@ import axios from "axios";
 import { select } from "redux-saga/effects";
 import URL from "../../url/url";
 
-//! GET ALL MERCHANT API
-export function* getAll_Merchants_api() {
-  const getInfoLogin = state => state.User;
+// GET ALL MERCHANT API
+export function* GET_ALL_MERCHANT_API() {
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
-      Authorization: "Bearer " + infoLogin.User.token
-    }
+      Authorization: "Bearer " + infoLogin.token,
+    },
   };
   const kq = yield axios
     .get(URL + "/merchant/?page=0", config)
-    .then(result => {
+    .then((result) => {
       return result.data.data;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
   return kq;
 }
 
-//! UPDATE MERCHANT INFO (GENERAL)
-export function* updateMerchant_Infor_api(data) {
+// UPDATE MERCHANT INFO (GENERAL)
+export function* UPDATE_MERCHANT_API(data) {
   const {
     ID,
     emailContact,
@@ -38,14 +38,16 @@ export function* updateMerchant_Infor_api(data) {
     firstName,
     lastName,
     title,
-    doBusinessName
+    doBusinessName,
   } = data;
-  const getInfoLogin = state => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
+  console.log("infoLogin", infoLogin);
+
   let config = {
     headers: {
-      Authorization: "Bearer " + infoLogin.User.token
-    }
+      Authorization: "Bearer " + infoLogin.token,
+    },
   };
   const kq = yield axios
     .put(
@@ -63,34 +65,133 @@ export function* updateMerchant_Infor_api(data) {
         phoneContact,
         firstName,
         lastName,
-        title
+        title,
       },
       config
     )
-    .then(result => {
+    .then((result) => {
       return result.data;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
   return kq;
 }
 
-//! GET MERCHANT BY ID
-export function* getMerchant_byID_api(ID) {
-  const getInfoLogin = state => state.User;
+// GET MERCHANT BY ID
+export function* GET_MERCHANT_BY_ID_API(ID) {
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
-      Authorization: "Bearer " + infoLogin.User.token
-    }
+      Authorization: "Bearer " + infoLogin.token,
+    },
   };
   const kq = yield axios
     .get(URL + "/merchant/" + ID, config)
-    .then(result => {
+    .then((result) => {
       return result.data.data;
     })
-    .catch(err => {
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// GET REJECTED MERCHANT API
+export function* GET_ALL_REJECTED_MERCHANT_API() {
+  const getInfoLogin = (state) => state.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .get(URL + "/merchant/reject", config)
+    .then((result) => {
+      return result.data.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// GET ALL MERCHANT REQUEST
+export function* GET_ALL_MERCHANT_REQUEST_API() {
+  const getInfoLogin = (state) => state.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .get(URL + "/merchant/pending", config)
+    .then((result) => {
+      return result.data.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// SEND APPROVAL REQUEST
+export function* APPROVE_MERCHANT_API(data) {
+  const getInfoLogin = (state) => state.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const {
+    merchantCode,
+    merchantToken,
+    transactionsFee,
+    ID,
+    discountRate,
+    totalAmountLimit,
+  } = data;
+  const kq = yield axios
+    .put(
+      URL + "/merchant/approve/" + ID,
+      {
+        merchantCode,
+        merchantToken,
+        transactionsFee,
+        discountRate,
+        totalAmountLimit,
+      },
+      config
+    )
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// SEND REJECT REQUEST
+export function* REJECT_MERCHANT_API(data) {
+  const getInfoLogin = (state) => state.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const { reason, ID } = data;
+  const kq = yield axios
+    .put(URL + "/merchant/reject/" + ID, { reason }, config)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
       console.log(err);
     });
   return kq;

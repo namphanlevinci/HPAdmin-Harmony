@@ -17,7 +17,7 @@ class MerchantActi extends Component {
     super(props);
     this.state = {
       search: "",
-      data: []
+      data: [],
     };
   }
 
@@ -28,9 +28,9 @@ class MerchantActi extends Component {
     const token = JSON.parse(this.state.Token);
     axios
       .get(URL + "/merchantactivity/" + ID, {
-        headers: { Authorization: `Bearer ${token.token}` }
+        headers: { Authorization: `Bearer ${token.token}` },
       })
-      .then(async res => {
+      .then(async (res) => {
         await this.setState({ data: res.data.data });
       });
   }
@@ -40,17 +40,17 @@ class MerchantActi extends Component {
       {
         id: "createDate",
         Header: "Date/time",
-        accessor: e => {
+        accessor: (e) => {
           return moment
             .utc(e.createDate)
             .local()
             .format("MM/DD/YYYY HH:mm A");
-        }
+        },
       },
       {
         Header: "Activity",
-        accessor: "action"
-      }
+        accessor: "action",
+      },
     ];
     // const { from, to } = this.state;
     // let renderTable = this.props.userActivity;
@@ -115,8 +115,8 @@ class MerchantActi extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  userLogin: state.userReducer.User,
 });
 export default connect(mapStateToProps)(MerchantActi);

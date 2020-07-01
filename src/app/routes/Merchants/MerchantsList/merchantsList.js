@@ -34,7 +34,7 @@ class MerchantsList extends React.Component {
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -57,7 +57,7 @@ class MerchantsList extends React.Component {
           }&row=${pageSize}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -221,7 +221,7 @@ class MerchantsList extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   Merchants_List: state.MerchantsList,
 });
 const mapDispatchToProps = (dispatch) => ({

@@ -402,7 +402,7 @@ class EditPendingMerchant extends Component {
                   initValue={this.state}
                   principals={this.state.principals}
                   getData={this.getData}
-                  token={this.props.InfoUser_Login.User.token}
+                  token={this.props.userLogin.token}
                   ViewMerchant_Request={this.props.ViewMerchant_Request}
                   history={this.props.history}
                 />
@@ -417,7 +417,7 @@ class EditPendingMerchant extends Component {
 
 const mapStateToProps = (state) => ({
   PendingProfile: state.ViewMerchant_Request,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   ApprovalStatus: state.Approval,
   RejectStatus: state.Reject,
 });

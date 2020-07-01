@@ -42,6 +42,8 @@ class General extends Component {
   _update = () => {
     const ID = this.props.MerchantProfile.general.generalId;
     const IDMerchant = this.props.MerchantProfile.merchantId;
+    console.log("ID", ID);
+    console.log("IDMerchant", IDMerchant);
     const {
       emailContact,
       legalBusinessName,
@@ -139,7 +141,7 @@ class General extends Component {
     // const e = this.props.MerchantProfile;
     return (
       <div className="content GeneralContent react-transition swipe-right">
-        <div className="container-fuild">
+        <div className="container-fluid">
           <h2 style={styles.h2}>General Information</h2>
           <div className="row">
             <div className="col-4">
@@ -285,7 +287,7 @@ class General extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   UpdateStatus: state.updateMerchant_Infor,
   getMerchant: state.getMerchant,
 });

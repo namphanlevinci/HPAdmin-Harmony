@@ -18,10 +18,10 @@ class AppNotification extends Component {
   }
 
   render() {
-    if (this.props.e !== undefined) {
-      let notiData = this.props.e;
-      const renderNoti = notiData?.map((e) => {
-        const { createdDate, waNotificationId, content } = e;
+    if (this.props.noti !== undefined) {
+      let notiData = this.props.noti;
+      const renderNoti = notiData?.map((noti) => {
+        const { createdDate, waNotificationId, content } = noti;
         const time = moment
           .utc(createdDate)
           .local()
@@ -31,7 +31,7 @@ class AppNotification extends Component {
             <Avatar alt={avatar} src={avatar} className=" mr-2" />
             <div
               style={{ cursor: "pointer" }}
-              onClick={() => this.props.gotoList(e)}
+              onClick={() => this.props.gotoList(noti)}
               className="media-body align-self-center"
             >
               <p className="sub-heading mb-0">{content}</p>
@@ -42,19 +42,24 @@ class AppNotification extends Component {
                 <small>{time}</small>
               </span>
             </div>
-            <IconButton onClick={() => this.props.handleDelete(e)}>
+            <IconButton onClick={() => this.props.handleDelete(noti)}>
               <DeleteIcon fontSize="small" />
             </IconButton>
           </li>
         );
       });
       return (
-        <CustomScrollbars
-          className="messages-list scrollbar"
-          style={{ height: 280 }}
-        >
-          <ul className="list-unstyled">{renderNoti}</ul>
-        </CustomScrollbars>
+        <>
+          <CustomScrollbars
+            className="messages-list scrollbar"
+            style={{ height: 280 }}
+          >
+            <ul className="list-unstyled">{renderNoti}</ul>
+          </CustomScrollbars>
+          <div style={{ textAlign: "center", color: "#4251af" }}>
+            <span style={{ cursor: "pointer" }}>See All</span>
+          </div>
+        </>
       );
     } else {
       return null;
@@ -63,8 +68,8 @@ class AppNotification extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
-  Noti_List: state.getNoti,
+  userLogin: state.userReducer.User,
+  // Noti_List: state.getNoti,
 });
 const mapDispatchToProps = (dispatch) => ({
   getAll_Notifications: () => {

@@ -143,7 +143,7 @@ class MerchantReqProfile extends Component {
       }
     };
 
-    //! render Principal
+    // render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
         e.principals.map((e, index) => {
@@ -217,7 +217,7 @@ class MerchantReqProfile extends Component {
       ) : (
         <h4>&nbsp;- NO PRINCIPALS INFORMATION</h4>
       );
-    //! render question
+    // render question
     const renderQuestion =
       e.business !== undefined ? (
         e.business.map((e) => {
@@ -583,7 +583,7 @@ class MerchantReqProfile extends Component {
 
 const mapStateToProps = (state) => ({
   PendingProfile: state.ViewMerchant_Request,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   ApprovalStatus: state.Approval,
   RejectStatus: state.Reject,
 });

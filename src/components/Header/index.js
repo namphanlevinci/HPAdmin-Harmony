@@ -87,7 +87,7 @@ class Header extends React.Component {
       let token = JSON.parse(User);
       const UserToken = token.token;
       axios
-        .get(URL + "/notification", {
+        .get(URL + "/notification/page=1", {
           headers: { Authorization: `Bearer ${UserToken}` },
         })
         .then((res) => {
@@ -428,7 +428,7 @@ class Header extends React.Component {
                     heading={<IntlMessages id="appNotification.title" />}
                   />
                   <AppNotification
-                    e={this.state.noti}
+                    noti={this.state.noti}
                     handleDelete={this.handleDelete}
                     gotoList={this.gotoList}
                   />

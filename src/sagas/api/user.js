@@ -19,10 +19,10 @@ export function* USER_LOGIN_API({ email, password }) {
 }
 
 // VERIFY USER
-export function* USER_VERIFY_API({ SERIAL, code, token }) {
+export function* USER_VERIFY_API({ serial, code, token }) {
   console.log("token", token);
   const kq = yield axios
-    .post(URL + "/adminuser/verifycode/" + SERIAL, { code, token })
+    .post(URL + "/adminuser/verifycode/" + serial, { code, token })
     .then((result) => {
       return result.data;
     })
@@ -33,11 +33,11 @@ export function* USER_VERIFY_API({ SERIAL, code, token }) {
 }
 
 export function* GET_ALL_USER_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
-      Authorization: "Bearer " + infoLogin.User.token,
+      Authorization: "Bearer " + infoLogin.token,
     },
   };
   const kq = yield axios
@@ -53,11 +53,11 @@ export function* GET_ALL_USER_API() {
 
 // ADD ADMIN USER
 export function* ADD_USER_API(Data) {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
-      Authorization: "Bearer " + infoLogin.User.token,
+      Authorization: "Bearer " + infoLogin.token,
     },
   };
   const {
@@ -106,11 +106,11 @@ export function* ADD_USER_API(Data) {
 
 export function* GET_USER_BY_ID_API(ID) {
   const userID = ID;
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
-      Authorization: "Bearer " + infoLogin.User.token,
+      Authorization: "Bearer " + infoLogin.token,
     },
   };
   const kq = yield axios

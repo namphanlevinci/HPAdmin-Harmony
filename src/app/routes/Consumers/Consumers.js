@@ -45,7 +45,7 @@ class Consumers extends React.Component {
           }&row=${pageSize}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -217,7 +217,7 @@ class Consumers extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   ConsumerList: state.getConsumerUsers,
 });
 const mapDispatchToProps = (dispatch) => ({

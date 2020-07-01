@@ -43,7 +43,7 @@ class Category extends Component {
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -75,7 +75,7 @@ class Category extends Component {
     axios
       .put(URL + "/category/archive/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {})
@@ -92,7 +92,7 @@ class Category extends Component {
     axios
       .put(URL + "/category/restore/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {});
@@ -248,7 +248,7 @@ class Category extends Component {
                               },
                               {
                                 headers: {
-                                  Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                                  Authorization: `Bearer ${this.props.userLogin.token}`,
                                 },
                               }
                             )
@@ -471,7 +471,7 @@ class Category extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
   VIEW_SERVICE: (payload) => {

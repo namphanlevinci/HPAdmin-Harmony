@@ -1,43 +1,43 @@
 import * as types from "./types";
 
 // GENERATION
-export const GET_GIFTCARD = payload => ({
-  type: types.GET_GIFTCARD,
-  payload: payload
+export const GET_GIFT_CARD = (payload) => ({
+  type: types.GET_GIFT_CARD,
+  payload: payload,
 });
-export const GET_GIFTCARD_SUCCESS = payload => ({
-  type: types.GET_GIFTCARD_SUCCESS,
-  payload: payload
+export const GET_GIFT_CARD_SUCCESS = (payload) => ({
+  type: types.GET_GIFT_CARD_SUCCESS,
+  payload: payload,
 });
-export const GET_GIFTCARD_ERROR = payload => ({
-  type: types.GET_GIFTCARD_ERROR,
-  payload: payload
+export const GET_GIFT_CARD_ERROR = (payload) => ({
+  type: types.GET_GIFT_CARD_ERROR,
+  payload: payload,
 });
 // GENERATION BY ID
-export const GET_GIFTCARD_BY_ID = payload => ({
-  type: types.GET_GIFTCARD_BY_ID,
-  payload: payload
+export const GET_GIFT_CARD_BY_ID = (payload) => ({
+  type: types.GET_GIFT_CARD_BY_ID,
+  payload: payload,
 });
-export const GET_GIFTCARD_BY_ID_SUCCESS = payload => ({
-  type: types.GET_GIFTCARD_BY_ID_SUCCESS,
-  payload: payload
+export const GET_GIFT_CARD_BY_ID_SUCCESS = (payload) => ({
+  type: types.GET_GIFT_CARD_BY_ID_SUCCESS,
+  payload: payload,
 });
-export const GET_GIFTCARD_BY_ID_ERROR = payload => ({
-  type: types.GET_GIFTCARD_BY_ID_ERROR,
-  payload: payload
+export const GET_GIFT_CARD_BY_ID_ERROR = (payload) => ({
+  type: types.GET_GIFT_CARD_BY_ID_ERROR,
+  payload: payload,
 });
 // GENERATION CODE LOG BY ID
-export const GET_GIFTCARD_CODE_LOG_BY_ID = payload => ({
-  type: types.GET_GIFTCARD_CODE_LOG_BY_ID,
-  payload: payload
+export const GET_GIFT_CARD_CODE_LOG_BY_ID = (payload) => ({
+  type: types.GET_GIFT_CARD_CODE_LOG_BY_ID,
+  payload: payload,
 });
-export const GET_GIFTCARD_CODE_LOG_BY_ID_SUCCESS = payload => ({
-  type: types.GET_GIFTCARD_CODE_LOG_BY_ID_SUCCESS,
-  payload: payload
+export const GET_GIFT_CARD_CODE_LOG_BY_ID_SUCCESS = (payload) => ({
+  type: types.GET_GIFT_CARD_CODE_LOG_BY_ID_SUCCESS,
+  payload: payload,
 });
-export const GET_GIFTCARD_CODE_LOG_BY_ID_ERROR = payload => ({
-  type: types.GET_GIFTCARD_CODE_LOG_BY_ID_ERROR,
-  payload: payload
+export const GET_GIFT_CARD_CODE_LOG_BY_ID_ERROR = (payload) => ({
+  type: types.GET_GIFT_CARD_CODE_LOG_BY_ID_ERROR,
+  payload: payload,
 });
 
 // GENERATION NEW CODE
@@ -55,23 +55,23 @@ export const GET_GIFTCARD_CODE_LOG_BY_ID_ERROR = payload => ({
 // });
 
 // TEMPLATE
-export const GET_TEMPLATE = payload => ({
+export const GET_TEMPLATE = (payload) => ({
   type: types.GET_TEMPLATE,
-  payload: payload
+  payload: payload,
 });
 
-export const GET_TEMPLATE_SUCCESS = payload => ({
+export const GET_TEMPLATE_SUCCESS = (payload) => ({
   type: types.GET_TEMPLATE_SUCCESS,
-  payload: payload
+  payload: payload,
 });
 
-export const GET_TEMPLATE_ERROR = payload => ({
+export const GET_TEMPLATE_ERROR = (payload) => ({
   type: types.GET_TEMPLATE_ERROR,
-  payload: payload
+  payload: payload,
 });
 
 // VIEW DETAIL
-export const VIEW_DETAIL = payload => ({
+export const VIEW_DETAIL = (payload) => ({
   type: types.VIEW_DETAIL,
-  payload: payload
+  payload: payload,
 });

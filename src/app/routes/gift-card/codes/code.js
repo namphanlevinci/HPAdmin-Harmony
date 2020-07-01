@@ -5,7 +5,7 @@ import {
   VIEW_DETAIL,
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
-import { GET_GIFTCARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
+import { GET_GIFT_CARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
 import { store } from "react-notifications-component";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -64,7 +64,7 @@ class Codes extends Component {
           `/giftcard/search?keySearch=${search}&isActive=${isActive}&isPhysical=${isPhysical}&isUsed=${isUsed}&page=1&row=10`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -108,7 +108,7 @@ class Codes extends Component {
           }&row=${pageSize}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -343,7 +343,7 @@ class Codes extends Component {
 
 const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -354,7 +354,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(VIEW_DETAIL(payload));
   },
   getCodeLog: (ID) => {
-    dispatch(GET_GIFTCARD_CODE_LOG_BY_ID(ID));
+    dispatch(GET_GIFT_CARD_CODE_LOG_BY_ID(ID));
   },
 });
 

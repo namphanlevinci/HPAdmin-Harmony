@@ -138,7 +138,7 @@ class General extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
   getAll_Merchants: () => {

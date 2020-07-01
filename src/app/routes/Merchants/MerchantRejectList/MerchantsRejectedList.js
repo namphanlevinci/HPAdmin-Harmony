@@ -36,7 +36,7 @@ class MerchantsRequest extends Component {
           }&row=${pageSize}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -85,7 +85,7 @@ class MerchantsRequest extends Component {
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -210,7 +210,7 @@ class MerchantsRequest extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   RejectedList: state.Merchants_RejectedList,
 });
 const mapDispatchToProps = (dispatch) => ({

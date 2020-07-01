@@ -25,7 +25,7 @@ class productDetail extends Component {
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -140,7 +140,7 @@ class productDetail extends Component {
 }
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(productDetail);

@@ -39,7 +39,7 @@ class Staff extends Component {
     axios
       .get(URL + "/staff/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -53,7 +53,7 @@ class Staff extends Component {
     axios
       .put(URL + "/staff/archive/" + ID + "?merchantId=" + MerchantID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {});
@@ -68,7 +68,7 @@ class Staff extends Component {
     axios
       .put(URL + "/staff/restore/" + ID + "?merchantId=" + MerchantID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {});
@@ -314,7 +314,7 @@ class Staff extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 
 const mapDispatchToProps = (dispatch) => ({

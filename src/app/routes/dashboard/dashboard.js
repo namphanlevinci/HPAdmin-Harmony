@@ -9,7 +9,7 @@ import {
   // Line,
   // LineChart,
   ResponsiveContainer,
-  XAxis
+  XAxis,
 } from "recharts";
 import SaleBox from "../../../components/SaleBox/index";
 import _ from "lodash";
@@ -25,7 +25,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Dashboard: []
+      Dashboard: [],
     };
   }
 
@@ -44,7 +44,7 @@ class Dashboard extends Component {
       this.setState({
         Dashboard: Content,
         fromDate: fromDate,
-        toDate: toDate
+        toDate: toDate,
       });
     }, 1000);
   }
@@ -54,30 +54,30 @@ class Dashboard extends Component {
       { name: "J", amt: 600 },
       { name: "F", amt: 900 },
       { name: "M", amt: 1200 },
-      { name: "A", amt: 800 }
+      { name: "A", amt: 800 },
     ];
     const chartNewUser = [
       {
         name: "Ios",
-        amt: `${this.state.Dashboard.totalNumberDowloadOfAndroid}`
+        amt: `${this.state.Dashboard.totalNumberDowloadOfAndroid}`,
       },
       {
         name: "Android",
-        amt: `${this.state.Dashboard.totalNumberDowloadOfIOS}`
-      }
+        amt: `${this.state.Dashboard.totalNumberDowloadOfIOS}`,
+      },
     ];
     const ApprovedMerchant = _.sum(
-      _.map(this.state.Dashboard.approveMerchant, d => d.total)
+      _.map(this.state.Dashboard.approveMerchant, (d) => d.total)
     );
     const RejectedMerchant = _.sum(
-      _.map(this.state.Dashboard.rejectMerchant, d => d.total)
+      _.map(this.state.Dashboard.rejectMerchant, (d) => d.total)
     );
     const NewUser =
       this.state.Dashboard.totalNumberDowloadOfAndroid +
       this.state.Dashboard.totalNumberDowloadOfIOS;
     const HarmonyPayAccounts = this.state.Dashboard.totalNumberUserPaid;
     const MerchantAccounts = _.sum(
-      _.map(this.state.Dashboard.totalMerchantAccounts, d => d.total)
+      _.map(this.state.Dashboard.totalMerchantAccounts, (d) => d.total)
     );
     return (
       <div className="app-wrapper">
@@ -87,7 +87,7 @@ class Dashboard extends Component {
             title={<IntlMessages id="sidebar.dashboard.Template" />}
           />
           <div className="row">
-            {/* //!! total merchant account */}
+            {/* //! total merchant account */}
             <div className="col-xl-4 col-sm-6">
               <SaleBox
                 heading="Number of Merchant Account"
@@ -113,7 +113,7 @@ class Dashboard extends Component {
                 </BarChart>
               </SaleBox>
             </div>
-            {/* //! Approved Merchant account this week */}
+            {/* // Approved Merchant account this week */}
             <div className="col-xl-4 col-sm-6">
               <SaleBox
                 heading="Approved Merchant account"
@@ -126,7 +126,7 @@ class Dashboard extends Component {
                 </BarChart>
               </SaleBox>
             </div>
-            {/* //!! HarmonyPay accounts*/}
+            {/* //! HarmonyPay accounts*/}
             <div className="col-xl-4 col-lg-3 col-md-6 col-sm-6 col-12">
               <ChartCard
                 title="94"
@@ -149,7 +149,7 @@ class Dashboard extends Component {
                 desc="HarmonyPay Accounts"
               />
             </div>
-            {/* //!! user statistics */}
+            {/* //! user statistics */}
             <div className="col-xl-4 col-lg-3 col-md-6 col-sm-6 col-12">
               <ChartCard
                 title="38"
@@ -172,7 +172,7 @@ class Dashboard extends Component {
                 desc="User Statistics"
               />
             </div>
-            {/* //!! time spent */}
+            {/* //! time spent */}
             <div className="col-xl-4 col-lg-3 col-md-6 col-sm-6 col-12">
               <ChartCard
                 title="10"
@@ -252,12 +252,12 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  Approved: state.ApprovedStatic
+const mapStateToProps = (state) => ({
+  Approved: state.ApprovedStatic,
 });
-const mapDispatchToProps = dispatch => ({
-  APPROVED_STATICS: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  APPROVED_STATICS: (payload) => {
     dispatch(APPROVED_STATICS(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

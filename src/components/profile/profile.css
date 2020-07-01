@@ -57,7 +57,7 @@
   }
   .AdminProfile td,
   th {
-    display: inline-block !important;
+    display: inline-block;
     text-align: left;
     padding: 6px 0px;
   }

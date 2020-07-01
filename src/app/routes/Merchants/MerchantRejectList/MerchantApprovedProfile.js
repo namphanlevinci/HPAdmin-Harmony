@@ -24,7 +24,7 @@ class MerchantApprovedProfile extends Component {
     const e = this.props.MerchantProfile;
     let principalLength = this.props.MerchantProfile?.principals?.length;
 
-    //!render Principal
+    //render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
         e.principals.map((e, index) => {
@@ -98,7 +98,7 @@ class MerchantApprovedProfile extends Component {
       ) : (
         <h4>&nbsp;- NO PRINCIPALS INFORMATION</h4>
       );
-    //!render questions
+    //render questions
     const renderQuestion =
       e.business !== undefined ? (
         e.business.map((e) => {
@@ -273,7 +273,7 @@ class MerchantApprovedProfile extends Component {
 }
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 
 export default withRouter(connect(mapStateToProps)(MerchantApprovedProfile));

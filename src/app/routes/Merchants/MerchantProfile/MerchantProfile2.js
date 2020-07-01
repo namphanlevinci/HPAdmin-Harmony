@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect, Route, NavLink, Switch } from "react-router-dom";
+import { spring, AnimatedSwitch } from "react-router-transition";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -42,6 +43,23 @@ import "../MerchantsRequest/MerchantsRequest.css";
 import "./MerchantProfile.css";
 import "bootstrap/js/src/collapse.js";
 
+// we need to map the `scale` prop we define below
+// to the transform style property
+function mapStyles(styles) {
+  return {
+    opacity: styles.opacity,
+    transform: `scale(${styles.scale})`,
+  };
+}
+
+// wrap the `spring` helper to use a bouncy config
+function bounce(val) {
+  return spring(val, {
+    stiffness: 330,
+    damping: 22,
+  });
+}
+
 class merchantProfile2 extends Component {
   constructor(props) {
     super(props);
@@ -52,9 +70,12 @@ class merchantProfile2 extends Component {
     this.props.history.push("/app/merchants/list");
   };
   render() {
+    console.log("this.props.userLogin", this.props.userLogin);
     const e = this.props.MerchantProfile;
-    const renderMerchantProfile =
-      e.merchantId !== undefined ? (
+
+    return (
+      <div>
+        {" "}
         <div className="container-fluid PendingList">
           <ContainerHeader
             match={this.props.match}
@@ -67,7 +88,7 @@ class merchantProfile2 extends Component {
                 <span style={{ marginRight: "20px" }}>
                   <ExportSettlement
                     IDMERCHANT={e?.merchantId}
-                    Token={this.props.InfoUser_Login?.User?.token}
+                    Token={this.props.userLogin?.token}
                   />
                 </span>
                 <Button
@@ -81,7 +102,7 @@ class merchantProfile2 extends Component {
             </div>
             <hr />
             <div className="content">
-              <div className="container-fuild" style={{ padding: "10px" }}>
+              <div className="container-fluid" style={{ padding: "10px" }}>
                 <div className="">
                   <div className="profile-nav PendingLBody">
                     <ul className="detail-tab">
@@ -176,10 +197,7 @@ class merchantProfile2 extends Component {
                           path="/app/merchants/profile/service/edit"
                           component={EditService}
                         />
-                        {/* <Route
-                          path="/app/merchants/profile/service/add"
-                          component={AddService}
-                        /> */}
+
                         <Route
                           path="/app/merchants/profile/service"
                           component={Service}
@@ -232,15 +250,13 @@ class merchantProfile2 extends Component {
             </div>
           </div>
         </div>
-      ) : (
-        <Redirect to="/app/merchants/list" />
-      );
-    return <div>{renderMerchantProfile}</div>;
+      </div>
+    );
   }
 }
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 
 export default withRouter(connect(mapStateToProps)(merchantProfile2));

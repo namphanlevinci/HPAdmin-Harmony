@@ -42,10 +42,10 @@ class Verify_User extends React.Component {
   };
   _Login = async (e) => {
     // await e.preventDefault();
-    const SERIAL = this.props.InfoUser_Login.User;
+    const serial = localStorage.getItem("User_login");
     const code = await this.state.verify_code;
     const token = this.state.token;
-    const data = { code, SERIAL, token };
+    const data = { code, serial, token };
     await this.props.Verify(data);
   };
 
@@ -102,7 +102,7 @@ class Verify_User extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer,
   Verify_User: state.Verify_User,
 });
 const mapDispatchToProps = (dispatch) => ({

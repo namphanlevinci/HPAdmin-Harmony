@@ -36,8 +36,8 @@ export function* USER_LOGIN_SAGA() {
 export function* USER_VERIFY_SAGA() {
   yield takeLatest(typeUser.Verify, function*(action) {
     try {
-      const { SERIAL, code, token } = action.payload;
-      const check = yield USER_VERIFY_API({ SERIAL, code, token });
+      const { serial, code, token } = action.payload;
+      const check = yield USER_VERIFY_API({ serial, code, token });
       if (check.data !== null) {
         yield put({ type: typeUser.VERIFY_SUCCESS, payload: check.data });
       }

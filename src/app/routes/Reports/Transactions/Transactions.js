@@ -176,7 +176,7 @@ class Transactions extends React.Component {
           }&amountTo=${amount ? amount : amountTo}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -294,7 +294,7 @@ class Transactions extends React.Component {
         id: "status",
         Header: "Status",
         accessor: (e) => (
-          <p className="TStatus">{e?.paymentData?.validation_status}</p>
+          <p className="TStatus">{e?.status === 1 ? "Success" : "Fail"}</p>
         ),
       },
     ];
@@ -433,7 +433,7 @@ class Transactions extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   TransactionList: state.getTransactions,
 });
 const mapDispatchToProps = (dispatch) => ({

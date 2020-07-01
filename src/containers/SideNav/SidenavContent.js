@@ -87,7 +87,7 @@ class SidenavContent extends Component {
   }
 
   render() {
-    // const UserAdmin = this.props.InfoUser_Login.User.userAdmin.waRoleId;
+    // const UserAdmin = this.props.userLogin.userAdmin.waRoleId;
     return (
       <CustomScrollbars className=" scrollbar">
         <ul className="nav-menu">
@@ -95,14 +95,14 @@ class SidenavContent extends Component {
             <IntlMessages id="sidebar.main" />
           </li>
           {/* DASHBOARD */}
-          <li className="menu no-arrow">
+          {/* <li className="menu no-arrow">
             <NavLink to="/app/dashboard">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">
                 <IntlMessages id="sidebar.dashboard.dashboard" />
               </span>
             </NavLink>
-          </li>
+          </li> */}
           {/*REQUEST MANAGEMENT */}
           <li className="menu collapse-box">
             <Button>
@@ -235,7 +235,7 @@ class SidenavContent extends Component {
               </span>
             </Button>
             <ul className="sub-menu">
-              <li>
+              {/* <li>
                 <NavLink
                   className="prepend-icon"
                   to="/app/reports/general-reports"
@@ -244,7 +244,7 @@ class SidenavContent extends Component {
                     <IntlMessages id="sidebar.dashboard.generalreport" />
                   </span>
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink
                   className="prepend-icon"
@@ -301,7 +301,7 @@ class SidenavContent extends Component {
           {/* </li>  */}
           {/* SETTING */}
           {/* {UserAdmin === 1 ? ( */}
-          <li className="menu collapse-box">
+          {/* <li className="menu collapse-box">
             <Button>
               <i className="zmdi zmdi-settings zmdi-hc-fw" />
               <span className="nav-text">
@@ -309,16 +309,13 @@ class SidenavContent extends Component {
               </span>
             </Button>
             <ul className="sub-menu">
-              {/* <li>
-                  <NavLink
-                    className="prepend-icon"
-                    to="/app/adsettings/general"
-                  >
-                    <span className="nav-text">
-                      <IntlMessages id="sidebar.dashboard.General" />
-                    </span>
-                  </NavLink>
-                </li> */}
+              <li>
+                <NavLink className="prepend-icon" to="/app/adsettings/general">
+                  <span className="nav-text">
+                    <IntlMessages id="sidebar.dashboard.General" />
+                  </span>
+                </NavLink>
+              </li>
               <li>
                 <NavLink className="prepend-icon" to="/app/adsettings/smtp">
                   <span className="nav-text">
@@ -341,7 +338,7 @@ class SidenavContent extends Component {
                 </NavLink>
               </li>
             </ul>
-          </li>
+          </li> */}
           {/* // ) : null} */}
         </ul>
       </CustomScrollbars>
@@ -350,6 +347,6 @@ class SidenavContent extends Component {
 }
 const mapStateToProps = (state) => ({
   PendingProfile: state.ViewMerchant_Request,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 export default withRouter(connect(mapStateToProps)(SidenavContent));

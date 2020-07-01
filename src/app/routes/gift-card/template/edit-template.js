@@ -66,7 +66,7 @@ class EditTemplate extends Component {
     axios
       .put(URL + "/giftcardtemplate/disabled/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -193,7 +193,7 @@ class EditTemplate extends Component {
                   },
                   {
                     headers: {
-                      Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                      Authorization: `Bearer ${this.props.userLogin.token}`,
                     },
                   }
                 )
@@ -368,7 +368,7 @@ class EditTemplate extends Component {
 
 const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   Detail: state.GiftCardData.detail,
 });
 

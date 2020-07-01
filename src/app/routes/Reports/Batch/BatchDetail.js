@@ -119,7 +119,7 @@ class Transactions extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   Batch: state.getAllBatch,
   BatchDetail: state.BatchDetail,
 });

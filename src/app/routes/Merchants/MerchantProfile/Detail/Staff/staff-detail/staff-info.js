@@ -100,7 +100,7 @@ class staffGeneral extends Component {
                           render={(props) => (
                             <EditGeneral
                               {...props}
-                              token={this.props.InfoUser_Login.User.token}
+                              token={this.props.userLogin.token}
                               merchantID={this.props.MerchantProfile.merchantId}
                             />
                           )}
@@ -116,7 +116,7 @@ class staffGeneral extends Component {
                           render={(props) => (
                             <EditWorkTime
                               {...props}
-                              token={this.props.InfoUser_Login.User.token}
+                              token={this.props.userLogin.token}
                               merchantID={this.props.MerchantProfile.merchantId}
                             />
                           )}
@@ -131,7 +131,7 @@ class staffGeneral extends Component {
                           render={(props) => (
                             <EditSalary
                               {...props}
-                              token={this.props.InfoUser_Login.User.token}
+                              token={this.props.userLogin.token}
                               merchantID={this.props.MerchantProfile.merchantId}
                             />
                           )}
@@ -146,7 +146,7 @@ class staffGeneral extends Component {
                           render={(props) => (
                             <EditLicense
                               {...props}
-                              token={this.props.InfoUser_Login.User.token}
+                              token={this.props.userLogin.token}
                               merchantID={this.props.MerchantProfile.merchantId}
                             />
                           )}
@@ -170,7 +170,7 @@ class staffGeneral extends Component {
 
 const mapStateToProps = (state) => ({
   Staff: state.staffDetail,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   MerchantProfile: state.ViewProfile_Merchants,
 });
 

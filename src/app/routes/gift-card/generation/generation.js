@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  GET_GIFTCARD,
+  GET_GIFT_CARD,
   VIEW_DETAIL,
 } from "../../../../actions/gift-card/actions";
 import { GoTrashcan } from "react-icons/go";
@@ -46,7 +46,7 @@ class Generation extends Component {
     axios
       .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -84,7 +84,7 @@ class Generation extends Component {
           }&row=${pageSize}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -265,13 +265,13 @@ class Generation extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   GiftList: state.GiftCardData.generation,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   GET_DATA: () => {
-    dispatch(GET_GIFTCARD());
+    dispatch(GET_GIFT_CARD());
   },
   VIEW_DETAIL: (payload) => {
     dispatch(VIEW_DETAIL(payload));

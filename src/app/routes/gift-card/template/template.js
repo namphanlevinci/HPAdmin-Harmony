@@ -53,7 +53,7 @@ class Generation extends Component {
           }&row=${pageSize}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -107,7 +107,7 @@ class Generation extends Component {
     axios
       .put(URL + "/giftcardtemplate/disabled/" + deleteID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -281,7 +281,7 @@ class Generation extends Component {
 
 const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 
 const mapDispatchToProps = (dispatch) => ({

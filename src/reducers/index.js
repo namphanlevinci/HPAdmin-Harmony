@@ -2,7 +2,6 @@ import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
 import Settings from "./Settings";
 // USER
-import UserLogin from "./User/UserLogin";
 import userReducer from "./User/UserReducer";
 import getAllUser from "./User/getAllUser";
 // import Verify from "./User/Verify";
@@ -53,7 +52,6 @@ export default (history) =>
   combineReducers({
     router: connectRouter(history),
     settings: Settings,
-    User: UserLogin,
     getAllUser,
     userReducer,
     ViewProfile_Merchants,

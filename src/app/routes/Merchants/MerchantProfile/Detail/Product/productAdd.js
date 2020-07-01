@@ -68,7 +68,7 @@ class AddProduct extends Component {
     axios
       .get(URL + "/category/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -226,7 +226,7 @@ class AddProduct extends Component {
             axios
               .get(URL + "/product/checksku?sku=" + sku, {
                 headers: {
-                  Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                  Authorization: `Bearer ${this.props.userLogin.token}`,
                 },
               })
               .then((res) => {
@@ -253,7 +253,7 @@ class AddProduct extends Component {
                       },
                       {
                         headers: {
-                          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                          Authorization: `Bearer ${this.props.userLogin.token}`,
                         },
                       }
                     )
@@ -603,7 +603,7 @@ class AddProduct extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(AddProduct);

@@ -42,7 +42,7 @@ class Product extends Component {
     axios
       .get(URL + "/product/getbymerchant/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -67,7 +67,7 @@ class Product extends Component {
     axios
       .put(URL + "/product/archive/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {});
@@ -81,7 +81,7 @@ class Product extends Component {
     axios
       .put(URL + "/product/restore/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {});
@@ -351,7 +351,7 @@ class Product extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
   VIEW_SERVICE: (payload) => {

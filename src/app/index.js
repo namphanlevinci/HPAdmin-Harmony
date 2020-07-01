@@ -1,10 +1,6 @@
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import Header from "../components/Header/index";
-import Sidebar from "../containers/SideNav/index";
-import IdleTimer from "react-idle-timer";
-import Footer from "../components/Footer";
 import {
   ABOVE_THE_HEADER,
   BELOW_THE_HEADER,
@@ -13,9 +9,14 @@ import {
   HORIZONTAL_NAVIGATION,
 } from "../constants/ActionTypes";
 import { isIOS, isMobile } from "react-device-detect";
+import { AnimatedRoute } from "react-router-transition";
+
 import asyncComponent from "../util/asyncComponent";
 import TopNav from "../components/TopNav";
-
+import Header from "../components/Header/index";
+import Sidebar from "../containers/SideNav/index";
+import IdleTimer from "react-idle-timer";
+import Footer from "../components/Footer";
 // import Merchants from "./routes/Merchants/Merchants";
 import Accounts from "./routes/Accounts/Accounts";
 import Settings from "./routes/AdminSettings/Settings";
@@ -40,7 +41,7 @@ class App extends React.Component {
   };
 
   onIdle = (e) => {
-    //! REMOVE USER AFTER 30' IDLE
+    // REMOVE USER AFTER 30' IDLE
     console.log("BYE");
     localStorage.removeItem("User_login");
     this.props.history.push("/signin");
@@ -110,7 +111,7 @@ class App extends React.Component {
                   )}
                 />
                 <Route path={`${match.url}/business`} component={Business} />
-                <Route path={`${match.url}/dashboard`} component={Dashboard} />
+                {/* <Route path={`${match.url}/dashboard`} component={Dashboard} /> */}
                 <Route path={`${match.url}/consumers`} component={Consumers} />
                 <Route path={`${match.url}/reports`} component={Reports} />
                 <Route path={`${match.url}/giftcard`} component={GiftCard} />

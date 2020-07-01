@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  GET_GIFTCARD_BY_ID,
-  GET_GIFTCARD_CODE_LOG_BY_ID,
+  GET_GIFT_CARD_BY_ID,
+  GET_GIFT_CARD_CODE_LOG_BY_ID,
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { store } from "react-notifications-component";
@@ -80,7 +80,7 @@ class Generation_Detail extends Component {
           { giftCardGeneralId, quantity },
           {
             headers: {
-              Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+              Authorization: `Bearer ${this.props.userLogin.token}`,
             },
           }
         )
@@ -126,7 +126,7 @@ class Generation_Detail extends Component {
           }&row=${pageSize}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -178,7 +178,7 @@ class Generation_Detail extends Component {
     axios
       .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -444,17 +444,17 @@ class Generation_Detail extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   Detail: state.GiftCardData.detail,
   GenerationCode: state.GiftCardData.generation_code,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getGenerationCode: (ID) => {
-    dispatch(GET_GIFTCARD_BY_ID(ID));
+    dispatch(GET_GIFT_CARD_BY_ID(ID));
   },
   getCodeLog: (ID) => {
-    dispatch(GET_GIFTCARD_CODE_LOG_BY_ID(ID));
+    dispatch(GET_GIFT_CARD_CODE_LOG_BY_ID(ID));
   },
 });
 

@@ -5,12 +5,12 @@ const initialState = {
   template: [],
   detail: {},
   generation_code: [],
-  generationCode_log: []
+  generationCode_log: [],
 };
 
 const GiftCardReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case typeGiftCard.GET_GIFTCARD_SUCCESS:
+    case typeGiftCard.GET_GIFT_CARD_SUCCESS:
       state.generation = payload;
       return { ...state };
     case typeGiftCard.GET_TEMPLATE_SUCCESS:
@@ -19,10 +19,10 @@ const GiftCardReducer = (state = initialState, { type, payload }) => {
     case typeGiftCard.VIEW_DETAIL:
       state.detail = payload;
       return { ...state };
-    case typeGiftCard.GET_GIFTCARD_BY_ID_SUCCESS:
+    case typeGiftCard.GET_GIFT_CARD_BY_ID_SUCCESS:
       state.generation_code = payload?.giftCards;
       return { ...state };
-    case typeGiftCard.GET_GIFTCARD_CODE_LOG_BY_ID_SUCCESS:
+    case typeGiftCard.GET_GIFT_CARD_CODE_LOG_BY_ID_SUCCESS:
       state.generationCode_log = payload;
       return { ...state };
     default:

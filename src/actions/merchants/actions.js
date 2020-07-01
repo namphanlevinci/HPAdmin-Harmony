@@ -1,140 +1,140 @@
 import * as types from "./types";
 
-//! GET ALL ACCEPTED MERCHANT LIST
-export const getAll_Merchants = payload => ({
+// GET ALL ACCEPTED MERCHANT LIST
+export const getAll_Merchants = (payload) => ({
   type: types.getAll_Merchants,
-  payload: payload
+  payload: payload,
 });
 
-export const getAll_Merchants_Success = payload => ({
+export const getAll_Merchants_Success = (payload) => ({
   type: types.getAll_Merchants_Success,
-  payload: payload
+  payload: payload,
 });
 
-export const getAll_Merchants_Error = payload => ({
+export const getAll_Merchants_Error = (payload) => ({
   type: types.getAll_Merchants_Error,
-  payload: payload
+  payload: payload,
 });
 
-export const SearchMerchants = payload => ({
+export const SearchMerchants = (payload) => ({
   type: types.SearchMerchants,
-  payload: payload
+  payload: payload,
 });
 
-export const ViewProfile_Merchants = payload => ({
+export const ViewProfile_Merchants = (payload) => ({
   type: types.ViewProfile_Merchants,
-  payload
+  payload,
 });
-//! GET PENDING MERCHANT LIST
-export const getAll_Merchant_Requests = payload => ({
+// GET PENDING MERCHANT LIST
+export const getAll_Merchant_Requests = (payload) => ({
   type: types.getAll_Merchant_Requests,
-  payload: payload
+  payload: payload,
 });
 
-export const getAll_Merchant_Requests_Success = payload => ({
+export const getAll_Merchant_Requests_Success = (payload) => ({
   type: types.getAll_Merchant_Requests_Success,
-  payload: payload
+  payload: payload,
 });
 
-export const getAll_Merchant_Requests_Error = payload => ({
+export const getAll_Merchant_Requests_Error = (payload) => ({
   type: types.getAll_Merchant_Requests_Error,
-  payload: payload
+  payload: payload,
 });
 
-export const ViewMerchant_Request = payload => ({
+export const ViewMerchant_Request = (payload) => ({
   type: types.ViewMerchant_Request,
-  payload
+  payload,
 });
 
-//! GET REJECTED MERCHANT LIST
+// GET REJECTED MERCHANT LIST
 
-export const getAll_Rejected_Merchants = payload => ({
+export const getAll_Rejected_Merchants = (payload) => ({
   type: types.getAll_Rejected_Merchants,
-  payload: payload
+  payload: payload,
 });
 
-export const getAll_Rejected_Merchants_Success = payload => ({
+export const getAll_Rejected_Merchants_Success = (payload) => ({
   type: types.getAll_Rejected_Merchants_Success,
-  payload: payload
+  payload: payload,
 });
 
-export const getAll_Rejected_Merchants_Error = payload => ({
+export const getAll_Rejected_Merchants_Error = (payload) => ({
   type: types.getAll_Rejected_Merchants_Error,
-  payload: payload
+  payload: payload,
 });
 
-export const ViewMerchant_Rejected_Merchants = payload => ({
+export const ViewMerchant_Rejected_Merchants = (payload) => ({
   type: types.ViewMerchant_Rejected_Merchants,
-  payload
+  payload,
 });
 
-//! Edit Merchant Information (General)
-export const UpdateMerchant_Infor = payload => ({
+// Edit Merchant Information (General)
+export const UpdateMerchant_Infor = (payload) => ({
   type: types.UpdateMerchant_Infor,
-  payload: payload
+  payload: payload,
 });
-export const UpdateMerchant_Infor_Success = payload => ({
+export const UpdateMerchant_Infor_Success = (payload) => ({
   type: types.UpdateMerchant_Infor_Success,
-  payload: payload
+  payload: payload,
 });
-export const UpdateMerchant_Infor_Error = payload => ({
+export const UpdateMerchant_Infor_Error = (payload) => ({
   type: types.UpdateMerchant_Infor_Error,
-  payload: payload
+  payload: payload,
 });
-//! Get merchant infor by ID
-export const GetMerchant_byID = payload => ({
+// Get merchant infor by ID
+export const GetMerchant_byID = (payload) => ({
   type: types.GetMerchant_byID,
-  payload: payload
+  payload: payload,
 });
-export const GetMerchant_byID_Success = payload => ({
+export const GetMerchant_byID_Success = (payload) => ({
   type: types.GetMerchant_byID_Success,
-  payload: payload
+  payload: payload,
 });
-export const GetMerchant_byID_Error = payload => ({
+export const GetMerchant_byID_Error = (payload) => ({
   type: types.GetMerchant_byID_Error,
-  payload: payload
+  payload: payload,
 });
-//! Send approval request
-export const MERCHANT_APPROVAL = payload => ({
+// Send approval request
+export const MERCHANT_APPROVAL = (payload) => ({
   type: types.MERCHANT_APPROVAL,
-  payload: payload
+  payload: payload,
 });
-export const MERCHANT_APPROVAL_SUCCESS = payload => ({
+export const MERCHANT_APPROVAL_SUCCESS = (payload) => ({
   type: types.MERCHANT_APPROVAL_SUCCESS,
-  payload: payload
+  payload: payload,
 });
-export const MERCHANT_APPROVAL_ERROR = payload => ({
+export const MERCHANT_APPROVAL_ERROR = (payload) => ({
   type: types.MERCHANT_APPROVAL_ERROR,
-  payload: payload
+  payload: payload,
 });
-//! Send reject request
-export const MERCHANT_REJECT = payload => ({
+// Send reject request
+export const MERCHANT_REJECT = (payload) => ({
   type: types.MERCHANT_REJECT,
-  payload: payload
+  payload: payload,
 });
-export const MERCHANT_REJECT_SUCCESS = payload => ({
+export const MERCHANT_REJECT_SUCCESS = (payload) => ({
   type: types.MERCHANT_REJECT_SUCCESS,
-  payload: payload
+  payload: payload,
 });
-export const MERCHANT_REJECT_ERROR = payload => ({
+export const MERCHANT_REJECT_ERROR = (payload) => ({
   type: types.MERCHANT_REJECT_ERROR,
-  payload: payload
+  payload: payload,
 });
 
-//! UPDATE PRINCIPAL INFORMATIONS
-export const UPDATE_PRINCIPAL = payload => ({
+// UPDATE PRINCIPAL INFORMATIONS
+export const UPDATE_PRINCIPAL = (payload) => ({
   type: types.UPDATE_PRINCIPAL,
-  payload: payload
+  payload: payload,
 });
 
-//! VIEW SERVICE
-export const VIEW_SERVICE = payload => ({
+// VIEW SERVICE
+export const VIEW_SERVICE = (payload) => ({
   type: types.VIEW_SERVICE,
-  payload
+  payload,
 });
 
-//! VIEW STAFF DETAIL
-export const VIEW_STAFF = payload => ({
+// VIEW STAFF DETAIL
+export const VIEW_STAFF = (payload) => ({
   type: types.VIEW_STAFF,
-  payload
+  payload,
 });

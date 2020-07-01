@@ -43,7 +43,7 @@ class Users extends Component {
     await axios
       .get(URL + "/adminuser/" + ID, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then((res) => {
@@ -68,7 +68,7 @@ class Users extends Component {
           }&row=${pageSize}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -193,7 +193,11 @@ class Users extends Component {
                 />
               </form>
             </div>
-            <Button className="btn btn-green" onClick={this.addAdmin}>
+            <Button
+              className="btn btn-green"
+              onClick={this.addAdmin}
+              style={{ margin: "0px" }}
+            >
               ADD NEW USER
             </Button>
           </div>
@@ -222,7 +226,7 @@ class Users extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   UserList: state.getAllUser,
 });
 const mapDispatchToProps = (dispatch) => ({

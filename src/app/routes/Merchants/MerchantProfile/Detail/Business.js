@@ -15,7 +15,7 @@ class Business extends Component {
     // console.log("Fix something", e)
     const renderQuestion =
       e.business !== undefined ? (
-        e.business.map(e => {
+        e.business.map((e) => {
           return (
             <div className="col-md-6" key={e.businessId}>
               <h4>{e.question}</h4>
@@ -38,9 +38,9 @@ class Business extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  userLogin: state.userReducer.User,
 });
 
 export default connect(mapStateToProps)(Business);

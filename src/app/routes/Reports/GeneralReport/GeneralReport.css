@@ -70,7 +70,7 @@
   border-radius: 4px;
 }
 
-/* //! REACT TABLE */
+/* // REACT TABLE */
 .ReactTable .rt-thead .rt-th.-sort-asc,
 .ReactTable .rt-thead .rt-td.-sort-asc {
   box-shadow: inset 0 3px 0 0 red !important;

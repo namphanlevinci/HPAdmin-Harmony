@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import {
   getAll_Questions,
-  UPDATE_QUESTIONS
+  UPDATE_QUESTIONS,
 } from "../../../../actions/business/actions";
 import { store } from "react-notifications-component";
 
@@ -30,21 +30,21 @@ class Questions extends Component {
     this.state = {
       edit: false,
       question: "",
-      qID: ""
+      qID: "",
     };
   }
   componentDidMount() {
     this.props.getAll_Questions();
   }
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
-  _toggleEdit = e => {
+  _toggleEdit = (e) => {
     this.setState({ edit: true, question: e.value, qID: e.questionId });
   };
   _turnOffEdit = () => {
@@ -70,8 +70,8 @@ class Questions extends Component {
           animationOut: ["animated", "fadeOut"],
           dismiss: {
             duration: 5000,
-            onScreen: true
-          }
+            onScreen: true,
+          },
         });
         this.setState({ edit: false });
       } else {
@@ -85,15 +85,15 @@ class Questions extends Component {
           animationOut: ["animated", "fadeOut"],
           dismiss: {
             duration: 5000,
-            onScreen: true
-          }
+            onScreen: true,
+          },
         });
       }
     }
   }
   render() {
     const q = this.props.Questions;
-    const renderQuestions = q.map(e => {
+    const renderQuestions = q.map((e) => {
       return (
         <ExpansionPanel key={e.questionId}>
           <ExpansionPanelSummary
@@ -169,18 +169,18 @@ class Questions extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  InfoUser_Login: state.User,
+const mapStateToProps = (state) => ({
+  userLogin: state.userReducer.User,
   Questions: state.getQuestions,
-  uQuestions: state.uQuestions
+  uQuestions: state.uQuestions,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAll_Questions: () => {
     dispatch(getAll_Questions());
   },
-  UPDATE_QUESTIONS: payload => {
+  UPDATE_QUESTIONS: (payload) => {
     dispatch(UPDATE_QUESTIONS(payload));
-  }
+  },
 });
 
 export default withRouter(

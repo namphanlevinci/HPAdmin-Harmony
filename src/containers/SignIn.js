@@ -23,45 +23,20 @@ class SignIn extends React.Component {
   }
 
   onSubmit = async (e) => {
-    this.setState({ loading: true });
-    // await e.preventDefault();
+    // this.setState({ loading: true });
     const { email, password } = await this.state;
     await this.props.USER_LOGIN_REQUEST({ email, password });
+    // setTimeout({})
   };
   componentDidMount() {
     document.addEventListener("keypress", this.keyPressed);
   }
-  // componentWillUnmount() {
-  //   document.removeEventListener("keypress", this.keyPressed);
-  // }
 
   keyPressed = (e) => {
     if (e.code === "Enter") {
-      // console.log("1");
       this.onSubmit();
     }
   };
-  componentWillReceiveProps(nextProps) {
-    const Message = localStorage.getItem("Message");
-    this.setState({ loading: false, isRight: true });
-    if (Message !== null) {
-      store.addNotification({
-        title: "Error!",
-        message: `${Message}`,
-        type: "danger",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 250,
-      });
-      setTimeout(() => localStorage.removeItem("Message"), 1000);
-    }
-  }
 
   render() {
     const { email, password } = this.state;
@@ -142,7 +117,7 @@ class SignIn extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  // InfoUser_Login: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
   USER_LOGIN_REQUEST: (user_info) => {

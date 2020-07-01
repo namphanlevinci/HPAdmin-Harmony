@@ -21,17 +21,17 @@ class Twilio extends Component {
       password: "",
       userSmtp: "",
       creditFree: "",
-      transactionFee: ","
+      transactionFee: ",",
     };
   }
   async componentDidMount() {
     await axios
       .get(URL + "/adminsetting", {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.userLogin.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         const twilio = res.data.data.twilio;
         const smtp = res.data.data.smtp;
         const general = res.data.data.general;
@@ -46,19 +46,19 @@ class Twilio extends Component {
           userSmtp: smtp.userSmtp,
           creditFree: general.creditFree,
           transactionFee: general.transactionFee,
-          totalAmountLimit: general.totalAmountLimit
+          totalAmountLimit: general.totalAmountLimit,
         });
       });
   }
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
-  _updateTwilio = e => {
+  _updateTwilio = (e) => {
     e.preventDefault();
     const {
       accountSid,
@@ -70,12 +70,12 @@ class Twilio extends Component {
       userSmtp,
       creditFree,
       transactionFee,
-      totalAmountLimit
+      totalAmountLimit,
     } = this.state;
     let twilio = {
       accountSid: accountSid,
       auToken: auToken,
-      phoneSender: phoneSender
+      phoneSender: phoneSender,
     };
     let smtp = { email, host, password, userSmtp };
     let general = { transactionFee, creditFree, totalAmountLimit };
@@ -85,11 +85,11 @@ class Twilio extends Component {
         { twilio, smtp, general },
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.userLogin.token}`,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         store.addNotification({
           title: "SUCCESS!",
           message: `${res.data.message}`,
@@ -100,12 +100,12 @@ class Twilio extends Component {
           animationOut: ["animated", "fadeOut"],
           dismiss: {
             duration: 25000,
-            onScreen: true
+            onScreen: true,
           },
-          width: 250
+          width: 250,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         // console.log("ERROR", error);
         store.addNotification({
           title: "ERROR!",
@@ -117,9 +117,9 @@ class Twilio extends Component {
           animationOut: ["animated", "fadeOut"],
           dismiss: {
             duration: 5000,
-            onScreen: true
+            onScreen: true,
           },
-          width: 250
+          width: 250,
         });
       });
   };
@@ -177,8 +177,8 @@ class Twilio extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  InfoUser_Login: state.User
+const mapStateToProps = (state) => ({
+  userLogin: state.userReducer.User,
 });
 
 export default connect(mapStateToProps)(Twilio);

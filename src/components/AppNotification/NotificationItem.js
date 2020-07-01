@@ -15,17 +15,17 @@ class NotificationItem extends Component {
     super(props);
     this.state = {};
   }
-  _handleDelete = e => {
+  _handleDelete = (e) => {
     axios
       .delete(URL + "/notification/" + e, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.userLogin.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         // console.log(res)
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -34,7 +34,7 @@ class NotificationItem extends Component {
       icon,
       title,
       receiveDate,
-      notificationId
+      notificationId,
     } = this.props.notification;
     const time = moment(receiveDate).format("MMMM Do YYYY, h:mm:ss a");
     return (
@@ -60,8 +60,8 @@ class NotificationItem extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  InfoUser_Login: state.User
+const mapStateToProps = (state) => ({
+  userLogin: state.userReducer.User,
 });
 
 export default withRouter(connect(mapStateToProps)(NotificationItem));

@@ -23,15 +23,15 @@ class General extends Component {
       userSmtp: "",
       transactionFee: "",
       creditFree: "",
-      totalAmountLimit: ""
+      totalAmountLimit: "",
     };
   }
   async componentDidMount() {
     await Axios.get(URL + "/adminsetting", {
       headers: {
-        Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-      }
-    }).then(res => {
+        Authorization: `Bearer ${this.props.userLogin.token}`,
+      },
+    }).then((res) => {
       // console.log({ res });
       const general = res.data.data.general;
       const twilio = res.data.data.twilio;
@@ -47,19 +47,19 @@ class General extends Component {
         userSmtp: smtp.userSmtp,
         transactionFee: general.transactionFee,
         creditFree: general.creditFree,
-        totalAmountLimit: general.totalAmountLimit
+        totalAmountLimit: general.totalAmountLimit,
       });
     });
   }
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
-  _updateFee = e => {
+  _updateFee = (e) => {
     e.preventDefault();
     const {
       accountSid,
@@ -71,12 +71,12 @@ class General extends Component {
       userSmtp,
       transactionFee,
       creditFree,
-      totalAmountLimit
+      totalAmountLimit,
     } = this.state;
     let twilio = {
       accountSid: accountSid,
       auToken: auToken,
-      phoneSender: phoneSender
+      phoneSender: phoneSender,
     };
     let smtp = { email, host, password, userSmtp };
     let general = { transactionFee, creditFree, totalAmountLimit };
@@ -85,11 +85,11 @@ class General extends Component {
       { twilio, smtp, general },
       {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-        }
+          Authorization: `Bearer ${this.props.userLogin.token}`,
+        },
       }
     )
-      .then(res => {
+      .then((res) => {
         // <Notification
         //   title={"Success"}
         //   message={res.data.message}
@@ -97,7 +97,7 @@ class General extends Component {
         // />;
         // console.log('UPDATE', res)
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("ERROR", error);
         // NotificationManager.error(error.data.message, null, 800);
       });
@@ -185,8 +185,8 @@ class General extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  InfoUser_Login: state.User
+const mapStateToProps = (state) => ({
+  userLogin: state.userReducer.User,
 });
 
 export default connect(mapStateToProps)(General);

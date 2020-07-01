@@ -178,7 +178,7 @@ class P2P extends React.Component {
           }&amountTo=${amount ? amount : amountTo}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -419,7 +419,7 @@ class P2P extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   TransactionList: state.getTransactions,
   P2PList: state.GetP2P,
 });

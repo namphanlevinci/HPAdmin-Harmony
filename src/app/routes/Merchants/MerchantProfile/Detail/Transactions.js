@@ -20,7 +20,7 @@ class Transactions extends Component {
       search_consumer: "",
       search_amount: "",
       from: undefined,
-      to: undefined
+      to: undefined,
     };
   }
 
@@ -31,15 +31,15 @@ class Transactions extends Component {
         "https://api2.levincidemo.com/api/CustomerMerchantTransaction/" + ID,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`
-          }
+            Authorization: `Bearer ${this.props.userLogin.token}`,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         // console.log("res.data.data", res.data.data);
         this.setState({ data: res.data.data });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -49,24 +49,24 @@ class Transactions extends Component {
   };
   getUnique(arr, comp) {
     const unique = arr
-      .map(e => e[comp])
+      .map((e) => e[comp])
       .map((e, i, final) => final.indexOf(e) === i && i)
-      .filter(e => arr[e])
-      .map(e => arr[e]);
+      .filter((e) => arr[e])
+      .map((e) => arr[e]);
     return unique;
   }
-  handleDayClick = day => {
+  handleDayClick = (day) => {
     const range = DateUtils.addDayToRange(day, this.state);
     this.setState(range);
   };
-  _onChangeSearchUser = async e => {
+  _onChangeSearchUser = async (e) => {
     await this.setState({
-      search_consumer: e.target.value
+      search_consumer: e.target.value,
     });
   };
-  _onChangeSearchAmount = async e => {
+  _onChangeSearchAmount = async (e) => {
     await this.setState({
-      search_amount: e.target.value
+      search_amount: e.target.value,
     });
   };
 
@@ -77,7 +77,7 @@ class Transactions extends Component {
     let renderTable = this.state.data;
     let renderConsumerName = this.state.data;
     if (this.state.from) {
-      renderTable = renderTable.filter(datez => {
+      renderTable = renderTable.filter((datez) => {
         let date = moment(datez.createdDate)
           .subtract(10, "days")
           .calendar();
@@ -95,13 +95,13 @@ class Transactions extends Component {
       });
     }
     if (this.state.search_consumer) {
-      renderTable = renderTable.filter(e => {
+      renderTable = renderTable.filter((e) => {
         let name = e.customer.firstName + " " + e.customer.lastName;
         return name === this.state.search_consumer;
       });
     }
     if (this.state.search_amount) {
-      renderTable = renderTable.filter(e => {
+      renderTable = renderTable.filter((e) => {
         let amount = e.amount;
         if (amount <= 50) {
           return amount <= this.state.search_amount;
@@ -113,7 +113,7 @@ class Transactions extends Component {
       });
     }
     let ConsumerName = this.getUnique(renderConsumerName, "customerId");
-    const renderConsumer = ConsumerName.map(e => {
+    const renderConsumer = ConsumerName.map((e) => {
       const name =
         e.customer !== null
           ? e.customer.firstName + " " + e.customer.lastName
@@ -124,7 +124,7 @@ class Transactions extends Component {
         </option>
       );
     });
-    const renderContent = renderTable.map(e => {
+    const renderContent = renderTable.map((e) => {
       return (
         <tr key={e.customerMerchantTransactionId}>
           <td>
@@ -160,7 +160,7 @@ class Transactions extends Component {
                     padding: "10px 20px",
                     color: "#4251af",
                     backgroundColor: "#fff",
-                    fontWeight: "600"
+                    fontWeight: "600",
                   }}
                   variant="contained"
                   color="primary"
@@ -234,9 +234,9 @@ class Transactions extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User
+  userLogin: state.userReducer.User,
 });
 
 export default connect(mapStateToProps)(Transactions);

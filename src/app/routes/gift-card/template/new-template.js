@@ -120,7 +120,7 @@ class NewTemplate extends Component {
                   { giftCardTemplateName, giftCardType, isConsumer, fileId },
                   {
                     headers: {
-                      Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+                      Authorization: `Bearer ${this.props.userLogin.token}`,
                     },
                   }
                 )
@@ -297,7 +297,7 @@ class NewTemplate extends Component {
 
 const mapStateToProps = (state) => ({
   Template: state.GiftCardData.template,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 
 const mapDispatchToProps = (dispatch) => ({

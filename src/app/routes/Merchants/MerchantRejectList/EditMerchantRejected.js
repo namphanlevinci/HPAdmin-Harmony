@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   ViewProfile_Merchants,
   UpdateMerchant_Infor,
-  GetMerchant_byID
+  GetMerchant_byID,
 } from "../../../../actions/merchants/actions";
 import { ViewMerchant_Rejected_Merchants } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
@@ -37,7 +37,7 @@ class EditMerchantRejected extends Component {
       lastName: "",
       title: "",
       doBusinessName: "",
-      stateName: ""
+      stateName: "",
     };
   }
 
@@ -58,23 +58,23 @@ class EditMerchantRejected extends Component {
         lastName: data.general.lastName,
         title: data.general.title,
         doBusinessName: data.general.doBusinessName,
-        stateName: data.state.name
+        stateName: data.state.name,
       });
     }
   }
 
-  _handleChange = event => {
+  _handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
   _goBack = () => {
     this.props.history.push("/app/merchants/rejected/profile");
   };
-  getStateId = e => {
+  getStateId = (e) => {
     this.setState({ stateId: e });
   };
   _update = () => {
@@ -93,7 +93,7 @@ class EditMerchantRejected extends Component {
       phoneContact,
       firstName,
       lastName,
-      title
+      title,
     } = this.state;
 
     const payload = {
@@ -110,7 +110,7 @@ class EditMerchantRejected extends Component {
       phoneContact,
       firstName,
       lastName,
-      title
+      title,
     };
     this.props.updateMerchant(payload);
     setTimeout(() => {
@@ -130,9 +130,9 @@ class EditMerchantRejected extends Component {
         animationOut: ["animated", "fadeOut"],
         dismiss: {
           duration: 5000,
-          onScreen: true
+          onScreen: true,
         },
-        width: 250
+        width: 250,
       });
     }
     if (nextProps.getMerchant !== this.props.getMerchant) {
@@ -289,26 +289,26 @@ class EditMerchantRejected extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   MerchantProfile: state.ViewProfile_Merchants,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   UpdateStatus: state.updateMerchant_Infor,
-  getMerchant: state.getMerchant
+  getMerchant: state.getMerchant,
 });
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    ViewProfile_Merchants: payload => {
+    ViewProfile_Merchants: (payload) => {
       dispatch(ViewProfile_Merchants(payload));
     },
-    updateMerchant: payload => {
+    updateMerchant: (payload) => {
       dispatch(UpdateMerchant_Infor(payload));
     },
-    GetMerchant_byID: ID => {
+    GetMerchant_byID: (ID) => {
       dispatch(GetMerchant_byID(ID));
     },
-    ViewMerchant_Rejected_Merchants: payload => {
+    ViewMerchant_Rejected_Merchants: (payload) => {
       dispatch(ViewMerchant_Rejected_Merchants(payload));
-    }
+    },
   };
 };
 export default connect(

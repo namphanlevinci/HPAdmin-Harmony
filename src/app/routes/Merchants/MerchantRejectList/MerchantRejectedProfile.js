@@ -44,7 +44,7 @@ class MerchantRejectedProfile extends Component {
     axios
       .put(URL + "/merchant/restorepending/" + ID, null, {
         headers: {
-          Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+          Authorization: `Bearer ${this.props.userLogin.token}`,
         },
       })
       .then(async (res) => {
@@ -103,7 +103,7 @@ class MerchantRejectedProfile extends Component {
     const e = this.props.RejectedProfile;
     let principalLength = this.props.RejectedProfile?.principals?.length;
 
-    //! render Principal
+    // render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
         e.principals.map((e, index) => {
@@ -177,7 +177,7 @@ class MerchantRejectedProfile extends Component {
       ) : (
         <h4>&nbsp;- NO PRINCIPALS INFORMATION</h4>
       );
-    //! render questions
+    // render questions
     const renderQuestion =
       e.business !== undefined ? (
         e.business.map((e) => {
@@ -193,7 +193,7 @@ class MerchantRejectedProfile extends Component {
       ) : (
         <h4>&nbsp;- NO BUSINESS INFORMATION</h4>
       );
-    //! render rejected list
+    // render rejected list
     const renderPendingProfile =
       e.merchantId !== undefined ? (
         <div className="container-fluid PendingList react-transition swipe-right">
@@ -360,7 +360,7 @@ class MerchantRejectedProfile extends Component {
 
 const mapStateToProps = (state) => ({
   RejectedProfile: state.ViewProfile_Rejected,
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
   getAll_Rejected_Merchants: () => {

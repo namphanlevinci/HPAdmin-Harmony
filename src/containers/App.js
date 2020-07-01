@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import MomentUtils from "@date-io/moment";
 import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";
-import "../assets/vendors/style";
+import { ProtectedRoute } from "./ProtectedRoute";
+
+import MomentUtils from "@date-io/moment";
 import defaultTheme from "./themes/defaultTheme";
 import AppLocale from "../lngProvider";
-
 import MainApp from "../app/index";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -16,10 +16,10 @@ import Verify_User from "./Verify_User";
 import RTL from "../util/RTL";
 import asyncComponent from "../util/asyncComponent";
 import ReactNotification from "react-notifications-component";
-import { ProtectedRoute } from "./ProtectedRoute";
 // transitions
 import "./react-transitions.css";
 import "react-notifications-component/dist/theme.css";
+import "../assets/vendors/style";
 
 class App extends Component {
   componentDidMount() {

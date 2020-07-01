@@ -73,12 +73,23 @@ class Roles extends Component {
         />
         <div className="page-heading role">
           <div className="role-department">
-            <h3>Department</h3>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                margin: "20px 0px",
+              }}
+            >
+              <h3>Department</h3>
+              <Button className="btn btn-green">NEW DEPARTMENT</Button>
+            </div>
+
             <ReactTable columns={department} data={data} minRows={0} />
           </div>
           <div className="role-permissions">
             <h3>Permissions</h3>
-            <table>
+
+            <table style={{ width: "100%" }}>
               <thead>
                 <tr>
                   <th style={{ width: "44%" }}>Roles</th>

@@ -45,7 +45,7 @@ class Transactions extends React.Component {
           }&row=${pageSize}`,
         {
           headers: {
-            Authorization: `Bearer ${this.props.InfoUser_Login.User.token}`,
+            Authorization: `Bearer ${this.props.userLogin.token}`,
           },
         }
       )
@@ -253,7 +253,7 @@ class Transactions extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  userLogin: state.userReducer.User,
   Batch: state.getAllBatch,
 });
 const mapDispatchToProps = (dispatch) => ({

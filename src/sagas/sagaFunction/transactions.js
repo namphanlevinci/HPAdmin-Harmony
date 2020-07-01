@@ -1,28 +1,28 @@
 import { takeLatest, put } from "redux-saga/effects";
 import {
-  getAll_Transactions_api,
-  getUser_Transaction_api,
-  getUser_Activity_api,
-  getAll_Batch_api,
-  getAll_P2PTransactions_api,
-  getBatchDetail_api
+  GET_ALL_TRANSACTION_API,
+  GET_USER_TRANSACTION_API,
+  GET_USER_ACTIVITY_API,
+  GET_ALL_BATCH_API,
+  GET_P2P_TRANSACTION_API,
+  GET_BATCH_DETAIL_API,
 } from "../api/transactions";
 import * as typeTransactions from "../../actions/transactions/types";
 
-//! GET ALL TRANSACTIONS
-export function* getAll_Transactions_Saga() {
+// GET ALL TRANSACTIONS
+export function* GET_ALL_TRANSACTION_SAGA() {
   yield takeLatest(typeTransactions.getAll_Transactions, function*() {
     try {
-      const TransactionsList = yield getAll_Transactions_api();
+      const TransactionsList = yield GET_ALL_TRANSACTION_API();
       if (TransactionsList !== null) {
         yield put({
           type: typeTransactions.getAll_Transactions_Success,
-          payload: TransactionsList.data
+          payload: TransactionsList.data,
         });
       } else {
         yield put({
           type: typeTransactions.getAll_Transactions_Error,
-          payload: "Something went wrong, please try again later!"
+          payload: "Something went wrong, please try again later!",
         });
       }
     } catch (error) {
@@ -31,20 +31,20 @@ export function* getAll_Transactions_Saga() {
   });
 }
 
-//! GET P2P TRANSACTIONS
-export function* getP2P_Transactions_Saga() {
+// GET P2P TRANSACTIONS
+export function* GET_P2P_TRANSACTION_SAGA() {
   yield takeLatest(typeTransactions.getP2P_Transactions, function*() {
     try {
-      const P2PTransactionsList = yield getAll_P2PTransactions_api();
+      const P2PTransactionsList = yield GET_P2P_TRANSACTION_API();
       if (P2PTransactionsList !== null) {
         yield put({
           type: typeTransactions.getP2P_Transactions_Success,
-          payload: P2PTransactionsList.data
+          payload: P2PTransactionsList.data,
         });
       } else {
         yield put({
           type: typeTransactions.getP2P_Transactions_Error,
-          payload: "Something went wrong, please try again later!"
+          payload: "Something went wrong, please try again later!",
         });
       }
     } catch (error) {
@@ -53,21 +53,21 @@ export function* getP2P_Transactions_Saga() {
   });
 }
 
-//! CONSUMER TRANSACTIONS
-export function* getUser_Transaction_Saga() {
+// CONSUMER TRANSACTIONS
+export function* GET_USER_TRANSACTION_SAGA() {
   yield takeLatest(typeTransactions.getUser_Transaction, function*(action) {
     try {
       const IDUser = action.payload;
-      const userTransactions = yield getUser_Transaction_api(IDUser);
+      const userTransactions = yield GET_USER_TRANSACTION_API(IDUser);
       if (userTransactions !== null) {
         yield put({
           type: typeTransactions.getUser_Transaction_Success,
-          payload: userTransactions.data
+          payload: userTransactions.data,
         });
       } else {
         yield put({
           type: typeTransactions.getUser_Transaction_Error,
-          payload: "Something went wrong, please try again later!"
+          payload: "Something went wrong, please try again later!",
         });
       }
     } catch (error) {
@@ -76,21 +76,21 @@ export function* getUser_Transaction_Saga() {
   });
 }
 
-//! CONSUMER ACTIVITY
-export function* getUser_Activity_Saga() {
+// CONSUMER ACTIVITY
+export function* GET_USER_ACTIVITY_SAGA() {
   yield takeLatest(typeTransactions.getUser_Activity, function*(action) {
     try {
       const IDUser = action.payload;
-      const userTransactions = yield getUser_Activity_api(IDUser);
+      const userTransactions = yield GET_USER_ACTIVITY_API(IDUser);
       if (userTransactions !== null) {
         yield put({
           type: typeTransactions.getUser_Activity_Success,
-          payload: userTransactions.data
+          payload: userTransactions.data,
         });
       } else {
         yield put({
           type: typeTransactions.getUser_Activity_Error,
-          payload: "Something went wrong, please try again later!"
+          payload: "Something went wrong, please try again later!",
         });
       }
     } catch (error) {
@@ -99,21 +99,21 @@ export function* getUser_Activity_Saga() {
   });
 }
 
-//! GET BATCH SETTLEMENT
-export function* getAll_Batch_Saga() {
+// GET BATCH SETTLEMENT
+export function* GET_ALL_BATCH_SAGA() {
   yield takeLatest(typeTransactions.getBatch, function*(action) {
     try {
-      const getBatchData = yield getAll_Batch_api();
+      const getBatchData = yield GET_ALL_BATCH_API();
       if (getBatchData !== null) {
         // console.log("=====================", getBatchData);
         yield put({
           type: typeTransactions.getBatch_Success,
-          payload: getBatchData.data
+          payload: getBatchData.data,
         });
       } else {
         yield put({
           type: typeTransactions.getBatch_Error,
-          payload: "Something went wrong, please try again later!"
+          payload: "Something went wrong, please try again later!",
         });
       }
     } catch (error) {
@@ -122,20 +122,20 @@ export function* getAll_Batch_Saga() {
   });
 }
 
-//! GET BATCH DETAIL
-export function* getBatchDetail_Saga() {
+// GET BATCH DETAIL
+export function* GET_BATCH_DETAIL_SAGA() {
   yield takeLatest(typeTransactions.getBatchDetail, function*(action) {
     try {
-      const BatchDetail = yield getBatchDetail_api(action);
+      const BatchDetail = yield GET_BATCH_DETAIL_API(action);
       if (BatchDetail !== null) {
         yield put({
           type: typeTransactions.getBatchDetail_Success,
-          payload: BatchDetail.data
+          payload: BatchDetail.data,
         });
       } else {
         yield put({
           type: typeTransactions.getBatchDetail_Error,
-          payload: "Something went wrong, please try again later!"
+          payload: "Something went wrong, please try again later!",
         });
       }
     } catch (error) {

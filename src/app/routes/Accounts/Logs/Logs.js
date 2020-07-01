@@ -194,7 +194,7 @@ class Logs extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  InfoUser_Login: state.User,
+  // userLogin: state.userReducer.User,
   LogList: state.getLogs,
 });
 const mapDispatchToProps = (dispatch) => ({

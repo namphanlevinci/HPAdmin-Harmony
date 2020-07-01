@@ -1,16 +1,16 @@
 import * as types from "./types";
 
-//! APPROVED STATICS
-export const APPROVED_STATICS = payload => ({
+// APPROVED STATICS
+export const APPROVED_STATICS = (payload) => ({
   type: types.APPROVED_STATICS,
-  payload: payload
+  payload: payload,
 });
 
-export const APPROVED_STATICS_SUCCESS = payload => ({
+export const APPROVED_STATICS_SUCCESS = (payload) => ({
   type: types.APPROVED_STATICS_SUCCESS,
-  payload: payload
+  payload: payload,
 });
-export const APPROVED_STATICS_ERROR = payload => ({
+export const APPROVED_STATICS_ERROR = (payload) => ({
   type: types.APPROVED_STATICS_ERROR,
-  payload: payload
+  payload: payload,
 });
