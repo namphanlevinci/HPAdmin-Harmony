@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Redirect, Route, NavLink, Switch } from "react-router-dom";
-import { spring, AnimatedSwitch } from "react-router-transition";
+import { withRouter, Route, NavLink, Switch } from "react-router-dom";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -43,24 +43,7 @@ import "../MerchantsRequest/MerchantsRequest.css";
 import "./MerchantProfile.css";
 import "bootstrap/js/src/collapse.js";
 
-// we need to map the `scale` prop we define below
-// to the transform style property
-function mapStyles(styles) {
-  return {
-    opacity: styles.opacity,
-    transform: `scale(${styles.scale})`,
-  };
-}
-
-// wrap the `spring` helper to use a bouncy config
-function bounce(val) {
-  return spring(val, {
-    stiffness: 330,
-    damping: 22,
-  });
-}
-
-class merchantProfile2 extends Component {
+class merchantProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -70,12 +53,10 @@ class merchantProfile2 extends Component {
     this.props.history.push("/app/merchants/list");
   };
   render() {
-    console.log("this.props.userLogin", this.props.userLogin);
     const e = this.props.MerchantProfile;
 
     return (
       <div>
-        {" "}
         <div className="container-fluid PendingList">
           <ContainerHeader
             match={this.props.match}
@@ -259,4 +240,4 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 
-export default withRouter(connect(mapStateToProps)(merchantProfile2));
+export default withRouter(connect(mapStateToProps)(merchantProfile));

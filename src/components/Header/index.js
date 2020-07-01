@@ -15,8 +15,8 @@ import {
 } from "../../actions/merchants/actions";
 import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
 import { GET_USER_BY_ID } from "../../actions/user/actions";
-import firebase from "../../firebase";
 
+import firebase from "../../firebase";
 // import SearchBox from 'components/SearchBox';
 // import MailNotification from '../MailNotification/index';
 import AppNotification from "../AppNotification/index";
@@ -41,58 +41,38 @@ class Header extends React.Component {
     const ID = this.state.User?.userAdmin?.waUserId;
     await this.props.getUserByID(ID);
 
-    // let rID = ID.waUserId;
-    // const signalR = require("@aspnet/signalr");
-    // let connection = new signalR.HubConnectionBuilder()
-    //   .withUrl(SignalURL + "/notification/?title=Administrator&adminId=" + rID)
-    //   .build();
-    // connection.start();
-    // connection.on("ListWaNotification", data => {
-    //   if (data.length > 0) {
-    //     // playMessageAudio();
-    //     let newData = JSON.parse(data);
-    //     this.setState({ noti: newData.json, appNotificationIcon: false });
-    //   }
-    // // });
-    await this.LoadNoti();
-    // setInterval(this.LoadNoti, 180000);
+    await this.loadNotify();
+    // setInterval(this.loadNotify, 180000);
     const messaging = firebase.messaging();
 
     messaging.onMessage((payload) => {
       console.log("payload", payload);
-      console.log("object", JSON.parse(payload?.notification?.body));
+      this.loadNotify();
+      this.setState({ appNotificationIcon: false });
     });
-
-    // messaging
-    //   .requestPermission()
-    //   .then(() => {
-    //     return messaging.getToken();
-    //   })
-    //   .then((token) => {
-    //     console.log("Token : ", token);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-    // messaging.setBackgroundMessageHandler((payload) => {
-    //   console.log("payload", payload);
-    // });
   }
 
-  //GỌI API LOAD DATA NOTI TỪ SERVER MỖI 3'
-  LoadNoti = () => {
+  //GỌI API LOAD DATA Notify TỪ SERVER MỖI 3'
+  loadNotify = (next) => {
+    const loadPage = next ? next : 1;
     try {
       const User = localStorage.getItem("User_login");
       let token = JSON.parse(User);
       const UserToken = token.token;
       axios
-        .get(URL + "/notification/page=1", {
+        .get(URL + `/notification?page=${loadPage}&row=10`, {
           headers: { Authorization: `Bearer ${UserToken}` },
         })
         .then((res) => {
-          console.log("1 2 3 NOT ME", res);
-          this.setState({ noti: res.data.data });
+          const data = res.data.data;
+          if (data.length !== 0) {
+            this.setState({
+              // Notify: this.state.Notify.concat(Array.from(data)),
+              Notify: [...this.state.Notify, ...data],
+            });
+          } else {
+            this.setState({ hasMore: false });
+          }
         });
     } catch (e) {
       console.log(e);
@@ -141,7 +121,7 @@ class Header extends React.Component {
     let data = this.state.User;
     const UserToken = data.token;
     this.setState({
-      noti: this.state.noti.filter(
+      Notify: this.state.Notify.filter(
         (el) => el.waNotificationId !== e.waNotificationId
       ),
     });
@@ -219,6 +199,8 @@ class Header extends React.Component {
       appNotification: false,
       appNotificationIcon: false,
       User: [],
+      hasMore: true,
+      Notify: [],
     };
   }
 
@@ -328,8 +310,8 @@ class Header extends React.Component {
           <Link className="app-logo mr-2 d-none d-sm-block" to="/app/dashboard">
             <img
               src={require("../../assets/images/logo-white.png")}
-              alt="Jambo"
-              title="Jambo"
+              // alt="Jambo"
+              // title="Jambo"
             />
           </Link>
 
@@ -428,9 +410,11 @@ class Header extends React.Component {
                     heading={<IntlMessages id="appNotification.title" />}
                   />
                   <AppNotification
-                    noti={this.state.noti}
+                    Notify={this.state.Notify}
                     handleDelete={this.handleDelete}
                     gotoList={this.gotoList}
+                    loadNotify={this.loadNotify}
+                    hasMore={this.state.hasMore}
                   />
                 </DropdownMenu>
               </Dropdown>

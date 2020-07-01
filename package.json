@@ -63,6 +63,8 @@
     "react-hot-loader": "^4.9.0",
     "react-icons": "^3.7.0",
     "react-idle-timer": "^4.2.12",
+    "react-infinite-scroll-component": "^5.0.5",
+    "react-infinite-scroller": "^1.2.4",
     "react-intl": "^2.9.0",
     "react-joyride": "^2.0.5",
     "react-jss": "^8.0.0",

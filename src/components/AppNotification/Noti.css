@@ -1,38 +1,12 @@
-.notiDele {
-  cursor: pointer;
-  background-color: #4251af !important;
-  display: inline-block;
-  position: relative;
-  top: 0;
-  border-bottom: 1px solid #4251af;
-  /* background: rgba( 22, 230, 137, 1 ); */
-  box-shadow: 0px 0px 0px #4251af;
 
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-
-  -webkit-transition: all 0.2s ease;
-  -moz-transition: all 0.2s ease;
-  -ms-transition: all 0.2s ease;
-  transition: all 0.2s ease;
+.media .media-body .content {
+  font-size: 12px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: black;
 }
-.notiDele:hover {
-  top: -5px;
-  box-shadow: 0px 5px 5px #9fa8da;
-
-  -webkit-transform: rotateX(10deg);
-  -moz-transform: rotateX(10deg);
-  -ms-transform: rotateX(10deg);
-  transform: rotateX(10deg);
-}
-
-.notiDele:active {
-  top: 0px;
-  box-shadow: 0px 0px 0px #4251af;
-  background: #4251af;
-}
-div[tabindex="-1"] {
-  z-index: 0 !important;
+.media .media-body .meta-date {
+  text-align: left;
+  font-size: 11px;
+  margin-left: 5%;
 }

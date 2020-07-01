@@ -3,13 +3,18 @@ import { connect } from "react-redux";
 import CustomScrollbars from "../../util/CustomScrollbars";
 import { getAll_Notifications } from "../../actions/notifications/actions";
 import { withRouter } from "react-router-dom";
+import { BsPersonPlus } from "react-icons/bs";
+
+import InfiniteScroll from "react-infinite-scroller";
+
 import DeleteIcon from "@material-ui/icons/Delete";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import avatar from "./avatar.png";
 import moment from "moment";
-import "./Noti.css";
 import IconButton from "@material-ui/core/IconButton";
+
+import "./Noti.css";
 
 class AppNotification extends Component {
   constructor(props) {
@@ -18,48 +23,51 @@ class AppNotification extends Component {
   }
 
   render() {
-    if (this.props.noti !== undefined) {
-      let notiData = this.props.noti;
-      const renderNoti = notiData?.map((noti) => {
-        const { createdDate, waNotificationId, content } = noti;
+    if (this.props.Notify !== undefined) {
+      let loadNotify = this.props.Notify;
+      const renderNotify = loadNotify?.map((Notify) => {
+        const { createdDate, waNotificationId, content } = Notify;
         const time = moment
           .utc(createdDate)
           .local()
           .format("MM-DD-YYYY hh:mm A");
         return (
-          <li className="media" key={waNotificationId}>
-            <Avatar alt={avatar} src={avatar} className=" mr-2" />
-            <div
-              style={{ cursor: "pointer" }}
-              onClick={() => this.props.gotoList(noti)}
-              className="media-body align-self-center"
-            >
-              <p className="sub-heading mb-0">{content}</p>
-              <Button size="small" className="jr-btn jr-btn-xs mb-0">
-                <i className={`zmdi  zmdi-hc-fw`} />
-              </Button>
-              <span className="meta-date">
-                <small>{time}</small>
-              </span>
+          <li>
+            <div className="media" key={waNotificationId}>
+              <Avatar alt={avatar} src={avatar} className="mr-2" />
+              {/* <BsPersonPlus className="mr-2" size={26} /> */}
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => this.props.gotoList(Notify)}
+                className="media-body"
+              >
+                <p className="content">{content}</p>
+
+                <p className="meta-date">{time}</p>
+              </div>
+              <IconButton onClick={() => this.props.handleDelete(Notify)}>
+                <DeleteIcon fontSize="small" />
+              </IconButton>
             </div>
-            <IconButton onClick={() => this.props.handleDelete(noti)}>
-              <DeleteIcon fontSize="small" />
-            </IconButton>
           </li>
         );
       });
       return (
-        <>
-          <CustomScrollbars
-            className="messages-list scrollbar"
-            style={{ height: 280 }}
+        <div style={{ maxHeight: "280px", overflow: "auto" }}>
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={this.props.loadNotify}
+            hasMore={this.props.hasMore}
+            loader={
+              <div className="loader" key={0}>
+                Loading ...
+              </div>
+            }
+            useWindow={false}
           >
-            <ul className="list-unstyled">{renderNoti}</ul>
-          </CustomScrollbars>
-          <div style={{ textAlign: "center", color: "#4251af" }}>
-            <span style={{ cursor: "pointer" }}>See All</span>
-          </div>
-        </>
+            <ul className="list-unstyled">{renderNotify}</ul>
+          </InfiniteScroll>
+        </div>
       );
     } else {
       return null;
