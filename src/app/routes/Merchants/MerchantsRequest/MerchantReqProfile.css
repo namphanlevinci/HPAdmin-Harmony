@@ -159,10 +159,14 @@ h4 {
 
 .MuiCheckbox-colorSecondary.Mui-checked {
   color: #4251af !important;
- 
 }
 
-
+.checked-red .MuiCheckbox-colorSecondary.Mui-checked  {
+  color: red !important;
+}
+.checked-red {
+  color: red;
+}
 
 
 .react-tel-input .flag{

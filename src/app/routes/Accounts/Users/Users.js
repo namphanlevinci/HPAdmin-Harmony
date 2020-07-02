@@ -202,7 +202,7 @@ class Users extends Component {
             </Button>
           </div>
 
-          <div className="MListContainer user-table">
+          <div className="merchant-list-container user-table">
             <ReactTable
               manual
               page={page}
@@ -212,7 +212,7 @@ class Users extends Component {
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={10}
-              minRows={0}
+              minRows={1}
               noDataText="NO DATA!"
               loading={this.state.loading}
               columns={columns}

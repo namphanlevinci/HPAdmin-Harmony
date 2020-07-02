@@ -1,7 +1,6 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-
 import asyncComponent from "../../../util/asyncComponent";
 
 const Merchants = ({ match, location }) => {

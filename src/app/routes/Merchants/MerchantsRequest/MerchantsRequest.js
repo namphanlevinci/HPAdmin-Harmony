@@ -29,10 +29,6 @@ class MerchantsRequest extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.props.getAll_Merchant_Requests();
-  // }
-
   fetchData = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
@@ -118,38 +114,36 @@ class MerchantsRequest extends Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 100,
+        width: 80,
       },
       {
-        Header: "Business Name",
+        Header: "DBA",
         id: "general",
         accessor: (e) => (
-          <span style={{ fontWeight: 500 }}>{e.businessName}</span>
+          <span style={{ fontWeight: 500 }}>{e?.businessName}</span>
         ),
-
-        width: 280,
       },
       {
         id: "principals",
         Header: "Owner",
-        width: 280,
         accessor: (e) => e?.principals?.[0],
         Cell: (e) => (
           <span style={{ fontWeight: 500 }}>
-            {e.value !== undefined
-              ? e.value.firstName + " " + e.value.lastName
-              : null}
+            {e?.value?.firstName + " " + e?.value?.lastName}
           </span>
         ),
       },
       {
         Header: "Email",
         accessor: "email",
-        width: 300,
       },
       {
-        Header: "Phone Number",
+        Header: "Store Phone",
         accessor: "phone",
+      },
+      {
+        Header: "Contact Phone",
+        // accessor: "",
       },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
@@ -169,7 +163,6 @@ class MerchantsRequest extends Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* SEARCH */}
             <div className="search">
               <form>
                 <SearchIcon className="button" title="Search" />
@@ -184,7 +177,7 @@ class MerchantsRequest extends Component {
               </form>
             </div>
           </div>
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               manual
               page={page}
@@ -194,7 +187,7 @@ class MerchantsRequest extends Component {
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={20}
-              minRows={0}
+              minRows={1}
               noDataText="NO DATA!"
               loading={this.state.loading}
               columns={columns}

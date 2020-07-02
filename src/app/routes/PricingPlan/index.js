@@ -101,11 +101,11 @@ class Pricing extends Component {
                 </Button>
               </div> */}
             </div>
-            <div className="MListContainer">
+            <div className="merchant-list-container">
               {this.state.loading && (
                 <ReactTable
                   defaultPageSize={10}
-                  minRows={0}
+                  minRows={1}
                   noDataText="NO DATA!"
                   // loading={this.state.loading}
                   columns={columns}

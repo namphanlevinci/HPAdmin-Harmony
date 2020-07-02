@@ -13,6 +13,7 @@ import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import URL from "../../../../url/url";
 import axios from "axios";
+import moment from "moment";
 
 import "react-table/react-table.css";
 import "./merchantsList.css";
@@ -47,7 +48,7 @@ class MerchantsList extends React.Component {
 
   fetchData = async (state) => {
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
     this.setState({ loading: true });
     await axios
       .get(
@@ -72,19 +73,8 @@ class MerchantsList extends React.Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
+          this.setState({
+            data: [],
           });
         }
         this.setState({ loading: false });
@@ -116,49 +106,52 @@ class MerchantsList extends React.Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 100,
+        width: 80,
       },
       {
-        Header: "Business Name",
+        Header: "Approved Date",
+        id: "date",
+        accessor: (row) => (
+          <span>{moment(row.approvedDate).format("MM/DD/YYYY")}</span>
+        ),
+      },
+      {
+        Header: "DBA",
         id: "general",
         accessor: "general",
         Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>
-            {e.value !== null ? e.value.doBusinessName : null}
-          </span>
+          <span style={{ fontWeight: 500 }}>{e?.value?.doBusinessName}</span>
         ),
       },
       {
         id: "principals",
         Header: "Owner",
-        width: 150,
         accessor: (e) => e.principals[0],
         Cell: (e) => (
           <span style={{ fontWeight: 500 }}>
-            {e.value !== undefined
-              ? e.value.firstName + " " + e.value.lastName
-              : null}
+            {e?.value?.firstName + " " + e?.value?.lastName}
           </span>
         ),
       },
       {
         Header: "Email",
         accessor: "email",
-        width: 300,
       },
       {
-        Header: "Phone Number",
+        Header: "Store Phone",
         accessor: "phone",
       },
       {
-        id: "Approvedby",
+        Header: "Contact Phone",
+        // accessor: "phone",
+      },
+      {
+        id: "approvedBy",
         Header: "Approved By",
         accessor: "adminUser",
         Cell: (e) => (
           <span style={{ color: "#4251af", fontWeight: 500 }}>
-            {e.value !== null
-              ? e.value.first_name + " " + e.value.last_name
-              : null}
+            {e?.value?.first_name + " " + e?.value?.last_name}
           </span>
         ),
       },
@@ -197,7 +190,7 @@ class MerchantsList extends React.Component {
             </div>
           </div>
 
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               manual
               page={page}
@@ -206,8 +199,8 @@ class MerchantsList extends React.Component {
               // You should also control this...
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
-              // defaultPageSize={10}
-              minRows={0}
+              defaultPageSize={20}
+              minRows={1}
               noDataText="NO DATA!"
               loading={this.state.loading}
               columns={columns}

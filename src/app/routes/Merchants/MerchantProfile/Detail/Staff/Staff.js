@@ -224,7 +224,7 @@ class Staff extends Component {
               </Button>
             </div>
           </div>
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               data={e}
               columns={columns}

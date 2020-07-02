@@ -124,10 +124,10 @@ class Merchants extends React.Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 100,
+        width: 80,
       },
       {
-        Header: "Business Name",
+        Header: "DBA",
         id: "general",
         accessor: "general",
         Cell: (e) => (
@@ -135,12 +135,10 @@ class Merchants extends React.Component {
             {e?.value ? e.value.doBusinessName : null}
           </span>
         ),
-        width: 230,
       },
       {
         id: "principals",
         Header: "Owner",
-        width: 200,
         accessor: (e) => e?.principals?.[0],
         Cell: (e) => (
           <span style={{ fontWeight: 500 }}>
@@ -151,7 +149,6 @@ class Merchants extends React.Component {
       {
         Header: "Email",
         accessor: "email",
-        width: 300,
       },
       {
         Header: "Phone Number",
@@ -208,7 +205,7 @@ class Merchants extends React.Component {
               </Button>
             </div>
           </div>
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               manual
               page={page}
@@ -219,7 +216,7 @@ class Merchants extends React.Component {
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={20}
-              minRows={0}
+              minRows={1}
               noDataText="NO DATA!"
               loading={this.state.loading}
               columns={columns}

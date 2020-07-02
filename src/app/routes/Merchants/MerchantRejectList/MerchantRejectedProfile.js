@@ -102,7 +102,6 @@ class MerchantRejectedProfile extends Component {
   render() {
     const e = this.props.RejectedProfile;
     let principalLength = this.props.RejectedProfile?.principals?.length;
-
     // render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
@@ -236,76 +235,66 @@ class MerchantRejectedProfile extends Component {
               <h4>
                 By{" "}
                 <span style={{ fontWeight: 600 }}>
-                  {e.adminUser !== null
-                    ? e.adminUser.first_name + " " + e.adminUser.last_name
-                    : null}
+                  {e.adminUser.first_name + " " + e.adminUser.last_name}
                 </span>
               </h4>
               <h4>
-                Date/Time:{" "}
-                {e.adminUser !== null
-                  ? moment
-                      .utc(e.adminUser.created_date)
-                      .local()
-                      .format("MM/DD/YYYY - HH:mm A")
-                  : null}
+                Date/Time:
+                {moment
+                  .utc(e.adminUser.created_date)
+                  .local()
+                  .format("MM/DD/YYYY - hh:mm A")}
               </h4>
               <h4 style={{ fontWeight: 600 }}>Reason:</h4>
-              <p>{e.reason}</p>
+              <p>{e?.reason}</p>
             </div>
             <hr />
             <div className="content">
-              <div className="container-fuild">
+              <div className="container-fluid">
                 <h2 style={styles.h2}>General Information</h2>
                 <div className="row justify-content-between">
                   <div className="col-4">
                     <h4>Legal Business Name*</h4>
-                    <p>{e.general.legalBusinessName}</p>
+                    <p>{e?.general?.legalBusinessName}</p>
                   </div>
                   <div className="col-4">
                     <h4>Doing Business As* (DBA)</h4>
-                    <p>
-                      {e.general !== null ? e.general.doBusinessName : null}
-                    </p>
+                    <p>{e?.general?.doBusinessName}</p>
                   </div>
                   <div className="col-4">
                     <h4>Federal Tax ID*</h4>
-                    <p>{e.general !== null ? e.general.tax : null}</p>
+                    <p>{e?.general?.tax}</p>
                   </div>
                   <div className="col-4">
                     <h4>Business Address* (no P.O. Boxes)</h4>
-                    <p>{e.addressFull !== null ? e.addressFull : null}</p>
+                    <p>{e?.addressFull}</p>
                   </div>
                   <div className="col-4">
                     <h4>Zip Code*</h4>
-                    <p>{e.general !== null ? e.general.zip : null}</p>
+                    <p>{e?.general?.zip}</p>
                   </div>
                   <div className="col-4">
                     <h4>Business Phone Number*</h4>
-                    <p>{e.general !== null ? e.general.phoneBusiness : null}</p>
+                    <p>{e?.general?.phoneBusiness}</p>
                   </div>
                   <div className="col-4">
                     <h4>Contact Email Address*</h4>
-                    <p>{e.general !== null ? e.general.emailContact : null}</p>
+                    <p>{e?.general?.emailContact}</p>
                   </div>
                 </div>
                 <h2 style={styles.h2}>Representative Information</h2>
                 <div className="row">
                   <div className="col-4">
                     <h4>Contact Name*</h4>
-                    <p>
-                      {e.general !== null
-                        ? e.general.firstName + " " + e.general.lastName
-                        : null}
-                    </p>
+                    <p>{e?.general?.firstName + " " + e?.general?.lastName}</p>
                   </div>
                   <div className="col-4">
                     <h4>Title/Position*</h4>
-                    <p>{e.general !== null ? e.general.title : null}</p>
+                    <p>{e?.general?.title}</p>
                   </div>
                   <div className="col-4">
                     <h4>Contact Phone Number*</h4>
-                    <p>{e.general !== null ? e.general.phoneContact : null}</p>
+                    <p>{e?.general?.phoneContact}</p>
                   </div>
                 </div>
                 <h2 style={styles.h2}>Business Information</h2>
@@ -314,35 +303,25 @@ class MerchantRejectedProfile extends Component {
                 <div className="row">
                   <div className="col-4">
                     <h4>Bank Name*</h4>
-                    <p>
-                      {e.businessBank !== null ? e.businessBank.name : null}
-                    </p>
+                    <p>{e?.businessBank?.name}</p>
                   </div>
                   <div className="col-4">
-                    <h4>ABA Routing Number*</h4>
-                    <p>
-                      {e.businessBank !== null
-                        ? e.businessBank.routingNumber
-                        : null}
-                    </p>
+                    <h4>Routing Number(ABA)*</h4>
+                    <p>{e?.businessBank?.routingNumber}</p>
                   </div>
                   <div className="col-4">
-                    <h4>Checking Account Number (DDA)*</h4>
-                    <p>
-                      {e.businessBank !== null
-                        ? e.businessBank.accountNumber
-                        : null}
-                    </p>
+                    <h4>Account Number (DDA)*</h4>
+                    <p>{e?.businessBank?.accountNumber}</p>
                   </div>
                   <div className="col-4">
                     <h4>Void Check*</h4>
-                    {e.businessBank !== null ? (
+                    <a href={`${URL}/file/${e?.businessBank?.fileId}`}>
                       <img
                         style={{ width: "300px" }}
-                        src={`${e.businessBank.imageUrl}`}
+                        src={`${e?.businessBank?.imageUrl}`}
                         alt="void check"
                       />
-                    ) : null}
+                    </a>
                   </div>
                 </div>
                 <h2 style={styles.h2}>Principal Information</h2>

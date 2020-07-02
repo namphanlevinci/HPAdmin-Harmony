@@ -264,7 +264,7 @@ class Service extends Component {
             </div>
           </div>
 
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               data={serviceList}
               columns={columns}

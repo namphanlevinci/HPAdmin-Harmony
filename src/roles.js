@@ -1,0 +1,63 @@
+
+{
+   data:{
+      user:{
+         firstName:"Super",
+         lastName:"Admin",
+         email:"john@yahoo.com",
+         userModulePages:[
+            {
+               modulePage:"Role",
+               modulePageUrl:"user-roles-list",
+               moduleId:4,
+               moduleName:"Administration",
+               modulePageId:2,
+               actions:[
+                  {
+                     actionId:2,
+                     actionUrl:"create-role",
+                     action:Create "Role",
+                     roleIsActive:true
+                  },
+                  {
+                     actionId:2,
+                     actionUrl:"delete-role",
+                     action:Delete "Role",
+                     roleIsActive:true
+                  }
+               ]
+            },
+            {
+               modulePage:"User",
+               modulePageUrl:"create-user",
+               moduleId:4,
+               moduleName:Administration,
+               modulePageId:3,
+               actions:[
+                  {
+                     actionId:1,
+                     actionUrl:"create-user",
+                     action:create-user,
+                     roleIsActive:true
+                  }
+               ]
+            },
+            {
+               modulePage:"Permissions",
+               modulePageUrl:"create-permissions",
+               moduleId:4,
+               moduleName:Administration,
+               modulePageId:11,
+               actions:[
+                  {
+                     actionId:32,
+                     actionUrl:"create-permissions",
+                     action:"create-permissions",
+                     roleIsActive:true
+                  }
+               ]
+            }
+         ]
+      }
+   }
+}

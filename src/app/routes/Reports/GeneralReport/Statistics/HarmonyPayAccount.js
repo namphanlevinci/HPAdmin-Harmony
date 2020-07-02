@@ -18,13 +18,13 @@ class HarmonyPayAccount extends Component {
       HarmonyPayApp: [],
       fromDate: undefined,
       toDate: undefined,
-      range: ""
+      range: "",
     };
   }
-  fromDate = e => {
+  fromDate = (e) => {
     this.setState({ fromDate: e.target.value });
   };
-  toDate = e => {
+  toDate = (e) => {
     this.setState({ toDate: e.target.value });
   };
   async componentDidMount() {
@@ -41,7 +41,7 @@ class HarmonyPayAccount extends Component {
       this.setState({
         HarmonyPayApp: Content.amountHarmonyAppPay,
         fromDate: fromDate,
-        toDate: toDate
+        toDate: toDate,
       });
     }, 500);
   }
@@ -51,9 +51,9 @@ class HarmonyPayAccount extends Component {
       this.setState({ HarmonyPayApp: Content.amountHarmonyAppPay });
     }
   }
-  _TimeRange = async e => {
+  _TimeRange = async (e) => {
     await this.setState({
-      range: e.target.value
+      range: e.target.value,
     });
   };
   _Filter = () => {
@@ -97,17 +97,17 @@ class HarmonyPayAccount extends Component {
         accessor: "date",
         width: 250,
         Footer: <span className="Total">Total</span>,
-        Cell: e => moment(e.value).format("DD/MM/YYYY")
+        Cell: (e) => moment(e.value).format("DD/MM/YYYY"),
       },
       {
         Header: "Approved Merchant Accounts",
         accessor: "total",
         Footer: (
           <span className="Total">
-            {_.sum(_.map(this.state.HarmonyPayApp, d => d.total))}
+            {_.sum(_.map(this.state.HarmonyPayApp, (d) => d.total))}
           </span>
-        )
-      }
+        ),
+      },
     ];
     return (
       <div className="react-transition swipe-right">
@@ -136,7 +136,7 @@ class HarmonyPayAccount extends Component {
                 <h6
                   style={{
                     color: "rgba(0, 0, 0, 0.54)",
-                    fontSize: "0,7rem"
+                    fontSize: "0,7rem",
                   }}
                 >
                   Time range
@@ -160,7 +160,7 @@ class HarmonyPayAccount extends Component {
                     type="date"
                     // defaultValue={newToday}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={this.fromDate}
                   />
@@ -174,7 +174,7 @@ class HarmonyPayAccount extends Component {
                     type="date"
                     // defaultValue={this.state.to}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={this.toDate}
                   />
@@ -210,12 +210,12 @@ class HarmonyPayAccount extends Component {
               </h3>
             </div>
           </div>
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               data={this.state.HarmonyPayApp}
               columns={columns}
               defaultPageSize={10}
-              minRows={0}
+              minRows={1}
             />
           </div>
         </div>
@@ -223,15 +223,12 @@ class HarmonyPayAccount extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  Approved: state.ApprovedStatic
+const mapStateToProps = (state) => ({
+  Approved: state.ApprovedStatic,
 });
-const mapDispatchToProps = dispatch => ({
-  APPROVED_STATICS: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  APPROVED_STATICS: (payload) => {
     dispatch(APPROVED_STATICS(payload));
-  }
+  },
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HarmonyPayAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(HarmonyPayAccount);

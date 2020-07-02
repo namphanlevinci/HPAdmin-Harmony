@@ -45,13 +45,13 @@ class Bank extends Component {
               <p>{e.businessBank !== null ? e.businessBank.name : null}</p>
             </div>
             <div className="col-4">
-              <label>ABA Routing Number*</label>
+              <label>Routing Number(ABA)*</label>
               <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e.businessBank !== null ? e.businessBank.routingNumber : null}
               </p>
             </div>
             <div className="col-5">
-              <label>Checking Account Number (DDA)*</label>
+              <label>Account Number (DDA)*</label>
               <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e.businessBank !== null ? e.businessBank.accountNumber : null}
               </p>

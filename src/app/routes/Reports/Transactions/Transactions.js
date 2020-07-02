@@ -410,7 +410,7 @@ class Transactions extends React.Component {
               </div>
             </div>
           </div>
-          <div className="MListContainer Transactions">
+          <div className="merchant-list-container Transactions">
             <ReactTable
               manual
               page={page}
@@ -420,7 +420,7 @@ class Transactions extends React.Component {
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={20}
-              minRows={0}
+              minRows={1}
               noDataText="NO DATA!"
               loading={this.state.loading}
               columns={columns}

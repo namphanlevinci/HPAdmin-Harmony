@@ -128,7 +128,7 @@ class Users extends React.Component {
           </div>
         </div>
 
-        <div className="MListContainer Transactions">
+        <div className="merchant-list-container Transactions">
           <table style={{ width: "100%" }}>
             <thead>
               <tr>

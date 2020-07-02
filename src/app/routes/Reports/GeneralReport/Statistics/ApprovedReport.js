@@ -19,13 +19,13 @@ class ApprovedReport extends Component {
       ApprovedTotal: [],
       fromDate: undefined,
       toDate: undefined,
-      range: ""
+      range: "",
     };
   }
-  fromDate = e => {
+  fromDate = (e) => {
     this.setState({ fromDate: e.target.value });
   };
-  toDate = e => {
+  toDate = (e) => {
     this.setState({ toDate: e.target.value });
   };
   async componentDidMount() {
@@ -42,7 +42,7 @@ class ApprovedReport extends Component {
       this.setState({
         ApprovedTotal: Content.approveMerchant,
         fromDate: fromDate,
-        toDate: toDate
+        toDate: toDate,
       });
     }, 500);
   }
@@ -52,9 +52,9 @@ class ApprovedReport extends Component {
       this.setState({ ApprovedTotal: Content.approveMerchant });
     }
   }
-  _TimeRange = async e => {
+  _TimeRange = async (e) => {
     await this.setState({
-      range: e.target.value
+      range: e.target.value,
     });
   };
   _Filter = () => {
@@ -99,11 +99,11 @@ class ApprovedReport extends Component {
         accessor: "date",
         Footer: <span className="Total">Total</span>,
         width: 250,
-        Cell: e => (
+        Cell: (e) => (
           <span style={{ margin: "5px" }}>
             {moment(e.value).format("MM/DD/YYYY")}
           </span>
-        )
+        ),
       },
       {
         Header: "Approved Merchant Accounts",
@@ -111,10 +111,10 @@ class ApprovedReport extends Component {
         id: "total",
         Footer: (
           <span className="Total">
-            {_.sum(_.map(this.state.ApprovedTotal, d => d.total))}
+            {_.sum(_.map(this.state.ApprovedTotal, (d) => d.total))}
           </span>
-        )
-      }
+        ),
+      },
     ];
     return (
       <div className="react-transition swipe-right">
@@ -143,7 +143,7 @@ class ApprovedReport extends Component {
                 <h6
                   style={{
                     color: "rgba(0, 0, 0, 0.54)",
-                    fontSize: "0,7rem"
+                    fontSize: "0,7rem",
                   }}
                 >
                   Time range
@@ -167,7 +167,7 @@ class ApprovedReport extends Component {
                     type="date"
                     // defaultValue={newToday}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={this.fromDate}
                   />
@@ -181,7 +181,7 @@ class ApprovedReport extends Component {
                     type="date"
                     // defaultValue={this.state.to}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={this.toDate}
                   />
@@ -221,12 +221,12 @@ class ApprovedReport extends Component {
               </h3>
             </div>
           </div>
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               data={this.state.ApprovedTotal}
               columns={columns}
               defaultPageSize={10}
-              minRows={0}
+              minRows={1}
             />
           </div>
         </div>
@@ -234,12 +234,12 @@ class ApprovedReport extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  Approved: state.ApprovedStatic
+const mapStateToProps = (state) => ({
+  Approved: state.ApprovedStatic,
 });
-const mapDispatchToProps = dispatch => ({
-  APPROVED_STATICS: payload => {
+const mapDispatchToProps = (dispatch) => ({
+  APPROVED_STATICS: (payload) => {
     dispatch(APPROVED_STATICS(payload));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ApprovedReport);

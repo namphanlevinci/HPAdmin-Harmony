@@ -265,7 +265,7 @@ class Transactions extends Component {
                   onPageChange={(pageIndex) => this.changePage(pageIndex)}
                   onFetchData={(state) => this.fetchData(state)}
                   defaultPageSize={20}
-                  minRows={0}
+                  minRows={1}
                   noDataText="NO DATA!"
                   loading={this.state.loading}
                   columns={columns}

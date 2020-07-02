@@ -299,7 +299,7 @@ class ExtraTab extends Component {
             token={this.props.userLogin.token}
             merchantId={this.props.MerchantProfile.merchantId}
           />
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               data={extraList}
               columns={columns}

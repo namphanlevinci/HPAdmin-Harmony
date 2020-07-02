@@ -46,7 +46,7 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
               name="routingNumber"
               value={value.routingNumber}
               id="cardHolder3"
-              label="ABA Routing Number*"
+              label="Routing Number(ABA)*"
               margin="normal"
               fullWidth
               onChange={handleChange}
@@ -64,7 +64,7 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
               name="accountNumber"
               value={value.accountNumber}
               id="cardHolder4"
-              label="Checking Account Number (DDA)*"
+              label="Account Number (DDA)*"
               margin="normal"
               fullWidth
               onChange={handleChange}

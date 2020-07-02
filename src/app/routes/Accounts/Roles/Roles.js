@@ -84,7 +84,7 @@ class Roles extends Component {
               <Button className="btn btn-green">NEW DEPARTMENT</Button>
             </div>
 
-            <ReactTable columns={department} data={data} minRows={0} />
+            <ReactTable columns={department} data={data} minRows={1} />
           </div>
           <div className="role-permissions">
             <h3>Permissions</h3>

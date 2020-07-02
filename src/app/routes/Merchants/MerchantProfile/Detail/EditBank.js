@@ -175,7 +175,7 @@ class EditBank extends Component {
               />
             </div>
             <div className="col-4">
-              <label>ABA Routing Number*</label>
+              <label>Routing Number(ABA)*</label>
               <input
                 style={{ width: "250px" }}
                 name="routingNumber"
@@ -185,7 +185,7 @@ class EditBank extends Component {
               />
             </div>
             <div className="col-5">
-              <label>Checking Account Number (DDA)*</label>
+              <label>Account Number (DDA)*</label>
               <input
                 // style={{ width: "250px" }}
                 name="accountNumber"

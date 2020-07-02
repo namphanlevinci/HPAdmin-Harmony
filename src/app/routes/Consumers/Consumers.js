@@ -193,7 +193,7 @@ class Consumers extends React.Component {
               </div>
             </div>
 
-            <div className="MListContainer">
+            <div className="merchant-list-container">
               <ReactTable
                 manual
                 page={page}
@@ -202,7 +202,7 @@ class Consumers extends React.Component {
                 onPageChange={(pageIndex) => this.changePage(pageIndex)}
                 onFetchData={(state) => this.fetchData(state)}
                 defaultPageSize={20}
-                minRows={0}
+                minRows={1}
                 noDataText="NO DATA!"
                 loading={this.state.loading}
                 columns={columns}

@@ -15,6 +15,7 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
+import NumberFormat from "react-number-format";
 
 import "./MerchantReqProfile.css";
 import "./MerchantsRequest.css";
@@ -182,7 +183,15 @@ class MerchantReqProfile extends Component {
               </div>
               <div className="col-4">
                 <h4>Social Security Number (SSN)*</h4>
-                <p>{e.ssn}</p>
+                <NumberFormat
+                  value={e.fullSsn}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  p
+                  format="###-##-####"
+                  mask="_"
+                  renderText={(value) => <p>{value}</p>}
+                />
               </div>
               <div className="col-4">
                 <h4>Date of Birth (mm/dd/yy)*</h4>
@@ -198,14 +207,14 @@ class MerchantReqProfile extends Component {
               </div>
               <div className="col-4">
                 <h4>State Issued*</h4>
-                <p>{e.state !== undefined ? e.state.name : null}</p>
+                <p>{e?.state?.name}</p>
               </div>
               <div className="col-6">
                 <h4>Driver License Picture</h4>
                 {
                   <img
                     className="pending-image"
-                    src={`${e.imageUrl}`}
+                    src={`${e?.imageUrl}`}
                     alt="void check"
                   />
                 }
@@ -222,10 +231,14 @@ class MerchantReqProfile extends Component {
       e.business !== undefined ? (
         e.business.map((e) => {
           return (
-            <div className="col-md-6" key={e.businessId}>
+            <div className="col-6" key={e.businessId}>
               <h4>{e.question}</h4>
               <Checkbox checked={e.answer === false} />
-              No <Checkbox checked={e.answer === true} /> Yes
+              No
+              <span className={e.answer ? "checked-red" : ""}>
+                <Checkbox checked={e.answer === true} />
+                Yes
+              </span>
               <h5>Answer: {e.answerReply} </h5>
             </div>
           );
@@ -247,13 +260,11 @@ class MerchantReqProfile extends Component {
 
               <span>
                 <Button className="btn btn-red" onClick={this.goBack}>
-                  {" "}
-                  BACK{" "}
+                  BACK
                 </Button>
                 {/* HANDLE EDIT */}
                 <Button className="btn btn-red" onClick={this.handleEdit}>
-                  {" "}
-                  EDIT{" "}
+                  EDIT
                 </Button>
                 {/* REJECT BTN */}
                 <Popup
@@ -510,7 +521,7 @@ class MerchantReqProfile extends Component {
                     <p>{e.email}</p>
                   </div>
                 </div>
-                <h2 style={styles.h2}>Representative Information</h2>
+                {/* <h2 style={styles.h2}>Representative Information</h2> */}
                 <div className="row">
                   <div className="col-4">
                     <h4>Contact Name*</h4>
@@ -542,7 +553,7 @@ class MerchantReqProfile extends Component {
                     <p>{e?.businessBank?.accountHolderName}</p>
                   </div>
                   <div className="col-3">
-                    <h4>ABA Routing Number*</h4>
+                    <h4>Routing Number(ABA)*</h4>
                     <p>
                       {e.businessBank !== null
                         ? e.businessBank.routingNumber
@@ -550,7 +561,7 @@ class MerchantReqProfile extends Component {
                     </p>
                   </div>
                   <div className="col-3">
-                    <h4>Checking Account Number (DDA)*</h4>
+                    <h4>Account Number (DDA)*</h4>
                     <p>
                       {e.businessBank !== null
                         ? e.businessBank.accountNumber

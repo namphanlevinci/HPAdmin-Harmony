@@ -380,7 +380,7 @@ class Category extends Component {
               </Dialog>
             </div>
           </div>
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               data={cagetoryList}
               columns={columns}

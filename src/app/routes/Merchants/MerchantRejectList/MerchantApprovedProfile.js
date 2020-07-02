@@ -39,31 +39,31 @@ class MerchantApprovedProfile extends Component {
               ) : null}
               <div className="col-4">
                 <h4>Name*</h4>
-                <p>{e.firstName + " " + e.lastName}</p>
+                <p>{e?.firstName + " " + e?.lastName}</p>
               </div>
               <div className="col-4">
                 <h4>Title/Position*</h4>
-                <p>{e.title}</p>
+                <p>{e?.title}</p>
               </div>
               <div className="col-4">
                 <h4>Ownership(%)*</h4>
-                <p>{e.ownerShip}%</p>
+                <p>{e?.ownerShip}%</p>
               </div>
               <div className="col-4">
                 <h4>Home Phone*</h4>
-                <p>{e.homePhone}</p>
+                <p>{e?.homePhone}</p>
               </div>
               <div className="col-4">
                 <h4>Mobile Phone*</h4>
-                <p>{e.mobilePhone}</p>
+                <p>{e?.mobilePhone}</p>
               </div>
               <div className="col-4">
                 <h4>Address*</h4>
-                <p>{e.address}</p>
+                <p>{e?.address}</p>
               </div>
               <div className="col-4">
                 <h4>Social Security Number (SSN)*</h4>
-                <p>{e.fullSsn}</p>
+                <p>{e?.fullSsn}</p>
               </div>
               <div className="col-4">
                 <h4>Date of Birth (mm/dd/yy)*</h4>
@@ -71,15 +71,15 @@ class MerchantApprovedProfile extends Component {
               </div>
               <div className="col-4">
                 <h4>Email Address*</h4>
-                <p>{e.email}</p>
+                <p>{e?.email}</p>
               </div>
               <div className="col-4">
                 <h4>Driver License Number*</h4>
-                <p>{e.driverNumber}</p>
+                <p>{e?.driverNumber}</p>
               </div>
               <div className="col-4">
                 <h4>State Issued*</h4>
-                <p>{e.state !== undefined ? e.state.name : null}</p>
+                <p>{e?.state?.name}</p>
               </div>
               <div className="col-6">
                 <h4>Driver License Picture</h4>
@@ -150,19 +150,15 @@ class MerchantApprovedProfile extends Component {
               <h4>
                 By{" "}
                 <span style={{ fontWeight: 600 }}>
-                  {e.adminUser !== null
-                    ? e.adminUser.first_name + " " + e.adminUser.last_name
-                    : null}
+                  {e.adminUser.first_name + " " + e.adminUser.last_name}
                 </span>
               </h4>
               <h4>
                 Date/Time:{" "}
-                {e.adminUser !== null
-                  ? moment
-                      .utc(e.adminUser.created_date)
-                      .local()
-                      .format("MM/DD/YYYY - HH:mm A ")
-                  : null}
+                {moment
+                  .utc(e.adminUser.created_date)
+                  .local()
+                  .format("MM/DD/YYYY - hh:mm A ")}
               </h4>
             </div>
             <hr />
@@ -172,54 +168,46 @@ class MerchantApprovedProfile extends Component {
                 <div className="row justify-content-between">
                   <div className="col-4">
                     <h4>Legal Business Name*</h4>
-                    <p>
-                      {e.general !== null ? e.general.legalBusinessName : null}
-                    </p>
+                    <p>{e?.general?.legalBusinessName}</p>
                   </div>
                   <div className="col-4">
                     <h4>Doing Business As* (DBA)</h4>
-                    <p>
-                      {e.general !== null ? e.general.doBusinessName : null}
-                    </p>
+                    <p>{e?.general?.doBusinessName}</p>
                   </div>
                   <div className="col-4">
                     <h4>Federal Tax ID*</h4>
-                    <p>{e.taxId}</p>
+                    <p>{e?.taxId}</p>
                   </div>
                   <div className="col-4">
                     <h4>Business Address* (no P.O. Boxes)</h4>
-                    <p>{e.address + " " + e.city + " " + e.stateId}</p>
+                    <p>{e?.address + " " + e?.city + " " + e?.stateId}</p>
                   </div>
                   <div className="col-4">
                     <h4>Zip Code*</h4>
-                    <p>{e.zip}</p>
+                    <p>{e?.zip}</p>
                   </div>
                   <div className="col-4">
                     <h4>Business Phone Number*</h4>
-                    <p>{e.phone}</p>
+                    <p>{e?.phone}</p>
                   </div>
                   <div className="col-4">
                     <h4>Contact Email Address*</h4>
-                    <p>{e.email}</p>
+                    <p>{e?.email}</p>
                   </div>
                 </div>
                 <h2 style={styles.h2}>Representative Information</h2>
                 <div className="row">
                   <div className="col-4">
                     <h4>Contact Name*</h4>
-                    <p>
-                      {e.general !== null
-                        ? e.general.firstName + " " + e.general.lastName
-                        : null}
-                    </p>
+                    <p>{e?.general?.firstName + " " + e?.general?.lastName}</p>
                   </div>
                   <div className="col-4">
                     <h4>Title/Position*</h4>
-                    <p>{e.general !== null ? e.general.title : null}</p>
+                    <p>{e?.general?.title}</p>
                   </div>
                   <div className="col-4">
                     <h4>Contact Phone Number*</h4>
-                    <p>{e.general !== null ? e.general.phoneContact : null}</p>
+                    <p>{e?.general?.phoneContact}</p>
                   </div>
                 </div>
                 <h2 style={styles.h2}>Business Information</h2>
@@ -228,35 +216,24 @@ class MerchantApprovedProfile extends Component {
                 <div className="row">
                   <div className="col-4">
                     <h4>Bank Name*</h4>
-                    <p>
-                      {e.businessBank !== null ? e.businessBank.name : null}
-                    </p>
+                    <p>{e?.businessBank?.name}</p>
                   </div>
                   <div className="col-4">
-                    <h4>ABA Routing Number*</h4>
-                    <p>
-                      {e.businessBank !== null
-                        ? e.businessBank.routingNumber
-                        : null}
-                    </p>
+                    <h4>Routing Number(ABA)*</h4>
+                    <p>{e?.businessBank?.routingNumber}</p>
                   </div>
                   <div className="col-4">
-                    <h4>Checking Account Number (DDA)*</h4>
-                    <p>
-                      {e.businessBank !== null
-                        ? e.businessBank.accountNumber
-                        : null}
-                    </p>
+                    <h4>Account Number (DDA)*</h4>
+                    <p>{e?.businessBank?.accountNumber}</p>
                   </div>
                   <div className="col-4">
                     <h4>Void Check*</h4>
-                    {e.businessBank !== null ? (
-                      <img
-                        style={{ width: "300px" }}
-                        src={`${e.businessBank.imageUrl}`}
-                        alt="void check"
-                      />
-                    ) : null}
+
+                    <img
+                      style={{ width: "300px" }}
+                      src={`${e?.businessBank?.imageUrl}`}
+                      alt="void check"
+                    />
                   </div>
                 </div>
                 <h2 style={styles.h2}>Principal Information</h2>

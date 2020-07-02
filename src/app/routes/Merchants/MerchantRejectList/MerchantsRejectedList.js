@@ -12,6 +12,7 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
 import URL from "../../../../url/url";
+import moment from "moment";
 
 import "react-table/react-table.css";
 import "../MerchantsRequest/MerchantsRequest.css";
@@ -51,19 +52,8 @@ class MerchantsRequest extends Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
+          this.setState({
+            data: [],
           });
         }
         this.setState({ loading: false });
@@ -109,10 +99,17 @@ class MerchantsRequest extends Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 100,
+        width: 80,
       },
       {
-        Header: "Business Name",
+        Header: "Rejected Date",
+        id: "date",
+        accessor: (row) => (
+          <span>{moment(row?.approvedDate).format("MM/DD/YYYY")}</span>
+        ),
+      },
+      {
+        Header: "DBA",
         id: "general",
         accessor: (e) => (
           <span style={{ fontWeight: 500 }}>{e?.businessName}</span>
@@ -121,36 +118,34 @@ class MerchantsRequest extends Component {
       {
         id: "principals",
         Header: "Owner",
-        width: 150,
         accessor: (e) => e.principals?.[0],
         Cell: (e) => (
           <span style={{ fontWeight: 500 }}>
-            {e.value !== undefined
-              ? e.value.firstName + " " + e.value.lastName
-              : null}
+            {e?.value?.firstName + " " + e?.value?.lastName}
           </span>
         ),
       },
       {
         Header: "Email",
         accessor: "email",
-        width: 300,
       },
       {
-        Header: "Phone Number",
+        Header: "Store Phone",
         accessor: "phone",
+      },
+      {
+        Header: "Contact Phone",
+        // accessor: "phone",
       },
       {
         id: "RejectedBy",
         Header: "Rejected By",
-        accessor: "adminUser",
-        Cell: (e) => (
-          <span style={{ color: "#4251af", fontWeight: 500 }}>
-            {e.value !== null
-              ? e.value.first_name + " " + e.value.last_name
-              : null}
-          </span>
-        ),
+        // accessor: "adminUser",
+        // Cell: (e) => (
+        //   <span style={{ color: "#4251af", fontWeight: 500 }}>
+        //     {e?.value?.first_name + " " + e?.value?.last_name}
+        //   </span>
+        // ),
       },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
@@ -187,7 +182,7 @@ class MerchantsRequest extends Component {
               </form>
             </div>
           </div>
-          <div className="MListContainer">
+          <div className="merchant-list-container">
             <ReactTable
               manual
               page={page}
@@ -196,7 +191,7 @@ class MerchantsRequest extends Component {
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={20}
-              minRows={0}
+              minRows={1}
               noDataText="NO DATA!"
               loading={this.state.loading}
               columns={columns}
