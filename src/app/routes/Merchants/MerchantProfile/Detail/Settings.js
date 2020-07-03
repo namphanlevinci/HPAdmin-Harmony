@@ -164,7 +164,7 @@ class Settings extends Component {
           </div>
           {this.props.MerchantProfile.isDisabled !== 1 ? (
             <Popup
-              trigger={<Button className="btn btn-red">DISABLE</Button>}
+              trigger={<Button className="btn btn-red">INACTIVE</Button>}
               modal
               on="click"
               open={this.state.isOpenReject}
@@ -289,7 +289,7 @@ class Settings extends Component {
             </Popup>
           ) : (
             <Button className="btn btn-green" onClick={this._enable}>
-              ENABLE
+              ACTIVE
             </Button>
           )}
         </div>

@@ -40,13 +40,13 @@ class ConsumerProfile extends Component {
 
     const renderConsumer = (
       // e.firstName !== undefined ? (
-      <div className="container-fluid PendingList">
+      <div className="container-fluid content-list">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
         />
-        <div className="PendingLBody page-heading">
-          <div className="PDL-Btn col-md-12">
+        <div className="content-body page-heading">
+          <div className="header col-md-12">
             <h3>Consumer ID: {e.accountId}</h3>
             <span>
               <Button

@@ -150,7 +150,7 @@ class EditMerchantRejected extends Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.editRejectedMerchant" />}
           />
-          <div className="PendingLBody RejectedInfo page-heading">
+          <div className="content-body RejectedInfo page-heading">
             <h2>General Information</h2>
             <div className="container">
               <div className="row">

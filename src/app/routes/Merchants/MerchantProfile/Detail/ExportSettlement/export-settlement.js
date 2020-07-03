@@ -71,7 +71,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
           store.addNotification({
             title: "ERROR!",
             message: `${res.data.message}`,
-            type: "wanrning",
+            type: "warning",
             insert: "top",
             container: "top-right",
             animationIn: ["animated", "fadeIn"],

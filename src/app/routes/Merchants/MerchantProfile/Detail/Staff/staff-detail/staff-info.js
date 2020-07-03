@@ -40,13 +40,13 @@ class staffGeneral extends Component {
     const Staff = this.props.Staff;
     return (
       <div>
-        <div className="container-fluid PendingList">
+        <div className="container-fluid content-list">
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
           />
-          <div className="PendingLBody page-heading">
-            <div className="PDL-Btn col-md-12">
+          <div className="content-body page-heading">
+            <div className="header col-md-12">
               <div style={{ display: "flex" }}>
                 <MdPerson size={22} style={{ color: "black" }} />
                 <h3>
@@ -70,7 +70,7 @@ class staffGeneral extends Component {
             <div className="content">
               <div className="container-fuild" style={{ padding: "10px" }}>
                 <div className="">
-                  <div className="profile-nav PendingLBody">
+                  <div className="profile-nav content-body">
                     <ul className="detail-tab">
                       <li>
                         <NavLink to="/app/merchants/staff/general">

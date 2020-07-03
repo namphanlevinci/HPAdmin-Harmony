@@ -19,24 +19,24 @@ class PrincipalList extends Component {
   };
 
   render() {
-    const e = this.props.MerchantProfile;
-    // console.log({e})
-    const PrincipalData = e.principals;
-    let Principal =
-      PrincipalData !== undefined
-        ? PrincipalData.map((data) => (
-            <React.Fragment key={data.principalId}>
-              <ListItem button>
-                <ListItemText
-                  primary={`${data.firstName} ${data.lastName}`}
-                  onClick={() => this.viewPrincipalInfo(data)}
-                />
-              </ListItem>
-              <Divider style={{ width: "100%", border: "none" }} />
-            </React.Fragment>
-          ))
-        : null;
-    return <List component="div">{Principal}</List>;
+    const principals = this.props.MerchantProfile?.principals;
+    return (
+      <List component="div">
+        {principals?.map((data, index) => (
+          <React.Fragment key={data.principalId}>
+            <ListItem button>
+              <ListItemText
+                primary={`Principal ${index + 1}: ${data.firstName} ${
+                  data.lastName
+                }`}
+                onClick={() => this.viewPrincipalInfo(data)}
+              />
+            </ListItem>
+            <Divider style={{ width: "100%", border: "none" }} />
+          </React.Fragment>
+        ))}
+      </List>
+    );
   }
 }
 

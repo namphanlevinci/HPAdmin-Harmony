@@ -57,13 +57,13 @@ class merchantProfile extends Component {
 
     return (
       <div>
-        <div className="container-fluid PendingList">
+        <div className="container-fluid content-list">
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
           />
-          <div className="PendingLBody page-heading">
-            <div className="PDL-Btn col-md-12">
+          <div className="content-body page-heading">
+            <div className="header col-md-12">
               <h3>ID: {e.merchantId}</h3>
               <span style={{ display: "flex" }}>
                 <span style={{ marginRight: "20px" }}>
@@ -85,7 +85,7 @@ class merchantProfile extends Component {
             <div className="content">
               <div className="container-fluid" style={{ padding: "10px" }}>
                 <div className="">
-                  <div className="profile-nav PendingLBody">
+                  <div className="profile-nav content-body">
                     <ul className="detail-tab">
                       <li>
                         <NavLink to="/app/merchants/profile/general">

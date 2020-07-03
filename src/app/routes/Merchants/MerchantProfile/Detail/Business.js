@@ -12,7 +12,6 @@ class Business extends Component {
   }
   render() {
     const e = this.props.MerchantProfile;
-    // console.log("Fix something", e)
     const renderQuestion =
       e.business !== undefined ? (
         e.business.map((e) => {

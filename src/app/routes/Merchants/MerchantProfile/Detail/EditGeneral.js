@@ -42,8 +42,7 @@ class General extends Component {
   _update = () => {
     const ID = this.props.MerchantProfile.general.generalId;
     const IDMerchant = this.props.MerchantProfile.merchantId;
-    console.log("ID", ID);
-    console.log("IDMerchant", IDMerchant);
+
     const {
       emailContact,
       legalBusinessName,

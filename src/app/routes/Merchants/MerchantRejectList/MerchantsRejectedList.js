@@ -99,7 +99,7 @@ class MerchantsRequest extends Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 80,
+        width: 60,
       },
       {
         Header: "Rejected Date",
@@ -135,17 +135,18 @@ class MerchantsRequest extends Component {
       },
       {
         Header: "Contact Phone",
-        // accessor: "phone",
+        id: "phoneContact",
+        accessor: (row) => <span>{row?.general?.phoneContact}</span>,
       },
       {
         id: "RejectedBy",
         Header: "Rejected By",
-        // accessor: "adminUser",
-        // Cell: (e) => (
-        //   <span style={{ color: "#4251af", fontWeight: 500 }}>
-        //     {e?.value?.first_name + " " + e?.value?.last_name}
-        //   </span>
-        // ),
+        accessor: "adminUser",
+        Cell: (e) => (
+          <span style={{ color: "#4251af", fontWeight: 500 }}>
+            {e?.value?.first_name + " " + e?.value?.last_name}
+          </span>
+        ),
       },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {

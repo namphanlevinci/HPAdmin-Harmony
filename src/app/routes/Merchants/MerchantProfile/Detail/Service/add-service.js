@@ -217,9 +217,9 @@ class AddService extends Component {
             />
           </div>
           <DialogContent>
-            <div className="profile-nav PendingLBody">
+            <div className="profile-nav content-body">
               <div className="detail-content">
-                <div className="service-container PendingLBody">
+                <div className="service-container content-body">
                   <h2
                     style={{
                       color: "#4251af",

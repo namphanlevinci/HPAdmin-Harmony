@@ -475,11 +475,8 @@ const EditPrincipal = ({
                       Add a friend
                     </button>
                   )}
-                  <div className="PendingLBody">
-                    <div
-                      className="PDL-Btn"
-                      style={{ display: "inline-block" }}
-                    >
+                  <div className="content-body">
+                    <div className="btn" style={{ display: "inline-block" }}>
                       <Button
                         className="btn btn-red"
                         onClick={() =>

@@ -225,7 +225,7 @@ class Generation_Detail extends Component {
       {
         Header: "Serial",
         accessor: "serialNumber",
-        Cell: (e) => <span style={{ fontWeight: "600" }}>{e.value}</span>,
+        Cell: (e) => <span style={{ fontWeight: "500" }}>{e.value}</span>,
         width: 200,
       },
       {

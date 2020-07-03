@@ -1,4 +1,4 @@
-.PendingList .PendingLBody input:focus {
+.content-list .content-body input:focus {
   outline: none;
   /* border-color: #4251af; */
 }

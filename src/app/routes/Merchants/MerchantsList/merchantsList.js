@@ -106,7 +106,7 @@ class MerchantsList extends React.Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 80,
+        width: 60,
       },
       {
         Header: "Approved Date",
@@ -114,6 +114,11 @@ class MerchantsList extends React.Component {
         accessor: (row) => (
           <span>{moment(row.approvedDate).format("MM/DD/YYYY")}</span>
         ),
+      },
+      {
+        Header: "MID",
+        id: "mid",
+        accessor: (row) => <span>{row?.merchantCode}</span>,
       },
       {
         Header: "DBA",
@@ -143,7 +148,8 @@ class MerchantsList extends React.Component {
       },
       {
         Header: "Contact Phone",
-        // accessor: "phone",
+        id: "phoneContact",
+        accessor: (row) => <span>{row?.general?.phoneContact}</span>,
       },
       {
         id: "approvedBy",

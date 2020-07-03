@@ -138,7 +138,7 @@ class Generation extends Component {
         Header: "ID",
         accessor: "giftCardGeneralId",
         Cell: (e) => <span>{`HP${e.value}`}</span>,
-        width: 80,
+        width: 60,
       },
       {
         Header: "Name",

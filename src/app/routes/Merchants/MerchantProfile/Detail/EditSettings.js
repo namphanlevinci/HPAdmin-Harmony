@@ -129,7 +129,7 @@ class EditSettings extends Component {
       <div className="container-fluid react-transition swipe-up">
         {this.state.update !== false ? (
           <div className="POPUP">
-            <div className="POPUP-INNER2 SettingsPopup2">
+            <div className="popup-inner2 SettingsPopup2">
               <div className="SettingsInner2">
                 <h3>Confirmation</h3>
               </div>

@@ -124,7 +124,12 @@ class Merchants extends React.Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 80,
+        width: 60,
+      },
+      {
+        Header: "MID",
+        id: "mid",
+        accessor: (row) => <span>{row?.merchantCode}</span>,
       },
       {
         Header: "DBA",
@@ -151,13 +156,18 @@ class Merchants extends React.Component {
         accessor: "email",
       },
       {
-        Header: "Phone Number",
+        Header: "Store Phone",
         accessor: "phone",
+      },
+      {
+        Header: "Contact Phone",
+        id: "contactPhone",
+        accessor: (row) => <span>{row?.general?.phoneContact}</span>,
       },
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: (e) => <span>{e.value === 0 ? "Available" : "Disable"}</span>,
+        Cell: (e) => <span>{e.value === 0 ? "Active" : "Inactive"}</span>,
       },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {

@@ -1,20 +1,20 @@
-.PendingLBody {
+.content-body {
   background-color: #fff;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
-.PendingLBody .PDL-Btn {
+.content-body .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.PendingLBody hr {
+.content-body hr {
   height: 1px;
   border: 0;
   border-top: 1px solid #4251af;
   align-content: center;
   width: 100%;
 }
-.PendingLBody .PDL-Btn button.btn {
+.content-body .btn button.btn {
   display: inline-block;
   color: #666;
   background-color: #eee;
@@ -31,74 +31,71 @@
 }
 
 /* GREEN BTN */
-.PendingLBody .PDL-Btn button.btn:hover {
+.content-body .btn button.btn:hover {
   background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
-.PendingLBody .PDL-Btn button.btn:active {
+.content-body .btn button.btn:active {
   background-color: #ccc;
   border-color: rgba(0, 0, 0, 0.9);
 }
-.PendingLBody .PDL-Btn button.btn.btn-green {
+.content-body .btn button.btn.btn-green {
   background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 
-.PendingLBody .PDL-Btn button.btn.btn-green:hover {
+.content-body .btn button.btn.btn-green:hover {
   background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
-.PendingLBody .PDL-Btn button.btn.btn-green:active {
+.content-body .btn button.btn.btn-green:active {
   background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
-.PendingLBody .PDL-Btn button.btn.btn-red {
+.content-body .btn button.btn.btn-red {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #4251af;
 }
 
-.PendingLBody .PDL-Btn button.btn.btn-red:hover {
+.content-body .btn button.btn.btn-red:hover {
   background-color: #fcfcfc;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
-.PendingLBody .PDL-Btn button.btn.btn-red:active {
+.content-body .btn button.btn.btn-red:active {
   background-color: #f4f4f4;
   border-color: rgba(0, 0, 0, 0.9);
 }
-.PendingList .PendingLBody .InputBox input {
+.content-list .content-body .InputBox input {
   width: auto !important;
   text-align: center;
 }
-.PendingList .PendingLBody {
-  /* padding-top: 20px; */
-}
-.PendingLBody .content .container-fuild h2 {
+
+.content-body .content .container-fluid h2 {
   color: #4251af;
-  font-weight: 500;
+  font-weight: 400;
   margin: 0;
-  /* padding: 10px 0px; */
 }
-.PendingLBody .content  p {
+.content-body .content  p {
   padding-bottom: 10px;
-  font-weight: 600;
-  color: black;
+  font-weight: 400;
+  color: #272727;
   overflow-wrap: break-word;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 h4 {
   margin-bottom: 4px;
 }
 /* POP UP  */
-.PendingList .PendingLBody .POPUP {
+.content-list .content-body .POPUP {
   z-index: 9999;
   position: fixed;
   width: 100%;
@@ -111,7 +108,7 @@ h4 {
   background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
 }
-.requestStatus .title {
+.request-status .title {
   background-color: red;
   color: white;
   width: 15%;
@@ -121,23 +118,21 @@ h4 {
   text-align: center;
   margin-bottom: 20px;
 }
-.requestStatus h4 {
+.request-status h4 {
   color: #4251af;
   font-size: 17px;
 
 }
-.PendingList .PendingLBody form {
+.content-list .content-body form {
   text-align: center;
 }
-.PendingList .PendingLBody .title {
+.content-list .content-body .title {
   padding-top: 15px;
   color: #4251af;
   text-align: center;
 }
-/* .PendingList .PendingLBody input {
-  width: auto;
-} */
-.PendingList .PendingLBody input {
+
+.content-list .content-body input {
   width: 100% ;
   font-weight: 500;
   color: #000000;
@@ -147,7 +142,7 @@ h4 {
   font-size: 16px;
 }
 
-.PendingList .PendingLBody input:focus {
+.content-list .content-body input:focus {
   outline: none;
   border-color: #4251af;
 }
@@ -206,7 +201,7 @@ h4 {
   .rejectInput textarea {
     width: 420px;
   }
-  .PendingLBody label {
+  .content-body label {
     font-size: 15px;
   }
 }

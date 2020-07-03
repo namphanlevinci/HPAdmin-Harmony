@@ -126,7 +126,7 @@ class Category extends Component {
         width: 250,
         accessor: "name",
         Cell: (row) => {
-          return <div style={{ fontWeight: "600" }}>{row.original.name}</div>;
+          return <div style={{ fontWeight: "500" }}>{row.original.name}</div>;
         },
       },
       {

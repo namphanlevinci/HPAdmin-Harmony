@@ -10,7 +10,6 @@ const updateStaff = (ID, body, token, viewStaff, history, path) => {
       },
     })
     .then((res) => {
-      console.log("res", res.data);
       if (res.data.message === "Success") {
         axios
           .get(URL + `/staff/${ID}?merchantId=${MerchantID}`, {
@@ -19,7 +18,6 @@ const updateStaff = (ID, body, token, viewStaff, history, path) => {
             },
           })
           .then((res) => {
-            console.log("res 2222", res);
             viewStaff(res.data.data);
             history.push(path);
           });

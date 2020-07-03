@@ -37,6 +37,7 @@ class EditBank extends Component {
         fileId: data.fileId,
         routingNumber: data.routingNumber,
         accountNumber: data.accountNumber,
+        accountHolderName: data.accountHolderName,
         newFileId: null,
       });
     }
@@ -88,11 +89,17 @@ class EditBank extends Component {
     const config = {
       headers: { Authorization: "bearer " + token.token },
     };
-    const { name, fileId, routingNumber, accountNumber } = this.state;
+    const {
+      name,
+      fileId,
+      routingNumber,
+      accountNumber,
+      accountHolderName,
+    } = this.state;
     axios
       .put(
         URL + "/merchant/businessbank/" + ID,
-        { name, fileId, routingNumber, accountNumber },
+        { name, fileId, routingNumber, accountNumber, accountHolderName },
         config
       )
       .then((res) => {
@@ -134,37 +141,31 @@ class EditBank extends Component {
       );
     } else {
       $imagePreview = (
-        <img className="bankVoid" src={e.businessBank.imageUrl} alt="void" />
+        <img className="bankVoid" src={e?.businessBank?.imageUrl} alt="void" />
       );
     }
 
-    const renderOldImg =
-      e.businessBank !== null ? (
-        e.businessBank.imageUrlOldFiles !== null ? (
-          <div
-            className="col-12"
-            style={{ paddingTop: "10px", width: "350px", height: "300px" }}
-          >
-            <label>Old Void Check*</label> <br />
-            {e.businessBank.imageUrlOldFiles.map((e, index) => {
-              return (
-                <img
-                  key={index}
-                  className="bankVoid"
-                  src={`${e}`}
-                  alt="void check"
-                  style={{ padding: "10px" }}
-                />
-              );
-            })}
-          </div>
-        ) : null
-      ) : null;
+    const renderOldImg = (
+      <div className="col-12" style={{ paddingTop: "10px" }}>
+        <label>Old Void Check*</label> <br />
+        {e.businessBank?.imageUrlOldFiles.map((e, index) => {
+          return (
+            <img
+              key={index}
+              className="bankVoid"
+              src={`${e}`}
+              alt="void check"
+              style={{ padding: "10px" }}
+            />
+          );
+        })}
+      </div>
+    );
 
     return (
       <div className="react-transition swipe-up GeneralContent">
         <h2 style={styles.h2}>Bank Information</h2>
-        <div className="container-fuild">
+        <div className="container-fluid">
           <div className="row">
             <div className="col-3">
               <label>Bank Name*</label>
@@ -174,7 +175,17 @@ class EditBank extends Component {
                 onChange={this._handleChange}
               />
             </div>
-            <div className="col-4">
+            <div className="col-3">
+              <label>Account Holder Name*</label>
+              <input
+                style={{ width: "250px" }}
+                name="accountHolderName"
+                value={this.state.accountHolderName}
+                onChange={this._handleChange}
+                style={styles.input}
+              />
+            </div>
+            <div className="col-3">
               <label>Routing Number(ABA)*</label>
               <input
                 style={{ width: "250px" }}
@@ -184,10 +195,9 @@ class EditBank extends Component {
                 style={styles.input}
               />
             </div>
-            <div className="col-5">
+            <div className="col-3">
               <label>Account Number (DDA)*</label>
               <input
-                // style={{ width: "250px" }}
                 name="accountNumber"
                 value={this.state.accountNumber}
                 onChange={this._handleChange}
@@ -195,16 +205,15 @@ class EditBank extends Component {
               />
             </div>
             <div className="col-4" style={{ paddingTop: "20px" }}>
-              <label>Void Check*</label>
+              <label>Void Check*</label> <br />
               {$imagePreview}
               <div>
                 <input
+                  style={{ paddingTop: "20px" }}
                   type="file"
-                  // style={{ width: "250px !important", border: "none" }}
                   name="image"
                   id="file"
                   onChange={(e) => this._uploadFile(e)}
-                  style={styles.input}
                 />
               </div>
             </div>
@@ -212,8 +221,7 @@ class EditBank extends Component {
           </div>
         </div>
         <br />
-
-        <div className="SettingsContent GeneralContent">
+        <div className=" ">
           <Button className="btn btn-green" onClick={this._update}>
             SAVE
           </Button>

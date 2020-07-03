@@ -1,5 +1,5 @@
 .UserProfile {
-    font-family: "Work Sans", sans-serif;
+    font-family: 'Roboto', sans-serif;
   }
   .UserSearchBox {
     display: flex;
@@ -546,28 +546,28 @@
   }
   
   @media (min-width: 1024px) and (max-width: 1280px) {
-    .POPUP-INNER2 {
+    .popup-inner2 {
       padding-top: 20px;
       left: 25%;
       right: 25%;
       top: 15%;
       bottom: 30%;
     }
-    .POPUP .SettingsPopup {
+    .POPUP .setting-popup {
       bottom: 48%;
     }
-    .POPUP-INNER2 label {
+    .popup-inner2 label {
       width: 210px;
     }
-    .POPUP-INNER2 input {
+    .popup-inner2 input {
       width: 250px;
     }
   }
   @media (min-width: 768px) and (max-width: 1023px) {
-    .PendingLBody .content .container h2 {
+    .content-body .content .container h2 {
       padding-top: 5px;
     }
-    .POPUP-INNER2 {
+    .popup-inner2 {
       padding-top: 10px;
       background-color: rgba(0, 0, 0, 0.5);
       position: absolute;
@@ -578,7 +578,7 @@
       margin: auto;
       background: white;
     }
-    .POPUP-INNER2 label {
+    .popup-inner2 label {
       display: inline-block;
       width: 159px;
       text-align: right;
@@ -586,13 +586,13 @@
       font-weight: 500;
       font-size: 14px;
     }
-    .POPUP-INNER2 input {
+    .popup-inner2 input {
       width: 200px;
       text-align: center;
     }
   }
   @media (min-width: 320px) and (max-width: 480px) {
-    .POPUP-INNER2 {
+    .popup-inner2 {
       padding-top: 10px;
       background-color: rgba(0, 0, 0, 0.5);
       position: absolute;
@@ -602,11 +602,11 @@
       bottom: 33%;
       background: white;
     }
-    .POPUP-INNER2 label {
+    .popup-inner2 label {
       width: 143px;
       font-size: 13px;
     }
-    .POPUP-INNER2 input {
+    .popup-inner2 input {
       width: 120px;
     }
   }

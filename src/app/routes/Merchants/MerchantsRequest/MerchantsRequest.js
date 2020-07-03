@@ -12,6 +12,7 @@ import URL from "../../../../url/url";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
+import moment from "moment";
 
 import "react-table/react-table.css";
 import "./MerchantsRequest.css";
@@ -114,7 +115,14 @@ class MerchantsRequest extends Component {
       {
         Header: "ID",
         accessor: "merchantId",
-        width: 80,
+        width: 60,
+      },
+      {
+        Header: "Submitted Date",
+        id: "submitDate",
+        accessor: (row) => (
+          <span>{moment(row?.createdDate).format("MM-DD-YYYY")}</span>
+        ),
       },
       {
         Header: "DBA",
@@ -143,7 +151,8 @@ class MerchantsRequest extends Component {
       },
       {
         Header: "Contact Phone",
-        // accessor: "",
+        id: "phoneContact",
+        accessor: (row) => <span>{row?.general?.phoneContact}</span>,
       },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {

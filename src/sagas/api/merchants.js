@@ -100,7 +100,7 @@ export function* GET_MERCHANT_BY_ID_API(ID) {
 
 // GET REJECTED MERCHANT API
 export function* GET_ALL_REJECTED_MERCHANT_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -120,7 +120,7 @@ export function* GET_ALL_REJECTED_MERCHANT_API() {
 
 // GET ALL MERCHANT REQUEST
 export function* GET_ALL_MERCHANT_REQUEST_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -140,7 +140,7 @@ export function* GET_ALL_MERCHANT_REQUEST_API() {
 
 // SEND APPROVAL REQUEST
 export function* APPROVE_MERCHANT_API(data) {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -178,7 +178,7 @@ export function* APPROVE_MERCHANT_API(data) {
 
 // SEND REJECT REQUEST
 export function* REJECT_MERCHANT_API(data) {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {

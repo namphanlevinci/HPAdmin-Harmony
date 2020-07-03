@@ -172,13 +172,13 @@ class EditPendingMerchant extends Component {
     }
 
     return (
-      <div className="container-fluid PendingList ">
+      <div className="container-fluid content-list ">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.editPendingMerchant" />}
         />
-        <div className="PendingLBody page-heading">
-          <div className="PDL-Btn col-12">
+        <div className="content-body page-heading">
+          <div className="header col-12">
             <h3>{"HP-" + e.merchantId}</h3>
 
             <span>
