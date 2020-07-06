@@ -1,28 +1,15 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
 import { upFileUrl } from "../../../../../url/url";
-// import { store } from "react-notifications-component";
 import { IoIosClose } from "react-icons/io";
-// import {
-// MuiPickersUtilsProvider,
-// KeyboardDatePicker,
-// } from "@material-ui/pickers";
-// import { DatePicker } from "@material-ui/pickers";
 
-// import { KeyboardDatePicker } from "@material-ui/pickers";
-
-// import Grid from "@material-ui/core/Grid";
-// import DateFnsUtils from "@date-io/date-fns";
-// import moment from "moment";
 import axios from "axios";
 import defaultImage from "./hpadmin2.png";
 import ErrorMessage from "../../MerchantProfile/Detail/Service/error-message";
 import Button from "@material-ui/core/Button";
 import PhoneInput from "react-phone-input-2";
 import * as Yup from "yup";
-// import ReactPlaceholder from "react-placeholder";
-// import CircularProgress from "../components/CircularProgress/index";
-// import CircularProgress from "../../../../../components/CircularProgress/index";
+
 import TextField from "@material-ui/core/TextField";
 import Select from "react-select";
 import selectState from "../../../../../util/selectState";
@@ -164,9 +151,9 @@ class Principal extends Component {
                   name="principalInfo"
                   render={(arrayHelpers) => (
                     <div>
-                      <h1 style={{ color: "#4251af" }}>
+                      <h2 style={{ color: "#4251af", fontWeight: "400" }}>
                         Principal Information
-                      </h1>
+                      </h2>
                       {values.principalInfo &&
                       values.principalInfo.length > 0 ? (
                         values.principalInfo.map((principal, index) => {
@@ -494,6 +481,9 @@ class Principal extends Component {
                                     type="number"
                                     margin="normal"
                                     fullWidth
+                                    inputProps={{
+                                      maxLength: 4,
+                                    }}
                                     onChange={(e) =>
                                       setFieldValue(
                                         `principalInfo.${index}.yearAtThisAddress`,

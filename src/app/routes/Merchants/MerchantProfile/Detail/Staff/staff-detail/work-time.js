@@ -80,7 +80,7 @@ export class workTime extends Component {
               <div className="time-select">
                 <Select
                   options={Time}
-                  defaultValue={{ label: Time?.Tuesday?.timeEnd }}
+                  defaultValue={{ label: Time?.Tuesday?.timeStart }}
                   isDisabled
                 />
               </div>

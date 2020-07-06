@@ -26,11 +26,6 @@ class EditPendingMerchant extends Component {
     };
   }
 
-  // handleEdit = (value, name) => {
-  //   console.log("value", value);
-  //   console.log("name", name);
-  // };
-
   _uploadFile = (e) => {
     e.preventDefault();
 
@@ -60,38 +55,50 @@ class EditPendingMerchant extends Component {
       });
   };
 
-  componentDidMount() {
-    const pendingProfile = this.props.PendingProfile;
-    // let phone = pendingProfile?.general.phoneBusiness;
+  async componentDidMount() {
+    const Profile = this.props.Profile;
+
+    // business question chưa work
+    const businessQuestion = await Profile?.business.map(function(item, index) {
+      const name = `question${index + 1}`;
+      return {
+        [name]: {
+          isAccept: item?.answer,
+          desc: item?.answerReply,
+          question: item?.question,
+        },
+      };
+    });
+
     this.setState(
       {
-        ID: pendingProfile?.merchantId,
+        ID: Profile?.merchantId,
         // General
-        doBusinessName: pendingProfile?.general?.doBusinessName,
-        legalBusinessName: pendingProfile?.general?.legalBusinessName,
-        tax: pendingProfile?.general?.tax,
-        address: pendingProfile?.general?.address,
-        city: pendingProfile?.general?.city,
-        stateId: pendingProfile?.general?.stateId,
-        stateName: pendingProfile?.state?.name,
-        phoneBusiness: pendingProfile?.general.phoneBusiness,
-        zip: pendingProfile?.general?.zip,
-        emailContact: pendingProfile?.general?.emailContact,
+        doBusinessName: Profile?.general?.doBusinessName,
+        legalBusinessName: Profile?.general?.legalBusinessName,
+        tax: Profile?.general?.tax,
+        address: Profile?.general?.address,
+        city: Profile?.general?.city,
+        stateId: Profile?.general?.stateId,
+        stateName: Profile?.state?.name,
+        phoneBusiness: Profile?.general.phoneBusiness,
+        zip: Profile?.general?.zip,
+        emailContact: Profile?.general?.emailContact,
         // Representative Information
-        firstName: pendingProfile?.general?.firstName,
-        lastName: pendingProfile?.general?.lastName,
-        title: pendingProfile?.general?.title,
-        phoneContact: pendingProfile?.general?.phoneContact,
+        firstName: Profile?.general?.firstName,
+        lastName: Profile?.general?.lastName,
+        title: Profile?.general?.title,
+        phoneContact: Profile?.general?.phoneContact,
         // Business Questions
-        business: pendingProfile?.business,
+        business: businessQuestion,
         // Bank Information
-        bankName: pendingProfile?.businessBank?.name,
-        accountHolderName: pendingProfile?.businessBank?.accountHolderName,
-        accountNumber: pendingProfile?.businessBank?.accountNumber,
-        routingNumber: pendingProfile?.businessBank?.routingNumber,
-        fileId: pendingProfile?.businessBank?.fileId,
+        bankName: Profile?.businessBank?.name,
+        accountHolderName: Profile?.businessBank?.accountHolderName,
+        accountNumber: Profile?.businessBank?.accountNumber,
+        routingNumber: Profile?.businessBank?.routingNumber,
+        fileId: Profile?.businessBank?.fileId,
         // Principal Information
-        principals: pendingProfile?.principals,
+        principals: Profile?.principals,
       },
       () => this.setState({ loading: true })
     );
@@ -146,7 +153,7 @@ class EditPendingMerchant extends Component {
   // };
 
   render() {
-    const e = this.props.PendingProfile;
+    const e = this.props.Profile;
 
     // BANK IMAGE
     let { imagePreviewUrl } = this.state;
@@ -180,24 +187,11 @@ class EditPendingMerchant extends Component {
         <div className="content-body page-heading">
           <div className="header col-12">
             <h3>{"HP-" + e.merchantId}</h3>
-
-            <span>
-              {/* <Button
-                className="btn btn-red"
-                style={{ marginTop: "0px" }}
-                onClick={this.goBack}
-              >
-                BACK
-              </Button> */}
-              {/* <Button className="btn btn-green" onClick={this.handleEdit}>
-                SAVE
-              </Button> */}
-            </span>
           </div>
           <hr />
           <div className="content react-transition swipe-right">
             <div className="container-fluid">
-              <h2 style={{ color: "#4251af", fontWeight: "500" }}>
+              <h2 style={{ color: "#4251af", fontWeight: "400" }}>
                 General Information
               </h2>
               <div className="row justify-content-between">
@@ -284,7 +278,7 @@ class EditPendingMerchant extends Component {
                 style={{
                   paddingTop: "15px",
                   color: "#4251af",
-                  fontWeight: "500",
+                  fontWeight: "400",
                 }}
               >
                 Representative Information
@@ -337,7 +331,7 @@ class EditPendingMerchant extends Component {
                 style={{
                   paddingTop: "15px",
                   color: "#4251af",
-                  fontWeight: "500",
+                  fontWeight: "400",
                 }}
               >
                 Bank Information
@@ -390,7 +384,7 @@ class EditPendingMerchant extends Component {
                 style={{
                   paddingTop: "15px",
                   color: "#4251af",
-                  fontWeight: "500",
+                  fontWeight: "400",
                 }}
               >
                 Principal Information
@@ -416,7 +410,7 @@ class EditPendingMerchant extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  PendingProfile: state.ViewMerchant_Request,
+  Profile: state.ViewMerchant_Request,
   userLogin: state.userReducer.User,
   ApprovalStatus: state.Approval,
   RejectStatus: state.Reject,

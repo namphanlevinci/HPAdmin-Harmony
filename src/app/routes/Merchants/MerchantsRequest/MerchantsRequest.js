@@ -94,7 +94,7 @@ class MerchantsRequest extends Component {
     }
   };
 
-  _merchantReqProfile = (ID) => {
+  pendingProfile = (ID) => {
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
@@ -128,18 +128,19 @@ class MerchantsRequest extends Component {
         Header: "DBA",
         id: "general",
         accessor: (e) => (
-          <span style={{ fontWeight: 500 }}>{e?.businessName}</span>
+          <span style={{ fontWeight: 500 }}>{e?.general?.doBusinessName}</span>
         ),
       },
       {
         id: "principals",
         Header: "Owner",
         accessor: (e) => e?.principals?.[0],
-        Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>
-            {e?.value?.firstName + " " + e?.value?.lastName}
-          </span>
-        ),
+        Cell: (e) =>
+          e?.value === undefined ? null : (
+            <span style={{ fontWeight: 500 }}>
+              {e?.value?.firstName + " " + e?.value?.lastName}
+            </span>
+          ),
       },
       {
         Header: "Email",
@@ -159,7 +160,7 @@ class MerchantsRequest extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this._merchantReqProfile(rowInfo.original.merchantId);
+            this.pendingProfile(rowInfo.original.merchantId);
           }
         },
       };
@@ -210,7 +211,6 @@ class MerchantsRequest extends Component {
 }
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
-  MerchantRequests_List: state.MerchantRequests_List,
 });
 const mapDispatchToProps = (dispatch) => ({
   getAll_Merchant_Requests: () => {

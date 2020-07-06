@@ -247,35 +247,118 @@ class MerchantReqProfile extends Component {
         <label>&nbsp;- NO BUSINESS INFORMATION</label>
       );
     //render profile
-    const renderPendingProfile =
-      e.merchantId !== undefined ? (
-        <div className="container-fluid content-list ">
-          <ContainerHeader
-            match={this.props.match}
-            title={<IntlMessages id="sidebar.dashboard.requestDetail" />}
-          />
-          <div className="content-body page-heading">
-            <div className="header col-md-12">
-              <h3>{"HP-" + e.merchantId}</h3>
 
-              <span>
-                <Button className="btn btn-red" onClick={this.goBack}>
-                  BACK
-                </Button>
-                {/* HANDLE EDIT */}
-                <Button className="btn btn-red" onClick={this.handleEdit}>
-                  EDIT
-                </Button>
-                {/* REJECT BTN */}
-                <Popup
-                  trigger={<Button className="btn btn-red">REJECT</Button>}
-                  modal
-                  on="click"
-                  open={this.state.isOpenReject}
-                  onOpen={this.handleOpenReject}
-                  closeOnDocumentClick
+    return (
+      <div className="container-fluid content-list ">
+        <ContainerHeader
+          match={this.props.match}
+          title={<IntlMessages id="sidebar.dashboard.requestDetail" />}
+        />
+        <div className="content-body page-heading">
+          <div className="header col-md-12">
+            <h3>{"HP-" + e.merchantId}</h3>
+
+            <span>
+              <Button className="btn btn-red" onClick={this.goBack}>
+                BACK
+              </Button>
+              {/* HANDLE EDIT */}
+              <Button className="btn btn-red" onClick={this.handleEdit}>
+                EDIT
+              </Button>
+              {/* REJECT BTN */}
+              <Popup
+                trigger={<Button className="btn btn-red">REJECT</Button>}
+                modal
+                on="click"
+                open={this.state.isOpenReject}
+                onOpen={this.handleOpenReject}
+                closeOnDocumentClick
+              >
+                <a className="close" onClick={this.handleCloseReject}>
+                  &times;
+                </a>
+                <div
+                  className="header"
+                  style={{
+                    backgroundColor: "#4251af",
+                    height: "50px",
+                    padding: "10px",
+                    zIndex: "999",
+                    color: "white",
+                    alignItems: "center",
+                  }}
                 >
-                  <a className="close" onClick={this.handleCloseReject}>
+                  <p style={{ fontSize: "22px", textAlign: "center" }}>
+                    Confirmation
+                  </p>
+                </div>
+                <span>
+                  <Formik
+                    initialValues={{ rejectReason: "" }}
+                    validate={(values) => {
+                      let errors = {};
+                      if (!values.rejectReason) {
+                        errors.rejectReason = "Required";
+                      }
+                      return errors;
+                    }}
+                    onSubmit={(values, { setSubmitting }) => {
+                      const reason = values.rejectReason;
+                      const ID = this.props.PendingProfile.merchantId;
+                      const data = { reason, ID };
+                      this.props.sendReject(data);
+                    }}
+                  >
+                    {({ values, _handleChange, isSubmitting }) => (
+                      <div className="rejectInput">
+                        <h2 className="title">REASONS FOR REJECTION</h2>
+                        <Form>
+                          <Field
+                            type="textarea"
+                            name="rejectReason"
+                            component="textarea"
+                            placeholder="Please enter your reason."
+                          />
+                          <ErrorMessage
+                            style={{
+                              color: "#4251af",
+                              fontWeight: "500",
+                              fontSize: "18px",
+                            }}
+                            name="rejectReason"
+                            component="div"
+                          />
+                          <div>
+                            <Button
+                              type="submit"
+                              className="btn btn-red"
+                              onClick={this.handleCloseReject}
+                            >
+                              BACK
+                            </Button>
+                            <Button type="submit" className="btn btn-green">
+                              CONFIRM
+                            </Button>
+                          </div>
+                        </Form>
+                      </div>
+                    )}
+                  </Formik>
+                </span>
+              </Popup>
+              {/* ACCEPT BTN */}
+
+              <Popup
+                trigger={<Button className="btn btn-green"> ACCEPT </Button>}
+                modal
+                on="click"
+                open={this.state.isOpenAccept}
+                onOpen={this.handleOpenAccept}
+                closeOnDocumentClick
+              >
+                <span>
+                  <a className="close" onClick={this.handleCloseAccept}>
                     &times;
                   </a>
                   <div
@@ -293,302 +376,214 @@ class MerchantReqProfile extends Component {
                       Confirmation
                     </p>
                   </div>
-                  <span>
-                    <Formik
-                      initialValues={{ rejectReason: "" }}
-                      validate={(values) => {
-                        let errors = {};
-                        if (!values.rejectReason) {
-                          errors.rejectReason = "Required";
-                        }
-                        return errors;
-                      }}
-                      onSubmit={(values, { setSubmitting }) => {
-                        const reason = values.rejectReason;
-                        const ID = this.props.PendingProfile.merchantId;
-                        const data = { reason, ID };
-                        this.props.sendReject(data);
-                      }}
-                    >
-                      {({ values, _handleChange, isSubmitting }) => (
-                        <div className="rejectInput">
-                          <h2 className="title">REASONS FOR REJECTION</h2>
-                          <Form>
-                            <Field
-                              type="textarea"
-                              name="rejectReason"
-                              component="textarea"
-                              placeholder="Please enter your reason."
-                            />
-                            <ErrorMessage
-                              style={{
-                                color: "#4251af",
-                                fontWeight: "500",
-                                fontSize: "18px",
-                              }}
-                              name="rejectReason"
-                              component="div"
-                            />
-                            <div>
-                              <Button
-                                type="submit"
-                                className="btn btn-red"
-                                onClick={this.handleCloseReject}
-                              >
-                                BACK
-                              </Button>
-                              <Button type="submit" className="btn btn-green">
-                                CONFIRM
-                              </Button>
-                            </div>
-                          </Form>
-                        </div>
-                      )}
-                    </Formik>
-                  </span>
-                </Popup>
-                {/* ACCEPT BTN */}
-
-                <Popup
-                  trigger={<Button className="btn btn-green"> ACCEPT </Button>}
-                  modal
-                  on="click"
-                  open={this.state.isOpenAccept}
-                  onOpen={this.handleOpenAccept}
-                  closeOnDocumentClick
-                >
-                  <span>
-                    <a className="close" onClick={this.handleCloseAccept}>
-                      &times;
-                    </a>
-                    <div
-                      className="header"
-                      style={{
-                        backgroundColor: "#4251af",
-                        height: "50px",
-                        padding: "10px",
-                        zIndex: "999",
-                        color: "white",
-                        alignItems: "center",
-                      }}
-                    >
-                      <p style={{ fontSize: "22px", textAlign: "center" }}>
-                        Confirmation
-                      </p>
-                    </div>
-                    <h3 className="title">
-                      ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?
-                    </h3>
-                    <Formik
-                      initialValues={{
-                        merchantID: "",
-                        // merchantToken: "",
-                        fee: "",
-                        discountRate: "",
-                      }}
-                      validate={(values) => {
-                        let errors = {};
-                        if (!values.merchantID) {
-                          errors.merchantID = "Required";
-                        }
-                        // } else if (!values.merchantToken) {
-                        // errors.merchantToken = 'Required';
-                        // }
-                        else if (!values.fee) {
-                          errors.fee = "Required";
-                        } else if (!values.discount) {
-                          errors.discount = "Required";
-                        }
-                        return errors;
-                      }}
-                      onSubmit={(values, { setSubmitting }) => {
-                        const ID = this.props.PendingProfile.merchantId;
-                        const merchantCode = values.merchantID;
-                        // const merchantToken = values.merchantToken;
-                        const transactionsFee = values.fee;
-                        const discountRate = values.discount;
-                        const data = {
-                          transactionsFee,
-                          merchantCode,
-                          ID,
-                          discountRate,
-                        };
-                        this.props.sendApproval(data);
-                      }}
-                    >
-                      {({ lol }) => (
-                        <Form
-                          style={{ textAlign: "center" }}
-                          className="InputBox"
-                        >
-                          <div style={styles.div}>
-                            <label>Merchant ID</label>
-                            <br />
-                            <Field type="text" name="merchantID" />
-                            <ErrorMessage
-                              style={{
-                                color: "#4251af",
-                                fontWeight: "500",
-                                fontSize: "18px",
-                              }}
-                              name="merchantID"
-                              component="div"
-                            />
-                          </div>
-                          <div style={styles.div}>
-                            <label>Transaction Fee</label> <br />
-                            <Field type="number" name="fee" />
-                            <ErrorMessage
-                              style={{
-                                color: "#4251af",
-                                fontWeight: "500",
-                                fontSize: "18px",
-                              }}
-                              name="fee"
-                              component="div"
-                            />
-                          </div>
-                          <div style={styles.div}>
-                            <label>Discount Rate</label> <br />
-                            <Field type="number" name="discount" />
-                            <ErrorMessage
-                              style={{
-                                color: "#4251af",
-                                fontWeight: "500",
-                                fontSize: "18px",
-                              }}
-                              name="discount"
-                              component="div"
-                            />
-                          </div>
+                  <h3 className="title">
+                    ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?
+                  </h3>
+                  <Formik
+                    initialValues={{
+                      merchantID: "",
+                      // merchantToken: "",
+                      fee: "",
+                      discountRate: "",
+                    }}
+                    validate={(values) => {
+                      let errors = {};
+                      if (!values.merchantID) {
+                        errors.merchantID = "Required";
+                      }
+                      // } else if (!values.merchantToken) {
+                      // errors.merchantToken = 'Required';
+                      // }
+                      else if (!values.fee) {
+                        errors.fee = "Required";
+                      } else if (!values.discount) {
+                        errors.discount = "Required";
+                      }
+                      return errors;
+                    }}
+                    onSubmit={(values, { setSubmitting }) => {
+                      const ID = this.props.PendingProfile.merchantId;
+                      const merchantCode = values.merchantID;
+                      // const merchantToken = values.merchantToken;
+                      const transactionsFee = values.fee;
+                      const discountRate = values.discount;
+                      const data = {
+                        transactionsFee,
+                        merchantCode,
+                        ID,
+                        discountRate,
+                      };
+                      this.props.sendApproval(data);
+                    }}
+                  >
+                    {({ lol }) => (
+                      <Form
+                        style={{ textAlign: "center" }}
+                        className="InputBox"
+                      >
+                        <div style={styles.div}>
+                          <label>Merchant ID</label>
                           <br />
-                          <div
-                            style={{ textAlign: "center", paddingTop: "10px" }}
+                          <Field type="text" name="merchantID" />
+                          <ErrorMessage
+                            style={{
+                              color: "#4251af",
+                              fontWeight: "500",
+                              fontSize: "18px",
+                            }}
+                            name="merchantID"
+                            component="div"
+                          />
+                        </div>
+                        <div style={styles.div}>
+                          <label>Transaction Fee</label> <br />
+                          <Field type="number" name="fee" />
+                          <ErrorMessage
+                            style={{
+                              color: "#4251af",
+                              fontWeight: "500",
+                              fontSize: "18px",
+                            }}
+                            name="fee"
+                            component="div"
+                          />
+                        </div>
+                        <div style={styles.div}>
+                          <label>Discount Rate</label> <br />
+                          <Field type="number" name="discount" />
+                          <ErrorMessage
+                            style={{
+                              color: "#4251af",
+                              fontWeight: "500",
+                              fontSize: "18px",
+                            }}
+                            name="discount"
+                            component="div"
+                          />
+                        </div>
+                        <br />
+                        <div
+                          style={{ textAlign: "center", paddingTop: "10px" }}
+                        >
+                          <Button
+                            type="submit"
+                            className="btn btn-red"
+                            onClick={this.handleCloseAccept}
                           >
-                            <Button
-                              type="submit"
-                              className="btn btn-red"
-                              onClick={this.handleCloseAccept}
-                            >
-                              NO
-                            </Button>
-                            <Button type="submit" className="btn btn-green">
-                              YES
-                            </Button>
-                          </div>
-                        </Form>
-                      )}
-                    </Formik>
-                  </span>
-                </Popup>
-              </span>
-            </div>
-            <hr />
-            <div className="content react-transition swipe-right">
-              <div className="container-fluid">
-                <h2 style={styles.h2}>General Information</h2>
-                <div className="row justify-content-between">
-                  <div className="col-4">
-                    <label>Legal Business Name*</label>
-                    <p>
-                      {e.general !== null ? e.general.legalBusinessName : null}
-                    </p>
-                  </div>
-                  <div className="col-4">
-                    <label>Doing Business As* (DBA)</label>
-                    <p>
-                      {e.general !== null ? e.general.doBusinessName : null}
-                    </p>
-                  </div>
-                  <div className="col-4">
-                    <label>Federal Tax ID*</label>
-                    <p>{e.taxId}</p>
-                  </div>
-                  <div className="col-4">
-                    <label>Business Address* (no P.O. Boxes)</label>
-                    <p>{e.general !== null ? e.general.address : null}</p>
-                  </div>
-                  <div className="col-4">
-                    <label>Zip Code*</label>
-                    <p>{e.zip}</p>
-                  </div>
-                  <div className="col-4">
-                    <label>Business Phone Number*</label>
-                    <p>{e.phone}</p>
-                  </div>
-                  <div className="col-4">
-                    <label>Contact Email Address*</label>
-                    <p>{e.email}</p>
-                  </div>
+                            NO
+                          </Button>
+                          <Button type="submit" className="btn btn-green">
+                            YES
+                          </Button>
+                        </div>
+                      </Form>
+                    )}
+                  </Formik>
+                </span>
+              </Popup>
+            </span>
+          </div>
+          <hr />
+          <div className="content react-transition swipe-right">
+            <div className="container-fluid">
+              <h2 style={styles.h2}>General Information</h2>
+              <div className="row justify-content-between">
+                <div className="col-4">
+                  <label>Legal Business Name*</label>
+                  <p>
+                    {e.general !== null ? e.general.legalBusinessName : null}
+                  </p>
                 </div>
-                {/* <h2 style={styles.h2}>Representative Information</h2> */}
-                <div className="row">
-                  <div className="col-4">
-                    <label>Contact Name*</label>
-                    <p>
-                      {e.general !== null
-                        ? e.general.firstName + " " + e.general.lastName
-                        : null}
-                    </p>
-                  </div>
-                  <div className="col-4">
-                    <label>Title/Position*</label>
-                    <p>{e.general !== null ? e.general.title : null}</p>
-                  </div>
-                  <div className="col-4">
-                    <label>Contact Phone Number*</label>
-                    <p>{e.general !== null ? e.general.phoneContact : null}</p>
-                  </div>
+                <div className="col-4">
+                  <label>Doing Business As* (DBA)</label>
+                  <p>{e.general !== null ? e.general.doBusinessName : null}</p>
                 </div>
-                <h2 style={styles.h2}>Business Information</h2>
-                <div className="row">{renderQuestion}</div>
-                <h2 style={styles.h2}>Bank Information</h2>
-                <div className="row">
-                  <div className="col-3">
-                    <label>Bank Name*</label>
-                    <p>{e?.businessBank?.name}</p>
-                  </div>
-                  <div className="col-3">
-                    <label>Account Holder Name*</label>
-                    <p>{e?.businessBank?.accountHolderName}</p>
-                  </div>
-                  <div className="col-3">
-                    <label>Routing Number(ABA)*</label>
-                    <p>
-                      {e.businessBank !== null
-                        ? e.businessBank.routingNumber
-                        : null}
-                    </p>
-                  </div>
-                  <div className="col-3">
-                    <label>Account Number (DDA)*</label>
-                    <p>
-                      {e.businessBank !== null
-                        ? e.businessBank.accountNumber
-                        : null}
-                    </p>
-                  </div>
-                  <div className="col-4">
-                    <label>Void Check*</label>
-                    {e.businessBank !== null ? (
-                      <img
-                        className="pending-image"
-                        src={`${e.businessBank.imageUrl}`}
-                        alt="void check"
-                      />
-                    ) : null}
-                  </div>
+                <div className="col-4">
+                  <label>Federal Tax ID*</label>
+                  <p>{e.taxId}</p>
                 </div>
-                <h2 style={styles.h2}>Principal Information</h2>
-                {renderPrincipal}
+                <div className="col-4">
+                  <label>Business Address* (no P.O. Boxes)</label>
+                  <p>{e.general !== null ? e.general.address : null}</p>
+                </div>
+                <div className="col-4">
+                  <label>Zip Code*</label>
+                  <p>{e.zip}</p>
+                </div>
+                <div className="col-4">
+                  <label>Business Phone Number*</label>
+                  <p>{e.phone}</p>
+                </div>
+                <div className="col-4">
+                  <label>Contact Email Address*</label>
+                  <p>{e.email}</p>
+                </div>
               </div>
+              {/* <h2 style={styles.h2}>Representative Information</h2> */}
+              <div className="row">
+                <div className="col-4">
+                  <label>Contact Name*</label>
+                  <p>
+                    {e.general !== null
+                      ? e.general.firstName + " " + e.general.lastName
+                      : null}
+                  </p>
+                </div>
+                <div className="col-4">
+                  <label>Title/Position*</label>
+                  <p>{e.general !== null ? e.general.title : null}</p>
+                </div>
+                <div className="col-4">
+                  <label>Contact Phone Number*</label>
+                  <p>{e.general !== null ? e.general.phoneContact : null}</p>
+                </div>
+              </div>
+              <h2 style={styles.h2}>Business Information</h2>
+              <div className="row">{renderQuestion}</div>
+              <h2 style={styles.h2}>Bank Information</h2>
+              <div className="row">
+                <div className="col-3">
+                  <label>Bank Name*</label>
+                  <p>{e?.businessBank?.name}</p>
+                </div>
+                <div className="col-3">
+                  <label>Account Holder Name*</label>
+                  <p>{e?.businessBank?.accountHolderName}</p>
+                </div>
+                <div className="col-3">
+                  <label>Routing Number(ABA)*</label>
+                  <p>
+                    {e.businessBank !== null
+                      ? e.businessBank.routingNumber
+                      : null}
+                  </p>
+                </div>
+                <div className="col-3">
+                  <label>Account Number (DDA)*</label>
+                  <p>
+                    {e.businessBank !== null
+                      ? e.businessBank.accountNumber
+                      : null}
+                  </p>
+                </div>
+                <div className="col-4">
+                  <label>Void Check*</label>
+                  {e.businessBank !== null ? (
+                    <img
+                      className="pending-image"
+                      src={`${e.businessBank.imageUrl}`}
+                      alt="void check"
+                    />
+                  ) : null}
+                </div>
+              </div>
+              <h2 style={styles.h2}>Principal Information</h2>
+              {renderPrincipal}
             </div>
           </div>
         </div>
-      ) : (
-        <Redirect to="/app/merchants/pending" />
-      );
-    return renderPendingProfile;
+      </div>
+    );
   }
 }
 

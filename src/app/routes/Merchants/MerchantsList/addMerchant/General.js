@@ -73,6 +73,7 @@ const General = ({
               fullWidth
               onChange={handleChange}
               value={value.tax}
+              inputProps={{ maxLength: 9 }}
             />
             {validator.message("tax", value.tax, "required|string")}
           </div>
@@ -131,6 +132,7 @@ const General = ({
               fullWidth
               onChange={handleChange}
               value={value.zip}
+              inputProps={{ maxLength: 5 }}
             />
             {validator.message("zip", value.zip, "required|string")}
           </div>

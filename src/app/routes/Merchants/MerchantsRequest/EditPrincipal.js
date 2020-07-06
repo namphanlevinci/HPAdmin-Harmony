@@ -57,7 +57,7 @@ const EditPrincipal = ({
   ViewMerchant_Request,
   history,
 }) => {
-  const merchantReqProfile = (ID) => {
+  const getMerchantById = (ID) => {
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
@@ -87,7 +87,6 @@ const EditPrincipal = ({
 
   const editMerchant = (principalInfo) => {
     let PrincipalInfo = principalInfo.PrincipalInfo;
-
     const body = {
       generalInfo: {
         businessName: initValue?.legalBusinessName,
@@ -147,7 +146,7 @@ const EditPrincipal = ({
             width: 250,
           });
           setTimeout(() => {
-            merchantReqProfile(`${initValue?.ID}`);
+            getMerchantById(`${initValue?.ID}`);
           }, 1000);
         } else {
           store.addNotification({
@@ -204,8 +203,9 @@ const EditPrincipal = ({
                             <h3
                               style={{
                                 color: "#4251af",
-                                fontWeight: "500",
+                                fontWeight: "400",
                                 float: "left",
+                                marginTop: "10px",
                               }}
                             >
                               Principal {index + 1}
@@ -453,42 +453,26 @@ const EditPrincipal = ({
                             />
                           </div>
                           <hr />
-                          {/* <button
-                          type="button"
-                          onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                        >
-                          -
-                        </button>
-                        1
-                        <button
-                          type="button"
-                          onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
-                        >
-                          +
-                        </button> */}
                         </div>
                       );
                     })
                   ) : (
                     <button type="button" onClick={() => arrayHelpers.push("")}>
-                      {/* show this when user has removed all friends from the list */}
                       Add a friend
                     </button>
                   )}
                   <div className="content-body">
-                    <div className="btn" style={{ display: "inline-block" }}>
-                      <Button
-                        className="btn btn-red"
-                        onClick={() =>
-                          history.push("/app/merchants/pending/profile")
-                        }
-                      >
-                        BACK
-                      </Button>
-                      <Button type="submit" className="btn btn-green">
-                        SAVE
-                      </Button>
-                    </div>
+                    <Button
+                      className="btn btn-red"
+                      onClick={() =>
+                        history.push("/app/merchants/pending/profile")
+                      }
+                    >
+                      BACK
+                    </Button>
+                    <Button type="submit" className="btn btn-green">
+                      SAVE
+                    </Button>
                   </div>
                 </div>
               )}
