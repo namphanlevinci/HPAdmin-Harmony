@@ -31,7 +31,7 @@ class MerchantsList extends React.Component {
     };
   }
 
-  _merchantsProfile = (ID) => {
+  merchantProfile = (ID) => {
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
@@ -167,11 +167,12 @@ class MerchantsList extends React.Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this._merchantsProfile(rowInfo.original.merchantId);
+            this.merchantProfile(rowInfo.original.merchantId);
           }
         },
       };
     };
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -221,7 +222,6 @@ class MerchantsList extends React.Component {
 
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
-  Merchants_List: state.MerchantsList,
 });
 const mapDispatchToProps = (dispatch) => ({
   getAll_Merchants: () => {

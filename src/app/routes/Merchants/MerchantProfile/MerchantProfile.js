@@ -68,7 +68,7 @@ class merchantProfile extends Component {
               <span style={{ display: "flex" }}>
                 <span style={{ marginRight: "20px" }}>
                   <ExportSettlement
-                    IDMERCHANT={e?.merchantId}
+                    MerchantId={e?.merchantId}
                     Token={this.props.userLogin?.token}
                   />
                 </span>

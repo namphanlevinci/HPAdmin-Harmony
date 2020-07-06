@@ -3,7 +3,6 @@ import { store } from "react-notifications-component";
 import { css } from "@emotion/core";
 import {
   MuiPickersUtilsProvider,
-  // KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
@@ -25,16 +24,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function ExportSettlement({ IDMERCHANT, Token }) {
+function ExportSettlement({ MerchantId, Token }) {
   const [open, setOpen] = React.useState(false);
 
-  const [selectFrom, setSelectFrom] = React.useState(
-    new Date("2020-04-17T21:11:54")
-  );
+  const [selectFrom, setSelectFrom] = React.useState(new Date());
 
-  const [selectTo, setSelectTo] = React.useState(
-    new Date("2020-04-17T21:11:54")
-  );
+  const [selectTo, setSelectTo] = React.useState(new Date());
   const handleFromDateChange = (date) => {
     setSelectFrom(date);
   };
@@ -59,7 +54,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
     axios
       .get(
         url +
-          `/settlement/export/monthly/${IDMERCHANT}?fromDate=${moment(
+          `/settlement/export/monthly/${MerchantId}?fromDate=${moment(
             selectFrom
           ).format("YYYY-MM-DD")}&toDate=${moment(selectTo).format(
             "YYYY-MM-DD"
@@ -67,7 +62,7 @@ function ExportSettlement({ IDMERCHANT, Token }) {
         config
       )
       .then((res) => {
-        if (res.codeNumber === 400) {
+        if (Number(res.data.codeNumber) === 400 || res.data.data === null) {
           store.addNotification({
             title: "ERROR!",
             message: `${res.data.message}`,
@@ -82,6 +77,8 @@ function ExportSettlement({ IDMERCHANT, Token }) {
             },
             width: 250,
           });
+          setLoading(false);
+          handleClose();
         } else {
           setTimeout(() => {
             window.open(res.data.data.path);
@@ -114,8 +111,6 @@ function ExportSettlement({ IDMERCHANT, Token }) {
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
         fullWidth
       >
         <DialogTitle id="alert-dialog-slide-title">
