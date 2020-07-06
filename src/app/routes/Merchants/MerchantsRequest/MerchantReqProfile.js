@@ -279,7 +279,6 @@ class MerchantReqProfile extends Component {
                   &times;
                 </a>
                 <div
-                  className="header"
                   style={{
                     backgroundColor: "#4251af",
                     height: "50px",
@@ -362,7 +361,6 @@ class MerchantReqProfile extends Component {
                     &times;
                   </a>
                   <div
-                    className="header"
                     style={{
                       backgroundColor: "#4251af",
                       height: "50px",
@@ -424,7 +422,7 @@ class MerchantReqProfile extends Component {
                         <div style={styles.div}>
                           <label>Merchant ID</label>
                           <br />
-                          <Field type="number" name="merchantID" />
+                          <Field name="merchantID" type="number" />
                           <ErrorMessage
                             style={{
                               color: "#4251af",
