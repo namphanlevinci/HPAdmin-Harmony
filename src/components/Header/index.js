@@ -276,7 +276,7 @@ class Header extends React.Component {
       ? "d-block"
       : "d-none";
     const Notify =
-      this.state.appNotificationIcon === false
+      this.state.appNotificationIcon === false && this.state.Notify.length !== 0
         ? "zmdi zmdi-notifications-none icon-alert animated infinite wobble"
         : "zmdi zmdi-notifications-none";
     return (

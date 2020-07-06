@@ -82,7 +82,7 @@ class PrincipalInfo extends Component {
             />
           </div>
         </div>
-        <span className="SettingsContent GeneralContent">
+        <span className="SettingsContent general-content">
           <Button
             className="btn btn-green"
             onClick={() => this._editPrincipal(e)}

@@ -291,7 +291,7 @@ class EditPrincipal extends Component {
             />
           </div>
           <div
-            className="SettingsContent GeneralContent"
+            className="SettingsContent general-content"
             style={{ padding: "20px" }}
           >
             <Button className="btn btn-green" onClick={this._update}>
@@ -306,7 +306,7 @@ class EditPrincipal extends Component {
         <label>&nbsp;- NO PRINCIPAL INFORMATION</label>
       );
     return (
-      <div className="react-transition swipe-up GeneralContent principal-container container-fuild">
+      <div className="react-transition swipe-up general-content principal-container container-fuild">
         <h2 style={styles.h2}>Principal Information</h2>
         <div className="edit-principal">{renderPrincipal}</div>
       </div>

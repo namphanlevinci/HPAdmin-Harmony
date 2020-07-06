@@ -39,7 +39,7 @@ class General extends Component {
     this.props.getAll_Merchants();
     this.props.history.push("/app/merchants/profile/general");
   };
-  _update = () => {
+  Update = () => {
     const ID = this.props.MerchantProfile.general.generalId;
     const IDMerchant = this.props.MerchantProfile.merchantId;
 
@@ -111,7 +111,7 @@ class General extends Component {
       lastName: data.general.lastName,
       title: data.general.title,
       doBusinessName: data.general.doBusinessName,
-      stateName: data.state.name,
+      stateName: data?.state?.name,
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -139,7 +139,7 @@ class General extends Component {
   render() {
     // const e = this.props.MerchantProfile;
     return (
-      <div className="content GeneralContent react-transition swipe-right">
+      <div className="content general-content react-transition swipe-right">
         <div className="container-fluid">
           <h2 style={styles.h2}>General Information</h2>
           <div className="row">
@@ -268,10 +268,10 @@ class General extends Component {
             </div>
           </div>
           <div
-            className="SettingsContent GeneralContent"
+            className="SettingsContent general-content"
             style={{ paddingTop: "20px" }}
           >
-            <Button className="btn btn-green" onClick={this._update}>
+            <Button className="btn btn-green" onClick={this.Update}>
               SAVE
             </Button>
             <Button className="btn btn-red" onClick={this._goBack}>

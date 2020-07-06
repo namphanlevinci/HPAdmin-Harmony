@@ -149,7 +149,7 @@ class EditSettings extends Component {
           </div>
         ) : null}
         <h2 style={{ marginBottom: "10px" }}>Settings</h2>
-        <div className="GeneralContent SettingsContent">
+        <div className="general-content SettingsContent">
           <div>
             <h3>The charged percent fee of credit card transactions</h3>
             <table>
@@ -226,7 +226,7 @@ class EditSettings extends Component {
           </div>
           <br />
         </div>
-        <div className="SettingsContent GeneralContent">
+        <div className="SettingsContent general-content">
           <Button className="btn btn-green" onClick={this._updateSettings}>
             SAVE
           </Button>

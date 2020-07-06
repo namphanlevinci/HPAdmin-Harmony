@@ -84,7 +84,7 @@ class Bank extends Component {
             {renderOldImg}
           </div>
           <div
-            className="SettingsContent GeneralContent"
+            className="SettingsContent general-content"
             style={{ paddingTop: "15px" }}
           >
             <Button className="btn btn-green" onClick={this.handleBank}>

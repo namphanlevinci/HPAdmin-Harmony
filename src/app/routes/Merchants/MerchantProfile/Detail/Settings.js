@@ -157,7 +157,7 @@ class Settings extends Component {
           </div>
         </div>
         <div style={{ display: "flex" }}>
-          <div className="SettingsContent GeneralContent ">
+          <div className="SettingsContent general-content ">
             <Button className="btn btn-green" onClick={this._gotoEdit}>
               EDIT
             </Button>

@@ -25,7 +25,7 @@ export class license extends Component {
             </div>
           </div>
           <div
-            className="SettingsContent GeneralContent"
+            className="SettingsContent general-content"
             style={{ marginTop: "200px" }}
           >
             <Button

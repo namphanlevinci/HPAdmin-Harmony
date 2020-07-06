@@ -149,7 +149,7 @@ class Transactions extends Component {
       );
     });
     return (
-      <div className="content GeneralContent">
+      <div className="content general-content">
         <div>
           <div className="container">
             <h2>Transactions Management</h2>

@@ -49,13 +49,13 @@
 
 .BIG {
   color: red;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 
 .date-picker {
   padding: 8px;
-    font-weight: 500;
+    font-weight: 400;
     width: 244px;
     padding: 0 16px;
     margin-bottom: 10px;

@@ -60,7 +60,7 @@ export class general extends Component {
               <p>{Staff?.isDisabled === 0 ? "Available" : "Not Available"}</p>
             </div>
           </div>
-          <div className="SettingsContent GeneralContent">
+          <div className="SettingsContent general-content">
             <Button
               className="btn btn-green"
               onClick={() =>

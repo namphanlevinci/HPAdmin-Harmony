@@ -424,7 +424,7 @@ export class EditWorkTime extends Component {
           )}
 
           <div
-            className="SettingsContent GeneralContent"
+            className="SettingsContent general-content"
             style={{ paddingTop: "10px" }}
           >
             <Button className="btn btn-green" onClick={this.handleUpdateStaff}>

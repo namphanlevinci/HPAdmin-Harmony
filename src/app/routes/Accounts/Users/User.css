@@ -66,7 +66,7 @@ th {
 
  input {
   width: 100% ;
-  font-weight: 500;
+  font-weight: 400;
   color: #000000;
   border: none;
   border-bottom: 2px solid #dcdcdc;
@@ -190,7 +190,7 @@ th {
   font-size: 16px;
   line-height: 32px;
   content: 'Upload';
-  font-weight: 500;
+  font-weight: 400;
   display: inline-block;
   background: white;
   border: 1px solid #cccccc;

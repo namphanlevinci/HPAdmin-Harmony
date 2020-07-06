@@ -169,7 +169,7 @@ class Consumers extends React.Component {
       };
     };
     return (
-      <div className="app-wrapper">
+      <>
         <div className="container-fluid">
           <ContainerHeader
             match={this.props.match}
@@ -211,7 +211,7 @@ class Consumers extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

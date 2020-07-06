@@ -296,7 +296,7 @@ class proFile extends Component {
                 <NavLink
                   to="/app/profile/general"
                   activeStyle={{
-                    fontWeight: "500",
+                    fontWeight: "400",
                     color: "#4251af",
                     textDecoration: "underline",
                   }}
@@ -312,7 +312,7 @@ class proFile extends Component {
                 <NavLink
                   to="/app/profile/password"
                   activeStyle={{
-                    fontWeight: "500",
+                    fontWeight: "400",
                     color: "#4251af",
                     textDecoration: "underline",
                   }}

@@ -114,14 +114,14 @@ class General extends Component {
         <label>&nbsp;- NO BUSINESS INFORMATION</label>
       );
     return (
-      <div className="content GeneralContent react-transition swipe-up">
+      <div className="content general-content react-transition swipe-up">
         {renderGeneral}
 
         <div className="container-fluid">
           <h2 style={styles.h2}>Business Information</h2>
           <div className="row justify-content-between">{renderQuestion}</div>
         </div>
-        <div className="SettingsContent GeneralContent">
+        <div className="SettingsContent general-content">
           <Button className="btn btn-green" onClick={this._toggleEdit}>
             EDIT
           </Button>

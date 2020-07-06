@@ -113,7 +113,7 @@ export class EditLicense extends Component {
             )}
 
             <div
-              className="SettingsContent GeneralContent"
+              className="SettingsContent general-content"
               style={{ paddingTop: "200px" }}
             >
               <Button

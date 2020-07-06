@@ -248,7 +248,7 @@ export class workTime extends Component {
             </div>
           </div>
           <div
-            className="SettingsContent GeneralContent"
+            className="SettingsContent general-content"
             style={{ paddingTop: "10px" }}
           >
             <Button

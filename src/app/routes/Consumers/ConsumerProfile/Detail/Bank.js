@@ -59,7 +59,7 @@ class Bank extends Component {
       ) : (
         <h2>NO INFORMATION</h2>
       );
-    return <div className="content GeneralContent">{renderBank}</div>;
+    return <div className="content general-content">{renderBank}</div>;
   }
 }
 

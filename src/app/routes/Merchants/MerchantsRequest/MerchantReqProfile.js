@@ -323,7 +323,7 @@ class MerchantReqProfile extends Component {
                           <ErrorMessage
                             style={{
                               color: "#4251af",
-                              fontWeight: "500",
+                              fontWeight: "400",
                               fontSize: "18px",
                             }}
                             name="rejectReason"
@@ -424,11 +424,11 @@ class MerchantReqProfile extends Component {
                         <div style={styles.div}>
                           <label>Merchant ID</label>
                           <br />
-                          <Field type="text" name="merchantID" />
+                          <Field type="number" name="merchantID" />
                           <ErrorMessage
                             style={{
                               color: "#4251af",
-                              fontWeight: "500",
+                              fontWeight: "400",
                               fontSize: "18px",
                             }}
                             name="merchantID"
@@ -441,7 +441,7 @@ class MerchantReqProfile extends Component {
                           <ErrorMessage
                             style={{
                               color: "#4251af",
-                              fontWeight: "500",
+                              fontWeight: "400",
                               fontSize: "18px",
                             }}
                             name="fee"
@@ -454,7 +454,7 @@ class MerchantReqProfile extends Component {
                           <ErrorMessage
                             style={{
                               color: "#4251af",
-                              fontWeight: "500",
+                              fontWeight: "400",
                               fontSize: "18px",
                             }}
                             name="discount"

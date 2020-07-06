@@ -29,8 +29,9 @@ class EditGeneral extends Component {
     const Token = localStorage.getItem("User_login");
     await this.setState({ Token: Token });
     const data = this.props.MerchantProfile;
+    console.log("data", data);
     this.setState({
-      ID: data.userId,
+      ID: data?._original?.userId,
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
@@ -47,7 +48,7 @@ class EditGeneral extends Component {
       [name]: value,
     });
   };
-  _Update = () => {
+  Update = () => {
     const { ID, firstName, lastName, phone, email, limitAmount } = this.state;
     let token = JSON.parse(this.state.Token);
     const config = {
@@ -183,10 +184,10 @@ class EditGeneral extends Component {
         </div>
 
         <div
-          className="SettingsContent GeneralContent"
+          className="SettingsContent general-content"
           style={{ marginTop: "20px" }}
         >
-          <Button className="btn btn-green" onClick={this._Update}>
+          <Button className="btn btn-green" onClick={this.Update}>
             SAVE
           </Button>
           <Button className="btn btn-red" onClick={this._goBack}>

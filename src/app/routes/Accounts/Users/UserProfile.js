@@ -228,7 +228,7 @@ const styles = {
   },
   p: {
     color: "black",
-    fontWeight: "500",
+    fontWeight: "400",
     fontSize: "16px",
   },
   button: {

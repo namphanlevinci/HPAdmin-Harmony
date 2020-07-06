@@ -465,7 +465,9 @@ class AddService extends Component {
                                   </label>
                                   <br />
                                   <label style={{ color: "#333" }}>
-                                    <span className="small-label">Minutes</span>
+                                    <span className="small-label">
+                                      Minutes*
+                                    </span>
                                   </label>
                                   <br />
                                   <div className="input-box">
@@ -552,7 +554,7 @@ class AddService extends Component {
                                   style={{ marginTop: 60 }}
                                 >
                                   <label style={{ color: "#4251af" }}>
-                                    Price *
+                                    Price*
                                   </label>
                                   <br />
                                   <div className="input-box">
@@ -588,7 +590,7 @@ class AddService extends Component {
                                   style={{ marginTop: 60 }}
                                 >
                                   <label style={{ color: "#4251af" }}>
-                                    Status
+                                    Status*
                                   </label>
                                   {/* <br /> */}
                                   <Select

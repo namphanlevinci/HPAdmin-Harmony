@@ -290,7 +290,7 @@ export default connect(mapStateToProps)(Transactions);
 // const styles = {
 //   input: {
 //     width: "100%",
-//     fontWeight: "500",
+//     fontWeight: "400",
 //     color: "#000000",
 //     border: "none",
 //     borderBottom: "2px solid #dcdcdc",

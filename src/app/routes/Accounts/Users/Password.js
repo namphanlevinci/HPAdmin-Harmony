@@ -98,6 +98,6 @@ const styles = {
   },
   p: {
     color: "red",
-    fontWeight: "500",
+    fontWeight: "400",
   },
 };

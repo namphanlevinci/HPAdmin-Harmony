@@ -145,7 +145,7 @@ class EditMerchantRejected extends Component {
     const e = this.props.MerchantProfile;
     const renderEdit =
       e.merchantId !== undefined ? (
-        <div className="content GeneralContent react-transition swipe-right">
+        <div className="content general-content react-transition swipe-right">
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.editRejectedMerchant" />}
@@ -270,7 +270,7 @@ class EditMerchantRejected extends Component {
                   ></input>
                 </div>
               </div>
-              <div className="SettingsContent GeneralContent">
+              <div className="SettingsContent general-content">
                 <Button className="btn btn-green" onClick={this._update}>
                   SAVE
                 </Button>

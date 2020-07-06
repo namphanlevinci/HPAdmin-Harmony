@@ -276,7 +276,7 @@
     padding: 10px 0px 20px 0px;
   }
   
-  .GeneralContent button {
+  .general-content button {
     display: inline-block;
     color: #666;
     background-color: #eee;
@@ -292,16 +292,16 @@
     font-weight: 900;
     margin-left: 0px;
   }
-  .GeneralContent button.btn:hover {
+  .general-content button.btn:hover {
     background-color: #4251af;
     border-color: rgba(0, 0, 0, 0.5);
   }
   
-  .GeneralContent button.btn:active {
+  .general-content button.btn:active {
     background-color: #ccc;
     border-color: rgba(0, 0, 0, 0.9);
   }
-  .GeneralContent button.btn.btn-green {
+  .general-content button.btn.btn-green {
     background-color: #4251af;
     border-color: rgba(0, 0, 0, 0.3);
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
@@ -309,36 +309,36 @@
     margin-right: 40px;
   }
   
-  .GeneralContent button.btn.btn-green:hover {
+  .general-content button.btn.btn-green:hover {
     background-color: #4251af;
     border-color: rgba(0, 0, 0, 0.5);
   }
   
-  .GeneralContent button.btn.btn-green:active {
+  .general-content button.btn.btn-green:active {
     background-color: #4251af;
     border-color: rgba(0, 0, 0, 0.9);
   }
   /* RED BUTTON */
-  .GeneralContent button.btn.btn-red {
+  .general-content button.btn.btn-red {
     background-color: #fff;
     border-color: rgba(0, 0, 0, 0.3);
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
     color: #4251af;
   }
   
-  .GeneralContent button.btn.btn-red:hover {
+  .general-content button.btn.btn-red:hover {
     background-color: #fcfcfc;
     border-color: rgba(0, 0, 0, 0.5);
   }
   
-  .GeneralContent button.btn.btn-red:active {
+  .general-content button.btn.btn-red:active {
     background-color: #f4f4f4;
     border-color: rgba(0, 0, 0, 0.9);
   }
-  .GeneralContent .paginating-table ul li {
+  .general-content .paginating-table ul li {
     background-color: white !important;
   }
-  .GeneralContent input {
+  .general-content input {
     padding: 5px 5px 0px 5px;
     width: 100% !important;
     font-weight: 500;
@@ -347,12 +347,12 @@
     border: none;
     border-bottom: 2px solid #dcdcdc;
   }
-  .GeneralContent input:focus {
+  .general-content input:focus {
     outline: none;
     border-color: #4251af;
     /* border-bottom: 2px solid #4251af; */
   }
-  .GeneralContent select {
+  .general-content select {
     padding: 8px;
     width: 100%;
     font-weight: 500;
@@ -510,7 +510,7 @@
   /* .SettingsContent .popup-content {
     top: -300px;
   } */
-  /* .GeneralContent .popup-overlay {
+  /* .general-content .popup-overlay {
     background: none !important;
   } */
   

@@ -131,7 +131,7 @@ export class salary extends Component {
             </div> */}
           </div>
           <div
-            className="SettingsContent GeneralContent"
+            className="SettingsContent general-content"
             style={{ paddingTop: "20px" }}
           >
             <Button

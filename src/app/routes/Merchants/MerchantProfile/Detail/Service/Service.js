@@ -244,7 +244,7 @@ class Service extends Component {
     ];
 
     return (
-      <div className="content GeneralContent react-transition swipe-up Staff">
+      <div className="content general-content react-transition swipe-up Staff">
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className="search">
@@ -358,7 +358,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Service);
 
 const styles = {
   span: {
-    fontWeight: "500",
+    fontWeight: "400",
     color: "black",
   },
 };

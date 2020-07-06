@@ -70,10 +70,10 @@ class UserInfo extends React.Component {
             <i className="zmdi zmdi-account zmdi-hc-fw mr-2" />
             <IntlMessages id="popup.profile" />
           </MenuItem>
-          <MenuItem onClick={this._gotoSetting}>
+          {/* <MenuItem onClick={this._gotoSetting}>
             <i className="zmdi zmdi-settings zmdi-hc-fw mr-2" />
             <IntlMessages id="popup.setting" />
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem onClick={this.onLogout}>
             <i className="zmdi zmdi-sign-in zmdi-hc-fw mr-2" />
             <IntlMessages id="popup.logout" />

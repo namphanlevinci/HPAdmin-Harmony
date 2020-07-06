@@ -163,7 +163,7 @@ class EditBank extends Component {
     );
 
     return (
-      <div className="react-transition swipe-up GeneralContent">
+      <div className="react-transition swipe-up general-content">
         <h2 style={styles.h2}>Bank Information</h2>
         <div className="container-fluid">
           <div className="row">
@@ -207,15 +207,13 @@ class EditBank extends Component {
             <div className="col-4" style={{ paddingTop: "20px" }}>
               <label>Void Check*</label> <br />
               {$imagePreview}
-              <div>
-                <input
-                  style={{ paddingTop: "20px" }}
-                  type="file"
-                  name="image"
-                  id="file"
-                  onChange={(e) => this._uploadFile(e)}
-                />
-              </div>
+              <input
+                type="file"
+                name="image"
+                id="file"
+                className="custom-input"
+                onChange={(e) => this._uploadFile(e)}
+              />
             </div>
             {renderOldImg}
           </div>

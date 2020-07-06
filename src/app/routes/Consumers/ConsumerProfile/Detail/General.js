@@ -82,23 +82,24 @@ class General extends Component {
       // e.email !== undefined ? (
       <div className="react-transition swipe-right">
         <div className="container-fluid">
-          <h2>General Information</h2>
+          <h2 style={{ paddingBottom: "10px" }}>General Information</h2>
+
           <div className="row">
-            <div className="col-md-3">
+            <div className="col-3">
               <h4>First Name</h4>
               <p style={styles.p}>
                 {e.firstName !== null ? e.firstName : null}
               </p>
             </div>
-            <div className="col-md-3">
+            <div className="col-3">
               <h4>Last Name</h4>
               <p style={styles.p}>{e.lastName !== null ? e.lastName : null}</p>
             </div>
-            <div className="col-md-3">
+            <div className="col-3">
               <h4>Phone Number</h4>
               <p style={styles.p}>{e.phone !== null ? e.phone : null}</p>
             </div>
-            <div className="col-md-3">
+            <div className="col-3">
               <h4>Email</h4>
               <p style={styles.p}>{e.email !== null ? e.email : null}</p>
             </div>
@@ -134,7 +135,7 @@ class General extends Component {
       <div className="content ">
         {renderGeneral}
         <div
-          className="SettingsContent GeneralContent"
+          className="SettingsContent general-content"
           style={{ marginTop: "20px" }}
         >
           <Button className="btn btn-green" onClick={this._goToEdit}>
@@ -243,7 +244,7 @@ class General extends Component {
                             fontSize: "22px",
                             textAlign: "center",
                             color: "white",
-                            fontWeight: "500",
+                            fontWeight: "400",
                           }}
                         >
                           Warning!
@@ -310,7 +311,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(General);
 
 const styles = {
-  p: { fontWeight: 600, color: "black" },
+  p: { fontWeight: 400, color: "black" },
   Form: {
     marginTop: "10px",
   },

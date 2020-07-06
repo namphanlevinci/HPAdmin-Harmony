@@ -25,7 +25,7 @@
   width: 274px;
   text-align: right;
   line-height: 28pt;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 17px;
 }
 .popup-inner2 input {
@@ -90,4 +90,11 @@ ul.detail-tab .active {
 
 .label {
   font-weight: 300;
+}
+
+
+@media screen and (max-width: 1440px) {
+  .profile-nav ul {
+    display: inherit;
+  }
 }

@@ -61,7 +61,7 @@ class MerchantActi extends Component {
     //   });
     // }
     return (
-      <div className="content GeneralContent react-transition swipe-right">
+      <div className="content general-content react-transition swipe-right">
         <div>
           {/* <div className="container">
             <h2>Activities Logs</h2>

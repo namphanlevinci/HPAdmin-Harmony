@@ -287,7 +287,7 @@ class EditSalary extends Component {
             </React.Fragment>
           )}
 
-          <div className="SettingsContent GeneralContent" style={styles.div}>
+          <div className="SettingsContent general-content" style={styles.div}>
             <Button className="btn btn-green" onClick={this.handleUpdateStaff}>
               SAVE
             </Button>

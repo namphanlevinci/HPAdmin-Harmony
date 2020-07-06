@@ -281,7 +281,7 @@ class EditUserProfile extends Component {
                 <NavLink
                   to="/app/accounts/admin/profile/edit/general"
                   activeStyle={{
-                    fontWeight: "500",
+                    fontWeight: "400",
                     color: "#4251af",
                     textDecoration: "underline",
                   }}
@@ -297,7 +297,7 @@ class EditUserProfile extends Component {
                 <NavLink
                   to="/app/accounts/admin/profile/edit/password"
                   activeStyle={{
-                    fontWeight: "500",
+                    fontWeight: "400",
                     color: "#4251af",
                     textDecoration: "underline",
                   }}
