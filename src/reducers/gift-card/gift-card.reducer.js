@@ -4,7 +4,7 @@ const initialState = {
   generation: [],
   template: [],
   detail: {},
-  generation_code: [],
+  GenerationByID: [],
   generationCode_log: [],
 };
 
@@ -20,7 +20,7 @@ const GiftCardReducer = (state = initialState, { type, payload }) => {
       state.detail = payload;
       return { ...state };
     case typeGiftCard.GET_GIFT_CARD_BY_ID_SUCCESS:
-      state.generation_code = payload?.giftCards;
+      state.GenerationByID = payload;
       return { ...state };
     case typeGiftCard.GET_GIFT_CARD_CODE_LOG_BY_ID_SUCCESS:
       state.generationCode_log = payload;

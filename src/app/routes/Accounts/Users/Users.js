@@ -8,7 +8,7 @@ import {
 import { connect } from "react-redux";
 import { store } from "react-notifications-component";
 
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
@@ -18,6 +18,7 @@ import "../../Merchants/MerchantsList/merchantsList.css";
 import "./User.css";
 import "react-table/react-table.css";
 
+const URL = config.url.URL;
 class Users extends Component {
   constructor(props) {
     super(props);

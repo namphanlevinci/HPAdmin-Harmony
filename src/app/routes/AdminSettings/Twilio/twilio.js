@@ -6,8 +6,9 @@ import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import "../Setting.css";
 import axios from "axios";
-import URL from "../../../../url/url";
-
+import { config } from "../../../../url/url";
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 class Twilio extends Component {
   constructor(props) {
     super(props);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import URL, { upFileUrl } from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import { Formik, Form } from "formik";
 import { store } from "react-notifications-component";
 import { AiOutlineClose } from "react-icons/ai";
@@ -48,6 +48,9 @@ const colourStyles = {
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class AddService extends Component {
   constructor(props) {
@@ -114,7 +117,7 @@ class AddService extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })

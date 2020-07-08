@@ -68,7 +68,7 @@ export class EditGeneral extends Component {
         city: state.city,
         state: state.stateId,
       },
-      cellphone: this.formatPhone(state.phone),
+      cellphone: state.phone,
       email: state.email,
       pin: state.pin,
       confirmPin: state.pin,
@@ -97,20 +97,6 @@ export class EditGeneral extends Component {
     );
   };
 
-  formatPhone = (Phone) => {
-    if (Phone.startsWith("1")) {
-      return Phone.replace(/[{( )}]/g, "").replace(
-        /(\d{4})\-?(\d{3})\-?(\d{4})/,
-        "+$1-$2-$3"
-      );
-    }
-    if (Phone.startsWith("84"))
-      return Phone.replace(/[{( )}]/g, "").replace(
-        /(\d{5})\-?(\d{3})\-?(\d{4})/,
-        "+$1-$2-$3"
-      );
-  };
-
   render() {
     const status = [
       { label: "Available", value: "0" },
@@ -123,7 +109,6 @@ export class EditGeneral extends Component {
     ];
 
     const Staff = this.props.Staff;
-    console.log("Staff", Staff);
     return (
       <div className="content">
         <div className="container-fluid">
@@ -137,6 +122,7 @@ export class EditGeneral extends Component {
                 name="firstName"
                 value={this.state.firstName}
                 onChange={this.handleChange}
+                maxLength="90"
               />
             </div>
             <div className="col-4">
@@ -145,6 +131,7 @@ export class EditGeneral extends Component {
                 name="lastName"
                 value={this.state.lastName}
                 onChange={this.handleChange}
+                maxLength="90"
               />
             </div>
             <div className="col-4">
@@ -153,6 +140,7 @@ export class EditGeneral extends Component {
                 name="displayName"
                 value={this.state.displayName}
                 onChange={this.handleChange}
+                maxLength="90"
               />
             </div>
             <div className="col-4" style={styles.div}>
@@ -161,6 +149,7 @@ export class EditGeneral extends Component {
                 name="address"
                 value={this.state.address}
                 onChange={this.handleChange}
+                maxLength="90"
               />
             </div>
             <div className="col-4" style={styles.div}>
@@ -169,6 +158,7 @@ export class EditGeneral extends Component {
                 name="city"
                 value={this.state.city}
                 onChange={this.handleChange}
+                maxLength="90"
               />
             </div>
             <div className="col-4" style={styles.div}>
@@ -200,6 +190,7 @@ export class EditGeneral extends Component {
                 name="email"
                 value={this.state.email}
                 onChange={this.handleChange}
+                maxLength="90"
               />
             </div>
             <div className="col-4" style={styles.div}>

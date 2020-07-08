@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import URL, { upFileUrl } from "../../../../../url/url";
+import { config } from "../../../../../url/url";
 import {
   ViewProfile_Merchants,
   GetMerchant_byID,
 } from "../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
+import LinearProgress from "../../../../../util/linearProgress";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -13,6 +14,9 @@ import "../../MerchantsRequest/MerchantsRequest.css";
 
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class EditBank extends Component {
   constructor(props) {
@@ -25,6 +29,7 @@ class EditBank extends Component {
       Token: "",
       //~ preview image
       imagePreviewUrl: "",
+      loadingProgress: false,
     };
   }
   async componentDidMount() {
@@ -33,11 +38,11 @@ class EditBank extends Component {
     const data = this.props.MerchantProfile.businessBank;
     if (data !== null) {
       this.setState({
-        name: data.name,
-        fileId: data.fileId,
-        routingNumber: data.routingNumber,
-        accountNumber: data.accountNumber,
-        accountHolderName: data.accountHolderName,
+        name: data?.name,
+        fileId: data?.fileId,
+        routingNumber: data?.routingNumber,
+        accountNumber: data?.accountNumber,
+        accountHolderName: data?.accountHolderName,
         newFileId: null,
       });
     }
@@ -51,19 +56,13 @@ class EditBank extends Component {
       [name]: value,
     });
   };
-  _uploadFile = (e) => {
+  uploadFile = (e) => {
     e.preventDefault();
 
     // handle preview Image
-    let reader = new FileReader();
     let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
+    this.setState({ loadingProgress: true });
+
     // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
@@ -71,9 +70,18 @@ class EditBank extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          this.setState({
+            file: file,
+            imagePreviewUrl: reader.result,
+            loadingProgress: false,
+          });
+        };
       })
       .catch((err) => {
         console.log(err);
@@ -82,7 +90,7 @@ class EditBank extends Component {
   _goBack = () => {
     this.props.history.push("/app/merchants/profile/bank");
   };
-  _update = () => {
+  updateBank = () => {
     const ID = this.props.MerchantProfile.businessBank.businessBankId;
     const IDMerchant = this.props.MerchantProfile.merchantId;
     let token = JSON.parse(this.state.Token);
@@ -147,8 +155,12 @@ class EditBank extends Component {
 
     const renderOldImg = (
       <div className="col-12" style={{ paddingTop: "10px" }}>
-        <label>Old Void Check*</label> <br />
-        {e.businessBank?.imageUrlOldFiles.map((e, index) => {
+        {e.businessBank?.imageUrlOldFiles !== null ? (
+          <>
+            <label>Old Void Check*</label> <br />
+          </>
+        ) : null}
+        {e.businessBank?.imageUrlOldFiles?.map((e, index) => {
           return (
             <img
               key={index}
@@ -207,20 +219,24 @@ class EditBank extends Component {
             <div className="col-4" style={{ paddingTop: "20px" }}>
               <label>Void Check*</label> <br />
               {$imagePreview}
+              <div style={{ width: "100%", marginTop: "15px" }}>
+                {this.state.loadingProgress ? <LinearProgress /> : null}
+              </div>
               <input
                 type="file"
                 name="image"
                 id="file"
                 className="custom-input"
-                onChange={(e) => this._uploadFile(e)}
+                onChange={(e) => this.uploadFile(e)}
               />
             </div>
+
             {renderOldImg}
           </div>
         </div>
         <br />
         <div className=" ">
-          <Button className="btn btn-green" onClick={this._update}>
+          <Button className="btn btn-green" onClick={this.updateBank}>
             SAVE
           </Button>
           <Button className="btn btn-red" onClick={this._goBack}>

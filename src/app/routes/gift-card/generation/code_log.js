@@ -49,8 +49,8 @@ const CodeLog = ({ open, handleClose, Log, Serial }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  Log: state.GiftCardData.generationCode_log
+const mapStateToProps = (state) => ({
+  Log: state.GiftCardReducer.generationCode_log,
 });
 
 export default connect(mapStateToProps)(CodeLog);

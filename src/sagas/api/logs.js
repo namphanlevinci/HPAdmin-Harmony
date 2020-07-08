@@ -1,10 +1,11 @@
 import { select } from "redux-saga/effects";
-
-import URL from "../../url/url";
+import { config } from "../../url/url";
 import axios from "axios";
 
+const URL = config.url.URL;
+
 export function* GET_LOG_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {

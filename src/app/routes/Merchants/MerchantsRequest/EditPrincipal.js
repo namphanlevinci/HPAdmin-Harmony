@@ -6,7 +6,7 @@ import {
 } from "@material-ui/pickers";
 import { store } from "react-notifications-component";
 
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import Button from "@material-ui/core/Button";
 
 import PhoneInput from "react-phone-input-2";
@@ -19,11 +19,15 @@ import axios from "axios";
 import * as Yup from "yup";
 import ErrorMessage from "./errorMessage";
 // import MaskedInput from "react-text-mask";
+import LinearProgress from "../../../../util/linearProgress";
 
 import "./MerchantReqProfile.css";
 // import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
 import "react-phone-input-2/lib/high-res.css";
+
+const URL = config.url.URL;
+
 // ValidationSchema
 const validationSchema = Yup.object().shape({
   PrincipalInfo: Yup.array().of(
@@ -437,6 +441,11 @@ const EditPrincipal = ({
                               src={PrincipalInfo?.imageUrl}
                               alt="void"
                             />
+                            <div style={{ width: "100%", marginTop: "5px" }}>
+                              {initValue?.progressPrincipal ? (
+                                <LinearProgress />
+                              ) : null}
+                            </div>
                             <input
                               type="file"
                               style={styles.imageInput}

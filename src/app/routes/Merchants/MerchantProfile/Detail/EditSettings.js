@@ -9,7 +9,7 @@ import { store } from "react-notifications-component";
 
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import URL from "../../../../../url/url";
+import { config } from "../../../../../url/url";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";

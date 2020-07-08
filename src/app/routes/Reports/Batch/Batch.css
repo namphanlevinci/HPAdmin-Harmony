@@ -1,14 +1,14 @@
-.Batchs .BatchsContainer .ReactTable .rt-thead .rt-th,
+.Batchs .batch-container .ReactTable .rt-thead .rt-th,
 .ReactTable .rt-thead .rt-td {
   color: black;
   padding: 10px;
   background: white;
   font-size: 16px;
 }
-.Batchs .BatchsContainer .ReactTable .rt-thead .rt-resizable-header {
+.Batchs .batch-container .ReactTable .rt-thead .rt-resizable-header {
   font-size: 10px;
 }
-.Batchs .BatchsContainer .ReactTable .rt-resizable-header-content {
+.Batchs .batch-container .ReactTable .rt-resizable-header-content {
   color: black;
   font-weight: normal;
   color: black;
@@ -69,13 +69,13 @@
 .ReactTable .rt-thead .rt-td {
   background: #4251af;
 }
-.Batchs .BatchsContainer .ReactTable .rt-thead .rt-th,
+.Batchs .batch-container .ReactTable .rt-thead .rt-th,
 .ReactTable .rt-thead .rt-td {
   background: #4251af;
   color: white;
   font-weight: 500;
 }
-.Batchs .BatchsContainer .ReactTable .rt-resizable-header-content {
+.Batchs .batch-container .ReactTable .rt-resizable-header-content {
   color: white;
   font-weight: 500;
 }
@@ -84,7 +84,7 @@
   text-transform: uppercase;
 }
 
-.BatchsContainer button.btn {
+.batch-container button.btn {
   display: inline-block;
   color: #666;
   background-color: #eee;
@@ -99,4 +99,8 @@
   border-bottom-width: 3px;
   font-weight: 900;
   margin-top: 20px;
+}
+
+ .ReactTable .rt-thead.-headerGroups {
+  border-bottom: 1px solid#505050
 }

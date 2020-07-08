@@ -4,19 +4,19 @@ import {
   ViewMerchant_Rejected_Merchants,
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
 
 import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import moment from "moment";
 
 import "react-table/react-table.css";
 import "../MerchantsRequest/MerchantsRequest.css";
 import "../MerchantsList/merchantsList.css";
+const URL = config.url.URL;
 class MerchantsRequest extends Component {
   constructor(props) {
     super(props);
@@ -159,7 +159,6 @@ class MerchantsRequest extends Component {
       };
     };
     const { page, pageCount, data } = this.state;
-
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader

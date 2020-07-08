@@ -14,10 +14,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
 import EditExtra from "./edit-extra";
-import URL, { upFileUrl } from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import defaultImage from "./hpadmin2.png";
 import "react-table/react-table.css";
 
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 class ExtraTab extends Component {
   constructor(props) {
     super(props);
@@ -67,7 +69,7 @@ class ExtraTab extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })

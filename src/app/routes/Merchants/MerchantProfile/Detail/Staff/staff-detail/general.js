@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
+import formatPhone from "../../../../../../../util/formatPhone";
 
 import "../Staff.styles.scss";
 export class general extends Component {
@@ -39,7 +40,7 @@ export class general extends Component {
             </div>
             <div className="col-4">
               <label>Cell Phone</label>
-              <p>{Staff?.phone}</p>
+              <p>{formatPhone(Staff?.phone)}</p>
             </div>
             <div className="col-4">
               <label>Contact Email</label>

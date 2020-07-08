@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import URL, { upFileUrl } from "../../url/url";
+import { config } from "../../url/url";
 import { VIEW_PROFILE_USER } from "../../actions/user/actions";
 import { store } from "react-notifications-component";
 import {
@@ -24,6 +24,9 @@ import General from "../../app/routes/Accounts/Users/General";
 import Password from "./ProfileHeader/password";
 
 import "./profile.css";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class proFile extends Component {
   constructor(props) {
@@ -109,7 +112,7 @@ class proFile extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })

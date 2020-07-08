@@ -9,7 +9,8 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import URL, { upFileUrl } from "../../../../url/url";
+import { config } from "../../../../url/url";
+
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
@@ -17,6 +18,9 @@ import DefualtImage from "./default.png";
 
 import "../generation/generation.styles.scss";
 import "./template.styles.scss";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class EditTemplate extends Component {
   constructor(props) {
@@ -114,7 +118,7 @@ class EditTemplate extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -367,9 +371,9 @@ class EditTemplate extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardData.template,
+  Template: state.GiftCardReducer.template,
   userLogin: state.userReducer.User,
-  Detail: state.GiftCardData.detail,
+  Detail: state.GiftCardReducer.detail,
 });
 
 const mapDispatchToProps = (dispatch) => ({

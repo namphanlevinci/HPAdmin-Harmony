@@ -1,6 +1,6 @@
 import axios from "axios";
-import URL from "../.../../../../../../../../url/url";
-
+import { config } from "../.../../../../../../../../url/url";
+const URL = config.url.URL;
 const updateStaff = (ID, body, token, viewStaff, history, path) => {
   const MerchantID = body?.MerchantId;
   axios

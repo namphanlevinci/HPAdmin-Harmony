@@ -15,12 +15,13 @@ import ReactTable from "react-table";
 import moment from "moment";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import Delete from "../delete-generation";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
 
+const URL = config.url.URL;
 class Generation extends Component {
   constructor(props) {
     super(props);
@@ -32,15 +33,15 @@ class Generation extends Component {
     };
   }
 
-  _handleCloseDelete = () => {
+  handleCloseDelete = () => {
     this.setState({ openDelete: false });
   };
 
-  _handleOpenDelete = (ID) => {
+  handleOpenDelete = (ID) => {
     this.setState({ openDelete: true, deleteID: ID });
   };
 
-  _Delete = () => {
+  Delete = () => {
     const deleteID = this.state.deleteID;
     this.setState({ loading: true });
     axios
@@ -65,7 +66,7 @@ class Generation extends Component {
             },
             width: 250,
           });
-          this.props.GET_DATA();
+          this.fetchData();
           this.setState({ loading: false, deleteID: "", openDelete: false });
         }
       })
@@ -99,19 +100,8 @@ class Generation extends Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
+          this.setState({
+            data: [],
           });
         }
         this.setState({ loading: false });
@@ -137,7 +127,7 @@ class Generation extends Component {
       {
         Header: "ID",
         accessor: "giftCardGeneralId",
-        Cell: (e) => <span>{`HP${e.value}`}</span>,
+        Cell: (e) => <span>{`${e.value}`}</span>,
         width: 60,
       },
       {
@@ -188,7 +178,7 @@ class Generation extends Component {
                 <GoTrashcan
                   size={22}
                   onClick={() =>
-                    this._handleOpenDelete(row?.original?.giftCardGeneralId)
+                    this.handleOpenDelete(row?.original?.giftCardGeneralId)
                   }
                 />
               </div>
@@ -239,9 +229,9 @@ class Generation extends Component {
           </div>
           <div className="giftcard_content">
             <Delete
-              handleCloseDelete={this._handleCloseDelete}
+              handleCloseDelete={this.handleCloseDelete}
               open={this.state.openDelete}
-              deleteGeneration={this._Delete}
+              deleteGeneration={this.Delete}
               text={"Gift Card"}
             />
             <ReactTable
@@ -266,7 +256,7 @@ class Generation extends Component {
 
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
-  GiftList: state.GiftCardData.generation,
+  GiftList: state.GiftCardReducer.generation,
 });
 
 const mapDispatchToProps = (dispatch) => ({

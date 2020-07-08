@@ -18,11 +18,11 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
-
+const URL = config.url.URL;
 class Generation extends Component {
   constructor(props) {
     super(props);
@@ -280,7 +280,7 @@ class Generation extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardData.template,
+  Template: state.GiftCardReducer.template,
   userLogin: state.userReducer.User,
 });
 

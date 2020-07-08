@@ -12,12 +12,14 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import axios from "axios";
 
 import "react-table/react-table.css";
 import "./merchantsList.css";
 import "../MerchantsRequest/MerchantReqProfile.css";
+
+const URL = config.url.URL;
 
 class Merchants extends React.Component {
   constructor(props) {
@@ -167,7 +169,11 @@ class Merchants extends React.Component {
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: (e) => <span>{e.value === 0 ? "Active" : "Inactive"}</span>,
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
+            {e.value === 0 ? "Active" : "Inactive"}
+          </span>
+        ),
       },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {

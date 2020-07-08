@@ -80,6 +80,6 @@ export default (history) =>
     BatchDetail: getBatchDetail,
     viewPrincipal: viewPrincipalInfo,
     serviceProps: VIEW_SERVICE_EDIT,
-    GiftCardData: GiftCardReducer,
+    GiftCardReducer,
     staffDetail: VIEW_STAFF_DETAIL,
   });

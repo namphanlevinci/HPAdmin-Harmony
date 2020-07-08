@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FaTrashRestoreAlt } from "react-icons/fa";
+// import { FaTrashRestoreAlt } from "react-icons/fa";
 import { GoTrashcan } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
 
@@ -34,8 +34,9 @@ class Roles extends Component {
       {
         Header: "Members",
         id: "image",
-        accessor: "image",
-        accessor: (row) => <img style={styles.img} src={row.image} />,
+        accessor: (row) => (
+          <img style={styles.img} src={row.image} alt="admin avatar" />
+        ),
       },
       {
         // id: "email",

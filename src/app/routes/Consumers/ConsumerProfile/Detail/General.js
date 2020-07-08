@@ -7,12 +7,16 @@ import { store } from "react-notifications-component";
 import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
 import axios from "axios";
-import URL from "../../../../../url/url";
+import { config } from "../../../../../url/url";
 
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import "./Consumer.css";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
+
 class General extends Component {
   constructor(props) {
     super(props);

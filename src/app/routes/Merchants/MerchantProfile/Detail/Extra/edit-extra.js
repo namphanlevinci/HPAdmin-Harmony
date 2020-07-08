@@ -2,14 +2,14 @@ import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import axios from "axios";
-import URL from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import defaultImg from "./hpadmin2.png";
 import Select from "react-select";
-
 import { Formik } from "formik";
-
 import "./extra.styles.scss";
+
+const URL = config.url.URL;
 
 const options = [
   { value: 1, label: "Disable" },

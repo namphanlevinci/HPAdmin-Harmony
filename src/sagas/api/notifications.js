@@ -1,9 +1,10 @@
 import axios from "axios";
 import { select } from "redux-saga/effects";
-import URL from "../../url/url";
+import { config } from "../../url/url";
+const URL = config.url.URL;
 
 export function* GET_ALL_NOTIFICATION_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {

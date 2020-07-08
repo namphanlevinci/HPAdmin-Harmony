@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import URL from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
 
@@ -12,6 +12,9 @@ import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import "../Detail.css";
 import "../Service/service.style.scss";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class productDetail extends Component {
   constructor(props) {

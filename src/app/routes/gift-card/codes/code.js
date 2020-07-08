@@ -6,7 +6,6 @@ import {
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { GET_GIFT_CARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
-import { store } from "react-notifications-component";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -17,7 +16,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import moment from "moment";
 import Select from "react-select";
 import CodeLog from "../generation/code_log";
@@ -25,6 +24,7 @@ import CodeLog from "../generation/code_log";
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
 
+const URL = config.url.URL;
 class Codes extends Component {
   constructor(props) {
     super(props);
@@ -46,12 +46,12 @@ class Codes extends Component {
   }
 
   // logs
-  _handleLogs = (Data) => {
+  handleLogs = (Data) => {
     this.setState({ open: true, serialNumber: Data?.serialNumber });
     this.props.getCodeLog(Data?.giftCardId);
   };
 
-  _handleClose = () => {
+  handleClose = () => {
     this.setState({ open: false });
   };
 
@@ -78,21 +78,10 @@ class Codes extends Component {
             loading: false,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
+          this.setState({
+            data: [],
+            loading: false,
           });
-          this.setState({ loading: false });
         }
       });
   };
@@ -133,6 +122,17 @@ class Codes extends Component {
     this.setState({
       [name]: value.value,
     });
+  };
+
+  handEnter = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.handleSearch();
+    }
+  };
+
+  handleSearchInput = (e) => {
+    this.setState({ search: e.target.value });
   };
 
   render() {
@@ -232,7 +232,7 @@ class Codes extends Component {
               <div style={{ color: "#4251af", textAlign: "center" }}>
                 <GoInfo
                   size={22}
-                  onClick={() => this._handleLogs(row.original)}
+                  onClick={() => this.handleLogs(row.original)}
                 />
               </div>
             </Tooltip>
@@ -259,7 +259,7 @@ class Codes extends Component {
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.giftcard-template" />}
+          title={<IntlMessages id="sidebar.dashboard.gift-card-codes" />}
         />
         <div className="giftcard">
           <div className="giftcard_search">
@@ -271,7 +271,8 @@ class Codes extends Component {
                   className="textBox"
                   placeholder="Search"
                   value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
+                  onKeyDown={this.handEnter}
+                  onChange={this.handleSearchInput}
                 />
               </form>
             </div>
@@ -305,13 +306,19 @@ class Codes extends Component {
                 onChange={this.handleChange("isUsed")}
                 name="isUsed"
                 options={isUsed}
+                styles={{
+                  menuPortal: (base) => {
+                    const { zIndex, ...rest } = base; // remove zIndex from base by destructuring
+                    return { ...rest, zIndex: 9999 };
+                  },
+                }}
               />
             </div>
           </div>
           <div className="giftcard_content">
             <CodeLog
               open={this.state.open}
-              handleClose={this._handleClose}
+              handleClose={this.handleClose}
               Serial={this.state.serialNumber}
             />
             <Delete
@@ -320,6 +327,8 @@ class Codes extends Component {
               deleteGeneration={this._Delete}
               text={"Template"}
             />
+
+            <h2 style={styles.h2}>Codes</h2>
             <ReactTable
               manual
               page={page}
@@ -342,7 +351,7 @@ class Codes extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardData.template,
+  Template: state.GiftCardReducer.template,
   userLogin: state.userReducer.User,
 });
 
@@ -364,5 +373,9 @@ const styles = {
   label: {
     fontSize: "16px",
     padding: "15px 0px 3px 5px",
+  },
+  h2: {
+    color: "#4251af",
+    paddingBottom: "20px",
   },
 };

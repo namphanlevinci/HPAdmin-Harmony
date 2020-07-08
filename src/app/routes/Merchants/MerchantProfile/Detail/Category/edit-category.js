@@ -9,7 +9,7 @@ import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
-import URL from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 
 class EditCategory extends Component {
   constructor(props) {

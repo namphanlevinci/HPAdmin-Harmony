@@ -5,12 +5,15 @@ import { store } from "react-notifications-component";
 
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import URL from "../../../../../url/url";
+import { config } from "../../../../../url/url";
 
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import "../../../Merchants/MerchantProfile/Detail/Detail.css";
+const URL = config.url.URL;
+const upFile = config.url.upFile;
+
 class EditGeneral extends Component {
   constructor(props) {
     super(props);
@@ -29,14 +32,13 @@ class EditGeneral extends Component {
     const Token = localStorage.getItem("User_login");
     await this.setState({ Token: Token });
     const data = this.props.MerchantProfile;
-    console.log("data", data);
     this.setState({
-      ID: data?._original?.userId,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      phone: data.phone,
-      limitAmount: data.limitAmount,
+      ID: data?.userId,
+      firstName: data?.firstName,
+      lastName: data?.lastName,
+      email: data?.email,
+      phone: data?.phone,
+      limitAmount: data?.limitAmount,
     });
   }
 

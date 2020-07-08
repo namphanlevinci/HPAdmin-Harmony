@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { USER_LOGIN_REQUEST } from "../actions/user/actions";
-import { store } from "react-notifications-component";
 
 import TextField from "@material-ui/core/TextField";
 // import IconButton from '@material-ui/core/IconButton';

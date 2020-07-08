@@ -7,7 +7,7 @@ import {
 import { getAll_Merchants } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { store } from "react-notifications-component";
 
 import IntlMessages from "../../../../util/IntlMessages";
@@ -210,7 +210,7 @@ class MerchantReqProfile extends Component {
                 <p>{e?.state?.name}</p>
               </div>
               <div className="col-6">
-                <label>Driver License Picture</label>
+                <label>Driver License Picture*</label> <br />
                 {
                   <img
                     className="pending-image"
@@ -232,7 +232,7 @@ class MerchantReqProfile extends Component {
         e.business.map((e) => {
           return (
             <div className="col-6" key={e.businessId}>
-              <label>{e.question}</label>
+              <label>{e.question}</label> <br />
               <Checkbox checked={e.answer === false} />
               No
               <span className={e.answer ? "checked-red" : ""}>
@@ -262,7 +262,7 @@ class MerchantReqProfile extends Component {
               <Button className="btn btn-red" onClick={this.goBack}>
                 BACK
               </Button>
-              {/* HANDLE EDIT */}
+
               <Button className="btn btn-red" onClick={this.handleEdit}>
                 EDIT
               </Button>
@@ -279,7 +279,6 @@ class MerchantReqProfile extends Component {
                   &times;
                 </a>
                 <div
-                  className="header"
                   style={{
                     backgroundColor: "#4251af",
                     height: "50px",
@@ -362,7 +361,6 @@ class MerchantReqProfile extends Component {
                     &times;
                   </a>
                   <div
-                    className="header"
                     style={{
                       backgroundColor: "#4251af",
                       height: "50px",

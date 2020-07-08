@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
 import { Formik } from "formik";
-import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+import { FaTrashRestoreAlt } from "react-icons/fa";
 import { GoTrashcan } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
 import { store } from "react-notifications-component";
 
 import ReactTable from "react-table";
 import axios from "axios";
-import URL from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -20,6 +20,9 @@ import Select from "react-select";
 
 import "react-table/react-table.css";
 import "./category.styles.scss";
+
+const URL = config.url.URL;
+
 class Category extends Component {
   constructor(props) {
     super(props);

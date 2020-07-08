@@ -6,7 +6,7 @@ import { store } from "react-notifications-component";
 import Extra from "./extra";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import URL, { upFileUrl } from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import * as Yup from "yup";
 import Select from "react-select";
 
@@ -17,6 +17,10 @@ import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import "../Detail.css";
 import "./service.style.scss";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
+
 class EditService extends Component {
   constructor(props) {
     super(props);
@@ -103,7 +107,7 @@ class EditService extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })

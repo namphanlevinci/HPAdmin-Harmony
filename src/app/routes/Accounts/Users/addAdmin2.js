@@ -19,7 +19,7 @@ import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import { ADD_ADMIN, VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import IntlMessages from "../../../../util/IntlMessages";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
 import "./User.css";
@@ -85,6 +85,8 @@ const stateID = [
   { value: "53", label: "Wyoming" },
 ];
 
+const upFile = config.url.upFile;
+
 class addAdmin2 extends Component {
   constructor(props) {
     super(props);
@@ -119,7 +121,7 @@ class addAdmin2 extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(URL + "/file?category=service", formData, config)
+      .post(upFile + "/file?category=service", formData, config)
       .then((res) => {
         setFieldValue("fileId", res.data.data.fileId);
       })
@@ -532,9 +534,13 @@ class addAdmin2 extends Component {
                     className="btn btn-green"
                     onClick={this._goBack}
                   >
-                    BACK
+                    CANCEL
                   </Button>
-                  <Button type="submit" className="btn btn-red">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="btn btn-red"
+                  >
                     SAVE
                   </Button>
                 </div>

@@ -13,12 +13,15 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class P2P extends React.Component {
   constructor(props) {
@@ -193,20 +196,7 @@ class P2P extends React.Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.setState({ data: [] });
         }
         this.setState({ loading: false });
       });
@@ -277,7 +267,7 @@ class P2P extends React.Component {
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
-          <div className="MReqSP TransactionsBox">
+          <div className=" TransactionsBox">
             {/* SEARCH */}
             <div className="search">
               <form>

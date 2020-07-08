@@ -13,9 +13,13 @@ import WorkTime from "./work-time";
 import Salary from "./salary";
 import License from "./license";
 import axios from "axios";
-import URL, { upFileUrl } from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 
 import "./Staff.styles.scss";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
+
 class AddStaff extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +40,7 @@ class AddStaff extends Component {
       email: "",
       pin: "",
       confirmPin: "",
+      isActive: true,
       nameRole: { value: "admin", label: "Admin" },
       isDisabled: { value: "0", label: "Active" },
       // Work time
@@ -116,7 +121,8 @@ class AddStaff extends Component {
         validator={this.validator}
         uploadFile={this.uploadFile}
         handleSelect={this.handleSelect}
-        toogleVisibility={this.toogleVisibility}
+        toggleVisibility={this.toggleVisibility}
+        handleCheckBox={this.handleCheckBox}
       />
     );
   };
@@ -174,7 +180,7 @@ class AddStaff extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -183,7 +189,7 @@ class AddStaff extends Component {
       });
   };
 
-  addStaf = () => {
+  addStaff = () => {
     const merchantId = this.props.MerchantProfile.merchantId;
     const {
       lastName,
@@ -216,6 +222,7 @@ class AddStaff extends Component {
       isCheck7,
       isCheck8,
       email,
+      isActive,
     } = this.state;
     const checkEmail =
       email !== "" ? email : this.props?.userLogin?.User?.userAdmin.email;
@@ -245,6 +252,7 @@ class AddStaff extends Component {
           firstName,
           lastName,
           displayName,
+          isActive,
           address: {
             street,
             city,
@@ -363,7 +371,7 @@ class AddStaff extends Component {
     this.setState({ cellphone: e });
   };
 
-  toogleVisibility = (name, value) => {
+  toggleVisibility = (name, value) => {
     this.setState({
       [name]: value,
     });
@@ -390,7 +398,7 @@ class AddStaff extends Component {
       }
 
       if (Number(activeStep) === 3) {
-        this.addStaf();
+        this.addStaff();
       } else {
         this.validator.showMessages();
         this.forceUpdate();

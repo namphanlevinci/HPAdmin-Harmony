@@ -91,6 +91,7 @@ export class EditLicense extends Component {
                     name="driverLicense"
                     value={this.state.driverLicense}
                     onChange={this.handleChange}
+                    maxLength="90"
                   />
                 </div>
                 <div className="col-4" style={styles.div}>
@@ -99,6 +100,7 @@ export class EditLicense extends Component {
                     name="ssn"
                     value={this.state.ssn}
                     onChange={this.handleChange}
+                    maxLength="90"
                   />
                 </div>
                 <div className="col-4" style={styles.div}>
@@ -107,6 +109,7 @@ export class EditLicense extends Component {
                     name="professionalLicense"
                     value={this.state.professionalLicense}
                     onChange={this.handleChange}
+                    maxLength="90"
                   />
                 </div>
               </div>

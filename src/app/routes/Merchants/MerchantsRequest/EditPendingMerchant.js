@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { upFileUrl } from "../../../../url/url";
+import { config } from "../../../../url/url";
 import { ViewMerchant_Request } from "../../../../actions/merchants/actions";
 
 import EditPrincipal from "./EditPrincipal";
@@ -12,10 +12,14 @@ import Select from "react-select";
 import selectState from "../../../../util/selectState";
 import PhoneInput from "react-phone-input-2";
 import axios from "axios";
+import LinearProgress from "../../../../util/linearProgress";
 
 import "./MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
 import "react-phone-input-2/lib/high-res.css";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class EditPendingMerchant extends Component {
   constructor(props) {
@@ -23,22 +27,16 @@ class EditPendingMerchant extends Component {
 
     this.state = {
       loading: false,
+      progress: false,
+      progressPrincipal: false,
     };
   }
 
   _uploadFile = (e) => {
     e.preventDefault();
 
-    // handle preview Image
-    let reader = new FileReader();
     let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
+    this.setState({ progress: true });
     // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
@@ -46,9 +44,18 @@ class EditPendingMerchant extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          this.setState({
+            file: file,
+            imagePreviewUrl: reader.result,
+            progress: false,
+          });
+        };
+        reader.readAsDataURL(file);
       })
       .catch((err) => {
         console.log(err);
@@ -124,33 +131,28 @@ class EditPendingMerchant extends Component {
       name === "PrincipalInfo.0.fileId"
         ? "PrincipalInfo.0.imageUrl"
         : "PrincipalInfo.1.imageUrl";
-    // handle preview Image
-    let reader = new FileReader();
+
     let file = e.target.files[0];
-    reader.onloadend = () => {
-      setFieldValue(imagePreview, reader.result);
-    };
-    reader.readAsDataURL(file);
+    this.setState({ progressPrincipal: true });
     // handle upload image
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
     let formData = new FormData();
     formData.append("Filename3", file);
-    const response = await axios.post(upFileUrl, formData, config);
+    const response = await axios.post(upFile, formData, config);
     setFieldValue(name, response.data.data.fileId);
+
+    // handle preview Image
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      setFieldValue(imagePreview, reader.result);
+      this.setState({ progressPrincipal: false });
+    };
+    reader.readAsDataURL(file);
 
     return response.data.data.fileId;
   };
-
-  // handleQuestions = (name) => (event) => {
-  //   if (Number(name[1].charAt(8)) === Number(name[0].questionId)) {
-  //     this.setState({
-  //       [name[1]]: event.target.value,
-  //       ["question" + name[0].questionId]: name[0].value,
-  //     });
-  //   }
-  // };
 
   render() {
     const e = this.props.Profile;
@@ -369,6 +371,9 @@ class EditPendingMerchant extends Component {
                   <label style={{ paddingBottom: "10px" }}>Void Check*</label>{" "}
                   <br />
                   {$imagePreview}
+                  <div style={{ width: "100%", marginTop: "5px" }}>
+                    {this.state.progress ? <LinearProgress /> : null}
+                  </div>
                   <input
                     type="file"
                     style={styles.imageInput}

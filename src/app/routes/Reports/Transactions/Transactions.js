@@ -1,23 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getAll_Transactions } from "../../../../actions/transactions/actions";
-import { store } from "react-notifications-component";
 import { DebounceInput } from "react-debounce-input";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 
 import "./Transactions.css";
 import "react-table/react-table.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class Transactions extends React.Component {
   constructor(props) {
@@ -33,8 +34,8 @@ class Transactions extends React.Component {
     };
   }
 
-  handleResetClick = () => {
-    this.setState({
+  handleResetClick = async () => {
+    await this.setState({
       from: moment()
         .startOf("month")
         .format("YYYY-MM-DD"),
@@ -45,7 +46,9 @@ class Transactions extends React.Component {
       amountFrom: -1,
       amountTo: -1,
       range: "thisMonth",
+      search: "",
     });
+    this.fetchData();
   };
   fromDate = async (e) => {
     await this.setState({ from: e.target.value, range: "all" });
@@ -70,6 +73,14 @@ class Transactions extends React.Component {
   searchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
+
+  handEnter = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.fetchData();
+    }
+  };
+
   searchAmount = async (e) => {
     await this.setState({ amount: e.target.value });
   };
@@ -191,20 +202,7 @@ class Transactions extends React.Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.setState({ data: [] });
         }
         this.setState({ loading: false });
       });
@@ -305,7 +303,7 @@ class Transactions extends React.Component {
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
-          <div className="MReqSP TransactionsBox">
+          <div className=" TransactionsBox">
             {/* SEARCH */}
             <div className="search">
               <form>
@@ -316,6 +314,7 @@ class Transactions extends React.Component {
                   placeholder="Search.."
                   value={this.state.search}
                   onChange={this.searchMerchants}
+                  onKeyDown={this.handEnter}
                 />
               </form>
             </div>

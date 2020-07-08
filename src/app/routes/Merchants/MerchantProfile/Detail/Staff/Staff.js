@@ -4,19 +4,22 @@ import { FaTrashRestore } from "react-icons/fa";
 import { GoTrashcan } from "react-icons/go";
 
 import { VIEW_STAFF } from "../../../../../../actions/merchants/actions";
+import { config } from "../../../../../../url/url";
 
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
-import URL from "../../../../../../url/url";
 import axios from "axios";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import formatPhone from "../../../../../../util/formatPhone";
 
 import "react-table/react-table.css";
 import "../Detail.css";
+
+const URL = config.url.URL;
 
 class Staff extends Component {
   constructor(props) {
@@ -143,7 +146,8 @@ class Staff extends Component {
       },
       {
         Header: "Phone",
-        accessor: "phone",
+        id: "Phone",
+        accessor: (row) => <span>{formatPhone(row?.phone)}</span>,
         width: 150,
       },
       {

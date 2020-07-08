@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";

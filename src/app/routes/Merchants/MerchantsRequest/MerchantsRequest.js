@@ -8,7 +8,7 @@ import { store } from "react-notifications-component";
 
 import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
@@ -17,6 +17,9 @@ import moment from "moment";
 import "react-table/react-table.css";
 import "./MerchantsRequest.css";
 import "../MerchantsList/merchantsList.css";
+
+const URL = config.url.URL;
+
 class MerchantsRequest extends Component {
   constructor(props) {
     super(props);

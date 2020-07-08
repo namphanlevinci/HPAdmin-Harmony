@@ -32,7 +32,9 @@ import UserInfoPopup from "../../components/UserInfo/UserInfoPopup";
 import axios from "axios";
 
 // import playMessageAudio from "../../util/sound";
-import URL from "../../url/url";
+import { config } from "../../url/url";
+const URL = config.url.URL;
+
 class Header extends React.Component {
   //load signalR
   async componentDidMount() {
@@ -310,8 +312,8 @@ class Header extends React.Component {
           <Link className="app-logo mr-2 d-none d-sm-block" to="/app/dashboard">
             <img
               src={require("../../assets/images/logo-white.png")}
-              // alt="Jambo"
-              // title="Jambo"
+              alt="Harmony"
+              title="Harmony"
             />
           </Link>
 

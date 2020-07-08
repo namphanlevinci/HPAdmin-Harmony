@@ -4,9 +4,8 @@ import {
   getBatch,
   getBatchDetail,
 } from "../../../../actions/transactions/actions";
-import { store } from "react-notifications-component";
 import axios from "axios";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 
 import "../../Merchants/MerchantsList/merchantsList.css";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -19,6 +18,8 @@ import "../Transactions/Transactions.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
 import SearchIcon from "@material-ui/icons/Search";
 
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
@@ -60,20 +61,7 @@ class Transactions extends React.Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.setState({ data: [] });
         }
         this.setState({ loading: false });
       });
@@ -112,7 +100,6 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "dateTime",
-            width: 120,
             accessor: (e) => {
               return moment
                 .utc(e.settlementDate)
@@ -125,13 +112,12 @@ class Transactions extends React.Component {
       {
         id: "Customer",
         Header: "Merchant DBA",
-        width: 100,
         columns: [
           {
             Header: "",
             id: "DBA",
             accessor: (e) => (
-              <span style={{ fontWeight: 600 }}>{e.doBusinessName}</span>
+              <span style={{ fontWeight: 500 }}>{e.doBusinessName}</span>
             ),
           },
         ],
@@ -142,7 +128,6 @@ class Transactions extends React.Component {
           {
             Header: "",
             accessor: "merchantId",
-            width: 120,
           },
         ],
       },
@@ -182,13 +167,12 @@ class Transactions extends React.Component {
       },
       {
         Header: "Total",
-        width: 180,
         columns: [
           {
             Header: "",
             id: "total",
             accessor: (e) => (
-              <span style={{ fontWeight: 600 }}>${e.total}</span>
+              <span style={{ fontWeight: 500 }}>${e.total}</span>
             ),
           },
         ],
@@ -203,10 +187,10 @@ class Transactions extends React.Component {
           title={<IntlMessages id="sidebar.dashboard.Batch" />}
         />
         <div
-          className="MerList BatchsContainer page-heading"
+          className="MerList batch-container page-heading"
           style={{ padding: "10px" }}
         >
-          <div className="MReqSP TransactionsBox">
+          <div className=" TransactionsBox">
             <div className="BatchSearch">
               <form>
                 <SearchIcon className="button" title="Search" />
@@ -222,14 +206,6 @@ class Transactions extends React.Component {
             </div>
           </div>
           <div className="merchant-list-container Transactions">
-            {/* <ReactTable
-              data={BatchList}
-              columns={columns}
-              defaultPageSize={10}
-              minRows={1}
-              noDataText="NO DATA!"
-              getTdProps={onRowClick}
-            /> */}
             <ReactTable
               manual
               page={page}

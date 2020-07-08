@@ -13,11 +13,13 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 
 import "bootstrap/js/src/collapse.js";
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
+
+const URL = config.url.URL;
 class MerchantRejectedProfile extends Component {
   constructor(props) {
     super(props);
@@ -235,13 +237,13 @@ class MerchantRejectedProfile extends Component {
               <h4>
                 By{" "}
                 <span style={{ fontWeight: 600 }}>
-                  {e.adminUser.first_name + " " + e.adminUser.last_name}
+                  {e?.adminUser?.first_name + " " + e?.adminUser?.last_name}
                 </span>
               </h4>
               <h4 style={{ color: "black" }}>
                 Date/Time:{" "}
                 {moment
-                  .utc(e.adminUser.created_date)
+                  .utc(e?.adminUser?.created_date)
                   .local()
                   .format("MM/DD/YYYY - hh:mm A")}
               </h4>

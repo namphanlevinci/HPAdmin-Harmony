@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import URL, { upFileUrl } from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import { store } from "react-notifications-component";
 
 import Button from "@material-ui/core/Button";
@@ -15,6 +15,9 @@ import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import "../Detail.css";
 import "../Service/service.style.scss";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class EditProduct extends Component {
   constructor(props) {
@@ -97,7 +100,7 @@ class EditProduct extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })

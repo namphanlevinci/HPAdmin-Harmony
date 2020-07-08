@@ -359,11 +359,10 @@
   }
   /* bank img */
   .bankVoid {
-    width: 350px;
-    /* height: 200px; */
-    /* width: 100%; */
-    object-fit: cover;
-    /* height: 100%; */
+    width: 100%;
+    height: auto;
+    max-width: 350px;
+    background-position: center;
   }
   /* pop up confirm */
   .POPUP .SettingsPopup2 h3 {

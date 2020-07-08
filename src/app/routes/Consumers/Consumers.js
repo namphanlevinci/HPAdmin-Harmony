@@ -8,12 +8,15 @@ import ContainerHeader from "../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
-import URL from "../../../url/url";
+import { config } from "../../../url/url";
 
 import "../Merchants/MerchantsList/merchantsList.css";
 import "./ConsumerProfile/Detail/Consumer.css";
 import "react-table/react-table.css";
 import "../Reports/Transactions/Transactions.css";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class Consumers extends React.Component {
   constructor(props) {
@@ -104,6 +107,11 @@ class Consumers extends React.Component {
         width: 170,
       },
       {
+        Header: "Harmony ID",
+        accessor: "userId",
+        show: false,
+      },
+      {
         Header: "First name",
         accessor: "firstName",
         width: 130,
@@ -176,7 +184,7 @@ class Consumers extends React.Component {
             title={<IntlMessages id="sidebar.dashboard.consumers" />}
           />
           <div className="MerList page-heading" style={{ padding: "10px" }}>
-            <div className="MReqSP TransactionsBox ">
+            <div className=" TransactionsBox ">
               {/* SEARCH */}
               <div className="search">
                 <form>

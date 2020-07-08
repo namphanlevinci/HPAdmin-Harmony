@@ -5,11 +5,13 @@ import SearchIcon from "@material-ui/icons/Search";
 // import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import axios from "axios";
-import URL from "../../../url/url";
+import { config } from "../../../url/url";
 
 import "react-table/react-table.css";
 import "../Merchants/MerchantsList/merchantsList.css";
 import "../Merchants/MerchantsRequest/MerchantReqProfile.css";
+
+const URL = config.url.URL;
 
 class Pricing extends Component {
   constructor(props) {

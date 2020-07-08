@@ -5,6 +5,11 @@ import TextField from "@material-ui/core/TextField";
 import State from "../../../../../../util/InitialState";
 import Select from "react-select";
 import PhoneInput from "react-phone-input-2";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 
 import "react-phone-input-2/lib/high-res.css";
 
@@ -12,7 +17,8 @@ const General = ({
   handleSelect,
   handleChange,
   uploadFile,
-  toogleVisibility,
+  toggleVisibility,
+  handleCheckBox,
   handlePhone,
   state: {
     match,
@@ -33,6 +39,7 @@ const General = ({
     countryCode,
     showPin,
     showConfirmPin,
+    isActive,
   },
   validator,
 }) => {
@@ -156,6 +163,9 @@ const General = ({
               onChange={handleChange}
               value={zip}
               style={{ marginTop: "10px" }}
+              inputProps={{
+                maxLength: 5,
+              }}
             />
           </div>
         </div>
@@ -224,12 +234,12 @@ const General = ({
             {showPin ? (
               <i style={{ cursor: "pointer" }}>
                 <FaRegEyeSlash
-                  onClick={() => toogleVisibility("showPin", false)}
+                  onClick={() => toggleVisibility("showPin", false)}
                 />
               </i>
             ) : (
               <i style={{ cursor: "pointer" }}>
-                <FaRegEye onClick={() => toogleVisibility("showPin", true)} />
+                <FaRegEye onClick={() => toggleVisibility("showPin", true)} />
               </i>
             )}
           </div>
@@ -258,13 +268,13 @@ const General = ({
             {showConfirmPin ? (
               <i style={{ cursor: "pointer" }}>
                 <FaRegEyeSlash
-                  onClick={() => toogleVisibility("showConfirmPin", false)}
+                  onClick={() => toggleVisibility("showConfirmPin", false)}
                 />
               </i>
             ) : (
               <i style={{ cursor: "pointer" }}>
                 <FaRegEye
-                  onClick={() => toogleVisibility("showConfirmPin", true)}
+                  onClick={() => toggleVisibility("showConfirmPin", true)}
                 />
               </i>
             )}
@@ -301,6 +311,24 @@ const General = ({
               name="isDisabled"
               value={isDisabled}
             />
+          </div>
+        </div>
+        <div className="col-4">
+          <label></label>
+          <div className="form-group">
+            <FormControl component="fieldset">
+              <FormLabel component="legend"></FormLabel>
+              <FormGroup aria-label="position" row>
+                <FormControlLabel
+                  value="true"
+                  checked={isActive}
+                  control={<Checkbox color="primary" />}
+                  onChange={handleCheckBox("isActive")}
+                  label="Visible"
+                  labelPlacement="end"
+                />
+              </FormGroup>
+            </FormControl>
           </div>
         </div>
       </div>
