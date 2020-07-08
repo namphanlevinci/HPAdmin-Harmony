@@ -705,6 +705,7 @@ class Principal extends Component {
                           type="submit"
                           className="btn btn-red"
                           style={{ backgroundColor: "#4251af", color: "white" }}
+                          disabled={this.state.progress ? true : false}
                         >
                           Next
                         </Button>

@@ -27,7 +27,7 @@ const initialState = {
   imagePreviewUrl: "",
   initialBusinessQuestions: {},
 
-  activeStep: 2,
+  activeStep: 0,
   // General Info
   businessName: "",
   doingBusiness: "",
@@ -446,7 +446,11 @@ class AddMerchant extends React.Component {
                             else this.handleNext();
                           }}
                           style={{ backgroundColor: "#4251af", color: "white" }}
-                          disabled={this.state.isSubmitting}
+                          disabled={
+                            this.state.isSubmitting || this.state.progress
+                              ? true
+                              : false
+                          }
                         >
                           {activeStep === steps.length - 1 ? "Submit" : "Next"}
                         </Button>
