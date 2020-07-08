@@ -25,6 +25,7 @@
     "classnames": "^2.2.6",
     "connected-react-router": "^6.4.0",
     "cross-env": "^5.2.0",
+    "dotenv": "^8.2.0",
     "downshift": "^3.2.10",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",

@@ -10,6 +10,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import LinearProgress from "../../../../../../util/linearProgress";
 
 import "react-phone-input-2/lib/high-res.css";
 
@@ -40,6 +41,7 @@ const General = ({
     showPin,
     showConfirmPin,
     isActive,
+    progressLoading,
   },
   validator,
 }) => {
@@ -352,14 +354,21 @@ const General = ({
                 width={206}
               />
             )}
+
+            {progressLoading ? (
+              <div style={{ width: "30%", paddingTop: "10px" }}>
+                <LinearProgress />
+              </div>
+            ) : null}
           </div>
           <input
             type="file"
             style={{
-              width: "250px",
+              width: "30%",
               fontWeight: "normal",
               borderBottom: "none",
             }}
+            className="custom-input"
             name="imagePreviewUrl"
             id="file"
             onChange={(e) => uploadFile(e)}

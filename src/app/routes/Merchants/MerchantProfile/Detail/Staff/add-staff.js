@@ -87,6 +87,7 @@ class AddStaff extends Component {
 
       showPin: false,
       showConfirmPin: false,
+      progressLoading: false,
     };
 
     this.validator = new SimpleReactValidator();
@@ -165,15 +166,9 @@ class AddStaff extends Component {
     event.stopPropagation();
     event.preventDefault();
 
-    let reader = new FileReader();
-
+    this.setState({ progressLoading: true });
     const file = event.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
+
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
@@ -183,6 +178,14 @@ class AddStaff extends Component {
       .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          this.setState({
+            imagePreviewUrl: reader.result,
+            progressLoading: false,
+          });
+        };
+        reader.readAsDataURL(file);
       })
       .catch((err) => {
         console.log(err);
@@ -225,7 +228,7 @@ class AddStaff extends Component {
       isActive,
     } = this.state;
     const checkEmail =
-      email !== "" ? email : this.props?.userLogin?.User?.userAdmin.email;
+      email !== "" ? email : this.props?.userLogin?.userAdmin?.email;
     const nameRole = this.state.nameRole.value;
     const isDisabled = Number(this.state.isDisabled.value);
     const state = this.state.state.value;

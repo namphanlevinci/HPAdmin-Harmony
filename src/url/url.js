@@ -25,7 +25,6 @@ const prod = {
 //     upFile: "https://dev.harmonypayment.com/api/file?category=service",
 //   },
 // };
-
 // staging
 const dev = {
   url: {
