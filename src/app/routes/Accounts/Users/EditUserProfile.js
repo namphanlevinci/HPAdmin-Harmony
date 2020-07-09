@@ -284,9 +284,10 @@ class EditUserProfile extends Component {
                 <NavLink
                   to="/app/accounts/admin/profile/edit/general"
                   activeStyle={{
-                    fontWeight: "400",
+                    fontWeight: "500",
                     color: "#4251af",
-                    textDecoration: "underline",
+                    // textDecoration: "underline",
+                    opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: false })}
                 >
@@ -300,9 +301,10 @@ class EditUserProfile extends Component {
                 <NavLink
                   to="/app/accounts/admin/profile/edit/password"
                   activeStyle={{
-                    fontWeight: "400",
+                    fontWeight: "500",
                     color: "#4251af",
-                    textDecoration: "underline",
+                    // textDecoration: "underline",
+                    opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: true })}
                 >

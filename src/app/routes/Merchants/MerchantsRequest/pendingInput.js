@@ -9,6 +9,7 @@ const pendingInput = ({
   initValue,
   styles,
   inputStyles,
+  validator,
 }) => (
   <div className={styles ? styles : "col-4"} style={{ paddingTop: "10px" }}>
     <label>{label}</label>

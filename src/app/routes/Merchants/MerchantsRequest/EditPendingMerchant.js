@@ -13,6 +13,7 @@ import selectState from "../../../../util/selectState";
 import PhoneInput from "react-phone-input-2";
 import axios from "axios";
 import LinearProgress from "../../../../util/linearProgress";
+import SimpleReactValidator from "simple-react-validator";
 
 import "./MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
@@ -24,12 +25,16 @@ const upFile = config.url.upFile;
 class EditPendingMerchant extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: false,
       progress: false,
       progressPrincipal: false,
     };
+    this.validator = new SimpleReactValidator({
+      messages: {
+        default: "Required", // will override all messages
+      },
+    });
   }
 
   _uploadFile = (e) => {

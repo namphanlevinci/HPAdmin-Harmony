@@ -23,7 +23,7 @@
   color: black;
   font-weight: 400;
   font-size: 20px;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 .AdminProfile div img {
   width: 100%;
@@ -216,9 +216,10 @@ th {
 .UserProfile .nav-btn {
   text-align: start;
   padding-left: 5%;
+  padding-top: 5%;
 }
 .AdminProfile a {
-  font-weight: 300;
+  font-weight: 500;
 }
 
 .avatar {

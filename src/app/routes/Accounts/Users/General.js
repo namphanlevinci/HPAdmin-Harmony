@@ -7,9 +7,9 @@ const General = ({
 }) => {
   return (
     <div>
-      <h2>Contact Information</h2>
+      <h2 style={styles.h2}>Contact Information</h2>
       <div className="row">
-        <div className="col-6">
+        <div className="col-4">
           <label>Phone</label>
           <input
             type="text"
@@ -18,17 +18,7 @@ const General = ({
             onChange={handleChange}
           />
         </div>
-        <div className="col-6">
-          <label>Email</label>
-          <input
-            type="text"
-            name="email"
-            value={email}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="col-12" style={styles.div}>
+        <div className="col-4">
           <label>Address</label>
           <input
             type="text"
@@ -37,9 +27,18 @@ const General = ({
             onChange={handleChange}
           />
         </div>
+        <div className="col-4">
+          <label>Email</label>
+          <input
+            type="text"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
+        </div>
       </div>
 
-      <h2>Basic Information</h2>
+      <h2 style={styles.h2}>Basic Information</h2>
 
       <div>
         <div style={{ display: "inline" }}>
@@ -69,24 +68,8 @@ const General = ({
 export default General;
 
 const styles = {
-  hr: {
-    height: "1px",
-    border: "0",
-    borderTop: "1px solid #4251af",
-    alignContent: "center",
-    width: "100%",
-  },
-  div: {
-    paddingTop: "10px",
-  },
-  input: {
-    width: "30%",
-  },
-  icon: {
-    cursor: "pointer",
-  },
-  button: {
-    padding: "3px 20px",
-    height: "40px",
+  h2: {
+    fontWeight: "500",
+    color: "#4251af",
   },
 };

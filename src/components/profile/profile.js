@@ -299,9 +299,9 @@ class proFile extends Component {
                 <NavLink
                   to="/app/profile/general"
                   activeStyle={{
-                    fontWeight: "400",
+                    fontWeight: "500",
                     color: "#4251af",
-                    textDecoration: "underline",
+                    opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: false })}
                 >
@@ -315,9 +315,9 @@ class proFile extends Component {
                 <NavLink
                   to="/app/profile/password"
                   activeStyle={{
-                    fontWeight: "400",
+                    fontWeight: "500",
                     color: "#4251af",
-                    textDecoration: "underline",
+                    opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: true })}
                 >
