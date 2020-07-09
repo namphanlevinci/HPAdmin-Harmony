@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getP2P_Transactions } from "../../../../actions/transactions/actions";
-import { store } from "react-notifications-component";
 import { DebounceInput } from "react-debounce-input";
 
 import axios from "axios";
@@ -9,7 +8,6 @@ import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 // import "./Transactions.css";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
@@ -21,7 +19,6 @@ import "../Transactions/Transactions.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
 
 const URL = config.url.URL;
-const upFile = config.url.upFile;
 
 class P2P extends React.Component {
   constructor(props) {

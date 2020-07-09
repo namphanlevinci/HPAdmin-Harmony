@@ -4,6 +4,7 @@ import { getAll_Merchants } from "../../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 
 import Button from "@material-ui/core/Button";
+import formatPhone from "../../../../../util/formatPhone";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -55,7 +56,7 @@ class General extends Component {
           </div>
           <div className="col-4">
             <label>Business Phone Number*</label>
-            <p>{e?.general?.phoneBusiness}</p>
+            <p>{formatPhone(e?.general?.phoneBusiness)}</p>
           </div>
           <div className="col-4">
             <label>Contact Email Address*</label>
@@ -92,7 +93,7 @@ class General extends Component {
           </div>
           <div className="col-4">
             <label>Contact Phone Number*</label>
-            <p>{e?.general?.phoneContact}</p>
+            <p>{formatPhone(e?.general?.phoneContact)}</p>
           </div>
         </div>
       </div>

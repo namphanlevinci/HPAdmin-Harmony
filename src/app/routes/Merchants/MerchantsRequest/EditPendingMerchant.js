@@ -238,7 +238,7 @@ class EditPendingMerchant extends Component {
                 <div className="col-4" style={{ paddingTop: "10px" }}>
                   <label>State</label>
                   <div>
-                    {this.state.loading === true ? (
+                    {this.state.loading ? (
                       <Select
                         onChange={(e) => this.setState({ stateId: e.value })}
                         defaultValue={{

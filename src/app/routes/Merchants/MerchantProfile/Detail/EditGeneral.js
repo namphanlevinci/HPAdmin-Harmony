@@ -10,6 +10,9 @@ import {
 
 import Button from "@material-ui/core/Button";
 import StateComponent from "../../../../../util/State";
+import PhoneInput from "react-phone-input-2";
+import Select from "react-select";
+import selectState from "../../../../../util/selectState";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -33,6 +36,7 @@ class General extends Component {
       title: "",
       doBusinessName: "",
       stateName: "",
+      loading: false,
     };
   }
   _goBack = () => {
@@ -97,28 +101,31 @@ class General extends Component {
   };
   componentDidMount() {
     const data = this.props.MerchantProfile;
-    this.setState({
-      emailContact: data.general.emailContact,
-      legalBusinessName: data.general.legalBusinessName,
-      tax: data.general.tax,
-      address: data.general.address,
-      city: data.general.city,
-      stateId: data.general.stateId,
-      phoneBusiness: data.general.phoneBusiness,
-      zip: data.general.zip,
-      phoneContact: data.general.phoneContact,
-      firstName: data.general.firstName,
-      lastName: data.general.lastName,
-      title: data.general.title,
-      doBusinessName: data.general.doBusinessName,
-      stateName: data?.state?.name,
-    });
+    this.setState(
+      {
+        emailContact: data.general.emailContact,
+        legalBusinessName: data.general.legalBusinessName,
+        tax: data.general.tax,
+        address: data.general.address,
+        city: data.general.city,
+        stateId: data.general.stateId,
+        phoneBusiness: data.general.phoneBusiness,
+        zip: data.general.zip,
+        phoneContact: data.general.phoneContact,
+        firstName: data.general.firstName,
+        lastName: data.general.lastName,
+        title: data.general.title,
+        doBusinessName: data.general.doBusinessName,
+        stateName: data?.state?.name,
+      },
+      () => this.setState({ loading: true })
+    );
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.UpdateStatus !== this.props.UpdateStatus) {
       store.addNotification({
         title: "SUCCESS!",
-        message: `${this.props.UpdateStatus.Data.message}`,
+        message: `${this.props?.UpdateStatus?.Data?.message}`,
         type: "success",
         insert: "top",
         container: "top-right",
@@ -169,6 +176,7 @@ class General extends Component {
                 value={this.state.tax}
                 onChange={this._handleChange}
                 style={styles.input}
+                maxLength="9"
                 // disabled
               ></input>
             </div>
@@ -199,19 +207,36 @@ class General extends Component {
                 value={this.state.stateId}
                 onChange={this._handleChange}
               ></input> */}
-              <StateComponent
+              {/* <StateComponent
                 getStateId={this.getStateId}
                 setvalue={this.state.stateName}
-              />
+              /> */}
+              {this.state.loading ? (
+                <Select
+                  onChange={(e) => this.setState({ stateId: e.value })}
+                  defaultValue={{
+                    label: `${this.state.stateName}`,
+                    value: this.state.stateId,
+                  }}
+                  name="state"
+                  options={selectState}
+                />
+              ) : null}
             </div>
             <div className="col-4">
               <label>Business Phone*</label>
-              <input
+              {/* <input
                 name="phoneBusiness"
                 value={this.state.phoneBusiness}
                 onChange={this._handleChange}
                 style={styles.input}
-              ></input>
+              ></input> */}
+              <PhoneInput
+                placeholder="Business Phone Number"
+                name="businessPhone"
+                value={this.state.phoneBusiness}
+                onChange={(phone) => this.setState({ phoneBusiness: phone })}
+              />
             </div>
             <div className="col-4">
               <label>Zip*</label>
@@ -220,7 +245,8 @@ class General extends Component {
                 value={this.state.zip}
                 onChange={this._handleChange}
                 style={styles.input}
-              ></input>
+                maxLength="5"
+              />
             </div>
             <div className="col-4">
               <label>Email Contact*</label>
@@ -229,7 +255,7 @@ class General extends Component {
                 value={this.state.emailContact}
                 onChange={this._handleChange}
                 style={styles.input}
-              ></input>
+              />
             </div>
           </div>
           <h2 style={styles.h2}>Representative Information</h2>
@@ -259,11 +285,18 @@ class General extends Component {
             </div>
             <div className="col-4">
               <label>Contact Phone Number*</label>
-              <input
+              {/* <input
                 name="phoneContact"
                 value={this.state.phoneContact}
                 onChange={this._handleChange}
                 style={styles.input}
+              /> */}
+
+              <PhoneInput
+                placeholder="Business Phone Number"
+                name="businessPhone"
+                value={this.state.phoneContact}
+                onChange={(phone) => this.setState({ phoneContact: phone })}
               />
             </div>
           </div>
@@ -313,6 +346,7 @@ const styles = {
     paddingBottom: "10px",
   },
   input: {
+    marginTop: "3px",
     marginBottom: "10px",
   },
 };

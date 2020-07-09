@@ -21,6 +21,12 @@ const formatPhone = (Phone) => {
       /(\d{2})\-?(\d{3})\-?(\d{3})\-?(\d{4})/,
       "$1 $2-$3-$4"
     );
+  else {
+    return Phone.replace(/[{( )}]/g, "").replace(
+      /(\d{1})\-?(\d{3})\-?(\d{3})\-?(\d{4})/,
+      "+$1 $2-$3-$4"
+    );
+  }
 };
 
 export default formatPhone;
