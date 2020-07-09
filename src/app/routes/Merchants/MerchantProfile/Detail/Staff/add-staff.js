@@ -465,22 +465,42 @@ class AddStaff extends Component {
               ) : (
                 <div>
                   {this.getStepContent(activeStep)}
-                  <div style={{ paddingTop: "20px" }}>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={this.handleBack}
-                      className="btn btn-red"
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleNext}
-                      className="btn btn-green"
-                    >
-                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                    </Button>
+                  <div
+                    style={{
+                      paddingTop: "20px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      <Button
+                        disabled={activeStep === 0}
+                        onClick={this.handleBack}
+                        className="btn btn-red"
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleNext}
+                        className="btn btn-green"
+                      >
+                        {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                      </Button>
+                    </span>
+                    <span>
+                      <Button
+                        onClick={() =>
+                          this.props.history.push(
+                            "/app/merchants/profile/staff"
+                          )
+                        }
+                        className="btn btn-red"
+                      >
+                        Cancel
+                      </Button>
+                    </span>
                   </div>
                 </div>
               )}

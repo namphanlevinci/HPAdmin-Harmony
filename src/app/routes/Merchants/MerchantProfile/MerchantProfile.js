@@ -60,6 +60,7 @@ class merchantProfile extends Component {
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
+            disableBreadcrumb={true}
           />
           <div className="content-body page-heading">
             <div className="header col-md-12">

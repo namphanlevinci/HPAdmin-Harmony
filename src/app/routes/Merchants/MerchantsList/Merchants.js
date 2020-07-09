@@ -66,20 +66,7 @@ class Merchants extends React.Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.setState({ data: [] });
         }
         this.setState({ loading: false });
       });

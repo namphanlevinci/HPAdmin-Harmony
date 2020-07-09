@@ -343,20 +343,20 @@ const General = ({
               <img
                 src={imagePreviewUrl}
                 alt="avatar"
-                height={206}
-                width={206}
+                height={250}
+                width={250}
               />
             ) : (
               <img
                 src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
                 alt="avatar"
-                height={206}
-                width={206}
+                height={250}
+                width={250}
               />
             )}
 
             {progressLoading ? (
-              <div style={{ width: "30%", paddingTop: "10px" }}>
+              <div style={{ width: "25%", paddingTop: "10px" }}>
                 <LinearProgress />
               </div>
             ) : null}
@@ -364,7 +364,7 @@ const General = ({
           <input
             type="file"
             style={{
-              width: "30%",
+              width: "25%",
               fontWeight: "normal",
               borderBottom: "none",
             }}
