@@ -1,4 +1,17 @@
 
+.Staff .ReactTable .rt-tbody .rt-td {
+  cursor: context-menu;
+}
+
+.Staff .ReactTable .rt-thead .rt-th, .ReactTable .rt-thead .rt-td {
+  background-color: #ebebeb;
+
+}
+
+.Staff .ReactTable .rt-resizable-header-content {
+  color: black;
+  font-weight: 400;
+}
 
 .add-staff {
   .srv-validation-message {
