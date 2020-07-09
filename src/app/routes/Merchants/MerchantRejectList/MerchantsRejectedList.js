@@ -164,6 +164,7 @@ class MerchantsRequest extends Component {
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.rejectedRequest" />}
+          disableBreadcrumb={true}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
