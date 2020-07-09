@@ -179,7 +179,7 @@ class EditPendingMerchant extends Component {
         <img
           className="bankVoid"
           style={styles.image}
-          src={e.businessBank.imageUrl}
+          src={e?.businessBank?.imageUrl}
           alt="void"
         />
       );

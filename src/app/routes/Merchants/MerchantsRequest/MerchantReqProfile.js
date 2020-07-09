@@ -16,6 +16,7 @@ import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
 import NumberFormat from "react-number-format";
+import formatPhone from "../../../../util/formatPhone";
 
 import "./MerchantReqProfile.css";
 import "./MerchantsRequest.css";
@@ -129,21 +130,6 @@ class MerchantReqProfile extends Component {
     const e = this.props.PendingProfile;
     let principalLength = this.props.PendingProfile?.principals?.length;
 
-    const principalPhone = (Phone) => {
-      if (Phone?.startsWith("1") || Phone?.startsWith("84")) {
-        return Phone?.replace(/[{( )}]/g, "").replace(
-          /(\d{4})\-?(\d{3})\-?(\d{4})/,
-          "+$1-$2-$3"
-        );
-      }
-      if (Phone?.startsWith("+")) {
-        return Phone?.replace(/[{( )}]/g, "").replace(
-          /(\d{4})\-?(\d{3})\-?(\d{4})/,
-          "$1-$2-$3"
-        );
-      }
-    };
-
     // render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
@@ -171,11 +157,11 @@ class MerchantReqProfile extends Component {
               </div>
               <div className="col-4">
                 <label>Home Phone</label>
-                <p>{principalPhone(e.homePhone)}</p>
+                <p>{formatPhone(e.homePhone)}</p>
               </div>
               <div className="col-4">
                 <label>Mobile Phone*</label>
-                <p>{principalPhone(e.mobilePhone)}</p>
+                <p>{formatPhone(e.mobilePhone)}</p>
               </div>
               <div className="col-4">
                 <label>Address*</label>

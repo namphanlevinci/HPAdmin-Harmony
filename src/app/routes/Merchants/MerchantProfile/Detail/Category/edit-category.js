@@ -11,6 +11,8 @@ import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import { config } from "../../../../../../url/url";
 
+const URL = config.url.URL;
+
 class EditCategory extends Component {
   constructor(props) {
     super(props);

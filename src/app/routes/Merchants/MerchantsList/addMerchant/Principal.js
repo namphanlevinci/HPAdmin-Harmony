@@ -690,7 +690,7 @@ class Principal extends Component {
                           className="add-remove-principal"
                           onClick={() => [arrayHelpers.push("")]}
                         >
-                          + Add Principal 222
+                          + Add Principal
                         </p>
                       )}
                       <div style={{ marginTop: "15px" }}>
