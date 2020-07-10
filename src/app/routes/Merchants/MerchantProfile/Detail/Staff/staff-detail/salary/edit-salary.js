@@ -66,6 +66,7 @@ class EditSalary extends Component {
       lastName: data.lastName,
       displayName: data.displayName,
       cashPercent,
+      isActive: data.isActive,
       address: {
         street: data.address,
         city: data.city,

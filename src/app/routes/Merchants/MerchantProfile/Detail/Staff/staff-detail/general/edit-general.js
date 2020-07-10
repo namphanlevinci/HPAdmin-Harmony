@@ -68,6 +68,7 @@ export class EditGeneral extends Component {
       firstName: state.firstName,
       lastName: state.lastName,
       displayName: state.displayName,
+      cashPercent: data?.cashPercent,
       address: {
         street: state.address,
         city: state.city,

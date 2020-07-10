@@ -43,6 +43,8 @@ export class EditLicense extends Component {
       firstName: data.firstName,
       lastName: data.lastName,
       displayName: data.displayName,
+      isActive: data.isActive,
+      cashPercent: data.cashPercent,
       address: {
         street: data.address,
         city: data.city,

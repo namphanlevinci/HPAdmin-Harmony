@@ -115,6 +115,7 @@ export class salary extends Component {
                   value={cashPercent}
                   min="0"
                   max="100"
+                  disabled
                 />
                 <span className="unit">%</span>
               </div>
