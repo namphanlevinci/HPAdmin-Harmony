@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import { FaTrashRestoreAlt } from "react-icons/fa";
 import { GoTrashcan } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
-
+import { Helmet } from "react-helmet";
 import { AiOutlineUserAdd } from "react-icons/ai";
 
 import ReactTable from "react-table";
@@ -68,6 +68,9 @@ class Roles extends Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Role - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.roles" />}

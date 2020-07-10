@@ -4,13 +4,14 @@ import {
   ViewMerchant_Rejected_Merchants,
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
+import { config } from "../../../../url/url";
+import { Helmet } from "react-helmet";
 
 import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
-import { config } from "../../../../url/url";
 import moment from "moment";
 
 import "react-table/react-table.css";
@@ -161,6 +162,9 @@ class MerchantsRequest extends Component {
     const { page, pageCount, data } = this.state;
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Rejected Request - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.rejectedRequest" />}

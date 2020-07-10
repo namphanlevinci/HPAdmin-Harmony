@@ -6,6 +6,8 @@ import {
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { GET_GIFT_CARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
+import { Helmet } from "react-helmet";
+import { config } from "../../../../url/url";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -16,10 +18,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import { config } from "../../../../url/url";
 import moment from "moment";
 import Select from "react-select";
-import CodeLog from "../generation/code_log";
+import CodeLog from "../generation/code-log/code-log";
 
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -257,12 +258,15 @@ class Codes extends Component {
     ];
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Code - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.gift-card-codes" />}
         />
         <div className="giftcard">
-          <div className="giftcard_search">
+          <div className="giftCard_search">
             <div>
               <form>
                 <SearchIcon className="button" title="Search" />

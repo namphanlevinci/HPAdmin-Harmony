@@ -2,16 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { getP2P_Transactions } from "../../../../actions/transactions/actions";
 import { DebounceInput } from "react-debounce-input";
+import { config } from "../../../../url/url";
+import { Helmet } from "react-helmet";
 
 import axios from "axios";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-// import "./Transactions.css";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
-import { config } from "../../../../url/url";
 import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 
 import "react-table/react-table.css";
@@ -259,6 +259,9 @@ class P2P extends React.Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Gift Card Transaction - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}

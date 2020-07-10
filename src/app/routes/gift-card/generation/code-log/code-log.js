@@ -6,7 +6,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import moment from "moment";
 
-import "./code_log.styles.scss";
+import "./code-log.styles.scss";
 
 const CodeLog = ({ open, handleClose, Log, Serial }) => {
   const renderLog = Log.map((e, index) => (

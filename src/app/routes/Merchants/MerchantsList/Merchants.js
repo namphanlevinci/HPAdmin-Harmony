@@ -5,13 +5,14 @@ import {
   SearchMerchants,
   ViewProfile_Merchants,
 } from "../../../../actions/merchants/actions";
+import { Helmet } from "react-helmet";
+import { config } from "../../../../url/url";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
-import { config } from "../../../../url/url";
 import axios from "axios";
 
 import "react-table/react-table.css";
@@ -173,6 +174,9 @@ class Merchants extends React.Component {
     };
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Merchant - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.MList" />}

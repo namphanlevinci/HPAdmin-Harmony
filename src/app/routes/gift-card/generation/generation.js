@@ -6,6 +6,8 @@ import {
 } from "../../../../actions/gift-card/actions";
 import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
+import { config } from "../../../../url/url";
+import { Helmet } from "react-helmet";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -15,7 +17,6 @@ import ReactTable from "react-table";
 import moment from "moment";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import { config } from "../../../../url/url";
 import Delete from "../delete-generation";
 
 import "./generation.styles.scss";
@@ -201,12 +202,15 @@ class Generation extends Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Generation - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.generation" />}
         />
         <div className="giftcard">
-          <div className="giftcard_search">
+          <div className="giftCard_search">
             <form>
               <SearchIcon className="button" title="Search" />
               <input

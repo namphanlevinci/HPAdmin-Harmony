@@ -5,10 +5,11 @@ import {
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 import { store } from "react-notifications-component";
+import { Helmet } from "react-helmet";
+import { config } from "../../../../url/url";
 
 import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
-import { config } from "../../../../url/url";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
@@ -170,6 +171,9 @@ class MerchantsRequest extends Component {
     };
     return (
       <div className="container-fluid  react-transition swipe-right">
+        <Helmet>
+          <title>Pending Request - Harmony Admin </title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.pendingRequest" />}

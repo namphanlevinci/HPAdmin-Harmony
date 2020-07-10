@@ -8,6 +8,7 @@ import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
 // import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
 // import { FiEdit } from "react-icons/fi";
+import { Helmet } from "react-helmet";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -224,12 +225,15 @@ class Generation extends Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Template - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.giftcard-template" />}
+          title={<IntlMessages id="sidebar.dashboard.giftCard-template" />}
         />
         <div className="giftcard">
-          <div className="giftcard_search">
+          <div className="giftCard_search">
             <form>
               <SearchIcon className="button" title="Search" />
               <input

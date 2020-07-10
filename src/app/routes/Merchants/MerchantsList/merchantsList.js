@@ -5,12 +5,13 @@ import {
   SearchMerchants,
   ViewProfile_Merchants,
 } from "../../../../actions/merchants/actions";
+import { config } from "../../../../url/url";
+import { Helmet } from "react-helmet";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
-import { config } from "../../../../url/url";
 import axios from "axios";
 import moment from "moment";
 
@@ -176,6 +177,9 @@ class MerchantsList extends React.Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Approved Request - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.approvedRequest" />}

@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-import "./generation/code_log.styles.scss";
+import "./generation/code-log/code-log.styles.scss";
 
 const Delete = ({ open, handleCloseDelete, deleteGeneration, text }) => {
   return (

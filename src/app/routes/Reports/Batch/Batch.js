@@ -6,17 +6,19 @@ import {
 } from "../../../../actions/transactions/actions";
 import axios from "axios";
 import { config } from "../../../../url/url";
+import { Helmet } from "react-helmet";
 
-import "../../Merchants/MerchantsList/merchantsList.css";
+import SearchIcon from "@material-ui/icons/Search";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
-import "./Batch.css";
 import moment from "moment";
+
 import "../Transactions/Transactions.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
-import SearchIcon from "@material-ui/icons/Search";
+import "../../Merchants/MerchantsList/merchantsList.css";
+import "react-table/react-table.css";
+import "./Batch.css";
 
 const URL = config.url.URL;
 const upFile = config.url.upFile;
@@ -182,6 +184,9 @@ class Transactions extends React.Component {
     const { page, pageCount, data, pageSize } = this.state;
     return (
       <div className="container-fluid react-transition swipe-right Batchs">
+        <Helmet>
+          <title>Batch Settlement - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Batch" />}

@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { getAll_Transactions } from "../../../../actions/transactions/actions";
 import { DebounceInput } from "react-debounce-input";
+import { config } from "../../../../url/url";
+import { Helmet } from "react-helmet";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -10,7 +12,6 @@ import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
-import { config } from "../../../../url/url";
 import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 
 import "./Transactions.css";
@@ -298,6 +299,9 @@ class Transactions extends React.Component {
     ];
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Transaction - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}

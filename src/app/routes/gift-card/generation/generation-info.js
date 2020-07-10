@@ -6,6 +6,7 @@ import {
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { store } from "react-notifications-component";
+import { config } from "../../../../url/url";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -14,10 +15,9 @@ import Button from "@material-ui/core/Button";
 import moment from "moment";
 import Checkbox from "@material-ui/core/Checkbox";
 import SearchIcon from "@material-ui/icons/Search";
-import CodeLog from "./code_log";
+import CodeLog from "./code-log/code-log";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import { config } from "../../../../url/url";
 import Delete from "../delete-generation";
 
 import "./generation.styles.scss";
@@ -389,7 +389,7 @@ class Generation_Detail extends Component {
             </div>
             <div className="giftcard_content">
               <h3 className="title">Gift Card Codes</h3>
-              <div className="giftcard_search" style={{ marginBottom: "20px" }}>
+              <div className="giftCard_search" style={{ marginBottom: "20px" }}>
                 <form>
                   <SearchIcon
                     className="button"

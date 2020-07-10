@@ -4,12 +4,12 @@ import { MdAddToPhotos } from "react-icons/md";
 import { Formik } from "formik";
 import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
 import { store } from "react-notifications-component";
+import { config } from "../../../../url/url";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import { config } from "../../../../url/url";
 import axios from "axios";
 
 import "./generation.styles.scss";
