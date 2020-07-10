@@ -16,6 +16,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import formatPhone from "../../../../../../util/formatPhone";
+import ScaleLoader from "../../../../../../util/scaleLoader";
 
 import "react-table/react-table.css";
 import "../Detail.css";
@@ -32,6 +33,7 @@ class Staff extends Component {
       dialog: false,
       restoreDialog: false,
       goToList: false,
+      isLoading: false,
     };
   }
 
@@ -88,6 +90,7 @@ class Staff extends Component {
   };
 
   viewStaff = async (data) => {
+    this.setState({ isLoading: true });
     await this.props.VIEW_STAFF(data);
     this.props.history.push("/app/merchants/staff/general");
   };
@@ -228,6 +231,7 @@ class Staff extends Component {
               </Button>
             </div>
           </div>
+          <ScaleLoader isLoading={this.state.isLoading} />
           <div className="merchant-list-container">
             <ReactTable
               data={e}

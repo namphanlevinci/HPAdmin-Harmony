@@ -22,10 +22,8 @@ class SignIn extends React.Component {
   }
 
   onSubmit = async (e) => {
-    // this.setState({ loading: true });
     const { email, password } = await this.state;
     await this.props.USER_LOGIN_REQUEST({ email, password });
-    // setTimeout({})
   };
   componentDidMount() {
     document.addEventListener("keypress", this.keyPressed);

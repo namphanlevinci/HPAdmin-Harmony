@@ -14,6 +14,7 @@ import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import ScaleLoader from "../../../../util/scaleLoader";
 
 import "react-table/react-table.css";
 import "./merchantsList.css";
@@ -32,6 +33,7 @@ class Merchants extends React.Component {
       pageCount: 0,
       data: [],
       pageLoading: false,
+      isLoading: false,
     };
   }
 
@@ -82,6 +84,7 @@ class Merchants extends React.Component {
     this.props.history.push("/app/merchants/add");
   };
   merchantProfile = (ID) => {
+    this.setState({ isLoading: true });
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
@@ -211,6 +214,7 @@ class Merchants extends React.Component {
               </Button>
             </div>
           </div>
+          <ScaleLoader isLoading={this.state.isLoading} />
           <div className="merchant-list-container">
             <ReactTable
               manual

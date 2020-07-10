@@ -171,30 +171,8 @@ const General = ({
             />
           </div>
         </div>
-        {/* </div> */}
-        {/* <div className="row justify-content-center"> */}
+
         <div className="col-4">
-          {/* <div>
-            <div
-              style={{ width: "50% !important", padding: "8px 20px 0px 0px" }}
-            >
-              <label>Country Code</label>
-              <Select
-                options={phoneCode}
-                onChange={handleSelect}
-                name="countryCode"
-                value={countryCode}
-              />
-            </div>
-            <TextField
-              name="cellphone"
-              label="Cell phone"
-              margin="normal"
-              type="number"
-              fullWidth
-              onChange={handleChange}
-              value={cellphone}
-            /> */}
           <label>Cellphone</label>
           <PhoneInput
             country={"us"}
@@ -345,6 +323,7 @@ const General = ({
                 alt="avatar"
                 height={250}
                 width={250}
+                style={{ borderRadius: "50%" }}
               />
             ) : (
               <img
@@ -352,11 +331,12 @@ const General = ({
                 alt="avatar"
                 height={250}
                 width={250}
+                style={{ borderRadius: "50%" }}
               />
             )}
 
             {progressLoading ? (
-              <div style={{ width: "25%", paddingTop: "10px" }}>
+              <div style={{ width: "34%", paddingTop: "10px" }}>
                 <LinearProgress />
               </div>
             ) : null}
@@ -364,7 +344,7 @@ const General = ({
           <input
             type="file"
             style={{
-              width: "25%",
+              width: "34%",
               fontWeight: "normal",
               borderBottom: "none",
             }}

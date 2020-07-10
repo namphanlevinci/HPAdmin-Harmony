@@ -42,7 +42,7 @@ class Verify_User extends React.Component {
   };
   _Login = async (e) => {
     // await e.preventDefault();
-    const serial = localStorage.getItem("User_login");
+    const serial = localStorage.getItem("VERIFY_NUMBER");
     const code = await this.state.verify_code;
     const token = this.state.token;
     const data = { code, serial, token };

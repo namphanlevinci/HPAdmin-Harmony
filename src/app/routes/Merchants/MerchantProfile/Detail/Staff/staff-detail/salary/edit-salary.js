@@ -29,6 +29,7 @@ class EditSalary extends Component {
       fixIsCheck: tipFees?.fixedAmount?.isCheck,
       prodCommValue: productSalaries?.commission?.value,
       prodCommIsCheck: productSalaries?.commission?.isCheck,
+      cashPercent: Salary?.cashPercent,
       loading: true,
     });
   }
@@ -54,6 +55,7 @@ class EditSalary extends Component {
       fixIsCheck,
       prodCommValue,
       prodCommIsCheck,
+      cashPercent,
     } = this.state;
     const data = this.props.Staff;
     const ID = this.props.Staff.staffId;
@@ -63,6 +65,7 @@ class EditSalary extends Component {
       firstName: data.firstName,
       lastName: data.lastName,
       displayName: data.displayName,
+      cashPercent,
       address: {
         street: data.address,
         city: data.city,
@@ -132,6 +135,7 @@ class EditSalary extends Component {
       fixIsCheck,
       prodCommValue,
       prodCommIsCheck,
+      cashPercent,
     } = this.state;
     return (
       <div>
@@ -266,23 +270,25 @@ class EditSalary extends Component {
                   </div>
                 </div>
 
-                {/* <div className="col-6">
-            <div className="checkbox">
-              <Checkbox
-                name="prodCommIsCheck"
-                // checked={prodCommIsCheck}
-                // onChange={handleCheckBox("prodCommIsCheck")}
-                value="true"
-                inputProps={{
-                  "aria-label": "primary checkbox",
-                }}
-              />
-              <label>Payout by Cash </label>
-              <div className="input-box">
-                <input type="text" />
-                <span className="unit">%</span>
-              </div>
-            </div> */}
+                <div className="col-6">
+                  <label style={{ paddingTop: "10px " }}>
+                    Salary pay in Cash
+                  </label>
+                  <div>
+                    <div className="input-box">
+                      <input
+                        style={{ marginTop: "7px" }}
+                        name="cashPercent"
+                        type="tel"
+                        value={cashPercent}
+                        onChange={this.handleChange}
+                        min="0"
+                        max="100"
+                      />
+                      <span className="unit">%</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </React.Fragment>
           )}

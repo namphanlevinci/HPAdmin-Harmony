@@ -79,6 +79,8 @@ class AddStaff extends Component {
       // Product Commission
       prodCommValue: "",
       prodCommIsCheck: false,
+      // Salary pay in cash
+      cashPercent: 0,
       // License
       driverlicense: "",
       socialSecurityNumber: "",
@@ -216,6 +218,7 @@ class AddStaff extends Component {
       driverlicense,
       socialSecurityNumber,
       professionalLicense,
+      cashPercent,
       fileId,
       isCheck2,
       isCheck3,
@@ -267,6 +270,7 @@ class AddStaff extends Component {
           email: checkEmail,
           pin,
           confirmPin,
+          cashPercent: Number(cashPercent),
           roles: {
             nameRole,
           },
@@ -346,7 +350,23 @@ class AddStaff extends Component {
         }
       )
       .then((res) => {
-        if (res.data.message) {
+        if (Number(res.data.codeNumber) === 204) {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+          });
+          this.setState({ activeStep: 0 });
+        }
+        if (Number(res.data.codeNumber) === 200) {
           store.addNotification({
             title: "SUCCESS!",
             message: `${res.data.message}`,

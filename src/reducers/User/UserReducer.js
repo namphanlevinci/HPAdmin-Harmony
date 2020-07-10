@@ -7,18 +7,18 @@ const initialState = [
     User: JSON.parse(localStorage.getItem("User_login"))
       ? JSON.parse(localStorage.getItem("User_login"))
       : "",
-    VERIFY_FAILURE: localStorage.getItem("VERIFY_FAILURE"),
     userByID: "",
     viewUser: "",
     AddUser: "",
+    VERIFY_NUMBER: "",
   },
 ];
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.USER_LOGIN_SUCCESS:
-      state.User = payload;
-      localStorage.setItem("User_login", JSON.stringify(payload));
+      state.VERIFY_NUMBER = payload;
+      localStorage.setItem("VERIFY_NUMBER", JSON.stringify(payload));
       window.location.href = "/verify";
       return { ...state };
 
@@ -56,6 +56,7 @@ const userReducer = (state = initialState, { type, payload }) => {
 
     case types.VERIFY_SUCCESS:
       state.User = payload;
+      localStorage.removeItem("VERIFY_NUMBER");
       localStorage.setItem("User_login", JSON.stringify(payload));
       window.location.href = "/app/merchants/list";
       return { ...state };

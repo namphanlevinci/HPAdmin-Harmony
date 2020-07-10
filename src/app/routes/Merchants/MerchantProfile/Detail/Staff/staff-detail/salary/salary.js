@@ -10,139 +10,129 @@ export class salary extends Component {
     const salaries = Salary?.salaries;
     const tipFees = Salary?.tipFees;
     const productSalaries = Salary?.productSalaries;
+    const cashPercent = Salary?.cashPercent;
     return (
-      <div>
-        <div className="container Salary">
-          <h2>Salary</h2>
-          <div className="row">
-            <div className="col-6">
-              <div className="checkbox">
-                <Checkbox
-                  name="salaryIsCheck"
-                  checked={salaries?.perHour?.isCheck}
-                  inputProps={{
-                    "aria-label": "primary checkbox",
-                  }}
-                />
-                <label>Salary per hour</label>
-              </div>
-              <div class="input-box">
-                <input type="text" value={salaries?.perHour?.value} disabled />
-                <span class="unit">$</span>
-              </div>
+      <div className="container Salary">
+        <h2>Salary</h2>
+        <div className="row">
+          <div className="col-6">
+            <div className="checkbox">
+              <Checkbox
+                name="salaryIsCheck"
+                checked={salaries?.perHour?.isCheck}
+                inputProps={{
+                  "aria-label": "primary checkbox",
+                }}
+              />
+              <label>Salary per hour</label>
             </div>
-            <div className="col-6">
-              <div className="checkbox">
-                <Checkbox
-                  name="commIsCheck"
-                  checked={salaries?.commission?.isCheck}
-                  inputProps={{
-                    "aria-label": "primary checkbox",
-                  }}
-                />
-                <label>Salary Commission</label>
-              </div>
-              <div class="input-box">
-                <input
-                  type="text"
-                  value={salaries?.commission?.value}
-                  disabled
-                />
-                <span class="unit">$</span>
-              </div>
-            </div>
-            <br />
-          </div>
-          {/* TIP FEE */}
-          <div className="row justify-content-center">
-            <div className="col-6">
-              <div className="checkbox">
-                <Checkbox
-                  name="tipIsCheck"
-                  checked={tipFees?.percent?.isCheck}
-                  inputProps={{
-                    "aria-label": "primary checkbox",
-                  }}
-                />
-                <label>Tip Percent</label>
-              </div>
-              <div class="input-box">
-                <input type="text" value={tipFees?.percent?.value} disabled />
-                <span class="unit">%</span>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="checkbox">
-                <Checkbox
-                  name="fixIsCheck"
-                  checked={tipFees?.fixedAmount?.isCheck}
-                  inputProps={{
-                    "aria-label": "primary checkbox",
-                  }}
-                />
-                <label>Tip Fixed Amount</label>
-              </div>
-              <div class="input-box">
-                <input
-                  type="text"
-                  value={tipFees?.fixedAmount?.value}
-                  disabled
-                />
-                <span class="unit">$</span>
-              </div>
+            <div className="input-box">
+              <input type="text" value={salaries?.perHour?.value} disabled />
+              <span className="unit">$</span>
             </div>
           </div>
-          {/* PRODUCT SALARY  */}
-          <div className="row">
-            <div className="col-6">
-              <div className="checkbox">
-                <Checkbox
-                  name="prodCommIsCheck"
-                  checked={productSalaries?.commission?.isCheck}
-                  value="true"
-                  inputProps={{
-                    "aria-label": "primary checkbox",
-                  }}
-                />
-                <label>Product Commission</label>
-              </div>
-              <div class="input-box">
-                <input type="text" value={productSalaries?.commission?.value} />
-                <span class="unit">%</span>
-              </div>
+          <div className="col-6">
+            <div className="checkbox">
+              <Checkbox
+                name="commIsCheck"
+                checked={salaries?.commission?.isCheck}
+                inputProps={{
+                  "aria-label": "primary checkbox",
+                }}
+              />
+              <label>Salary Commission</label>
             </div>
-            {/* PAYOUT BY CASH */}
-            {/* <div className="col-6">
+            <div className="input-box">
+              <input type="text" value={salaries?.commission?.value} disabled />
+              <span className="unit">$</span>
+            </div>
+          </div>
+          <br />
+        </div>
+        {/* TIP FEE */}
+        <div className="row justify-content-center">
+          <div className="col-6">
+            <div className="checkbox">
+              <Checkbox
+                name="tipIsCheck"
+                checked={tipFees?.percent?.isCheck}
+                inputProps={{
+                  "aria-label": "primary checkbox",
+                }}
+              />
+              <label>Tip Percent</label>
+            </div>
+            <div class="input-box">
+              <input type="text" value={tipFees?.percent?.value} disabled />
+              <span class="unit">%</span>
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="checkbox">
+              <Checkbox
+                name="fixIsCheck"
+                checked={tipFees?.fixedAmount?.isCheck}
+                inputProps={{
+                  "aria-label": "primary checkbox",
+                }}
+              />
+              <label>Tip Fixed Amount</label>
+            </div>
+            <div className="input-box">
+              <input type="text" value={tipFees?.fixedAmount?.value} disabled />
+              <span className="unit">$</span>
+            </div>
+          </div>
+        </div>
+        {/* PRODUCT SALARY  */}
+        <div className="row">
+          <div className="col-6">
             <div className="checkbox">
               <Checkbox
                 name="prodCommIsCheck"
-                // checked={prodCommIsCheck}
-                // onChange={handleCheckBox("prodCommIsCheck")}
+                checked={productSalaries?.commission?.isCheck}
                 value="true"
                 inputProps={{
                   "aria-label": "primary checkbox",
                 }}
               />
-              <label>Payout by Cash </label>
-              <div class="input-box">
-                <input type="text" />
-                <span class="unit">%</span>
+              <label>Product Commission</label>
+            </div>
+            <div className="input-box">
+              <input type="text" value={productSalaries?.commission?.value} />
+              <span className="unit">%</span>
+            </div>
+          </div>
+          {/* PAYOUT BY CASH */}
+          <div className="col-6">
+            <label style={{ paddingTop: "10px " }}>Salary pay in Cash</label>
+            <div>
+              <div className="input-box">
+                <input
+                  style={{ marginTop: "7px" }}
+                  name="cashPercent"
+                  type="tel"
+                  value={cashPercent}
+                  min="0"
+                  max="100"
+                />
+                <span className="unit">%</span>
               </div>
-            </div> */}
+            </div>
           </div>
-          <div
-            className="SettingsContent general-content"
-            style={{ paddingTop: "20px" }}
+        </div>
+        <div
+          className="SettingsContent general-content"
+          style={{ paddingTop: "20px" }}
+        >
+          <Button
+            className="btn btn-green"
+            onClick={() =>
+              this.props.history.push("/app/merchants/staff/salary/edit")
+            }
           >
-            <Button
-              className="btn btn-green"
-              onClick={() =>
-                this.props.history.push("/app/merchants/staff/salary/edit")
-              }
-            >
-              EDIT
-            </Button>
-          </div>
+            EDIT
+          </Button>
         </div>
       </div>
     );
