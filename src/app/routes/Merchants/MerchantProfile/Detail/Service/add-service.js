@@ -21,6 +21,7 @@ import Dialog from "@material-ui/core/Dialog";
 // import IconButton from "@material-ui/core/IconButton";
 // import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import LinearProgress from "../../../../../../util/linearProgress";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -73,10 +74,12 @@ class AddService extends Component {
       isDisabled: 0,
       imageUrl: "",
       extras: [],
+      supplyFee: 0,
       //~ preview image
       imagePreviewUrl: "",
       render: false,
       open: false,
+      imageProgress: false,
     };
   }
 
@@ -98,18 +101,12 @@ class AddService extends Component {
     this.setState({ [name]: value });
   };
 
-  _handleImageChange = (e) => {
+  handleUploadImage = (e) => {
     e.preventDefault();
     // handle preview Image
-    let reader = new FileReader();
+    this.setState({ imageProgress: true });
+
     let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
     // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
@@ -120,6 +117,15 @@ class AddService extends Component {
       .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          this.setState({
+            file: file,
+            imagePreviewUrl: reader.result,
+            imageProgress: false,
+          });
+        };
+        reader.readAsDataURL(file);
       })
       .catch((err) => {
         console.log(err);
@@ -149,6 +155,7 @@ class AddService extends Component {
               duration: Yup.string().required("Required"),
               price: Yup.string().required("Required"),
               isDisabled: Yup.string().required("Required"),
+              supplyFee: Yup.string().required("Required"),
             })
           )
         : "";
@@ -160,6 +167,7 @@ class AddService extends Component {
       duration: Yup.string().required("Required"),
       price: Yup.string().required("Required"),
       isDisabled: Yup.string().required("Required"),
+      supplyFee: Yup.string().required("Required"),
     });
 
     const ExtraInitialValues =
@@ -171,6 +179,7 @@ class AddService extends Component {
               duration: "",
               price: "",
               isDisabled: "",
+              supplyFee: "",
             },
           ]
         : [];
@@ -182,7 +191,7 @@ class AddService extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: 160, height: 160, marginBottom: "30px" }}
+          style={{ width: 220, height: 160, marginBottom: "15px" }}
           alt="service 1"
         />
       );
@@ -190,7 +199,7 @@ class AddService extends Component {
       $imagePreview = (
         <img
           src={ServiceImg}
-          style={{ width: 160, height: 160, marginBottom: "30px" }}
+          style={{ width: 220, height: 160, marginBottom: "15px" }}
           alt="service"
         />
       );
@@ -245,6 +254,7 @@ class AddService extends Component {
                       price: "",
                       categoryId: "",
                       isDisabled: "",
+                      supplyFee: "",
                       extras: ExtraInitialValues,
                     }}
                     validationSchema={validationSchema}
@@ -259,6 +269,7 @@ class AddService extends Component {
                         price,
                         extras,
                         isDisabled,
+                        supplyFee,
                       } = values;
                       const { discount, fileId } = this.state;
                       const merchantId = this.props.MerchantProfile.merchantId;
@@ -279,6 +290,7 @@ class AddService extends Component {
                             fileId,
                             extras,
                             merchantId,
+                            supplyFee,
                           },
                           {
                             headers: {
@@ -448,18 +460,27 @@ class AddService extends Component {
                                     Image
                                   </label>
                                   <br />
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                    }}
-                                  >
-                                    {$imagePreview} <br />
-                                    <input
-                                      name="price"
-                                      type="file"
-                                      onChange={this._handleImageChange}
-                                      style={styles.inputPrice}
-                                    />
+                                  <div>
+                                    {$imagePreview}
+                                    {this.state.imageProgress ? (
+                                      <div
+                                        style={{
+                                          width: "60%",
+                                          paddingBottom: "15px",
+                                        }}
+                                      >
+                                        <LinearProgress />
+                                      </div>
+                                    ) : null}
+                                    <div style={{ width: "60%" }}>
+                                      <input
+                                        style={styles.uploadBtn}
+                                        name="price"
+                                        type="file"
+                                        className="custom-input"
+                                        onChange={this.handleUploadImage}
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                                 <div className="col-4" style={{ marginTop: 5 }}>
@@ -612,6 +633,41 @@ class AddService extends Component {
                                     </div>
                                   )}
                                 </div>
+                                <div
+                                  className="col-6"
+                                  style={{ marginTop: 60 }}
+                                >
+                                  <label style={{ color: "#4251af" }}>
+                                    Supply Fee*
+                                  </label>
+                                  <br />
+                                  <div className="input-box">
+                                    <input
+                                      name="supplyFee"
+                                      type="number"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.supplyFee}
+                                      // placeholder="$"
+                                      style={{
+                                        borderBottomColor: "#dddddd",
+                                        borderBottomWidth: 1,
+                                        marginTop: 4,
+                                      }}
+                                      className={
+                                        errors.supplyFee && touched.supplyFee
+                                          ? "text-input error"
+                                          : "text-input"
+                                      }
+                                    />
+                                    <span className="unit">%</span>
+                                  </div>
+                                  {errors.supplyFee && touched.supplyFee && (
+                                    <div className="input-feedback">
+                                      {errors.supplyFee}
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             </div>
 
@@ -686,5 +742,8 @@ const styles = {
     fontWeight: 400,
     margin: "80px 0px",
     paddingLeft: "20px",
+  },
+  uploadBtn: {
+    width: "50% !important",
   },
 };

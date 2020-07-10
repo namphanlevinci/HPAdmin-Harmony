@@ -148,6 +148,22 @@ const Extra = ({
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
                       <label style={{ fontSize: 14, color: "#4251af" }}>
+                        Supply Fee (%)*
+                      </label>
+                      <div className="input-box">
+                        <Field
+                          style={styles.input}
+                          name={`extras.${index}.supplyFee`}
+                          type="number"
+                        />
+                        <span className="unit">%</span>
+                      </div>
+                      <div className="input-feedback">
+                        <ErrorMessage name={`extras.${index}.supplyFee`} />
+                      </div>
+                    </div>
+                    <div className="col-10" style={{ marginTop: 20 }}>
+                      <label style={{ fontSize: 14, color: "#4251af" }}>
                         Status
                       </label>
                       <Select

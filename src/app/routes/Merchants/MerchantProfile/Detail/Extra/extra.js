@@ -99,6 +99,7 @@ class ExtraTab extends Component {
     this.setState({ [name]: value });
   };
   handleEdit = (data) => {
+    console.log("data", data);
     const {
       duration,
       extraId,
@@ -109,6 +110,7 @@ class ExtraTab extends Component {
       description,
       imageUrl,
       fileId,
+      supplyFee,
     } = data;
     this.setState({
       duration,
@@ -120,6 +122,7 @@ class ExtraTab extends Component {
       description,
       imageUrl,
       fileId,
+      supplyFee,
     });
   };
 

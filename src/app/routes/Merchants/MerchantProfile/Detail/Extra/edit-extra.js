@@ -36,6 +36,7 @@ const EditExtra = ({
     imageUrl,
     fileId,
     imagePreviewUrl,
+    supplyFee,
   },
 }) => {
   let $imagePreview = null;
@@ -68,6 +69,7 @@ const EditExtra = ({
                 tax,
                 merchantId,
                 imageUrl,
+                supplyFee,
               }}
               validate={(values) => {
                 const errors = {};
@@ -79,6 +81,9 @@ const EditExtra = ({
                 }
                 if (!values.price) {
                   errors.price = "Required";
+                }
+                if (!values.supplyFee) {
+                  errors.supplyFee = "Required";
                 }
                 return errors;
               }}
@@ -94,6 +99,7 @@ const EditExtra = ({
                   quantity,
                   tax,
                   merchantId,
+                  supplyFee,
                 } = values;
                 axios
                   .put(
@@ -109,6 +115,7 @@ const EditExtra = ({
                       quantity,
                       tax,
                       fileId,
+                      supplyFee,
                     },
                     {
                       headers: {
@@ -163,7 +170,7 @@ const EditExtra = ({
                     name="description"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.description}
+                    value={values.description ? values.description : ""}
                     style={{ width: "100%", height: "70px", padding: "10px" }}
                   />
                   <div style={{ display: "flex" }}>
@@ -194,24 +201,7 @@ const EditExtra = ({
                     </div>
                     <div style={{ width: "30%" }}>
                       <label style={{ paddingTop: "10px " }}>Status*</label>
-                      {/* <select
-                        onChange={handleChange}
-                        name="isDisabled"
-                        value={values.isDisabled}
-                      >
-                        <option
-                          value="0"
-                          checked={isDisabled === 0 ? true : false}
-                        >
-                          Active
-                        </option>
-                        <option
-                          value="1"
-                          checked={isDisabled === 1 ? true : false}
-                        >
-                          Disable
-                        </option>
-                      </select> */}
+
                       <Select
                         options={options}
                         name="isDisabled"
@@ -225,16 +215,30 @@ const EditExtra = ({
                   </div>
                   <label style={{ paddingTop: "10px" }}>Image</label>
                   <div className="extra-image-container">
-                    {$imagePreview} <br />
-                    <input
-                      name="image"
-                      className="custom-input"
-                      type="file"
-                      onChange={handleImageChange}
-                      style={{
-                        width: "42%",
-                      }}
-                    />
+                    <div style={{ height: "250px" }}>
+                      {$imagePreview} <br />
+                      <input
+                        name="image"
+                        className="custom-input"
+                        type="file"
+                        onChange={handleImageChange}
+                        style={{
+                          width: "70%",
+                          marginTop: "5px",
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ padding: "10px 0px" }}>Supply Fee*</label>
+                      <input
+                        type="number"
+                        name="supplyFee"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.supplyFee}
+                        style={{ width: "80%" }}
+                      />
+                    </div>
                   </div>
                   <div className="category-button">
                     <Button
