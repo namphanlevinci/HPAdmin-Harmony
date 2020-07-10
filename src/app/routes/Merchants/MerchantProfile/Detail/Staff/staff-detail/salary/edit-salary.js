@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { VIEW_STAFF } from "../../../../../../../actions/merchants/actions";
+import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
 
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import updateStaff from "./updateStaff";
+import updateStaff from "../updateStaff";
 
 class EditSalary extends Component {
   constructor(props) {

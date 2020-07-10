@@ -2,7 +2,7 @@ import React from "react";
 // import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 
-import "./Staff.styles.scss";
+import "../Staff.styles.scss";
 const Salary = ({
   handleCheckBox,
   handleChange,

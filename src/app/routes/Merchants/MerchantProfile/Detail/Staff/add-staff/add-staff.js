@@ -13,9 +13,9 @@ import WorkTime from "./work-time";
 import Salary from "./salary";
 import License from "./license";
 import axios from "axios";
-import { config } from "../../../../../../url/url";
+import { config } from "../../../../../../../url/url";
 
-import "./Staff.styles.scss";
+import "../Staff.styles.scss";
 
 const URL = config.url.URL;
 const upFile = config.url.upFile;

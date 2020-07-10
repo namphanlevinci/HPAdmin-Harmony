@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { VIEW_STAFF } from "../../../../../../../actions/merchants/actions";
+import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
 
 import Button from "@material-ui/core/Button";
-import updateStaff from "./updateStaff";
+import updateStaff from "../updateStaff";
 
 export class EditLicense extends Component {
   constructor(props) {

@@ -6,15 +6,15 @@ import { MdPerson } from "react-icons/md";
 import IntlMessages from "../../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
-import General from "./general";
-import workTime from "./work-time";
-import salary from "./salary";
-import license from "./license";
+import General from "./general/general";
+import workTime from "./work-time/work-time";
+import salary from "./salary/salary";
+import license from "./license/license";
 
-import EditGeneral from "./edit-general";
-import EditWorkTime from "./edit-workTime";
-import EditSalary from "./edit-salary";
-import EditLicense from "./edit-license";
+import EditGeneral from "./general/edit-general";
+import EditWorkTime from "./work-time/edit-workTime";
+import EditSalary from "./salary/edit-salary";
+import EditLicense from "./license/edit-license";
 
 import "../../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../../MerchantsRequest/MerchantsRequest.css";
@@ -43,7 +43,7 @@ class staffGeneral extends Component {
         <div className="container-fluid content-list">
           <ContainerHeader
             match={this.props.match}
-            title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
+            title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
           />
           <div className="content-body page-heading">
             <div className="header col-md-12">
@@ -68,7 +68,7 @@ class staffGeneral extends Component {
             </div>
             <hr />
             <div className="content">
-              <div className="container-fuild" style={{ padding: "10px" }}>
+              <div className="container-fluid" style={{ padding: "10px" }}>
                 <div className="">
                   <div className="profile-nav content-body">
                     <ul className="detail-tab">

@@ -30,7 +30,7 @@ import ProductEdit from "./Detail/Product/productEdit";
 import ProductAdd from "./Detail/Product/productAdd";
 // Staff
 import Staff from "./Detail/Staff/Staff";
-import AddStaff from "./Detail/Staff/add-staff";
+import AddStaff from "./Detail/Staff/add-staff/add-staff";
 // import StaffGeneral from "./Detail/Staff/staff-detail/staff-info";
 // Extra Tab
 import ExtraTab from "./Detail/Extra/extra";
@@ -59,7 +59,7 @@ class merchantProfile extends Component {
         <div className="container-fluid content-list">
           <ContainerHeader
             match={this.props.match}
-            title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
+            title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
             disableBreadcrumb={true}
           />
           <div className="content-body page-heading">

@@ -5,7 +5,6 @@ import {
   SearchMerchants,
   ViewProfile_Merchants,
 } from "../../../../actions/merchants/actions";
-import { store } from "react-notifications-component";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";

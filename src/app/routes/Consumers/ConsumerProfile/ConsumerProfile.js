@@ -43,7 +43,7 @@ class ConsumerProfile extends Component {
       <div className="container-fluid content-list">
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
+          title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
         />
         <div className="content-body page-heading">
           <div className="header col-md-12">

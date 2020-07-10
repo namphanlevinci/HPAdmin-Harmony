@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
-import { VIEW_STAFF } from "../../../../../../../actions/merchants/actions";
+import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
 
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import selectState from "../../../../../../../util/selectState";
+import selectState from "../../../../../../../../util/selectState";
 import PhoneInput from "react-phone-input-2";
-import updateStaff from "./updateStaff";
-
+import updateStaff from "../updateStaff";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 import "react-phone-input-2/lib/high-res.css";
-import "../Staff.styles.scss";
+import "../../Staff.styles.scss";
 
 export class EditGeneral extends Component {
   constructor(props) {
@@ -37,6 +41,7 @@ export class EditGeneral extends Component {
         pin: data?.pin,
         roleName: data?.roleName,
         isDisabled: data?.isDisabled,
+        isActive: data?.isActive,
       },
       () => this.setState({ loading: true })
     );
@@ -72,6 +77,7 @@ export class EditGeneral extends Component {
       email: state.email,
       pin: state.pin,
       confirmPin: state.pin,
+      isActive: state.isActive,
       isDisabled: Number(state.isDisabled),
       driverLicense: data.driverLicense,
       socialSecurityNumber: data.socialSecurityNumber,
@@ -249,6 +255,25 @@ export class EditGeneral extends Component {
                   options={status}
                   onChange={(e) => this.setState({ isDisabled: e.value })}
                 />
+              )}
+            </div>
+            <div className="col-4">
+              {this.state.loading && (
+                <FormControl component="fieldset">
+                  <FormLabel component="legend"></FormLabel>
+                  <FormGroup aria-label="position" row>
+                    <FormControlLabel
+                      value={true}
+                      checked={this.state?.isActive}
+                      control={<Checkbox color="primary" />}
+                      label="Visible on App"
+                      labelPlacement="end"
+                      onClick={(e) =>
+                        this.setState({ isActive: e.target.checked })
+                      }
+                    />
+                  </FormGroup>
+                </FormControl>
               )}
             </div>
           </div>

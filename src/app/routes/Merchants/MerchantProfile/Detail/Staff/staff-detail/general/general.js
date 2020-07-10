@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Button from "@material-ui/core/Button";
-import formatPhone from "../../../../../../../util/formatPhone";
 
-import "../Staff.styles.scss";
+import Button from "@material-ui/core/Button";
+import formatPhone from "../../../../../../../../util/formatPhone";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import "../../Staff.styles.scss";
 export class general extends Component {
   render() {
     const Staff = this.props.Staff;
@@ -59,6 +64,20 @@ export class general extends Component {
             <div className="col-4">
               <label>Status</label>
               <p>{Staff?.isDisabled === 0 ? "Available" : "Not Available"}</p>
+            </div>
+            <div className="col-4">
+              <FormControl component="fieldset">
+                <FormLabel component="legend"></FormLabel>
+                <FormGroup aria-label="position" row>
+                  <FormControlLabel
+                    value="true"
+                    checked={Staff?.isActive}
+                    control={<Checkbox color="primary" />}
+                    label="Visible on App"
+                    labelPlacement="end"
+                  />
+                </FormGroup>
+              </FormControl>
             </div>
           </div>
           <div className="SettingsContent general-content">

@@ -1,9 +1,9 @@
 import React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
-import Time from "./time";
+import Time from "../time";
 import Select from "react-select";
 
-import "./Staff.styles.scss";
+import "../Staff.styles.scss";
 
 const WorkTime = ({
   handleSelect,
