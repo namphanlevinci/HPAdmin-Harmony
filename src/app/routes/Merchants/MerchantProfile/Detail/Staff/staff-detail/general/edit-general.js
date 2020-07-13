@@ -13,6 +13,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+
 import "react-phone-input-2/lib/high-res.css";
 import "../../Staff.styles.scss";
 
@@ -115,7 +116,6 @@ export class EditGeneral extends Component {
       { label: "Staff", value: "3" },
     ];
 
-    const Staff = this.props.Staff;
     return (
       <div className="content">
         <div className="container-fluid">

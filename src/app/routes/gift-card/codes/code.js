@@ -42,9 +42,7 @@ class Codes extends Component {
       data: [],
       // Search
       search: "",
-      isActive: 1,
-      isPhysical: -1,
-      isUsed: -1,
+
       isLoading: false,
       typeExport: { value: "excel", label: "Excel" },
       isPhysical: { value: -1, label: "Select" },
@@ -167,7 +165,7 @@ class Codes extends Component {
 
     const typeExport = [
       { value: "excel", label: "Excel" },
-      { value: "pdf", label: "Pdf" },
+      // { value: "pdf", label: "Pdf" },
     ];
 
     const columns = [

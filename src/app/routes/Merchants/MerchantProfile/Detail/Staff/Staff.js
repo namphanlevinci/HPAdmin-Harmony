@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FaTrashRestore, FaRegEdit } from "react-icons/fa";
+import { FaTrashRestore } from "react-icons/fa";
 import { GoTrashcan } from "react-icons/go";
 
 import { VIEW_STAFF } from "../../../../../../actions/merchants/actions";

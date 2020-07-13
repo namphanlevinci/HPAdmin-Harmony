@@ -11,8 +11,8 @@ import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import "../../../Merchants/MerchantProfile/Detail/Detail.css";
+
 const URL = config.url.URL;
-const upFile = config.url.upFile;
 
 class EditGeneral extends Component {
   constructor(props) {

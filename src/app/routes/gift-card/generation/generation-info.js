@@ -355,7 +355,7 @@ class Generation_Detail extends Component {
     ];
     const typeExport = [
       { value: "excel", label: "Excel" },
-      { value: "pdf", label: "Pdf" },
+      // { value: "pdf", label: "Pdf" },
     ];
     return (
       <div className="container-fluid react-transition swipe-right">
@@ -433,6 +433,9 @@ class Generation_Detail extends Component {
                 </Button>
               </div>
             </div>
+            <div style={{ zIndex: "9999" }}>
+              <ScaleLoader isLoading={this.state.isLoading} />
+            </div>
             <div className="giftcard_content">
               <h3 className="title">Gift Card Codes</h3>
               <div className="giftCard_search" style={{ marginBottom: "20px" }}>
@@ -452,6 +455,7 @@ class Generation_Detail extends Component {
                     onKeyPress={this.keyPressed}
                   />
                 </form>
+
                 <div
                   style={{
                     display: "flex",
@@ -504,10 +508,6 @@ class Generation_Detail extends Component {
                   defaultPageSize={10}
                 />
               )}
-
-              <div style={{ zIndex: "9999" }}>
-                <ScaleLoader isLoading={this.state.isLoading} />
-              </div>
             </div>
           </div>
         </div>
