@@ -14,6 +14,8 @@ import axios from "axios";
 
 import "./generation.styles.scss";
 
+const URL = config.url.URL;
+
 class AddGeneration extends Component {
   constructor(props) {
     super(props);

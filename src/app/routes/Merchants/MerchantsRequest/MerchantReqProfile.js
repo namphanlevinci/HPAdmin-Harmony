@@ -9,6 +9,7 @@ import { Checkbox } from "@material-ui/core";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { withRouter } from "react-router-dom";
 import { store } from "react-notifications-component";
+import { config } from "../../../../url/url";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -21,6 +22,8 @@ import formatPhone from "../../../../util/formatPhone";
 import "./MerchantReqProfile.css";
 import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
+
+const URL = config.url.URL;
 
 // PENDING MERCHANT PROFILE
 class MerchantReqProfile extends Component {
@@ -128,6 +131,7 @@ class MerchantReqProfile extends Component {
   }
   render() {
     const e = this.props.PendingProfile;
+
     let principalLength = this.props.PendingProfile?.principals?.length;
 
     // render Principal
@@ -198,11 +202,16 @@ class MerchantReqProfile extends Component {
               <div className="col-6">
                 <label>Driver License Picture*</label> <br />
                 {
-                  <img
-                    className="pending-image"
-                    src={`${e?.imageUrl}`}
-                    alt="void check"
-                  />
+                  <a
+                    href={`${URL}/file/${e?.fileId}?fileName=DriverLicense-${this.props.PendingProfile?.general?.doBusinessName}`}
+                    download
+                  >
+                    <img
+                      className="pending-image"
+                      src={`${e?.imageUrl}`}
+                      alt="driver license"
+                    />
+                  </a>
                 }
               </div>
               <hr />
@@ -553,12 +562,20 @@ class MerchantReqProfile extends Component {
                 </div>
                 <div className="col-4">
                   <label>Void Check*</label>
+
                   {e.businessBank !== null ? (
-                    <img
-                      className="pending-image"
-                      src={`${e.businessBank.imageUrl}`}
-                      alt="void check"
-                    />
+                    <a
+                      href={`${URL}/file/${
+                        e?.businessBank?.fileId
+                      }?fileName=VoidCheck-${(e?.general?.doBusinessName).trim()}`}
+                      download
+                    >
+                      <img
+                        className="pending-image"
+                        src={`${e.businessBank.imageUrl}`}
+                        alt="void check"
+                      />
+                    </a>
                   ) : null}
                 </div>
               </div>

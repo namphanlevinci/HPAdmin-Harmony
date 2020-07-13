@@ -72,8 +72,8 @@ class Bank extends Component {
               <label>Void Check*</label>
               <br />
               <a
-                href={`${URL}/file/${e?.businessBank?.fileId}`}
-                download={`VoidCheck-${e?.general?.doBusinessName}`}
+                href={`${URL}/file/${e?.businessBank?.fileId}?fileName=VoidCheck-${e?.general?.doBusinessName}`}
+                download
               >
                 <img
                   className="bankVoid"
