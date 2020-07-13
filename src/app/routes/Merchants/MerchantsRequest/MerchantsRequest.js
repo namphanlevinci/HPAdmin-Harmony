@@ -14,6 +14,7 @@ import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import moment from "moment";
+import ScaleLoader from "../../../../util/scaleLoader";
 
 import "react-table/react-table.css";
 import "./MerchantsRequest.css";
@@ -31,6 +32,7 @@ class MerchantsRequest extends Component {
       pageCount: 0,
       data: [],
       pageLoading: false,
+      isLoading: false,
     };
   }
 
@@ -99,6 +101,7 @@ class MerchantsRequest extends Component {
   };
 
   pendingProfile = (ID) => {
+    this.setState({ isLoading: true });
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
@@ -195,6 +198,8 @@ class MerchantsRequest extends Component {
               </form>
             </div>
           </div>
+          <ScaleLoader isLoading={this.state.isLoading} />
+
           <div className="merchant-list-container">
             <ReactTable
               manual

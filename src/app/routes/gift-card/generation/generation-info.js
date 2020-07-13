@@ -19,6 +19,8 @@ import CodeLog from "./code-log/code-log";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
 import Delete from "../delete-generation";
+import Select from "react-select";
+import ScaleLoader from "../../../../util/scaleLoader";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -38,6 +40,8 @@ class Generation_Detail extends Component {
       deleteID: "",
       openDelete: false,
       loadingData: false,
+      typeExport: { value: "excel", label: "Excel" },
+      isLoading: false,
     };
   }
 
@@ -204,6 +208,45 @@ class Generation_Detail extends Component {
       .catch((error) => console.log(error));
   };
 
+  getExport = () => {
+    this.setState({ isLoading: true });
+    const ID = this.props.Detail?.giftCardGeneralId;
+    axios
+      .get(
+        URL +
+          `/giftcard/getByGeneral/export/${ID}?keySearch=${this.state.search}&type=${this.state.typeExport.value}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.userLogin.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (Number(res.data.codeNumber) === 400 || res.data.data === null) {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+          this.setState({ isLoading: false });
+        } else {
+          setTimeout(() => {
+            window.open(res.data.data.path);
+            this.setState({ isLoading: false });
+          }, 1000);
+        }
+      });
+  };
+
   render() {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
     const Detail = this.props.GenerationByID;
@@ -310,7 +353,10 @@ class Generation_Detail extends Component {
         },
       },
     ];
-
+    const typeExport = [
+      { value: "excel", label: "Excel" },
+      { value: "pdf", label: "Pdf" },
+    ];
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -406,8 +452,32 @@ class Generation_Detail extends Component {
                     onKeyPress={this.keyPressed}
                   />
                 </form>
-                <label>Export To </label>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <label style={styles.h4}>Export to:</label>
+                  <div
+                    style={{
+                      width: "100px",
+                      zIndex: "9999",
+                      marginRight: "10px",
+                    }}
+                  >
+                    <Select
+                      value={this.state.typeExport}
+                      options={typeExport}
+                      onChange={(e) => this.setState({ typeExport: e })}
+                    />
+                  </div>
+                  <Button style={styles.btn} onClick={this.getExport}>
+                    Export
+                  </Button>
+                </div>
               </div>
+
               <Delete
                 handleCloseDelete={this.handleCloseDelete}
                 open={this.state.openDelete}
@@ -434,6 +504,10 @@ class Generation_Detail extends Component {
                   defaultPageSize={10}
                 />
               )}
+
+              <div style={{ zIndex: "9999" }}>
+                <ScaleLoader isLoading={this.state.isLoading} />
+              </div>
             </div>
           </div>
         </div>
@@ -458,3 +532,23 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Generation_Detail);
+
+const styles = {
+  label: {
+    fontSize: "16px",
+    padding: "15px 0px 3px 5px",
+  },
+  h2: {
+    color: "#4251af",
+    paddingBottom: "20px",
+  },
+  div: {
+    zIndex: "99999",
+  },
+  h4: {
+    margin: "5px 10px 0px 0px",
+  },
+  btn: {
+    padding: "7px 25px",
+  },
+};

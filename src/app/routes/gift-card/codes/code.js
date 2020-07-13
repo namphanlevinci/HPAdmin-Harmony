@@ -8,6 +8,7 @@ import { GoInfo } from "react-icons/go";
 import { GET_GIFT_CARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
+import { store } from "react-notifications-component";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -21,6 +22,7 @@ import axios from "axios";
 import moment from "moment";
 import Select from "react-select";
 import CodeLog from "../generation/code-log/code-log";
+import ScaleLoader from "../../../../util/scaleLoader";
 
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -43,6 +45,11 @@ class Codes extends Component {
       isActive: 1,
       isPhysical: -1,
       isUsed: -1,
+      isLoading: false,
+      typeExport: { value: "excel", label: "Excel" },
+      isPhysical: { value: -1, label: "Select" },
+      isActive: { value: -1, label: "Select" },
+      isUsed: { value: -1, label: "Select" },
     };
   }
 
@@ -56,13 +63,19 @@ class Codes extends Component {
     this.setState({ open: false });
   };
 
-  handleSearch = () => {
-    const { search, isActive, isPhysical, isUsed, page } = this.state;
+  fetchData = async (state) => {
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 10;
+
     this.setState({ loading: true });
-    axios
+    await axios
       .get(
         URL +
-          `/giftcard/search?keySearch=${search}&isActive=${isActive}&isPhysical=${isPhysical}&isUsed=${isUsed}&page=1&row=10`,
+          `/giftcard/search?keySearch=${this.state.search}&isActive=${
+            this.state.isActive.value
+          }&isPhysical=${this.state.isPhysical.value}&isUsed=${
+            this.state.isUsed.value
+          }&page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
         {
           headers: {
             Authorization: `Bearer ${this.props.userLogin.token}`,
@@ -87,32 +100,6 @@ class Codes extends Component {
       });
   };
 
-  fetchData = async (state) => {
-    const { page, pageSize } = state;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/giftcard/search?keySearch=&isActive=0&isPhysical=-1&isUsed=-1&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false,
-        });
-      });
-  };
-
   changePage = (pageIndex) => {
     this.setState({
       page: pageIndex,
@@ -128,7 +115,7 @@ class Codes extends Component {
   handEnter = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      this.handleSearch();
+      this.fetchData();
     }
   };
 
@@ -136,9 +123,52 @@ class Codes extends Component {
     this.setState({ search: e.target.value });
   };
 
+  getExport = (e) => {
+    this.setState({ isLoading: true });
+    axios
+      .get(
+        URL +
+          `/giftcard/search/export/${this.state.typeExport.value}?keySearch=&isActive=0&isPhysical=-1&isUsed=-1`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.userLogin.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (Number(res.data.codeNumber) === 400 || res.data.data === null) {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+          this.setState({ isLoading: false });
+        } else {
+          setTimeout(() => {
+            window.open(res.data.data.path);
+            this.setState({ isLoading: false });
+          }, 1000);
+        }
+      });
+  };
+
   render() {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
     const { page, pageCount, data } = this.state;
+
+    const typeExport = [
+      { value: "excel", label: "Excel" },
+      { value: "pdf", label: "Pdf" },
+    ];
 
     const columns = [
       {
@@ -245,16 +275,19 @@ class Codes extends Component {
     const isPhysical = [
       { value: 0, label: "False" },
       { value: 1, label: "True" },
+      { value: -1, label: "Select" },
     ];
 
     const isActive = [
       { value: 0, label: "False" },
       { value: 1, label: "True" },
+      { value: -1, label: "Select" },
     ];
 
     const isUsed = [
       { value: 0, label: "False" },
       { value: 1, label: "True" },
+      { value: -1, label: "Select" },
     ];
     return (
       <div className="container-fluid react-transition swipe-right">
@@ -280,42 +313,36 @@ class Codes extends Component {
                 />
               </form>
             </div>
-            <Button className="btn btn-green" onClick={this.handleSearch}>
+            <Button className="btn btn-green" onClick={this.fetchData}>
               Search
             </Button>
           </div>
           <div className="row">
-            <div className="col-4">
+            <div className="col-4" style={styles.div}>
               <label style={styles.label}>Physical Card</label>
               <Select
-                // value={this.state.isPhysical}
-                onChange={(e) => this.setState({ isPhysical: e.value })}
+                value={this.state.isPhysical}
+                onChange={(e) => this.setState({ isPhysical: e })}
                 name="isPhysical"
                 options={isPhysical}
               />
             </div>
-            <div className="col-4">
+            <div className="col-4" style={styles.div}>
               <label style={styles.label}>Active</label>
               <Select
-                // value={this.state.isActive}
-                onChange={this.handleChange("isActive")}
+                value={this.state.isActive}
+                onChange={(e) => this.setState({ isActive: e })}
                 name="isActive"
                 options={isActive}
               />
             </div>
-            <div className="col-4">
+            <div className="col-4" style={styles.div}>
               <label style={styles.label}>Used</label>
               <Select
-                // value={this.state.isUsed}
-                onChange={this.handleChange("isUsed")}
+                value={this.state.isUsed}
+                onChange={(e) => this.setState({ isUsed: e })}
                 name="isUsed"
                 options={isUsed}
-                styles={{
-                  menuPortal: (base) => {
-                    const { zIndex, ...rest } = base; // remove zIndex from base by destructuring
-                    return { ...rest, zIndex: 9999 };
-                  },
-                }}
               />
             </div>
           </div>
@@ -331,14 +358,41 @@ class Codes extends Component {
               deleteGeneration={this._Delete}
               text={"Template"}
             />
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h2 style={styles.h2}></h2>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                }}
+              >
+                <label style={styles.h4}>Export to:</label>
+                <div
+                  style={{
+                    width: "100px",
+                    zIndex: "9999",
+                    marginRight: "10px",
+                  }}
+                >
+                  <Select
+                    value={this.state.typeExport}
+                    options={typeExport}
+                    onChange={(e) => this.setState({ typeExport: e })}
+                  />
+                </div>
+                <Button style={styles.btn} onClick={this.getExport}>
+                  Export
+                </Button>
+              </div>
+            </div>
+            <ScaleLoader isLoading={this.state.isLoading} />
 
-            <h2 style={styles.h2}>Codes</h2>
             <ReactTable
               manual
               page={page}
               pages={pageCount}
               data={data}
-              // You should also control this...
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={10}
@@ -381,5 +435,14 @@ const styles = {
   h2: {
     color: "#4251af",
     paddingBottom: "20px",
+  },
+  div: {
+    zIndex: "99999",
+  },
+  h4: {
+    margin: "5px 10px 0px 0px",
+  },
+  btn: {
+    padding: "7px 25px",
   },
 };
