@@ -130,6 +130,17 @@ class EditPendingMerchant extends Component {
     });
   };
 
+  checkValid = () => {
+    if (this.validator.allValid()) {
+      return true;
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
+
+      return false;
+    }
+  };
+
   getData = async (e, setFieldValue, name) => {
     e.preventDefault();
     let imagePreview =
@@ -207,6 +218,7 @@ class EditPendingMerchant extends Component {
                   name="legalBusinessName"
                   initValue={this.state.legalBusinessName}
                   onChangeInput={this.handleChange}
+                  validator={this.validator}
                 />
 
                 <PendingInput
@@ -214,6 +226,7 @@ class EditPendingMerchant extends Component {
                   name="doBusinessName"
                   initValue={this.state.doBusinessName}
                   onChangeInput={this.handleChange}
+                  validator={this.validator}
                 />
 
                 <PendingInput
@@ -221,6 +234,7 @@ class EditPendingMerchant extends Component {
                   name="tax"
                   initValue={this.state.tax}
                   onChangeInput={this.handleChange}
+                  validator={this.validator}
                 />
 
                 <PendingInput
@@ -228,12 +242,14 @@ class EditPendingMerchant extends Component {
                   name="address"
                   initValue={this.state.address}
                   onChangeInput={this.handleChange}
+                  validator={this.validator}
                 />
                 <PendingInput
                   label="City"
                   name="city"
                   initValue={this.state.city}
                   onChangeInput={this.handleChange}
+                  validator={this.validator}
                 />
                 <div className="col-4" style={{ paddingTop: "10px" }}>
                   <label>State</label>
@@ -258,6 +274,7 @@ class EditPendingMerchant extends Component {
                   initValue={this.state.zip}
                   onChangeInput={this.handleChange}
                   inputStyles="inputPadding"
+                  validator={this.validator}
                 />
                 <PendingInput
                   label="Email Contact*"
@@ -265,6 +282,7 @@ class EditPendingMerchant extends Component {
                   initValue={this.state.emailContact}
                   onChangeInput={this.handleChange}
                   inputStyles="inputPadding"
+                  validator={this.validator}
                 />
                 <div className="col-4" style={{ paddingTop: "10px" }}>
                   <label>Business Phone Number</label>
@@ -298,6 +316,7 @@ class EditPendingMerchant extends Component {
                   initValue={this.state.firstName}
                   onChangeInput={this.handleChange}
                   inputStyles="inputPadding"
+                  validator={this.validator}
                 />
                 <PendingInput
                   styles="col-3"
@@ -306,7 +325,7 @@ class EditPendingMerchant extends Component {
                   initValue={this.state.lastName}
                   onChangeInput={this.handleChange}
                   inputStyles="inputPadding"
-                  v
+                  validator={this.validator}
                 />
                 <PendingInput
                   styles="col-3"
@@ -315,6 +334,7 @@ class EditPendingMerchant extends Component {
                   initValue={this.state.title}
                   onChangeInput={this.handleChange}
                   inputStyles="inputPadding"
+                  validator={this.validator}
                 />
 
                 <div className="col-3" style={{ paddingTop: "10px" }}>
@@ -350,6 +370,7 @@ class EditPendingMerchant extends Component {
                   name="bankName"
                   initValue={this.state.bankName}
                   onChangeInput={this.handleChange}
+                  validator={this.validator}
                 />
                 <PendingInput
                   styles="col-3"
@@ -357,6 +378,7 @@ class EditPendingMerchant extends Component {
                   name="accountHolderName"
                   initValue={this.state.accountHolderName}
                   onChangeInput={this.handleChange}
+                  validator={this.validator}
                 />
                 <PendingInput
                   styles="col-3"
@@ -364,6 +386,7 @@ class EditPendingMerchant extends Component {
                   name="routingNumber"
                   initValue={this.state.routingNumber}
                   onChangeInput={this.handleChange}
+                  validator={this.validator}
                 />
                 <PendingInput
                   styles="col-3"
@@ -371,6 +394,7 @@ class EditPendingMerchant extends Component {
                   name="accountNumber"
                   initValue={this.state.accountNumber}
                   onChangeInput={this.handleChange}
+                  validator={this.validator}
                 />
                 <div className="col-3" style={{ paddingTop: "10px" }}>
                   <label style={{ paddingBottom: "10px" }}>Void Check*</label>{" "}
@@ -403,6 +427,7 @@ class EditPendingMerchant extends Component {
             <div className="container-fluid justify-content-between">
               {this.state.loading && (
                 <EditPrincipal
+                  checkValid={this.checkValid}
                   initValue={this.state}
                   principals={this.state.principals}
                   getData={this.getData}

@@ -54,6 +54,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const EditPrincipal = ({
+  checkValid,
   principals,
   getData,
   initValue,
@@ -91,6 +92,8 @@ const EditPrincipal = ({
 
   const editMerchant = (principalInfo) => {
     let PrincipalInfo = principalInfo.PrincipalInfo;
+    const isValid = checkValid();
+    console.log("isValid", isValid);
     const body = {
       generalInfo: {
         businessName: initValue?.legalBusinessName,
@@ -127,51 +130,53 @@ const EditPrincipal = ({
       },
     };
 
-    axios
-      .put(URL + `/merchant/${initValue?.ID}`, body, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if ((res.status = 200)) {
-          store.addNotification({
-            title: "Success!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          setTimeout(() => {
-            getMerchantById(`${initValue?.ID}`);
-          }, 1000);
-        } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: "Something went wrong",
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (isValid) {
+      axios
+        .put(URL + `/merchant/${initValue?.ID}`, body, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          if ((res.status = 200)) {
+            store.addNotification({
+              title: "Success!",
+              message: `${res.data.message}`,
+              type: "success",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: true,
+              },
+              width: 250,
+            });
+            setTimeout(() => {
+              getMerchantById(`${initValue?.ID}`);
+            }, 1000);
+          } else {
+            store.addNotification({
+              title: "ERROR!",
+              message: "Something went wrong",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: true,
+              },
+              width: 250,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
   return (
     <div>
@@ -180,7 +185,8 @@ const EditPrincipal = ({
         validationSchema={validationSchema}
         initialValues={{ PrincipalInfo: principals }}
         onSubmit={(values) => editMerchant(values)}
-        render={({ values, setFieldValue, submitForm }) => (
+      >
+        {({ values, setFieldValue, submitForm }) => (
           <Form>
             <FieldArray
               name="PrincipalInfo"
@@ -500,7 +506,7 @@ const EditPrincipal = ({
             />
           </Form>
         )}
-      />
+      </Formik>
     </div>
   );
 };

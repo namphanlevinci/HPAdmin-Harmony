@@ -9,6 +9,7 @@ const pendingInput = ({
   initValue,
   styles,
   inputStyles,
+  validator,
 }) => (
   <div className={styles ? styles : "col-4"} style={{ paddingTop: "10px" }}>
     <label>{label}</label>
@@ -21,6 +22,9 @@ const pendingInput = ({
       placeholder={label}
       required
     />
+    <span style={{ color: "red", fontSize: "16px", fontWeight: "400px" }}>
+      {validator?.message(name, initValue, "required")}
+    </span>
   </div>
 );
 

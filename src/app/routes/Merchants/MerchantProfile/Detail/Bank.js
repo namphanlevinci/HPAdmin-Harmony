@@ -71,16 +71,16 @@ class Bank extends Component {
             <div className="col-4">
               <label>Void Check*</label>
               <br />
-              <a
+              {/* <a
                 href={`${URL}/file/${e?.businessBank?.fileId}?fileName=VoidCheck-${e?.general?.doBusinessName}`}
                 download
-              >
-                <img
-                  className="bankVoid"
-                  src={`${e?.businessBank?.imageUrl}`}
-                  alt="void check"
-                />
-              </a>
+              > */}
+              <img
+                className="bankVoid"
+                src={`${e?.businessBank?.imageUrl}`}
+                alt="void check"
+              />
+              {/* </a> */}
             </div>
             <br />
             {renderOldImg}
