@@ -44,7 +44,7 @@ export class general extends Component {
               <p>{Staff?.stateName}</p>
             </div>
             <div className="col-4">
-              <label>Zip</label>
+              <label>Zip Code</label>
               <p>{Staff?.zip}</p>
             </div>
             <div className="col-4">

@@ -10,43 +10,75 @@ const initialState = {
   viewUser: "",
   AddUser: "",
   VERIFY_NUMBER: "",
-  checkPermission: {
-    userModulePages: [
-      {
-        modulePage: "Request Management",
-        modulePageUrl: "user-roles-list",
-        moduleId: 2,
-        moduleName: "Administration",
-        modulePageId: 2,
-        actions: [
-          {
-            actionId: 2,
-            actionUrl: "merchant/pending",
-            action: "view-pending",
-            roleIsActive: true,
-          },
-          {
-            actionId: 2,
-            actionUrl: "merchant/pending",
-            action: "edit-pending",
-            roleIsActive: true,
-          },
-          {
-            actionId: 2,
-            actionUrl: "merchant/pending",
-            action: "reject-pending",
-            roleIsActive: true,
-          },
-          {
-            actionId: 2,
-            actionUrl: "merchant/pending",
-            action: "accept-pending",
-            roleIsActive: true,
-          },
-        ],
-      },
-    ],
-  },
+
+  userModulePages: [
+    {
+      modulePage: "Request Management",
+      modulePageUrl: "user-roles-list",
+      moduleId: 2,
+      moduleName: "Administration",
+      modulePageId: 2,
+      actions: [
+        {
+          actionId: 2,
+          actionUrl: "merchant/pending",
+          action: "view-pending",
+          roleIsActive: true,
+        },
+        {
+          actionId: 2,
+          actionUrl: "merchant/pending",
+          action: "edit-pending",
+          roleIsActive: true,
+        },
+        {
+          actionId: 2,
+          actionUrl: "merchant/pending",
+          action: "reject-pending",
+          roleIsActive: true,
+        },
+        {
+          actionId: 2,
+          actionUrl: "merchant/pending",
+          action: "accept-pending",
+          roleIsActive: true,
+        },
+      ],
+    },
+    {
+      modulePage: "Merchant",
+      modulePageUrl: "user-roles-list",
+      moduleId: 2,
+      moduleName: "Administration",
+      modulePageId: 2,
+      actions: [
+        {
+          actionId: 2,
+          actionUrl: "merchant/pending",
+          action: "view-pending",
+          roleIsActive: true,
+        },
+        {
+          actionId: 2,
+          actionUrl: "merchant/pending",
+          action: "edit-pending",
+          roleIsActive: true,
+        },
+        {
+          actionId: 2,
+          actionUrl: "merchant/pending",
+          action: "reject-pending",
+          roleIsActive: true,
+        },
+        {
+          actionId: 2,
+          actionUrl: "merchant/pending",
+          action: "accept-pending",
+          roleIsActive: true,
+        },
+      ],
+    },
+  ],
 };
 
 const userReducer = (state = initialState, { type, payload }) => {

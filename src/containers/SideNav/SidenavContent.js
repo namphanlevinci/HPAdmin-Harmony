@@ -88,9 +88,6 @@ class SidenavContent extends Component {
   }
 
   render() {
-    const checkPermission = this.props.checkPermission.userModulePages;
-    console.log("checkPermission", checkPermission);
-
     // const UserAdmin = this.props.userLogin.userAdmin.waRoleId;
     return (
       <CustomScrollbars className=" scrollbar">
@@ -112,7 +109,7 @@ class SidenavContent extends Component {
             checkPermission[0].actions[0].roleIsActive ? ( */}
 
           <li className="menu collapse-box">
-            {/* {CheckPermissions("Request Management", "edit-pending")} */}
+            {CheckPermissions("Request Management", "edit-pending")}
 
             <Button>
               <i className="zmdi zmdi-account-add zmdi-hc-fw" />

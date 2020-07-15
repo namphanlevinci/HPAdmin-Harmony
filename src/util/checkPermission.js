@@ -3,28 +3,23 @@ import configureStore from "../store";
 const { store } = configureStore();
 
 function CheckPermissions(name, permissionName) {
-  //   const Permissions = this.props.checkPermission;
-
   const getPermission = store.getState();
-  const checkPermission =
-    getPermission?.userReducer?.checkPermission?.userModulePages;
+  const checkPermission = getPermission?.userReducer?.userModulePages;
 
   // console.log("Permissions", checkPermission);
+  const findModuleByName = checkPermission.filter(
+    (module) => module.modulePage === name
+  );
+  // console.log("findModuleByName", findModuleByName);
 
-  const filterRoleByName = checkPermission
-    .filter((pageName) => pageName.modulePage === name)
-    .map((item) => item.actions);
-
-  const filterByAction = filterRoleByName[0].filter((permission) => {
+  const checkValid = findModuleByName[0]?.actions?.filter((permission) => {
+    // console.log("permission", permission);
     if (permission.action === permissionName) {
-      // console.log("permission", permission);
-      return { ...permission?.roleIsActive };
-    } else {
-      return false;
+      return permission.roleIsActive;
     }
   });
 
-  // console.log("filterByAction", filterByAction);
+  // console.log("checkValid", checkValid);
 }
 
 export default CheckPermissions;
