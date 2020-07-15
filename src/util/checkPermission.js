@@ -9,7 +9,7 @@ function CheckPermissions(name, permissionName) {
   const checkPermission =
     getPermission?.userReducer?.checkPermission?.userModulePages;
 
-  console.log("Permissions", checkPermission);
+  // console.log("Permissions", checkPermission);
 
   const filterRoleByName = checkPermission
     .filter((pageName) => pageName.modulePage === name)
@@ -17,14 +17,14 @@ function CheckPermissions(name, permissionName) {
 
   const filterByAction = filterRoleByName[0].filter((permission) => {
     if (permission.action === permissionName) {
-      console.log("permission", permission);
+      // console.log("permission", permission);
       return { ...permission?.roleIsActive };
     } else {
       return false;
     }
   });
 
-  console.log("filterByAction", filterByAction);
+  // console.log("filterByAction", filterByAction);
 }
 
 export default CheckPermissions;

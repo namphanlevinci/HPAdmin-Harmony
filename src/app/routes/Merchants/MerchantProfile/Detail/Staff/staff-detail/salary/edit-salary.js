@@ -5,7 +5,6 @@ import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import updateStaff from "../updateStaff";
-import Radio from "@material-ui/core/Radio";
 
 class EditSalary extends Component {
   constructor(props) {
