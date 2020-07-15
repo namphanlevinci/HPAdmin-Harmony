@@ -56,6 +56,7 @@ export class EditGeneral extends Component {
         isActive: data?.isActive,
         zip: data?.zip,
         imageUrl: data?.imageUrl,
+        fileId: data?.fileId,
       },
       () => this.setState({ loading: true })
     );
@@ -288,7 +289,7 @@ export class EditGeneral extends Component {
               )}
             </div>
             <div className="col-4" style={styles.div}>
-              <label>Zip</label>
+              <label>Zip Code</label>
               <input
                 name="zip"
                 value={this.state.zip}

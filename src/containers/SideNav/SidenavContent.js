@@ -88,9 +88,6 @@ class SidenavContent extends Component {
   }
 
   render() {
-    const checkPermission = this.props.checkPermission.userModulePages;
-    console.log("checkPermission", checkPermission);
-
     // const UserAdmin = this.props.userLogin.userAdmin.waRoleId;
     return (
       <CustomScrollbars className=" scrollbar">

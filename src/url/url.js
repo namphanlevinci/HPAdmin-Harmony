@@ -28,12 +28,5 @@ const dev = {
     upFile: "https://admin.harmonypayment.com/api/file?category=product",
   },
 };
-// staging
-// const dev = {
-//   url: {
-//     URL: "https://admin.stage.harmonypayment.com/api",
-//     upFile: "https://admin.stage.harmonypayment.com/api/file?category=service",
-//   },
-// };
 
 export const config = process.env.NODE_ENV === "development" ? dev : prod;

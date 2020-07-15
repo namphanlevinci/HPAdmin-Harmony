@@ -8,7 +8,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import IntlMessages from "../util/IntlMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import axios from "axios";
+import { config } from "../url/url";
 
+const URL = config.url.URL;
 class SignIn extends React.Component {
   constructor() {
     super();
@@ -21,9 +24,9 @@ class SignIn extends React.Component {
     };
   }
 
-  onSubmit = async (e) => {
-    const { email, password } = await this.state;
-    await this.props.USER_LOGIN_REQUEST({ email, password });
+  onSubmit = (e) => {
+    const { email, password } = this.state;
+    this.props.USER_LOGIN_REQUEST({ email, password });
   };
   componentDidMount() {
     document.addEventListener("keypress", this.keyPressed);
