@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import IntlMessages from "../../util/IntlMessages";
 import CustomScrollbars from "../../util/CustomScrollbars";
 import { connect } from "react-redux";
+import CheckPermissions from "../../util/checkPermission";
 
 class SidenavContent extends Component {
   componentDidMount() {
@@ -87,6 +88,9 @@ class SidenavContent extends Component {
   }
 
   render() {
+    const checkPermission = this.props.checkPermission.userModulePages;
+    console.log("checkPermission", checkPermission);
+
     // const UserAdmin = this.props.userLogin.userAdmin.waRoleId;
     return (
       <CustomScrollbars className=" scrollbar">
@@ -104,7 +108,12 @@ class SidenavContent extends Component {
             </NavLink>
           </li> */}
           {/*REQUEST MANAGEMENT */}
+          {/* {checkPermission[0].actions[0].action === "view-pending" ? (
+            checkPermission[0].actions[0].roleIsActive ? ( */}
+
           <li className="menu collapse-box">
+            {CheckPermissions("Request Management", "edit-pending")}
+
             <Button>
               <i className="zmdi zmdi-account-add zmdi-hc-fw" />
               <span className="nav-text">
@@ -135,6 +144,9 @@ class SidenavContent extends Component {
               </li>
             </ul>
           </li>
+          {/* ) : null
+          ) : null} */}
+
           {/* MERCHANT  */}
           <li className="menu no-arrow">
             <NavLink to="/app/merchants/list">
@@ -348,5 +360,6 @@ class SidenavContent extends Component {
 const mapStateToProps = (state) => ({
   PendingProfile: state.ViewMerchant_Request,
   userLogin: state.userReducer.User,
+  checkPermission: state.userReducer.checkPermission,
 });
 export default withRouter(connect(mapStateToProps)(SidenavContent));

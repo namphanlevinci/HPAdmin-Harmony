@@ -594,6 +594,7 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   ApprovalStatus: state.Approval,
   RejectStatus: state.Reject,
+  checkPermission: state.userReducer.checkPermission,
 });
 const mapDispatchToProps = (dispatch) => {
   return {

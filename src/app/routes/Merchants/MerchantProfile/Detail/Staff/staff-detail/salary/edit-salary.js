@@ -5,6 +5,7 @@ import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import updateStaff from "../updateStaff";
+import Radio from "@material-ui/core/Radio";
 
 class EditSalary extends Component {
   constructor(props) {
@@ -19,13 +20,13 @@ class EditSalary extends Component {
     const productSalaries = Salary?.productSalaries;
 
     this.setState({
-      salaryValue: salaries?.perHour?.value,
+      salaryValue: Number(salaries?.perHour?.value).toFixed(2),
       salaryIsCheck: salaries?.perHour?.isCheck,
       commIsCheck: salaries?.commission?.isCheck,
-      commValue: salaries?.commission?.value,
+      commValue: Number(salaries?.commission?.value).toFixed(2),
       tipValue: tipFees?.percent?.value,
       tipIsCheck: tipFees?.percent?.isCheck,
-      fixValue: tipFees?.fixedAmount?.value,
+      fixValue: Number(tipFees?.fixedAmount?.value).toFixed(2),
       fixIsCheck: tipFees?.fixedAmount?.isCheck,
       prodCommValue: productSalaries?.commission?.value,
       prodCommIsCheck: productSalaries?.commission?.isCheck,
@@ -35,7 +36,20 @@ class EditSalary extends Component {
   }
 
   handleCheckBox = (name) => (event) => {
-    this.setState({ ...this.state, [name]: event.target.checked });
+    const value = event.target.checked;
+    this.setState({ ...this.state, [name]: value });
+    if (name === "salaryIsCheck" && value === true) {
+      this.setState({ commIsCheck: false, commValue: 0 });
+    }
+    if (name === "commIsCheck" && value === true) {
+      this.setState({ salaryIsCheck: false, salaryValue: 0 });
+    }
+    if (name === "tipIsCheck" && value === true) {
+      this.setState({ fixIsCheck: false, fixValue: 0 });
+    }
+    if (name === "fixIsCheck" && value === true) {
+      this.setState({ tipIsCheck: false, tipValue: 0 });
+    }
   };
 
   handleChange = (event) => {
@@ -71,11 +85,13 @@ class EditSalary extends Component {
         street: data.address,
         city: data.city,
         state: data.stateId,
+        zip: data.zip,
       },
       cellphone: data.phone,
       email: data.email,
       pin: data.pin,
       confirmPin: data.pin,
+      fileId: data.fileId,
       isDisabled: Number(data.isDisabled),
       driverLicense: data.driverLicense,
       socialSecurityNumber: data.socialSecurityNumber,
@@ -150,7 +166,7 @@ class EditSalary extends Component {
                     <Checkbox
                       name="salaryIsCheck"
                       checked={salaryIsCheck}
-                      disabled={commIsCheck ? true : false}
+                      // disabled={commIsCheck ? true : false}
                       onChange={this.handleCheckBox("salaryIsCheck")}
                       inputProps={{
                         "aria-label": "primary checkbox",
@@ -174,7 +190,7 @@ class EditSalary extends Component {
                     <Checkbox
                       name="commIsCheck"
                       checked={commIsCheck}
-                      disabled={salaryIsCheck ? true : false}
+                      // disabled={salaryIsCheck ? true : false}
                       onChange={this.handleCheckBox("commIsCheck")}
                       inputProps={{
                         "aria-label": "primary checkbox",
@@ -201,7 +217,7 @@ class EditSalary extends Component {
                     <Checkbox
                       name="tipIsCheck"
                       checked={tipIsCheck}
-                      disabled={fixIsCheck ? true : false}
+                      // disabled={fixIsCheck ? true : false}
                       onChange={this.handleCheckBox("tipIsCheck")}
                       inputProps={{
                         "aria-label": "primary checkbox",
@@ -225,7 +241,7 @@ class EditSalary extends Component {
                     <Checkbox
                       name="fixIsCheck"
                       checked={fixIsCheck}
-                      disabled={tipIsCheck ? true : false}
+                      // disabled={tipIsCheck ? true : false}
                       onChange={this.handleCheckBox("fixIsCheck")}
                       inputProps={{
                         "aria-label": "primary checkbox",

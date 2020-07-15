@@ -18,7 +18,7 @@ export class general extends Component {
           <div className="header">
             <h2>General Information</h2>
           </div>
-          <div className="row justify-content-between">
+          <div className="row ">
             <div className="col-4">
               <label>First Name</label>
               <p>{Staff?.firstName}</p>
@@ -44,6 +44,10 @@ export class general extends Component {
               <p>{Staff?.stateName}</p>
             </div>
             <div className="col-4">
+              <label>Zip</label>
+              <p>{Staff?.zip}</p>
+            </div>
+            <div className="col-4">
               <label>Cell Phone</label>
               <p>{formatPhone(Staff?.phone)}</p>
             </div>
@@ -55,19 +59,8 @@ export class general extends Component {
               <label>PIN Code</label>
               <p>****</p>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-4">
-              <label>Role</label>
-              <p>{Staff?.roleName}</p>
-            </div>
-            <div className="col-4">
-              <label>Status</label>
-              <p>{Staff?.isDisabled === 0 ? "Available" : "Not Available"}</p>
-            </div>
             <div className="col-4">
               <FormControl component="fieldset">
-                <FormLabel component="legend"></FormLabel>
                 <FormGroup aria-label="position" row>
                   <FormControlLabel
                     value="true"
@@ -80,7 +73,31 @@ export class general extends Component {
               </FormControl>
             </div>
           </div>
-          <div className="SettingsContent general-content">
+          <div className="row">
+            <div className="col-4">
+              <label>Role</label>
+              <p>{Staff?.roleName}</p>
+            </div>
+            <div className="col-4">
+              <label>Status</label>
+              <p>{Staff?.isDisabled === 0 ? "Available" : "Not Available"}</p>
+            </div>
+            <div className="col-8">
+              <label>Avatar</label>
+              <div
+                style={{
+                  backgroundImage: `url(${Staff?.imageUrl})`,
+                  width: "220px",
+                  height: "220px",
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                  borderRadius: "50%",
+                }}
+              />
+            </div>
+          </div>
+          <div style={{ marginTop: "25px" }}>
             <Button
               className="btn btn-green"
               onClick={() =>

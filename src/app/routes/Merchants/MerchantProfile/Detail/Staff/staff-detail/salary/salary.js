@@ -24,10 +24,14 @@ export class salary extends Component {
                   "aria-label": "primary checkbox",
                 }}
               />
-              <label>Salary per hour</label>
+              <label>Salary Per Hour</label>
             </div>
             <div className="input-box">
-              <input type="text" value={salaries?.perHour?.value} disabled />
+              <input
+                type="text"
+                value={Number(salaries?.perHour?.value)?.toFixed(2)}
+                disabled
+              />
               <span className="unit">$</span>
             </div>
           </div>
@@ -43,7 +47,11 @@ export class salary extends Component {
               <label>Salary Commission</label>
             </div>
             <div className="input-box">
-              <input type="text" value={salaries?.commission?.value} disabled />
+              <input
+                type="text"
+                value={Number(salaries?.commission?.value)?.toFixed(2)}
+                disabled
+              />
               <span className="unit">$</span>
             </div>
           </div>
@@ -64,7 +72,7 @@ export class salary extends Component {
             </div>
             <div class="input-box">
               <input type="text" value={tipFees?.percent?.value} disabled />
-              <span class="unit">%</span>
+              <span className="unit">%</span>
             </div>
           </div>
           <div className="col-6">
@@ -79,7 +87,11 @@ export class salary extends Component {
               <label>Tip Fixed Amount</label>
             </div>
             <div className="input-box">
-              <input type="text" value={tipFees?.fixedAmount?.value} disabled />
+              <input
+                type="text"
+                value={Number(tipFees?.fixedAmount?.value)?.toFixed(2)}
+                disabled
+              />
               <span className="unit">$</span>
             </div>
           </div>
