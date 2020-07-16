@@ -208,7 +208,7 @@ const EditExtra = ({
                         onChange={(e) => setFieldValue("isDisabled", e.value)}
                         defaultValue={{
                           label:
-                            Number(isDisabled) === 0 ? "Active" : "Disable",
+                            Number(isDisabled) === 0 ? "Active" : "Inactive",
                         }}
                       />
                     </div>

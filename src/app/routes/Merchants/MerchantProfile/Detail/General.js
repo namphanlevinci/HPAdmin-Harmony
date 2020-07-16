@@ -51,7 +51,7 @@ class General extends Component {
             <p>{e?.addressFull}</p>
           </div>
           <div className="col-4">
-            <label>Zip code*</label>
+            <label>Zip Code*</label>
             <p>{e?.general?.zip}</p>
           </div>
           <div className="col-4">

@@ -19,7 +19,7 @@ const pendingInput = ({
       value={initValue ? initValue : ""}
       type={type ? type : "text"}
       className={inputStyles ? `${inputStyles} ` : ""}
-      placeholder={label}
+      // placeholder={label}
       required
     />
     <span style={{ color: "red", fontSize: "16px", fontWeight: "400px" }}>

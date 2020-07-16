@@ -70,17 +70,17 @@ class EditPendingMerchant extends Component {
   async componentDidMount() {
     const Profile = this.props.Profile;
 
-    // business question chưa work
-    const businessQuestion = await Profile?.business.map(function(item, index) {
-      const name = `question${index + 1}`;
-      return {
-        [name]: {
-          isAccept: item?.answer,
-          desc: item?.answerReply,
-          question: item?.question,
-        },
-      };
-    });
+    var BusinessQuestionObject = Profile?.business.reduce(
+      (obj, item, index) =>
+        Object.assign(obj, {
+          [`question${index + 1}`]: {
+            isAccept: item?.answer,
+            desc: item?.answerReply,
+            question: item?.question,
+          },
+        }),
+      {}
+    );
 
     this.setState(
       {
@@ -102,7 +102,7 @@ class EditPendingMerchant extends Component {
         title: Profile?.general?.title,
         phoneContact: Profile?.general?.phoneContact,
         // Business Questions
-        business: businessQuestion,
+        business: BusinessQuestionObject,
         // Bank Information
         bankName: Profile?.businessBank?.name,
         accountHolderName: Profile?.businessBank?.accountHolderName,
@@ -299,7 +299,7 @@ class EditPendingMerchant extends Component {
                   )}
                 </div>
               </div>
-              <h2
+              {/* <h2
                 style={{
                   paddingTop: "15px",
                   color: "#4251af",
@@ -307,7 +307,7 @@ class EditPendingMerchant extends Component {
                 }}
               >
                 Representative Information
-              </h2>
+              </h2> */}
               <div className="row justify-content-between">
                 <PendingInput
                   styles="col-3"
@@ -329,7 +329,7 @@ class EditPendingMerchant extends Component {
                 />
                 <PendingInput
                   styles="col-3"
-                  label="Title"
+                  label="Title/Position"
                   name="title"
                   initValue={this.state.title}
                   onChangeInput={this.handleChange}
@@ -366,15 +366,7 @@ class EditPendingMerchant extends Component {
               <div className="row ">
                 <PendingInput
                   styles="col-3"
-                  label="Bank Name"
-                  name="bankName"
-                  initValue={this.state.bankName}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                />
-                <PendingInput
-                  styles="col-3"
-                  label="Account Holder Name"
+                  label="Account Holder Name*"
                   name="accountHolderName"
                   initValue={this.state.accountHolderName}
                   onChangeInput={this.handleChange}
@@ -382,7 +374,16 @@ class EditPendingMerchant extends Component {
                 />
                 <PendingInput
                   styles="col-3"
-                  label="ABA Routing Number"
+                  label="Bank Name*"
+                  name="bankName"
+                  initValue={this.state.bankName}
+                  onChangeInput={this.handleChange}
+                  validator={this.validator}
+                />
+
+                <PendingInput
+                  styles="col-3"
+                  label="ABA Routing Number*"
                   name="routingNumber"
                   initValue={this.state.routingNumber}
                   onChangeInput={this.handleChange}

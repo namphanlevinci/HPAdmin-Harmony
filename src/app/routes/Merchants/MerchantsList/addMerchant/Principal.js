@@ -15,6 +15,7 @@ import Select from "react-select";
 import selectState from "../../../../../util/selectState";
 import MaskedInput from "react-text-mask";
 import LinearIndeterminate from "../../../../../util/linearProgress";
+import formatSSN from "../../../../../util/formatSSN";
 
 import "react-phone-input-2/lib/high-res.css";
 import "nprogress/nprogress.css";
@@ -277,54 +278,6 @@ class Principal extends Component {
                                       )
                                     }
                                   />
-                                  {/* <div
-                                    className="row form-group"
-                                    style={{ marginTop: "10px" }}
-                                  >
-                                    <div className="col-5">
-                                      <label> Code</label>
-                                      <Select
-                                        options={countryCode}
-                                        defaultValue={{
-                                          label: "+1",
-                                        }}
-                                        name="businessPhoneCode"
-                                        // onChange={handleCountryCode}
-                                      />
-                                    </div>
-                                    <div
-                                      className="col-7"
-                                      style={styles.phoneInput}
-                                    >
-                                      <label>Home Phone</label>
-                                      <MaskedInput
-                                        mask={[
-                                          /[1-9]/,
-                                          /\d/,
-                                          /\d/,
-                                          "-",
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                          "-",
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                        ]}
-                                        className="form-control"
-                                        style={{ padding: "8px 0px" }}
-                                        guide={false}
-                                        name={`principalInfo.${index}.mobilePhone`}
-                                        onChange={(e) =>
-                                          setFieldValue(
-                                            `principalInfo.${index}.homePhone`,
-                                            e
-                                          )
-                                        }
-                                      />
-                                    </div>
-                                  </div> */}
                                 </div>
                                 <div className="col-4">
                                   <label>Mobile Phone*</label>
@@ -340,55 +293,6 @@ class Principal extends Component {
                                       )
                                     }
                                   />
-                                  {/* <div
-                                    className="row form-group"
-                                    style={{ marginTop: "10px" }}
-                                  >
-                                    <div className="col-5">
-                                      <label> Code</label>
-                                      <Select
-                                        options={countryCode}
-                                        defaultValue={{
-                                          label: "+1",
-                                        }}
-                                        name="businessPhoneCode"
-                                        // onChange={handleCountryCode}
-                                      />
-                                    </div>
-                                    <div
-                                      className="col-6"
-                                      style={styles.phoneInput}
-                                    >
-                                      <label>Mobile Phone</label>
-                                      <MaskedInput
-                                        mask={[
-                                          /[1-9]/,
-                                          /\d/,
-                                          /\d/,
-                                          "-",
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                          "-",
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                        ]}
-                                        className="form-control"
-                                        style={{ padding: "8px 0px" }}
-                                        guide={false}
-                                        name={`principalInfo.${index}.mobilePhone`}
-                                        onChange={(e) =>
-                                          setFieldValue(
-                                            `principalInfo.${index}.mobilePhone`,
-                                            e
-                                          )
-                                        }
-                                      />
-                                    </div>
-                                  </div> */}
-
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.mobilePhone`}
@@ -495,16 +399,29 @@ class Principal extends Component {
                                       )
                                     }
                                   />
-                                  {/* <div className="input-feedback">
-                                    <ErrorMessage
-                                      name={`principalInfo.${index}.yearAtThisAddress`}
-                                    />
-                                  </div> */}
                                 </div>
                                 <div className="col-4">
                                   <label style={{ marginTop: "7px" }}>
                                     Social security Number (SSN)
                                   </label>
+                                  {/* 
+                                  <TextField
+                                    name={`principalInfo.${index}.ssn`}
+                                    values={`principalInfo.${index}.ssn`}
+                                    label="Social security Number (SSN)"
+                                    type="number"
+                                    margin="normal"
+                                    fullWidth
+                                    inputProps={{
+                                      maxLength: 4,
+                                    }}
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.ssn`,
+                                        formatSSN(e.target.value)
+                                      )
+                                    }
+                                  /> */}
                                   <MaskedInput
                                     mask={[
                                       /[1-9]/,

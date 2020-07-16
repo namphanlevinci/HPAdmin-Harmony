@@ -106,7 +106,7 @@ class productDetail extends Component {
                 <div className="col-4">
                   <label>Status</label>
                   <br />
-                  <p>{product.isDisabled !== 1 ? "Active" : "Disabled"}</p>
+                  <p>{product.isDisabled !== 1 ? "Active" : "Inactive"}</p>
                 </div>
                 <div className="col-12">
                   <label>Description</label>

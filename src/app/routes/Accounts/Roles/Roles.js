@@ -105,27 +105,10 @@ class Roles extends Component {
               </thead>
               <tbody>
                 <tr className="module">
-                  <th>Module 1</th>
+                  <th>Module 1: Request Management</th>
                 </tr>
                 <tr>
-                  <td>Many desktop publishing packages</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    a Latin professor at Hampden-Sydney College in Virginia
-                  </td>
+                  <td>View Request Management</td>
                   <td>
                     <Checkbox checked={true} style={styles.checkbox} />
                   </td>
@@ -140,7 +123,22 @@ class Roles extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>There are many variations of passages of Lorem</td>
+                  <td>View Pending Request</td>
+                  <td>
+                    <Checkbox checked={true} style={styles.checkbox} />
+                  </td>
+                  <td>
+                    <Checkbox checked={true} style={styles.checkbox} />
+                  </td>
+                  <td>
+                    <Checkbox checked={true} style={styles.checkbox} />
+                  </td>
+                  <td>
+                    <Checkbox checked={true} style={styles.checkbox} />
+                  </td>
+                </tr>
+                <tr>
+                  <td>View Approved Request</td>
                   <td>
                     <Checkbox checked={true} style={styles.checkbox} />
                   </td>
@@ -155,9 +153,7 @@ class Roles extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
+                  <td>View Rejected Request</td>
                   <td>
                     <Checkbox checked={true} style={styles.checkbox} />
                   </td>

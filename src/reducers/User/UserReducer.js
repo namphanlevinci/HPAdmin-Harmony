@@ -56,7 +56,7 @@ const initialState = {
           actionId: 2,
           actionUrl: "merchant/pending",
           action: "view-pending",
-          roleIsActive: true,
+          roleIsActive: false,
         },
         {
           actionId: 2,

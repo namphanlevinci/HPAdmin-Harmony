@@ -158,7 +158,11 @@ class Staff extends Component {
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: (e) => <span>{e.value === 1 ? "Disabled" : "Active"}</span>,
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
+            {e.value === 1 ? "Inactive" : "Active"}
+          </span>
+        ),
       },
       {
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,

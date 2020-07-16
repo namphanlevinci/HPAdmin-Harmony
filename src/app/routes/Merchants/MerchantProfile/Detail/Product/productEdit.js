@@ -377,7 +377,7 @@ class EditProduct extends Component {
                       Active
                     </option>
                     <option value="1" selected={this.state.isDisabled === 1}>
-                      Disable
+                      Inactive
                     </option>
                   </select>
 

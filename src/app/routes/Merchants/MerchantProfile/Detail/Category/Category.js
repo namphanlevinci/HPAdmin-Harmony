@@ -142,7 +142,11 @@ class Category extends Component {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: (e) => <div>{e.value === 0 ? "Active" : "Disable"}</div>,
+        Cell: (e) => (
+          <div style={{ fontWeight: 500 }}>
+            {e.value === 0 ? "Active" : "Inactive"}
+          </div>
+        ),
         width: 120,
       },
       {

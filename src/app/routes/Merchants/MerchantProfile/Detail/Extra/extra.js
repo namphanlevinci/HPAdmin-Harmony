@@ -230,7 +230,7 @@ class ExtraTab extends Component {
         Cell: (e) => (
           <div>
             <span style={styles.span}>
-              {e.value === 0 ? "Active" : "Disable"}
+              {e.value === 0 ? "Active" : "Inactive"}
             </span>
           </div>
         ),

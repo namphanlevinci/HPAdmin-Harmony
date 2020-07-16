@@ -564,7 +564,7 @@ class AddProduct extends Component {
                           styles={colourStyles}
                           options={[
                             { value: "0", label: "Active" },
-                            { value: "1", label: "Disable" },
+                            { value: "1", label: "Inactive" },
                           ]}
                           onChange={(selectedOption) => {
                             setFieldValue("isDisabled", selectedOption.value);

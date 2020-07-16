@@ -17,7 +17,7 @@ class Verify_User extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener("keypress", this.keyPressed);
+    // document.addEventListener("keypress", this.keyPressed);
     const messaging = firebase.messaging();
 
     messaging

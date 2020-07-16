@@ -200,7 +200,7 @@ class EditService extends Component {
   render() {
     const serviceStatus = [
       { value: "0", label: "Active" },
-      { value: "1", label: "Disable" },
+      { value: "1", label: "Inactive" },
     ];
     const service = this.props.SERVICE;
 
@@ -431,7 +431,7 @@ class EditService extends Component {
                               label:
                                 Number(this.state.isDisabled) === 0
                                   ? "Active"
-                                  : "Disable",
+                                  : "Inactive",
                             }}
                             onChange={(e) => {
                               this.setState({ isDisabled: e.value });

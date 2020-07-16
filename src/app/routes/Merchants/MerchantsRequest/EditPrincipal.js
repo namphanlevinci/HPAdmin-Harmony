@@ -77,23 +77,9 @@ const EditPrincipal = ({
       });
   };
 
-  // const formatPhone = (Phone) => {
-  //   return Phone.replace(/(\d{4})(\d{3})(\d{4})/, "+$1-$2-$3");
-  // };
-
-  // const principalPhone = (Phone) => {
-  //   if (Phone?.startsWith("1") || Phone?.startsWith("84")) {
-  //     return Phone?.replace(/[{( )}]/g, "")?.replace(
-  //       /(\d{5})\?(\d{3})\?(\d{4})/,
-  //       "+$1-$2-$3"
-  //     );
-  //   }
-  // };
-
   const editMerchant = (principalInfo) => {
     let PrincipalInfo = principalInfo.PrincipalInfo;
     const isValid = checkValid();
-    console.log("isValid", isValid);
     const body = {
       generalInfo: {
         businessName: initValue?.legalBusinessName,
@@ -114,7 +100,7 @@ const EditPrincipal = ({
         businessHourEnd: "11:00 PM",
         businessHourStart: "10:00 AM",
       },
-      businessInfo: {},
+      businessInfo: initValue?.business,
       bankInfo: {
         bankName: initValue?.bankName,
         routingNumber: initValue?.routingNumber,
@@ -227,7 +213,6 @@ const EditPrincipal = ({
                             >
                               <label>First Name</label>
                               <Field
-                                // className="form-control"
                                 placeholder="First Name"
                                 name={`PrincipalInfo.${index}.firstName`}
                                 values={`PrincipalInfo.${index}.firstName`}
@@ -242,7 +227,6 @@ const EditPrincipal = ({
                             >
                               <label>Last Name</label>
                               <Field
-                                // className="form-control"
                                 placeholder="First Name"
                                 name={`PrincipalInfo.${index}.lastName`}
                                 values={`PrincipalInfo.${index}.lastName`}
@@ -257,7 +241,6 @@ const EditPrincipal = ({
                             >
                               <label>Title</label>
                               <Field
-                                // className="form-control"
                                 placeholder="First Name"
                                 name={`PrincipalInfo.${index}.title`}
                                 values={`PrincipalInfo.${index}.title`}
@@ -269,7 +252,6 @@ const EditPrincipal = ({
                             <div className="col-4" style={styles.div}>
                               <label>Ownership (%)</label>
                               <Field
-                                // className="form-control"
                                 placeholder="Ownership (%)"
                                 name={`PrincipalInfo.${index}.ownerShip`}
                                 values={`PrincipalInfo.${index}.ownerShip`}
@@ -282,7 +264,6 @@ const EditPrincipal = ({
                             <div className="col-4" style={styles.div}>
                               <label>Address</label>
                               <Field
-                                // className="form-control"
                                 placeholder="Address"
                                 name={`PrincipalInfo.${index}.address`}
                                 values={`PrincipalInfo.${index}.address`}
@@ -295,10 +276,9 @@ const EditPrincipal = ({
                             <div className="col-4" style={styles.div}>
                               <label>Social Security Number (SSN)*</label>
                               <Field
-                                // className="form-control"
                                 placeholder="SSN"
                                 name={`PrincipalInfo.${index}.ssn`}
-                                values={SSN}
+                                values={`PrincipalInfo.${index}.fullSsn`}
                                 maxLength="9"
                               />
                               {/* 
@@ -370,7 +350,6 @@ const EditPrincipal = ({
                             <div className="col-4" style={styles.div}>
                               <label>Email Address *</label>
                               <Field
-                                // className="form-control"
                                 placeholder="Address"
                                 name={`PrincipalInfo.${index}.email`}
                                 values={`PrincipalInfo.${index}.email`}
@@ -407,7 +386,6 @@ const EditPrincipal = ({
                             <div className="col-4" style={styles.div}>
                               <label>Driver License Number*</label>
                               <Field
-                                // className="form-control"
                                 placeholder="Driver License Number*"
                                 name={`PrincipalInfo.${index}.driverNumber`}
                                 values={`PrincipalInfo.${index}.driverNumber`}

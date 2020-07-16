@@ -185,7 +185,7 @@ class Product extends Component {
         accessor: "isDisabled",
         Cell: (e) => (
           <span style={styles.span}>
-            {e.value === 0 ? "Active" : "Disable"}
+            {e.value === 0 ? "Active" : "Inactive"}
           </span>
         ),
         width: 120,

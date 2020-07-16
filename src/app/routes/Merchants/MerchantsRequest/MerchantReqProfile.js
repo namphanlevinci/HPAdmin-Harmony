@@ -131,7 +131,7 @@ class MerchantReqProfile extends Component {
   }
   render() {
     const e = this.props.PendingProfile;
-
+    console.log("e", e);
     let principalLength = this.props.PendingProfile?.principals?.length;
 
     // render Principal
@@ -537,12 +537,12 @@ class MerchantReqProfile extends Component {
               <h2 style={styles.h2}>Bank Information</h2>
               <div className="row">
                 <div className="col-3">
-                  <label>Bank Name*</label>
-                  <p>{e?.businessBank?.name}</p>
-                </div>
-                <div className="col-3">
                   <label>Account Holder Name*</label>
                   <p>{e?.businessBank?.accountHolderName}</p>
+                </div>
+                <div className="col-3">
+                  <label>Bank Name*</label>
+                  <p>{e?.businessBank?.name}</p>
                 </div>
                 <div className="col-3">
                   <label>Routing Number(ABA)*</label>

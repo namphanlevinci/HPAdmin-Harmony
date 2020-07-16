@@ -105,42 +105,46 @@ class SidenavContent extends Component {
             </NavLink>
           </li> */}
           {/*REQUEST MANAGEMENT */}
-          {/* {checkPermission[0].actions[0].action === "view-pending" ? (
-            checkPermission[0].actions[0].roleIsActive ? ( */}
+          {CheckPermissions("Request Management", "view-pending") ? (
+            <li className="menu collapse-box">
+              <Button>
+                <i className="zmdi zmdi-account-add zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.requestManagement" />
+                </span>
+              </Button>
+              <ul className="sub-menu">
+                <li>
+                  <NavLink className="prepend-icon" to="/app/merchants/pending">
+                    <span className="nav-text">
+                      <IntlMessages id="sidebar.dashboard.pendingRequest" />
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="prepend-icon"
+                    to="/app/merchants/approved"
+                  >
+                    <span className="nav-text">
+                      <IntlMessages id="sidebar.dashboard.approvedRequest" />
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="prepend-icon"
+                    to="/app/merchants/rejected"
+                  >
+                    <span className="nav-text">
+                      <IntlMessages id="sidebar.dashboard.rejectedRequest" />
+                    </span>
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
+          ) : null}
 
-          <li className="menu collapse-box">
-            {/* {CheckPermissions("Request Management", "edit-pending")} */}
-
-            <Button>
-              <i className="zmdi zmdi-account-add zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.requestManagement" />
-              </span>
-            </Button>
-            <ul className="sub-menu">
-              <li>
-                <NavLink className="prepend-icon" to="/app/merchants/pending">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.pendingRequest" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/merchants/approved">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.approvedRequest" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/merchants/rejected">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.rejectedRequest" />
-                  </span>
-                </NavLink>
-              </li>
-            </ul>
-          </li>
           {/* ) : null
           ) : null} */}
 
@@ -219,13 +223,13 @@ class SidenavContent extends Component {
                   </span>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink className="prepend-icon" to="/app/accounts/roles">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.roles" />
                   </span>
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink className="prepend-icon" to="/app/accounts/logs">
                   <span className="nav-text">

@@ -3,23 +3,37 @@ import configureStore from "../store";
 const { store } = configureStore();
 
 function CheckPermissions(name, permissionName) {
-  const getPermission = store.getState();
-  const checkPermission = getPermission?.userReducer?.userModulePages;
+  const Permission = store.getState();
+  const checkPermission = Permission?.userReducer?.userModulePages;
 
-  // console.log("Permissions", checkPermission);
-  const findModuleByName = checkPermission.filter(
-    (module) => module.modulePage === name
-  );
-  // console.log("findModuleByName", findModuleByName);
+  // console.log("checkPermission", checkPermission);
+  // console.log("name", name);
 
-  const checkValid = findModuleByName[0]?.actions?.filter((permission) => {
-    // console.log("permission", permission);
-    if (permission.action === permissionName) {
-      return permission.roleIsActive;
-    }
-  });
+  // const filterPermissionByPage = checkPermission.map(
+  //   (page) => page.modulePage === name
+  // );
 
-  // console.log("checkValid", checkValid);
+  const filterPermissionByPage = checkPermission
+    .filter((obj) => obj.modulePage === name)
+    .map((filteredObj) => filteredObj.actions);
+
+  // const coverToObject = filterPermissionByPage[0].reduce(
+  //   (obj, item) => ({ ...obj, [item.action]: item.roleIsActive }),
+  //   {}
+  // );
+
+  const getPermissionByName = filterPermissionByPage[0]
+    .filter(({ action }) => action === permissionName)
+    .reduce((obj, item) => item.roleIsActive, {});
+
+  // const checkPermissionByRole = coverToObject.filter(
+  //   (role) => role === permissionName
+  // );
+
+  // console.log("filterPermissionByPage", filterPermissionByPage);
+  // console.log("getPermissionByName", getPermissionByName);
+
+  return getPermissionByName;
 }
 
 export default CheckPermissions;

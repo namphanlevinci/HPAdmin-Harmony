@@ -144,7 +144,6 @@ class General extends Component {
     }
   }
   render() {
-    // const e = this.props.MerchantProfile;
     return (
       <div className="content general-content react-transition swipe-right">
         <div className="container-fluid">
@@ -166,7 +165,6 @@ class General extends Component {
                 value={this.state.doBusinessName}
                 onChange={this._handleChange}
                 style={styles.input}
-                // disabled
               ></input>
             </div>
             <div className="col-4">
@@ -177,7 +175,6 @@ class General extends Component {
                 onChange={this._handleChange}
                 style={styles.input}
                 maxLength="9"
-                // disabled
               ></input>
             </div>
             <div className="col-4">
@@ -187,7 +184,6 @@ class General extends Component {
                 value={this.state.address}
                 onChange={this._handleChange}
                 style={styles.input}
-                // disabled
               ></input>
             </div>
             <div className="col-4">
@@ -197,20 +193,10 @@ class General extends Component {
                 value={this.state.city}
                 onChange={this._handleChange}
                 style={styles.input}
-                // disabled
               ></input>
             </div>
             <div className="col-4">
               <label>State*</label>
-              {/* <input
-                name="stateId"
-                value={this.state.stateId}
-                onChange={this._handleChange}
-              ></input> */}
-              {/* <StateComponent
-                getStateId={this.getStateId}
-                setvalue={this.state.stateName}
-              /> */}
               {this.state.loading ? (
                 <Select
                   onChange={(e) => this.setState({ stateId: e.value })}
@@ -225,12 +211,6 @@ class General extends Component {
             </div>
             <div className="col-4">
               <label>Business Phone*</label>
-              {/* <input
-                name="phoneBusiness"
-                value={this.state.phoneBusiness}
-                onChange={this._handleChange}
-                style={styles.input}
-              ></input> */}
               <PhoneInput
                 placeholder="Business Phone Number"
                 name="businessPhone"
@@ -239,7 +219,7 @@ class General extends Component {
               />
             </div>
             <div className="col-4">
-              <label>Zip*</label>
+              <label>Zip Code*</label>
               <input
                 name="zip"
                 value={this.state.zip}
@@ -285,13 +265,6 @@ class General extends Component {
             </div>
             <div className="col-4">
               <label>Contact Phone Number*</label>
-              {/* <input
-                name="phoneContact"
-                value={this.state.phoneContact}
-                onChange={this._handleChange}
-                style={styles.input}
-              /> */}
-
               <PhoneInput
                 placeholder="Business Phone Number"
                 name="businessPhone"
