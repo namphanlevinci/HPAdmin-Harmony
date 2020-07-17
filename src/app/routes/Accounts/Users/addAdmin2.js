@@ -303,7 +303,7 @@ class addAdmin2 extends Component {
                     <TextField
                       label="First name*"
                       name="firstname"
-                      className="form-control"
+                      style={styles.input}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -317,7 +317,7 @@ class addAdmin2 extends Component {
                     <TextField
                       label="Last name*"
                       name="lastname"
-                      className="form-control"
+                      style={styles.input}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -346,7 +346,7 @@ class addAdmin2 extends Component {
                     <TextField
                       label="Address*"
                       name="address"
-                      className="form-control"
+                      style={styles.input}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -360,7 +360,7 @@ class addAdmin2 extends Component {
                     <TextField
                       label="City"
                       name="city"
-                      className="form-control"
+                      style={styles.input}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -390,7 +390,7 @@ class addAdmin2 extends Component {
                     <TextField
                       label="Email*"
                       name="email"
-                      className="form-control"
+                      style={styles.input}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -404,7 +404,7 @@ class addAdmin2 extends Component {
                     <TextField
                       label="Gender"
                       name="gender"
-                      className="form-control"
+                      style={styles.input}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -413,12 +413,31 @@ class addAdmin2 extends Component {
                       component="div"
                       className="error"
                     />
+
+                    {/* <Select
+                      // value={this.state.stateID}
+                      // onChange={(value) =>
+                      //   setFieldValue("stateID", value.value)
+                      // }
+                      textFieldProps={{
+                        label: 'Label',
+                        InputLabelProps: {
+                        shrink: true,
+                        },
+                        }}
+                      options={[
+                        { value: "Male", label: "Male" },
+                        { value: "Female", label: "Female" },
+                        { value: "Other", label: "Other" },
+                      ]}
+                      name="stateID"
+                    /> */}
                   </div>
-                  <div className="col-4">
+                  <div className="col-4" style={{ marginTop: "8px" }}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <label>Birthday</label> <br />
                       <KeyboardDatePicker
                         disableToolbar
+                        label="Birthday"
                         variant="inline"
                         format="MM/dd/yyyy"
                         margin="normal"
@@ -428,7 +447,7 @@ class addAdmin2 extends Component {
                         KeyboardButtonProps={{
                           "aria-label": "change date",
                         }}
-                        style={{ marginTop: "0px" }}
+                        style={{ marginTop: "0px", width: "100%" }}
                       />
                     </MuiPickersUtilsProvider>
                     <ErrorMessage
@@ -455,7 +474,7 @@ class addAdmin2 extends Component {
                   </div>
                 </div>
                 <div className="col-3">
-                  <label style={{ padding: "10px 0px", fontWeight: "600" }}>
+                  <label style={{ padding: "10px 0px", fontWeight: "400" }}>
                     Avatar
                   </label>
 
@@ -480,7 +499,7 @@ class addAdmin2 extends Component {
                       label="User Name*"
                       type="text"
                       name="userName"
-                      className="form-control"
+                      style={styles.input}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -492,10 +511,10 @@ class addAdmin2 extends Component {
                   </div>
                   <div className="col-4" style={styles.margin}>
                     <TextField
-                      label="Password"
+                      label="Password*"
                       type="password"
                       name="password"
-                      className="form-control"
+                      style={styles.input}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -507,10 +526,10 @@ class addAdmin2 extends Component {
                   </div>
                   <div className="col-4" style={styles.margin}>
                     <TextField
-                      label="Confirm Password"
+                      label="Confirm Password*"
                       type="password"
                       name="confirmPassword"
-                      className="form-control"
+                      style={styles.input}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -594,5 +613,8 @@ const styles = {
   },
   row: {
     padding: "0px 15px 0px 15px",
+  },
+  input: {
+    width: "100%",
   },
 };
