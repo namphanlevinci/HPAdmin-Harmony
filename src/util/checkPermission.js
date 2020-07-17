@@ -14,7 +14,7 @@ function CheckPermissions(name, permissionName) {
   // );
 
   const filterPermissionByPage = checkPermission
-    .filter((obj) => obj.modulePage === name)
+    ?.filter((obj) => obj.modulePage === name)
     .map((filteredObj) => filteredObj.actions);
 
   // const coverToObject = filterPermissionByPage[0].reduce(
