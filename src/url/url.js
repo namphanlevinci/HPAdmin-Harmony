@@ -22,10 +22,10 @@ const prod = {
 
 const dev = {
   url: {
-    // URL: "https://dev.harmonypayment.com/api",
-    // upFile: "https://dev.harmonypayment.com/api/file?category=service",
-    URL: "https://admin.harmonypayment.com/api",
-    upFile: "https://admin.harmonypayment.com/api/file?category=product",
+    URL: "https://dev.harmonypayment.com/api",
+    upFile: "https://dev.harmonypayment.com/api/file?category=service",
+    // URL: "https://admin.harmonypayment.com/api",
+    // upFile: "https://admin.harmonypayment.com/api/file?category=product",
   },
 };
 

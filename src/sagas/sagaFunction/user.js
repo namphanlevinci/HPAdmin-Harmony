@@ -6,7 +6,7 @@ import {
   ADD_USER_API,
   GET_USER_BY_ID_API,
 } from "../api/user";
-import { takeLatest, put } from "redux-saga/effects";
+import { takeLatest, put, takeEvery } from "redux-saga/effects";
 
 // USER ADMIN LOGIN
 export function* USER_LOGIN_SAGA() {

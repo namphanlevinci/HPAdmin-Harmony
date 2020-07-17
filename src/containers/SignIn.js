@@ -27,37 +27,7 @@ class SignIn extends React.Component {
 
   onSubmit = (e) => {
     const { email, password } = this.state;
-    // this.props.USER_LOGIN_REQUEST({ email, password });
-
-    axios
-      .post(URL + "/adminuser/login", {
-        email,
-        password,
-      })
-      .then((result) => {
-        const res = result.data;
-        if (Number(res.codeNumber) === 200) {
-          this.props.USER_LOGIN_SUCCESS(res.data);
-        } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.message}`,
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.props.USER_LOGIN_REQUEST({ email, password });
   };
   componentDidMount() {
     document.addEventListener("keypress", this.keyPressed);

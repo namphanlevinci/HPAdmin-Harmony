@@ -5,12 +5,10 @@ import { Route, Switch } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 // import { hot } from "react-hot-loader/root";
 
-import configureStore, { history } from "./store";
+import { history, store, persistor } from "./store";
 import App from "./containers/App";
 
 import "./app.css";
-
-export const { store, persistor } = configureStore();
 
 const MainApp = () => (
   <Provider store={store}>

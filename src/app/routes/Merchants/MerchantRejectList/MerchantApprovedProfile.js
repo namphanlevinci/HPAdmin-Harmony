@@ -82,7 +82,7 @@ class MerchantApprovedProfile extends Component {
                 <p>{e?.state?.name}</p>
               </div>
               <div className="col-6">
-                <label>Driver License Picture</label>
+                <label>Driver License Picture</label> <br />
                 {
                   <img
                     style={{ width: "250px", height: "200px" }}
