@@ -48,25 +48,26 @@ if (process.env.NODE_ENV === "development") {
   );
 }
 
-export default function configureStore(initialState) {
-  const store = createStore(
-    persistedReducer,
-    initialState,
-    compose(...enhancers)
-    // composeEnhancers(applyMiddleware(...middlewares))
-  );
-  let persistor = persistStore(store);
+// function configureStore(initialState) {
 
-  sagaMiddleware.run(rootSaga);
+//   if (module.hot) {
+//     // Enable Webpack hot module replacement for reducers
+//     module.hot.accept("../reducers/index", () => {
+//       const nextRootReducer = require("../reducers/index");
+//       // store.replaceReducer(nextRootReducer);
+//       store.replaceReducer(persistReducer(persistConfig, nextRootReducer));
+//     });
+//   }
+//   return { store, persistor };
+// }
 
-  if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
-    module.hot.accept("../reducers/index", () => {
-      const nextRootReducer = require("../reducers/index");
-      // store.replaceReducer(nextRootReducer);
-      store.replaceReducer(persistReducer(persistConfig, nextRootReducer));
-    });
-  }
-  return { store, persistor };
-}
-export { history };
+const store = createStore(
+  persistedReducer,
+  compose(...enhancers)
+  // composeEnhancers(applyMiddleware(...middlewares))
+);
+let persistor = persistStore(store);
+
+sagaMiddleware.run(rootSaga);
+
+export { history, store, persistor };

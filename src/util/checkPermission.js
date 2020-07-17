@@ -1,6 +1,4 @@
-import configureStore from "../store";
-
-const { store } = configureStore();
+import { store } from "../store";
 
 function CheckPermissions(name, permissionName) {
   const Permission = store.getState();

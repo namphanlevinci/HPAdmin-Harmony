@@ -162,7 +162,7 @@ class MerchantRejectedProfile extends Component {
                 <p>{e.state !== undefined ? e.state.name : null}</p>
               </div>
               <div className="col-6">
-                <label>Driver License Picture</label>
+                <label>Driver License Picture</label> <br />
                 {
                   <img
                     style={{ width: "250px", height: "200px" }}
@@ -317,13 +317,13 @@ class MerchantRejectedProfile extends Component {
                 </div>
                 <div className="col-4">
                   <label>Void Check*</label>
-                  <a href={`${URL}/file/${e?.businessBank?.fileId}`}>
-                    <img
-                      style={{ width: "300px" }}
-                      src={`${e?.businessBank?.imageUrl}`}
-                      alt="void check"
-                    />
-                  </a>
+                  {/* <a href={`${URL}/file/${e?.businessBank?.fileId}`}> */}
+                  <img
+                    style={{ width: "250px" }}
+                    src={`${e?.businessBank?.imageUrl}`}
+                    alt="void check"
+                  />
+                  {/* </a> */}
                 </div>
               </div>
               <h2 style={styles.h2}>Principal Information</h2>
