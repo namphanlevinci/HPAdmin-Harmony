@@ -6,7 +6,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import moment from "moment";
 
-import "./code_log.styles.scss";
+import "./code-log.styles.scss";
 
 const CodeLog = ({ open, handleClose, Log, Serial }) => {
   const renderLog = Log.map((e, index) => (
@@ -49,8 +49,8 @@ const CodeLog = ({ open, handleClose, Log, Serial }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  Log: state.GiftCardData.generationCode_log
+const mapStateToProps = (state) => ({
+  Log: state.GiftCardReducer.generationCode_log,
 });
 
 export default connect(mapStateToProps)(CodeLog);

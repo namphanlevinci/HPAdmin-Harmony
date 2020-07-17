@@ -7,7 +7,7 @@ import moment from "moment";
 import ReactTable from "react-table";
 import DateInput from "./date-input";
 import axios from "axios";
-import URL from "../../../../../url/url";
+import { config } from "../../../../../url/url";
 
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
@@ -17,6 +17,8 @@ import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import "./Consumer.css";
 import "../../../Merchants/MerchantsList/merchantsList.css";
+
+const URL = config.url.URL;
 
 class Acti extends Component {
   constructor(props) {
@@ -50,7 +52,7 @@ class Acti extends Component {
   };
 
   componentDidMount() {
-    const ID = this.props.MerchantProfile?._original?.userId;
+    const ID = this.props.MerchantProfile?.userId;
     this.setState(
       {
         ID: ID,

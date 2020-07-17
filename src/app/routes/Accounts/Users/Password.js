@@ -34,7 +34,7 @@ function Password({
           )}
         </span>
       </div> */}
-      <h2>New Password</h2>
+      <h2 style={styles.h2}>New Password</h2>
       <div className="row">
         <div className="col-4">
           <label>New Password</label>
@@ -94,7 +94,8 @@ const styles = {
     cursor: "pointer",
   },
   h2: {
-    fontWeight: "400",
+    fontWeight: "500",
+    color: "#4251af",
   },
   p: {
     color: "red",

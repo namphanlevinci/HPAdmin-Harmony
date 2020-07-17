@@ -1,16 +1,18 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getAll_Logs } from "../../../../actions/Logs/actions";
+import { Helmet } from "react-helmet";
+
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import "bootstrap/js/src/collapse.js";
 import moment from "moment";
 import "moment/locale/it";
-import React, { Component } from "react";
-import "react-datepicker/dist/react-datepicker.css";
-import { connect } from "react-redux";
-import { getAll_Logs } from "../../../../actions/Logs/actions";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-//DATE PICKER & MOMENT
+
 import IntlMessages from "../../../../util/IntlMessages";
 import "./Logs.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 class Logs extends Component {
   constructor(props) {
@@ -113,6 +115,9 @@ class Logs extends Component {
     });
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Log - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Logs" />}

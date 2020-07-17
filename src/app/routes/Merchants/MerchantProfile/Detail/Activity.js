@@ -11,7 +11,10 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 // import Button from "@material-ui/core/Button";
 import axios from "axios";
-import URL from "../../../../../url/url";
+import { config } from "../../../../../url/url";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 class MerchantActi extends Component {
   constructor(props) {
     super(props);

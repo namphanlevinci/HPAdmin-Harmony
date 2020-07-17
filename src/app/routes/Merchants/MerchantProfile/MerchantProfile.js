@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -31,7 +30,7 @@ import ProductEdit from "./Detail/Product/productEdit";
 import ProductAdd from "./Detail/Product/productAdd";
 // Staff
 import Staff from "./Detail/Staff/Staff";
-import AddStaff from "./Detail/Staff/add-staff";
+import AddStaff from "./Detail/Staff/add-staff/add-staff";
 // import StaffGeneral from "./Detail/Staff/staff-detail/staff-info";
 // Extra Tab
 import ExtraTab from "./Detail/Extra/extra";
@@ -60,7 +59,8 @@ class merchantProfile extends Component {
         <div className="container-fluid content-list">
           <ContainerHeader
             match={this.props.match}
-            title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
+            title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
+            disableBreadcrumb={true}
           />
           <div className="content-body page-heading">
             <div className="header col-md-12">

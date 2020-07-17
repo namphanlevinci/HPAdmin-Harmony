@@ -14,10 +14,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
 import EditExtra from "./edit-extra";
-import URL, { upFileUrl } from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import defaultImage from "./hpadmin2.png";
 import "react-table/react-table.css";
 
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 class ExtraTab extends Component {
   constructor(props) {
     super(props);
@@ -67,7 +69,7 @@ class ExtraTab extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -97,6 +99,7 @@ class ExtraTab extends Component {
     this.setState({ [name]: value });
   };
   handleEdit = (data) => {
+    console.log("data", data);
     const {
       duration,
       extraId,
@@ -107,6 +110,7 @@ class ExtraTab extends Component {
       description,
       imageUrl,
       fileId,
+      supplyFee,
     } = data;
     this.setState({
       duration,
@@ -118,6 +122,7 @@ class ExtraTab extends Component {
       description,
       imageUrl,
       fileId,
+      supplyFee,
     });
   };
 
@@ -225,7 +230,7 @@ class ExtraTab extends Component {
         Cell: (e) => (
           <div>
             <span style={styles.span}>
-              {e.value === 0 ? "Active" : "Disable"}
+              {e.value === 0 ? "Active" : "Inactive"}
             </span>
           </div>
         ),

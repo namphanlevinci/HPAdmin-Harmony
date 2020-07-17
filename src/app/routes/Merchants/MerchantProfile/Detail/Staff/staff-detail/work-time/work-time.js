@@ -5,7 +5,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
 
-import "../Staff.styles.scss";
+import "../../Staff.styles.scss";
 export class workTime extends Component {
   render() {
     const Time = this.props.Staff?.workingTimes;

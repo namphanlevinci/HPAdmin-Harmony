@@ -121,7 +121,8 @@ class MerchantApprovedProfile extends Component {
         <div className="container-fluid content-list react-transition swipe-right">
           <ContainerHeader
             match={this.props.match}
-            title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
+            title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
+            disableBreadcrumb={true}
           />
           <div className="content-body page-heading">
             <div className="header col-12">

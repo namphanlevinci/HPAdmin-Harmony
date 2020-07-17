@@ -43,13 +43,17 @@
 
   .extra-image-container {
     img {
-      width: 50%;
-      height: auto;
+      width: 250px;
+      height: 220px;
       max-width: 200px;
     }
-
+    
     input {
       padding-top: 1px;
     }
+    display: flex;
   }
+}
+.category-button {
+  padding-top: 30px;
 }

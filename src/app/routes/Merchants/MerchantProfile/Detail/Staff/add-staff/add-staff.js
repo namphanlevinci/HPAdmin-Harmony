@@ -13,9 +13,13 @@ import WorkTime from "./work-time";
 import Salary from "./salary";
 import License from "./license";
 import axios from "axios";
-import URL, { upFileUrl } from "../../../../../../url/url";
+import { config } from "../../../../../../../url/url";
 
-import "./Staff.styles.scss";
+import "../Staff.styles.scss";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
+
 class AddStaff extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +40,7 @@ class AddStaff extends Component {
       email: "",
       pin: "",
       confirmPin: "",
+      isActive: true,
       nameRole: { value: "admin", label: "Admin" },
       isDisabled: { value: "0", label: "Active" },
       // Work time
@@ -74,6 +79,8 @@ class AddStaff extends Component {
       // Product Commission
       prodCommValue: "",
       prodCommIsCheck: false,
+      // Salary pay in cash
+      cashPercent: 0,
       // License
       driverlicense: "",
       socialSecurityNumber: "",
@@ -82,6 +89,7 @@ class AddStaff extends Component {
 
       showPin: false,
       showConfirmPin: false,
+      progressLoading: false,
     };
 
     this.validator = new SimpleReactValidator();
@@ -116,7 +124,8 @@ class AddStaff extends Component {
         validator={this.validator}
         uploadFile={this.uploadFile}
         handleSelect={this.handleSelect}
-        toogleVisibility={this.toogleVisibility}
+        toggleVisibility={this.toggleVisibility}
+        handleCheckBox={this.handleCheckBox}
       />
     );
   };
@@ -159,31 +168,33 @@ class AddStaff extends Component {
     event.stopPropagation();
     event.preventDefault();
 
-    let reader = new FileReader();
-
+    this.setState({ progressLoading: true });
     const file = event.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
+
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          this.setState({
+            imagePreviewUrl: reader.result,
+            progressLoading: false,
+          });
+        };
+        reader.readAsDataURL(file);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  addStaf = () => {
+  addStaff = () => {
     const merchantId = this.props.MerchantProfile.merchantId;
     const {
       lastName,
@@ -207,6 +218,7 @@ class AddStaff extends Component {
       driverlicense,
       socialSecurityNumber,
       professionalLicense,
+      cashPercent,
       fileId,
       isCheck2,
       isCheck3,
@@ -216,9 +228,10 @@ class AddStaff extends Component {
       isCheck7,
       isCheck8,
       email,
+      isActive,
     } = this.state;
     const checkEmail =
-      email !== "" ? email : this.props?.userLogin?.User?.userAdmin.email;
+      email !== "" ? email : this.props?.userLogin?.userAdmin?.email;
     const nameRole = this.state.nameRole.value;
     const isDisabled = Number(this.state.isDisabled.value);
     const state = this.state.state.value;
@@ -245,6 +258,7 @@ class AddStaff extends Component {
           firstName,
           lastName,
           displayName,
+          isActive,
           address: {
             street,
             city,
@@ -256,6 +270,7 @@ class AddStaff extends Component {
           email: checkEmail,
           pin,
           confirmPin,
+          cashPercent: Number(cashPercent),
           roles: {
             nameRole,
           },
@@ -335,7 +350,23 @@ class AddStaff extends Component {
         }
       )
       .then((res) => {
-        if (res.data.message) {
+        if (Number(res.data.codeNumber) === 204) {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.data.message}`,
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+          });
+          this.setState({ activeStep: 0 });
+        }
+        if (Number(res.data.codeNumber) === 200) {
           store.addNotification({
             title: "SUCCESS!",
             message: `${res.data.message}`,
@@ -363,7 +394,7 @@ class AddStaff extends Component {
     this.setState({ cellphone: e });
   };
 
-  toogleVisibility = (name, value) => {
+  toggleVisibility = (name, value) => {
     this.setState({
       [name]: value,
     });
@@ -390,7 +421,7 @@ class AddStaff extends Component {
       }
 
       if (Number(activeStep) === 3) {
-        this.addStaf();
+        this.addStaff();
       } else {
         this.validator.showMessages();
         this.forceUpdate();
@@ -454,22 +485,42 @@ class AddStaff extends Component {
               ) : (
                 <div>
                   {this.getStepContent(activeStep)}
-                  <div style={{ paddingTop: "20px" }}>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={this.handleBack}
-                      className="btn btn-red"
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleNext}
-                      className="btn btn-green"
-                    >
-                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                    </Button>
+                  <div
+                    style={{
+                      paddingTop: "20px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      <Button
+                        disabled={activeStep === 0}
+                        onClick={this.handleBack}
+                        className="btn btn-red"
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleNext}
+                        className="btn btn-green"
+                      >
+                        {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                      </Button>
+                    </span>
+                    <span>
+                      <Button
+                        onClick={() =>
+                          this.props.history.push(
+                            "/app/merchants/profile/staff"
+                          )
+                        }
+                        className="btn btn-red"
+                      >
+                        Cancel
+                      </Button>
+                    </span>
                   </div>
                 </div>
               )}

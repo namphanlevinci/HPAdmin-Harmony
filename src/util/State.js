@@ -1,22 +1,22 @@
 import React, { Component } from "react";
-import URL from "../url/url";
+import { config } from "../url/url";
 import axios from "axios";
-
+const URL = config.url.URL;
 class StateComponent extends Component {
   state = {
-    CountryState: null
+    CountryState: null,
   };
   componentDidMount() {
     axios
       .get(URL + "/state")
-      .then(res => {
+      .then((res) => {
         this.setState({ CountryState: res.data.data });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
-  handleState = event => {
+  handleState = (event) => {
     const StateId = event.target.value;
     this.props.getStateId(StateId);
   };
@@ -24,7 +24,7 @@ class StateComponent extends Component {
     const { CountryState } = this.state;
     const mapState =
       CountryState !== null
-        ? CountryState.map(e => {
+        ? CountryState.map((e) => {
             return (
               <option key={e.stateId} value={e.stateId}>
                 {e.name}

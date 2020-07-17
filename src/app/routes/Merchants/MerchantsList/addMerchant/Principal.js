@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
-import { upFileUrl } from "../../../../../url/url";
+import { config } from "../../../../../url/url";
 import { IoIosClose } from "react-icons/io";
 
 import axios from "axios";
@@ -14,16 +14,23 @@ import TextField from "@material-ui/core/TextField";
 import Select from "react-select";
 import selectState from "../../../../../util/selectState";
 import MaskedInput from "react-text-mask";
+import LinearIndeterminate from "../../../../../util/linearProgress";
+import formatSSN from "../../../../../util/formatSSN";
 
 import "react-phone-input-2/lib/high-res.css";
 import "nprogress/nprogress.css";
 import "react-placeholder/lib/reactPlaceholder.css";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
+
 class Principal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       fileId: 0,
       loading: false,
+      progress: false,
     };
   }
 
@@ -31,32 +38,32 @@ class Principal extends Component {
     this.setState({ loading: true });
   }
 
-  _handleImageChange = (e, setFieldValue, name) => {
+  handleUploadImage = (e, setFieldValue, name) => {
     e.stopPropagation();
     e.preventDefault();
-    let reader = new FileReader();
-
+    this.setState({ progress: true });
     const previewImage =
       name === "principalInfo.0.fileId"
         ? "principalInfo.0.imageUrl"
         : "principalInfo.1.imageUrl";
 
-    // console.log("name", name);
-
     const file = e.target.files[0];
-    reader.onloadend = () => {
-      setFieldValue(previewImage, reader.result);
-    };
-    reader.readAsDataURL(file);
+
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         setFieldValue(name, res.data.data.fileId);
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          setFieldValue(previewImage, reader.result);
+        };
+        reader.readAsDataURL(file);
+        this.setState({ progress: false });
       })
       .catch((err) => {
         console.log(err);
@@ -78,10 +85,6 @@ class Principal extends Component {
   };
 
   render() {
-    // const countryCode = [
-    //   { value: "+1", label: "+1" },
-    //   { value: "+84", label: "+84" },
-    // ];
     // ValidationSchema
     const validationSchema = Yup.object().shape({
       principalInfo: Yup.array().of(
@@ -138,6 +141,7 @@ class Principal extends Component {
                   driverLicense: "",
                   stateIssued: "",
                   fileId: "",
+                  progress: false,
                 },
               ],
             }}
@@ -145,7 +149,8 @@ class Principal extends Component {
               this.props.handleNext();
               this.props.setDataPrincipal(values?.principalInfo);
             }}
-            render={({ values, setFieldValue, isSubmitting }) => (
+          >
+            {({ values, setFieldValue, isSubmitting }) => (
               <Form className="principal-form">
                 <FieldArray
                   name="principalInfo"
@@ -273,54 +278,6 @@ class Principal extends Component {
                                       )
                                     }
                                   />
-                                  {/* <div
-                                    className="row form-group"
-                                    style={{ marginTop: "10px" }}
-                                  >
-                                    <div className="col-5">
-                                      <label> Code</label>
-                                      <Select
-                                        options={countryCode}
-                                        defaultValue={{
-                                          label: "+1",
-                                        }}
-                                        name="businessPhoneCode"
-                                        // onChange={handleCountryCode}
-                                      />
-                                    </div>
-                                    <div
-                                      className="col-7"
-                                      style={styles.phoneInput}
-                                    >
-                                      <label>Home Phone</label>
-                                      <MaskedInput
-                                        mask={[
-                                          /[1-9]/,
-                                          /\d/,
-                                          /\d/,
-                                          "-",
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                          "-",
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                        ]}
-                                        className="form-control"
-                                        style={{ padding: "8px 0px" }}
-                                        guide={false}
-                                        name={`principalInfo.${index}.mobilePhone`}
-                                        onChange={(e) =>
-                                          setFieldValue(
-                                            `principalInfo.${index}.homePhone`,
-                                            e
-                                          )
-                                        }
-                                      />
-                                    </div>
-                                  </div> */}
                                 </div>
                                 <div className="col-4">
                                   <label>Mobile Phone*</label>
@@ -336,55 +293,6 @@ class Principal extends Component {
                                       )
                                     }
                                   />
-                                  {/* <div
-                                    className="row form-group"
-                                    style={{ marginTop: "10px" }}
-                                  >
-                                    <div className="col-5">
-                                      <label> Code</label>
-                                      <Select
-                                        options={countryCode}
-                                        defaultValue={{
-                                          label: "+1",
-                                        }}
-                                        name="businessPhoneCode"
-                                        // onChange={handleCountryCode}
-                                      />
-                                    </div>
-                                    <div
-                                      className="col-6"
-                                      style={styles.phoneInput}
-                                    >
-                                      <label>Mobile Phone</label>
-                                      <MaskedInput
-                                        mask={[
-                                          /[1-9]/,
-                                          /\d/,
-                                          /\d/,
-                                          "-",
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                          "-",
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                        ]}
-                                        className="form-control"
-                                        style={{ padding: "8px 0px" }}
-                                        guide={false}
-                                        name={`principalInfo.${index}.mobilePhone`}
-                                        onChange={(e) =>
-                                          setFieldValue(
-                                            `principalInfo.${index}.mobilePhone`,
-                                            e
-                                          )
-                                        }
-                                      />
-                                    </div>
-                                  </div> */}
-
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.mobilePhone`}
@@ -491,16 +399,29 @@ class Principal extends Component {
                                       )
                                     }
                                   />
-                                  {/* <div className="input-feedback">
-                                    <ErrorMessage
-                                      name={`principalInfo.${index}.yearAtThisAddress`}
-                                    />
-                                  </div> */}
                                 </div>
                                 <div className="col-4">
                                   <label style={{ marginTop: "7px" }}>
                                     Social security Number (SSN)
                                   </label>
+                                  {/* 
+                                  <TextField
+                                    name={`principalInfo.${index}.ssn`}
+                                    values={`principalInfo.${index}.ssn`}
+                                    label="Social security Number (SSN)"
+                                    type="number"
+                                    margin="normal"
+                                    fullWidth
+                                    inputProps={{
+                                      maxLength: 4,
+                                    }}
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `principalInfo.${index}.ssn`,
+                                        formatSSN(e.target.value)
+                                      )
+                                    }
+                                  /> */}
                                   <MaskedInput
                                     mask={[
                                       /[1-9]/,
@@ -632,6 +553,16 @@ class Principal extends Component {
                                           />
                                         )}
                                       </div>
+                                      {this.state.progress ? (
+                                        <div
+                                          style={{
+                                            width: "250px",
+                                            paddingTop: "10px",
+                                          }}
+                                        >
+                                          <LinearIndeterminate />
+                                        </div>
+                                      ) : null}
                                       <div className="input-feedback">
                                         <ErrorMessage
                                           name={`principalInfo.${index}.fileId`}
@@ -641,12 +572,12 @@ class Principal extends Component {
                                         type="file"
                                         className="custom-input"
                                         style={{
-                                          width: "25%",
+                                          width: "28%",
                                           marginTop: "10px",
                                         }}
                                         name={`principalInfo.${index}.fileId`}
                                         onChange={(e) =>
-                                          this._handleImageChange(
+                                          this.handleUploadImage(
                                             e,
                                             setFieldValue,
                                             `principalInfo.${index}.fileId`
@@ -676,7 +607,7 @@ class Principal extends Component {
                           className="add-remove-principal"
                           onClick={() => [arrayHelpers.push("")]}
                         >
-                          + Add Principal 222
+                          + Add Principal
                         </p>
                       )}
                       <div style={{ marginTop: "15px" }}>
@@ -691,6 +622,7 @@ class Principal extends Component {
                           type="submit"
                           className="btn btn-red"
                           style={{ backgroundColor: "#4251af", color: "white" }}
+                          disabled={this.state.progress ? true : false}
                         >
                           Next
                         </Button>
@@ -700,7 +632,7 @@ class Principal extends Component {
                 />
               </Form>
             )}
-          />
+          </Formik>
         )}
       </div>
     );

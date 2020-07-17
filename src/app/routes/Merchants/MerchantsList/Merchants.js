@@ -5,19 +5,22 @@ import {
   SearchMerchants,
   ViewProfile_Merchants,
 } from "../../../../actions/merchants/actions";
-import { store } from "react-notifications-component";
+import { Helmet } from "react-helmet";
+import { config } from "../../../../url/url";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
-import URL from "../../../../url/url";
 import axios from "axios";
+import ScaleLoader from "../../../../util/scaleLoader";
 
 import "react-table/react-table.css";
 import "./merchantsList.css";
 import "../MerchantsRequest/MerchantReqProfile.css";
+
+const URL = config.url.URL;
 
 class Merchants extends React.Component {
   constructor(props) {
@@ -30,6 +33,7 @@ class Merchants extends React.Component {
       pageCount: 0,
       data: [],
       pageLoading: false,
+      isLoading: false,
     };
   }
 
@@ -64,20 +68,7 @@ class Merchants extends React.Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.setState({ data: [] });
         }
         this.setState({ loading: false });
       });
@@ -93,6 +84,7 @@ class Merchants extends React.Component {
     this.props.history.push("/app/merchants/add");
   };
   merchantProfile = (ID) => {
+    this.setState({ isLoading: true });
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
@@ -167,7 +159,11 @@ class Merchants extends React.Component {
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: (e) => <span>{e.value === 0 ? "Active" : "Inactive"}</span>,
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
+            {e.value === 0 ? "Active" : "Inactive"}
+          </span>
+        ),
       },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
@@ -181,6 +177,9 @@ class Merchants extends React.Component {
     };
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Merchant - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.MList" />}
@@ -215,6 +214,7 @@ class Merchants extends React.Component {
               </Button>
             </div>
           </div>
+          <ScaleLoader isLoading={this.state.isLoading} />
           <div className="merchant-list-container">
             <ReactTable
               manual

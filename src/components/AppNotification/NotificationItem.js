@@ -7,9 +7,12 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import avatar from "./avatar.png";
 import moment from "moment";
-import URL from "../../url/url";
+import { config } from "../../url/url";
 
 import "./Noti.css";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 class NotificationItem extends Component {
   constructor(props) {
     super(props);

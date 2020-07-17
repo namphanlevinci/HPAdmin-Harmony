@@ -5,10 +5,12 @@ import { store } from "react-notifications-component";
 import IntlMessages from "util/IntlMessages";
 import ContainerHeader from "components/ContainerHeader/index";
 import Axios from "axios";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 
 import "../Setting.css";
 
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 class General extends Component {
   constructor(props) {
     super(props);

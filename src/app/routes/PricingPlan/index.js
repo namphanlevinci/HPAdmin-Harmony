@@ -1,15 +1,19 @@
 import React, { Component } from "react";
+import { config } from "../../../url/url";
+import { Helmet } from "react-helmet";
+
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import IntlMessages from "../../../util/IntlMessages";
 import SearchIcon from "@material-ui/icons/Search";
 // import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import axios from "axios";
-import URL from "../../../url/url";
 
 import "react-table/react-table.css";
 import "../Merchants/MerchantsList/merchantsList.css";
 import "../Merchants/MerchantsRequest/MerchantReqProfile.css";
+
+const URL = config.url.URL;
 
 class Pricing extends Component {
   constructor(props) {
@@ -66,6 +70,9 @@ class Pricing extends Component {
     return (
       <div className="app-wrapper ">
         <div className=" react-transition swipe-right container-fluid">
+          <Helmet>
+            <title>Pricing Plan - Harmony Admin</title>
+          </Helmet>
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.pricingPlan" />}

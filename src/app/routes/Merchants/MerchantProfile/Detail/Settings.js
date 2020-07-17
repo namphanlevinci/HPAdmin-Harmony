@@ -10,13 +10,16 @@ import { store } from "react-notifications-component";
 
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import URL from "../../../../../url/url";
+import { config } from "../../../../../url/url";
 import Popup from "reactjs-popup";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import "./Detail.css";
+const URL = config.url.URL;
+const upFile = config.url.upFile;
+
 class Settings extends Component {
   constructor(props) {
     super(props);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import URL, { upFileUrl } from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import { store } from "react-notifications-component";
 import { Formik } from "formik";
 
@@ -19,6 +19,9 @@ import "../Detail.css";
 import "../Service/service.style.scss";
 
 import { AiOutlineClose } from "react-icons/ai";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 const colourStyles = {
   control: (styles) => ({
@@ -101,7 +104,7 @@ class AddProduct extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -561,7 +564,7 @@ class AddProduct extends Component {
                           styles={colourStyles}
                           options={[
                             { value: "0", label: "Active" },
-                            { value: "1", label: "Disable" },
+                            { value: "1", label: "Inactive" },
                           ]}
                           onChange={(selectedOption) => {
                             setFieldValue("isDisabled", selectedOption.value);

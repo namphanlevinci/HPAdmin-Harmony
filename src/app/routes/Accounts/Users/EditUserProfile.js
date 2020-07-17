@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import URL, { upFileUrl } from "../../../../url/url";
+import { config } from "../../../../url/url";
+
 import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 import { store } from "react-notifications-component";
 import {
@@ -31,6 +32,8 @@ import "../../Merchants/MerchantProfile/Detail/Detail.css";
 //   { value: "3", label: "Staff Lv1" },
 //   { value: "4", label: "Staff Lv2" }
 // ];
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class EditUserProfile extends Component {
   constructor(props) {
@@ -115,7 +118,7 @@ class EditUserProfile extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
       })
@@ -281,9 +284,10 @@ class EditUserProfile extends Component {
                 <NavLink
                   to="/app/accounts/admin/profile/edit/general"
                   activeStyle={{
-                    fontWeight: "400",
+                    fontWeight: "500",
                     color: "#4251af",
-                    textDecoration: "underline",
+                    // textDecoration: "underline",
+                    opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: false })}
                 >
@@ -297,9 +301,10 @@ class EditUserProfile extends Component {
                 <NavLink
                   to="/app/accounts/admin/profile/edit/password"
                   activeStyle={{
-                    fontWeight: "400",
+                    fontWeight: "500",
                     color: "#4251af",
-                    textDecoration: "underline",
+                    // textDecoration: "underline",
+                    opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: true })}
                 >

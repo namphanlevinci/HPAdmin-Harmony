@@ -5,7 +5,7 @@ import { GoTrashcan } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
 
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
-import URL from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -19,7 +19,7 @@ import defaultImage from "../Extra/hpadmin2.png";
 import AddService from "./add-service";
 
 import "react-table/react-table.css";
-
+const URL = config.url.URL;
 class Service extends Component {
   constructor(props) {
     super(props);
@@ -198,7 +198,7 @@ class Service extends Component {
         accessor: "isDisabled",
         Cell: (e) => (
           <span style={styles.span}>
-            {e.value === 0 ? "Active" : "Disable"}
+            {e.value === 0 ? "Active" : "Inactive"}
           </span>
         ),
         width: 120,

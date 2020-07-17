@@ -1,6 +1,6 @@
 const Time = [
-  { value: "00:00 AM", label: "00:00 AM" },
-  { value: "00:30 AM", label: "00:30 AM" },
+  { value: "12:00 AM", label: "12:00 AM" },
+  { value: "12:30 AM", label: "12:30 AM" },
   { value: "01:00 AM", label: "01:00 AM" },
   { value: "01:30 AM", label: "01:30 AM" },
   { value: "02:00 AM", label: "02:00 AM" },

@@ -1,9 +1,9 @@
 import axios from "axios";
 import { select } from "redux-saga/effects";
-import URL from "../../url/url";
-
+import { config } from "../../url/url";
+const URL = config.url.URL;
 export function* GET_ALL_QUESTION_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -23,7 +23,7 @@ export function* GET_ALL_QUESTION_API() {
 
 // UPDATE QUESTIONS
 export function* UPDATE_QUESTION_API(Data) {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -44,7 +44,7 @@ export function* UPDATE_QUESTION_API(Data) {
 }
 
 export function* GET_ALL_USER_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {

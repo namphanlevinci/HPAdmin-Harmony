@@ -1,24 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getP2P_Transactions } from "../../../../actions/transactions/actions";
-import { store } from "react-notifications-component";
 import { DebounceInput } from "react-debounce-input";
+import { config } from "../../../../url/url";
+import { Helmet } from "react-helmet";
 
 import axios from "axios";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-// import "./Transactions.css";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
-import URL from "../../../../url/url";
 import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
+
+const URL = config.url.URL;
 
 class P2P extends React.Component {
   constructor(props) {
@@ -193,20 +193,7 @@ class P2P extends React.Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.setState({ data: [] });
         }
         this.setState({ loading: false });
       });
@@ -272,12 +259,15 @@ class P2P extends React.Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Gift Card Transaction - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
-          <div className="MReqSP TransactionsBox">
+          <div className=" TransactionsBox">
             {/* SEARCH */}
             <div className="search">
               <form>

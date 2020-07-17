@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import CustomScrollbars from "../../util/CustomScrollbars";
+// import CustomScrollbars from "../../util/CustomScrollbars";
 import { getAll_Notifications } from "../../actions/notifications/actions";
 import { withRouter } from "react-router-dom";
-import { BsPersonPlus } from "react-icons/bs";
+// import { BsPersonPlus } from "react-icons/bs";
 
 import InfiniteScroll from "react-infinite-scroller";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import avatar from "./avatar.png";
 import moment from "moment";
 import IconButton from "@material-ui/core/IconButton";

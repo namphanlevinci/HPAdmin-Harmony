@@ -1,6 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import defaultImage from "./hpadmin2.png";
+import LinearIndeterminate from "../../../../../util/linearProgress";
 
 import "./addMerchant.css";
 
@@ -90,6 +91,11 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
                   }
                   alt="void"
                 />
+                {value?.progress ? (
+                  <div style={{ width: "250px", paddingTop: "10px" }}>
+                    <LinearIndeterminate />
+                  </div>
+                ) : null}
                 {validator.message("fileId", value.fileId, "required|integer")}
               </div>
               <input

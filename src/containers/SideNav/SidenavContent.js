@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import IntlMessages from "../../util/IntlMessages";
 import CustomScrollbars from "../../util/CustomScrollbars";
 import { connect } from "react-redux";
+import CheckPermissions from "../../util/checkPermission";
 
 class SidenavContent extends Component {
   componentDidMount() {
@@ -104,37 +105,49 @@ class SidenavContent extends Component {
             </NavLink>
           </li> */}
           {/*REQUEST MANAGEMENT */}
-          <li className="menu collapse-box">
-            <Button>
-              <i className="zmdi zmdi-account-add zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.requestManagement" />
-              </span>
-            </Button>
-            <ul className="sub-menu">
-              <li>
-                <NavLink className="prepend-icon" to="/app/merchants/pending">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.pendingRequest" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/merchants/approved">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.approvedRequest" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/merchants/rejected">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.rejectedRequest" />
-                  </span>
-                </NavLink>
-              </li>
-            </ul>
-          </li>
+          {CheckPermissions("Request Management", "view-pending") ? (
+            <li className="menu collapse-box">
+              <Button>
+                <i className="zmdi zmdi-account-add zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.requestManagement" />
+                </span>
+              </Button>
+              <ul className="sub-menu">
+                <li>
+                  <NavLink className="prepend-icon" to="/app/merchants/pending">
+                    <span className="nav-text">
+                      <IntlMessages id="sidebar.dashboard.pendingRequest" />
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="prepend-icon"
+                    to="/app/merchants/approved"
+                  >
+                    <span className="nav-text">
+                      <IntlMessages id="sidebar.dashboard.approvedRequest" />
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="prepend-icon"
+                    to="/app/merchants/rejected"
+                  >
+                    <span className="nav-text">
+                      <IntlMessages id="sidebar.dashboard.rejectedRequest" />
+                    </span>
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
+          ) : null}
+
+          {/* ) : null
+          ) : null} */}
+
           {/* MERCHANT  */}
           <li className="menu no-arrow">
             <NavLink to="/app/merchants/list">
@@ -210,13 +223,13 @@ class SidenavContent extends Component {
                   </span>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink className="prepend-icon" to="/app/accounts/roles">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.roles" />
                   </span>
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink className="prepend-icon" to="/app/accounts/logs">
                   <span className="nav-text">
@@ -348,5 +361,6 @@ class SidenavContent extends Component {
 const mapStateToProps = (state) => ({
   PendingProfile: state.ViewMerchant_Request,
   userLogin: state.userReducer.User,
+  checkPermission: state.userReducer.checkPermission,
 });
 export default withRouter(connect(mapStateToProps)(SidenavContent));

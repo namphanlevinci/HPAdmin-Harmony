@@ -1,14 +1,14 @@
 import axios from "axios";
 import { select } from "redux-saga/effects";
-import URL from "../../url/url";
-
+import { config } from "../../url/url";
+const URL = config.url.URL;
 // GET GENERATION LIST
 export function* GET_GIFT_CARD_API() {
-  const getInfoLogin = (state) => state.User;
-  const InfoLogin = yield select(getInfoLogin);
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
-      Authorization: "Bearer " + InfoLogin.User.token,
+      Authorization: "Bearer " + infoLogin.token,
     },
   };
   const kq = yield axios
@@ -24,11 +24,11 @@ export function* GET_GIFT_CARD_API() {
 
 // GET GENERATION CODE BY ID
 export function* GET_GIFT_CARD_BY_ID_API(ID) {
-  const getInfoLogin = (state) => state.User;
-  const InfoLogin = yield select(getInfoLogin);
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
-      Authorization: "Bearer " + InfoLogin.User.token,
+      Authorization: "Bearer " + infoLogin.token,
     },
   };
   const kq = yield axios
@@ -44,11 +44,11 @@ export function* GET_GIFT_CARD_BY_ID_API(ID) {
 
 // GET GENERATION CODE LOG BY ID
 export function* GET_GIFT_CARD_CODE_LOG_BY_ID_API(ID) {
-  const getInfoLogin = (state) => state.User;
-  const InfoLogin = yield select(getInfoLogin);
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
-      Authorization: "Bearer " + InfoLogin.User.token,
+      Authorization: "Bearer " + infoLogin.token,
     },
   };
   const kq = yield axios
@@ -63,11 +63,11 @@ export function* GET_GIFT_CARD_CODE_LOG_BY_ID_API(ID) {
 }
 // GET TEMPLATE LIST
 export function* GET_TEMPLATE_API() {
-  const getInfoLogin = (state) => state.User;
-  const InfoLogin = yield select(getInfoLogin);
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
-      Authorization: "Bearer " + InfoLogin.User.token,
+      Authorization: "Bearer " + infoLogin.token,
     },
   };
   const kq = yield axios

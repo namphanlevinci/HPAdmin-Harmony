@@ -44,9 +44,9 @@ function Password({
           )}
         </span>
       </div> */}
-      <h2>Current Password</h2>
+      <h2 style={styles.h2}>Current Password</h2>
       <div className="row">
-        <div className="col-8">
+        <div className="col-12">
           <label>Current Password</label>
           <div style={{ display: "flex" }}>
             <input
@@ -60,9 +60,9 @@ function Password({
           {<p style={styles.p}>{errorCurrentPassword}</p>}
         </div>
       </div>
-      <h2>New Password</h2>
+      <h2 style={styles.h2}>New Password</h2>
       <div className="row">
-        <div className="col-4">
+        <div className="col-12">
           <label>New Password</label>
           <div style={{ display: "flex" }}>
             <input
@@ -70,12 +70,13 @@ function Password({
               name="newPassword"
               value={newPassword}
               onChange={handleChange}
-              //   style={styles.input}
+              style={styles.input}
             />
           </div>
           {<p style={styles.p}>{errorNewPassword}</p>}
         </div>
-        <div className="col-5">
+
+        <div className="col-12" style={styles.div}>
           <label>Confirm Password</label>
           <div>
             <input
@@ -83,7 +84,7 @@ function Password({
               name="confirmPassword"
               value={confirmPassword}
               onChange={handleChange}
-              //   style={styles.input}
+              style={styles.input}
             />
           </div>
           {<p style={styles.p}>{errorConfirmError}</p>}
@@ -105,7 +106,8 @@ const styles = {
     cursor: "pointer",
   },
   h2: {
-    fontWeight: "400",
+    fontWeight: "500",
+    color: "#4251af",
   },
   p: {
     color: "red",

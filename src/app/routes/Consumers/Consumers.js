@@ -2,18 +2,21 @@ import React from "react";
 import { connect } from "react-redux";
 import { ViewProfile_Merchants } from "../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
+import { config } from "../../../url/url";
+import { Helmet } from "react-helmet";
 
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
-import URL from "../../../url/url";
 
 import "../Merchants/MerchantsList/merchantsList.css";
 import "./ConsumerProfile/Detail/Consumer.css";
 import "react-table/react-table.css";
 import "../Reports/Transactions/Transactions.css";
+
+const URL = config.url.URL;
 
 class Consumers extends React.Component {
   constructor(props) {
@@ -104,6 +107,11 @@ class Consumers extends React.Component {
         width: 170,
       },
       {
+        Header: "Harmony ID",
+        accessor: "userId",
+        show: false,
+      },
+      {
         Header: "First name",
         accessor: "firstName",
         width: 130,
@@ -171,12 +179,15 @@ class Consumers extends React.Component {
     return (
       <>
         <div className="container-fluid">
+          <Helmet>
+            <title>Consumer - Harmony Admin</title>
+          </Helmet>
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.consumers" />}
           />
           <div className="MerList page-heading" style={{ padding: "10px" }}>
-            <div className="MReqSP TransactionsBox ">
+            <div className=" TransactionsBox ">
               {/* SEARCH */}
               <div className="search">
                 <form>

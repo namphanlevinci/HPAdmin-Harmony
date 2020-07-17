@@ -24,8 +24,8 @@ const persistConfig = {
     "getConsumerUsers",
     "getAllUser",
     "getLogs",
-    "getAllBatch"
-  ]
+    "getAllBatch",
+  ],
 };
 
 // import signalRMiddleware from "./signalRmiddleware"
@@ -36,14 +36,24 @@ const sagaMiddleware = createSagaMiddleware();
 
 const persistedReducer = persistReducer(persistConfig, reducers(history));
 
-const middlewares = [sagaMiddleware, routeMiddleware, logger];
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const middlewares = [sagaMiddleware, routeMiddleware];
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+let enhancers = [applyMiddleware(...middlewares)];
+
+if (process.env.NODE_ENV === "development") {
+  middlewares.push(logger);
+  enhancers.push(
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
+}
 
 export default function configureStore(initialState) {
   const store = createStore(
     persistedReducer,
     initialState,
-    composeEnhancers(applyMiddleware(...middlewares))
+    compose(...enhancers)
+    // composeEnhancers(applyMiddleware(...middlewares))
   );
   let persistor = persistStore(store);
 

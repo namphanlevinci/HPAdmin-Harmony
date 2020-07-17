@@ -1,7 +1,7 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 
-const getDisplayString = sub => {
+const getDisplayString = (sub) => {
   const arr = sub.split("-");
   if (arr.length > 1) {
     return (
@@ -23,27 +23,29 @@ const getUrlString = (path, sub, index) => {
   }
 };
 
-const ContainerHeader = ({ title, match }) => {
+const ContainerHeader = ({ title, match, disableBreadcrumb }) => {
   const path = match.path.substr(1);
   const subPath = path.split("/");
   return (
     <div className="page-heading d-sm-flex justify-content-sm-between align-items-sm-center">
       <h2 className="title mb-3 mb-sm-0">{title}</h2>
 
-      <Breadcrumb className="mb-0" tag="nav">
-        {subPath.map((sub, index) => {
-          return (
-            <BreadcrumbItem
-              active={subPath.length === index + 1}
-              tag={subPath.length === index + 1 ? "span" : "a"}
-              key={index}
-              href={getUrlString(path, sub, index)}
-            >
-              {getDisplayString(sub)}
-            </BreadcrumbItem>
-          );
-        })}
-      </Breadcrumb>
+      {disableBreadcrumb ? null : (
+        <Breadcrumb className="mb-0" tag="nav">
+          {subPath.map((sub, index) => {
+            return (
+              <BreadcrumbItem
+                active={subPath.length === index + 1}
+                tag={subPath.length === index + 1 ? "span" : "a"}
+                key={index}
+                href={getUrlString(path, sub, index)}
+              >
+                {getDisplayString(sub)}
+              </BreadcrumbItem>
+            );
+          })}
+        </Breadcrumb>
+      )}
     </div>
   );
 };

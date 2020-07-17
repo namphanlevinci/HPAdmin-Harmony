@@ -1,16 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
-import { VIEW_STAFF } from "../../../../../../../actions/merchants/actions";
+import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
+import { config } from "../../../../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import selectState from "../../../../../../../util/selectState";
+import selectState from "../../../../../../../../util/selectState";
 import PhoneInput from "react-phone-input-2";
-import updateStaff from "./updateStaff";
+import updateStaff from "../updateStaff";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import SimpleReactValidator from "simple-react-validator";
+import LinearProgress from "../../../../../../../../util/linearProgress";
+import axios from "axios";
 
 import "react-phone-input-2/lib/high-res.css";
-import "../Staff.styles.scss";
+import "../../Staff.styles.scss";
+
+const upFile = config.url.upFile;
 
 export class EditGeneral extends Component {
   constructor(props) {
@@ -18,7 +28,13 @@ export class EditGeneral extends Component {
     this.state = {
       showPin: true,
       loading: false,
+      loadingProgress: false,
     };
+    this.validator = new SimpleReactValidator({
+      messages: {
+        default: "Required!",
+      },
+    });
   }
 
   componentDidMount() {
@@ -37,6 +53,10 @@ export class EditGeneral extends Component {
         pin: data?.pin,
         roleName: data?.roleName,
         isDisabled: data?.isDisabled,
+        isActive: data?.isActive,
+        zip: data?.zip,
+        imageUrl: data?.imageUrl,
+        fileId: data?.fileId,
       },
       () => this.setState({ loading: true })
     );
@@ -63,15 +83,20 @@ export class EditGeneral extends Component {
       firstName: state.firstName,
       lastName: state.lastName,
       displayName: state.displayName,
+      cashPercent: data?.cashPercent,
+
       address: {
         street: state.address,
         city: state.city,
         state: state.stateId,
+        zip: state.zip,
       },
-      cellphone: this.formatPhone(state.phone),
+      cellphone: state.phone,
       email: state.email,
       pin: state.pin,
+      fileId: state.fileId,
       confirmPin: state.pin,
+      isActive: state.isActive,
       isDisabled: Number(state.isDisabled),
       driverLicense: data.driverLicense,
       socialSecurityNumber: data.socialSecurityNumber,
@@ -86,29 +111,52 @@ export class EditGeneral extends Component {
       MerchantId,
     };
 
-    const path = "/app/merchants/staff/general";
-    updateStaff(
-      ID,
-      body,
-      this.props.token,
-      this.props.VIEW_STAFF,
-      this.props.history,
-      path
-    );
+    if (this.validator.allValid()) {
+      const path = "/app/merchants/staff/general";
+      updateStaff(
+        ID,
+        body,
+        this.props.token,
+        this.props.VIEW_STAFF,
+        this.props.history,
+        path
+      );
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
   };
 
-  formatPhone = (Phone) => {
-    if (Phone.startsWith("1")) {
-      return Phone.replace(/[{( )}]/g, "").replace(
-        /(\d{4})\-?(\d{3})\-?(\d{4})/,
-        "+$1-$2-$3"
-      );
-    }
-    if (Phone.startsWith("84"))
-      return Phone.replace(/[{( )}]/g, "").replace(
-        /(\d{5})\-?(\d{3})\-?(\d{4})/,
-        "+$1-$2-$3"
-      );
+  uploadFile = (e) => {
+    e.preventDefault();
+
+    // handle preview Image
+    let file = e.target.files[0];
+    this.setState({ loadingProgress: true });
+
+    // handle upload image
+    let formData = new FormData();
+    formData.append("Filename3", file);
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+    axios
+      .post(upFile, formData, config)
+      .then((res) => {
+        this.setState({ fileId: res.data.data.fileId });
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          this.setState({
+            file: file,
+            imagePreviewUrl: reader.result,
+            loadingProgress: false,
+          });
+        };
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -122,22 +170,60 @@ export class EditGeneral extends Component {
       { label: "Staff", value: "3" },
     ];
 
-    const Staff = this.props.Staff;
-    console.log("Staff", Staff);
+    let { imagePreviewUrl } = this.state;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (
+        <div
+          style={{
+            backgroundImage: `url(${imagePreviewUrl})`,
+            width: "220px",
+            height: "220px",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            borderRadius: "50%",
+          }}
+        />
+      );
+    } else {
+      $imagePreview = (
+        <div
+          style={{
+            backgroundImage: `url(${this.state?.imageUrl})`,
+            width: "220px",
+            height: "220px",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            borderRadius: "50%",
+          }}
+        />
+      );
+    }
+
     return (
       <div className="content">
         <div className="container-fluid">
           <div className="header">
             <h2>General Information</h2>
           </div>
-          <div className="row justify-content-between">
+          <div className="row ">
             <div className="col-4">
               <label>First Name</label>
               <input
                 name="firstName"
                 value={this.state.firstName}
                 onChange={this.handleChange}
+                maxLength="90"
               />
+              <span style={styles.validation}>
+                {this.validator.message(
+                  "firstName",
+                  this.state.firstName,
+                  "required|alpha"
+                )}
+              </span>
             </div>
             <div className="col-4">
               <label>Last Name</label>
@@ -145,7 +231,15 @@ export class EditGeneral extends Component {
                 name="lastName"
                 value={this.state.lastName}
                 onChange={this.handleChange}
+                maxLength="90"
               />
+              <span style={styles.validation}>
+                {this.validator.message(
+                  "lastName",
+                  this.state.lastName,
+                  "required|alpha"
+                )}
+              </span>
             </div>
             <div className="col-4">
               <label>Display Name</label>
@@ -153,7 +247,15 @@ export class EditGeneral extends Component {
                 name="displayName"
                 value={this.state.displayName}
                 onChange={this.handleChange}
+                maxLength="90"
               />
+              <span style={styles.validation}>
+                {this.validator.message(
+                  "displayName",
+                  this.state.displayName,
+                  "required|string"
+                )}
+              </span>
             </div>
             <div className="col-4" style={styles.div}>
               <label>Address</label>
@@ -161,6 +263,7 @@ export class EditGeneral extends Component {
                 name="address"
                 value={this.state.address}
                 onChange={this.handleChange}
+                maxLength="90"
               />
             </div>
             <div className="col-4" style={styles.div}>
@@ -169,6 +272,7 @@ export class EditGeneral extends Component {
                 name="city"
                 value={this.state.city}
                 onChange={this.handleChange}
+                maxLength="90"
               />
             </div>
             <div className="col-4" style={styles.div}>
@@ -184,10 +288,18 @@ export class EditGeneral extends Component {
                 />
               )}
             </div>
+            <div className="col-4" style={styles.div}>
+              <label>Zip Code</label>
+              <input
+                name="zip"
+                value={this.state.zip}
+                onChange={this.handleChange}
+                maxLength="90"
+              />
+            </div>
+
             <div className="col-4" style={{ paddingTop: "5px" }}>
               <label>Cell Phone</label>
-              {/* <p>{Staff?.phone}</p> */}
-
               <PhoneInput
                 country={"us"}
                 value={this.state.phone}
@@ -200,13 +312,14 @@ export class EditGeneral extends Component {
                 name="email"
                 value={this.state.email}
                 onChange={this.handleChange}
+                maxLength="90"
               />
             </div>
             <div className="col-4" style={styles.div}>
               <label>PIN Code</label>
               <div style={{ display: "flex" }}>
                 <input
-                  style={styles.input}
+                  style={{ width: "100%" }}
                   name="pin"
                   type={this.state.showPin ? "password" : "text"}
                   value={this.state.pin}
@@ -229,12 +342,36 @@ export class EditGeneral extends Component {
                   )}
                 </span>
               </div>
+              <span style={styles.validation}>
+                {this.validator.message(
+                  "pin",
+                  this.state.pin,
+                  "required|numeric"
+                )}
+              </span>
+            </div>
+            <div className="col-4" style={{ marginTop: "20px" }}>
+              {this.state.loading && (
+                <FormControl component="fieldset">
+                  <FormGroup aria-label="position" row>
+                    <FormControlLabel
+                      value={true}
+                      checked={this.state?.isActive}
+                      control={<Checkbox color="primary" />}
+                      label="Visible on App"
+                      labelPlacement="end"
+                      onClick={(e) =>
+                        this.setState({ isActive: e.target.checked })
+                      }
+                    />
+                  </FormGroup>
+                </FormControl>
+              )}
             </div>
           </div>
           <div className="row" style={styles.div}>
             <div className="col-4">
               <label>Role</label>
-              {/* <p>{Staff?.roleName}</p> */}
               {this.state.loading && (
                 <Select
                   defaultValue={{
@@ -252,13 +389,28 @@ export class EditGeneral extends Component {
                 <Select
                   defaultValue={{
                     label:
-                      this.state.isDisabled === 0 ? "Availible" : "Disable",
+                      this.state.isDisabled === 0 ? "Available" : "Disable",
                     value: this.state.isDisabled,
                   }}
                   options={status}
                   onChange={(e) => this.setState({ isDisabled: e.value })}
                 />
               )}
+            </div>
+            <div className="col-8" style={{ paddingTop: "20px" }}>
+              <label>Avatar</label> <br />
+              {$imagePreview}
+              <div style={{ width: "40%", marginTop: "15px" }}>
+                {this.state.loadingProgress ? <LinearProgress /> : null}
+              </div>
+              <input
+                type="file"
+                name="image"
+                id="file"
+                className="custom-input"
+                onChange={(e) => this.uploadFile(e)}
+                style={{ width: "40%" }}
+              />
             </div>
           </div>
           <div className="SettingsContent general-content" style={styles.div}>
@@ -301,5 +453,9 @@ const styles = {
   },
   icon: {
     cursor: "pointer",
+  },
+  validation: {
+    color: "red",
+    fontSize: "16px",
   },
 };

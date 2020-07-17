@@ -1,6 +1,7 @@
 import axios from "axios";
 import { select } from "redux-saga/effects";
-import URL from "../../url/url";
+import { config } from "../../url/url";
+const URL = config.url.URL;
 
 export function* USER_LOGIN_API({ email, password }) {
   const kq = yield axios
@@ -9,7 +10,6 @@ export function* USER_LOGIN_API({ email, password }) {
       password,
     })
     .then((result) => {
-      console.log("result", result);
       return result.data;
     })
     .catch((err) => {
@@ -20,7 +20,6 @@ export function* USER_LOGIN_API({ email, password }) {
 
 // VERIFY USER
 export function* USER_VERIFY_API({ serial, code, token }) {
-  console.log("token", token);
   const kq = yield axios
     .post(URL + "/adminuser/verifycode/" + serial, { code, token })
     .then((result) => {

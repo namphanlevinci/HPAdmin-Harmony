@@ -25,12 +25,12 @@ class ConsumerProfile extends Component {
     super(props);
     this.state = {};
   }
-  handleTransactions = () => {
-    this.props.getTransactions(this.props.MerchantProfile?._original?.userId);
-  };
-  handleActivity = () => {
-    this.props.getActivity(this.props.MerchantProfile?._original?.userId);
-  };
+  // handleTransactions = () => {
+  //   this.props.getTransactions(this.props.MerchantProfile?.userId);
+  // };
+  // handleActivity = () => {
+  //   this.props.getActivity(this.props.MerchantProfile?.userId);
+  // };
   _goBack = () => {
     this.props.history.push("/app/consumers/list");
   };
@@ -43,7 +43,7 @@ class ConsumerProfile extends Component {
       <div className="container-fluid content-list">
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.merchantprofile" />}
+          title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
         />
         <div className="content-body page-heading">
           <div className="header col-md-12">
@@ -83,7 +83,7 @@ class ConsumerProfile extends Component {
                     <li>
                       <NavLink
                         to="/app/consumers/profile/activies"
-                        onClick={this.handleActivity}
+                        // onClick={this.handleActivity}
                       >
                         Activities
                       </NavLink>

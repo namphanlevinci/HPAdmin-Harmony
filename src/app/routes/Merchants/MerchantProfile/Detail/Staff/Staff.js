@@ -4,19 +4,24 @@ import { FaTrashRestore } from "react-icons/fa";
 import { GoTrashcan } from "react-icons/go";
 
 import { VIEW_STAFF } from "../../../../../../actions/merchants/actions";
+import { config } from "../../../../../../url/url";
+import { FiEdit } from "react-icons/fi";
 
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
-import URL from "../../../../../../url/url";
 import axios from "axios";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import formatPhone from "../../../../../../util/formatPhone";
+import ScaleLoader from "../../../../../../util/scaleLoader";
 
 import "react-table/react-table.css";
 import "../Detail.css";
+
+const URL = config.url.URL;
 
 class Staff extends Component {
   constructor(props) {
@@ -27,6 +32,8 @@ class Staff extends Component {
       loading: true,
       dialog: false,
       restoreDialog: false,
+      goToList: false,
+      isLoading: false,
     };
   }
 
@@ -82,6 +89,12 @@ class Staff extends Component {
     await this.setState({ search: e.target.value });
   };
 
+  viewStaff = async (data) => {
+    this.setState({ isLoading: true });
+    await this.props.VIEW_STAFF(data);
+    this.props.history.push("/app/merchants/staff/general");
+  };
+
   render() {
     let e = this.state.staff;
     if (e) {
@@ -105,28 +118,16 @@ class Staff extends Component {
       } else {
       }
     }
-    const onRowClick = (state, rowInfo, column, instance) => {
-      return {
-        onClick: (e) => {
-          if (column.id !== "roleName") {
-            this.props.history.push("/app/merchants/staff/general");
-            this.props.VIEW_STAFF(rowInfo.original);
-          } else {
-          }
-        },
-      };
-    };
 
     const columns = [
       {
-        Header: "ID",
+        Header: "Staff ID",
         accessor: "staffId",
-        width: 50,
+        width: 80,
       },
       {
         Header: "Name",
         id: "fullName",
-        width: 150,
         accessor: (d) => (
           <span
             style={{ fontWeight: 500 }}
@@ -136,36 +137,37 @@ class Staff extends Component {
       {
         id: "Display",
         Header: "Display Name",
-        width: 150,
         accessor: (d) => (
           <span style={{ fontWeight: 500 }}>{`${d.displayName}`}</span>
         ),
       },
       {
         Header: "Phone",
-        accessor: "phone",
-        width: 150,
+        id: "Phone",
+        accessor: (row) => <span>{formatPhone(row?.phone)}</span>,
       },
       {
         Header: "Email",
         accessor: "email",
-        width: 240,
+        width: 230,
       },
       {
         Header: "Role",
         accessor: "roleName",
-        width: 100,
       },
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: (e) => <span>{e.value === 1 ? "Disabled" : "Active"}</span>,
-        width: 100,
+        Cell: (e) => (
+          <span style={{ fontWeight: 500 }}>
+            {e.value === 1 ? "Inactive" : "Active"}
+          </span>
+        ),
       },
       {
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
         sortable: false,
-        accessor: "roleName",
+        accessor: "actions",
         Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
@@ -178,6 +180,7 @@ class Staff extends Component {
                       dialog: true,
                     }),
                   ]}
+                  style={style.icon}
                 />
               ) : (
                 <FaTrashRestore
@@ -188,8 +191,16 @@ class Staff extends Component {
                       restoreDialog: true,
                     })
                   }
+                  style={style.icon}
                 />
               )}
+              <span style={{ paddingLeft: "10px" }}>
+                <FiEdit
+                  size={19}
+                  style={style.icon}
+                  onClick={() => this.viewStaff(row.original)}
+                />
+              </span>
             </div>
           );
         },
@@ -224,6 +235,7 @@ class Staff extends Component {
               </Button>
             </div>
           </div>
+          <ScaleLoader isLoading={this.state.isLoading} />
           <div className="merchant-list-container">
             <ReactTable
               data={e}
@@ -232,7 +244,6 @@ class Staff extends Component {
               minRows={1}
               noDataText="NO DATA!"
               loading={this.state.loading}
-              getTdProps={onRowClick}
             />
 
             {/* ARCHIVE */}
@@ -323,3 +334,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Staff);
+
+const style = {
+  icon: {
+    cursor: "pointer",
+  },
+};

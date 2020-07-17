@@ -1,5 +1,5 @@
 import React from "react";
-import URL, { upFileUrl } from "../../../../../url/url";
+import { config } from "../../../../../url/url";
 import { store } from "react-notifications-component";
 
 import SimpleReactValidator from "simple-react-validator";
@@ -19,6 +19,9 @@ import PricingPlan from "./PricingPlan";
 
 import "../merchantsList.css";
 import "./add-merchant.styles.scss";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 const initialState = {
   imagePreviewUrl: "",
@@ -57,6 +60,7 @@ const initialState = {
 
   //
   isSubmitting: false,
+  progress: false,
 };
 
 class AddMerchant extends React.Component {
@@ -162,25 +166,27 @@ class AddMerchant extends React.Component {
   uploadFile = (event) => {
     event.stopPropagation();
     event.preventDefault();
-
-    let reader = new FileReader();
+    this.setState({ progress: true });
 
     const file = event.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
+
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ fileId: res.data.data.fileId });
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          this.setState({
+            imagePreviewUrl: reader.result,
+            progress: false,
+          });
+        };
       })
       .catch((err) => {
         console.log(err);
@@ -440,7 +446,11 @@ class AddMerchant extends React.Component {
                             else this.handleNext();
                           }}
                           style={{ backgroundColor: "#4251af", color: "white" }}
-                          disabled={this.state.isSubmitting}
+                          disabled={
+                            this.state.isSubmitting || this.state.progress
+                              ? true
+                              : false
+                          }
                         >
                           {activeStep === steps.length - 1 ? "Submit" : "Next"}
                         </Button>

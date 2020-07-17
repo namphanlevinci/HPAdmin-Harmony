@@ -9,7 +9,7 @@ import {
   HORIZONTAL_NAVIGATION,
 } from "../constants/ActionTypes";
 import { isIOS, isMobile } from "react-device-detect";
-import { AnimatedRoute } from "react-router-transition";
+// import { AnimatedRoute } from "react-router-transition";
 
 import asyncComponent from "../util/asyncComponent";
 import TopNav from "../components/TopNav";
@@ -21,7 +21,7 @@ import Footer from "../components/Footer";
 import Accounts from "./routes/Accounts/Accounts";
 import Settings from "./routes/AdminSettings/Settings";
 import Business from "./routes/Business/Business";
-import Dashboard from "./routes/dashboard/dashboard";
+// import Dashboard from "./routes/dashboard/dashboard";
 import Consumers from "./routes/Consumers/index";
 import Reports from "./routes/Reports/Reports";
 import GiftCard from "./routes/gift-card/index";

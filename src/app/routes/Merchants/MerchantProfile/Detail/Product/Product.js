@@ -7,7 +7,7 @@ import { FiEdit } from "react-icons/fi";
 
 import ReactTable from "react-table";
 import axios from "axios";
-import URL from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -22,7 +22,7 @@ import Slide from "@material-ui/core/Slide";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
+const URL = config.url.URL;
 class Product extends Component {
   constructor(props) {
     super(props);
@@ -185,7 +185,7 @@ class Product extends Component {
         accessor: "isDisabled",
         Cell: (e) => (
           <span style={styles.span}>
-            {e.value === 0 ? "Active" : "Disable"}
+            {e.value === 0 ? "Active" : "Inactive"}
           </span>
         ),
         width: 120,

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { VIEW_STAFF } from "../../../../../../../actions/merchants/actions";
+import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 
 import Checkbox from "@material-ui/core/Checkbox";
-import Time from "../time";
+import Time from "../../time";
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
-import updateStaff from "./updateStaff";
+import updateStaff from "../updateStaff";
 
-import "../Staff.styles.scss";
+import "../../Staff.styles.scss";
 export class EditWorkTime extends Component {
   constructor(props) {
     super(props);
@@ -66,14 +66,18 @@ export class EditWorkTime extends Component {
       firstName: data.firstName,
       lastName: data.lastName,
       displayName: data.displayName,
+      isActive: data.isActive,
+      cashPercent: data.cashPercent,
       address: {
         street: data.address,
         city: data.city,
         state: data.stateId,
+        zip: data.zip,
       },
       cellphone: data.phone,
       email: data.email,
       pin: data.pin,
+      fileId: data.fileId,
       confirmPin: data.confirmPin,
       isDisabled: data.isDisabled,
       driverLicense: data.driverLicense,

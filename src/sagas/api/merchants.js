@@ -1,6 +1,7 @@
 import axios from "axios";
 import { select } from "redux-saga/effects";
-import URL from "../../url/url";
+import { config } from "../../url/url";
+const URL = config.url.URL;
 
 // GET ALL MERCHANT API
 export function* GET_ALL_MERCHANT_API() {

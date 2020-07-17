@@ -8,6 +8,7 @@ import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
 // import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
 // import { FiEdit } from "react-icons/fi";
+import { Helmet } from "react-helmet";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -18,11 +19,11 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
-
+const URL = config.url.URL;
 class Generation extends Component {
   constructor(props) {
     super(props);
@@ -224,12 +225,15 @@ class Generation extends Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Template - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.giftcard-template" />}
+          title={<IntlMessages id="sidebar.dashboard.giftCard-template" />}
         />
         <div className="giftcard">
-          <div className="giftcard_search">
+          <div className="giftCard_search">
             <form>
               <SearchIcon className="button" title="Search" />
               <input
@@ -280,7 +284,7 @@ class Generation extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardData.template,
+  Template: state.GiftCardReducer.template,
   userLogin: state.userReducer.User,
 });
 

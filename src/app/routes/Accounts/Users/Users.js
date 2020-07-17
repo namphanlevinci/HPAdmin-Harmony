@@ -7,8 +7,9 @@ import {
 } from "../../../../actions/user/actions";
 import { connect } from "react-redux";
 import { store } from "react-notifications-component";
+import { Helmet } from "react-helmet";
+import { config } from "../../../../url/url";
 
-import URL from "../../../../url/url";
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
@@ -18,6 +19,7 @@ import "../../Merchants/MerchantsList/merchantsList.css";
 import "./User.css";
 import "react-table/react-table.css";
 
+const URL = config.url.URL;
 class Users extends Component {
   constructor(props) {
     super(props);
@@ -125,24 +127,26 @@ class Users extends Component {
       {
         Header: "ID",
         id: "id",
-        accessor: (row) => <div style={styles.text}>{`${row.waUserId}`}</div>,
+        accessor: (row) => <div className="tr">{`${row.waUserId}`}</div>,
         width: 70,
       },
-      // {
-      //   Header: "Status",
-      //   accessor: "nope",
-      //   width: 100,
-      //   Cell: (e) => <span>Online</span>,
-      // },
+      {
+        id: "image",
+        Header: "",
+        // width: 200,
+        accessor: (row) => (
+          <div>
+            <img src={`${row.imageUrl}`} alt="Avatar" className="avatar" />
+          </div>
+        ),
+        width: 100,
+      },
       {
         id: "Name",
         Header: "Full name",
         // width: 200,
         accessor: (row) => (
-          <div>
-            <img src={`${row.imageUrl}`} alt="Avatar" className="avatar" />
-            {`${row.firstName} ${row.lastName}`}
-          </div>
+          <div className="tr">{`${row.firstName} ${row.lastName}`}</div>
         ),
       },
       {
@@ -173,6 +177,9 @@ class Users extends Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Admin User - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUsers" />}

@@ -1,8 +1,8 @@
 import React from "react";
-// import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
+// import NumericInput from "react-numeric-input";
 
-import "./Staff.styles.scss";
+import "../Staff.styles.scss";
 const Salary = ({
   handleCheckBox,
   handleChange,
@@ -18,6 +18,7 @@ const Salary = ({
     commValue,
     prodCommValue,
     prodCommIsCheck,
+    cashPercent,
   },
 }) => (
   <div className="container Salary">
@@ -149,6 +150,31 @@ const Salary = ({
               disabled={prodCommIsCheck ? false : true}
               value={prodCommValue}
             />
+            <span className="unit">%</span>
+          </div>
+        </div>
+      </div>
+      <div className="col-6">
+        <label style={{ paddingTop: "10px " }}>Salary pay in Cash</label>
+        <div>
+          <div className="input-box">
+            <input
+              style={{ marginTop: "7px" }}
+              name="cashPercent"
+              type="tel"
+              onChange={handleChange}
+              value={cashPercent}
+              min="0"
+              max="100"
+            />
+            {/* <NumericInput
+              className="form-control"
+              name="cashPercent"
+              onChange={(e) => console.log(e)}
+              value={cashPercent}
+              min="0"
+              max="100"
+            /> */}
             <span className="unit">%</span>
           </div>
         </div>

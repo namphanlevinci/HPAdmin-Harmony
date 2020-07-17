@@ -8,7 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import configureStore, { history } from "./store";
 import App from "./containers/App";
 
-import "./app.styles.scss";
+import "./app.css";
 
 export const { store, persistor } = configureStore();
 

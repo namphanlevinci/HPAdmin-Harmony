@@ -5,18 +5,23 @@ import {
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 import { store } from "react-notifications-component";
+import { Helmet } from "react-helmet";
+import { config } from "../../../../url/url";
 
 import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
-import URL from "../../../../url/url";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import moment from "moment";
+import ScaleLoader from "../../../../util/scaleLoader";
 
 import "react-table/react-table.css";
 import "./MerchantsRequest.css";
 import "../MerchantsList/merchantsList.css";
+
+const URL = config.url.URL;
+
 class MerchantsRequest extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +32,7 @@ class MerchantsRequest extends Component {
       pageCount: 0,
       data: [],
       pageLoading: false,
+      isLoading: false,
     };
   }
 
@@ -95,6 +101,7 @@ class MerchantsRequest extends Component {
   };
 
   pendingProfile = (ID) => {
+    this.setState({ isLoading: true });
     axios
       .get(URL + "/merchant/" + ID, {
         headers: {
@@ -167,9 +174,13 @@ class MerchantsRequest extends Component {
     };
     return (
       <div className="container-fluid  react-transition swipe-right">
+        <Helmet>
+          <title>Pending Request - Harmony Admin </title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.pendingRequest" />}
+          disableBreadcrumb={true}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -187,6 +198,8 @@ class MerchantsRequest extends Component {
               </form>
             </div>
           </div>
+          <ScaleLoader isLoading={this.state.isLoading} />
+
           <div className="merchant-list-container">
             <ReactTable
               manual

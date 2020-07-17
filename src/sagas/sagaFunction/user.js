@@ -6,11 +6,11 @@ import {
   ADD_USER_API,
   GET_USER_BY_ID_API,
 } from "../api/user";
-import { takeLatest, put, takeLeading } from "redux-saga/effects";
+import { takeLatest, put } from "redux-saga/effects";
 
 // USER ADMIN LOGIN
 export function* USER_LOGIN_SAGA() {
-  yield takeLeading(typeUser.USER_LOGIN_REQUEST, function*(action) {
+  yield takeLatest(typeUser.USER_LOGIN_REQUEST, function*(action) {
     try {
       const { email, password } = action.payload;
       const check = yield USER_LOGIN_API({ email, password });

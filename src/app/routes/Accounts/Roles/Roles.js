@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { FaTrashRestoreAlt } from "react-icons/fa";
+// import { FaTrashRestoreAlt } from "react-icons/fa";
 import { GoTrashcan } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
-
+import { Helmet } from "react-helmet";
 import { AiOutlineUserAdd } from "react-icons/ai";
 
 import ReactTable from "react-table";
@@ -34,8 +34,9 @@ class Roles extends Component {
       {
         Header: "Members",
         id: "image",
-        accessor: "image",
-        accessor: (row) => <img style={styles.img} src={row.image} />,
+        accessor: (row) => (
+          <img style={styles.img} src={row.image} alt="admin avatar" />
+        ),
       },
       {
         // id: "email",
@@ -67,6 +68,9 @@ class Roles extends Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Role - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.roles" />}
@@ -101,27 +105,10 @@ class Roles extends Component {
               </thead>
               <tbody>
                 <tr className="module">
-                  <th>Module 1</th>
+                  <th>Module 1: Request Management</th>
                 </tr>
                 <tr>
-                  <td>Many desktop publishing packages</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    a Latin professor at Hampden-Sydney College in Virginia
-                  </td>
+                  <td>View Request Management</td>
                   <td>
                     <Checkbox checked={true} style={styles.checkbox} />
                   </td>
@@ -136,7 +123,22 @@ class Roles extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>There are many variations of passages of Lorem</td>
+                  <td>View Pending Request</td>
+                  <td>
+                    <Checkbox checked={true} style={styles.checkbox} />
+                  </td>
+                  <td>
+                    <Checkbox checked={true} style={styles.checkbox} />
+                  </td>
+                  <td>
+                    <Checkbox checked={true} style={styles.checkbox} />
+                  </td>
+                  <td>
+                    <Checkbox checked={true} style={styles.checkbox} />
+                  </td>
+                </tr>
+                <tr>
+                  <td>View Approved Request</td>
                   <td>
                     <Checkbox checked={true} style={styles.checkbox} />
                   </td>
@@ -151,9 +153,7 @@ class Roles extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
+                  <td>View Rejected Request</td>
                   <td>
                     <Checkbox checked={true} style={styles.checkbox} />
                   </td>

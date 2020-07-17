@@ -101,7 +101,7 @@ class Users extends React.Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}
         />
-        <div className="MReqSP TransactionsBox">
+        <div className=" TransactionsBox">
           {/* SEARCH */}
           <div className="search">
             <form>

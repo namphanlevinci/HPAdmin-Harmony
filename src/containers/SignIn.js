@@ -3,13 +3,16 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { USER_LOGIN_REQUEST } from "../actions/user/actions";
 import { store } from "react-notifications-component";
+import { config } from "../url/url";
+import { USER_LOGIN_SUCCESS } from "../actions/user/actions";
 
 import TextField from "@material-ui/core/TextField";
-// import IconButton from '@material-ui/core/IconButton';
 import Button from "@material-ui/core/Button";
 import IntlMessages from "../util/IntlMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import axios from "axios";
 
+const URL = config.url.URL;
 class SignIn extends React.Component {
   constructor() {
     super();
@@ -22,11 +25,39 @@ class SignIn extends React.Component {
     };
   }
 
-  onSubmit = async (e) => {
-    // this.setState({ loading: true });
-    const { email, password } = await this.state;
-    await this.props.USER_LOGIN_REQUEST({ email, password });
-    // setTimeout({})
+  onSubmit = (e) => {
+    const { email, password } = this.state;
+    // this.props.USER_LOGIN_REQUEST({ email, password });
+
+    axios
+      .post(URL + "/adminuser/login", {
+        email,
+        password,
+      })
+      .then((result) => {
+        const res = result.data;
+        if (Number(res.codeNumber) === 200) {
+          this.props.USER_LOGIN_SUCCESS(res.data);
+        } else {
+          store.addNotification({
+            title: "ERROR!",
+            message: `${res.message}`,
+            type: "danger",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+            width: 250,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   componentDidMount() {
     document.addEventListener("keypress", this.keyPressed);
@@ -122,6 +153,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   USER_LOGIN_REQUEST: (user_info) => {
     dispatch(USER_LOGIN_REQUEST(user_info));
+  },
+  USER_LOGIN_SUCCESS: (VerifyCode) => {
+    dispatch(USER_LOGIN_SUCCESS(VerifyCode));
   },
 });
 

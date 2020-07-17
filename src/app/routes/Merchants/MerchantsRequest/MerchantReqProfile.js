@@ -7,8 +7,9 @@ import {
 import { getAll_Merchants } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { store } from "react-notifications-component";
+import { config } from "../../../../url/url";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -16,10 +17,13 @@ import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
 import NumberFormat from "react-number-format";
+import formatPhone from "../../../../util/formatPhone";
 
 import "./MerchantReqProfile.css";
 import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
+
+const URL = config.url.URL;
 
 // PENDING MERCHANT PROFILE
 class MerchantReqProfile extends Component {
@@ -127,22 +131,8 @@ class MerchantReqProfile extends Component {
   }
   render() {
     const e = this.props.PendingProfile;
+    console.log("e", e);
     let principalLength = this.props.PendingProfile?.principals?.length;
-
-    const principalPhone = (Phone) => {
-      if (Phone?.startsWith("1") || Phone?.startsWith("84")) {
-        return Phone?.replace(/[{( )}]/g, "").replace(
-          /(\d{4})\-?(\d{3})\-?(\d{4})/,
-          "+$1-$2-$3"
-        );
-      }
-      if (Phone?.startsWith("+")) {
-        return Phone?.replace(/[{( )}]/g, "").replace(
-          /(\d{4})\-?(\d{3})\-?(\d{4})/,
-          "$1-$2-$3"
-        );
-      }
-    };
 
     // render Principal
     const renderPrincipal =
@@ -171,11 +161,11 @@ class MerchantReqProfile extends Component {
               </div>
               <div className="col-4">
                 <label>Home Phone</label>
-                <p>{principalPhone(e.homePhone)}</p>
+                <p>{formatPhone(e.homePhone)}</p>
               </div>
               <div className="col-4">
                 <label>Mobile Phone*</label>
-                <p>{principalPhone(e.mobilePhone)}</p>
+                <p>{formatPhone(e.mobilePhone)}</p>
               </div>
               <div className="col-4">
                 <label>Address*</label>
@@ -210,13 +200,18 @@ class MerchantReqProfile extends Component {
                 <p>{e?.state?.name}</p>
               </div>
               <div className="col-6">
-                <label>Driver License Picture</label>
+                <label>Driver License Picture*</label> <br />
                 {
-                  <img
-                    className="pending-image"
-                    src={`${e?.imageUrl}`}
-                    alt="void check"
-                  />
+                  <a
+                    href={`${URL}/file/${e?.fileId}?fileName=DriverLicense-${this.props.PendingProfile?.general?.doBusinessName}`}
+                    download
+                  >
+                    <img
+                      className="pending-image"
+                      src={`${e?.imageUrl}`}
+                      alt="driver license"
+                    />
+                  </a>
                 }
               </div>
               <hr />
@@ -232,7 +227,7 @@ class MerchantReqProfile extends Component {
         e.business.map((e) => {
           return (
             <div className="col-6" key={e.businessId}>
-              <label>{e.question}</label>
+              <label>{e.question}</label> <br />
               <Checkbox checked={e.answer === false} />
               No
               <span className={e.answer ? "checked-red" : ""}>
@@ -253,6 +248,7 @@ class MerchantReqProfile extends Component {
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.requestDetail" />}
+          disableBreadcrumb={true}
         />
         <div className="content-body page-heading">
           <div className="header col-md-12">
@@ -262,7 +258,7 @@ class MerchantReqProfile extends Component {
               <Button className="btn btn-red" onClick={this.goBack}>
                 BACK
               </Button>
-              {/* HANDLE EDIT */}
+
               <Button className="btn btn-red" onClick={this.handleEdit}>
                 EDIT
               </Button>
@@ -541,12 +537,12 @@ class MerchantReqProfile extends Component {
               <h2 style={styles.h2}>Bank Information</h2>
               <div className="row">
                 <div className="col-3">
-                  <label>Bank Name*</label>
-                  <p>{e?.businessBank?.name}</p>
-                </div>
-                <div className="col-3">
                   <label>Account Holder Name*</label>
                   <p>{e?.businessBank?.accountHolderName}</p>
+                </div>
+                <div className="col-3">
+                  <label>Bank Name*</label>
+                  <p>{e?.businessBank?.name}</p>
                 </div>
                 <div className="col-3">
                   <label>Routing Number(ABA)*</label>
@@ -566,12 +562,20 @@ class MerchantReqProfile extends Component {
                 </div>
                 <div className="col-4">
                   <label>Void Check*</label>
+
                   {e.businessBank !== null ? (
-                    <img
-                      className="pending-image"
-                      src={`${e.businessBank.imageUrl}`}
-                      alt="void check"
-                    />
+                    <a
+                      href={`${URL}/file/${
+                        e?.businessBank?.fileId
+                      }?fileName=VoidCheck-${(e?.general?.doBusinessName).trim()}`}
+                      download
+                    >
+                      <img
+                        className="pending-image"
+                        src={`${e.businessBank.imageUrl}`}
+                        alt="void check"
+                      />
+                    </a>
                   ) : null}
                 </div>
               </div>
@@ -590,6 +594,7 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   ApprovalStatus: state.Approval,
   RejectStatus: state.Reject,
+  checkPermission: state.userReducer.checkPermission,
 });
 const mapDispatchToProps = (dispatch) => {
   return {

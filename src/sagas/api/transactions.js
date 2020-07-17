@@ -1,10 +1,10 @@
 import axios from "axios";
-import URL from "../../url/url";
+import { config } from "../../url/url";
 import { select } from "redux-saga/effects";
-
+const URL = config.url.URL;
 // GET ALL TRANSACTIONS
 export function* GET_ALL_TRANSACTION_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -24,7 +24,7 @@ export function* GET_ALL_TRANSACTION_API() {
 
 // GET P2P TRANSACTIONS
 export function* GET_P2P_TRANSACTION_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -44,7 +44,7 @@ export function* GET_P2P_TRANSACTION_API() {
 
 // CONSUMER TRANSACTIONS
 export function* GET_USER_TRANSACTION_API(IDUser) {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -64,7 +64,7 @@ export function* GET_USER_TRANSACTION_API(IDUser) {
 
 // CONSUMER ACTIVITY
 export function* GET_USER_ACTIVITY_API(IDUser) {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -84,7 +84,7 @@ export function* GET_USER_ACTIVITY_API(IDUser) {
 
 // GET BATCH SETTLEMENT
 export function* GET_ALL_BATCH_API() {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {
@@ -105,7 +105,7 @@ export function* GET_ALL_BATCH_API() {
 // GET BATCH DETAIL
 export function* GET_BATCH_DETAIL_API(BatchID) {
   const ID = BatchID.payload;
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
   let config = {
     headers: {

@@ -4,7 +4,7 @@ import {
   getBatch,
   getBatchDetail,
 } from "../../../../actions/transactions/actions";
-import { Redirect } from "react-router-dom";
+// import { AiFillAppstore } from "react-icons/ai";
 
 import Button from "@material-ui/core/Button";
 import moment from "moment";
@@ -30,7 +30,6 @@ class Transactions extends React.Component {
   };
   render() {
     let BatchDetail = this.props.BatchDetail;
-    // console.log("BatchDetail", BatchDetail);
     const columns = [
       {
         Header: "Transaction ID",
@@ -42,7 +41,7 @@ class Transactions extends React.Component {
         id: "Customer",
         Header: "Date/Time",
         accessor: (e) => (
-          <span style={{ fontWeight: 600 }}>
+          <span style={{ fontWeight: 500 }}>
             {moment
               .utc(e.createdDate)
               .local()
@@ -75,46 +74,53 @@ class Transactions extends React.Component {
       },
     ];
 
-    const renderBatchDetail =
-      BatchDetail !== undefined ? (
-        <div className="container-fluid react-transition swipe-right Batchs">
-          <ContainerHeader
-            match={this.props.match}
-            title={<IntlMessages id="sidebar.dashboard.Batch" />}
-          />
-          <div
-            className="MerList BatchsContainer page-heading"
-            style={{ padding: "10px" }}
-          >
-            <div className="MReqSP TransactionsBox">
-              <h3>Merchant ID:</h3>
-              <Button
+    return (
+      <div className="container-fluid react-transition swipe-right Batchs">
+        <ContainerHeader
+          match={this.props.match}
+          title={<IntlMessages id="sidebar.dashboard.Batch" />}
+        />
+        <div
+          className="MerList batch-container page-heading"
+          style={{ padding: "10px" }}
+        >
+          <div className=" TransactionsBox">
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {/* <AiFillAppstore size={23} />
+              <h3
                 style={{
-                  color: "#4251af",
-                  backgroundColor: "white",
-                  marginTop: "0",
+                  paddingLeft: "5px",
+                  marginBottom: "0px",
+                  fontWeight: "500",
                 }}
-                className="btn btn-green"
-                onClick={this._goBack}
               >
-                BACK
-              </Button>
+                Merchant ID:
+              </h3> */}
             </div>
-            <div className="Transactions" style={{ paddingTop: "10px" }}>
-              <ReactTable
-                data={BatchDetail}
-                columns={columns}
-                defaultPageSize={10}
-                minRows={1}
-                noDataText="NO DATA!"
-              />
-            </div>
+            <Button
+              style={{
+                color: "#4251af",
+                backgroundColor: "white",
+                marginTop: "0",
+              }}
+              className="btn btn-green"
+              onClick={this._goBack}
+            >
+              BACK
+            </Button>
+          </div>
+          <div className="Transactions" style={{ paddingTop: "10px" }}>
+            <ReactTable
+              data={BatchDetail}
+              columns={columns}
+              defaultPageSize={10}
+              minRows={1}
+              noDataText="NO DATA!"
+            />
           </div>
         </div>
-      ) : (
-        <Redirect to="/app/reports/batchs" />
-      );
-    return <div>{renderBatchDetail}</div>;
+      </div>
+    );
   }
 }
 

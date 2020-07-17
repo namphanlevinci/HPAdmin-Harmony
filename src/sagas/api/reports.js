@@ -1,11 +1,10 @@
 import axios from "axios";
 import { select } from "redux-saga/effects";
-import URL from "../../url/url";
-
+import { config } from "../../url/url";
+const URL = config.url.URL;
 export function* GET_APPROVED_API(data) {
-  const getInfoLogin = (state) => state.User;
+  const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
-  console.log("infoLogin", infoLogin);
   let config = {
     headers: {
       Authorization: "Bearer " + infoLogin.token,

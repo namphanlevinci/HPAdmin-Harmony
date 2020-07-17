@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
-import URL from "../../../../../url/url.js";
-import axios from "axios";
+import { config } from "../../../../../url/url.js";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
+
+const URL = config.url.URL;
+
 class Bank extends Component {
   constructor(props) {
     super(props);
@@ -69,16 +71,16 @@ class Bank extends Component {
             <div className="col-4">
               <label>Void Check*</label>
               <br />
-              <a
-                href={`${URL}/file/${e?.businessBank?.fileId}`}
-                download={`VoidCheck-${e?.general?.doBusinessName}`}
-              >
-                <img
-                  className="bankVoid"
-                  src={`${e?.businessBank?.imageUrl}`}
-                  alt="void check"
-                />
-              </a>
+              {/* <a
+                href={`${URL}/file/${e?.businessBank?.fileId}?fileName=VoidCheck-${e?.general?.doBusinessName}`}
+                download
+              > */}
+              <img
+                className="bankVoid"
+                src={`${e?.businessBank?.imageUrl}`}
+                alt="void check"
+              />
+              {/* </a> */}
             </div>
             <br />
             {renderOldImg}

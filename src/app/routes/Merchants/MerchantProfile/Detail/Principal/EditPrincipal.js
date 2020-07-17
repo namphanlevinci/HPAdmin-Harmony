@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { upFileUrl } from "../../../../../../url/url";
+import { config } from "../../../../../../url/url";
 import {
   ViewProfile_Merchants,
   GetMerchant_byID,
 } from "../../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
 
+import LinearProgress from "../../../../../../util/linearProgress";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Axios from "axios";
-import URL from "../../../../../../url/url";
 import StateComponent from "../../../../../../util/State";
 import axios from "axios";
 
@@ -18,6 +18,10 @@ import "./principal.styles.scss";
 import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
+
+const URL = config.url.URL;
+const upFile = config.url.upFile;
+
 class EditPrincipal extends Component {
   constructor(props) {
     super(props);
@@ -34,9 +38,7 @@ class EditPrincipal extends Component {
       imagePreviewUrl: "",
     };
   }
-  _editPrincipal = () => {
-    this.props.history.push("/");
-  };
+
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
     await this.setState({ Token: Token });
@@ -63,18 +65,11 @@ class EditPrincipal extends Component {
     });
   };
 
-  _uploadFile = (e) => {
+  uploadFile = (e) => {
     e.preventDefault();
     // handle preview Image
-    let reader = new FileReader();
     let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
+    this.setState({ loadingProgress: true });
     // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
@@ -82,9 +77,18 @@ class EditPrincipal extends Component {
       headers: { "content-type": "multipart/form-data" },
     };
     axios
-      .post(upFileUrl, formData, config)
+      .post(upFile, formData, config)
       .then((res) => {
         this.setState({ FileId: res.data.data.fileId });
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          this.setState({
+            file: file,
+            imagePreviewUrl: reader.result,
+            loadingProgress: false,
+          });
+        };
+        reader.readAsDataURL(file);
       })
       .catch((err) => {
         console.log(err);
@@ -155,7 +159,7 @@ class EditPrincipal extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "250px", height: "200px" }}
+          style={{ width: "260px", height: "200px" }}
           alt="service 1"
         />
       );
@@ -163,7 +167,7 @@ class EditPrincipal extends Component {
       $imagePreview = (
         <img
           src={e.imageUrl}
-          style={{ width: "250px", height: "200px" }}
+          style={{ width: "260px", height: "200px" }}
           alt="service"
         />
       );
@@ -279,21 +283,22 @@ class EditPrincipal extends Component {
             <div className="col-12">
               <label>Driver License Picture</label> <br />
               {$imagePreview}
+              <div style={{ width: "30%", marginTop: "15px" }}>
+                {this.state.loadingProgress ? <LinearProgress /> : null}
+              </div>
             </div>
           </div>
-          <div>
+          <div style={{ width: "30%" }}>
             <input
               type="file"
-              style={{ width: "250px !important", border: "none" }}
+              style={{ width: "250px !important" }}
               name="image"
               id="file"
-              onChange={(e) => this._uploadFile(e)}
+              className="custom-input"
+              onChange={(e) => this.uploadFile(e)}
             />
           </div>
-          <div
-            className="SettingsContent general-content"
-            style={{ padding: "20px" }}
-          >
+          <div style={{ paddingTop: "20px" }}>
             <Button className="btn btn-green" onClick={this._update}>
               SAVE
             </Button>

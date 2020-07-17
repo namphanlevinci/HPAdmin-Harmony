@@ -2,9 +2,15 @@ import React from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 import TextField from "@material-ui/core/TextField";
-import State from "../../../../../../util/InitialState";
+import State from "../../../../../../../util/InitialState";
 import Select from "react-select";
 import PhoneInput from "react-phone-input-2";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import LinearProgress from "../../../../../../../util/linearProgress";
 
 import "react-phone-input-2/lib/high-res.css";
 
@@ -12,7 +18,8 @@ const General = ({
   handleSelect,
   handleChange,
   uploadFile,
-  toogleVisibility,
+  toggleVisibility,
+  handleCheckBox,
   handlePhone,
   state: {
     match,
@@ -33,6 +40,8 @@ const General = ({
     countryCode,
     showPin,
     showConfirmPin,
+    isActive,
+    progressLoading,
   },
   validator,
 }) => {
@@ -156,33 +165,14 @@ const General = ({
               onChange={handleChange}
               value={zip}
               style={{ marginTop: "10px" }}
+              inputProps={{
+                maxLength: 5,
+              }}
             />
           </div>
         </div>
-        {/* </div> */}
-        {/* <div className="row justify-content-center"> */}
+
         <div className="col-4">
-          {/* <div>
-            <div
-              style={{ width: "50% !important", padding: "8px 20px 0px 0px" }}
-            >
-              <label>Country Code</label>
-              <Select
-                options={phoneCode}
-                onChange={handleSelect}
-                name="countryCode"
-                value={countryCode}
-              />
-            </div>
-            <TextField
-              name="cellphone"
-              label="Cell phone"
-              margin="normal"
-              type="number"
-              fullWidth
-              onChange={handleChange}
-              value={cellphone}
-            /> */}
           <label>Cellphone</label>
           <PhoneInput
             country={"us"}
@@ -224,12 +214,12 @@ const General = ({
             {showPin ? (
               <i style={{ cursor: "pointer" }}>
                 <FaRegEyeSlash
-                  onClick={() => toogleVisibility("showPin", false)}
+                  onClick={() => toggleVisibility("showPin", false)}
                 />
               </i>
             ) : (
               <i style={{ cursor: "pointer" }}>
-                <FaRegEye onClick={() => toogleVisibility("showPin", true)} />
+                <FaRegEye onClick={() => toggleVisibility("showPin", true)} />
               </i>
             )}
           </div>
@@ -258,13 +248,13 @@ const General = ({
             {showConfirmPin ? (
               <i style={{ cursor: "pointer" }}>
                 <FaRegEyeSlash
-                  onClick={() => toogleVisibility("showConfirmPin", false)}
+                  onClick={() => toggleVisibility("showConfirmPin", false)}
                 />
               </i>
             ) : (
               <i style={{ cursor: "pointer" }}>
                 <FaRegEye
-                  onClick={() => toogleVisibility("showConfirmPin", true)}
+                  onClick={() => toggleVisibility("showConfirmPin", true)}
                 />
               </i>
             )}
@@ -303,6 +293,24 @@ const General = ({
             />
           </div>
         </div>
+        <div className="col-4">
+          <label></label>
+          <div className="form-group">
+            <FormControl component="fieldset">
+              <FormLabel component="legend"></FormLabel>
+              <FormGroup aria-label="position" row>
+                <FormControlLabel
+                  value="true"
+                  checked={isActive}
+                  control={<Checkbox color="primary" />}
+                  onChange={handleCheckBox("isActive")}
+                  label="Visible"
+                  labelPlacement="end"
+                />
+              </FormGroup>
+            </FormControl>
+          </div>
+        </div>
       </div>
       <div className="row justify-content-center">
         <div className="col-12">
@@ -313,25 +321,34 @@ const General = ({
               <img
                 src={imagePreviewUrl}
                 alt="avatar"
-                height={206}
-                width={206}
+                height={250}
+                width={250}
+                style={{ borderRadius: "50%" }}
               />
             ) : (
               <img
                 src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
                 alt="avatar"
-                height={206}
-                width={206}
+                height={250}
+                width={250}
+                style={{ borderRadius: "50%" }}
               />
             )}
+
+            {progressLoading ? (
+              <div style={{ width: "34%", paddingTop: "10px" }}>
+                <LinearProgress />
+              </div>
+            ) : null}
           </div>
           <input
             type="file"
             style={{
-              width: "250px",
+              width: "34%",
               fontWeight: "normal",
               borderBottom: "none",
             }}
+            className="custom-input"
             name="imagePreviewUrl"
             id="file"
             onChange={(e) => uploadFile(e)}

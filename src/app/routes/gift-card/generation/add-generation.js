@@ -4,15 +4,17 @@ import { MdAddToPhotos } from "react-icons/md";
 import { Formik } from "formik";
 import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
 import { store } from "react-notifications-component";
+import { config } from "../../../../url/url";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import URL from "../../../../url/url";
 import axios from "axios";
 
 import "./generation.styles.scss";
+
+const URL = config.url.URL;
 
 class AddGeneration extends Component {
   constructor(props) {
@@ -25,6 +27,8 @@ class AddGeneration extends Component {
   }
 
   render() {
+    console.log("this.props.Template", this.props.Template);
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -35,7 +39,7 @@ class AddGeneration extends Component {
           <div className="id-and-btn">
             <div style={{ display: "flex", alignItems: "center" }}>
               <MdAddToPhotos size={23} />
-              <h3>New Gift Card</h3>
+              <h3 style={{ paddingLeft: "10px" }}>New Gift Card</h3>
             </div>
 
             <div>
@@ -159,14 +163,14 @@ class AddGeneration extends Component {
                       <h4>Template</h4>
                       <Select
                         options={this.props.Template.filter(
-                          (e) => e.categoryType !== "Product"
+                          (e) => e.isDisabled !== 1
                         ).map((e) => {
                           return {
                             id: e.giftCardTemplateId,
                             label: (
                               <div>
                                 <img
-                                  alt="defualt img"
+                                  alt="default img"
                                   src={e.imageUrl}
                                   height="30px"
                                   width="30px"
@@ -184,7 +188,7 @@ class AddGeneration extends Component {
                             selectedOption.value
                           );
                         }}
-                        placeholder="- Select Template -"
+                        placeholder="Select Template"
                         loadingMessage={() => "Fetching Template"}
                         noOptionsMessage={() => "Template appears here!"}
                       />
@@ -216,7 +220,7 @@ class AddGeneration extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardData.template,
+  Template: state.GiftCardReducer.template,
   userLogin: state.userReducer.User,
 });
 

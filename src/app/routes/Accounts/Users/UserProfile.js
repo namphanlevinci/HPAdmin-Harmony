@@ -8,11 +8,13 @@ import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
-import URL from "../../../../url/url";
+import { config } from "../../../../url/url";
 import axios from "axios";
 
 import "./User.css";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
+
+const URL = config.url.URL;
 class UserProfile extends Component {
   constructor(props) {
     super(props);

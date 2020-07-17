@@ -5,18 +5,20 @@ import {
   SearchMerchants,
   ViewProfile_Merchants,
 } from "../../../../actions/merchants/actions";
-import { store } from "react-notifications-component";
+import { config } from "../../../../url/url";
+import { Helmet } from "react-helmet";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
-import URL from "../../../../url/url";
 import axios from "axios";
 import moment from "moment";
 
 import "react-table/react-table.css";
 import "./merchantsList.css";
+const URL = config.url.URL;
+const upFile = config.url.upFile;
 
 class MerchantsList extends React.Component {
   constructor(props) {
@@ -175,9 +177,13 @@ class MerchantsList extends React.Component {
 
     return (
       <div className="container-fluid react-transition swipe-right">
+        <Helmet>
+          <title>Approved Request - Harmony Admin</title>
+        </Helmet>
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.MList" />}
+          title={<IntlMessages id="sidebar.dashboard.approvedRequest" />}
+          disableBreadcrumb={true}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
