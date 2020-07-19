@@ -178,7 +178,7 @@ class MerchantsList extends React.Component {
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Approved Request - Harmony Admin</title>
+          <title>Approved Request | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}

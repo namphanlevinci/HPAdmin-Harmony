@@ -71,7 +71,7 @@ class Pricing extends Component {
       <div className="app-wrapper ">
         <div className=" react-transition swipe-right container-fluid">
           <Helmet>
-            <title>Pricing Plan - Harmony Admin</title>
+            <title>Pricing Plan | Harmony Admin</title>
           </Helmet>
           <ContainerHeader
             match={this.props.match}

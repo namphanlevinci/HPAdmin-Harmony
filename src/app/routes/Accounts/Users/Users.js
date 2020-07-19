@@ -178,7 +178,7 @@ class Users extends Component {
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Admin User - Harmony Admin</title>
+          <title>Admin User | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}

@@ -290,7 +290,7 @@ class Codes extends Component {
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Code - Harmony Admin</title>
+          <title>Code | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}

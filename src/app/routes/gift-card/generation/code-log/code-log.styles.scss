@@ -1,4 +1,8 @@
 .code-log {
+  .MuiDialogContent-root {
+    padding: 10px 25px 25px 25px;
+    min-width: 500px
+  }
   table {
     width: 100%;
     background-color: #fff;
@@ -6,15 +10,33 @@
     border-radius: 6px;
   }
   h4 {
-    text-align: center;
+    // text-align: center;
     color: black;
     font-weight: 400;
     font-size: 16px;
     padding-top: 15px;
+    padding-left: 10px;
   }
   td {
     color: black;
     font-weight: 300;
-    padding: 10px 30px;
+    padding: 10px 20px 10px 10px;
+  }
+
+  .code-log-title {
+    padding: 20px 20px 0px 20px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+
+    p {
+      font-size: 17px
+    }
+
+    button {
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      padding: 5px 20px
+    }
   }
 }
+

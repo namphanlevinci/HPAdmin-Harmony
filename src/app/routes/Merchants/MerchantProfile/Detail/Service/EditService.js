@@ -9,6 +9,7 @@ import axios from "axios";
 import { config } from "../../../../../../url/url";
 import * as Yup from "yup";
 import Select from "react-select";
+import LinearProgress from "../../../../../../util/linearProgress";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -44,6 +45,7 @@ class EditService extends Component {
       //~ preview image
       imagePreviewUrl: "",
       loading: false,
+      imageProgress: false,
     };
   }
   componentDidMount() {
@@ -58,7 +60,7 @@ class EditService extends Component {
         this.setState({ category: res.data.data });
       });
     const service = this.props.SERVICE;
-    // console.log("SERVICE", this.props.SERVICE);
+    console.log("SERVICE", this.props.SERVICE);
     if (service !== null) {
       this.setState(
         {
@@ -69,8 +71,10 @@ class EditService extends Component {
           fileId: service.fileId,
           name: service.name,
           openTime: service.openTime,
+          secondTime: service.secondTime,
           position: service.position,
-          price: service.price,
+          price: Number(service.price).toFixed(2),
+          supplyFee: service.supplyFee,
           secondTime: service.secondTime,
           duration: service.duration,
           isDisabled: service.isDisabled,
@@ -89,17 +93,11 @@ class EditService extends Component {
 
   _handleImageChange = (e) => {
     e.preventDefault();
-
+    this.setState({ imageProgress: true });
     // handle preview Image
-    let reader = new FileReader();
+
     let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
+
     // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
@@ -109,7 +107,16 @@ class EditService extends Component {
     axios
       .post(upFile, formData, config)
       .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          this.setState({
+            fileId: res.data.data.fileId,
+            file: file,
+            imagePreviewUrl: reader.result,
+            imageProgress: false,
+          });
+        };
+        reader.readAsDataURL(file);
       })
       .catch((err) => {
         console.log(err);
@@ -132,6 +139,7 @@ class EditService extends Component {
       isDisabled,
       fileId,
       serviceId,
+      supplyFee,
     } = this.state;
     const extras = this.state.extras.length !== 0 ? this.state.extras : [];
     const merchantId = this.props.MerchantProfile.merchantId;
@@ -151,6 +159,7 @@ class EditService extends Component {
           fileId,
           extras,
           merchantId,
+          supplyFee,
         },
         {
           headers: {
@@ -211,7 +220,7 @@ class EditService extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "150px", height: "150px" }}
+          style={{ width: "220px", height: "160px" }}
           alt="void"
         />
       );
@@ -219,7 +228,7 @@ class EditService extends Component {
       $imagePreview = (
         <img
           src={this.state.imageUrl}
-          style={{ width: "150px", height: "150px" }}
+          style={{ width: "220px", height: "160px" }}
           alt="void"
         />
       );
@@ -353,91 +362,151 @@ class EditService extends Component {
                         </label>
                         <br />
 
-                        <div
-                          style={{
-                            display: "flex",
-                          }}
-                        >
+                        <div>
                           {$imagePreview}
-                          <input
-                            name="price"
-                            type="file"
-                            onChange={this._handleImageChange}
-                            style={styles.inputPrice}
-                          />
+                          {this.state.imageProgress ? (
+                            <div
+                              style={{
+                                width: "35%",
+                                paddingBottom: "15px",
+                                marginTop: "15px",
+                              }}
+                            >
+                              <LinearProgress />
+                            </div>
+                          ) : null}
+
+                          <div style={{ width: "35%" }}>
+                            <input
+                              style={{ marginTop: "20px" }}
+                              name="price"
+                              type="file"
+                              className="custom-input"
+                              onChange={this._handleImageChange}
+                            />
+                          </div>
                         </div>
                       </div>
                       <div className="col-4" style={{ marginTop: 5 }}>
                         <label style={{ color: "#4251af" }}>Duration</label>
                         <br />
                         <label style={{ color: "#333" }}>
-                          <span className="small-label">Minutes</span>
+                          <span className="small-label">Minutes*</span>
                         </label>
                         <br />
-                        <input
-                          name="duration"
-                          type="number"
-                          value={this.state.duration}
-                          onChange={this.handleChange}
-                          placeholder="Min"
-                          style={{
-                            borderBottomColor: "#dddddd",
-                            borderBottomWidth: 1,
-                          }}
-                        />
+                        <div className="input-box">
+                          <input
+                            name="duration"
+                            type="number"
+                            value={this.state.duration}
+                            onChange={this.handleChange}
+                            placeholder="Min"
+                            style={{
+                              borderBottomColor: "#dddddd",
+                              borderBottomWidth: 1,
+                            }}
+                          />{" "}
+                          <span className="unit">Min</span>
+                        </div>
                       </div>
                       <div className="col-4" style={{ marginTop: "40px" }}>
                         <label>
                           <span className="small-label">Open time</span>
                         </label>
                         <br />
-                        <input
-                          name="openTime"
-                          type="number"
-                          value={this.state.openTime}
-                          onChange={this.handleChange}
-                          placeholder="Min"
-                          style={{
-                            borderBottomColor: "#dddddd",
-                            borderBottomWidth: 1,
-                          }}
-                        />
-                      </div>
-                      <div className="col-6" style={{ marginTop: 2 }}>
-                        <label style={{ color: "#4251af" }}>Price *</label>
-                        <br />
-                        <input
-                          name="price"
-                          type="number"
-                          value={this.state.price}
-                          onChange={this.handleChange}
-                          placeholder="$"
-                          style={{
-                            borderBottomColor: "#dddddd",
-                            borderBottomWidth: 1,
-                            marginTop: 10,
-                          }}
-                        />
-                      </div>
-                      <div className="col-6">
-                        <label style={{ color: "#4251af" }}>Status</label>
-                        <br />
-                        {this.state.loading && (
-                          <Select
-                            styles={colourStyles}
-                            options={serviceStatus}
-                            defaultValue={{
-                              value: this.state.isDisabled,
-                              label:
-                                Number(this.state.isDisabled) === 0
-                                  ? "Active"
-                                  : "Inactive",
-                            }}
-                            onChange={(e) => {
-                              this.setState({ isDisabled: e.value });
+                        <div className="input-box">
+                          <input
+                            name="openTime"
+                            type="number"
+                            value={this.state.openTime}
+                            onChange={this.handleChange}
+                            placeholder="Min"
+                            style={{
+                              borderBottomColor: "#dddddd",
+                              borderBottomWidth: 1,
                             }}
                           />
-                        )}
+                          <span className="unit">Min</span>
+                        </div>
+                      </div>
+                      <div className="col-4" style={{ marginTop: "40px" }}>
+                        <label>
+                          <span className="small-label">Second time</span>
+                        </label>
+                        <br />
+                        <div className="input-box">
+                          <input
+                            name="secondTime"
+                            type="number"
+                            value={this.state.secondTime}
+                            onChange={this.handleChange}
+                            placeholder="Min"
+                            style={{
+                              borderBottomColor: "#dddddd",
+                              borderBottomWidth: 1,
+                            }}
+                          />
+                          <span className="unit">Min</span>
+                        </div>
+                      </div>
+                      <div className="col-6" style={{ marginTop: 20 }}>
+                        <label style={{ color: "#4251af" }}>Price *</label>
+                        <br />
+                        <div className="input-box">
+                          <input
+                            name="price"
+                            // type="number"
+                            value={this.state.price}
+                            onChange={this.handleChange}
+                            placeholder="$"
+                            style={{
+                              borderBottomColor: "#dddddd",
+                              borderBottomWidth: 1,
+                              marginTop: 10,
+                            }}
+                          />
+                          <span className="unit">$</span>
+                        </div>
+                      </div>
+                      <div className="col-6" style={{ marginTop: 20 }}>
+                        <label style={{ color: "#4251af" }}>Status</label>
+                        <br />
+                        <div style={{ marginTop: 7 }}>
+                          {this.state.loading && (
+                            <Select
+                              styles={colourStyles}
+                              options={serviceStatus}
+                              defaultValue={{
+                                value: this.state.isDisabled,
+                                label:
+                                  Number(this.state.isDisabled) === 0
+                                    ? "Active"
+                                    : "Inactive",
+                              }}
+                              onChange={(e) => {
+                                this.setState({ isDisabled: e.value });
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <div className="col-6" style={{ marginTop: 20 }}>
+                        <label style={{ color: "#4251af" }}>Supply Fee*</label>
+                        <br />
+                        <div className="input-box">
+                          <input
+                            name="supplyFee"
+                            value={this.state.supplyFee}
+                            onChange={this.handleChange}
+                            // placeholder="$"
+                            style={{
+                              borderBottomColor: "#dddddd",
+                              borderBottomWidth: 1,
+                              marginTop: 4,
+                            }}
+                          />
+                          <span className="unit">%</span>
+                        </div>
                       </div>
                     </div>
                   </div>

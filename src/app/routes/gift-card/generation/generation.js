@@ -8,6 +8,7 @@ import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import { FiEdit } from "react-icons/fi";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -123,6 +124,11 @@ class Generation extends Component {
     }
   };
 
+  viewGeneration = (data) => {
+    this.props.VIEW_DETAIL(data.original);
+    this.props.history.push("/app/giftcard/generation/detail");
+  };
+
   render() {
     const columns = [
       {
@@ -174,36 +180,39 @@ class Generation extends Component {
         accessor: "Action",
         Cell: (row) => {
           return (
-            <Tooltip title="Delete" arrow>
-              <div style={{ textAlign: "center" }}>
-                <GoTrashcan
-                  size={22}
-                  onClick={() =>
-                    this.handleOpenDelete(row?.original?.giftCardGeneralId)
-                  }
-                />
-              </div>
-            </Tooltip>
+            <div style={{ textAlign: "center" }}>
+              <Tooltip title="Delete" arrow>
+                <span>
+                  <GoTrashcan
+                    size={22}
+                    style={style.icon}
+                    onClick={() =>
+                      this.handleOpenDelete(row?.original?.giftCardGeneralId)
+                    }
+                  />
+                </span>
+              </Tooltip>
+              <Tooltip title="Edit" arrow>
+                <span style={{ paddingLeft: "10px" }}>
+                  <FiEdit
+                    size={22}
+                    style={style.icon}
+                    onClick={() => this.viewGeneration(row.original)}
+                  />
+                </span>
+              </Tooltip>
+            </div>
           );
         },
       },
     ];
-    const onRowClick = (state, rowInfo, column, instance) => {
-      return {
-        onClick: (e) => {
-          if (column?.id !== "Actions") {
-            this.props.VIEW_DETAIL(rowInfo.original);
-            this.props.history.push("/app/giftcard/generation/detail");
-          }
-        },
-      };
-    };
+
     const { page, pageCount, data } = this.state;
 
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Generation - Harmony Admin</title>
+          <title>Generation | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}
@@ -249,7 +258,6 @@ class Generation extends Component {
               noDataText="NO DATA!"
               loading={this.state.loading}
               columns={columns}
-              getTdProps={onRowClick}
             />
           </div>
         </div>
@@ -273,3 +281,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Generation);
+
+const style = {
+  icon: {
+    cursor: "pointer",
+  },
+};

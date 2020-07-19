@@ -465,14 +465,14 @@ class AddService extends Component {
                                     {this.state.imageProgress ? (
                                       <div
                                         style={{
-                                          width: "60%",
+                                          width: "35%",
                                           paddingBottom: "15px",
                                         }}
                                       >
                                         <LinearProgress />
                                       </div>
                                     ) : null}
-                                    <div style={{ width: "60%" }}>
+                                    <div style={{ width: "35%" }}>
                                       <input
                                         style={styles.uploadBtn}
                                         name="price"

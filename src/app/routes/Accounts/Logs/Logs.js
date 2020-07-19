@@ -116,7 +116,7 @@ class Logs extends Component {
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Log - Harmony Admin</title>
+          <title>Log | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}

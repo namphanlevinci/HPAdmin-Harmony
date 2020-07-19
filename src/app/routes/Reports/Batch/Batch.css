@@ -101,6 +101,9 @@
   margin-top: 20px;
 }
 
- .ReactTable .rt-thead.-headerGroups {
+.Batchs .ReactTable .rt-thead.-headerGroups {
   border-bottom: 1px solid#505050
+}
+.Batchs .ReactTable .rt-thead .rt-tr {
+  background: #4251af
 }

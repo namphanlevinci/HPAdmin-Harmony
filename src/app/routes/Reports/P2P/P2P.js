@@ -260,7 +260,7 @@ class P2P extends React.Component {
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Gift Card Transaction - Harmony Admin</title>
+          <title>Gift Card Transaction | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}

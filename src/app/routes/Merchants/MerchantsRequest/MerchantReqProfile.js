@@ -500,6 +500,14 @@ class MerchantReqProfile extends Component {
                   <p>{e.general !== null ? e.general.address : null}</p>
                 </div>
                 <div className="col-4">
+                  <label>City*</label>
+                  <p>{e?.general?.city}</p>
+                </div>
+                <div className="col-4">
+                  <label>State*</label>
+                  <p>{e?.state?.name}</p>
+                </div>
+                <div className="col-4">
                   <label>Zip Code*</label>
                   <p>{e.zip}</p>
                 </div>

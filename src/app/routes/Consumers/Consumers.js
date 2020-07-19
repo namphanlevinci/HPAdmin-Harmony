@@ -180,7 +180,7 @@ class Consumers extends React.Component {
       <>
         <div className="container-fluid">
           <Helmet>
-            <title>Consumer - Harmony Admin</title>
+            <title>Consumer | Harmony Admin</title>
           </Helmet>
           <ContainerHeader
             match={this.props.match}

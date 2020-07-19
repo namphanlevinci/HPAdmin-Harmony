@@ -47,7 +47,7 @@ const Extra = ({
           {values.extras && values.extras.length > 0 ? (
             values.extras.map((extras, index) => {
               const statusLabel =
-                extras?.isDisabled === 0 ? "Active" : "Disable";
+                extras?.isDisabled === 0 ? "Active" : "Inactive";
               return (
                 <div style={{ marginBottom: 40 }} key={index}>
                   <div

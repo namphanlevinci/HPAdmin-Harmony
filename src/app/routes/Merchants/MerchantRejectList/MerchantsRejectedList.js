@@ -163,7 +163,7 @@ class MerchantsRequest extends Component {
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Rejected Request - Harmony Admin</title>
+          <title>Rejected Request | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}

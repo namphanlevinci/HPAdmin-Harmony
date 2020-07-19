@@ -234,3 +234,7 @@ th {
 .user-table .tr {
   margin-top: 10px;
 }
+
+.user-table .ReactTable .rt-thead .rt-tr {
+  background: #4251af
+}

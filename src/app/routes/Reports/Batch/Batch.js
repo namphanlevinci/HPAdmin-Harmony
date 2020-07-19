@@ -185,7 +185,7 @@ class Transactions extends React.Component {
     return (
       <div className="container-fluid react-transition swipe-right Batchs">
         <Helmet>
-          <title>Batch Settlement - Harmony Admin</title>
+          <title>Batch Settlement | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}

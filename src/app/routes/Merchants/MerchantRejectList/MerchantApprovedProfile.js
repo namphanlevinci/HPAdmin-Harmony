@@ -184,6 +184,15 @@ class MerchantApprovedProfile extends Component {
                     <p>{e?.address}</p>
                   </div>
                   <div className="col-4">
+                    <label>City*</label>
+                    <p>{e?.city}</p>
+                  </div>
+                  <div className="col-4">
+                    <label>State*</label>
+                    <p>{e?.state?.name}</p>
+                  </div>
+
+                  <div className="col-4">
                     <label>Zip Code*</label>
                     <p>{e?.zip}</p>
                   </div>
@@ -196,7 +205,6 @@ class MerchantApprovedProfile extends Component {
                     <p>{e?.email}</p>
                   </div>
                 </div>
-                <h2 style={styles.h2}>Representative Information</h2>
                 <div className="row">
                   <div className="col-4">
                     <label>Contact Name*</label>

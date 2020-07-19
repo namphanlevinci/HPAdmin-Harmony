@@ -424,7 +424,7 @@ const EditPrincipal = ({
                               style={{ paddingTop: "10px", textAlign: "left" }}
                             >
                               <label style={{ paddingBottom: "10px" }}>
-                                Void Check*
+                                Driver License Picture*
                               </label>{" "}
                               <br />
                               {/* {$imagePreview} */}

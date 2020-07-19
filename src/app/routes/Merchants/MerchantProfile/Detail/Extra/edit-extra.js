@@ -147,7 +147,7 @@ const EditExtra = ({
                 setFieldValue,
               }) => (
                 <form onSubmit={handleSubmit}>
-                  <label style={{ padding: "10px 0px" }}>Extra name*</label>
+                  <label style={{ padding: "10px 0px" }}>Extra Name*</label>
                   <input
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -191,7 +191,7 @@ const EditExtra = ({
                     <div style={{ width: "35%" }}>
                       <label style={{ padding: "10px 0px" }}>Price*</label>
                       <input
-                        type="number"
+                        // type="number"
                         name="price"
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -223,7 +223,7 @@ const EditExtra = ({
                         type="file"
                         onChange={handleImageChange}
                         style={{
-                          width: "70%",
+                          width: "60%",
                           marginTop: "5px",
                         }}
                       />

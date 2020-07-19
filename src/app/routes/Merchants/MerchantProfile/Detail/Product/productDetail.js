@@ -94,7 +94,7 @@ class productDetail extends Component {
                   <p>{product.minThreshold}</p>
                 </div>
                 <div className="col-4">
-                  <label>Max Threshold</label>
+                  <label>Item Threshold</label>
                   <br />
                   <p>{product.maxThreshold}</p>
                 </div>

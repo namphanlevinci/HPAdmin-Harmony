@@ -300,7 +300,7 @@ class Transactions extends React.Component {
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Transaction - Harmony Admin</title>
+          <title>Transaction | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}

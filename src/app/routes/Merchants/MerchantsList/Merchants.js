@@ -178,7 +178,7 @@ class Merchants extends React.Component {
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Merchant - Harmony Admin</title>
+          <title>Merchant | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}

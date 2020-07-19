@@ -6,8 +6,7 @@ import {
 } from "../../../../actions/gift-card/actions";
 import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
-// import { FaRegEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
-// import { FiEdit } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 import { Helmet } from "react-helmet";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -139,6 +138,11 @@ class Generation extends Component {
       .catch((error) => console.log(error));
   };
 
+  editTemplate = (data) => {
+    this.props.VIEW_DETAIL(data.original);
+    this.props.history.push("/app/giftcard/template/edit");
+  };
+
   render() {
     const columns = [
       {
@@ -156,24 +160,24 @@ class Generation extends Component {
             }}
           />
         ),
-        width: 130,
+        // width: 130,
       },
       {
         Header: "Name",
         accessor: "giftCardTemplateName",
-        width: 180,
+        // width: 180,
       },
       {
         id: "Group",
         Header: "Group",
         accessor: "giftCardType",
-        width: 180,
+        // width: 180,
       },
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: (e) => <span>{e.value === 0 ? "Active" : "Disable"}</span>,
-        width: 150,
+        Cell: (e) => <span>{e.value === 0 ? "Active" : "Inactive"}</span>,
+        // width: 150,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}>Visible on App</div>,
@@ -193,40 +197,38 @@ class Generation extends Component {
         accessor: "Action",
         Cell: (row) => {
           return (
-            <div style={{ color: "#4251af", textAlign: "center" }}>
+            <div style={{ textAlign: "center" }}>
               <Tooltip title="Delete">
-                <GoTrashcan
-                  size={22}
-                  onClick={() =>
-                    this._handleOpenDelete(row?.original?.giftCardTemplateId)
-                  }
-                />
+                <span>
+                  <GoTrashcan
+                    size={22}
+                    onClick={() =>
+                      this._handleOpenDelete(row?.original?.giftCardTemplateId)
+                    }
+                  />
+                </span>
               </Tooltip>
-              {/* <Tooltip title="Edit">
-                <FaRegEdit size={22} />
-              </Tooltip> */}
+              <Tooltip title="Edit" arrow>
+                <span style={{ paddingLeft: "10px" }}>
+                  <FiEdit
+                    size={21}
+                    style={style.icon}
+                    onClick={() => this.editTemplate(row.original)}
+                  />
+                </span>
+              </Tooltip>
             </div>
           );
         },
       },
     ];
-    const onRowClick = (state, rowInfo, column, instance) => {
-      return {
-        onClick: (e) => {
-          if (column?.id !== "Actions") {
-            this.props.VIEW_DETAIL(rowInfo.original);
-            this.props.history.push("/app/giftcard/template/edit");
-          }
-        },
-      };
-    };
 
     const { page, pageCount, data } = this.state;
 
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Template - Harmony Admin</title>
+          <title>Template | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}
@@ -273,7 +275,6 @@ class Generation extends Component {
               noDataText="NO DATA!"
               loading={this.state.loading}
               columns={columns}
-              getTdProps={onRowClick}
               defaultPageSize={10}
             />
           </div>
@@ -298,3 +299,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Generation);
+
+const style = {
+  icon: {
+    cursor: "pointer",
+  },
+};

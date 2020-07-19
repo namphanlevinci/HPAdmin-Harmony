@@ -269,7 +269,15 @@ class MerchantRejectedProfile extends Component {
                 </div>
                 <div className="col-4">
                   <label>Business Address* (no P.O. Boxes)</label>
-                  <p>{e?.addressFull}</p>
+                  <p>{e?.address}</p>
+                </div>
+                <div className="col-4">
+                  <label>City*</label>
+                  <p>{e?.city}</p>
+                </div>
+                <div className="col-4">
+                  <label>State*</label>
+                  <p>{e?.state?.name}</p>
                 </div>
                 <div className="col-4">
                   <label>Zip Code*</label>
@@ -284,7 +292,7 @@ class MerchantRejectedProfile extends Component {
                   <p>{e?.general?.emailContact}</p>
                 </div>
               </div>
-              <h2 style={styles.h2}>Representative Information</h2>
+              {/* <h2 style={styles.h2}>Representative Information</h2> */}
               <div className="row">
                 <div className="col-4">
                   <label>Contact Name*</label>
@@ -317,13 +325,11 @@ class MerchantRejectedProfile extends Component {
                 </div>
                 <div className="col-4">
                   <label>Void Check*</label>
-                  {/* <a href={`${URL}/file/${e?.businessBank?.fileId}`}> */}
                   <img
                     style={{ width: "250px" }}
                     src={`${e?.businessBank?.imageUrl}`}
                     alt="void check"
                   />
-                  {/* </a> */}
                 </div>
               </div>
               <h2 style={styles.h2}>Principal Information</h2>

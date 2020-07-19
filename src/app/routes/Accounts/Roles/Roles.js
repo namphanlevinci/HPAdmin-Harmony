@@ -69,7 +69,7 @@ class Roles extends Component {
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Role - Harmony Admin</title>
+          <title>Role | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}
