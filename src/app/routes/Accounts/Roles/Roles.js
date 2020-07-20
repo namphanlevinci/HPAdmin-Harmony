@@ -21,21 +21,23 @@ import "../../Merchants/MerchantsList/merchantsList.css";
 class Roles extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      hubConnection: null,
-    };
+    this.state = {};
   }
 
-  componentDidMount() {
-    this.props.GET_ALL_PERMISSION();
-  }
+  componentDidMount = async () => {
+    await this.props.GET_ALL_PERMISSION();
+    const administrator = this.props.permissions[3].administrator;
+    this.setState({
+      administrator,
+    });
+  };
 
   handleChange = (event, name) => {
     console.log("name", name + "event", event);
   };
 
   render() {
-    console.log("permissions", this.props.permissions);
+    console.log("administrator", this.state.administrator);
     const department = [
       {
         Header: "Title",
