@@ -4,6 +4,8 @@ import { GoTrashcan } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
 import { Helmet } from "react-helmet";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import { connect } from "react-redux";
+import { GET_ALL_PERMISSION } from "../../../../actions/user/actions";
 
 import ReactTable from "react-table";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -24,7 +26,16 @@ class Roles extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.GET_ALL_PERMISSION();
+  }
+
+  handleChange = (event, name) => {
+    console.log("name", name + "event", event);
+  };
+
   render() {
+    console.log("permissions", this.props.permissions);
     const department = [
       {
         Header: "Title",
@@ -76,7 +87,7 @@ class Roles extends Component {
           title={<IntlMessages id="sidebar.dashboard.roles" />}
         />
         <div className="page-heading role">
-          <div className="role-department">
+          {/* <div className="role-department">
             <div
               style={{
                 display: "flex",
@@ -89,7 +100,7 @@ class Roles extends Component {
             </div>
 
             <ReactTable columns={department} data={data} minRows={1} />
-          </div>
+          </div> */}
           <div className="role-permissions">
             <h3>Permissions</h3>
 
@@ -197,7 +208,7 @@ class Roles extends Component {
                     <Checkbox checked={false} style={styles.checkbox} />
                   </td>
                 </tr>
-                <tr className="module">
+                {/* <tr className="module">
                   <th>Module 2</th>
                 </tr>
                 <tr>
@@ -389,7 +400,7 @@ class Roles extends Component {
                   <td>
                     <Checkbox checked={false} style={styles.checkbox} />
                   </td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
             <div style={styles.btn}>
@@ -402,7 +413,16 @@ class Roles extends Component {
   }
 }
 
-export default Roles;
+const mapStateToProps = (state) => ({
+  userLogin: state.userReducer,
+  permissions: state.userReducer.allPermission,
+});
+const mapDispatchToProps = (dispatch) => ({
+  GET_ALL_PERMISSION: () => {
+    dispatch(GET_ALL_PERMISSION());
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Roles);
 
 const styles = {
   checkbox: {

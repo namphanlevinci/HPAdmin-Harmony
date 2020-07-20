@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { GET_PERMISSION_BY_ID } from "../../actions/user/actions";
 import Button from "@material-ui/core/Button";
 import IntlMessages from "../../util/IntlMessages";
 import CustomScrollbars from "../../util/CustomScrollbars";
-import { connect } from "react-redux";
 import CheckPermissions from "../../util/checkPermission";
 
 class SidenavContent extends Component {
@@ -11,7 +12,6 @@ class SidenavContent extends Component {
     const { history } = this.props;
     const that = this;
     const pathname = `${history.location.pathname}`; // get current path
-
     const menuLi = document.getElementsByClassName("menu");
     for (let i = 0; i < menuLi.length; i++) {
       menuLi[i].onclick = function(event) {
@@ -87,10 +87,16 @@ class SidenavContent extends Component {
     return null;
   }
 
+  reloadPermission = () => {
+    this.props.GET_PERMISSION_BY_ID(this.props?.userLogin?.userAdmin?.waRoleId);
+  };
+
   render() {
     // const UserAdmin = this.props.userLogin.userAdmin.waRoleId;
     return (
       <CustomScrollbars className=" scrollbar">
+        {/* <button onClick={this.reloadPermission}>Reload Permission</button> */}
+
         <ul className="nav-menu">
           <li className="nav-header">
             <IntlMessages id="sidebar.main" />
@@ -105,42 +111,45 @@ class SidenavContent extends Component {
             </NavLink>
           </li> */}
           {/*REQUEST MANAGEMENT */}
-          {/* {CheckPermissions("Request Management", "view-pending") ? ( */}
-          <li className="menu collapse-box">
-            <Button>
-              <i className="zmdi zmdi-account-add zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.requestManagement" />
-              </span>
-            </Button>
-            <ul className="sub-menu">
-              <li>
-                <NavLink className="prepend-icon" to="/app/merchants/pending">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.pendingRequest" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/merchants/approved">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.approvedRequest" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/merchants/rejected">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.rejectedRequest" />
-                  </span>
-                </NavLink>
-              </li>
-            </ul>
-          </li>
-          {/* ) : null} */}
-
-          {/* ) : null
-          ) : null} */}
+          {CheckPermissions("Request Management", "view-pending") ? (
+            <li className="menu collapse-box">
+              <Button>
+                <i className="zmdi zmdi-account-add zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.requestManagement" />
+                </span>
+              </Button>
+              <ul className="sub-menu">
+                <li>
+                  <NavLink className="prepend-icon" to="/app/merchants/pending">
+                    <span className="nav-text">
+                      <IntlMessages id="sidebar.dashboard.pendingRequest" />
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="prepend-icon"
+                    to="/app/merchants/approved"
+                  >
+                    <span className="nav-text">
+                      <IntlMessages id="sidebar.dashboard.approvedRequest" />
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="prepend-icon"
+                    to="/app/merchants/rejected"
+                  >
+                    <span className="nav-text">
+                      <IntlMessages id="sidebar.dashboard.rejectedRequest" />
+                    </span>
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
+          ) : null}
 
           {/* MERCHANT  */}
           <li className="menu no-arrow">
@@ -217,13 +226,13 @@ class SidenavContent extends Component {
                   </span>
                 </NavLink>
               </li>
-              {/* <li>
+              <li>
                 <NavLink className="prepend-icon" to="/app/accounts/roles">
                   <span className="nav-text">
                     <IntlMessages id="sidebar.dashboard.roles" />
                   </span>
                 </NavLink>
-              </li> */}
+              </li>
               <li>
                 <NavLink className="prepend-icon" to="/app/accounts/logs">
                   <span className="nav-text">
@@ -357,4 +366,12 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   checkPermission: state.userReducer.checkPermission,
 });
-export default withRouter(connect(mapStateToProps)(SidenavContent));
+
+const mapDispatchToProps = (dispatch) => ({
+  GET_PERMISSION_BY_ID: (payload) => {
+    dispatch(GET_PERMISSION_BY_ID(payload));
+  },
+});
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SidenavContent)
+);

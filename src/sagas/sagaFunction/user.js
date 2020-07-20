@@ -5,6 +5,8 @@ import {
   USER_VERIFY_API,
   ADD_USER_API,
   GET_USER_BY_ID_API,
+  GET_PERMISSION_BY_ROLE_ID_API,
+  GET_ALL_PERMISSION_API,
 } from "../api/user";
 import { takeLatest, put } from "redux-saga/effects";
 
@@ -108,6 +110,59 @@ export function* GET_USER_BY_ID_SAGA() {
       }
     } catch (error) {
       yield put({ type: typeUser.GET_USER_BY_ID_FAILURE, payload: error });
+    }
+  });
+}
+
+export function* GET_PERMISSION_BY_ROLE_ID_SAGA() {
+  yield takeLatest(typeUser.GET_PERMISSION_BY_ID, function*({
+    action,
+    payload,
+  }) {
+    try {
+      const check = yield GET_PERMISSION_BY_ROLE_ID_API(payload);
+      if (check.data !== null) {
+        yield put({
+          type: typeUser.GET_PERMISSION_BY_ID_SUCCESS,
+          payload: check.data,
+        });
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeUser.GET_PERMISSION_BY_ID_FAILURE,
+          payload: check.message,
+        });
+      }
+    } catch (error) {
+      yield put({
+        type: typeUser.GET_PERMISSION_BY_ID_FAILURE,
+        payload: error,
+      });
+    }
+  });
+}
+
+export function* GET_ALL_PERMISSION_SAGA() {
+  yield takeLatest(typeUser.GET_ALL_PERMISSION, function*({ action, payload }) {
+    try {
+      const check = yield GET_ALL_PERMISSION_API(payload);
+      if (check.data !== null) {
+        yield put({
+          type: typeUser.GET_ALL_PERMISSION_SUCCESS,
+          payload: check.data,
+        });
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeUser.GET_ALL_PERMISSION_FAILURE,
+          payload: check.message,
+        });
+      }
+    } catch (error) {
+      yield put({
+        type: typeUser.GET_ALL_PERMISSION_FAILURE,
+        payload: error,
+      });
     }
   });
 }

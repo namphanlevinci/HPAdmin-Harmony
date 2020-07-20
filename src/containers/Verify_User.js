@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Verify } from "../actions/user/actions";
 import { connect } from "react-redux";
-
+import { GET_PERMISSION_BY_ID } from "../actions/user/actions";
 import IntlMessages from "../util/IntlMessages";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -19,7 +19,7 @@ class Verify_User extends React.Component {
   componentDidMount() {
     // document.addEventListener("keypress", this.keyPressed);
     const messaging = firebase.messaging();
-
+    console.log("userLogin", this.props.userLogin);
     messaging
       .requestPermission()
       .then(() => {
@@ -35,6 +35,24 @@ class Verify_User extends React.Component {
   componentWillUnmount() {
     document.removeEventListener("keypress", this.keyPressed);
   }
+
+  // getPermission = () => {
+  //   this.props.GET_PERMISSION_BY_ID(
+  //     this.props?.userLogin?.User?.userAdmin?.waRoleId
+  //   );
+  // };
+
+  // componentDidUpdate(nextProps) {
+  //   console.log("nextProps", nextProps);
+  //   console.log("this.props.userLogin", this.props.userLogin);
+  //   if (nextProps.userLogin.User) {
+  //     console.log("get role");
+  //     this.props.GET_PERMISSION_BY_ID(
+  //       this.props?.userLogin?.User?.userAdmin?.waRoleId
+  //     );
+  //   }
+  // }
+
   keyPressed = (e) => {
     if (e.code === "Enter") {
       this._Login();
@@ -47,6 +65,9 @@ class Verify_User extends React.Component {
     const token = this.state.token;
     const data = { code, serial, token };
     await this.props.Verify(data);
+    await this.props.GET_PERMISSION_BY_ID(
+      this.props?.userLogin?.User?.userAdmin?.waRoleId
+    );
   };
 
   render() {
@@ -57,7 +78,7 @@ class Verify_User extends React.Component {
             <Link
               className="app-logo"
               to="/app/app-module/login-2"
-              title="Jambo"
+              title="Harmony Payment"
             >
               <img src={require("./logo-blue.png")} alt="jambo" title="jambo" />
             </Link>
@@ -108,6 +129,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   Verify: (payload) => {
     dispatch(Verify(payload));
+  },
+  GET_PERMISSION_BY_ID: (payload) => {
+    dispatch(GET_PERMISSION_BY_ID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Verify_User);

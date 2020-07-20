@@ -78,3 +78,31 @@ export const ADD_ADMIN_FAILURE = (payload) => ({
   type: types.ADD_ADMIN_FAILURE,
   payload: payload,
 });
+
+// GET PERMISSION BY ROLE ID
+export const GET_PERMISSION_BY_ID = (payload) => ({
+  type: types.GET_PERMISSION_BY_ID,
+  payload: payload,
+});
+export const GET_PERMISSION_BY_ID_SUCCESS = (payload) => ({
+  type: types.GET_PERMISSION_BY_ID_SUCCESS,
+  payload: payload,
+});
+export const GET_PERMISSION_BY_ID_FAILURE = (payload) => ({
+  type: types.GET_PERMISSION_BY_ID_FAILURE,
+  payload: payload,
+});
+
+// GET ALL PERMISSION
+export const GET_ALL_PERMISSION = (payload) => ({
+  type: types.GET_ALL_PERMISSION,
+  payload: payload,
+});
+export const GET_ALL_PERMISSION_SUCCESS = (payload) => ({
+  type: types.GET_ALL_PERMISSION_SUCCESS,
+  payload: payload,
+});
+export const GET_ALL_PERMISSION_FAILURE = (payload) => ({
+  type: types.GET_ALL_PERMISSION_FAILURE,
+  payload: payload,
+});

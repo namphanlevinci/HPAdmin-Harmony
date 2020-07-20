@@ -4,8 +4,8 @@ function CheckPermissions(name, permissionName) {
   const Permission = store.getState();
   const checkPermission = Permission?.userReducer?.userModulePages;
 
-  // console.log("checkPermission", checkPermission);
-  // console.log("name", name);
+  console.log("name", name);
+  console.log("permissionName", permissionName);
 
   // const filterPermissionByPage = checkPermission.map(
   //   (page) => page.modulePage === name
@@ -28,8 +28,8 @@ function CheckPermissions(name, permissionName) {
   //   (role) => role === permissionName
   // );
 
-  // console.log("filterPermissionByPage", filterPermissionByPage);
-  // console.log("getPermissionByName", getPermissionByName);
+  console.log("filterPermissionByPage", filterPermissionByPage);
+  console.log("getPermissionByName", getPermissionByName);
 
   return getPermissionByName;
 }

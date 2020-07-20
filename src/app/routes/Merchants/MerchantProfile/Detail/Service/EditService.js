@@ -75,7 +75,6 @@ class EditService extends Component {
           position: service.position,
           price: Number(service.price).toFixed(2),
           supplyFee: service.supplyFee,
-          secondTime: service.secondTime,
           duration: service.duration,
           isDisabled: service.isDisabled,
           imageUrl: service.imageUrl,

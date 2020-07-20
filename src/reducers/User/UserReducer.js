@@ -10,75 +10,8 @@ const initialState = {
   viewUser: "",
   AddUser: "",
   VERIFY_NUMBER: "",
-
-  userModulePages: [
-    {
-      modulePage: "Request Management",
-      modulePageUrl: "user-roles-list",
-      moduleId: 2,
-      moduleName: "Administration",
-      modulePageId: 2,
-      actions: [
-        {
-          actionId: 2,
-          actionUrl: "merchant/pending",
-          action: "view-pending",
-          roleIsActive: true,
-        },
-        {
-          actionId: 2,
-          actionUrl: "merchant/pending",
-          action: "edit-pending",
-          roleIsActive: true,
-        },
-        {
-          actionId: 2,
-          actionUrl: "merchant/pending",
-          action: "reject-pending",
-          roleIsActive: true,
-        },
-        {
-          actionId: 2,
-          actionUrl: "merchant/pending",
-          action: "accept-pending",
-          roleIsActive: true,
-        },
-      ],
-    },
-    {
-      modulePage: "Merchant",
-      modulePageUrl: "user-roles-list",
-      moduleId: 2,
-      moduleName: "Administration",
-      modulePageId: 2,
-      actions: [
-        {
-          actionId: 2,
-          actionUrl: "merchant/pending",
-          action: "view-pending",
-          roleIsActive: false,
-        },
-        {
-          actionId: 2,
-          actionUrl: "merchant/pending",
-          action: "edit-pending",
-          roleIsActive: true,
-        },
-        {
-          actionId: 2,
-          actionUrl: "merchant/pending",
-          action: "reject-pending",
-          roleIsActive: true,
-        },
-        {
-          actionId: 2,
-          actionUrl: "merchant/pending",
-          action: "accept-pending",
-          roleIsActive: true,
-        },
-      ],
-    },
-  ],
+  userModulePages: [],
+  allPermission: [],
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
@@ -122,13 +55,12 @@ const userReducer = (state = initialState, { type, payload }) => {
       return { ...state };
 
     case types.VERIFY_SUCCESS:
+      console.log("payload", payload);
       state.User = payload;
       localStorage.setItem("User_login", JSON.stringify(payload));
-
       setTimeout(() => {
         window.location.href = "/app/merchants/list";
       }, 500);
-
       return { ...state, User: payload };
 
     case types.VERIFY_FAILURE:
@@ -190,6 +122,14 @@ const userReducer = (state = initialState, { type, payload }) => {
         width: 250,
       });
       return { ...state };
+    case types.GET_PERMISSION_BY_ID_SUCCESS:
+      state.userModulePages = payload;
+      return { ...state, userModulePages: payload };
+
+    case types.GET_ALL_PERMISSION_SUCCESS:
+      state.allPermission = payload;
+      return { ...state, allPermission: payload };
+
     default:
       return state;
   }

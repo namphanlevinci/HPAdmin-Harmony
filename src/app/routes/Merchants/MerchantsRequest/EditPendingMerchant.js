@@ -245,14 +245,14 @@ class EditPendingMerchant extends Component {
                   validator={this.validator}
                 />
                 <PendingInput
-                  label="City"
+                  label="City*"
                   name="city"
                   initValue={this.state.city}
                   onChangeInput={this.handleChange}
                   validator={this.validator}
                 />
                 <div className="col-4" style={{ paddingTop: "10px" }}>
-                  <label>State</label>
+                  <label>State*</label>
                   <div>
                     {this.state.loading ? (
                       <Select
@@ -269,7 +269,7 @@ class EditPendingMerchant extends Component {
                 </div>
 
                 <PendingInput
-                  label="Zip*"
+                  label="Zip Code*"
                   name="zip"
                   initValue={this.state.zip}
                   onChangeInput={this.handleChange}
@@ -289,7 +289,7 @@ class EditPendingMerchant extends Component {
                   {this.state.loading && (
                     <PhoneInput
                       style={{ marginTop: "10px" }}
-                      placeholder="Business Phone Number"
+                      placeholder="Business Phone Number*"
                       name="businessPhone"
                       value={this.state.phoneBusiness}
                       onChange={(phone) =>
@@ -311,7 +311,7 @@ class EditPendingMerchant extends Component {
               <div className="row justify-content-between">
                 <PendingInput
                   styles="col-3"
-                  label="First Name"
+                  label="First Name*"
                   name="firstName"
                   initValue={this.state.firstName}
                   onChangeInput={this.handleChange}
@@ -320,7 +320,7 @@ class EditPendingMerchant extends Component {
                 />
                 <PendingInput
                   styles="col-3"
-                  label="Last Name"
+                  label="Last Name*"
                   name="lastName"
                   initValue={this.state.lastName}
                   onChangeInput={this.handleChange}
@@ -329,7 +329,7 @@ class EditPendingMerchant extends Component {
                 />
                 <PendingInput
                   styles="col-3"
-                  label="Title/Position"
+                  label="Title/Position*"
                   name="title"
                   initValue={this.state.title}
                   onChangeInput={this.handleChange}

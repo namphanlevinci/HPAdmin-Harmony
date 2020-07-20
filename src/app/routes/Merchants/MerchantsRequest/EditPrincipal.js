@@ -211,9 +211,9 @@ const EditPrincipal = ({
                               className="col-4"
                               style={{ textAlign: "left" }}
                             >
-                              <label>First Name</label>
+                              <label>First Name*</label>
                               <Field
-                                placeholder="First Name"
+                                placeholder="First Name*"
                                 name={`PrincipalInfo.${index}.firstName`}
                                 values={`PrincipalInfo.${index}.firstName`}
                               />
@@ -225,9 +225,9 @@ const EditPrincipal = ({
                               className="col-4"
                               style={{ textAlign: "left" }}
                             >
-                              <label>Last Name</label>
+                              <label>Last Name*</label>
                               <Field
-                                placeholder="First Name"
+                                placeholder="Last Name*"
                                 name={`PrincipalInfo.${index}.lastName`}
                                 values={`PrincipalInfo.${index}.lastName`}
                               />
@@ -239,7 +239,7 @@ const EditPrincipal = ({
                               className="col-4"
                               style={{ textAlign: "left" }}
                             >
-                              <label>Title</label>
+                              <label>Title/Position*</label>
                               <Field
                                 placeholder="First Name"
                                 name={`PrincipalInfo.${index}.title`}
@@ -262,7 +262,7 @@ const EditPrincipal = ({
                             </div>
 
                             <div className="col-4" style={styles.div}>
-                              <label>Address</label>
+                              <label>Address*</label>
                               <Field
                                 placeholder="Address"
                                 name={`PrincipalInfo.${index}.address`}

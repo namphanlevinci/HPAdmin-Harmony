@@ -5,6 +5,8 @@ import {
   USER_VERIFY_SAGA,
   ADD_USER_SAGA,
   GET_USER_BY_ID_SAGA,
+  GET_PERMISSION_BY_ROLE_ID_SAGA,
+  GET_ALL_PERMISSION_SAGA,
 } from "../sagas/sagaFunction/user";
 import {
   GET_ALL_MERCHANT_SAGA,
@@ -70,4 +72,6 @@ export default function* rootSaga() {
   yield fork(GET_TEMPLATE_SAGA);
   yield fork(GET_GIFT_CARD_BY_ID_SAGA);
   yield fork(GET_GIFT_CARD_CODE_LOG_BY_ID_SAGA);
+  yield fork(GET_PERMISSION_BY_ROLE_ID_SAGA);
+  yield fork(GET_ALL_PERMISSION_SAGA);
 }
