@@ -7,6 +7,7 @@ import {
   GET_USER_BY_ID_API,
   GET_PERMISSION_BY_ROLE_ID_API,
   GET_ALL_PERMISSION_API,
+  UPDATE_PERMISSION_API,
 } from "../api/user";
 import { takeLatest, put } from "redux-saga/effects";
 
@@ -163,6 +164,28 @@ export function* GET_ALL_PERMISSION_SAGA() {
         type: typeUser.GET_ALL_PERMISSION_FAILURE,
         payload: error,
       });
+    }
+  });
+}
+
+export function* UPDATE_PERMISSION_SAGA() {
+  yield takeLatest(typeUser.UPDATE_PERMISSIONS, function*(action) {
+    try {
+      const check = yield UPDATE_PERMISSION_API(action.payload);
+      if (check.data !== null) {
+        yield put({
+          type: typeUser.UPDATE_PERMISSIONS_SUCCESS,
+          payload: check.data,
+        });
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeUser.UPDATE_PERMISSIONS_FAILURE,
+          payload: check.message,
+        });
+      }
+    } catch (error) {
+      yield put({ type: typeUser.UPDATE_PERMISSIONS_FAILURE, payload: error });
     }
   });
 }

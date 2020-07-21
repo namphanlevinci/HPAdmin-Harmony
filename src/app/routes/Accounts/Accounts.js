@@ -1,5 +1,8 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { GET_ALL_PERMISSION } from "../../../actions/user/actions";
+import { connect } from "react-redux";
+
 import asyncComponent from "../../../util/asyncComponent";
 
 const Accounts = ({ match }) => (
@@ -25,6 +28,7 @@ const Accounts = ({ match }) => (
       />
       <Route
         path={`${match.url}/roles`}
+        onClick={() => this.props.GET_ALL_PERMISSION()}
         component={asyncComponent(() => import("./Roles/Roles"))}
       />
       <Route
@@ -40,4 +44,10 @@ const Accounts = ({ match }) => (
   </div>
 );
 
-export default Accounts;
+const mapDispatchToProps = (dispatch) => ({
+  GET_ALL_PERMISSION: () => {
+    dispatch(GET_ALL_PERMISSION());
+  },
+});
+
+export default connect(null, mapDispatchToProps)(Accounts);

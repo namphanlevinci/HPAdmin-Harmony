@@ -5,14 +5,19 @@ import { FiEdit } from "react-icons/fi";
 import { Helmet } from "react-helmet";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { connect } from "react-redux";
-import { GET_ALL_PERMISSION } from "../../../../actions/user/actions";
+import {
+  GET_ALL_PERMISSION,
+  UPDATE_PERMISSIONS,
+  GET_PERMISSION_BY_ID,
+} from "../../../../actions/user/actions";
 
 import ReactTable from "react-table";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import data from "./data.json";
+// import data from "./data.json";
+import update from "immutability-helper";
 
 import "./Roles.scss";
 import "react-table/react-table.css";
@@ -21,23 +26,92 @@ import "../../Merchants/MerchantsList/merchantsList.css";
 class Roles extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: false,
+    };
   }
 
   componentDidMount = async () => {
     await this.props.GET_ALL_PERMISSION();
-    const administrator = this.props.permissions[3].administrator;
+
+    const adminPermissions = this.props.permissions
+      .filter(({ waRoleId }) => waRoleId === 1)
+      .reduce((obj, item) => item, {});
+
+    const managerPermissions = this.props.permissions
+      .filter(({ waRoleId }) => waRoleId === 2)
+      .reduce((obj, item) => item, {});
+
     this.setState({
-      administrator,
+      loading: true,
+      adminPermissions,
+      managerPermissions,
     });
   };
 
-  handleChange = (event, name) => {
-    console.log("name", name + "event", event);
+  handleChange = (check, name) => {
+    console.log("event", check.target.checked);
+    console.log("name", name);
+    const isCheck = check.target.checked;
+
+    const { adminPermissions, managerPermissions } = this.state;
+    const index = Number(name.actionId) - 1;
+
+    if (Number(name.waRoleId) === 1) {
+      this.setState({
+        [name.action]: isCheck,
+      });
+
+      const newState = update(adminPermissions, {
+        actions: {
+          [index]: {
+            $set: {
+              ...name,
+              roleIsActive: isCheck,
+            },
+          },
+        },
+      });
+      this.setState({
+        adminPermissions: newState,
+      });
+    }
+    if (Number(name.waRoleId) === 2) {
+      const newState = update(managerPermissions, {
+        actions: {
+          [index]: {
+            $set: {
+              ...name,
+              roleIsActive: isCheck,
+            },
+          },
+        },
+      });
+      this.setState({
+        managerPermissions: newState,
+      });
+    }
+  };
+
+  handleUpdatePermission = async () => {
+    // console.log("this.state", this.state);
+    const { adminPermissions, managerPermissions } = this.state;
+    const data = [{ ...adminPermissions }, { ...managerPermissions }];
+
+    await this.props.UPDATE_PERMISSIONS(data);
+
+    await this.props.GET_ALL_PERMISSION();
+
+    setTimeout(() => {
+      this.props.GET_PERMISSION_BY_ID(
+        this.props?.userLogin?.userAdmin?.waRoleId
+      );
+    }, 1000);
   };
 
   render() {
-    console.log("administrator", this.state.administrator);
+    const { adminPermissions, managerPermissions } = this.state;
+
     const department = [
       {
         Header: "Title",
@@ -79,6 +153,44 @@ class Roles extends Component {
       },
     ];
 
+    const renderPermissionName = adminPermissions?.actions?.map((item) => {
+      return (
+        <tr key={item.actionId}>
+          <td style={{ height: "44px" }}>{item?.name}</td>
+        </tr>
+      );
+    });
+
+    const renderAdmin = adminPermissions?.actions?.map((item) => {
+      return (
+        <tr key={item.actionId}>
+          <td style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={item?.roleIsActive}
+              style={styles.checkbox}
+              onChange={(check) => this.handleChange(check, item)}
+              name={item?.action}
+            />
+          </td>
+        </tr>
+      );
+    });
+
+    const renderManager = managerPermissions?.actions?.map((item) => {
+      return (
+        <tr key={item.actionId}>
+          <td style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={item?.roleIsActive || ""}
+              style={styles.checkbox}
+              onChange={(check) => this.handleChange(check, item)}
+              name={item?.action}
+            />
+          </td>
+        </tr>
+      );
+    });
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -88,6 +200,7 @@ class Roles extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.roles" />}
         />
+
         <div className="page-heading role">
           {/* <div className="role-department">
             <div
@@ -106,307 +219,59 @@ class Roles extends Component {
           <div className="role-permissions">
             <h3>Permissions</h3>
 
-            <table style={{ width: "100%" }}>
-              <thead>
-                <tr>
-                  <th style={{ width: "44%" }}>Roles</th>
-                  <th style={{ width: "14%" }}>Manager</th>
-                  <th style={{ width: "14%" }}>Administrator</th>
-                  <th style={{ width: "14%" }}>Staff level 1</th>
-                  <th style={{ width: "14%" }}>Staff level 2</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="module">
-                  <th>Module 1: Request Management</th>
-                </tr>
-                <tr>
-                  <td>View Request Management</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>View Pending Request</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>View Approved Request</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>View Rejected Request</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Lorem Ipsum is therefore always free from repetition.</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>It uses a dictionary of over 200 Latin words</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                {/* <tr className="module">
-                  <th>Module 2</th>
-                </tr>
-                <tr>
-                  <td>It uses a dictionary of over 200 Latin words</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Many desktop publishing packages</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Contrary to popular belief, Lorem Ipsum is not</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>It has survived not only five centuries</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Richard McClintock, a Latin professor at Hampden-Sydney
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    The standard chunk of Lorem Ipsum used since the 1500s
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr className="module">
-                  <th>Module 3</th>
-                </tr>
-                <tr>
-                  <td>Donec efficitur odio vel velit aliquet dictum.</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Vestibulum congue metus sed lobortis sodales.</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Donec sit amet turpis eu arcu luctus ultricies</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Ut ut massa ac ex rutrum tempus.</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Maecenas ac nulla sed eros fringilla bibendum vitae eu
-                    neque.
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>In porttitor velit a varius aliquet.</td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={true} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                  <td>
-                    <Checkbox checked={false} style={styles.checkbox} />
-                  </td>
-                </tr> */}
-              </tbody>
-            </table>
+            <div style={{ display: "flex" }}>
+              <table style={{ width: "30%" }}>
+                <tbody>
+                  <tr className="module">
+                    <th style={styles.none}>''</th>
+                  </tr>
+                  <tr>
+                    <th>Roles</th>
+                  </tr>
+                  <tr className="module">
+                    <th>Module</th>
+                  </tr>
+                  {renderPermissionName}
+                </tbody>
+              </table>
+
+              <table style={{ width: "15%" }}>
+                <tbody>
+                  <tr className="module">
+                    <th style={styles.none}>''</th>
+                  </tr>
+                  <tr className="module2">
+                    <th>Administrator</th>
+                  </tr>
+                  <tr className="module">
+                    <th style={styles.none}>""</th>
+                  </tr>
+                  {renderAdmin}
+                </tbody>
+              </table>
+
+              <table style={{ width: "15%" }}>
+                <tbody>
+                  <tr className="module">
+                    <th style={styles.none}>''</th>
+                  </tr>
+                  <tr className="module2">
+                    <th>Manager</th>
+                  </tr>
+                  <tr className="module">
+                    <th style={styles.none}>""</th>
+                  </tr>
+                  {renderManager}
+                </tbody>
+              </table>
+            </div>
             <div style={styles.btn}>
-              <Button className="btn btn-green">SAVE</Button>
+              <Button
+                className="btn btn-green"
+                onClick={this.handleUpdatePermission}
+              >
+                SAVE
+              </Button>
             </div>
           </div>
         </div>
@@ -416,12 +281,18 @@ class Roles extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer,
+  userLogin: state.userReducer?.User,
   permissions: state.userReducer.allPermission,
 });
 const mapDispatchToProps = (dispatch) => ({
   GET_ALL_PERMISSION: () => {
     dispatch(GET_ALL_PERMISSION());
+  },
+  UPDATE_PERMISSIONS: (data) => {
+    dispatch(UPDATE_PERMISSIONS(data));
+  },
+  GET_PERMISSION_BY_ID: (payload) => {
+    dispatch(GET_PERMISSION_BY_ID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Roles);
@@ -436,5 +307,11 @@ const styles = {
   img: {
     borderRadius: "50%",
     width: "20%",
+  },
+  none: {
+    color: "white",
+  },
+  role: {
+    textAlign: "center !important",
   },
 };

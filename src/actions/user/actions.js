@@ -106,3 +106,17 @@ export const GET_ALL_PERMISSION_FAILURE = (payload) => ({
   type: types.GET_ALL_PERMISSION_FAILURE,
   payload: payload,
 });
+
+// UPDATE ROLE PERMISSION
+export const UPDATE_PERMISSIONS = (payload) => ({
+  type: types.UPDATE_PERMISSIONS,
+  payload: payload,
+});
+export const UPDATE_PERMISSIONS_SUCCESS = (payload) => ({
+  type: types.UPDATE_PERMISSIONS_SUCCESS,
+  payload: payload,
+});
+export const UPDATE_PERMISSIONS_FAILURE = (payload) => ({
+  type: types.UPDATE_PERMISSIONS_FAILURE,
+  payload: payload,
+});

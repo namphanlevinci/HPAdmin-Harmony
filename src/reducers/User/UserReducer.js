@@ -17,10 +17,9 @@ const initialState = {
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.USER_LOGIN_SUCCESS:
-      state.VERIFY_NUMBER = payload;
       localStorage.setItem("VERIFY_NUMBER", JSON.stringify(payload));
       window.location.href = "/verify";
-      return { ...state };
+      return { ...state, VERIFY_NUMBER: payload };
 
     case types.USER_LOGIN_FAILURE:
       store.addNotification({
@@ -56,11 +55,10 @@ const userReducer = (state = initialState, { type, payload }) => {
 
     case types.VERIFY_SUCCESS:
       console.log("payload", payload);
-      state.User = payload;
       localStorage.setItem("User_login", JSON.stringify(payload));
       setTimeout(() => {
         window.location.href = "/app/merchants/list";
-      }, 500);
+      }, 1000);
       return { ...state, User: payload };
 
     case types.VERIFY_FAILURE:
@@ -80,11 +78,9 @@ const userReducer = (state = initialState, { type, payload }) => {
       });
       return { ...state };
     case types.VIEW_PROFILE_USER:
-      state.viewUser = payload;
       return { ...state, viewUser: payload };
 
     case types.GET_USER_BY_ID_SUCCESS:
-      state.userByID = payload;
       return { ...state, userByID: payload };
 
     case types.ADD_ADMIN_SUCCESS:
@@ -102,7 +98,6 @@ const userReducer = (state = initialState, { type, payload }) => {
         },
         width: 250,
       });
-      state.AddUser = payload;
       window.location.href = "/app/accounts/admin";
       return { ...state, AddUser: payload };
 
@@ -123,13 +118,43 @@ const userReducer = (state = initialState, { type, payload }) => {
       });
       return { ...state };
     case types.GET_PERMISSION_BY_ID_SUCCESS:
-      state.userModulePages = payload;
       return { ...state, userModulePages: payload };
 
     case types.GET_ALL_PERMISSION_SUCCESS:
-      state.allPermission = payload;
       return { ...state, allPermission: payload };
 
+    case types.UPDATE_PERMISSIONS_SUCCESS:
+      store.addNotification({
+        title: "SUCCESS!",
+        message: "UPDATE PERMISSIONS SUCCESSFUL",
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true,
+        },
+        width: 250,
+      });
+      return { ...state };
+    case types.UPDATE_PERMISSIONS_FAILURE:
+      store.addNotification({
+        title: "ERROR!",
+        message: `${payload}`,
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true,
+        },
+        width: 250,
+      });
+      return { ...state };
     default:
       return state;
   }

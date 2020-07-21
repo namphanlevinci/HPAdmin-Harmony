@@ -11,7 +11,6 @@
 
 
 .role .role-permissions {
-    // margin-top: 50px;
 
     table {
       width: 100%;
@@ -29,9 +28,9 @@
       text-align: left;
     }
     
-    table th:first-child {
-      text-align: left;
-    }
+    // table th:first-child {
+    //   text-align: left;
+    // }
     table .module th {
       padding: 15px 0px;
       color: black;
@@ -42,10 +41,18 @@
       padding-left: 10px;
     }
     table td {
-      // border-collapse: collapse;
-      // border-radius: 10px !important;
-      // border-style: hidden; /* hide standard table (collapsed) border */
       box-shadow: 0 0 0 1px #dddddd; /* this draws the table border  */ 
+    }
+
+   
+
+    table .module2 {
+      color: #4251af;
+      text-align: center;
+    }
+   .module .none  th {
+      color: white;
+
     }
 
 }
