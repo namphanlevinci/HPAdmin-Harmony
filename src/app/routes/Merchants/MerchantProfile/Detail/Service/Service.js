@@ -17,6 +17,7 @@ import ReactTable from "react-table";
 import axios from "axios";
 import defaultImage from "../Extra/hpadmin2.png";
 import AddService from "./add-service";
+import CheckPermissions from "../../../../../../util/checkPermission";
 
 import "react-table/react-table.css";
 const URL = config.url.URL;
@@ -208,35 +209,40 @@ class Service extends Component {
         sortable: false,
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
         Cell: (row) => {
+          const actionsBtn =
+            row.original.isDisabled !== 1 ? (
+              <GoTrashcan
+                size={22}
+                onClick={() => [
+                  this.setState({
+                    categoryId: row.original.serviceId,
+                    dialog: true,
+                  }),
+                ]}
+              />
+            ) : (
+              <FaTrashRestoreAlt
+                size={20}
+                onClick={() =>
+                  this.setState({
+                    categoryId: row.original.serviceId,
+                    restoreDialog: true,
+                  })
+                }
+              />
+            );
           return (
             <div style={{ textAlign: "center" }}>
-              {row.original.isDisabled !== 1 ? (
-                <GoTrashcan
-                  size={22}
-                  onClick={() => [
-                    this.setState({
-                      categoryId: row.original.serviceId,
-                      dialog: true,
-                    }),
-                  ]}
-                />
-              ) : (
-                <FaTrashRestoreAlt
-                  size={20}
-                  onClick={() =>
-                    this.setState({
-                      categoryId: row.original.serviceId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
+              {CheckPermissions(22) && actionsBtn}
+
+              {CheckPermissions(23) && (
+                <span style={{ paddingLeft: "20px" }}>
+                  <FiEdit
+                    size={20}
+                    onClick={() => this.handleEdit(row.original)}
+                  />
+                </span>
               )}
-              <span style={{ paddingLeft: "20px" }}>
-                <FiEdit
-                  size={20}
-                  onClick={() => this.handleEdit(row.original)}
-                />
-              </span>
             </div>
           );
         },
@@ -260,7 +266,7 @@ class Service extends Component {
               </form>
             </div>
             <div>
-              <AddService reload={this.getService} />
+              {CheckPermissions(21) && <AddService reload={this.getService} />}
             </div>
           </div>
 

@@ -21,6 +21,7 @@ import axios from "axios";
 import Delete from "../delete-generation";
 import Select from "react-select";
 import ScaleLoader from "../../../../util/scaleLoader";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -46,7 +47,7 @@ class Generation_Detail extends Component {
   }
 
   componentDidMount() {
-    const ID = this.props.Detail?.giftCardGeneralId;
+    const ID = this.props.Detail;
     this.setState({ deleteID: ID, loadingData: true });
     this.getGiftCardById(ID);
   }
@@ -66,7 +67,7 @@ class Generation_Detail extends Component {
   }
 
   handleGenerate = () => {
-    const giftCardGeneralId = this.props.Detail?.giftCardGeneralId;
+    const giftCardGeneralId = this.props.Detail;
     const quantity = this.state.quantity;
     if (quantity === 0) {
       store.addNotification({
@@ -126,7 +127,7 @@ class Generation_Detail extends Component {
   };
 
   fetchData = async (state) => {
-    const ID = this.props.Detail?.giftCardGeneralId;
+    const ID = this.props.Detail;
     const page = state?.page ? state?.page : 0;
     const pageSize = state?.pageSize ? state?.pageSize : 10;
     this.setState({ loading: true });
@@ -412,26 +413,31 @@ class Generation_Detail extends Component {
                   {Detail?.giftCardTemplateName}
                 </p>
               </div>
-              <div className="col-12">
-                <h3 className="title">Add Gift Codes</h3>
-                <label>Quantity*</label> <br />
-                <input
-                  type="number"
-                  name="amount"
-                  className="add-codes"
-                  onChange={(e) => this.setState({ quantity: e.target.value })}
-                  style={{ width: "20%" }}
-                  value={this.state.quantity}
-                />
-                <br />
-                <Button
-                  className="btn btn-red"
-                  style={{ marginTop: "10px" }}
-                  onClick={this.handleGenerate}
-                >
-                  Generate
-                </Button>
-              </div>
+
+              {CheckPermissions(39) && (
+                <div className="col-12">
+                  <h3 className="title">Add Gift Codes</h3>
+                  <label>Quantity*</label> <br />
+                  <input
+                    type="number"
+                    name="amount"
+                    className="add-codes"
+                    onChange={(e) =>
+                      this.setState({ quantity: e.target.value })
+                    }
+                    style={{ width: "20%" }}
+                    value={this.state.quantity}
+                  />
+                  <br />
+                  <Button
+                    className="btn btn-red"
+                    style={{ marginTop: "10px" }}
+                    onClick={this.handleGenerate}
+                  >
+                    Generate
+                  </Button>
+                </div>
+              )}
             </div>
             <div style={{ zIndex: "9999" }}>
               <ScaleLoader isLoading={this.state.isLoading} />

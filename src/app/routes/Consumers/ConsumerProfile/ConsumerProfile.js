@@ -14,6 +14,7 @@ import Transactions from "./Detail/Transactions";
 import Acti from "./Detail/Acti";
 import EditGeneral from "./Detail/EditGeneral";
 import Bank from "./Detail/Bank";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../Merchants/MerchantsRequest/MerchantReqProfile.css";
@@ -73,12 +74,14 @@ class ConsumerProfile extends Component {
                       <NavLink to="/app/consumers/profile/bank">Bank</NavLink>
                     </li>
                     <li>
-                      <NavLink
-                        to="/app/consumers/profile/transactions"
-                        // onClick={this.handleTransactions}
-                      >
-                        Transactions
-                      </NavLink>
+                      {CheckPermissions(33) && (
+                        <NavLink
+                          to="/app/consumers/profile/transactions"
+                          // onClick={this.handleTransactions}
+                        >
+                          Transactions
+                        </NavLink>
+                      )}
                     </li>
                     <li>
                       <NavLink

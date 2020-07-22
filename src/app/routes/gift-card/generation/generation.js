@@ -19,6 +19,7 @@ import moment from "moment";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
 import Delete from "../delete-generation";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -125,7 +126,7 @@ class Generation extends Component {
   };
 
   viewGeneration = (data) => {
-    this.props.VIEW_DETAIL(data.original);
+    this.props.VIEW_DETAIL(data.giftCardGeneralId);
     this.props.history.push("/app/giftcard/generation/detail");
   };
 
@@ -181,26 +182,30 @@ class Generation extends Component {
         Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
-              <Tooltip title="Delete" arrow>
-                <span>
-                  <GoTrashcan
-                    size={22}
-                    style={style.icon}
-                    onClick={() =>
-                      this.handleOpenDelete(row?.original?.giftCardGeneralId)
-                    }
-                  />
-                </span>
-              </Tooltip>
-              <Tooltip title="Edit" arrow>
-                <span style={{ paddingLeft: "10px" }}>
-                  <FiEdit
-                    size={22}
-                    style={style.icon}
-                    onClick={() => this.viewGeneration(row.original)}
-                  />
-                </span>
-              </Tooltip>
+              {CheckPermissions(37) && (
+                <Tooltip title="Delete" arrow>
+                  <span>
+                    <GoTrashcan
+                      size={22}
+                      style={style.icon}
+                      onClick={() =>
+                        this.handleOpenDelete(row?.original?.giftCardGeneralId)
+                      }
+                    />
+                  </span>
+                </Tooltip>
+              )}
+              {CheckPermissions(38) && (
+                <Tooltip title="Edit" arrow>
+                  <span style={{ paddingLeft: "10px" }}>
+                    <FiEdit
+                      size={22}
+                      style={style.icon}
+                      onClick={() => this.viewGeneration(row.original)}
+                    />
+                  </span>
+                </Tooltip>
+              )}
             </div>
           );
         },
@@ -231,14 +236,16 @@ class Generation extends Component {
                 onKeyPress={this.keyPressed}
               />
             </form>
-            <Button
-              className="btn btn-green"
-              onClick={() =>
-                this.props.history.push("/app/giftcard/generation/add")
-              }
-            >
-              New Gift Card
-            </Button>
+            {CheckPermissions(36) && (
+              <Button
+                className="btn btn-green"
+                onClick={() =>
+                  this.props.history.push("/app/giftcard/generation/add")
+                }
+              >
+                New Gift Card
+              </Button>
+            )}
           </div>
           <div className="giftcard_content">
             <Delete

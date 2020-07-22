@@ -14,6 +14,7 @@ import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "../../Merchants/MerchantsList/merchantsList.css";
 import "./User.css";
@@ -200,13 +201,16 @@ class Users extends Component {
                 />
               </form>
             </div>
-            <Button
-              className="btn btn-green"
-              onClick={this.addAdmin}
-              style={{ margin: "0px" }}
-            >
-              ADD NEW USER
-            </Button>
+
+            {CheckPermissions(48) && (
+              <Button
+                className="btn btn-green"
+                onClick={this.addAdmin}
+                style={{ margin: "0px" }}
+              >
+                ADD NEW USER
+              </Button>
+            )}
           </div>
 
           <div className="merchant-list-container user-table">

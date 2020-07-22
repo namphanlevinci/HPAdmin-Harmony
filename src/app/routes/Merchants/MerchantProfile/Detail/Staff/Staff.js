@@ -17,6 +17,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import formatPhone from "../../../../../../util/formatPhone";
 import ScaleLoader from "../../../../../../util/scaleLoader";
+import CheckPermissions from "../../../../../../util/checkPermission";
 
 import "react-table/react-table.css";
 import "../Detail.css";
@@ -169,38 +170,43 @@ class Staff extends Component {
         sortable: false,
         accessor: "actions",
         Cell: (row) => {
+          const actionsBtn =
+            row.original.isDisabled !== 1 ? (
+              <GoTrashcan
+                size={21}
+                onClick={() => [
+                  this.setState({
+                    extraId: row.original.staffId,
+                    dialog: true,
+                  }),
+                ]}
+                style={style.icon}
+              />
+            ) : (
+              <FaTrashRestore
+                size={20}
+                onClick={() =>
+                  this.setState({
+                    extraId: row.original.staffId,
+                    restoreDialog: true,
+                  })
+                }
+                style={style.icon}
+              />
+            );
           return (
             <div style={{ textAlign: "center" }}>
-              {row.original.isDisabled !== 1 ? (
-                <GoTrashcan
-                  size={21}
-                  onClick={() => [
-                    this.setState({
-                      extraId: row.original.staffId,
-                      dialog: true,
-                    }),
-                  ]}
-                  style={style.icon}
-                />
-              ) : (
-                <FaTrashRestore
-                  size={20}
-                  onClick={() =>
-                    this.setState({
-                      extraId: row.original.staffId,
-                      restoreDialog: true,
-                    })
-                  }
-                  style={style.icon}
-                />
+              {CheckPermissions(16) && actionsBtn}
+
+              {CheckPermissions(17) && (
+                <span style={{ paddingLeft: "10px" }}>
+                  <FiEdit
+                    size={19}
+                    style={style.icon}
+                    onClick={() => this.viewStaff(row.original)}
+                  />
+                </span>
               )}
-              <span style={{ paddingLeft: "10px" }}>
-                <FiEdit
-                  size={19}
-                  style={style.icon}
-                  onClick={() => this.viewStaff(row.original)}
-                />
-              </span>
             </div>
           );
         },
@@ -224,15 +230,17 @@ class Staff extends Component {
               </form>
             </div>
             <div>
-              <Button
-                className="btn btn-green"
-                style={{ marginRight: "0px" }}
-                onClick={() =>
-                  this.props.history.push("/app/merchants/profile/staff/add")
-                }
-              >
-                NEW STAFF
-              </Button>
+              {CheckPermissions(15) && (
+                <Button
+                  className="btn btn-green"
+                  style={{ marginRight: "0px" }}
+                  onClick={() =>
+                    this.props.history.push("/app/merchants/profile/staff/add")
+                  }
+                >
+                  NEW STAFF
+                </Button>
+              )}
             </div>
           </div>
           <ScaleLoader isLoading={this.state.isLoading} />

@@ -16,6 +16,8 @@ import axios from "axios";
 import EditExtra from "./edit-extra";
 import { config } from "../../../../../../url/url";
 import defaultImage from "./hpadmin2.png";
+import CheckPermissions from "../../../../../../util/checkPermission";
+
 import "react-table/react-table.css";
 
 const URL = config.url.URL;
@@ -240,38 +242,43 @@ class ExtraTab extends Component {
         sortable: false,
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
         Cell: (row) => {
+          const actionsBtn =
+            row.original.isDisabled !== 1 ? (
+              <GoTrashcan
+                size={21}
+                onClick={() => [
+                  this.setState({
+                    extraId: row.original.extraId,
+                    dialog: true,
+                  }),
+                ]}
+              />
+            ) : (
+              <FaTrashRestoreAlt
+                size={20}
+                onClick={() =>
+                  this.setState({
+                    extraId: row.original.extraId,
+                    restoreDialog: true,
+                  })
+                }
+              />
+            );
           return (
             <div style={{ textAlign: "center" }}>
-              {row.original.isDisabled !== 1 ? (
-                <GoTrashcan
-                  size={21}
-                  onClick={() => [
-                    this.setState({
-                      extraId: row.original.extraId,
-                      dialog: true,
-                    }),
-                  ]}
-                />
-              ) : (
-                <FaTrashRestoreAlt
-                  size={20}
-                  onClick={() =>
-                    this.setState({
-                      extraId: row.original.extraId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
+              {CheckPermissions(27) && actionsBtn}
+
+              {CheckPermissions(28) && (
+                <span style={{ paddingLeft: "20px" }}>
+                  <FiEdit
+                    size={20}
+                    onClick={() => [
+                      this.handleEdit(row.original),
+                      this.setState({ edit: true }),
+                    ]}
+                  />
+                </span>
               )}
-              <span style={{ paddingLeft: "20px" }}>
-                <FiEdit
-                  size={20}
-                  onClick={() => [
-                    this.handleEdit(row.original),
-                    this.setState({ edit: true }),
-                  ]}
-                />
-              </span>
             </div>
           );
         },

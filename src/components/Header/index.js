@@ -48,7 +48,7 @@ class Header extends React.Component {
     const messaging = firebase.messaging();
 
     messaging.onMessage((payload) => {
-      console.log("payload", payload);
+      // console.log("payload", payload);
       this.loadNotify();
       this.setState({ appNotificationIcon: false });
     });

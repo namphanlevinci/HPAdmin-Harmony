@@ -36,6 +36,7 @@ import AddStaff from "./Detail/Staff/add-staff/add-staff";
 import ExtraTab from "./Detail/Extra/extra";
 // REPORT SETTLEMENT
 import ExportSettlement from "./Detail/ExportSettlement/export-settlement";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
@@ -66,12 +67,15 @@ class merchantProfile extends Component {
             <div className="header col-md-12">
               <h3>ID: {e.merchantId}</h3>
               <span style={{ display: "flex" }}>
-                <span style={{ marginRight: "20px" }}>
-                  <ExportSettlement
-                    MerchantId={e?.merchantId}
-                    Token={this.props.userLogin?.token}
-                  />
-                </span>
+                {CheckPermissions(13) && (
+                  <span style={{ marginRight: "20px" }}>
+                    <ExportSettlement
+                      MerchantId={e?.merchantId}
+                      Token={this.props.userLogin?.token}
+                    />
+                  </span>
+                )}
+
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"

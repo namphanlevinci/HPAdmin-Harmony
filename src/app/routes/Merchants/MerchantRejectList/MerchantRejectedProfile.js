@@ -14,6 +14,7 @@ import moment from "moment";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { config } from "../../../../url/url";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "bootstrap/js/src/collapse.js";
 import "../MerchantsRequest/MerchantReqProfile.css";
@@ -207,20 +208,25 @@ class MerchantRejectedProfile extends Component {
             <div className="header col-12">
               <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2>
               <span>
-                <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
-                  className="btn btn-green"
-                  onClick={() => this._Edit(e)}
-                >
-                  EDIT
-                </Button>
-                <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
-                  className="btn btn-green"
-                  onClick={this._goRevert}
-                >
-                  REVERT
-                </Button>
+                {CheckPermissions(9) && (
+                  <Button
+                    style={{ color: "#4251af", backgroundColor: "white" }}
+                    className="btn btn-green"
+                    onClick={() => this._Edit(e)}
+                  >
+                    EDIT
+                  </Button>
+                )}
+                {CheckPermissions(10) && (
+                  <Button
+                    style={{ color: "#4251af", backgroundColor: "white" }}
+                    className="btn btn-green"
+                    onClick={this._goRevert}
+                  >
+                    REVERT
+                  </Button>
+                )}
+
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"

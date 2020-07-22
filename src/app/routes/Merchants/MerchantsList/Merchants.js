@@ -15,6 +15,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import ScaleLoader from "../../../../util/scaleLoader";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "react-table/react-table.css";
 import "./merchantsList.css";
@@ -201,17 +202,19 @@ class Merchants extends React.Component {
               </form>
             </div>
             <div>
-              <Button
-                style={{
-                  backgroundColor: "#4251af",
-                  color: "white",
-                  marginTop: "0px",
-                }}
-                className="btn btn-red"
-                onClick={this.addMerchant}
-              >
-                ADD MERCHANT
-              </Button>
+              {CheckPermissions(12) && (
+                <Button
+                  style={{
+                    backgroundColor: "#4251af",
+                    color: "white",
+                    marginTop: "0px",
+                  }}
+                  className="btn btn-red"
+                  onClick={this.addMerchant}
+                >
+                  ADD MERCHANT
+                </Button>
+              )}
             </div>
           </div>
           <ScaleLoader isLoading={this.state.isLoading} />

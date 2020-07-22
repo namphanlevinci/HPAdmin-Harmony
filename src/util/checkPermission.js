@@ -1,22 +1,23 @@
 import { store } from "../store";
 
-function CheckPermissions(name) {
+function CheckPermissions(permissionId) {
   const Permission = store.getState();
   const checkPermission = Permission?.userReducer?.userModulePages;
 
   // console.log("checkPermission", checkPermission);
-  // console.log("name", name);
+  // console.log("permissionId", permissionId);
 
   const filterPermissionByPage = checkPermission.map(
     (filteredObj) => filteredObj.actions
   );
 
   const getPermissionByName = filterPermissionByPage[0]
-    ?.filter(({ action }) => action === name)
+    ?.filter(({ actionId }) => actionId === permissionId)
     ?.reduce((obj, item) => item.roleIsActive, {});
 
   // console.log("filterPermissionByPage", filterPermissionByPage);
-  console.log("is Valid", name, getPermissionByName);
+  // console.log("getPermissionByName", getPermissionByName);
+  console.log("is Valid", permissionId, getPermissionByName);
 
   return getPermissionByName;
 }

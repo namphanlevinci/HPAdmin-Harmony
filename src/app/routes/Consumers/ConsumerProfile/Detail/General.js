@@ -7,6 +7,8 @@ import { store } from "react-notifications-component";
 import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
 import axios from "axios";
+import CheckPermissions from "../../../../../util/checkPermission";
+
 import { config } from "../../../../../url/url";
 
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
@@ -142,9 +144,12 @@ class General extends Component {
           className="SettingsContent general-content"
           style={{ marginTop: "20px" }}
         >
-          <Button className="btn btn-green" onClick={this._goToEdit}>
-            EDIT
-          </Button>
+          {CheckPermissions(32) && (
+            <Button className="btn btn-green" onClick={this._goToEdit}>
+              EDIT
+            </Button>
+          )}
+
           {e.isDisabled !== 1 ? (
             <Popup
               trigger={<Button className="btn btn-red">DISABLE</Button>}

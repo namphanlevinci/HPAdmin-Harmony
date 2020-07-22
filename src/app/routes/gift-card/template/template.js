@@ -19,6 +19,7 @@ import Delete from "../delete-generation";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
 import { config } from "../../../../url/url";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -198,25 +199,31 @@ class Generation extends Component {
         Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
-              <Tooltip title="Delete">
-                <span>
-                  <GoTrashcan
-                    size={22}
-                    onClick={() =>
-                      this._handleOpenDelete(row?.original?.giftCardTemplateId)
-                    }
-                  />
-                </span>
-              </Tooltip>
-              <Tooltip title="Edit" arrow>
-                <span style={{ paddingLeft: "10px" }}>
-                  <FiEdit
-                    size={21}
-                    style={style.icon}
-                    onClick={() => this.editTemplate(row.original)}
-                  />
-                </span>
-              </Tooltip>
+              {CheckPermissions(43) && (
+                <Tooltip title="Delete">
+                  <span>
+                    <GoTrashcan
+                      size={22}
+                      onClick={() =>
+                        this._handleOpenDelete(
+                          row?.original?.giftCardTemplateId
+                        )
+                      }
+                    />
+                  </span>
+                </Tooltip>
+              )}
+              {CheckPermissions(44) && (
+                <Tooltip title="Edit" arrow>
+                  <span style={{ paddingLeft: "10px" }}>
+                    <FiEdit
+                      size={21}
+                      style={style.icon}
+                      onClick={() => this.editTemplate(row.original)}
+                    />
+                  </span>
+                </Tooltip>
+              )}
             </div>
           );
         },
@@ -247,14 +254,17 @@ class Generation extends Component {
                 onKeyPress={this.keyPressed}
               />
             </form>
-            <Button
-              className="btn btn-green"
-              onClick={() =>
-                this.props.history.push("/app/giftcard/template/add")
-              }
-            >
-              New Template
-            </Button>
+
+            {CheckPermissions(42) && (
+              <Button
+                className="btn btn-green"
+                onClick={() =>
+                  this.props.history.push("/app/giftcard/template/add")
+                }
+              >
+                New Template
+              </Button>
+            )}
           </div>
           <div className="giftcard_content">
             <Delete

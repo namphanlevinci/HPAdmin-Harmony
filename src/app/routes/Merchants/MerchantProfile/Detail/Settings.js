@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { config } from "../../../../../url/url";
 import Popup from "reactjs-popup";
+import CheckPermissions from "../../../../../util/checkPermission";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -106,6 +107,138 @@ class Settings extends Component {
       });
   };
   render() {
+    const MerchantStatus =
+      this.props.MerchantProfile.isDisabled !== 1 ? (
+        <Popup
+          trigger={<Button className="btn btn-red">INACTIVE</Button>}
+          modal
+          on="click"
+          open={this.state.isOpenReject}
+          onOpen={this.handleOpenReject}
+          closeOnDocumentClick
+          style={{ top: "-300px" }}
+        >
+          <span>
+            <Formik
+              initialValues={{ rejectReason: "" }}
+              validate={(values) => {
+                let errors = {};
+                if (!values.rejectReason) {
+                  errors.rejectReason = "Required";
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                const reason = values.rejectReason;
+                const { ID } = this.state;
+                let token = JSON.parse(this.state.Token);
+                axios
+                  .delete(URL + "/merchant/" + ID, {
+                    headers: {
+                      Authorization: `Bearer ${token.token}`,
+                    },
+                    data: { reason },
+                  })
+                  .then(async (res) => {
+                    if (res.data.message === "Success") {
+                      store.addNotification({
+                        title: "SUCCESS!",
+                        message: `${res.data.message}`,
+                        type: "success",
+                        insert: "top",
+                        container: "top-right",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                          duration: 5000,
+                          onScreen: true,
+                        },
+                        width: 250,
+                      });
+                      setTimeout(() => {
+                        this.props.GetMerchant_byID(ID);
+                      }, 1000);
+                      setTimeout(() => {
+                        this.props.ViewProfile_Merchants(
+                          this.props.getMerchant.Data
+                        );
+                        this.props.history.push(
+                          "/app/merchants/profile/settings"
+                        );
+                      }, 1500);
+                    } else {
+                      store.addNotification({
+                        title: "ERROR!",
+                        message: `${res.data.message}`,
+                        type: "warning",
+                        insert: "top",
+                        container: "top-right",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                          duration: 5000,
+                          onScreen: true,
+                        },
+                        width: 250,
+                      });
+                    }
+                  });
+              }}
+            >
+              {({ values, _handleChange, isSubmitting }) => (
+                <div className="rejectInput">
+                  <h2 className="title">
+                    Are you sure you want to disable this merchant?
+                  </h2>
+                  <Form>
+                    <Field
+                      type="textarea"
+                      name="rejectReason"
+                      component="textarea"
+                      placeholder="Please enter your reason."
+                    />
+                    <ErrorMessage name="rejectReason" component="div" />
+                    <div>
+                      <Button
+                        type="submit"
+                        className="btn btn-red"
+                        onClick={this.handleCloseReject}
+                      >
+                        BACK
+                      </Button>
+                      <Button
+                        style={{
+                          color: "white",
+                          backgroundColor: "#4251af",
+                          textTransform: "uppercase",
+                          letterSpacing: "2px",
+                          fontSize: "12px",
+                          padding: "10px 30px",
+                          borderRadius: "5px",
+                          border: "1px solid rgba(0, 0, 0, 0.3)",
+                          borderBottomWidth: "3px",
+                          fontWeight: "900",
+                          marginLeft: "0px",
+                        }}
+                        type="submit"
+                        className="btn btn-green"
+                        onClick={this.onSubmit}
+                      >
+                        CONFIRM
+                      </Button>
+                    </div>
+                  </Form>
+                </div>
+              )}
+            </Formik>
+          </span>
+        </Popup>
+      ) : (
+        <Button className="btn btn-green" onClick={this._enable}>
+          ACTIVE
+        </Button>
+      );
+
     return (
       <React.Fragment>
         <div className="container-fluid">
@@ -161,140 +294,14 @@ class Settings extends Component {
         </div>
         <div style={{ display: "flex" }}>
           <div className="SettingsContent general-content ">
-            <Button className="btn btn-green" onClick={this._gotoEdit}>
-              EDIT
-            </Button>
+            {CheckPermissions(29) && (
+              <Button className="btn btn-green" onClick={this._gotoEdit}>
+                EDIT
+              </Button>
+            )}
           </div>
-          {this.props.MerchantProfile.isDisabled !== 1 ? (
-            <Popup
-              trigger={<Button className="btn btn-red">INACTIVE</Button>}
-              modal
-              on="click"
-              open={this.state.isOpenReject}
-              onOpen={this.handleOpenReject}
-              closeOnDocumentClick
-              style={{ top: "-300px" }}
-            >
-              <span>
-                <Formik
-                  initialValues={{ rejectReason: "" }}
-                  validate={(values) => {
-                    let errors = {};
-                    if (!values.rejectReason) {
-                      errors.rejectReason = "Required";
-                    }
-                    return errors;
-                  }}
-                  onSubmit={(values, { setSubmitting }) => {
-                    const reason = values.rejectReason;
-                    const { ID } = this.state;
-                    let token = JSON.parse(this.state.Token);
-                    axios
-                      .delete(URL + "/merchant/" + ID, {
-                        headers: {
-                          Authorization: `Bearer ${token.token}`,
-                        },
-                        data: { reason },
-                      })
-                      .then(async (res) => {
-                        if (res.data.message === "Success") {
-                          store.addNotification({
-                            title: "SUCCESS!",
-                            message: `${res.data.message}`,
-                            type: "success",
-                            insert: "top",
-                            container: "top-right",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                              duration: 5000,
-                              onScreen: true,
-                            },
-                            width: 250,
-                          });
-                          setTimeout(() => {
-                            this.props.GetMerchant_byID(ID);
-                          }, 1000);
-                          setTimeout(() => {
-                            this.props.ViewProfile_Merchants(
-                              this.props.getMerchant.Data
-                            );
-                            this.props.history.push(
-                              "/app/merchants/profile/settings"
-                            );
-                          }, 1500);
-                        } else {
-                          store.addNotification({
-                            title: "ERROR!",
-                            message: `${res.data.message}`,
-                            type: "warning",
-                            insert: "top",
-                            container: "top-right",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                              duration: 5000,
-                              onScreen: true,
-                            },
-                            width: 250,
-                          });
-                        }
-                      });
-                  }}
-                >
-                  {({ values, _handleChange, isSubmitting }) => (
-                    <div className="rejectInput">
-                      <h2 className="title">
-                        Are you sure you want to disable this merchant?
-                      </h2>
-                      <Form>
-                        <Field
-                          type="textarea"
-                          name="rejectReason"
-                          component="textarea"
-                          placeholder="Please enter your reason."
-                        />
-                        <ErrorMessage name="rejectReason" component="div" />
-                        <div>
-                          <Button
-                            type="submit"
-                            className="btn btn-red"
-                            onClick={this.handleCloseReject}
-                          >
-                            BACK
-                          </Button>
-                          <Button
-                            style={{
-                              color: "white",
-                              backgroundColor: "#4251af",
-                              textTransform: "uppercase",
-                              letterSpacing: "2px",
-                              fontSize: "12px",
-                              padding: "10px 30px",
-                              borderRadius: "5px",
-                              border: "1px solid rgba(0, 0, 0, 0.3)",
-                              borderBottomWidth: "3px",
-                              fontWeight: "900",
-                              marginLeft: "0px",
-                            }}
-                            type="submit"
-                            className="btn btn-green"
-                            onClick={this.onSubmit}
-                          >
-                            COMFIRM
-                          </Button>
-                        </div>
-                      </Form>
-                    </div>
-                  )}
-                </Formik>
-              </span>
-            </Popup>
-          ) : (
-            <Button className="btn btn-green" onClick={this._enable}>
-              ACTIVE
-            </Button>
-          )}
+
+          {CheckPermissions(30) && MerchantStatus}
         </div>
       </React.Fragment>
     );

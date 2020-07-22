@@ -15,9 +15,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import defaultImage from "../Extra/hpadmin2.png";
-import "react-table/react-table.css";
 import ProductAdd from "./productAdd";
 import Slide from "@material-ui/core/Slide";
+import CheckPermissions from "../../../../../../util/checkPermission";
+
+import "react-table/react-table.css";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -195,35 +197,40 @@ class Product extends Component {
         sortable: false,
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
         Cell: (row) => {
+          const actionsBtn =
+            row.original.isDisabled !== 1 ? (
+              <GoTrashcan
+                size={21}
+                onClick={() => [
+                  this.setState({
+                    productId: row.original.productId,
+                    dialog: true,
+                  }),
+                ]}
+              />
+            ) : (
+              <FaTrashRestoreAlt
+                size={20}
+                onClick={() =>
+                  this.setState({
+                    productId: row.original.productId,
+                    restoreDialog: true,
+                  })
+                }
+              />
+            );
           return (
             <div style={{ textAlign: "center" }}>
-              {row.original.isDisabled !== 1 ? (
-                <GoTrashcan
-                  size={21}
-                  onClick={() => [
-                    this.setState({
-                      productId: row.original.productId,
-                      dialog: true,
-                    }),
-                  ]}
-                />
-              ) : (
-                <FaTrashRestoreAlt
-                  size={20}
-                  onClick={() =>
-                    this.setState({
-                      productId: row.original.productId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
+              {CheckPermissions(25) && actionsBtn}
+
+              {CheckPermissions(26) && (
+                <span style={{ paddingLeft: "20px" }}>
+                  <FiEdit
+                    size={20}
+                    onClick={() => this.viewDetail(row.original)}
+                  />
+                </span>
               )}
-              <span style={{ paddingLeft: "20px" }}>
-                <FiEdit
-                  size={20}
-                  onClick={() => this.viewDetail(row.original)}
-                />
-              </span>
             </div>
           );
         },
@@ -247,16 +254,15 @@ class Product extends Component {
               </form>
             </div>
             <div>
-              <Button
-                className="btn btn-green"
-                style={{ marginRight: "0px" }}
-                onClick={() =>
-                  // this.props.history.push("/app/merchants/profile/product/add")
-                  this.setState({ isPopupAddProduct: true })
-                }
-              >
-                NEW PRODUCT
-              </Button>
+              {CheckPermissions(24) && (
+                <Button
+                  className="btn btn-green"
+                  style={{ marginRight: "0px" }}
+                  onClick={() => this.setState({ isPopupAddProduct: true })}
+                >
+                  NEW PRODUCT
+                </Button>
+              )}
             </div>
           </div>
 

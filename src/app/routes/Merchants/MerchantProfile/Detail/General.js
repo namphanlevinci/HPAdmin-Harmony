@@ -5,6 +5,7 @@ import { Checkbox } from "@material-ui/core";
 
 import Button from "@material-ui/core/Button";
 import formatPhone from "../../../../../util/formatPhone";
+import CheckPermissions from "../../../../../util/checkPermission";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -123,9 +124,11 @@ class General extends Component {
           <div className="row justify-content-between">{renderQuestion}</div>
         </div>
         <div className="SettingsContent general-content">
-          <Button className="btn btn-green" onClick={this._toggleEdit}>
-            EDIT
-          </Button>
+          {CheckPermissions(14) && (
+            <Button className="btn btn-green" onClick={this._toggleEdit}>
+              EDIT
+            </Button>
+          )}
         </div>
       </div>
     );

@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import moment from "moment";
 import { config } from "../../../../url/url";
 import axios from "axios";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "./User.css";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
@@ -116,7 +117,24 @@ class UserProfile extends Component {
 
   render() {
     const e = this.props.UserProfile;
-
+    const userStatus =
+      e?.isDisabled === 0 ? (
+        <Button
+          className="btn btn-green"
+          style={styles.button}
+          onClick={this._disable}
+        >
+          DISABLE
+        </Button>
+      ) : (
+        <Button
+          className="btn btn-green"
+          style={styles.button}
+          onClick={this._enable}
+        >
+          ENABLE
+        </Button>
+      );
     return (
       <div className="container-fluid UserProfile">
         <ContainerHeader
@@ -149,30 +167,17 @@ class UserProfile extends Component {
                 >
                   BACK
                 </Button>
-                {e?.isDisabled === 0 ? (
+                {CheckPermissions(49) && userStatus}
+
+                {CheckPermissions(50) && (
                   <Button
-                    className="btn btn-green"
+                    className="btn btn-red"
                     style={styles.button}
-                    onClick={this._disable}
+                    onClick={this._Edit}
                   >
-                    DISABLE
-                  </Button>
-                ) : (
-                  <Button
-                    className="btn btn-green"
-                    style={styles.button}
-                    onClick={this._enable}
-                  >
-                    ENABLE
+                    EDIT
                   </Button>
                 )}
-                <Button
-                  className="btn btn-red"
-                  style={styles.button}
-                  onClick={this._Edit}
-                >
-                  EDIT
-                </Button>
               </div>
             </div>
 

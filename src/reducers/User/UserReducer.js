@@ -126,7 +126,7 @@ const userReducer = (state = initialState, { type, payload }) => {
     case types.UPDATE_PERMISSIONS_SUCCESS:
       store.addNotification({
         title: "SUCCESS!",
-        message: "UPDATE PERMISSIONS SUCCESSFUL",
+        message: "Update Permissions Success",
         type: "success",
         insert: "top",
         container: "top-right",
@@ -136,8 +136,9 @@ const userReducer = (state = initialState, { type, payload }) => {
           duration: 5000,
           onScreen: true,
         },
-        width: 250,
+        width: 270,
       });
+
       return { ...state };
     case types.UPDATE_PERMISSIONS_FAILURE:
       store.addNotification({

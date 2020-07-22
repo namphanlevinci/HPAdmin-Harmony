@@ -18,6 +18,7 @@ import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
 import NumberFormat from "react-number-format";
 import formatPhone from "../../../../util/formatPhone";
+import checkPermission from "../../../../util/checkPermission";
 
 import "./MerchantReqProfile.css";
 import "./MerchantsRequest.css";
@@ -257,102 +258,22 @@ class MerchantReqProfile extends Component {
               <Button className="btn btn-red" onClick={this.goBack}>
                 BACK
               </Button>
-
-              <Button className="btn btn-red" onClick={this.handleEdit}>
-                EDIT
-              </Button>
+              {checkPermission(4) && (
+                <Button className="btn btn-red" onClick={this.handleEdit}>
+                  EDIT
+                </Button>
+              )}
               {/* REJECT BTN */}
-              <Popup
-                trigger={<Button className="btn btn-red">REJECT</Button>}
-                modal
-                on="click"
-                open={this.state.isOpenReject}
-                onOpen={this.handleOpenReject}
-                closeOnDocumentClick
-              >
-                <a className="close" onClick={this.handleCloseReject}>
-                  &times;
-                </a>
-                <div
-                  style={{
-                    backgroundColor: "#4251af",
-                    height: "50px",
-                    padding: "10px",
-                    zIndex: "999",
-                    color: "white",
-                    alignItems: "center",
-                  }}
+              {checkPermission(5) && (
+                <Popup
+                  trigger={<Button className="btn btn-red">REJECT</Button>}
+                  modal
+                  on="click"
+                  open={this.state.isOpenReject}
+                  onOpen={this.handleOpenReject}
+                  closeOnDocumentClick
                 >
-                  <p style={{ fontSize: "22px", textAlign: "center" }}>
-                    Confirmation
-                  </p>
-                </div>
-                <span>
-                  <Formik
-                    initialValues={{ rejectReason: "" }}
-                    validate={(values) => {
-                      let errors = {};
-                      if (!values.rejectReason) {
-                        errors.rejectReason = "Required";
-                      }
-                      return errors;
-                    }}
-                    onSubmit={(values, { setSubmitting }) => {
-                      const reason = values.rejectReason;
-                      const ID = this.props.PendingProfile.merchantId;
-                      const data = { reason, ID };
-                      this.props.sendReject(data);
-                    }}
-                  >
-                    {({ values, _handleChange, isSubmitting }) => (
-                      <div className="rejectInput">
-                        <h2 className="title">REASONS FOR REJECTION</h2>
-                        <Form>
-                          <Field
-                            type="textarea"
-                            name="rejectReason"
-                            component="textarea"
-                            placeholder="Please enter your reason."
-                          />
-                          <ErrorMessage
-                            style={{
-                              color: "#4251af",
-                              fontWeight: "400",
-                              fontSize: "18px",
-                            }}
-                            name="rejectReason"
-                            component="div"
-                          />
-                          <div>
-                            <Button
-                              type="submit"
-                              className="btn btn-red"
-                              onClick={this.handleCloseReject}
-                            >
-                              BACK
-                            </Button>
-                            <Button type="submit" className="btn btn-green">
-                              CONFIRM
-                            </Button>
-                          </div>
-                        </Form>
-                      </div>
-                    )}
-                  </Formik>
-                </span>
-              </Popup>
-              {/* ACCEPT BTN */}
-
-              <Popup
-                trigger={<Button className="btn btn-green"> ACCEPT </Button>}
-                modal
-                on="click"
-                open={this.state.isOpenAccept}
-                onOpen={this.handleOpenAccept}
-                closeOnDocumentClick
-              >
-                <span>
-                  <a className="close" onClick={this.handleCloseAccept}>
+                  <a className="close" onClick={this.handleCloseReject}>
                     &times;
                   </a>
                   <div
@@ -369,111 +290,195 @@ class MerchantReqProfile extends Component {
                       Confirmation
                     </p>
                   </div>
-                  <h3 className="title">
-                    ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?
-                  </h3>
-                  <Formik
-                    initialValues={{
-                      merchantID: "",
-                      // merchantToken: "",
-                      fee: "",
-                      discountRate: "",
-                    }}
-                    validate={(values) => {
-                      let errors = {};
-                      if (!values.merchantID) {
-                        errors.merchantID = "Required";
-                      }
-                      // } else if (!values.merchantToken) {
-                      // errors.merchantToken = 'Required';
-                      // }
-                      else if (!values.fee) {
-                        errors.fee = "Required";
-                      } else if (!values.discount) {
-                        errors.discount = "Required";
-                      }
-                      return errors;
-                    }}
-                    onSubmit={(values, { setSubmitting }) => {
-                      const ID = this.props.PendingProfile.merchantId;
-                      const merchantCode = values.merchantID;
-                      // const merchantToken = values.merchantToken;
-                      const transactionsFee = values.fee;
-                      const discountRate = values.discount;
-                      const data = {
-                        transactionsFee,
-                        merchantCode,
-                        ID,
-                        discountRate,
-                      };
-                      this.props.sendApproval(data);
-                    }}
-                  >
-                    {({ lol }) => (
-                      <Form
-                        style={{ textAlign: "center" }}
-                        className="InputBox"
-                      >
-                        <div style={styles.div}>
-                          <label>Merchant ID</label>
-                          <br />
-                          <Field name="merchantID" type="number" />
-                          <ErrorMessage
-                            style={{
-                              color: "#4251af",
-                              fontWeight: "400",
-                              fontSize: "18px",
-                            }}
-                            name="merchantID"
-                            component="div"
-                          />
+                  <span>
+                    <Formik
+                      initialValues={{ rejectReason: "" }}
+                      validate={(values) => {
+                        let errors = {};
+                        if (!values.rejectReason) {
+                          errors.rejectReason = "Required";
+                        }
+                        return errors;
+                      }}
+                      onSubmit={(values, { setSubmitting }) => {
+                        const reason = values.rejectReason;
+                        const ID = this.props.PendingProfile.merchantId;
+                        const data = { reason, ID };
+                        this.props.sendReject(data);
+                      }}
+                    >
+                      {({ values, _handleChange, isSubmitting }) => (
+                        <div className="rejectInput">
+                          <h2 className="title">REASONS FOR REJECTION</h2>
+                          <Form>
+                            <Field
+                              type="textarea"
+                              name="rejectReason"
+                              component="textarea"
+                              placeholder="Please enter your reason."
+                            />
+                            <ErrorMessage
+                              style={{
+                                color: "#4251af",
+                                fontWeight: "400",
+                                fontSize: "18px",
+                              }}
+                              name="rejectReason"
+                              component="div"
+                            />
+                            <div>
+                              <Button
+                                type="submit"
+                                className="btn btn-red"
+                                onClick={this.handleCloseReject}
+                              >
+                                BACK
+                              </Button>
+                              <Button type="submit" className="btn btn-green">
+                                CONFIRM
+                              </Button>
+                            </div>
+                          </Form>
                         </div>
-                        <div style={styles.div}>
-                          <label>Transaction Fee</label> <br />
-                          <Field type="number" name="fee" />
-                          <ErrorMessage
-                            style={{
-                              color: "#4251af",
-                              fontWeight: "400",
-                              fontSize: "18px",
-                            }}
-                            name="fee"
-                            component="div"
-                          />
-                        </div>
-                        <div style={styles.div}>
-                          <label>Discount Rate</label> <br />
-                          <Field type="number" name="discount" />
-                          <ErrorMessage
-                            style={{
-                              color: "#4251af",
-                              fontWeight: "400",
-                              fontSize: "18px",
-                            }}
-                            name="discount"
-                            component="div"
-                          />
-                        </div>
-                        <br />
-                        <div
-                          style={{ textAlign: "center", paddingTop: "10px" }}
+                      )}
+                    </Formik>
+                  </span>
+                </Popup>
+              )}
+              {/* ACCEPT BTN */}
+              {checkPermission(6) && (
+                <Popup
+                  trigger={<Button className="btn btn-green"> ACCEPT </Button>}
+                  modal
+                  on="click"
+                  open={this.state.isOpenAccept}
+                  onOpen={this.handleOpenAccept}
+                  closeOnDocumentClick
+                >
+                  <span>
+                    <a className="close" onClick={this.handleCloseAccept}>
+                      &times;
+                    </a>
+                    <div
+                      style={{
+                        backgroundColor: "#4251af",
+                        height: "50px",
+                        padding: "10px",
+                        zIndex: "999",
+                        color: "white",
+                        alignItems: "center",
+                      }}
+                    >
+                      <p style={{ fontSize: "22px", textAlign: "center" }}>
+                        Confirmation
+                      </p>
+                    </div>
+                    <h3 className="title">
+                      ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?
+                    </h3>
+                    <Formik
+                      initialValues={{
+                        merchantID: "",
+                        // merchantToken: "",
+                        fee: "",
+                        discountRate: "",
+                      }}
+                      validate={(values) => {
+                        let errors = {};
+                        if (!values.merchantID) {
+                          errors.merchantID = "Required";
+                        }
+                        // } else if (!values.merchantToken) {
+                        // errors.merchantToken = 'Required';
+                        // }
+                        else if (!values.fee) {
+                          errors.fee = "Required";
+                        } else if (!values.discount) {
+                          errors.discount = "Required";
+                        }
+                        return errors;
+                      }}
+                      onSubmit={(values, { setSubmitting }) => {
+                        const ID = this.props.PendingProfile.merchantId;
+                        const merchantCode = values.merchantID;
+                        // const merchantToken = values.merchantToken;
+                        const transactionsFee = values.fee;
+                        const discountRate = values.discount;
+                        const data = {
+                          transactionsFee,
+                          merchantCode,
+                          ID,
+                          discountRate,
+                        };
+                        this.props.sendApproval(data);
+                      }}
+                    >
+                      {({ lol }) => (
+                        <Form
+                          style={{ textAlign: "center" }}
+                          className="InputBox"
                         >
-                          <Button
-                            type="submit"
-                            className="btn btn-red"
-                            onClick={this.handleCloseAccept}
+                          <div style={styles.div}>
+                            <label>Merchant ID</label>
+                            <br />
+                            <Field name="merchantID" type="number" />
+                            <ErrorMessage
+                              style={{
+                                color: "#4251af",
+                                fontWeight: "400",
+                                fontSize: "18px",
+                              }}
+                              name="merchantID"
+                              component="div"
+                            />
+                          </div>
+                          <div style={styles.div}>
+                            <label>Transaction Fee</label> <br />
+                            <Field type="number" name="fee" />
+                            <ErrorMessage
+                              style={{
+                                color: "#4251af",
+                                fontWeight: "400",
+                                fontSize: "18px",
+                              }}
+                              name="fee"
+                              component="div"
+                            />
+                          </div>
+                          <div style={styles.div}>
+                            <label>Discount Rate</label> <br />
+                            <Field type="number" name="discount" />
+                            <ErrorMessage
+                              style={{
+                                color: "#4251af",
+                                fontWeight: "400",
+                                fontSize: "18px",
+                              }}
+                              name="discount"
+                              component="div"
+                            />
+                          </div>
+                          <br />
+                          <div
+                            style={{ textAlign: "center", paddingTop: "10px" }}
                           >
-                            NO
-                          </Button>
-                          <Button type="submit" className="btn btn-green">
-                            YES
-                          </Button>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
-                </span>
-              </Popup>
+                            <Button
+                              type="submit"
+                              className="btn btn-red"
+                              onClick={this.handleCloseAccept}
+                            >
+                              NO
+                            </Button>
+                            <Button type="submit" className="btn btn-green">
+                              YES
+                            </Button>
+                          </div>
+                        </Form>
+                      )}
+                    </Formik>
+                  </span>
+                </Popup>
+              )}
             </span>
           </div>
           <hr />

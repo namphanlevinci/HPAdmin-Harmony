@@ -28,7 +28,7 @@ const Accounts = ({ match }) => (
       />
       <Route
         path={`${match.url}/roles`}
-        onClick={() => this.props.GET_ALL_PERMISSION()}
+        // onClick={() => this.props.GET_ALL_PERMISSION()}
         component={asyncComponent(() => import("./Roles/Roles"))}
       />
       <Route

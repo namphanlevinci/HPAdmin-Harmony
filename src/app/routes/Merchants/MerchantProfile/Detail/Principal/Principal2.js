@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { UPDATE_PRINCIPAL } from "../../../../../../actions/merchants/actions";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
+import CheckPermissions from "../../../../../../util/checkPermission";
 
 import "./principal.styles.scss";
 import "../../MerchantProfile?.css";
@@ -83,12 +84,15 @@ class PrincipalInfo extends Component {
           </div>
         </div>
         <span className="SettingsContent general-content">
-          <Button
-            className="btn btn-green"
-            onClick={() => this._editPrincipal(e)}
-          >
-            EDIT
-          </Button>
+          {CheckPermissions(14) && (
+            <Button
+              className="btn btn-green"
+              onClick={() => this._editPrincipal(e)}
+            >
+              EDIT
+            </Button>
+          )}
+
           <Button
             className="btn btn-red"
             onClick={() =>

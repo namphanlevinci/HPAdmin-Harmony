@@ -17,6 +17,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Select from "react-select";
+import CheckPermissions from "../../../../../../util/checkPermission";
 
 import "react-table/react-table.css";
 import "./category.styles.scss";
@@ -154,35 +155,40 @@ class Category extends Component {
         id: "Actions",
         sortable: false,
         Cell: (row) => {
+          const actionsBtn =
+            row.original.isDisabled !== 1 ? (
+              <GoTrashcan
+                size={21}
+                onClick={() => [
+                  this.setState({
+                    categoryId: row.original.categoryId,
+                    dialog: true,
+                  }),
+                ]}
+              />
+            ) : (
+              <FaTrashRestoreAlt
+                size={20}
+                onClick={() =>
+                  this.setState({
+                    categoryId: row.original.categoryId,
+                    restoreDialog: true,
+                  })
+                }
+              />
+            );
           return (
             <div style={{ textAlign: "center" }}>
-              {row.original.isDisabled !== 1 ? (
-                <GoTrashcan
-                  size={21}
-                  onClick={() => [
-                    this.setState({
-                      categoryId: row.original.categoryId,
-                      dialog: true,
-                    }),
-                  ]}
-                />
-              ) : (
-                <FaTrashRestoreAlt
-                  size={20}
-                  onClick={() =>
-                    this.setState({
-                      categoryId: row.original.categoryId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
+              {CheckPermissions(19) && actionsBtn}
+
+              {CheckPermissions(20) && (
+                <span style={{ paddingLeft: "20px" }}>
+                  <FiEdit
+                    size={20}
+                    onClick={() => this.handleEdit(row.original)}
+                  />
+                </span>
               )}
-              <span style={{ paddingLeft: "20px" }}>
-                <FiEdit
-                  size={20}
-                  onClick={() => this.handleEdit(row.original)}
-                />
-              </span>
             </div>
           );
         },
@@ -211,13 +217,17 @@ class Category extends Component {
             </div>
             <div>
               {/* NEW ADD FORM */}
-              <Button
-                className="btn add-category"
-                style={{ marginTop: "0px" }}
-                onClick={() => this.setState({ cateDialog: true })}
-              >
-                NEW CATEGORY
-              </Button>
+
+              {CheckPermissions(18) && (
+                <Button
+                  className="btn add-category"
+                  style={{ marginTop: "0px" }}
+                  onClick={() => this.setState({ cateDialog: true })}
+                >
+                  NEW CATEGORY
+                </Button>
+              )}
+
               <Dialog
                 open={this.state.cateDialog}
                 aria-labelledby="alert-dialog-title"

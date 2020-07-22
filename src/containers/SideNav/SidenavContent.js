@@ -111,7 +111,7 @@ class SidenavContent extends Component {
             </NavLink>
           </li> */}
           {/*REQUEST MANAGEMENT */}
-          {CheckPermissions("view-request-management") ? (
+          {CheckPermissions(2) ? (
             <li className="menu collapse-box">
               <Button>
                 <i className="zmdi zmdi-account-add zmdi-hc-fw" />
@@ -120,7 +120,7 @@ class SidenavContent extends Component {
                 </span>
               </Button>
               <ul className="sub-menu">
-                {CheckPermissions("view-pending") && (
+                {CheckPermissions(3) && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -132,7 +132,7 @@ class SidenavContent extends Component {
                     </NavLink>
                   </li>
                 )}
-                {CheckPermissions("view-approved-request") && (
+                {CheckPermissions(7) && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -144,122 +144,166 @@ class SidenavContent extends Component {
                     </NavLink>
                   </li>
                 )}
-
-                <li>
-                  <NavLink
-                    className="prepend-icon"
-                    to="/app/merchants/rejected"
-                  >
-                    <span className="nav-text">
-                      <IntlMessages id="sidebar.dashboard.rejectedRequest" />
-                    </span>
-                  </NavLink>
-                </li>
+                {CheckPermissions(8) && (
+                  <li>
+                    <NavLink
+                      className="prepend-icon"
+                      to="/app/merchants/rejected"
+                    >
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.rejectedRequest" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
               </ul>
             </li>
           ) : null}
 
           {/* MERCHANT  */}
-          <li className="menu no-arrow">
-            <NavLink to="/app/merchants/list">
-              <i className="zmdi zmdi-account zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.merchant" />
-              </span>
-            </NavLink>
-          </li>
+          {CheckPermissions(11) && (
+            <li className="menu no-arrow">
+              <NavLink to="/app/merchants/list">
+                <i className="zmdi zmdi-account zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.merchant" />
+                </span>
+              </NavLink>
+            </li>
+          )}
+
           {/* CONSUMERS */}
-          <li className="menu no-arrow">
-            <NavLink to="/app/consumers/list">
-              <i className="zmdi zmdi-accounts-alt  zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.consumers" />
-              </span>
-            </NavLink>
-          </li>
+
+          {CheckPermissions(31) && (
+            <li className="menu no-arrow">
+              <NavLink to="/app/consumers/list">
+                <i className="zmdi zmdi-accounts-alt  zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.consumers" />
+                </span>
+              </NavLink>
+            </li>
+          )}
+
           {/* GIFT CART */}
-          <li className="menu collapse-box">
-            <Button>
-              <i className="zmdi  zmdi-card-giftcard zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.giftcard" />
-              </span>
-            </Button>
-            <ul className="sub-menu">
-              <li>
-                <NavLink className="prepend-icon" to="/app/giftcard/generation">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.generation" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/giftcard/codes">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.codes" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/giftcard/template">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.template" />
-                  </span>
-                </NavLink>
-              </li>
-            </ul>
-          </li>
+
+          {CheckPermissions(34) && (
+            <li className="menu collapse-box">
+              <Button>
+                <i className="zmdi  zmdi-card-giftcard zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.giftcard" />
+                </span>
+              </Button>
+              <ul className="sub-menu">
+                {CheckPermissions(35) && (
+                  <li>
+                    <NavLink
+                      className="prepend-icon"
+                      to="/app/giftcard/generation"
+                    >
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.generation" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+
+                {CheckPermissions(40) && (
+                  <li>
+                    <NavLink className="prepend-icon" to="/app/giftcard/codes">
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.codes" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+
+                {CheckPermissions(41) && (
+                  <li>
+                    <NavLink
+                      className="prepend-icon"
+                      to="/app/giftcard/template"
+                    >
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.template" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+              </ul>
+            </li>
+          )}
+
           {/* PRICING PLAN */}
-          <li className="menu no-arrow">
-            <NavLink to="/app/pricing">
-              <i className="zmdi zmdi-money-box zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.pricingPlan" />
-              </span>
-            </NavLink>
-          </li>
+
+          {CheckPermissions(45) && (
+            <li className="menu no-arrow">
+              <NavLink to="/app/pricing">
+                <i className="zmdi zmdi-money-box zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.pricingPlan" />
+                </span>
+              </NavLink>
+            </li>
+          )}
+
           {/* ACCOUNTS */}
-          <li className="menu collapse-box">
-            <Button>
-              <i className="zmdi zmdi-account-box zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.accounts" />
-              </span>
-            </Button>
-            <ul className="sub-menu">
-              <li>
-                <NavLink className="prepend-icon" to="/app/accounts/admin">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.adminUsers" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/accounts/roles">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.roles" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/accounts/logs">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.Logs" />
-                  </span>
-                </NavLink>
-              </li>
-            </ul>
-          </li>
+          {CheckPermissions(46) && (
+            <li className="menu collapse-box">
+              <Button>
+                <i className="zmdi zmdi-account-box zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.accounts" />
+                </span>
+              </Button>
+
+              <ul className="sub-menu">
+                {CheckPermissions(47) && (
+                  <li>
+                    <NavLink className="prepend-icon" to="/app/accounts/admin">
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.adminUsers" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+
+                {CheckPermissions(51) && (
+                  <li>
+                    <NavLink className="prepend-icon" to="/app/accounts/roles">
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.roles" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+
+                {CheckPermissions(53) && (
+                  <li>
+                    <NavLink className="prepend-icon" to="/app/accounts/logs">
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.Logs" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+              </ul>
+            </li>
+          )}
+
           {/* REPORTS */}
-          <li className="menu collapse-box">
-            <Button>
-              <i className="zmdi zmdi-file-text zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="sidebar.dashboard.reports" />
-              </span>
-            </Button>
-            <ul className="sub-menu">
-              {/* <li>
+
+          {CheckPermissions(54) && (
+            <li className="menu collapse-box">
+              <Button>
+                <i className="zmdi zmdi-file-text zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.reports" />
+                </span>
+              </Button>
+              <ul className="sub-menu">
+                {/* <li>
                 <NavLink
                   className="prepend-icon"
                   to="/app/reports/general-reports"
@@ -269,35 +313,44 @@ class SidenavContent extends Component {
                   </span>
                 </NavLink>
               </li> */}
-              <li>
-                <NavLink
-                  className="prepend-icon"
-                  to="/app/reports/transactions"
-                >
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.transactionreport" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  className="prepend-icon"
-                  to="/app/reports/p2p-transactions"
-                >
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.p2ptransactionreport" />
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="prepend-icon" to="/app/reports/batchs">
-                  <span className="nav-text">
-                    <IntlMessages id="sidebar.dashboard.Batch" />
-                  </span>
-                </NavLink>
-              </li>
-            </ul>
-          </li>
+
+                {CheckPermissions(55) && (
+                  <li>
+                    <NavLink
+                      className="prepend-icon"
+                      to="/app/reports/transactions"
+                    >
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.transactionreport" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+                {CheckPermissions(56) && (
+                  <li>
+                    <NavLink
+                      className="prepend-icon"
+                      to="/app/reports/p2p-transactions"
+                    >
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.p2ptransactionreport" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+                {CheckPermissions(57) && (
+                  <li>
+                    <NavLink className="prepend-icon" to="/app/reports/batchs">
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.dashboard.Batch" />
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+              </ul>
+            </li>
+          )}
+
           {/* BUSINESS */}
           {/* <li className="menu collapse-box">
             <Button>

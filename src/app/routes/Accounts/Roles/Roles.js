@@ -18,6 +18,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 // import data from "./data.json";
 import update from "immutability-helper";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "./Roles.scss";
 import "react-table/react-table.css";
@@ -42,19 +43,32 @@ class Roles extends Component {
       .filter(({ waRoleId }) => waRoleId === 2)
       .reduce((obj, item) => item, {});
 
+    const staff1Permissions = this.props.permissions
+      .filter(({ waRoleId }) => waRoleId === 3)
+      .reduce((obj, item) => item, {});
+
+    const staff2Permissions = this.props.permissions
+      .filter(({ waRoleId }) => waRoleId === 4)
+      .reduce((obj, item) => item, {});
+
     this.setState({
       loading: true,
       adminPermissions,
       managerPermissions,
+      staff1Permissions,
+      staff2Permissions,
     });
   };
 
   handleChange = (check, name) => {
-    console.log("event", check.target.checked);
-    console.log("name", name);
     const isCheck = check.target.checked;
 
-    const { adminPermissions, managerPermissions } = this.state;
+    const {
+      adminPermissions,
+      managerPermissions,
+      staff1Permissions,
+      staff2Permissions,
+    } = this.state;
     const index = Number(name.actionId) - 1;
 
     if (Number(name.waRoleId) === 1) {
@@ -91,12 +105,60 @@ class Roles extends Component {
         managerPermissions: newState,
       });
     }
+    if (Number(name.waRoleId) === 3) {
+      this.setState({
+        [name.action]: isCheck,
+      });
+
+      const newState = update(staff1Permissions, {
+        actions: {
+          [index]: {
+            $set: {
+              ...name,
+              roleIsActive: isCheck,
+            },
+          },
+        },
+      });
+      this.setState({
+        staff1Permissions: newState,
+      });
+    }
+    if (Number(name.waRoleId) === 4) {
+      this.setState({
+        [name.action]: isCheck,
+      });
+
+      const newState = update(staff2Permissions, {
+        actions: {
+          [index]: {
+            $set: {
+              ...name,
+              roleIsActive: isCheck,
+            },
+          },
+        },
+      });
+      this.setState({
+        staff2Permissions: newState,
+      });
+    }
   };
 
   handleUpdatePermission = async () => {
     // console.log("this.state", this.state);
-    const { adminPermissions, managerPermissions } = this.state;
-    const data = [{ ...adminPermissions }, { ...managerPermissions }];
+    const {
+      adminPermissions,
+      managerPermissions,
+      staff1Permissions,
+      staff2Permissions,
+    } = this.state;
+    const data = [
+      { ...adminPermissions },
+      { ...managerPermissions },
+      { ...staff1Permissions },
+      { ...staff2Permissions },
+    ];
 
     await this.props.UPDATE_PERMISSIONS(data);
 
@@ -110,7 +172,12 @@ class Roles extends Component {
   };
 
   render() {
-    const { adminPermissions, managerPermissions } = this.state;
+    const {
+      adminPermissions,
+      managerPermissions,
+      staff1Permissions,
+      staff2Permissions,
+    } = this.state;
 
     const department = [
       {
@@ -156,7 +223,10 @@ class Roles extends Component {
     const renderPermissionName = adminPermissions?.actions?.map((item) => {
       return (
         <tr key={item.actionId}>
-          <td style={{ height: "44px" }}>{item?.name}</td>
+          <td className="role-name">
+            {item?.name}
+            <Checkbox style={styles.none} />
+          </td>
         </tr>
       );
     });
@@ -181,7 +251,37 @@ class Roles extends Component {
         <tr key={item.actionId}>
           <td style={{ textAlign: "center" }}>
             <Checkbox
-              checked={item?.roleIsActive || ""}
+              checked={item?.roleIsActive}
+              style={styles.checkbox}
+              onChange={(check) => this.handleChange(check, item)}
+              name={item?.action}
+            />
+          </td>
+        </tr>
+      );
+    });
+
+    const renderStaffLv1 = staff1Permissions?.actions?.map((item) => {
+      return (
+        <tr key={item.actionId}>
+          <td style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={item?.roleIsActive}
+              style={styles.checkbox}
+              onChange={(check) => this.handleChange(check, item)}
+              name={item?.action}
+            />
+          </td>
+        </tr>
+      );
+    });
+
+    const renderStaffLv2 = staff2Permissions?.actions?.map((item) => {
+      return (
+        <tr key={item.actionId}>
+          <td style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={item?.roleIsActive}
               style={styles.checkbox}
               onChange={(check) => this.handleChange(check, item)}
               name={item?.action}
@@ -220,7 +320,8 @@ class Roles extends Component {
             <h3>Permissions</h3>
 
             <div style={{ display: "flex" }}>
-              <table style={{ width: "30%" }}>
+              {/* permissions name */}
+              <table style={{ width: "40%" }}>
                 <tbody>
                   <tr className="module">
                     <th style={styles.none}>''</th>
@@ -229,12 +330,13 @@ class Roles extends Component {
                     <th>Roles</th>
                   </tr>
                   <tr className="module">
-                    <th>Module</th>
+                    <th style={{ paddingBottom: "18px" }}>Module</th>
                   </tr>
+
                   {renderPermissionName}
                 </tbody>
               </table>
-
+              {/* Admin */}
               <table style={{ width: "15%" }}>
                 <tbody>
                   <tr className="module">
@@ -249,7 +351,7 @@ class Roles extends Component {
                   {renderAdmin}
                 </tbody>
               </table>
-
+              {/* Manager */}
               <table style={{ width: "15%" }}>
                 <tbody>
                   <tr className="module">
@@ -264,15 +366,47 @@ class Roles extends Component {
                   {renderManager}
                 </tbody>
               </table>
+              {/* // Staff Lv1 */}
+              <table style={{ width: "15%" }}>
+                <tbody>
+                  <tr className="module">
+                    <th style={styles.none}>''</th>
+                  </tr>
+                  <tr className="module2">
+                    <th>Staff Lv1</th>
+                  </tr>
+                  <tr className="module">
+                    <th style={styles.none}>""</th>
+                  </tr>
+                  {renderStaffLv1}
+                </tbody>
+              </table>
+              {/* // Staff Lv2 */}
+              <table style={{ width: "15%" }}>
+                <tbody>
+                  <tr className="module">
+                    <th style={styles.none}>''</th>
+                  </tr>
+                  <tr className="module2">
+                    <th>Staff Lv2</th>
+                  </tr>
+                  <tr className="module">
+                    <th style={styles.none}>""</th>
+                  </tr>
+                  {renderStaffLv2}
+                </tbody>
+              </table>
             </div>
-            <div style={styles.btn}>
-              <Button
-                className="btn btn-green"
-                onClick={this.handleUpdatePermission}
-              >
-                SAVE
-              </Button>
-            </div>
+            {CheckPermissions(52) && (
+              <div style={styles.btn}>
+                <Button
+                  className="btn btn-green"
+                  onClick={this.handleUpdatePermission}
+                >
+                  SAVE
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
