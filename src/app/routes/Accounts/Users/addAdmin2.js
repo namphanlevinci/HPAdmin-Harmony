@@ -301,7 +301,7 @@ class addAdmin2 extends Component {
                 <div className="row" style={styles.row}>
                   <div className="col-4" style={styles.margin}>
                     <TextField
-                      label="First name*"
+                      label=" First Name*"
                       name="firstname"
                       style={styles.input}
                       onChange={handleChange}
@@ -315,7 +315,7 @@ class addAdmin2 extends Component {
                   </div>
                   <div className="col-4" style={styles.margin}>
                     <TextField
-                      label="Last name*"
+                      label="Last Name*"
                       name="lastname"
                       style={styles.input}
                       onChange={handleChange}

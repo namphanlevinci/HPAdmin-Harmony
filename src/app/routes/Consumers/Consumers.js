@@ -112,12 +112,12 @@ class Consumers extends React.Component {
         show: false,
       },
       {
-        Header: "First name",
+        Header: " First Name",
         accessor: "firstName",
         width: 130,
       },
       {
-        Header: "Last name",
+        Header: "Last Name",
         accessor: "lastName",
         width: 130,
       },

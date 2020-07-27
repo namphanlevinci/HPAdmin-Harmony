@@ -15,10 +15,8 @@
 
 const prod = {
   url: {
-    // URL: "https://staging.harmonypayment.com/api",
-    // upFile: "https://staging.harmonypayment.com/api/file?category=service",
-    URL: "https://dev.harmonypayment.com/api",
-    upFile: "https://dev.harmonypayment.com/api/file?category=service",
+    URL: "https://staging.harmonypayment.com/api",
+    upFile: "https://staging.harmonypayment.com/api/file?category=service",
   },
 };
 

@@ -258,13 +258,13 @@ class General extends Component {
                 name="firstName"
                 value={this.state.firstName}
                 onChange={this._handleChange}
-                placeholder="First name"
+                placeholder=" First Name"
               ></input>
               <input
                 name="lastName"
                 value={this.state.lastName}
                 onChange={this._handleChange}
-                placeholder="Last name"
+                placeholder="Last Name"
               ></input>
             </div>
             <div className="col-4">
