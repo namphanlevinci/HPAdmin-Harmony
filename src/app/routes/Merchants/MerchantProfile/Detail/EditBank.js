@@ -180,14 +180,6 @@ class EditBank extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-3">
-              <label>Bank Name*</label>
-              <input
-                name="name"
-                value={this.state.name}
-                onChange={this._handleChange}
-              />
-            </div>
-            <div className="col-3">
               <label>Account Holder Name*</label>
               <input
                 style={{ width: "250px" }}
@@ -198,7 +190,16 @@ class EditBank extends Component {
               />
             </div>
             <div className="col-3">
-              <label>Routing Number(ABA)*</label>
+              <label>Bank Name*</label>
+              <input
+                name="name"
+                value={this.state.name}
+                onChange={this._handleChange}
+              />
+            </div>
+
+            <div className="col-3">
+              <label> Routing Number* (ABA)</label>
               <input
                 style={{ width: "250px" }}
                 name="routingNumber"
@@ -208,7 +209,7 @@ class EditBank extends Component {
               />
             </div>
             <div className="col-3">
-              <label>Account Number (DDA)*</label>
+              <label>Account Number* (DDA)</label>
               <input
                 name="accountNumber"
                 value={this.state.accountNumber}
@@ -231,7 +232,7 @@ class EditBank extends Component {
               />
             </div>
 
-            {renderOldImg}
+            {/* {renderOldImg} */}
           </div>
         </div>
         <br />

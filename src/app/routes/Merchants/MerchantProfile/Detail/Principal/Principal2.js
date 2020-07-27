@@ -4,6 +4,7 @@ import { UPDATE_PRINCIPAL } from "../../../../../../actions/merchants/actions";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import CheckPermissions from "../../../../../../util/checkPermission";
+import formatPhone from "../../../../../../util/formatPhone";
 
 import "./principal.styles.scss";
 import "../../MerchantProfile?.css";
@@ -39,23 +40,23 @@ class PrincipalInfo extends Component {
             <p>{e?.ownerShip}%</p>
           </div>
           <div className="col-4">
-            <label>Home Phone*</label>
-            <p>{e?.homePhone}</p>
+            <label>Home Phone</label>
+            <p>{formatPhone(e?.homePhone)}</p>
           </div>
           <div className="col-4">
             <label>Mobile Phone*</label>
-            <p>{e?.mobilePhone}</p>
+            <p>{formatPhone(e?.mobilePhone)}</p>
           </div>
           <div className="col-4">
             <label>Address*</label>
             <p>{e?.address}</p>
           </div>
           <div className="col-4">
-            <label>Social Security Number (SSN)*</label>
+            <label>Social Security Number* (SSN)</label>
             <p>{e?.ssn}</p>
           </div>
           <div className="col-4">
-            <label>Date of Birth (MM/DD/YYYY)*</label>
+            <label>Date of Birth (mm/dd/yyyy)*</label>
             <p>{moment(e?.birthDate).format("MM/DD/YYYY")}</p>
           </div>
           <div className="col-4">
@@ -109,27 +110,27 @@ class PrincipalInfo extends Component {
                   <hr />
                   <div className="col-4">
                     <label>Home Phone*</label>
-                    <p>{e?.homePhone !== null ? e?.homePhone : null}</p>
+                    <p>{formatPhone(e?.homePhone)}</p>
                   </div>
                   <div className="col-4">
                     <label>Mobile Phone*</label>
-                    <p>{e?.mobilePhone !== null ? e?.mobilePhone : null}</p>
+                    <p>{formatPhone(e?.mobilePhone)}</p>
                   </div>
                   <div className="col-4">
                     <label>Address*</label>
-                    <p>{e?.address !== null ? e?.address : null}</p>
+                    <p>{e?.address}</p>
                   </div>
                   <div className="col-4">
                     <label>State*</label>
-                    <p>{e?.stateName !== null ? e?.stateName : null}</p>
+                    <p>{e?.stateName}</p>
                   </div>
                   <div className="col-4">
                     <label>Driver License Number*</label>
-                    <p>{e?.driverNumber !== null ? e?.driverNumber : null}</p>
-                  </div>
+                    <p>{e?.driverNumber}</p>
+                  </div>{" "}
                   {e?.ImageUrl !== null ? (
-                    <div className="col-4">
-                      <label>Driver License Picture*</label>
+                    <div className="col-6">
+                      <label>Driver License Picture*</label> <br />
                       <img
                         className="bankVoid"
                         src={`${e?.ImageUrl}`}

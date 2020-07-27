@@ -99,6 +99,7 @@ class AddGeneration extends Component {
                         },
                         width: 250,
                       });
+                      this.props.history.push("/app/giftcard/generation");
                     } else {
                       store.addNotification({
                         title: "ERROR!",

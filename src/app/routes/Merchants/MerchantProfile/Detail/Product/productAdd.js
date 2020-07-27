@@ -348,7 +348,7 @@ class AddProduct extends Component {
                         <input
                           name="name"
                           type="text"
-                          placeholder="Product name*"
+                          placeholder="Product*"
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.name}
@@ -435,7 +435,7 @@ class AddProduct extends Component {
                       <div className="col-6" style={{ marginTop: 40 }}></div>
                       <div className="col-6" style={{ marginTop: 40 }}>
                         <label style={{ color: "#4054B2" }}>
-                          Items in Stock*
+                          Items In Stock*
                         </label>
                         <br />
                         <div class="input-box">
@@ -500,7 +500,7 @@ class AddProduct extends Component {
                       </div>
                       <div className="col-6" style={{ marginTop: 40 }}>
                         <label style={{ color: "#4054B2" }}>
-                          Max Threshold*
+                          High Threshold*
                         </label>
                         <br />
                         <div className="input-box">
@@ -557,7 +557,7 @@ class AddProduct extends Component {
                         )}
                       </div>
                       <div className="col-6" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#4054B2" }}>Status</label>
+                        <label style={{ color: "#4054B2" }}>Status*</label>
                         <br />
 
                         <Select

@@ -15,7 +15,10 @@ import Select from "react-select";
 import selectState from "../../../../../util/selectState";
 import MaskedInput from "react-text-mask";
 import LinearIndeterminate from "../../../../../util/linearProgress";
-import formatSSN from "../../../../../util/formatSSN";
+import InputCustom from "./custom-input";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
 
 import "react-phone-input-2/lib/high-res.css";
 import "nprogress/nprogress.css";
@@ -361,19 +364,29 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <TextField
-                                    name={`principalInfo.${index}.addressPrincipal.zip`}
-                                    values={`principalInfo.${index}.addressPrincipal.zip`}
-                                    label="Zip Code*"
-                                    margin="normal"
-                                    fullWidth
-                                    onChange={(e) =>
-                                      setFieldValue(
-                                        `principalInfo.${index}.addressPrincipal.zip`,
-                                        e.target.value
-                                      )
-                                    }
-                                  />
+                                  <FormControl
+                                    style={{ width: "100%", marginTop: "16px" }}
+                                  >
+                                    <InputLabel htmlFor="formatted-text-mask-input">
+                                      Zip Code*
+                                    </InputLabel>
+                                    <Input
+                                      values={`principalInfo.${index}.addressPrincipal.zip`}
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `principalInfo.${index}.addressPrincipal.zip`,
+                                          e.target.value
+                                        )
+                                      }
+                                      name={`principalInfo.${index}.addressPrincipal.zip`}
+                                      id="custom-tax-input"
+                                      inputProps={{
+                                        block: [5],
+                                        numericOnly: true,
+                                      }}
+                                      inputComponent={InputCustom}
+                                    />
+                                  </FormControl>
 
                                   <div className="input-feedback">
                                     <ErrorMessage
@@ -382,71 +395,56 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <TextField
-                                    name={`principalInfo.${index}.yearAtThisAddress`}
-                                    values={`principalInfo.${index}.yearAtThisAddress`}
-                                    label="Year at This Address"
-                                    type="number"
-                                    margin="normal"
-                                    fullWidth
-                                    inputProps={{
-                                      maxLength: 4,
-                                    }}
-                                    onChange={(e) =>
-                                      setFieldValue(
-                                        `principalInfo.${index}.yearAtThisAddress`,
-                                        e.target.value
-                                      )
-                                    }
-                                  />
+                                  <FormControl
+                                    style={{ width: "100%", marginTop: "10px" }}
+                                  >
+                                    <InputLabel htmlFor="formatted-text-mask-input">
+                                      Year at This Address*
+                                    </InputLabel>
+                                    <Input
+                                      name={`principalInfo.${index}.yearAtThisAddress`}
+                                      values={`principalInfo.${index}.yearAtThisAddress`}
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `principalInfo.${index}.yearAtThisAddress`,
+                                          e.target.value
+                                        )
+                                      }
+                                      id="custom-tax-input"
+                                      inputProps={{
+                                        block: [2],
+                                        numericOnly: true,
+                                      }}
+                                      inputComponent={InputCustom}
+                                    />
+                                  </FormControl>
                                 </div>
                                 <div className="col-4">
-                                  <label style={{ marginTop: "7px" }}>
-                                    Social security Number (SSN)
-                                  </label>
-                                  {/* 
-                                  <TextField
-                                    name={`principalInfo.${index}.ssn`}
-                                    values={`principalInfo.${index}.ssn`}
-                                    label="Social security Number (SSN)"
-                                    type="number"
-                                    margin="normal"
-                                    fullWidth
-                                    inputProps={{
-                                      maxLength: 4,
-                                    }}
-                                    onChange={(e) =>
-                                      setFieldValue(
-                                        `principalInfo.${index}.ssn`,
-                                        formatSSN(e.target.value)
-                                      )
-                                    }
-                                  /> */}
-                                  <MaskedInput
-                                    mask={[
-                                      /[1-9]/,
-                                      /\d/,
-                                      /\d/,
-                                      "-",
-                                      /\d/,
-                                      /\d/,
-                                      "-",
-                                      /\d/,
-                                      /\d/,
-                                      /\d/,
-                                      /\d/,
-                                    ]}
-                                    guide={false}
-                                    values={`principalInfo.${index}.ssn`}
-                                    name={`principalInfo.${index}.ssn`}
-                                    onChange={(e) => [
-                                      e.persist(),
-                                      setFieldValue(
-                                        `principalInfo.${index}.ssn`,
-                                        e.target.value
-                                      ),
-                                    ]}
-                                  />
+                                  <FormControl
+                                    style={{ width: "100%", marginTop: "16px" }}
+                                  >
+                                    <InputLabel htmlFor="formatted-text-mask-input">
+                                      Social security Number (SSN)*
+                                    </InputLabel>
+                                    <Input
+                                      values={`principalInfo.${index}.ssn`}
+                                      name={`principalInfo.${index}.ssn`}
+                                      onChange={(e) => [
+                                        e.persist(),
+                                        setFieldValue(
+                                          `principalInfo.${index}.ssn`,
+                                          e.target.value
+                                        ),
+                                      ]}
+                                      id="custom-tax-input"
+                                      inputProps={{
+                                        block: [3, 2, 4],
+                                        numericOnly: true,
+                                      }}
+                                      inputComponent={InputCustom}
+                                    />
+                                  </FormControl>
+
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.ssn`}

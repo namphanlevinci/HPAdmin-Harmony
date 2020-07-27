@@ -14,12 +14,12 @@ import PhoneInput from "react-phone-input-2";
 import axios from "axios";
 import LinearProgress from "../../../../util/linearProgress";
 import SimpleReactValidator from "simple-react-validator";
+import Cleave from "cleave.js/react";
 
 import "./MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
 import "react-phone-input-2/lib/high-res.css";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class EditPendingMerchant extends Component {
@@ -32,7 +32,7 @@ class EditPendingMerchant extends Component {
     };
     this.validator = new SimpleReactValidator({
       messages: {
-        default: "Required", // will override all messages
+        default: "Required",
       },
     });
   }
@@ -69,7 +69,6 @@ class EditPendingMerchant extends Component {
 
   async componentDidMount() {
     const Profile = this.props.Profile;
-
     var BusinessQuestionObject = Profile?.business.reduce(
       (obj, item, index) =>
         Object.assign(obj, {
@@ -229,14 +228,28 @@ class EditPendingMerchant extends Component {
                   validator={this.validator}
                 />
 
-                <PendingInput
-                  label="Federal Tax ID*"
-                  name="tax"
-                  initValue={this.state.tax}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                />
-
+                <div className="col-4" style={{ paddingTop: "10px" }}>
+                  <label>Federal Tax ID*</label>
+                  <Cleave
+                    options={{
+                      blocks: [2, 7],
+                      delimiter: "-",
+                    }}
+                    label="Federal Tax ID*"
+                    name="tax"
+                    value={this.state.tax}
+                    onChange={this.handleChange}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "16px",
+                      fontWeight: "400px",
+                    }}
+                  >
+                    {this.validator?.message("tax", this.state.tax, "required")}
+                  </span>
+                </div>
                 <PendingInput
                   label="Business Address* (no P.O. Boxes)"
                   name="address"
@@ -268,14 +281,30 @@ class EditPendingMerchant extends Component {
                   </div>
                 </div>
 
-                <PendingInput
-                  label="Zip Code*"
-                  name="zip"
-                  initValue={this.state.zip}
-                  onChangeInput={this.handleChange}
-                  inputStyles="inputPadding"
-                  validator={this.validator}
-                />
+                <div className="col-4" style={{ paddingTop: "10px" }}>
+                  <label>Zip Code*</label>
+                  <Cleave
+                    options={{
+                      blocks: [5],
+                      numericOnly: true,
+                    }}
+                    label="Zip Code*"
+                    name="tax"
+                    value={this.state.zip}
+                    onChange={this.handleChange}
+                    className="inputPadding"
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "16px",
+                      fontWeight: "400px",
+                    }}
+                  >
+                    {this.validator?.message("zip", this.state.zip, "required")}
+                  </span>
+                </div>
+
                 <PendingInput
                   label="Email Contact*"
                   name="emailContact"
@@ -285,7 +314,7 @@ class EditPendingMerchant extends Component {
                   validator={this.validator}
                 />
                 <div className="col-4" style={{ paddingTop: "10px" }}>
-                  <label>Business Phone Number</label>
+                  <label>Business Phone Number*</label>
                   {this.state.loading && (
                     <PhoneInput
                       style={{ marginTop: "10px" }}
@@ -383,7 +412,7 @@ class EditPendingMerchant extends Component {
 
                 <PendingInput
                   styles="col-3"
-                  label="ABA Routing Number*"
+                  label="Routing Number* (ABA)"
                   name="routingNumber"
                   initValue={this.state.routingNumber}
                   onChangeInput={this.handleChange}
@@ -391,7 +420,7 @@ class EditPendingMerchant extends Component {
                 />
                 <PendingInput
                   styles="col-3"
-                  label="Account Number (DDA)*"
+                  label="Account Number* (DDA)"
                   name="accountNumber"
                   initValue={this.state.accountNumber}
                   onChangeInput={this.handleChange}

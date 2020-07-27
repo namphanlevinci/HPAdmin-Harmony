@@ -56,13 +56,14 @@ class General extends Component {
             <p>{e?.general?.zip}</p>
           </div>
           <div className="col-4">
-            <label>Business Phone Number*</label>
-            <p>{formatPhone(e?.general?.phoneBusiness)}</p>
-          </div>
-          <div className="col-4">
             <label>Contact Email Address*</label>
             <p>{e?.general?.emailContact}</p>
           </div>
+          <div className="col-4">
+            <label>Business Phone Number*</label>
+            <p>{formatPhone(e?.general?.phoneBusiness)}</p>
+          </div>
+
           <div className="col-4">
             <div className="password">
               <label className="password__label">
@@ -82,7 +83,7 @@ class General extends Component {
             </div>
           </div>
         </div>
-        <h2 style={styles.h2}>Representative Information</h2>
+        {/* <h2 style={styles.h2}>Representative Information</h2> */}
         <div className="row">
           <div className="col-4">
             <label>Contact Name*</label>
@@ -105,10 +106,10 @@ class General extends Component {
         e.business.map((e) => {
           return (
             <div className="col-6" key={e.businessId}>
-              <label>{e.question}</label>
+              <label>{e.question}</label> <br />
               <Checkbox checked={e.answer === false} />
               No <Checkbox checked={e.answer === true} /> Yes
-              <h5>Answer: {e.answerReply} </h5>
+              <h5 style={{ marginLeft: "25%" }}>Answer: {e.answerReply} </h5>
             </div>
           );
         })

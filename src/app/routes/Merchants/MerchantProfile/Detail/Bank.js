@@ -48,23 +48,24 @@ class Bank extends Component {
 
           <div className="row">
             <div className="col-3">
-              <label>Bank Name*</label>
-              <p>{e?.businessBank?.name}</p>
-            </div>
-            <div className="col-3">
               <label>Account Holder Name*</label>
               <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e?.businessBank?.accountHolderName}
               </p>
             </div>
             <div className="col-3">
-              <label>Routing Number(ABA)*</label>
+              <label>Bank Name*</label>
+              <p>{e?.businessBank?.name}</p>
+            </div>
+
+            <div className="col-3">
+              <label> Routing Number* (ABA)</label>
               <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e?.businessBank?.routingNumber}
               </p>
             </div>
             <div className="col-3">
-              <label>Account Number (DDA)*</label>
+              <label>Account Number* (DDA)</label>
               <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
                 {e?.businessBank?.accountNumber}
               </p>

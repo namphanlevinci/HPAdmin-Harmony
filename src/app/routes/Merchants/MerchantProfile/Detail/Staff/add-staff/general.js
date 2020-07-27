@@ -11,6 +11,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import LinearProgress from "../../../../../../../util/linearProgress";
+import InputCustom from "../../../../MerchantsList/addMerchant/custom-input";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
 
 import "react-phone-input-2/lib/high-res.css";
 
@@ -58,10 +61,6 @@ const General = ({
     },
   ];
 
-  // const phoneCode = [
-  //   { value: "+1", label: "+1" },
-  //   { value: "+84", label: "+84" },
-  // ];
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
@@ -156,19 +155,22 @@ const General = ({
         </div>
         <div className="col-4">
           <div className="form-group">
-            <TextField
-              name="zip"
-              label="Zip"
-              margin="normal"
-              type="number"
-              fullWidth
-              onChange={handleChange}
-              value={zip}
-              style={{ marginTop: "10px" }}
-              inputProps={{
-                maxLength: 5,
-              }}
-            />
+            <FormControl style={{ width: "100%", marginTop: "10px" }}>
+              <InputLabel htmlFor="formatted-text-mask-input">
+                Zip Code
+              </InputLabel>
+              <Input
+                value={zip}
+                onChange={handleChange}
+                name="zip"
+                id="custom-zip-input"
+                inputProps={{
+                  block: [5],
+                  numericOnly: true,
+                }}
+                inputComponent={InputCustom}
+              />
+            </FormControl>
           </div>
         </div>
 
@@ -186,7 +188,7 @@ const General = ({
           <div className="form-group">
             <TextField
               name="email"
-              label="Email"
+              label="Contact Email"
               margin="normal"
               type="text"
               fullWidth

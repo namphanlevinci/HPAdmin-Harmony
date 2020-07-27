@@ -14,7 +14,7 @@ import { config } from "../../../../url/url";
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
-import DefualtImage from "./default.png";
+import DefaultImage from "./default.png";
 
 import "../generation/generation.styles.scss";
 import "./template.styles.scss";
@@ -31,6 +31,7 @@ class EditTemplate extends Component {
       isConsumer: 0,
       openDelete: false,
       isChecked: false,
+      loading: false,
     };
   }
 
@@ -44,6 +45,7 @@ class EditTemplate extends Component {
       giftCardType: Data?.giftCardType,
       isConsumer: Data?.isConsumer,
       ID: Data?.giftCardTemplateId,
+      loading: true,
     });
 
     if (Data?.isConsumer === 1) {
@@ -53,7 +55,7 @@ class EditTemplate extends Component {
     }
   }
 
-  _handleCheckbox = (event) => {
+  handleCheckbox = (event) => {
     if (event.target.checked === true) {
       this.setState({ isConsumer: 1, isChecked: true });
     } else {
@@ -61,7 +63,7 @@ class EditTemplate extends Component {
     }
   };
   // Delete
-  _handleCloseDelete = () => {
+  handleCloseDelete = () => {
     this.setState({ openDelete: false });
   };
 
@@ -149,7 +151,7 @@ class EditTemplate extends Component {
       );
     } else {
       $imagePreview = (
-        <img className="template-img" src={DefualtImage} alt="void" />
+        <img className="template-img" src={DefaultImage} alt="void" />
       );
     }
 
@@ -161,7 +163,7 @@ class EditTemplate extends Component {
         />
         <div className="giftcard">
           <Delete
-            handleCloseDelete={this._handleCloseDelete}
+            handleCloseDelete={this.handleCloseDelete}
             open={this.state.openDelete}
             deleteGeneration={this._Delete}
             text={"Template"}
@@ -279,86 +281,92 @@ class EditTemplate extends Component {
                   </div>
                   <div className="information container-fluid">
                     <h3 className="title">General Information</h3>
+                    {this.state.loading && (
+                      <div className="row">
+                        <div className="col-4">
+                          <h4>Template Name</h4>
+                          <input
+                            type="text"
+                            name="giftCardTemplateName"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.giftCardTemplateName}
+                          />
+                          {errors.giftCardTemplateName &&
+                            touched.giftCardTemplateName && (
+                              <div className="input-feedback">
+                                {errors.giftCardTemplateName}
+                              </div>
+                            )}
+                        </div>
 
-                    <div className="row">
-                      <div className="col-4">
-                        <h4>Template Name</h4>
-                        <input
-                          type="text"
-                          name="giftCardTemplateName"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.giftCardTemplateName}
-                        />
-                        {errors.giftCardTemplateName &&
-                          touched.giftCardTemplateName && (
+                        <div className="col-4">
+                          <h4>Group</h4>
+                          <Select
+                            options={Group}
+                            onChange={(selectedOption) => {
+                              setFieldValue(
+                                "giftCardType",
+                                selectedOption.value
+                              );
+                            }}
+                            placeholder="Select Group"
+                            value={{
+                              value: values.giftCardType,
+                              label: values.giftCardType,
+                            }}
+                          />
+                          {errors.giftCardType && touched.giftCardType && (
                             <div className="input-feedback">
-                              {errors.giftCardTemplateName}
+                              {errors.giftCardType}
                             </div>
                           )}
-                      </div>
+                        </div>
 
-                      <div className="col-4">
-                        <h4>Group</h4>
-                        <Select
-                          options={Group}
-                          onChange={(selectedOption) => {
-                            setFieldValue("giftCardType", selectedOption.value);
-                          }}
-                          placeholder="Select Group"
-                          value={{
-                            value: values.giftCardType,
-                            label: values.giftCardType,
-                          }}
-                        />
-                        {errors.giftCardType && touched.giftCardType && (
-                          <div className="input-feedback">
-                            {errors.giftCardType}
-                          </div>
-                        )}
-                      </div>
+                        <div className="col-4">
+                          <h4>Status</h4>
+                          <Select
+                            options={Status}
+                            onChange={(selectedOption) => {
+                              setFieldValue("isDisabled", selectedOption.value);
+                            }}
+                            placeholder="Select Status"
+                            value={{
+                              value: values.isDisabled,
+                              label:
+                                values.isDisabled === 0 ? "Active" : "Disable",
+                            }}
+                          />
+                          {errors.status && touched.status && (
+                            <div className="input-feedback">
+                              {errors.status}
+                            </div>
+                          )}
+                        </div>
 
-                      <div className="col-4">
-                        <h4>Status</h4>
-                        <Select
-                          options={Status}
-                          onChange={(selectedOption) => {
-                            setFieldValue("isDisabled", selectedOption.value);
-                          }}
-                          placeholder="Select Status"
-                          value={{
-                            value: values.isDisabled,
-                            label:
-                              values.isDisabled === 0 ? "Active" : "Disable",
-                          }}
-                        />
-                        {errors.status && touched.status && (
-                          <div className="input-feedback">{errors.status}</div>
-                        )}
+                        <div className="col-4" style={{ paddingTop: "10px" }}>
+                          <h4>Image</h4>
+                          {$imagePreview}
+                          <input
+                            type="file"
+                            className="custom-input"
+                            onChange={(e) => this._uploadFile(e)}
+                            style={{ width: "250px", border: "none" }}
+                          />
+                        </div>
+                        <div className="col-8" style={{ paddingTop: "45px" }}>
+                          <Checkbox
+                            id="isConsumer"
+                            checked={this.state.isChecked}
+                            onChange={this.handleCheckbox}
+                            value="isConsumer"
+                            inputProps={{ "aria-label": "primary checkbox" }}
+                            style={{ color: "#4251af" }}
+                          />
+                          Visible on Consumer App
+                        </div>
                       </div>
-
-                      <div className="col-4" style={{ paddingTop: "10px" }}>
-                        <h4>Image</h4>
-                        {$imagePreview}
-                        <input
-                          type="file"
-                          className="custom-input"
-                          onChange={(e) => this._uploadFile(e)}
-                          style={{ width: "250px", border: "none" }}
-                        />
-                      </div>
-                      <div className="col-8" style={{ paddingTop: "45px" }}>
-                        <Checkbox
-                          id="isConsumer"
-                          checked={this.state.isChecked}
-                          onChange={this._handleCheckbox}
-                          value="isConsumer"
-                          inputProps={{ "aria-label": "primary checkbox" }}
-                          style={{ color: "#4251af" }}
-                        />
-                        Visible on Consumer App
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </form>
               </React.Fragment>

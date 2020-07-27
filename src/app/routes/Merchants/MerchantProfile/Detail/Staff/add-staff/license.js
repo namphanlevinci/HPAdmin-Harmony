@@ -1,5 +1,9 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
+import InputCustom from "../../../../MerchantsList/addMerchant/custom-input";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import FormControl from "@material-ui/core/FormControl";
 
 const License = ({
   validator,
@@ -29,16 +33,27 @@ const License = ({
       </div>
       <div className="col-12">
         <div className="form-group">
-          <TextField
-            name="socialSecurityNumber"
-            label="Social Security Number"
-            margin="normal"
-            type="text"
-            fullWidth
-            onChange={handleChange}
-            // required
-            value={socialSecurityNumber}
-          />
+          <FormControl style={{ width: "100%", marginTop: "10px" }}>
+            <InputLabel htmlFor="formatted-text-mask-input">
+              Social Security Number
+            </InputLabel>
+            <Input
+              name="socialSecurityNumber"
+              label="Social Security Number"
+              margin="normal"
+              type="text"
+              fullWidth
+              onChange={handleChange}
+              value={socialSecurityNumber}
+              id="custom-ssn-input"
+              inputProps={{
+                block: [3, 2, 4],
+                numericOnly: true,
+              }}
+              inputComponent={InputCustom}
+            />
+          </FormControl>
+
           {/* {validator.message(
             "socialSecurityNumber",
             socialSecurityNumber,

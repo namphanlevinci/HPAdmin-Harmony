@@ -172,13 +172,13 @@ class MerchantReqProfile extends Component {
                 <p>{e.address}</p>
               </div>
               <div className="col-4">
-                <label>Social Security Number (SSN)*</label>
+                <label>Social Security Number* (SSN)</label>
                 <NumberFormat
-                  value={e.fullSsn}
+                  value={e.ssn}
                   displayType={"text"}
                   thousandSeparator={true}
                   p
-                  format="###-##-####"
+                  format="****-**-####"
                   mask="_"
                   renderText={(value) => <p>{value}</p>}
                 />
@@ -557,7 +557,7 @@ class MerchantReqProfile extends Component {
                   <p>{e?.businessBank?.name}</p>
                 </div>
                 <div className="col-3">
-                  <label>Routing Number(ABA)*</label>
+                  <label> Routing Number* (ABA)</label>
                   <p>
                     {e.businessBank !== null
                       ? e.businessBank.routingNumber
@@ -565,7 +565,7 @@ class MerchantReqProfile extends Component {
                   </p>
                 </div>
                 <div className="col-3">
-                  <label>Account Number (DDA)*</label>
+                  <label>Account Number* (DDA)</label>
                   <p>
                     {e.businessBank !== null
                       ? e.businessBank.accountNumber

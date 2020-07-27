@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import PhoneInput from "react-phone-input-2";
 import Select from "react-select";
 import selectState from "../../../../../util/selectState";
+import Cleave from "cleave.js/react";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -169,16 +170,21 @@ class General extends Component {
             </div>
             <div className="col-4">
               <label>Federal Tax ID*</label>
-              <input
+
+              <Cleave
                 name="tax"
                 value={this.state.tax}
                 onChange={this._handleChange}
+                options={{
+                  blocks: [2, 7],
+                  delimiter: "-",
+                  numericOnly: true,
+                }}
                 style={styles.input}
-                maxLength="9"
-              ></input>
+              />
             </div>
             <div className="col-4">
-              <label>Address*</label>
+              <label>Business Address* (no P.O. Boxes)</label>
               <input
                 name="address"
                 value={this.state.address}
@@ -209,23 +215,20 @@ class General extends Component {
                 />
               ) : null}
             </div>
-            <div className="col-4">
-              <label>Business Phone*</label>
-              <PhoneInput
-                placeholder="Business Phone Number"
-                name="businessPhone"
-                value={this.state.phoneBusiness}
-                onChange={(phone) => this.setState({ phoneBusiness: phone })}
-              />
-            </div>
+
             <div className="col-4">
               <label>Zip Code*</label>
-              <input
+
+              <Cleave
                 name="zip"
-                value={this.state.zip}
                 onChange={this._handleChange}
+                value={this.state.zip}
+                options={{
+                  blocks: [5],
+                  delimiter: "-",
+                  numericOnly: true,
+                }}
                 style={styles.input}
-                maxLength="5"
               />
             </div>
             <div className="col-4">
@@ -235,6 +238,15 @@ class General extends Component {
                 value={this.state.emailContact}
                 onChange={this._handleChange}
                 style={styles.input}
+              />
+            </div>
+            <div className="col-4">
+              <label>Business Phone*</label>
+              <PhoneInput
+                placeholder="Business Phone Number"
+                name="businessPhone"
+                value={this.state.phoneBusiness}
+                onChange={(phone) => this.setState({ phoneBusiness: phone })}
               />
             </div>
           </div>

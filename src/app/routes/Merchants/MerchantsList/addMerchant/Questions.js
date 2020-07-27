@@ -32,7 +32,7 @@ const Questions = ({ handleQuestions, businessInfo, handleChange }) => {
               control={<Radio color="primary" />}
               label="Yes"
             />
-          </RadioGroup>{" "}
+          </RadioGroup>
           <br />
         </div>
         <TextField

@@ -1,17 +1,14 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-// import StateID from "../../../../../util/getState";
 import PhoneInput from "react-phone-input-2";
 import selectState from "../../../../../util/selectState";
 import Select from "react-select";
-// import MaskedInput from "react-text-mask";
+import InputCustom from "./custom-input";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
 
 import "react-phone-input-2/lib/high-res.css";
-
-// const countryCode = [
-//   { value: "+1", label: "+1" },
-//   { value: "+84", label: "+84" },
-// ];
 
 const General = ({
   handleChange,
@@ -19,7 +16,6 @@ const General = ({
   validator,
   handleNumber,
   handleSelect,
-  // handleCountryCode,
   handlePhone,
 }) => {
   return (
@@ -65,7 +61,7 @@ const General = ({
         </div>
         <div className="col-4">
           <div className="form-group">
-            <TextField
+            {/* <TextField
               name="tax"
               label="Federal Tax ID*"
               type="text"
@@ -74,11 +70,30 @@ const General = ({
               onChange={handleChange}
               value={value.tax}
               inputProps={{ maxLength: 9 }}
-            />
+            /> */}
+
+            <FormControl style={{ width: "100%", marginTop: "16px" }}>
+              <InputLabel htmlFor="formatted-text-mask-input">
+                Federal Tax ID*
+              </InputLabel>
+              <Input
+                value={value.tax}
+                onChange={handleChange}
+                name="tax"
+                id="custom-tax-input"
+                inputProps={{
+                  block: [2, 7],
+                  numericOnly: true,
+                }}
+                inputComponent={InputCustom}
+              />
+            </FormControl>
+
             {validator.message("tax", value.tax, "required|string")}
           </div>
         </div>
       </div>
+
       <div className="row">
         <div className="col-4">
           <div className="form-group">
@@ -109,7 +124,7 @@ const General = ({
           </div>
         </div>
         <div className="col-4">
-          <label>State</label>
+          <label>State*</label>
           <div>
             <Select
               // value={this.state.state}
@@ -124,17 +139,38 @@ const General = ({
       <div className="row">
         <div className="col-4">
           <div className="form-group">
+            <FormControl style={{ width: "100%", marginTop: "16px" }}>
+              <InputLabel htmlFor="formatted-text-mask-input">
+                Zip Code*
+              </InputLabel>
+              <Input
+                value={value.zip}
+                onChange={handleChange}
+                name="zip"
+                id="custom-zip-input"
+                inputProps={{
+                  block: [5],
+                  numericOnly: true,
+                }}
+                inputComponent={InputCustom}
+              />
+            </FormControl>
+
+            {validator.message("zip", value.zip, "required|string")}
+          </div>
+        </div>
+        <div className="col-4">
+          <div className="form-group">
             <TextField
-              name="zip"
-              label="Zip*"
-              type="number"
+              name="email"
+              label="Email Contact*"
+              type="email"
               margin="normal"
               fullWidth
               onChange={handleChange}
-              value={value.zip}
-              inputProps={{ maxLength: 5 }}
+              value={value.email}
             />
-            {validator.message("zip", value.zip, "required|string")}
+            {validator.message("email", value.email, "required|email")}
           </div>
         </div>
         <div className="col-4">
@@ -154,68 +190,10 @@ const General = ({
               value.businessPhone,
               "required|string"
             )}
-            {/* <div className="row form-group" style={{ marginTop: "10px" }}>
-              <div className="col-5">
-                <label> Code</label>
-                <Select
-                  options={countryCode}
-                  defaultValue={{
-                    label: `${value.businessPhoneCode}`,
-                  }}
-                  name="businessPhoneCode"
-                  onChange={handleCountryCode}
-                />
-              </div>
-              <div className="col-7" style={styles.phoneInput}>
-                <label> Business Phone Number</label>
-                <MaskedInput
-                  mask={[
-                    /[1-9]/,
-                    /\d/,
-                    /\d/,
-                    "-",
-
-                    /\d/,
-                    /\d/,
-                    /\d/,
-                    "-",
-                    /\d/,
-                    /\d/,
-                    /\d/,
-                    /\d/,
-                  ]}
-                  className="form-control"
-                  style={{ padding: "8px 0px" }}
-                  guide={false}
-                  name="businessPhone"
-                  onChange={handleNumber}
-                />
-                {validator.message(
-                  "businessPhone",
-                  value.businessPhone,
-                  "required|string"
-                )}
-              </div>
-            </div> */}
-          </div>
-        </div>
-        <div className="col-4">
-          <div className="form-group">
-            <TextField
-              name="email"
-              label="Email*"
-              type="email"
-              margin="normal"
-              fullWidth
-              onChange={handleChange}
-              value={value.email}
-            />
-            {validator.message("email", value.email, "required|email")}
           </div>
         </div>
       </div>
       <div>
-        <h1>Representative Information</h1>
         <div className="row">
           <div className="col-4">
             <div className="form-group">
@@ -253,7 +231,7 @@ const General = ({
             <div className="form-group">
               <TextField
                 name="position"
-                label="Position*"
+                label="Title/Position*"
                 type="text"
                 margin="normal"
                 fullWidth
@@ -265,11 +243,11 @@ const General = ({
           </div>
           <div className="col-6">
             <div>
-              <label>Phone Number*</label>
+              <label>Contact Phone Number*</label>
               <PhoneInput
                 country={"us"}
                 style={{ marginTop: "10px" }}
-                placeholder="Phone Number"
+                placeholder="Contact Phone Number"
                 name="contactPhone"
                 value={value.contactPhone}
                 onChange={(e) => handlePhone(e, "contactPhone")}
@@ -279,48 +257,6 @@ const General = ({
                 value.contactPhone,
                 "required|string"
               )}
-              {/* <div className="row form-group" style={{ marginTop: "10px" }}>
-                <div className="col-5">
-                  <label>Code</label>
-                  <Select
-                    options={countryCode}
-                    defaultValue={{
-                      label: `${value.contactPhoneCode}`,
-                    }}
-                    name="contactPhoneCode"
-                    onChange={handleCountryCode}
-                  />
-                </div> */}
-              {/* <div className="col-7" style={styles.phoneInput}>
-                  <label> Contact Phone Number</label>
-                  <MaskedInput
-                    mask={[
-                      /[1-9]/,
-                      /\d/,
-                      /\d/,
-                      "-",
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                      "-",
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                    ]}
-                    className="form-control"
-                    style={{ padding: "8px 0px" }}
-                    guide={false}
-                    name="contactPhone"
-                    onChange={handleNumber}
-                  />
-                  {validator.message(
-                    "contactPhone",
-                    value.contactPhone,
-                    "required|string"
-                  )}
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
@@ -330,10 +266,3 @@ const General = ({
 };
 
 export default General;
-
-// const styles = {
-//   phoneInput: {
-//     padding: "0px 0px",
-//     // marginTop: "3px",
-//   },
-// };

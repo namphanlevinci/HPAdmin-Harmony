@@ -60,11 +60,14 @@ class Generation extends Component {
       )
       .then((res) => {
         const data = res.data.data;
+        const filterTemplate = data.filter(
+          (template) => Number(template.isDisabled) !== 1
+        );
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,
             pageCount: res.data.pages,
-            data: data,
+            data: filterTemplate,
             loading: false,
             pageSize: 5,
           });
@@ -102,7 +105,7 @@ class Generation extends Component {
     }
   };
 
-  _Delete = () => {
+  deleteTemplate = () => {
     const deleteID = this.state.deleteID;
     this.setState({ loading: true });
     axios
@@ -140,7 +143,8 @@ class Generation extends Component {
   };
 
   editTemplate = (data) => {
-    this.props.VIEW_DETAIL(data.original);
+    console.log("data", data);
+    this.props.VIEW_DETAIL(data);
     this.props.history.push("/app/giftcard/template/edit");
   };
 
@@ -270,7 +274,7 @@ class Generation extends Component {
             <Delete
               handleCloseDelete={this._handleCloseDelete}
               open={this.state.openDelete}
-              deleteGeneration={this._Delete}
+              deleteGeneration={this.deleteTemplate}
               text={"Template"}
             />
 

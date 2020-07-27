@@ -90,23 +90,23 @@ class General extends Component {
         <div className="container-fluid">
           <h2 style={{ paddingBottom: "10px" }}>General Information</h2>
 
-          <div className="row">
-            <div className="col-3">
-              <h4>First Name</h4>
+          <div className="row" style={{ marginTop: "15px" }}>
+            <div className="col-sm-4 col-md-2">
+              <label>First Name</label>
               <p style={styles.p}>
                 {e.firstName !== null ? e.firstName : null}
               </p>
             </div>
-            <div className="col-3">
-              <h4>Last Name</h4>
+            <div className="col-sm-4 col-md-2">
+              <label>Last Name</label>
               <p style={styles.p}>{e.lastName !== null ? e.lastName : null}</p>
             </div>
-            <div className="col-3">
-              <h4>Phone Number</h4>
+            <div className="col-sm-4  col-md-2">
+              <label>Phone Number</label>
               <p style={styles.p}>{e.phone !== null ? e.phone : null}</p>
             </div>
-            <div className="col-3">
-              <h4>Email</h4>
+            <div className="col-sm-12 col-md-6">
+              <label>Email</label>
               <p style={styles.p}>{e.email !== null ? e.email : null}</p>
             </div>
           </div>

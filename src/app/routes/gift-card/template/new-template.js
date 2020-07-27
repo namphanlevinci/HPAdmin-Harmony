@@ -144,11 +144,11 @@ class NewTemplate extends Component {
                       },
                       width: 250,
                     });
-                    this.setState({
-                      status: null,
-                      group: null,
-                      imagePreviewUrl: null,
-                    });
+                    // this.setState({
+                    //   status: null,
+                    //   group: null,
+                    //   imagePreviewUrl: null,
+                    // });
                     this.props.history.push("/app/giftcard/template");
                   } else {
                     store.addNotification({

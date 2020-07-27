@@ -9,21 +9,7 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
   return (
     <div>
       <div className="row">
-        <div className="col-4">
-          <div className="form-group">
-            <TextField
-              name="bankName"
-              value={value.bankName}
-              id="cardHolder1"
-              label="Bank Name*"
-              margin="normal"
-              fullWidth
-              onChange={handleChange}
-            />
-            {validator.message("bankName", value.bankName, "required|string")}
-          </div>
-        </div>
-        <div className="col-4">
+        <div className="col-3">
           <div className="form-group">
             <TextField
               name="accountHolderName"
@@ -41,13 +27,28 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
             )}
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-3">
+          <div className="form-group">
+            <TextField
+              name="bankName"
+              value={value.bankName}
+              id="cardHolder1"
+              label="Bank Name*"
+              margin="normal"
+              fullWidth
+              onChange={handleChange}
+            />
+            {validator.message("bankName", value.bankName, "required|string")}
+          </div>
+        </div>
+
+        <div className="col-3">
           <div className="form-group">
             <TextField
               name="routingNumber"
               value={value.routingNumber}
               id="cardHolder3"
-              label="Routing Number(ABA)*"
+              label=" Routing Number* (ABA)"
               margin="normal"
               fullWidth
               onChange={handleChange}
@@ -59,13 +60,13 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
             )}
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-3">
           <div className="form-group">
             <TextField
               name="accountNumber"
               value={value.accountNumber}
               id="cardHolder4"
-              label="Account Number (DDA)*"
+              label="Account Number* (DDA)"
               margin="normal"
               fullWidth
               onChange={handleChange}

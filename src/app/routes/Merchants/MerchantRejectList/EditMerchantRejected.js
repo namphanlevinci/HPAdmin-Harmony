@@ -13,12 +13,20 @@ import Button from "@material-ui/core/Button";
 import StateComponent from "../../../../util/State";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
+import PendingInput from "../MerchantsRequest/pendingInput";
+import SimpleReactValidator from "simple-react-validator";
+import Cleave from "cleave.js/react";
+import Select from "react-select";
+import selectState from "../../../../util/selectState";
+import PhoneInput from "react-phone-input-2";
 
 import "../MerchantProfile/MerchantProfile.css";
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
 import "./EditMerchant.css";
 import "../MerchantProfile/Detail/Detail.css";
+import "react-phone-input-2/lib/high-res.css";
+
 class EditMerchantRejected extends Component {
   constructor(props) {
     super(props);
@@ -38,32 +46,39 @@ class EditMerchantRejected extends Component {
       title: "",
       doBusinessName: "",
       stateName: "",
+      loading: false,
     };
+    this.validator = new SimpleReactValidator({
+      messages: {
+        default: "Required",
+      },
+    });
   }
 
   componentDidMount() {
-    const data = this.props.MerchantProfile;
-    if (data.general !== null) {
-      this.setState({
-        emailContact: data.general.emailContact,
-        legalBusinessName: data.general.legalBusinessName,
-        tax: data.general.tax,
-        address: data.general.address,
-        city: data.general.city,
-        stateId: data.general.stateId,
-        phoneBusiness: data.general.phoneBusiness,
-        zip: data.general.zip,
-        phoneContact: data.general.phoneContact,
-        firstName: data.general.firstName,
-        lastName: data.general.lastName,
-        title: data.general.title,
-        doBusinessName: data.general.doBusinessName,
-        stateName: data.state.name,
-      });
-    }
+    const data = this.props.MerchantProfile?.general;
+    const stateName = this.props.MerchantProfile?.state;
+
+    this.setState({
+      emailContact: data.emailContact,
+      legalBusinessName: data.legalBusinessName,
+      tax: data.tax,
+      address: data.address,
+      city: data.city,
+      stateId: data.stateId,
+      phoneBusiness: data.phoneBusiness,
+      zip: data.zip,
+      phoneContact: data.phoneContact,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      title: data.title,
+      doBusinessName: data.doBusinessName,
+      stateName: stateName.name,
+      loading: true,
+    });
   }
 
-  _handleChange = (event) => {
+  handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -71,14 +86,14 @@ class EditMerchantRejected extends Component {
       [name]: value,
     });
   };
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/merchants/rejected/profile");
   };
   getStateId = (e) => {
     this.setState({ stateId: e });
   };
-  _update = () => {
-    const ID = this.props.MerchantProfile.general.generalId;
+  updateGeneral = () => {
+    const ID = this.props.MerchantProfile?.general?.generalId;
     const IDMerchant = this.props.MerchantProfile.merchantId;
     const {
       emailContact,
@@ -96,26 +111,35 @@ class EditMerchantRejected extends Component {
       title,
     } = this.state;
 
-    const payload = {
-      ID,
-      emailContact,
-      legalBusinessName,
-      doBusinessName,
-      tax,
-      address,
-      city,
-      stateId,
-      phoneBusiness,
-      zip,
-      phoneContact,
-      firstName,
-      lastName,
-      title,
-    };
-    this.props.updateMerchant(payload);
-    setTimeout(() => {
-      this.props.GetMerchant_byID(IDMerchant);
-    }, 1000);
+    if (this.validator.allValid()) {
+      const payload = {
+        ID,
+        emailContact,
+        legalBusinessName,
+        doBusinessName,
+        tax,
+        address,
+        city,
+        stateId,
+        phoneBusiness,
+        zip,
+        phoneContact,
+        firstName,
+        lastName,
+        title,
+      };
+      this.props.updateMerchant(payload);
+      setTimeout(() => {
+        this.props.GetMerchant_byID(IDMerchant);
+      }, 1000);
+
+      return true;
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
+
+      return false;
+    }
   };
 
   componentWillReceiveProps(nextProps) {
@@ -150,131 +174,179 @@ class EditMerchantRejected extends Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.editRejectedMerchant" />}
           />
-          <div className="content-body RejectedInfo page-heading">
+          <div className="content-body reject-info page-heading">
             <h2>General Information</h2>
             <div className="container">
               <div className="row">
-                <div className="col-md-4">
-                  <h4>Legal Business Name*</h4>
-                  <input
-                    name="legalBusinessName"
-                    value={this.state.legalBusinessName}
-                    onChange={this._handleChange}
-                  ></input>
-                </div>
-                <div className="col-md-4">
-                  <h4>Doing Business As (DBA)*</h4>
-                  <input
-                    name="doBusinessName"
-                    value={this.state.doBusinessName}
-                    onChange={this._handleChange}
-                    // disabled
-                  ></input>
-                </div>
-                <div className="col-md-4">
-                  <h4>Federal Tax ID*</h4>
-                  <input
+                <PendingInput
+                  label="Legal Business Name*"
+                  name="legalBusinessName"
+                  initValue={this.state.legalBusinessName}
+                  onChangeInput={this.handleChange}
+                  validator={this.validator}
+                />
+
+                <PendingInput
+                  label="Doing Business As (DBA)*"
+                  name="doBusinessName"
+                  initValue={this.state.doBusinessName}
+                  onChangeInput={this.handleChange}
+                  validator={this.validator}
+                />
+
+                <div className="col-4" style={{ paddingTop: "10px" }}>
+                  <label>Federal Tax ID*</label>
+                  <Cleave
+                    options={{
+                      blocks: [2, 7],
+                      delimiter: "-",
+                    }}
+                    label="Federal Tax ID*"
                     name="tax"
                     value={this.state.tax}
-                    onChange={this._handleChange}
-                    // disabled
-                  ></input>
-                </div>
-                <div className="col-md-4">
-                  <h4>Address*</h4>
-                  <input
-                    name="address"
-                    value={this.state.address}
-                    onChange={this._handleChange}
-                    // disabled
-                  ></input>
-                </div>
-                <div className="col-md-4">
-                  <h4>City*</h4>
-                  <input
-                    name="city"
-                    value={this.state.city}
-                    onChange={this._handleChange}
-                    // disabled
-                  ></input>
-                </div>
-                <div className="col-md-4">
-                  <h4>State*</h4>
-                  {/* <input
-                    name="stateId"
-                    value={this.state.stateId}
-                    onChange={this._handleChange}
-                  ></input> */}
-                  <StateComponent
-                    getStateId={this.getStateId}
-                    setvalue={this.state.stateName}
+                    onChange={this.handleChange}
                   />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "16px",
+                      fontWeight: "400px",
+                    }}
+                  >
+                    {this.validator?.message("tax", this.state.tax, "required")}
+                  </span>
                 </div>
-                <div className="col-md-4">
-                  <h4>Business Phone*</h4>
-                  <input
-                    name="phoneBusiness"
-                    value={this.state.phoneBusiness}
-                    onChange={this._handleChange}
-                  ></input>
+
+                <PendingInput
+                  label="Business Address* (no P.O. Boxes)"
+                  name="address"
+                  initValue={this.state.address}
+                  onChangeInput={this.handleChange}
+                  validator={this.validator}
+                />
+
+                <PendingInput
+                  label="City*"
+                  name="city"
+                  initValue={this.state.city}
+                  onChangeInput={this.handleChange}
+                  validator={this.validator}
+                />
+
+                <div className="col-4" style={{ paddingTop: "10px" }}>
+                  <label>State*</label>
+                  <div>
+                    {this.state.loading ? (
+                      <Select
+                        onChange={(e) => this.setState({ stateId: e.value })}
+                        defaultValue={{
+                          label: `${this.state.stateName}`,
+                          value: this.state.stateId,
+                        }}
+                        name="state"
+                        options={selectState}
+                      />
+                    ) : null}
+                  </div>
                 </div>
-                <div className="col-md-4">
-                  <h4>Zip*</h4>
-                  <input
+
+                <div className="col-4" style={{ paddingTop: "10px" }}>
+                  <label>Zip Code*</label>
+                  <Cleave
+                    options={{
+                      blocks: [5],
+                      numericOnly: true,
+                    }}
+                    label="Zip Code*"
                     name="zip"
                     value={this.state.zip}
-                    onChange={this._handleChange}
-                  ></input>
+                    onChange={this.handleChange}
+                    className="inputPadding"
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "16px",
+                      fontWeight: "400px",
+                    }}
+                  >
+                    {this.validator?.message("zip", this.state.zip, "required")}
+                  </span>
                 </div>
-                <div className="col-md-4">
-                  <h4>Email Contact*</h4>
-                  <input
-                    name="emailContact"
-                    value={this.state.emailContact}
-                    onChange={this._handleChange}
-                  ></input>
+
+                <PendingInput
+                  label="Email Contact*"
+                  name="emailContact"
+                  initValue={this.state.emailContact}
+                  onChangeInput={this.handleChange}
+                  validator={this.validator}
+                  inputStyles="inputPadding"
+                />
+
+                <div className="col-4" style={{ paddingTop: "10px" }}>
+                  <label>Business Phone Number*</label>
+                  {this.state.loading && (
+                    <PhoneInput
+                      style={{ marginTop: "10px" }}
+                      placeholder="Business Phone Number*"
+                      name="businessPhone"
+                      value={this.state.phoneBusiness}
+                      onChange={(phone) =>
+                        this.setState({ phoneBusiness: phone })
+                      }
+                    />
+                  )}
                 </div>
               </div>
-              <h2>Representative Information</h2>
               <div className="row">
-                <div className="col-md-4">
-                  <h4>Contact Name*</h4>
-                  <input
-                    name="firstName"
-                    value={this.state.firstName}
-                    onChange={this._handleChange}
-                    placeholder="First name"
-                  ></input>
-                  <input
-                    name="lastName"
-                    value={this.state.lastName}
-                    onChange={this._handleChange}
-                    placeholder="Last name"
-                  ></input>
-                </div>
-                <div className="col-md-4">
-                  <h4>Title/Position*</h4>
-                  <input
-                    name="title"
-                    value={this.state.title}
-                    onChange={this._handleChange}
-                  ></input>
-                </div>
-                <div className="col-md-4">
-                  <h4>Contact Phone Number*</h4>
-                  <input
-                    name="phoneContact"
-                    value={this.state.phoneContact}
-                    onChange={this._handleChange}
-                    type="number"
-                  ></input>
+                <PendingInput
+                  styles="col-3"
+                  label="First Name*"
+                  name="firstName"
+                  initValue={this.state.firstName}
+                  onChangeInput={this.handleChange}
+                  inputStyles="inputPadding"
+                  validator={this.validator}
+                />
+                <PendingInput
+                  styles="col-3"
+                  label="Last Name*"
+                  name="lastName"
+                  initValue={this.state.lastName}
+                  onChangeInput={this.handleChange}
+                  inputStyles="inputPadding"
+                  validator={this.validator}
+                />
+                <PendingInput
+                  styles="col-3"
+                  label="Title/Position*"
+                  name="title"
+                  initValue={this.state.title}
+                  onChangeInput={this.handleChange}
+                  inputStyles="inputPadding"
+                  validator={this.validator}
+                />
+
+                <div className="col-3" style={{ paddingTop: "10px" }}>
+                  <label>Contact Phone Number*</label>
+                  {this.state.loading && (
+                    <PhoneInput
+                      style={{ marginTop: "10px" }}
+                      placeholder="Contact Phone Number"
+                      name="phoneContact"
+                      value={this.state.phoneContact}
+                      onChange={(phone) =>
+                        this.setState({ phoneContact: phone })
+                      }
+                    />
+                  )}
                 </div>
               </div>
               <div className="SettingsContent general-content">
-                <Button className="btn btn-green" onClick={this._update}>
+                <Button className="btn btn-green" onClick={this.updateGeneral}>
                   SAVE
                 </Button>
-                <Button className="btn btn-red" onClick={this._goBack}>
+                <Button className="btn btn-red" onClick={this.goBack}>
                   CANCEL
                 </Button>
               </div>

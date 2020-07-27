@@ -66,18 +66,18 @@ class AddStaff extends Component {
       timeEnd8: { value: "07:00 PM", label: "07:00 PM" },
       isCheck8: true,
       // Salary
-      tipValue: "",
+      tipValue: 0,
       tipIsCheck: false,
-      fixValue: "",
+      fixValue: 0,
       fixIsCheck: false,
       // salary
-      salaryValue: "",
+      salaryValue: 0,
       salaryIsCheck: false,
       //Commission
       commIsCheck: false,
-      commValue: "",
+      commValue: 0,
       // Product Commission
-      prodCommValue: "",
+      prodCommValue: 0,
       prodCommIsCheck: false,
       // Salary pay in cash
       cashPercent: 0,

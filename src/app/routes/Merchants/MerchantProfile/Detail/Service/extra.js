@@ -84,7 +84,7 @@ const Extra = ({
                       </label>
                       <br />
                       <Field
-                        placeholder="Extra name*"
+                        placeholder="Extra Name*"
                         style={styles.input}
                         name={`extras.${index}.name`}
                         type="text"
@@ -116,7 +116,7 @@ const Extra = ({
                   >
                     <div className="col-10" style={{ marginTop: 20 }}>
                       <label style={{ fontSize: 14, color: "#4251af" }}>
-                        <span className="small-label">Duration (Min)*</span>
+                        <span className="small-label">Duration* (Min)</span>
                       </label>
                       <div className="input-box">
                         <Field
@@ -132,7 +132,7 @@ const Extra = ({
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
                       <label style={{ fontSize: 14, color: "#4251af" }}>
-                        Price ($)*
+                        Price* ($)
                       </label>
                       <div className="input-box">
                         <Field
@@ -148,7 +148,7 @@ const Extra = ({
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
                       <label style={{ fontSize: 14, color: "#4251af" }}>
-                        Supply Fee (%)*
+                        Surcharged
                       </label>
                       <div className="input-box">
                         <Field
@@ -164,7 +164,7 @@ const Extra = ({
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
                       <label style={{ fontSize: 14, color: "#4251af" }}>
-                        Status
+                        Status*
                       </label>
                       <Select
                         styles={colourStyles}

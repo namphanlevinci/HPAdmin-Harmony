@@ -103,7 +103,6 @@ class AddMerchant extends React.Component {
   }
 
   setDataPrincipal = (info, fileId) => {
-    // const principalInfo = { ...info };
     this.setState({ principalInfo: info });
   };
 

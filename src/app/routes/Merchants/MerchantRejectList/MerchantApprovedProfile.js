@@ -50,7 +50,7 @@ class MerchantApprovedProfile extends Component {
                 <p>{e?.ownerShip}%</p>
               </div>
               <div className="col-4">
-                <label>Home Phone*</label>
+                <label>Home Phone</label>
                 <p>{e?.homePhone}</p>
               </div>
               <div className="col-4">
@@ -62,7 +62,7 @@ class MerchantApprovedProfile extends Component {
                 <p>{e?.address}</p>
               </div>
               <div className="col-4">
-                <label>Social Security Number (SSN)*</label>
+                <label>Social Security Number* (SSN)</label>
                 <p>{e?.fullSsn}</p>
               </div>
               <div className="col-4">
@@ -228,11 +228,11 @@ class MerchantApprovedProfile extends Component {
                     <p>{e?.businessBank?.name}</p>
                   </div>
                   <div className="col-4">
-                    <label>Routing Number(ABA)*</label>
+                    <label> Routing Number* (ABA)</label>
                     <p>{e?.businessBank?.routingNumber}</p>
                   </div>
                   <div className="col-4">
-                    <label>Account Number (DDA)*</label>
+                    <label>Account Number* (DDA)</label>
                     <p>{e?.businessBank?.accountNumber}</p>
                   </div>
                   <div className="col-4">

@@ -11,13 +11,17 @@ import LinearProgress from "../../../../../../util/linearProgress";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Axios from "axios";
-import StateComponent from "../../../../../../util/State";
 import axios from "axios";
+import Cleave from "cleave.js/react";
+import Select from "react-select";
+import selectState from "../../../../../../util/selectState";
+import PhoneInput from "react-phone-input-2";
 
 import "./principal.styles.scss";
 import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
+import "react-phone-input-2/lib/high-res.css";
 
 const URL = config.url.URL;
 const upFile = config.url.upFile;
@@ -36,6 +40,7 @@ class EditPrincipal extends Component {
       stateName: "",
       email: "",
       imagePreviewUrl: "",
+      loading: false,
     };
   }
 
@@ -53,6 +58,7 @@ class EditPrincipal extends Component {
         FileId: data.fileId,
         stateName: data.state.name,
         email: data.email,
+        loading: true,
       });
     }
   }
@@ -113,16 +119,25 @@ class EditPrincipal extends Component {
       StateId,
       email,
     } = this.state;
+
     Axios.put(
       URL + "/merchant/principal/" + ID,
-      { Address, FileId, DriverNumber, HomePhone, MobilePhone, StateId, email },
+      {
+        Address,
+        FileId,
+        DriverNumber,
+        HomePhone,
+        MobilePhone,
+        StateId,
+        email,
+      },
       config
     )
       .then((res) => {
         if (res.data.message === "Update pricipal completed") {
           store.addNotification({
             title: "SUCCESS!",
-            message: `${res.data.message}`,
+            message: "Update principal completed",
             type: "success",
             insert: "top",
             container: "top-right",
@@ -147,9 +162,7 @@ class EditPrincipal extends Component {
         console.log(err);
       });
   };
-  getStateId = (e) => {
-    this.setState({ StateId: e });
-  };
+
   render() {
     const e = this.props.principalInfo;
 
@@ -208,20 +221,21 @@ class EditPrincipal extends Component {
               />
             </div>
             <div className="col-4">
-              <label>Home Phone*</label>
-              <input
+              <label>Home Phone</label>
+
+              <PhoneInput
                 name="HomePhone"
                 value={this.state.HomePhone}
-                onChange={this._handleChange}
+                onChange={(e) => this.setState({ HomePhone: e })}
                 style={styles.input}
               />
             </div>
             <div className="col-4">
               <label>Mobile Phone*</label>
-              <input
+              <PhoneInput
                 name="MobilePhone"
                 value={this.state.MobilePhone}
-                onChange={this._handleChange}
+                onChange={(e) => this.setState({ MobilePhone: e })}
                 style={styles.input}
               />
             </div>
@@ -235,17 +249,23 @@ class EditPrincipal extends Component {
               />
             </div>
             <div className="col-4">
-              <label>Social Security Number (SSN)*</label>
-              <input
+              <label>Social Security Number* (SSN)</label>
+
+              <Cleave
                 name="ssn"
-                value={e.fullSsn}
+                value={e.ssn}
                 onChange={this._handleChange}
-                disabled
+                style={styles.input}
+                options={{
+                  blocks: [3, 2, 4],
+                  delimiter: "-",
+                  numericOnly: true,
+                }}
                 style={styles.input}
               />
             </div>
             <div className="col-4">
-              <label>Date of Birth (MM/DD/YYYY)*</label>
+              <label>Date of Birth (mm/dd/yyyy)*</label>
               <input
                 name="birthday"
                 value={moment(e.birthDate).format("MM/DD/YYYY")}
@@ -274,11 +294,18 @@ class EditPrincipal extends Component {
             </div>
             <div className="col-4">
               <label>State*</label>
-              <StateComponent
-                getStateId={this.getStateId}
-                setvalue={this.state.stateName}
-                style={styles.input}
-              />
+
+              {this.state.loading && (
+                <Select
+                  onChange={(e) => this.setState({ StateId: e.value })}
+                  name="state"
+                  options={selectState}
+                  defaultValue={{
+                    value: this.state.StateId,
+                    label: this.state.stateName,
+                  }}
+                />
+              )}
             </div>
             <div className="col-12">
               <label>Driver License Picture</label> <br />

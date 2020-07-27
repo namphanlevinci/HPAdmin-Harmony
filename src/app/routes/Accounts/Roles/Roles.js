@@ -146,7 +146,6 @@ class Roles extends Component {
   };
 
   handleUpdatePermission = async () => {
-    // console.log("this.state", this.state);
     const {
       adminPermissions,
       managerPermissions,

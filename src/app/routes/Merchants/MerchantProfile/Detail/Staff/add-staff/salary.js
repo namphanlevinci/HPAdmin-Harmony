@@ -69,7 +69,7 @@ const Salary = ({
             value={commValue}
             disabled={salaryIsCheck ? true : false}
           />
-          <span className="unit">$</span>
+          <span className="unit">%</span>
         </div>
       </div>
     </div>

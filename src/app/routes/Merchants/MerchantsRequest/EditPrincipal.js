@@ -17,12 +17,12 @@ import selectState from "../../../../util/selectState";
 import axios from "axios";
 import * as Yup from "yup";
 import ErrorMessage from "./errorMessage";
-// import MaskedInput from "react-text-mask";
+import Cleave from "cleave.js/react";
+
 import LinearProgress from "../../../../util/linearProgress";
 import formatPhone from "../../../../util/formatPhone";
 
 import "./MerchantReqProfile.css";
-// import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
 import "react-phone-input-2/lib/high-res.css";
 
@@ -39,7 +39,7 @@ const validationSchema = Yup.object().shape({
       // homePhone: Yup.string().required("Required"),
       mobilePhone: Yup.string().required("Required"),
       // yearAtThisAddress: Yup.string().required("Required"),
-      fullSsn: Yup.string().required("Required"),
+      ssn: Yup.string().required("Required"),
       birthDate: Yup.string().required("Required"),
       email: Yup.string().required("Required"),
       driverNumber: Yup.string().required("Required"),
@@ -79,6 +79,7 @@ const EditPrincipal = ({
 
   const editMerchant = (principalInfo) => {
     let PrincipalInfo = principalInfo.PrincipalInfo;
+
     const isValid = checkValid();
     const body = {
       generalInfo: {
@@ -162,6 +163,21 @@ const EditPrincipal = ({
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      store.addNotification({
+        title: "WARNING!",
+        message: "Please Enter Required Information",
+        type: "warning",
+        insert: "top",
+        container: "top-center",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true,
+        },
+        width: 300,
+      });
     }
   };
   return (
@@ -172,7 +188,7 @@ const EditPrincipal = ({
         initialValues={{ PrincipalInfo: principals }}
         onSubmit={(values) => editMerchant(values)}
       >
-        {({ values, setFieldValue, submitForm }) => (
+        {({ values, setFieldValue, submitForm, handleChange }) => (
           <Form>
             <FieldArray
               name="PrincipalInfo"
@@ -191,7 +207,7 @@ const EditPrincipal = ({
                         const birthDate = moment(
                           PrincipalInfo?.birthDate
                         ).format("MM/DD/YYYY");
-                        const SSN = PrincipalInfo?.fullSsn;
+                        const SSN = PrincipalInfo?.ssn;
                         const stateName = PrincipalInfo?.state?.name;
                         return (
                           <div key={index} className="row ">
@@ -274,47 +290,33 @@ const EditPrincipal = ({
                             </div>
 
                             <div className="col-4" style={styles.div}>
-                              <label>Social Security Number (SSN)*</label>
-                              <Field
+                              <label>Social Security Number* (SSN)</label>
+                              {/* <Field
                                 placeholder="SSN"
                                 name={`PrincipalInfo.${index}.ssn`}
                                 values={`PrincipalInfo.${index}.fullSsn`}
                                 maxLength="9"
+                              /> */}
+
+                              <Cleave
+                                options={{
+                                  blocks: [3, 2, 4],
+                                  delimiter: "-",
+                                  numericOnly: true,
+                                }}
+                                name={`PrincipalInfo.${index}.ssn`}
+                                value={SSN}
+                                onChange={handleChange}
                               />
-                              {/* 
-                            <MaskedInput
-                              mask={[
-                                /[1-9]/,
-                                /\d/,
-                                /\d/,
-                                "-",
-                                /\d/,
-                                /\d/,
-                                "-",
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                              ]}
-                              value={`PrincipalInfo.${index}.fullSsn`}
-                              name={`PrincipalInfo.${index}.fullSsn`}
-                              onChange={(e) => [
-                                setFieldValue(
-                                  `principalInfo.${index}.fullSsn`,
-                                  e.target.value
-                                ),
-                              ]}
-                            /> */}
 
                               <ErrorMessage
-                                name={`PrincipalInfo.${index}.fullSsn`}
+                                name={`PrincipalInfo.${index}.ssn`}
                               />
                             </div>
 
                             <div className="col-4" style={styles.div}>
                               <label>Home Phone</label>
                               <PhoneInput
-                                // className="form-control "
                                 placeholder="Home Phone"
                                 name={`PrincipalInfo.${index}.homePhone`}
                                 value={homePhone}
@@ -331,7 +333,7 @@ const EditPrincipal = ({
                               />
                             </div>
                             <div className="col-4" style={styles.div}>
-                              <label>Mobile Phone</label>
+                              <label>Mobile Phone*</label>
                               <PhoneInput
                                 placeholder="Home Phone"
                                 name={`PrincipalInfo.${index}.mobilePhone`}
@@ -366,8 +368,6 @@ const EditPrincipal = ({
                                   <KeyboardDatePicker
                                     style={{ marginTop: "0px" }}
                                     margin="normal"
-                                    // id="date-picker-dialog"
-                                    // label="Birthday (MM/DD/YYYY)"
                                     format="MM/dd/yyyy"
                                     value={birthDate}
                                     onChange={(e) =>
@@ -396,10 +396,9 @@ const EditPrincipal = ({
                             </div>
 
                             <div className="col-4" style={styles.div}>
-                              <label>State</label>
+                              <label>State Issued*</label>
                               <div>
                                 <Select
-                                  // value={this.state.state}
                                   onChange={(e) =>
                                     setFieldValue(
                                       `PrincipalInfo.${index}.stateId`,
@@ -427,10 +426,8 @@ const EditPrincipal = ({
                                 Driver License Picture*
                               </label>{" "}
                               <br />
-                              {/* {$imagePreview} */}
                               <img
                                 className="pending-image"
-                                // style={styles.image}
                                 src={PrincipalInfo?.imageUrl}
                                 alt="void"
                               />

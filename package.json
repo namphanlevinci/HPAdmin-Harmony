@@ -23,6 +23,7 @@
     "can-use-dom": "^0.1.0",
     "chart.js": "^2.8.0",
     "classnames": "^2.2.6",
+    "cleave.js": "^1.6.0",
     "connected-react-router": "^6.4.0",
     "cross-env": "^5.2.0",
     "date-fns": "^2.0.0-beta.5",

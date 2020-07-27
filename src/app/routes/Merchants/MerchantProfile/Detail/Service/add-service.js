@@ -409,7 +409,7 @@ class AddService extends Component {
                                   style={{ marginTop: 40 }}
                                 >
                                   <label style={{ color: "#4251af" }}>
-                                    Service Name*
+                                    Service*
                                   </label>
                                   <br />
                                   <input
@@ -525,7 +525,7 @@ class AddService extends Component {
                                 >
                                   <label style={{ color: "#333" }}>
                                     <span className="small-label">
-                                      Open time
+                                      Open Time
                                     </span>
                                   </label>
                                   <br />
@@ -552,7 +552,7 @@ class AddService extends Component {
                                 >
                                   <label style={{ color: "#333" }}>
                                     <span className="small-label">
-                                      Second time
+                                      Second Time
                                     </span>
                                   </label>
                                   <br />
@@ -638,7 +638,7 @@ class AddService extends Component {
                                   style={{ marginTop: 60 }}
                                 >
                                   <label style={{ color: "#4251af" }}>
-                                    Supply Fee*
+                                    Surcharged*
                                   </label>
                                   <br />
                                   <div className="input-box">

@@ -117,9 +117,9 @@ class EditGeneral extends Component {
       <div className="react-transition swipe-right">
         <div className="container-fluid">
           <h2>General Information</h2>
-          <div className="row">
+          <div className="row" style={{ marginTop: "15px" }}>
             <div className="col-3">
-              <h4>First Name</h4>
+              <label>First Name*</label>
               <input
                 type="text"
                 name="firstName"
@@ -128,7 +128,7 @@ class EditGeneral extends Component {
               />
             </div>
             <div className="col-3">
-              <h4>Last Name</h4>
+              <label>Last Name*</label>
               <input
                 type="text"
                 name="lastName"
@@ -137,7 +137,7 @@ class EditGeneral extends Component {
               />
             </div>
             <div className="col-3">
-              <h4>Phone Number</h4>
+              <label>Phone Number*</label>
               <div>
                 <input
                   type="text"
@@ -148,10 +148,10 @@ class EditGeneral extends Component {
               </div>
             </div>
             <div className="col-3">
-              <h4>Email</h4>
+              <label>Contact Email*</label>
               <div>
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   value={this.state.email}
                   onChange={this._handleChange}
