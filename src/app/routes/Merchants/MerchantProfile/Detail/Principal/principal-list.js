@@ -15,7 +15,7 @@ class PrincipalList extends Component {
 
   viewPrincipalInfo = (data) => {
     this.props.UPDATE_PRINCIPAL(data);
-    this.props.history.push("/app/merchants/profile/pincipal/info");
+    this.props.history.push("/app/merchants/profile/principal/info");
   };
 
   render() {

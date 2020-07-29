@@ -4,6 +4,8 @@ import {
   getBatch,
   getBatchDetail,
 } from "../../../../actions/transactions/actions";
+import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
+
 import axios from "axios";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
@@ -88,7 +90,8 @@ class Transactions extends React.Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.props.fetchBatchDetail(rowInfo.original.settlementId);
+            this.props.fetchBatchDetail(rowInfo?.original?.settlementId);
+            this.props.passMerchantID(rowInfo?.original);
             this.props.history.push("/app/reports/batchs/detail");
           }
         },
@@ -243,6 +246,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchBatchDetail: (payload) => {
     dispatch(getBatchDetail(payload));
+  },
+  passMerchantID: (payload) => {
+    dispatch(ViewProfile_Merchants(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

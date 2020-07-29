@@ -8,7 +8,6 @@ import asyncComponent from "../../../util/asyncComponent";
 const Accounts = ({ match }) => (
   <div className="app-wrapper">
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}`} />
       <Route
         path={`${match.url}/admin/add`}
         component={asyncComponent(() => import("./Users/addAdmin2"))}

@@ -60,14 +60,11 @@ class Generation extends Component {
       )
       .then((res) => {
         const data = res.data.data;
-        const filterTemplate = data.filter(
-          (template) => Number(template.isDisabled) !== 1
-        );
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,
             pageCount: res.data.pages,
-            data: filterTemplate,
+            data: data,
             loading: false,
             pageSize: 5,
           });
@@ -143,7 +140,6 @@ class Generation extends Component {
   };
 
   editTemplate = (data) => {
-    console.log("data", data);
     this.props.VIEW_DETAIL(data);
     this.props.history.push("/app/giftcard/template/edit");
   };
@@ -235,7 +231,6 @@ class Generation extends Component {
     ];
 
     const { page, pageCount, data } = this.state;
-
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>

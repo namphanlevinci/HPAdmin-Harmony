@@ -187,7 +187,7 @@ class EditMerchantRejected extends Component {
                 />
 
                 <PendingInput
-                  label="Doing Business As (DBA)*"
+                  label="Doing Business As* (DBA)"
                   name="doBusinessName"
                   initValue={this.state.doBusinessName}
                   onChangeInput={this.handleChange}
@@ -234,7 +234,7 @@ class EditMerchantRejected extends Component {
                 />
 
                 <div className="col-4" style={{ paddingTop: "10px" }}>
-                  <label>State*</label>
+                  <label>State Issued*</label>
                   <div>
                     {this.state.loading ? (
                       <Select

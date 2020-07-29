@@ -265,7 +265,7 @@ class EditPendingMerchant extends Component {
                   validator={this.validator}
                 />
                 <div className="col-4" style={{ paddingTop: "10px" }}>
-                  <label>State*</label>
+                  <label>State Issued*</label>
                   <div>
                     {this.state.loading ? (
                       <Select
@@ -289,7 +289,7 @@ class EditPendingMerchant extends Component {
                       numericOnly: true,
                     }}
                     label="Zip Code*"
-                    name="tax"
+                    name="zip"
                     value={this.state.zip}
                     onChange={this.handleChange}
                     className="inputPadding"

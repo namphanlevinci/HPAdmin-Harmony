@@ -167,7 +167,7 @@ class AddService extends Component {
       duration: Yup.string().required("Required"),
       price: Yup.string().required("Required"),
       isDisabled: Yup.string().required("Required"),
-      supplyFee: Yup.string().required("Required"),
+      // supplyFee: Yup.string().required("Required"),
     });
 
     const ExtraInitialValues =
@@ -638,7 +638,7 @@ class AddService extends Component {
                                   style={{ marginTop: 60 }}
                                 >
                                   <label style={{ color: "#4251af" }}>
-                                    Surcharged*
+                                    Surcharged
                                   </label>
                                   <br />
                                   <div className="input-box">
@@ -662,11 +662,11 @@ class AddService extends Component {
                                     />
                                     <span className="unit">%</span>
                                   </div>
-                                  {errors.supplyFee && touched.supplyFee && (
+                                  {/* {errors.supplyFee && touched.supplyFee && (
                                     <div className="input-feedback">
                                       {errors.supplyFee}
                                     </div>
-                                  )}
+                                  )} */}
                                 </div>
                               </div>
                             </div>

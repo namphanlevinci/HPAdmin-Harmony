@@ -4,7 +4,7 @@ import {
   getBatch,
   getBatchDetail,
 } from "../../../../actions/transactions/actions";
-// import { AiFillAppstore } from "react-icons/ai";
+import { AiFillAppstore } from "react-icons/ai";
 
 import Button from "@material-ui/core/Button";
 import moment from "moment";
@@ -86,7 +86,7 @@ class Transactions extends React.Component {
         >
           <div className=" TransactionsBox">
             <div style={{ display: "flex", alignItems: "center" }}>
-              {/* <AiFillAppstore size={23} />
+              <AiFillAppstore size={23} />
               <h3
                 style={{
                   paddingLeft: "5px",
@@ -94,8 +94,8 @@ class Transactions extends React.Component {
                   fontWeight: "500",
                 }}
               >
-                Merchant ID:
-              </h3> */}
+                {`Merchant ID: ${this.props.MerchantID?.merchantId}`}
+              </h3>
             </div>
             <Button
               style={{
@@ -128,6 +128,7 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   Batch: state.getAllBatch,
   BatchDetail: state.BatchDetail,
+  MerchantID: state.ViewProfile_Merchants,
 });
 const mapDispatchToProps = (dispatch) => ({
   getBatch: () => {

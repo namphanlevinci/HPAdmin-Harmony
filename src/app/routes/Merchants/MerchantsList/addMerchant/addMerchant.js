@@ -45,10 +45,13 @@ const initialState = {
   contactPhoneCode: "+1",
   contactPhone: "",
 
-  isAccept1: "",
   desc1: "",
   question1: "",
-
+  isAccept1: false,
+  isAccept2: false,
+  isAccept3: false,
+  isAccept4: false,
+  isAccept5: false,
   // Bank Info
   bankName: "",
   routingNumber: "",
@@ -146,6 +149,7 @@ class AddMerchant extends React.Component {
             handlePrincipal={this.handlePrincipal}
             Info={this.state}
             handleBack={this.handleBack}
+            cancelMerchant={this.props.history}
           />
         );
       case 4:

@@ -124,7 +124,7 @@ const General = ({
           </div>
         </div>
         <div className="col-4">
-          <label>State*</label>
+          <label>State Issued*</label>
           <div>
             <Select
               // value={this.state.state}

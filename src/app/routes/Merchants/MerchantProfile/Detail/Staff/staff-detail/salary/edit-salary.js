@@ -5,6 +5,7 @@ import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import updateStaff from "../updateStaff";
+import CurrencyInput from "react-currency-masked-input";
 
 class EditSalary extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class EditSalary extends Component {
       salaryValue: Number(salaries?.perHour?.value).toFixed(2),
       salaryIsCheck: salaries?.perHour?.isCheck,
       commIsCheck: salaries?.commission?.isCheck,
-      commValue: Number(salaries?.commission?.value).toFixed(2),
+      commValue: salaries?.commission?.value,
       tipValue: tipFees?.percent?.value,
       tipIsCheck: tipFees?.percent?.isCheck,
       fixValue: Number(tipFees?.fixedAmount?.value).toFixed(2),
@@ -54,6 +55,11 @@ class EditSalary extends Component {
   handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  };
+
+  handleCurrency = (event, masked) => {
+    const { name } = event.target;
+    this.setState({ [name]: masked });
   };
 
   handleUpdateStaff = () => {
@@ -171,16 +177,16 @@ class EditSalary extends Component {
                         "aria-label": "primary checkbox",
                       }}
                     />
-                    <label>Salary per hour</label>
+                    <label>Salary Per Hour</label>
                   </div>
                   <div className="input-box">
-                    <input
-                      type="number"
+                    <CurrencyInput
                       name="salaryValue"
                       value={salaryValue}
                       disabled={commIsCheck ? true : false}
-                      onChange={this.handleChange}
+                      onChange={this.handleCurrency}
                     />
+
                     <span className="unit">$</span>
                   </div>
                 </div>
@@ -205,7 +211,8 @@ class EditSalary extends Component {
                       disabled={salaryIsCheck ? true : false}
                       onChange={this.handleChange}
                     />
-                    <span className="unit">$</span>
+
+                    <span className="unit">%</span>
                   </div>
                 </div>
                 <br />
@@ -249,13 +256,13 @@ class EditSalary extends Component {
                     <label>Tip Fixed Amount</label>
                   </div>
                   <div className="input-box">
-                    <input
-                      type="number"
+                    <CurrencyInput
                       name="fixValue"
                       value={fixValue}
                       disabled={tipIsCheck ? true : false}
-                      onChange={this.handleChange}
+                      onChange={this.handleCurrency}
                     />
+
                     <span className="unit">$</span>
                   </div>
                 </div>
@@ -288,7 +295,7 @@ class EditSalary extends Component {
 
                 <div className="col-6">
                   <label style={{ paddingTop: "10px " }}>
-                    Salary pay in Cash
+                    Salary Pay In Cash
                   </label>
                   <div>
                     <div className="input-box">

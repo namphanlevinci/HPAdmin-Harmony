@@ -25,7 +25,7 @@ class NewTemplate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileId: "",
+      fileId: 0,
       imagePreviewUrl: "",
       isConsumer: 0,
     };
@@ -117,7 +117,7 @@ class NewTemplate extends Component {
             onSubmit={(values, { setSubmitting, resetForm }) => {
               const { giftCardTemplateName, giftCardType } = values;
               const { fileId, isConsumer } = this.state;
-              resetForm();
+              // resetForm();
               axios
                 .post(
                   URL + "/giftcardtemplate",

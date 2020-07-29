@@ -177,7 +177,7 @@ const EditExtra = ({
                     <div style={{ width: "35%" }}>
                       <label style={{ padding: "10px 0px" }}>
                         Duration*
-                        <span style={{ fontSize: "10px" }}>(Minutes)</span>
+                        <span style={{ fontSize: "10px" }}> (Minutes)</span>
                       </label>
                       <input
                         type="number"
@@ -229,9 +229,9 @@ const EditExtra = ({
                       />
                     </div>
                     <div>
-                      <label style={{ padding: "10px 0px" }}>Supply Fee*</label>
+                      <label style={{ padding: "10px 0px" }}>Surcharged</label>
                       <input
-                        type="number"
+                        // type="number"
                         name="supplyFee"
                         onChange={handleChange}
                         onBlur={handleBlur}

@@ -59,11 +59,6 @@ class App extends Component {
                   <Route path="/signin" component={SignIn} />
                   <Route path="/signup" component={SignUp} />
                   <Route path="/verify" component={Verify_User} />
-                  <ProtectedRoute
-                    component={asyncComponent(() =>
-                      import("../components/Error404")
-                    )}
-                  />
                 </Switch>
               </div>
             </RTL>

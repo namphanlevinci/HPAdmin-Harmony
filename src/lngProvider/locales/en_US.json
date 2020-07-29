@@ -255,6 +255,7 @@
   "extraPages.mobileApp": "mobile app",
   "extraPages.web": "web",
   "extraPages.404Msg": "Oops, an error has occurred. Page not found!",
+  "extraPages.403Msg": "Access Denied...",
   "extraPages.500Msg": "Sorry, server goes wrong",
   "extraPages.aboutUs.showCase": "Showcase your services here with information about them",
   "aboutUs.readMore": "Read More",

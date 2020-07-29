@@ -9,6 +9,7 @@ import { GET_GIFT_CARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/acti
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
 import { store } from "react-notifications-component";
+import { DebounceInput } from "react-debounce-input";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -104,7 +105,7 @@ class Codes extends Component {
     });
   };
 
-  handleChange = (name) => (value) => {
+  handleSelect = (name) => (value) => {
     this.setState({
       [name]: value.value,
     });
@@ -117,8 +118,9 @@ class Codes extends Component {
     }
   };
 
-  handleSearchInput = (e) => {
+  handleSearchInput = async (e) => {
     this.setState({ search: e.target.value });
+    await this.fetchData();
   };
 
   getExport = (e) => {
@@ -157,6 +159,13 @@ class Codes extends Component {
           }, 1000);
         }
       });
+  };
+
+  handleSelect = (value, name) => {
+    this.setState({
+      [name.name]: value,
+    });
+    this.fetchData();
   };
 
   render() {
@@ -301,26 +310,29 @@ class Codes extends Component {
             <div>
               <form>
                 <SearchIcon className="button" title="Search" />
-                <input
+
+                <DebounceInput
+                  debounceTimeout={500}
                   type="text"
+                  name="search"
                   className="textBox"
-                  placeholder="Search"
+                  placeholder="Search.."
                   value={this.state.search}
                   onKeyDown={this.handEnter}
                   onChange={this.handleSearchInput}
                 />
               </form>
             </div>
-            <Button className="btn btn-green" onClick={this.fetchData}>
+            {/* <Button className="btn btn-green" onClick={this.fetchData}>
               Search
-            </Button>
+            </Button> */}
           </div>
           <div className="row">
             <div className="col-4" style={styles.div}>
               <label style={styles.label}>Physical Card</label>
               <Select
                 value={this.state.isPhysical}
-                onChange={(e) => this.setState({ isPhysical: e })}
+                onChange={this.handleSelect}
                 name="isPhysical"
                 options={isPhysical}
               />
@@ -329,7 +341,7 @@ class Codes extends Component {
               <label style={styles.label}>Active</label>
               <Select
                 value={this.state.isActive}
-                onChange={(e) => this.setState({ isActive: e })}
+                onChange={this.handleSelect}
                 name="isActive"
                 options={isActive}
               />
@@ -338,7 +350,7 @@ class Codes extends Component {
               <label style={styles.label}>Used</label>
               <Select
                 value={this.state.isUsed}
-                onChange={(e) => this.setState({ isUsed: e })}
+                onChange={this.handleSelect}
                 name="isUsed"
                 options={isUsed}
               />

@@ -121,6 +121,14 @@ class App extends React.Component {
                     import("./routes/PricingPlan/index")
                   )}
                 />
+
+                <Route
+                  path={`${match.url}/403`}
+                  component={asyncComponent(() =>
+                    import("../components/Error403/index.js")
+                  )}
+                />
+
                 <Route
                   component={asyncComponent(() =>
                     import("../components/Error404/index.js")

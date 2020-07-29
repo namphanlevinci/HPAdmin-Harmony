@@ -66,6 +66,7 @@ class MerchantRejectedProfile extends Component {
             },
             width: 250,
           });
+          this.props.history.push("/app/merchants/pending");
         } else {
           store.addNotification({
             title: "ERROR!",
@@ -104,6 +105,7 @@ class MerchantRejectedProfile extends Component {
   };
   render() {
     const e = this.props.RejectedProfile;
+
     let principalLength = this.props.RejectedProfile?.principals?.length;
     // render Principal
     const renderPrincipal =
@@ -127,11 +129,11 @@ class MerchantRejectedProfile extends Component {
                 <p>{e.title}</p>
               </div>
               <div className="col-4">
-                <label>Ownership(%)*</label>
+                <label>Ownership* (%)</label>
                 <p>{e.ownerShip}%</p>
               </div>
               <div className="col-4">
-                <label>Home Phone*</label>
+                <label>Home Phone</label>
                 <p>{e.homePhone}</p>
               </div>
               <div className="col-4">
@@ -147,7 +149,7 @@ class MerchantRejectedProfile extends Component {
                 <p>{e.ssn}</p>
               </div>
               <div className="col-4">
-                <label>Date of Birth (mm/dd/yy)*</label>
+                <label>Date of Birth* (mm/dd/yy)</label>
                 <p>{moment(e.birthDate).format("MM/DD/YYYY")}</p>
               </div>
               <div className="col-4">
@@ -163,7 +165,7 @@ class MerchantRejectedProfile extends Component {
                 <p>{e.state !== undefined ? e.state.name : null}</p>
               </div>
               <div className="col-6">
-                <label>Driver License Picture</label> <br />
+                <label>Driver License Picture*</label> <br />
                 {
                   <img
                     style={{ width: "250px", height: "200px" }}
@@ -282,7 +284,7 @@ class MerchantRejectedProfile extends Component {
                   <p>{e?.city}</p>
                 </div>
                 <div className="col-4">
-                  <label>State*</label>
+                  <label>State Issued*</label>
                   <p>{e?.state?.name}</p>
                 </div>
                 <div className="col-4">
@@ -317,20 +319,24 @@ class MerchantRejectedProfile extends Component {
               <div className="row">{renderQuestion}</div>
               <h2 style={styles.h2}>Bank Information</h2>
               <div className="row">
-                <div className="col-4">
+                <div className="col-3">
+                  <label>Account Holder Name*</label>
+                  <p>{e?.businessBank?.accountHolderName}</p>
+                </div>
+                <div className="col-3">
                   <label>Bank Name*</label>
                   <p>{e?.businessBank?.name}</p>
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label> Routing Number* (ABA)</label>
                   <p>{e?.businessBank?.routingNumber}</p>
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label>Account Number* (DDA)</label>
                   <p>{e?.businessBank?.accountNumber}</p>
                 </div>
                 <div className="col-4">
-                  <label>Void Check*</label>
+                  <label>Void Check*</label> <br />
                   <img
                     style={{ width: "250px" }}
                     src={`${e?.businessBank?.imageUrl}`}

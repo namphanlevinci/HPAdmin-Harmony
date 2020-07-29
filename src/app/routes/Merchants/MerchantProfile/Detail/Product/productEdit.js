@@ -4,9 +4,10 @@ import { config } from "../../../../../../url/url";
 import { store } from "react-notifications-component";
 
 import Button from "@material-ui/core/Button";
-// import Select from "react-select";
+import Select from "react-select";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
+import CurrencyInput from "react-currency-masked-input";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -226,10 +227,10 @@ class EditProduct extends Component {
         />
       );
     }
-    // const serviceStatus = [
-    //   { value: "0", label: "Active" },
-    //   { value: "1", label: "Disable" },
-    // ];
+    const serviceStatus = [
+      { value: "0", label: "Active" },
+      { value: "1", label: "Inactive" },
+    ];
 
     return (
       <div className="react-transition swipe-up service-container">
@@ -254,7 +255,7 @@ class EditProduct extends Component {
             <div className="col-7">
               <div className="row">
                 <div className="col-4">
-                  <label>Product</label>
+                  <label>Product*</label>
                   <br />
                   <input
                     name="name"
@@ -264,7 +265,7 @@ class EditProduct extends Component {
                   />
                 </div>
                 <div className="col-4">
-                  <label>SKU Number</label>
+                  <label>SKU Number*</label>
                   <br />
                   <input
                     name="sku"
@@ -274,7 +275,7 @@ class EditProduct extends Component {
                   />
                 </div>
                 <div className="col-4">
-                  <label>Category</label>
+                  <label>Category*</label>
                   <br />
                   <select
                     onChange={(e) =>
@@ -286,28 +287,24 @@ class EditProduct extends Component {
                     </option>
                     {mapCategory}
                   </select>
-                  {/* {this.state.loading && (
+                  {this.state.loading && (
                     <Select
-                      styles={colourStyles}
-                      options={
-                        this.state.category
-                          ? this.state.category
-                              .filter((e) => e.categoryType !== "Product")
-                              .map((e) => {
-                                return {
-                                  id: e.categoryId,
-                                  value: e.categoryId,
-                                  label: e.name,
-                                };
-                              })
-                          : []
-                      }
+                      // styles={colourStyles}
+                      options={this.state.category
+                        .filter((e) => e.categoryType === "Product")
+                        .map((e) => {
+                          return {
+                            id: e.categoryId,
+                            value: e.categoryId,
+                            label: e.name,
+                          };
+                        })}
                       defaultValue={{
                         value: this.state.categoryId,
                         label: this.state.name,
                       }}
                       value={this.state.category
-                        .filter((e) => e.categoryType !== "Product")
+                        .filter((e) => e.categoryType === "Product")
                         .map((e) => {
                           if (e.categoryId === this.state.categoryId) {
                             return {
@@ -323,7 +320,7 @@ class EditProduct extends Component {
                       loadingMessage={() => "Fetching Service"}
                       noOptionsMessage={() => "Service appears here!"}
                     />
-                  )} */}
+                  )}
                 </div>
                 <div className="col-4">
                   <label>Items In Stock*</label>
@@ -336,7 +333,7 @@ class EditProduct extends Component {
                   />
                 </div>
                 <div className="col-4">
-                  <label>Low Threshold</label>
+                  <label>Low Threshold*</label>
                   <br />
                   <input
                     name="minThreshold"
@@ -346,7 +343,7 @@ class EditProduct extends Component {
                   />
                 </div>
                 <div className="col-4">
-                  <label>Item Threshold </label>
+                  <label>High Threshold *</label>
                   <br />
                   <input
                     name="maxThreshold"
@@ -356,19 +353,19 @@ class EditProduct extends Component {
                   />
                 </div>
                 <div className="col-4">
-                  <label>Price ($)</label>
+                  <label>Price* ($)</label>
                   <br />
-                  <input
+
+                  <CurrencyInput
                     name="price"
-                    type="number"
                     value={this.state.price}
-                    onChange={this.handleChange}
+                    onChange={(e, masked) => this.setState({ price: masked })}
                   />
                 </div>
                 <div className="col-4">
-                  <label>Status</label>
+                  <label>Status*</label>
                   <br />
-                  <select
+                  {/* <select
                     onChange={(e) =>
                       this.setState({ isDisabled: e.target.value })
                     }
@@ -379,22 +376,22 @@ class EditProduct extends Component {
                     <option value="1" selected={this.state.isDisabled === 1}>
                       Inactive
                     </option>
-                  </select>
+                  </select> */}
 
-                  {/* <Select
-                    styles={colourStyles}
-                    options={serviceStatus}
-                    defaultValue={{
-                      value: this.state.isDisabled,
-                      label:
-                        this.state.isDisabled === 0 ? "Active" : "Disabled",
-                    }}
-                    onChange={(e) => {
-                      this.setState({ isDisabled: e.value }, () =>
-                        console.log(this.state.isDisabled)
-                      );
-                    }}
-                  /> */}
+                  {this.state.loading && (
+                    <Select
+                      // styles={colourStyles}
+                      options={serviceStatus}
+                      defaultValue={{
+                        value: this.state.isDisabled,
+                        label:
+                          this.state.isDisabled === 0 ? "Active" : "Inactive",
+                      }}
+                      onChange={(e) => {
+                        this.setState({ isDisabled: e.value });
+                      }}
+                    />
+                  )}
                 </div>
                 <div className="col-12">
                   <label>Description</label>

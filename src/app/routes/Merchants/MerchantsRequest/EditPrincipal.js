@@ -266,9 +266,9 @@ const EditPrincipal = ({
                               />
                             </div>
                             <div className="col-4" style={styles.div}>
-                              <label>Ownership (%)</label>
+                              <label>Ownership* (%)</label>
                               <Field
-                                placeholder="Ownership (%)"
+                                placeholder="Ownership* (%)"
                                 name={`PrincipalInfo.${index}.ownerShip`}
                                 values={`PrincipalInfo.${index}.ownerShip`}
                               />
@@ -364,7 +364,7 @@ const EditPrincipal = ({
                             <div className="col-4" style={{ marginTop: "5px" }}>
                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid container justify="flex-start">
-                                  <label>Date of Birth (mm/dd/yyyy)</label>
+                                  <label>Date of Birth* (mm/dd/yyyy)</label>
                                   <KeyboardDatePicker
                                     style={{ marginTop: "0px" }}
                                     margin="normal"

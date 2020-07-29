@@ -316,7 +316,7 @@ export class EditGeneral extends Component {
               />
             </div>
             <div className="col-4" style={styles.div}>
-              <label>PIN Code</label>
+              <label>Create PIN*</label>
               <div style={{ display: "flex" }}>
                 <input
                   style={{ width: "100%" }}

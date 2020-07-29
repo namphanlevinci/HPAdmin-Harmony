@@ -84,6 +84,11 @@
   text-transform: uppercase;
 }
 
+.BatchStatus p {
+  /* margin-bottom: 0; */
+}
+
+
 .batch-container button.btn {
   display: inline-block;
   color: #666;

@@ -123,22 +123,6 @@ class General extends Component {
     );
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.UpdateStatus !== this.props.UpdateStatus) {
-      store.addNotification({
-        title: "SUCCESS!",
-        message: `${this.props?.UpdateStatus?.Data?.message}`,
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 250,
-      });
-    }
     if (nextProps.getMerchant !== this.props.getMerchant) {
       this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
       this.props.history.push("/app/merchants/profile/general");
@@ -160,7 +144,7 @@ class General extends Component {
               ></input>
             </div>
             <div className="col-4">
-              <label>Doing Business As (DBA)*</label>
+              <label>Doing Business As* (DBA)</label>
               <input
                 name="doBusinessName"
                 value={this.state.doBusinessName}
@@ -202,7 +186,7 @@ class General extends Component {
               ></input>
             </div>
             <div className="col-4">
-              <label>State*</label>
+              <label>State Issued*</label>
               {this.state.loading ? (
                 <Select
                   onChange={(e) => this.setState({ stateId: e.value })}

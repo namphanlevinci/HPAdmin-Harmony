@@ -46,7 +46,7 @@ class MerchantApprovedProfile extends Component {
                 <p>{e?.title}</p>
               </div>
               <div className="col-4">
-                <label>Ownership(%)*</label>
+                <label>Ownership* (%)</label>
                 <p>{e?.ownerShip}%</p>
               </div>
               <div className="col-4">
@@ -66,7 +66,7 @@ class MerchantApprovedProfile extends Component {
                 <p>{e?.fullSsn}</p>
               </div>
               <div className="col-4">
-                <label>Date of Birth (mm/dd/yy)*</label>
+                <label>Date of Birth* (mm/dd/yy)</label>
                 <p>{moment(e.birthDate).format("MM/DD/YYYY")}</p>
               </div>
               <div className="col-4">
@@ -188,7 +188,7 @@ class MerchantApprovedProfile extends Component {
                     <p>{e?.city}</p>
                   </div>
                   <div className="col-4">
-                    <label>State*</label>
+                    <label>State Issued*</label>
                     <p>{e?.state?.name}</p>
                   </div>
 

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-
 export class salary extends Component {
   render() {
     const Salary = this.props.Staff;
@@ -11,6 +10,7 @@ export class salary extends Component {
     const tipFees = Salary?.tipFees;
     const productSalaries = Salary?.productSalaries;
     const cashPercent = Salary?.cashPercent;
+
     return (
       <div className="container Salary">
         <h2>Salary</h2>
@@ -47,11 +47,7 @@ export class salary extends Component {
               <label>Salary Commission</label>
             </div>
             <div className="input-box">
-              <input
-                type="text"
-                value={Number(salaries?.commission?.value)?.toFixed(2)}
-                disabled
-              />
+              <input type="text" value={salaries?.commission?.value} disabled />
               <span className="unit">$</span>
             </div>
           </div>

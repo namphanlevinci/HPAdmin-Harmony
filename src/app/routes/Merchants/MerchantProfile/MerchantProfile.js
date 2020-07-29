@@ -37,6 +37,7 @@ import ExtraTab from "./Detail/Extra/extra";
 // REPORT SETTLEMENT
 import ExportSettlement from "./Detail/ExportSettlement/export-settlement";
 import CheckPermissions from "../../../../util/checkPermission";
+import PrivateRoute from "../../../PrivateRoute";
 
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
@@ -100,7 +101,7 @@ class merchantProfile extends Component {
                         <NavLink to="/app/merchants/profile/bank">Bank</NavLink>
                       </li>
                       <li>
-                        <NavLink to="/app/merchants/profile/pincipal">
+                        <NavLink to="/app/merchants/profile/principal">
                           Principal
                         </NavLink>
                       </li>
@@ -159,15 +160,15 @@ class merchantProfile extends Component {
                           component={Bank}
                         />
                         <Route
-                          path="/app/merchants/profile/pincipal/info"
+                          path="/app/merchants/profile/principal/info"
                           component={PrincipalInfo}
                         />
                         <Route
-                          path="/app/merchants/profile/pincipal/edit"
+                          path="/app/merchants/profile/principal/edit"
                           component={EditPrincipal}
                         />
                         <Route
-                          path="/app/merchants/profile/pincipal"
+                          path="/app/merchants/profile/principal"
                           component={PricipalList}
                         />
                         <Route
@@ -182,7 +183,6 @@ class merchantProfile extends Component {
                           path="/app/merchants/profile/service/edit"
                           component={EditService}
                         />
-
                         <Route
                           path="/app/merchants/profile/service"
                           component={Service}
@@ -207,7 +207,8 @@ class merchantProfile extends Component {
                           path="/app/merchants/profile/extra"
                           component={ExtraTab}
                         />
-                        <Route
+                        <PrivateRoute
+                          permissionID={15}
                           path="/app/merchants/profile/staff/add"
                           component={AddStaff}
                         />

@@ -67,7 +67,7 @@ class Header extends React.Component {
         })
         .then((res) => {
           const data = res.data.data;
-          if (data.length !== 0) {
+          if (data?.length !== 0 && data !== undefined) {
             this.setState({
               // Notify: this.state.Notify.concat(Array.from(data)),
               Notify: [...this.state.Notify, ...data],

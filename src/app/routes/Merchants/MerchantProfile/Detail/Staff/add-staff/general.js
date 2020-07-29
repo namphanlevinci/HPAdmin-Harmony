@@ -100,7 +100,7 @@ const General = ({
           <div className="form-group">
             <TextField
               name="displayName"
-              label="Display name"
+              label="Display Name"
               margin="normal"
               type="text"
               fullWidth
@@ -175,7 +175,7 @@ const General = ({
         </div>
 
         <div className="col-4">
-          <label>Cellphone</label>
+          <label>Cell Phone</label>
           <PhoneInput
             country={"us"}
             placeholder="Phone Number"
@@ -204,7 +204,7 @@ const General = ({
           <div className="form-group" style={styles.pin}>
             <TextField
               name="pin"
-              label="PIN Code*"
+              label="Create PIN*"
               margin="normal"
               type={showPin ? "text" : "password"}
               fullWidth
@@ -238,7 +238,7 @@ const General = ({
           >
             <TextField
               name="confirmPin"
-              label="Confirm PIN Code*"
+              label="Confirm PIN*"
               margin="normal"
               type={showConfirmPin ? "text" : "password"}
               fullWidth

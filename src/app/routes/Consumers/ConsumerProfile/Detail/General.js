@@ -92,21 +92,21 @@ class General extends Component {
 
           <div className="row" style={{ marginTop: "15px" }}>
             <div className="col-sm-4 col-md-2">
-              <label>First Name</label>
+              <label>First Name*</label>
               <p style={styles.p}>
                 {e.firstName !== null ? e.firstName : null}
               </p>
             </div>
             <div className="col-sm-4 col-md-2">
-              <label>Last Name</label>
+              <label>Last Name*</label>
               <p style={styles.p}>{e.lastName !== null ? e.lastName : null}</p>
             </div>
-            <div className="col-sm-4  col-md-2">
-              <label>Phone Number</label>
+            <div className="col-sm-4  col-md-3">
+              <label>Phone Number*</label>
               <p style={styles.p}>{e.phone !== null ? e.phone : null}</p>
             </div>
-            <div className="col-sm-12 col-md-6">
-              <label>Email</label>
+            <div className="col-sm-12 col-md-5">
+              <label>Contact Email*</label>
               <p style={styles.p}>{e.email !== null ? e.email : null}</p>
             </div>
           </div>

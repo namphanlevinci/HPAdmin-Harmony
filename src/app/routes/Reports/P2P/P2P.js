@@ -68,14 +68,8 @@ class P2P extends React.Component {
     });
   }
 
-  _SearchMerchants = async (e) => {
-    await this.setState({ search: e.target.value });
-  };
-  _SearchAmount = async (e) => {
-    await this.setState({ amount: e.target.value });
-  };
-
   _handleChange = (event) => {
+    event.preventDefault();
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -272,12 +266,15 @@ class P2P extends React.Component {
             <div className="search">
               <form>
                 <SearchIcon className="button" title="Search" />
-                <input
+
+                <DebounceInput
+                  debounceTimeout={500}
                   type="text"
+                  name="search"
                   className="textBox"
                   placeholder="Search.."
                   value={this.state.search}
-                  onChange={this._SearchMerchants}
+                  onChange={this._handleChange}
                 />
               </form>
             </div>

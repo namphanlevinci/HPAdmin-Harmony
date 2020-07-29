@@ -56,7 +56,7 @@ export class general extends Component {
               <p>{Staff?.email}</p>
             </div>
             <div className="col-4">
-              <label>PIN Code</label>
+              <label>Create PIN*</label>
               <p>****</p>
             </div>
             <div className="col-4">

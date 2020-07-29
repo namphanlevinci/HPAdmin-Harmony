@@ -156,7 +156,7 @@ class MerchantReqProfile extends Component {
                 <p>{e.title}</p>
               </div>
               <div className="col-4">
-                <label>Ownership(%)*</label>
+                <label>Ownership* (%)</label>
                 <p>{e.ownerShip}%</p>
               </div>
               <div className="col-4">
@@ -178,13 +178,13 @@ class MerchantReqProfile extends Component {
                   displayType={"text"}
                   thousandSeparator={true}
                   p
-                  format="****-**-####"
+                  format="###-##-####"
                   mask="_"
                   renderText={(value) => <p>{value}</p>}
                 />
               </div>
               <div className="col-4">
-                <label>Date of Birth (mm/dd/yy)*</label>
+                <label>Date of Birth* (mm/dd/yy)</label>
                 <p>{moment(e.birthDate).format("MM/DD/YYYY")}</p>
               </div>
               <div className="col-4">
@@ -509,7 +509,7 @@ class MerchantReqProfile extends Component {
                   <p>{e?.general?.city}</p>
                 </div>
                 <div className="col-4">
-                  <label>State*</label>
+                  <label>State Issued*</label>
                   <p>{e?.state?.name}</p>
                 </div>
                 <div className="col-4">

@@ -345,7 +345,7 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>State</label>
+                                  <label>State*</label>
                                   <Select
                                     onChange={(e) =>
                                       setFieldValue(
@@ -424,7 +424,7 @@ class Principal extends Component {
                                     style={{ width: "100%", marginTop: "16px" }}
                                   >
                                     <InputLabel htmlFor="formatted-text-mask-input">
-                                      Social security Number (SSN)*
+                                      Social Security Number* (SSN)
                                     </InputLabel>
                                     <Input
                                       values={`principalInfo.${index}.ssn`}
@@ -608,22 +608,46 @@ class Principal extends Component {
                           + Add Principal
                         </p>
                       )}
-                      <div style={{ marginTop: "15px" }}>
-                        <Button
-                          onClick={() => this.props.handleBack()}
-                          className="btn btn-red"
-                          style={{ color: "black" }}
-                        >
-                          Back
-                        </Button>
-                        <Button
-                          type="submit"
-                          className="btn btn-red"
-                          style={{ backgroundColor: "#4251af", color: "white" }}
-                          disabled={this.state.progress ? true : false}
-                        >
-                          Next
-                        </Button>
+                      <div
+                        style={{
+                          marginTop: "15px",
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div style={{ marginTop: "15px" }}>
+                          <Button
+                            onClick={() => this.props.handleBack()}
+                            className="btn btn-red"
+                            style={{ color: "black" }}
+                          >
+                            Back
+                          </Button>
+                          <Button
+                            type="submit"
+                            className="btn btn-red"
+                            style={{
+                              backgroundColor: "#4251af",
+                              color: "white",
+                            }}
+                            disabled={this.state.progress ? true : false}
+                          >
+                            Next
+                          </Button>
+                        </div>
+                        <div>
+                          <Button
+                            onClick={() =>
+                              this.props.cancelMerchant.push(
+                                "/app/merchants/list"
+                              )
+                            }
+                            className="btn btn-red"
+                            style={{ color: "black" }}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -638,9 +662,3 @@ class Principal extends Component {
 }
 
 export default Principal;
-// const styles = {
-//   phoneInput: {
-//     padding: "0px 0px",
-//     // marginTop: "3px",
-//   },
-// };

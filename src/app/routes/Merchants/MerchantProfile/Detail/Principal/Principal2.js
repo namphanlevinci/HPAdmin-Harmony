@@ -36,7 +36,7 @@ class PrincipalInfo extends Component {
             <p>{e?.title}</p>
           </div>
           <div className="col-4">
-            <label>Ownership(%)*</label>
+            <label>Ownership* (%)</label>
             <p>{e?.ownerShip}%</p>
           </div>
           <div className="col-4">
@@ -56,7 +56,7 @@ class PrincipalInfo extends Component {
             <p>{e?.ssn}</p>
           </div>
           <div className="col-4">
-            <label>Date of Birth (mm/dd/yyyy)*</label>
+            <label>Date of Birth* (mm/dd/yyyy)*</label>
             <p>{moment(e?.birthDate).format("MM/DD/YYYY")}</p>
           </div>
           <div className="col-4">
@@ -121,7 +121,7 @@ class PrincipalInfo extends Component {
                     <p>{e?.address}</p>
                   </div>
                   <div className="col-4">
-                    <label>State*</label>
+                    <label>State Issued*</label>
                     <p>{e?.stateName}</p>
                   </div>
                   <div className="col-4">

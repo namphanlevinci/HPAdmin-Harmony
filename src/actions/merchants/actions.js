@@ -121,7 +121,7 @@ export const MERCHANT_REJECT_ERROR = (payload) => ({
   payload: payload,
 });
 
-// UPDATE PRINCIPAL INFORMATIONS
+// UPDATE PRINCIPAL INFORMATION
 export const UPDATE_PRINCIPAL = (payload) => ({
   type: types.UPDATE_PRINCIPAL,
   payload: payload,

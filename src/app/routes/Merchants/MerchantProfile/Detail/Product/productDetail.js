@@ -64,22 +64,22 @@ class productDetail extends Component {
             <div className="col-md-7">
               <div className="row">
                 <div className="col-4">
-                  <label>Product</label>
+                  <label>Product*</label>
                   <br />
                   <p>{product.name}</p>
                 </div>
                 <div className="col-4">
-                  <label>SKU Number</label>
+                  <label>SKU Number*</label>
                   <br />
                   <p>{product.sku}</p>
                 </div>
                 <div className="col-4">
-                  <label>Category</label>
+                  <label>Category*</label>
                   <br />
                   <p>{product.categoryName}</p>
                 </div>
                 <div className="col-4">
-                  <label>Items In Stock</label>
+                  <label>Items In Stock*</label>
                   <br />
                   <p>{product.quantity}</p>
                 </div>
@@ -89,22 +89,22 @@ class productDetail extends Component {
                   <p>{product.needToorDer}</p>
                 </div>
                 <div className="col-4">
-                  <label>Low Threshold</label>
+                  <label>Low Threshold*</label>
                   <br />
                   <p>{product.minThreshold}</p>
                 </div>
                 <div className="col-4">
-                  <label>Item Threshold</label>
+                  <label>High Threshold *</label>
                   <br />
                   <p>{product.maxThreshold}</p>
                 </div>
                 <div className="col-4">
-                  <label>Price ($)</label>
+                  <label>Price* ($)</label>
                   <br />
                   <p>$ {product.price}</p>
                 </div>
                 <div className="col-4">
-                  <label>Status</label>
+                  <label>Status*</label>
                   <br />
                   <p>{product.isDisabled !== 1 ? "Active" : "Inactive"}</p>
                 </div>

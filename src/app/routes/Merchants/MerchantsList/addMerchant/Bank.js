@@ -2,6 +2,11 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import defaultImage from "./hpadmin2.png";
 import LinearIndeterminate from "../../../../../util/linearProgress";
+import Cleave from "cleave.js/react";
+import InputCustom from "./custom-input";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
 
 import "./addMerchant.css";
 
@@ -44,7 +49,7 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
 
         <div className="col-3">
           <div className="form-group">
-            <TextField
+            {/* <TextField
               name="routingNumber"
               value={value.routingNumber}
               id="cardHolder3"
@@ -52,7 +57,25 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
               margin="normal"
               fullWidth
               onChange={handleChange}
-            />
+            /> */}
+
+            <FormControl style={{ width: "100%", marginTop: "16px" }}>
+              <InputLabel htmlFor="formatted-text-mask-input">
+                Routing Number* (ABA)
+              </InputLabel>
+              <Input
+                value={value.routingNumber}
+                onChange={handleChange}
+                name="routingNumber"
+                id="custom-routingNumber-input"
+                inputProps={{
+                  block: [12],
+                  numericOnly: true,
+                }}
+                inputComponent={InputCustom}
+              />
+            </FormControl>
+
             {validator.message(
               "routingNumber",
               value.routingNumber,
@@ -62,7 +85,7 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
         </div>
         <div className="col-3">
           <div className="form-group">
-            <TextField
+            {/* <TextField
               name="accountNumber"
               value={value.accountNumber}
               id="cardHolder4"
@@ -70,7 +93,25 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
               margin="normal"
               fullWidth
               onChange={handleChange}
-            />
+            /> */}
+
+            <FormControl style={{ width: "100%", marginTop: "16px" }}>
+              <InputLabel htmlFor="formatted-text-mask-input">
+                Routing Number* (ABA)
+              </InputLabel>
+              <Input
+                value={value.accountNumber}
+                onChange={handleChange}
+                name="accountNumber"
+                id="custom-accountNumber-input"
+                inputProps={{
+                  block: [12],
+                  numericOnly: true,
+                }}
+                inputComponent={InputCustom}
+              />
+            </FormControl>
+
             {validator.message(
               "accountNumber",
               value.accountNumber,

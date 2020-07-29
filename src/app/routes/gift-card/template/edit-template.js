@@ -26,7 +26,7 @@ class EditTemplate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileId: "",
+      fileId: 0,
       imagePreviewUrl: "",
       isConsumer: 0,
       openDelete: false,
@@ -62,7 +62,7 @@ class EditTemplate extends Component {
       this.setState({ isConsumer: 0, isChecked: false });
     }
   };
-  // Delete
+
   handleCloseDelete = () => {
     this.setState({ openDelete: false });
   };
@@ -139,8 +139,8 @@ class EditTemplate extends Component {
     ];
 
     const Status = [
-      { value: "1", label: "Active" },
-      { value: "2", label: "Disable" },
+      { value: 0, label: "Active" },
+      { value: 1, label: "Disable" },
     ];
 
     let { imagePreviewUrl } = this.state;
@@ -332,7 +332,6 @@ class EditTemplate extends Component {
                             }}
                             placeholder="Select Status"
                             value={{
-                              value: values.isDisabled,
                               label:
                                 values.isDisabled === 0 ? "Active" : "Disable",
                             }}

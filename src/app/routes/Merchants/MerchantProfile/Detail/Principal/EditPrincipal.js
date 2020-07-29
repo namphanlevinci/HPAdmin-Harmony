@@ -101,7 +101,7 @@ class EditPrincipal extends Component {
       });
   };
   _goBack = () => {
-    this.props.history.push("/app/merchants/profile/pincipal/info");
+    this.props.history.push("/app/merchants/profile/principal/info");
   };
   _update = () => {
     const ID = this.props.principalInfo.principalId;
@@ -211,7 +211,7 @@ class EditPrincipal extends Component {
               />
             </div>
             <div className="col-4">
-              <label>Ownership(%)*</label>
+              <label>Ownership* (%)</label>
               <input
                 name="name"
                 value={e.ownerShip}
@@ -265,7 +265,7 @@ class EditPrincipal extends Component {
               />
             </div>
             <div className="col-4">
-              <label>Date of Birth (mm/dd/yyyy)*</label>
+              <label>Date of Birth* (mm/dd/yyyy)*</label>
               <input
                 name="birthday"
                 value={moment(e.birthDate).format("MM/DD/YYYY")}
@@ -293,7 +293,7 @@ class EditPrincipal extends Component {
               />
             </div>
             <div className="col-4">
-              <label>State*</label>
+              <label>State Issued*</label>
 
               {this.state.loading && (
                 <Select

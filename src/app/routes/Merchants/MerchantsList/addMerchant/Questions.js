@@ -12,6 +12,7 @@ const Questions = ({ handleQuestions, businessInfo, handleChange }) => {
         <h4>{data.value}</h4>
         <div style={{ display: "flex" }}>
           <RadioGroup
+            defaultValue="false"
             aria-label={`isAccept${data.questionId}`}
             name={`isAccept${data.questionId}`}
             onChange={(e) =>
