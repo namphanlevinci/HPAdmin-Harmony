@@ -15,5 +15,4 @@ const formatSSN = (SSN) => {
   );
 };
 
-// console.log("formatSSN", formatSSN);
 export default formatSSN;

@@ -7,6 +7,7 @@ import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
+import NumberFormat from "react-number-format";
 
 import "bootstrap/js/src/collapse.js";
 import "../MerchantsRequest/MerchantReqProfile.css";
@@ -63,7 +64,15 @@ class MerchantApprovedProfile extends Component {
               </div>
               <div className="col-4">
                 <label>Social Security Number* (SSN)</label>
-                <p>{e?.fullSsn}</p>
+                <NumberFormat
+                  value={e.ssn}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  p
+                  format="***-**-####"
+                  mask="_"
+                  renderText={(value) => <p>{value}</p>}
+                />
               </div>
               <div className="col-4">
                 <label>Date of Birth* (mm/dd/yy)</label>

@@ -5,6 +5,8 @@ import moment from "moment";
 import Button from "@material-ui/core/Button";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import formatPhone from "../../../../../../util/formatPhone";
+import formatSSN from "../../../../../../util/formatSSN";
+import NumberFormat from "react-number-format";
 
 import "./principal.styles.scss";
 import "../../MerchantProfile?.css";
@@ -53,7 +55,17 @@ class PrincipalInfo extends Component {
           </div>
           <div className="col-4">
             <label>Social Security Number* (SSN)</label>
-            <p>{e?.ssn}</p>
+            {/* <p>{e?.ssn}</p> */}
+
+            <NumberFormat
+              value={e.ssn}
+              displayType={"text"}
+              thousandSeparator={true}
+              p
+              format="***-**-####"
+              mask="_"
+              renderText={(value) => <p>{value}</p>}
+            />
           </div>
           <div className="col-4">
             <label>Date of Birth* (mm/dd/yyyy)*</label>

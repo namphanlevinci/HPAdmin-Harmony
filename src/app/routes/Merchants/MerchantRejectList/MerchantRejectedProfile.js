@@ -15,6 +15,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { config } from "../../../../url/url";
 import CheckPermissions from "../../../../util/checkPermission";
+import NumberFormat from "react-number-format";
 
 import "bootstrap/js/src/collapse.js";
 import "../MerchantsRequest/MerchantReqProfile.css";
@@ -146,7 +147,15 @@ class MerchantRejectedProfile extends Component {
               </div>
               <div className="col-4">
                 <label>Social Security Number* (SSN)</label>
-                <p>{e.ssn}</p>
+                <NumberFormat
+                  value={e.ssn}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  p
+                  format="***-**-####"
+                  mask="_"
+                  renderText={(value) => <p>{value}</p>}
+                />
               </div>
               <div className="col-4">
                 <label>Date of Birth* (mm/dd/yy)</label>
