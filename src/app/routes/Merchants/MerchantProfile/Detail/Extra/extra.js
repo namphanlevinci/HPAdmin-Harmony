@@ -101,7 +101,6 @@ class ExtraTab extends Component {
     this.setState({ [name]: value });
   };
   handleEdit = (data) => {
-    console.log("data", data);
     const {
       duration,
       extraId,

@@ -80,23 +80,36 @@ class productDetail extends Component {
                 </div>
                 <div className="col-4">
                   <label>Items In Stock*</label>
-                  <br />
-                  <p>{product.quantity}</p>
+                  <div className="input-box">
+                    <p style={styles.p}>{product.quantity} </p>
+                    <span className="unit" style={styles.unit}>
+                      Item
+                    </span>
+                  </div>
+                </div>
+
+                <div className="col-4">
+                  <label>Low Threshold*</label>
+                  <div className="input-box">
+                    <p style={styles.p}>{product.minThreshold}</p>
+                    <span className="unit" style={styles.unit}>
+                      Item
+                    </span>
+                  </div>
+                </div>
+                <div className="col-4">
+                  <label>High Threshold *</label>
+                  <div className="input-box">
+                    <p style={styles.p}>{product.maxThreshold}</p>
+                    <span className="unit" style={styles.unit}>
+                      Item
+                    </span>
+                  </div>
                 </div>
                 <div className="col-4">
                   <label>Need To Order</label>
                   <br />
                   <p>{product.needToorDer}</p>
-                </div>
-                <div className="col-4">
-                  <label>Low Threshold*</label>
-                  <br />
-                  <p>{product.minThreshold}</p>
-                </div>
-                <div className="col-4">
-                  <label>High Threshold *</label>
-                  <br />
-                  <p>{product.maxThreshold}</p>
                 </div>
                 <div className="col-4">
                   <label>Price* ($)</label>
@@ -147,3 +160,13 @@ const mapStateToProps = (state) => ({
   SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(productDetail);
+
+const styles = {
+  unit: {
+    top: "5px",
+  },
+  p: {
+    paddingTop: "4px",
+    marginLeft: "15px",
+  },
+};

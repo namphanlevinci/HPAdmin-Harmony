@@ -450,6 +450,13 @@ thead th {
    text-align: right;
 }
 
+.input-box p {
+  display: block; 
+  background: #fff;
+  padding: 10px 10px 0px 50px ; 
+  /* text-align: right; */
+}
+
 .unit { 
   position: absolute; 
   display: block; 

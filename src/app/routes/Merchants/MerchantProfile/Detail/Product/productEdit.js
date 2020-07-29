@@ -277,16 +277,7 @@ class EditProduct extends Component {
                 <div className="col-4">
                   <label>Category*</label>
                   <br />
-                  <select
-                    onChange={(e) =>
-                      this.setState({ categoryId: e.target.value })
-                    }
-                  >
-                    <option value={product.categoryId}>
-                      {product.categoryName}
-                    </option>
-                    {mapCategory}
-                  </select>
+
                   {this.state.loading && (
                     <Select
                       // styles={colourStyles}
@@ -301,18 +292,8 @@ class EditProduct extends Component {
                         })}
                       defaultValue={{
                         value: this.state.categoryId,
-                        label: this.state.name,
+                        label: product.categoryName,
                       }}
-                      value={this.state.category
-                        .filter((e) => e.categoryType === "Product")
-                        .map((e) => {
-                          if (e.categoryId === this.state.categoryId) {
-                            return {
-                              label: e.name,
-                              value: e.categoryId,
-                            };
-                          }
-                        })}
                       onChange={(selectedOption) => {
                         this.setState({ categoryId: selectedOption.value });
                       }}
@@ -324,33 +305,39 @@ class EditProduct extends Component {
                 </div>
                 <div className="col-4">
                   <label>Items In Stock*</label>
-                  <br />
-                  <input
-                    name="quantity"
-                    type="number"
-                    value={this.state.quantity}
-                    onChange={this.handleChange}
-                  />
+                  <div className="input-box">
+                    <input
+                      name="quantity"
+                      type="number"
+                      value={this.state.quantity}
+                      onChange={this.handleChange}
+                    />
+                    <span className="unit">Item</span>
+                  </div>
                 </div>
                 <div className="col-4">
                   <label>Low Threshold*</label>
-                  <br />
-                  <input
-                    name="minThreshold"
-                    type="number"
-                    value={this.state.minThreshold}
-                    onChange={this.handleChange}
-                  />
+                  <div className="input-box">
+                    <input
+                      name="minThreshold"
+                      type="number"
+                      value={this.state.minThreshold}
+                      onChange={this.handleChange}
+                    />
+                    <span className="unit">Item</span>
+                  </div>
                 </div>
                 <div className="col-4">
                   <label>High Threshold *</label>
-                  <br />
-                  <input
-                    name="maxThreshold"
-                    type="number"
-                    value={this.state.maxThreshold}
-                    onChange={this.handleChange}
-                  />
+                  <div className="input-box">
+                    <input
+                      name="maxThreshold"
+                      type="number"
+                      value={this.state.maxThreshold}
+                      onChange={this.handleChange}
+                    />
+                    <span className="unit">Item</span>
+                  </div>
                 </div>
                 <div className="col-4">
                   <label>Price* ($)</label>

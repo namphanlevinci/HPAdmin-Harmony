@@ -1,12 +1,15 @@
 import React from "react";
+import { Formik } from "formik";
+import { config } from "../../../../../../url/url";
+
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import axios from "axios";
-import { config } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import defaultImg from "./hpadmin2.png";
 import Select from "react-select";
-import { Formik } from "formik";
+import CurrencyInput from "react-currency-masked-input";
+
 import "./extra.styles.scss";
 
 const URL = config.url.URL;
@@ -175,29 +178,36 @@ const EditExtra = ({
                   />
                   <div style={{ display: "flex" }}>
                     <div style={{ width: "35%" }}>
-                      <label style={{ padding: "10px 0px" }}>
+                      <label style={{ paddingTop: "10px" }}>
                         Duration*
-                        <span style={{ fontSize: "10px" }}> (Minutes)</span>
+                        {/* <span style={{ fontSize: "10px" }}> (Minutes)</span> */}
                       </label>
-                      <input
-                        type="number"
-                        name="duration"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.duration}
-                        style={{ width: "80%" }}
-                      />
+                      <div className="input-box">
+                        <input
+                          type="number"
+                          name="duration"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.duration}
+                          style={{ width: "80%" }}
+                        />
+                        <span className="unit">Min</span>
+                      </div>
                     </div>
                     <div style={{ width: "35%" }}>
-                      <label style={{ padding: "10px 0px" }}>Price*</label>
-                      <input
-                        // type="number"
-                        name="price"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.price}
-                        style={{ width: "80%" }}
-                      />
+                      <label style={{ paddingTop: "10px" }}>Price*</label>
+                      <div className="input-box">
+                        <CurrencyInput
+                          name="price"
+                          onChange={(e, masked) =>
+                            setFieldValue("price", masked)
+                          }
+                          onBlur={handleBlur}
+                          value={values.price}
+                          style={{ width: "80%" }}
+                        />
+                        <span className="unit">$</span>
+                      </div>
                     </div>
                     <div style={{ width: "30%" }}>
                       <label style={{ paddingTop: "10px " }}>Status*</label>
@@ -229,15 +239,22 @@ const EditExtra = ({
                       />
                     </div>
                     <div>
-                      <label style={{ padding: "10px 0px" }}>Surcharged</label>
-                      <input
-                        // type="number"
-                        name="supplyFee"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.supplyFee}
-                        style={{ width: "80%" }}
-                      />
+                      <label style={{ paddingTop: "10px" }}>Surcharged</label>
+
+                      <div className="input-box">
+                        <CurrencyInput
+                          name="supplyFee"
+                          onChange={(e, masked) =>
+                            setFieldValue("supplyFee", masked)
+                          }
+                          onBlur={handleBlur}
+                          value={values.supplyFee}
+                          style={{ width: "80%" }}
+                        />
+                        <span className="unit" style={{ top: "1px" }}>
+                          $
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div className="category-button">
