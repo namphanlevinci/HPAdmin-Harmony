@@ -7,7 +7,7 @@ function CheckPermissions(permissionId) {
   // console.log("checkPermission", checkPermission);
   // console.log("permissionId", permissionId);
 
-  const filterPermissionByPage = checkPermission.map(
+  const filterPermissionByPage = checkPermission?.map(
     (filteredObj) => filteredObj.actions
   );
 
