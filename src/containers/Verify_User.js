@@ -60,14 +60,14 @@ class Verify_User extends React.Component {
   };
   _Login = async (e) => {
     // await e.preventDefault();
-    const serial = localStorage.getItem("VERIFY_NUMBER");
+
+    const serial = this.props?.userLogin?.VERIFY_NUMBER;
     const code = await this.state.verify_code;
     const token = this.state.token;
     const data = { code, serial, token };
     await this.props.Verify(data);
-    await this.props.GET_PERMISSION_BY_ID(
-      this.props?.userLogin?.User?.userAdmin?.waRoleId
-    );
+    const roleID = await this.props?.userLogin?.UserRoleID;
+    this.props.GET_PERMISSION_BY_ID(roleID);
   };
 
   render() {
@@ -80,7 +80,11 @@ class Verify_User extends React.Component {
               to="/app/app-module/login-2"
               title="Harmony Payment"
             >
-              <img src={require("./logo-blue.png")} alt="jambo" title="jambo" />
+              <img
+                src={require("./logo-blue.png")}
+                alt="harmony"
+                title="harmony"
+              />
             </Link>
           </div>
           <div className="mb-4">

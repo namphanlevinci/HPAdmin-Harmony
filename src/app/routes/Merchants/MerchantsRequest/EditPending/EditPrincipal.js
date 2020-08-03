@@ -5,7 +5,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { store } from "react-notifications-component";
-import { config } from "../../../../url/url";
+import { config } from "../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
 import PhoneInput from "react-phone-input-2";
@@ -13,16 +13,16 @@ import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import moment from "moment";
 import Select from "react-select";
-import selectState from "../../../../util/selectState";
+import selectState from "../../../../../util/selectState";
 import axios from "axios";
 import * as Yup from "yup";
-import ErrorMessage from "./errorMessage";
+import ErrorMessage from "../errorMessage";
 import Cleave from "cleave.js/react";
 
-import LinearProgress from "../../../../util/linearProgress";
-import formatPhone from "../../../../util/formatPhone";
+import LinearProgress from "../../../../../util/linearProgress";
+import formatPhone from "../../../../../util/formatPhone";
 
-import "./MerchantReqProfile.css";
+import "../MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
 import "react-phone-input-2/lib/high-res.css";
 

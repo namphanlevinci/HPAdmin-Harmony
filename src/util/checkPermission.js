@@ -17,7 +17,7 @@ function CheckPermissions(permissionId) {
 
   // console.log("filterPermissionByPage", filterPermissionByPage);
   // console.log("getPermissionByName", getPermissionByName);
-  console.log("is Valid", permissionId, getPermissionByName);
+  // console.log("is Valid", permissionId, getPermissionByName);
 
   return getPermissionByName;
 }

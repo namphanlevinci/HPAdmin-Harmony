@@ -224,7 +224,7 @@ class Roles extends Component {
         <tr key={item.actionId}>
           <td className="role-name">
             {item?.name}
-            <Checkbox style={styles.none} />
+            <Checkbox style={styles.none} disabled />
           </td>
         </tr>
       );

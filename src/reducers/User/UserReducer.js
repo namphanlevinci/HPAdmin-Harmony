@@ -10,16 +10,18 @@ const initialState = {
   viewUser: "",
   AddUser: "",
   VERIFY_NUMBER: "",
+  UserRoleID: "",
   userModulePages: [],
   allPermission: [],
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
+  console.log("payload", payload);
   switch (type) {
     case types.USER_LOGIN_SUCCESS:
-      localStorage.setItem("VERIFY_NUMBER", JSON.stringify(payload));
       window.location.href = "/verify";
-      return { ...state, VERIFY_NUMBER: payload };
+      const { verifyCodeId, waRoleId } = payload;
+      return { ...state, UserRoleID: waRoleId, VERIFY_NUMBER: verifyCodeId };
 
     case types.USER_LOGIN_FAILURE:
       store.addNotification({

@@ -230,8 +230,7 @@ class AddStaff extends Component {
       email,
       isActive,
     } = this.state;
-    const checkEmail =
-      email !== "" ? email : this.props?.userLogin?.userAdmin?.email;
+
     const nameRole = this.state.nameRole.value;
     const isDisabled = Number(this.state.isDisabled.value);
     const state = this.state.state.value;
@@ -267,7 +266,7 @@ class AddStaff extends Component {
           },
           merchantId,
           cellphone: cellphone.replace(/(\d{4})(\d{3})(\d{4})/, "+$1-$2-$3"),
-          email: checkEmail,
+          email,
           pin,
           confirmPin,
           cashPercent: Number(cashPercent),

@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { config } from "../../../../url/url";
-import { ViewMerchant_Request } from "../../../../actions/merchants/actions";
+import { config } from "../../../../../url/url";
+import { ViewMerchant_Request } from "../../../../../actions/merchants/actions";
 
 import EditPrincipal from "./EditPrincipal";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import IntlMessages from "../../../../util/IntlMessages";
-import PendingInput from "./pendingInput";
+import ContainerHeader from "../../../../../components/ContainerHeader/index";
+import IntlMessages from "../../../../../util/IntlMessages";
+import PendingInput from "../pendingInput";
 import Select from "react-select";
-import selectState from "../../../../util/selectState";
+import selectState from "../../../../../util/selectState";
 import PhoneInput from "react-phone-input-2";
 import axios from "axios";
-import LinearProgress from "../../../../util/linearProgress";
+import LinearProgress from "../../../../../util/linearProgress";
 import SimpleReactValidator from "simple-react-validator";
 import Cleave from "cleave.js/react";
 
-import "./MerchantReqProfile.css";
+import "../MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
 import "react-phone-input-2/lib/high-res.css";
 

@@ -50,7 +50,7 @@ const Merchants = ({ match, location }) => {
           permissionID={4}
           path={`${match.url}/pending/profile/edit`}
           component={asyncComponent(() =>
-            import("./MerchantsRequest/EditPendingMerchant")
+            import("./MerchantsRequest/EditPending/EditPendingMerchant")
           )}
         />
         <Route
