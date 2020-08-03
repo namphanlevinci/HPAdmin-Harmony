@@ -16,7 +16,6 @@ const initialState = {
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
-  console.log("payload", payload);
   switch (type) {
     case types.USER_LOGIN_SUCCESS:
       window.location.href = "/verify";
