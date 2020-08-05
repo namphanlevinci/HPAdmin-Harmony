@@ -40,10 +40,10 @@ export function* UPDATE_MERCHANT_API(data) {
     lastName,
     title,
     doBusinessName,
+    dbaAddress,
   } = data;
   const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
-  console.log("infoLogin", infoLogin);
 
   let config = {
     headers: {
@@ -67,6 +67,7 @@ export function* UPDATE_MERCHANT_API(data) {
         firstName,
         lastName,
         title,
+        dbaAddress,
       },
       config
     )

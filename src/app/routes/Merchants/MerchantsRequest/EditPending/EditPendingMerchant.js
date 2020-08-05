@@ -8,13 +8,18 @@ import EditPrincipal from "./EditPrincipal";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../../util/IntlMessages";
 import PendingInput from "../pendingInput";
-import Select from "react-select";
-import selectState from "../../../../../util/selectState";
+
 import PhoneInput from "react-phone-input-2";
 import axios from "axios";
 import LinearProgress from "../../../../../util/linearProgress";
 import SimpleReactValidator from "simple-react-validator";
-import Cleave from "cleave.js/react";
+import CustomSelect from "../../../../../util/getState";
+import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+
+import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
 import "../MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
@@ -80,7 +85,6 @@ class EditPendingMerchant extends Component {
         }),
       {}
     );
-
     this.setState(
       {
         ID: Profile?.merchantId,
@@ -95,6 +99,11 @@ class EditPendingMerchant extends Component {
         phoneBusiness: Profile?.general.phoneBusiness,
         zip: Profile?.general?.zip,
         emailContact: Profile?.general?.emailContact,
+        // dbaAddress
+        dbaAddress: Profile?.general?.dbaAddress?.Address,
+        dbaCity: Profile?.general?.dbaAddress?.City,
+        dbaState: Profile?.general?.dbaAddress?.State,
+        dbaZip: Profile?.general?.dbaAddress?.Zip,
         // Representative Information
         firstName: Profile?.general?.firstName,
         lastName: Profile?.general?.lastName,
@@ -119,7 +128,6 @@ class EditPendingMerchant extends Component {
     this.props.history.push("/app/merchants/pending/profile");
   };
 
-  // handle Input
   handleChange = (event) => {
     const target = event.target;
     const value = target.value;
@@ -149,7 +157,6 @@ class EditPendingMerchant extends Component {
 
     let file = e.target.files[0];
     this.setState({ progressPrincipal: true });
-    // handle upload image
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
@@ -157,22 +164,18 @@ class EditPendingMerchant extends Component {
     formData.append("Filename3", file);
     const response = await axios.post(upFile, formData, config);
     setFieldValue(name, response.data.data.fileId);
-
-    // handle preview Image
     let reader = new FileReader();
     reader.onloadend = () => {
       setFieldValue(imagePreview, reader.result);
       this.setState({ progressPrincipal: false });
     };
     reader.readAsDataURL(file);
-
     return response.data.data.fileId;
   };
 
   render() {
     const e = this.props.Profile;
 
-    // BANK IMAGE
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
@@ -195,6 +198,9 @@ class EditPendingMerchant extends Component {
       );
     }
 
+    const inputProps = {
+      step: 300,
+    };
     return (
       <div className="container-fluid content-list ">
         <ContainerHeader
@@ -211,109 +217,258 @@ class EditPendingMerchant extends Component {
               <h2 style={{ color: "#4251af", fontWeight: "400" }}>
                 General Information
               </h2>
-              <div className="row justify-content-between">
-                <PendingInput
-                  label="Legal Business Name*"
-                  name="legalBusinessName"
-                  initValue={this.state.legalBusinessName}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                />
-
-                <PendingInput
-                  label=" Doing Business As* (DBA)"
-                  name="doBusinessName"
-                  initValue={this.state.doBusinessName}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                />
-
-                <div className="col-4" style={{ paddingTop: "10px" }}>
-                  <label>Federal Tax ID*</label>
-                  <Cleave
-                    options={{
-                      blocks: [2, 7],
-                      delimiter: "-",
-                    }}
-                    label="Federal Tax ID*"
-                    name="tax"
-                    value={this.state.tax}
-                    onChange={this.handleChange}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "16px",
-                      fontWeight: "400px",
-                    }}
-                  >
-                    {this.validator?.message("tax", this.state.tax, "required")}
-                  </span>
-                </div>
-                <PendingInput
-                  label="Business Address* (no P.O. Boxes)"
-                  name="address"
-                  initValue={this.state.address}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                />
-                <PendingInput
-                  label="City*"
-                  name="city"
-                  initValue={this.state.city}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                />
-                <div className="col-4" style={{ paddingTop: "10px" }}>
-                  <label>State Issued*</label>
-                  <div>
-                    {this.state.loading ? (
-                      <Select
-                        onChange={(e) => this.setState({ stateId: e.value })}
-                        defaultValue={{
-                          label: `${this.state.stateName}`,
-                          value: this.state.stateId,
-                        }}
-                        name="state"
-                        options={selectState}
-                      />
-                    ) : null}
+              <div className="row ">
+                <div className="col-4">
+                  <div className="form-group">
+                    <TextField
+                      name="legalBusinessName"
+                      label="Legal Business Name*"
+                      margin="normal"
+                      type="text"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.legalBusinessName}
+                    />
+                    {this.validator.message(
+                      "legalBusinessName",
+                      this.state.legalBusinessName,
+                      "required|string"
+                    )}
                   </div>
                 </div>
 
-                <div className="col-4" style={{ paddingTop: "10px" }}>
-                  <label>Zip Code*</label>
-                  <Cleave
-                    options={{
-                      blocks: [5],
-                      numericOnly: true,
-                    }}
-                    label="Zip Code*"
-                    name="zip"
-                    value={this.state.zip}
-                    onChange={this.handleChange}
-                    className="inputPadding"
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "16px",
-                      fontWeight: "400px",
-                    }}
-                  >
-                    {this.validator?.message("zip", this.state.zip, "required")}
-                  </span>
+                <div className="col-4">
+                  <div className="form-group">
+                    <TextField
+                      name="doBusinessName"
+                      label="Doing Business As* (DBA)"
+                      type="text"
+                      autoComplete="doingBusiness"
+                      margin="normal"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.doBusinessName}
+                    />
+                    {this.validator.message(
+                      "doingBusiness",
+                      this.state.doBusinessName,
+                      "required|string"
+                    )}
+                  </div>
                 </div>
 
-                <PendingInput
-                  label="Email Contact*"
-                  name="emailContact"
-                  initValue={this.state.emailContact}
-                  onChangeInput={this.handleChange}
-                  inputStyles="inputPadding"
-                  validator={this.validator}
-                />
-                <div className="col-4" style={{ paddingTop: "10px" }}>
+                <div className="col-4">
+                  <div className="form-group">
+                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                      <InputLabel htmlFor="formatted-text-mask-input">
+                        Federal Tax ID*
+                      </InputLabel>
+                      <Input
+                        value={this.state.tax}
+                        onChange={this.handleChange}
+                        name="tax"
+                        startAdornment
+                        inputProps={{
+                          block: [2, 7],
+                        }}
+                        inputComponent={InputCustom}
+                      />
+                    </FormControl>
+                    {this.validator.message(
+                      "tax",
+                      this.state.tax,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+
+                <div className="col-4">
+                  <div className="form-group">
+                    <TextField
+                      name="address"
+                      label="Business Address* (no P.O. Boxes)"
+                      margin="normal"
+                      type="text"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.address}
+                    />
+                    {this.validator.message(
+                      "address",
+                      this.state.address,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+                <div className="col-3">
+                  <div className="form-group">
+                    <TextField
+                      name="city"
+                      label="City*"
+                      type="text"
+                      margin="normal"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.city}
+                    />
+                    {this.validator.message(
+                      "city",
+                      this.state.city,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+                <div className="col-3">
+                  <div style={{ marginTop: "16px" }}>
+                    {this.state.loading && (
+                      <CustomSelect
+                        name="state"
+                        label="State Issued*"
+                        initialValue={this.state.stateId}
+                        handleChange={(e) =>
+                          this.setState({ stateId: e.target.value })
+                        }
+                      />
+                    )}
+                  </div>
+                  {this.validator.message(
+                    "state",
+                    this.state.stateId,
+                    "required|integer"
+                  )}
+                </div>
+                <div className="col-2">
+                  <div className="form-group">
+                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                      <InputLabel htmlFor="formatted-text-mask-input">
+                        Zip Code*
+                      </InputLabel>
+                      <Input
+                        value={this.state.zip}
+                        onChange={this.handleChange}
+                        name="zip"
+                        id="custom-zip-input"
+                        startAdornment
+                        inputProps={{
+                          block: [5],
+                          numericOnly: true,
+                        }}
+                        inputComponent={InputCustom}
+                      />
+                    </FormControl>
+
+                    {this.validator.message(
+                      "zip",
+                      this.state.zip,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+
+                {/* // DBA ADDRESS */}
+                <div className="col-4">
+                  <div className="form-group">
+                    <TextField
+                      name="dbaAddress"
+                      label="DBA Address*"
+                      margin="normal"
+                      type="text"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.dbaAddress}
+                    />
+                    {this.validator.message(
+                      "dbaAddress",
+                      this.state.dbaAddress,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+                <div className="col-3">
+                  <div className="form-group">
+                    <TextField
+                      name="dbaCity"
+                      label="City*"
+                      type="text"
+                      margin="normal"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.dbaCity}
+                    />
+                    {this.validator.message(
+                      "dbaCity",
+                      this.state.dbaCity,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+                <div className="col-3">
+                  <div style={{ marginTop: "16px" }}>
+                    {this.state.loading && (
+                      <CustomSelect
+                        name="dbaState"
+                        label="State Issued*"
+                        initialValue={this.state.dbaState}
+                        handleChange={(e) =>
+                          this.setState({ dbaState: e.target.value })
+                        }
+                      />
+                    )}
+                  </div>
+                  {this.validator.message(
+                    "dbaState",
+                    this.state.dbaState,
+                    "required|integer"
+                  )}
+                </div>
+                <div className="col-2">
+                  <div className="form-group">
+                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                      <InputLabel htmlFor="formatted-text-mask-input">
+                        Zip Code*
+                      </InputLabel>
+                      <Input
+                        value={this.state.dbaZip}
+                        onChange={this.handleChange}
+                        name="dbaZip"
+                        id="custom-zip2-input"
+                        startAdornment
+                        inputProps={{
+                          block: [5],
+                          numericOnly: true,
+                        }}
+                        inputComponent={InputCustom}
+                      />
+                    </FormControl>
+
+                    {this.validator.message(
+                      "dbaZip",
+                      this.state.dbaZip,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+
+                <div className="col-4">
+                  <div className="form-group">
+                    <TextField
+                      name="emailContact"
+                      label="Email Contact*"
+                      type="email"
+                      margin="normal"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.emailContact}
+                    />
+                    {this.validator.message(
+                      "emailContact",
+                      this.state.emailContact,
+                      "required|email"
+                    )}
+                  </div>
+                </div>
+
+                <div className="col-4">
                   <label>Business Phone Number*</label>
                   {this.state.loading && (
                     <PhoneInput
@@ -338,35 +493,62 @@ class EditPendingMerchant extends Component {
                 Representative Information
               </h2> */}
               <div className="row justify-content-between">
-                <PendingInput
-                  styles="col-3"
-                  label="First Name*"
-                  name="firstName"
-                  initValue={this.state.firstName}
-                  onChangeInput={this.handleChange}
-                  inputStyles="inputPadding"
-                  validator={this.validator}
-                />
-                <PendingInput
-                  styles="col-3"
-                  label="Last Name*"
-                  name="lastName"
-                  initValue={this.state.lastName}
-                  onChangeInput={this.handleChange}
-                  inputStyles="inputPadding"
-                  validator={this.validator}
-                />
-                <PendingInput
-                  styles="col-3"
-                  label="Title/Position*"
-                  name="title"
-                  initValue={this.state.title}
-                  onChangeInput={this.handleChange}
-                  inputStyles="inputPadding"
-                  validator={this.validator}
-                />
+                <div className="col-3">
+                  <div className="form-group">
+                    <TextField
+                      name="firstName"
+                      label="First Name*"
+                      type="text"
+                      margin="normal"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.firstName}
+                    />
+                    {this.validator.message(
+                      "firstName",
+                      this.state.firstName,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+                <div className="col-3">
+                  <div className="form-group">
+                    <TextField
+                      name="lastName"
+                      label="Last Name*"
+                      type="text"
+                      margin="normal"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.lastName}
+                    />
+                    {this.validator.message(
+                      "lastName",
+                      this.state.lastName,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
 
-                <div className="col-3" style={{ paddingTop: "10px" }}>
+                <div className="col-3">
+                  <div className="form-group">
+                    <TextField
+                      name="title"
+                      label="Title/Position*"
+                      type="text"
+                      margin="normal"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.title}
+                    />
+                    {this.validator.message(
+                      "title",
+                      this.state.title,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+                <div className="col-3">
                   <label>Contact Phone Number*</label>
                   {this.state.loading && (
                     <PhoneInput
@@ -393,39 +575,102 @@ class EditPendingMerchant extends Component {
                 Bank Information
               </h2>
               <div className="row ">
-                <PendingInput
+                {/* <PendingInput
                   styles="col-3"
                   label="Account Holder Name*"
                   name="accountHolderName"
                   initValue={this.state.accountHolderName}
                   onChangeInput={this.handleChange}
                   validator={this.validator}
-                />
-                <PendingInput
-                  styles="col-3"
-                  label="Bank Name*"
-                  name="bankName"
-                  initValue={this.state.bankName}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                />
+                /> */}
 
-                <PendingInput
-                  styles="col-3"
-                  label="Routing Number* (ABA)"
-                  name="routingNumber"
-                  initValue={this.state.routingNumber}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                />
-                <PendingInput
-                  styles="col-3"
-                  label="Account Number* (DDA)"
-                  name="accountNumber"
-                  initValue={this.state.accountNumber}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                />
+                <div className="col-3">
+                  <div className="form-group">
+                    <TextField
+                      name="accountHolderName"
+                      value={this.state.accountHolderName}
+                      id="cardHolder3"
+                      label="Account Holder Name*"
+                      margin="normal"
+                      fullWidth
+                      onChange={this.handleChange}
+                    />
+                    {this.validator.message(
+                      "accountHolderName",
+                      this.state.accountHolderName,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+
+                <div className="col-3">
+                  <div className="form-group">
+                    <TextField
+                      name="bankName"
+                      value={this.state.bankName}
+                      id="cardHolder1"
+                      label="Bank Name*"
+                      margin="normal"
+                      fullWidth
+                      onChange={this.handleChange}
+                    />
+                    {this.validator.message(
+                      "bankName",
+                      this.state.bankName,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+
+                <div className="col-3">
+                  <div className="form-group">
+                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                      <InputLabel htmlFor="formatted-text-mask-input">
+                        Routing Number* (ABA)
+                      </InputLabel>
+                      <Input
+                        value={this.state.routingNumber}
+                        onChange={this.handleChange}
+                        name="routingNumber"
+                        id="custom-routingNumber-input"
+                        inputProps={{
+                          block: [12],
+                          numericOnly: true,
+                        }}
+                        inputComponent={InputCustom}
+                        startAdornment
+                      />
+                    </FormControl>
+
+                    {this.validator.message(
+                      "routingNumber",
+                      this.state.routingNumber,
+                      "required|string"
+                    )}
+                  </div>
+                </div>
+
+                <div className="col-3">
+                  <div className="form-group">
+                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                      <InputLabel htmlFor="formatted-text-mask-input">
+                        Account Number* (ABA)
+                      </InputLabel>
+                      <Input
+                        value={this.state.accountNumber}
+                        onChange={this.handleChange}
+                        name="accountNumber"
+                        id="custom-accountNumber-input"
+                        startAdornment
+                        inputProps={{
+                          block: [12],
+                          numericOnly: true,
+                        }}
+                        inputComponent={InputCustom}
+                      />
+                    </FormControl>
+                  </div>
+                </div>
                 <div className="col-3" style={{ paddingTop: "10px" }}>
                   <label style={{ paddingBottom: "10px" }}>Void Check*</label>{" "}
                   <br />

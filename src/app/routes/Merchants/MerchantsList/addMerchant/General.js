@@ -1,12 +1,14 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import PhoneInput from "react-phone-input-2";
-import selectState from "../../../../../util/selectState";
-import Select from "react-select";
 import InputCustom from "./custom-input";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import CustomSelect from "../../../../../util/getState";
+import FormGroup from "@material-ui/core/FormGroup";
 
 import "react-phone-input-2/lib/high-res.css";
 
@@ -14,9 +16,9 @@ const General = ({
   handleChange,
   value,
   validator,
-  handleNumber,
-  handleSelect,
   handlePhone,
+  handleCheckBox,
+  handleSelect,
 }) => {
   return (
     <div className="general-container">
@@ -61,17 +63,6 @@ const General = ({
         </div>
         <div className="col-4">
           <div className="form-group">
-            {/* <TextField
-              name="tax"
-              label="Federal Tax ID*"
-              type="text"
-              margin="normal"
-              fullWidth
-              onChange={handleChange}
-              value={value.tax}
-              inputProps={{ maxLength: 9 }}
-            /> */}
-
             <FormControl style={{ width: "100%", marginTop: "16px" }}>
               <InputLabel htmlFor="formatted-text-mask-input">
                 Federal Tax ID*
@@ -83,7 +74,7 @@ const General = ({
                 id="custom-tax-input"
                 inputProps={{
                   block: [2, 7],
-                  numericOnly: true,
+                  // numericOnly: true,
                 }}
                 inputComponent={InputCustom}
               />
@@ -109,7 +100,7 @@ const General = ({
             {validator.message("address", value.address, "required|string")}
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-3">
           <div className="form-group">
             <TextField
               name="city"
@@ -123,21 +114,18 @@ const General = ({
             {validator.message("city", value.city, "required|string")}
           </div>
         </div>
-        <div className="col-4">
-          <label>State Issued*</label>
-          <div>
-            <Select
-              // value={this.state.state}
-              onChange={handleSelect}
+        <div className="col-3">
+          <div style={{ marginTop: "16px" }}>
+            <CustomSelect
               name="state"
-              options={selectState}
+              label="State Issued*"
+              initialValue={value.state}
+              handleChange={handleSelect}
             />
-            {validator.message("state", value.state, "required|string")}
           </div>
+          {validator.message("state", value.state, "required|integer")}
         </div>
-      </div>
-      <div className="row">
-        <div className="col-4">
+        <div className="col-2">
           <div className="form-group">
             <FormControl style={{ width: "100%", marginTop: "16px" }}>
               <InputLabel htmlFor="formatted-text-mask-input">
@@ -159,6 +147,105 @@ const General = ({
             {validator.message("zip", value.zip, "required|string")}
           </div>
         </div>
+      </div>
+
+      <div>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={value.sameAsBA}
+                onChange={handleCheckBox}
+                defaultValue="true"
+                name="sameAsBA"
+                color="primary"
+                value="true"
+              />
+            }
+            label="Same as Business Address"
+          />
+        </FormGroup>
+      </div>
+      <div className="row">
+        <div className="col-4">
+          <div className="form-group">
+            <TextField
+              name="dbaAddress"
+              label="DBA Address*"
+              margin="normal"
+              type="text"
+              fullWidth
+              onChange={handleChange}
+              value={value.dbaAddress}
+            />
+            {value.sameAsBA
+              ? null
+              : validator.message(
+                  "dbaAddress",
+                  value.dbaAddress,
+                  "required|string"
+                )}
+          </div>
+        </div>
+        <div className="col-3">
+          <div className="form-group">
+            <TextField
+              name="dbaCity"
+              label="City*"
+              type="text"
+              margin="normal"
+              fullWidth
+              onChange={handleChange}
+              value={value.dbaCity}
+            />
+            {value.sameAsBA
+              ? null
+              : validator.message("dbaCity", value.dbaCity, "required|string")}
+          </div>
+        </div>
+        <div className="col-3">
+          <div style={{ marginTop: "16px" }}>
+            <CustomSelect
+              name="dbaState"
+              label="State Issued*"
+              initialValue={value.dbaState}
+              handleChange={handleSelect}
+            />
+            {value.sameAsBA
+              ? null
+              : validator.message(
+                  "dbaState",
+                  value.dbaState,
+                  "required|string"
+                )}
+          </div>
+        </div>
+        <div className="col-2">
+          <div className="form-group">
+            <FormControl style={{ width: "100%", marginTop: "16px" }}>
+              <InputLabel htmlFor="formatted-text-mask-input">
+                Zip Code*
+              </InputLabel>
+              <Input
+                value={value.dbaZip}
+                onChange={handleChange}
+                name="dbaZip"
+                id="custom-zip-input"
+                inputProps={{
+                  block: [5],
+                  numericOnly: true,
+                }}
+                inputComponent={InputCustom}
+              />
+            </FormControl>
+            {value.sameAsBA
+              ? null
+              : validator.message("dbaZip", value.dbaZip, "required|string")}
+          </div>
+        </div>
+      </div>
+
+      <div className="row">
         <div className="col-4">
           <div className="form-group">
             <TextField
@@ -174,7 +261,7 @@ const General = ({
           </div>
         </div>
         <div className="col-4">
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "80%" }}>
             <label>Business Phone Number*</label>
             <PhoneInput
               style={{ marginTop: "10px" }}

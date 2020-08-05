@@ -121,21 +121,22 @@ class MerchantsRequest extends Component {
     const columns = [
       {
         Header: "ID",
-        accessor: "merchantId",
+        id: "merchantId",
+        accessor: (row) => <p>{row?.merchantId}</p>,
         width: 60,
       },
       {
         Header: "Submitted Date",
         id: "submitDate",
         accessor: (row) => (
-          <span>{moment(row?.createdDate).format("MM-DD-YYYY")}</span>
+          <p>{moment(row?.createdDate).format("MM-DD-YYYY")}</p>
         ),
       },
       {
         Header: "DBA",
         id: "general",
         accessor: (e) => (
-          <span style={{ fontWeight: 500 }}>{e?.general?.doBusinessName}</span>
+          <p style={{ fontWeight: 400 }}>{e?.general?.doBusinessName}</p>
         ),
       },
       {
@@ -144,23 +145,25 @@ class MerchantsRequest extends Component {
         accessor: (e) => e?.principals?.[0],
         Cell: (e) =>
           e?.value === undefined ? null : (
-            <span style={{ fontWeight: 500 }}>
+            <p style={{ fontWeight: 400 }}>
               {e?.value?.firstName + " " + e?.value?.lastName}
-            </span>
+            </p>
           ),
       },
       {
         Header: "Email",
-        accessor: "email",
+        id: "email",
+        accessor: (row) => <p>{row?.email}</p>,
       },
       {
         Header: "Store Phone",
-        accessor: "phone",
+        id: "phone",
+        accessor: (row) => <p>{row?.phone}</p>,
       },
       {
         Header: "Contact Phone",
         id: "phoneContact",
-        accessor: (row) => <span>{row?.general?.phoneContact}</span>,
+        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
       },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
@@ -203,6 +206,7 @@ class MerchantsRequest extends Component {
           <div className="merchant-list-container">
             <ReactTable
               manual
+              sortable={false}
               page={page}
               pages={pageCount}
               data={data}

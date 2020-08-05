@@ -99,54 +99,55 @@ class MerchantsRequest extends Component {
     const columns = [
       {
         Header: "ID",
-        accessor: "merchantId",
+        id: "id",
+        accessor: (row) => <p>{row?.merchantId}</p>,
         width: 60,
       },
       {
         Header: "Rejected Date",
         id: "date",
         accessor: (row) => (
-          <span>{moment(row?.approvedDate).format("MM/DD/YYYY")}</span>
+          <p>{moment(row?.approvedDate).format("MM/DD/YYYY")}</p>
         ),
       },
       {
         Header: "DBA",
         id: "general",
-        accessor: (e) => (
-          <span style={{ fontWeight: 500 }}>{e?.businessName}</span>
-        ),
+        accessor: (e) => <p style={{ fontWeight: 400 }}>{e?.businessName}</p>,
       },
       {
         id: "principals",
         Header: "Owner",
         accessor: (e) => e.principals?.[0],
         Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>
+          <p style={{ fontWeight: 400 }}>
             {e?.value?.firstName + " " + e?.value?.lastName}
-          </span>
+          </p>
         ),
       },
       {
         Header: "Email",
-        accessor: "email",
+        id: "email",
+        accessor: (row) => <p>{row?.email}</p>,
       },
       {
         Header: "Store Phone",
-        accessor: "phone",
+        id: "phone",
+        accessor: (row) => <p>{row?.phone}</p>,
       },
       {
         Header: "Contact Phone",
         id: "phoneContact",
-        accessor: (row) => <span>{row?.general?.phoneContact}</span>,
+        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
       },
       {
         id: "RejectedBy",
         Header: "Rejected By",
         accessor: "adminUser",
         Cell: (e) => (
-          <span style={{ color: "#4251af", fontWeight: 500 }}>
+          <p style={{ color: "#4251af", fontWeight: 400 }}>
             {e?.value?.first_name + " " + e?.value?.last_name}
-          </span>
+          </p>
         ),
       },
     ];

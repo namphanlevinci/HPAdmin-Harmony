@@ -12,12 +12,21 @@ import PhoneInput from "react-phone-input-2";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import moment from "moment";
-import Select from "react-select";
+// import Select from "react-select";
 import selectState from "../../../../../util/selectState";
 import axios from "axios";
 import * as Yup from "yup";
 import ErrorMessage from "../errorMessage";
 import Cleave from "cleave.js/react";
+import CustomSelect from "../../../../../util/getState";
+import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+
+import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
 import LinearProgress from "../../../../../util/linearProgress";
 import formatPhone from "../../../../../util/formatPhone";
@@ -100,6 +109,12 @@ const EditPrincipal = ({
         contactPhone: formatPhone(initValue?.phoneContact),
         businessHourEnd: "11:00 PM",
         businessHourStart: "10:00 AM",
+        dbaAddress: {
+          Address: initValue?.dbaAddress,
+          City: initValue?.dbaCity,
+          State: initValue?.dbaState,
+          Zip: initValue?.dbaZip,
+        },
       },
       businessInfo: initValue?.business,
       bankInfo: {
@@ -204,11 +219,18 @@ const EditPrincipal = ({
                           /-/g,
                           ""
                         );
+                        const firstName = PrincipalInfo?.firstName;
+                        const lastName = PrincipalInfo?.lastName;
+                        const title = PrincipalInfo?.title;
+                        const ownerShip = PrincipalInfo?.ownerShip;
+                        const address = PrincipalInfo?.address;
                         const birthDate = moment(
                           PrincipalInfo?.birthDate
                         ).format("MM/DD/YYYY");
                         const SSN = PrincipalInfo?.ssn;
-                        const stateName = PrincipalInfo?.state?.name;
+                        const email = PrincipalInfo?.email;
+                        const driverNumber = PrincipalInfo?.driverNumber;
+                        const stateId = PrincipalInfo?.stateId;
                         return (
                           <div key={index} className="row ">
                             <div className="col-12">
@@ -227,88 +249,119 @@ const EditPrincipal = ({
                               className="col-4"
                               style={{ textAlign: "left" }}
                             >
-                              <label>First Name*</label>
-                              <Field
-                                placeholder="First Name*"
+                              <TextField
                                 name={`PrincipalInfo.${index}.firstName`}
-                                values={`PrincipalInfo.${index}.firstName`}
-                              />
-                              <ErrorMessage
-                                name={`PrincipalInfo.${index}.firstName`}
-                              />
-                            </div>
-                            <div
-                              className="col-4"
-                              style={{ textAlign: "left" }}
-                            >
-                              <label>Last Name*</label>
-                              <Field
-                                placeholder="Last Name*"
-                                name={`PrincipalInfo.${index}.lastName`}
-                                values={`PrincipalInfo.${index}.lastName`}
-                              />
-                              <ErrorMessage
-                                name={`PrincipalInfo.${index}.lastName`}
-                              />
-                            </div>
-                            <div
-                              className="col-4"
-                              style={{ textAlign: "left" }}
-                            >
-                              <label>Title/Position*</label>
-                              <Field
-                                placeholder="First Name"
-                                name={`PrincipalInfo.${index}.title`}
-                                values={`PrincipalInfo.${index}.title`}
-                              />
-                              <ErrorMessage
-                                name={`PrincipalInfo.${index}.title`}
-                              />
-                            </div>
-                            <div className="col-4" style={styles.div}>
-                              <label>Ownership* (%)</label>
-                              <Field
-                                placeholder="Ownership* (%)"
-                                name={`PrincipalInfo.${index}.ownerShip`}
-                                values={`PrincipalInfo.${index}.ownerShip`}
-                              />
-                              <ErrorMessage
-                                name={`PrincipalInfo.${index}.ownerShip`}
-                              />
-                            </div>
-
-                            <div className="col-4" style={styles.div}>
-                              <label>Address*</label>
-                              <Field
-                                placeholder="Address"
-                                name={`PrincipalInfo.${index}.address`}
-                                values={`PrincipalInfo.${index}.address`}
-                              />
-                              <ErrorMessage
-                                name={`PrincipalInfo.${index}.address`}
-                              />
-                            </div>
-
-                            <div className="col-4" style={styles.div}>
-                              <label>Social Security Number* (SSN)</label>
-                              {/* <Field
-                                placeholder="SSN"
-                                name={`PrincipalInfo.${index}.ssn`}
-                                values={`PrincipalInfo.${index}.fullSsn`}
-                                maxLength="9"
-                              /> */}
-
-                              <Cleave
-                                options={{
-                                  blocks: [3, 2, 4],
-                                  delimiter: "-",
-                                  numericOnly: true,
-                                }}
-                                name={`PrincipalInfo.${index}.ssn`}
-                                value={SSN}
+                                defaultValue={firstName}
+                                label="First Name*"
+                                margin="normal"
+                                type="text"
+                                fullWidth
                                 onChange={handleChange}
                               />
 
+                              <ErrorMessage
+                                name={`PrincipalInfo.${index}.firstName`}
+                              />
+                            </div>
+                            <div
+                              className="col-4"
+                              style={{ textAlign: "left" }}
+                            >
+                              <TextField
+                                name={`PrincipalInfo.${index}.lastName`}
+                                defaultValue={lastName}
+                                label="Last Name*"
+                                margin="normal"
+                                type="text"
+                                fullWidth
+                                onChange={handleChange}
+                              />
+                              <ErrorMessage
+                                name={`PrincipalInfo.${index}.lastName`}
+                              />
+                            </div>
+                            <div
+                              className="col-4"
+                              style={{ textAlign: "left" }}
+                            >
+                              <TextField
+                                name={`PrincipalInfo.${index}.title`}
+                                defaultValue={title}
+                                label="Title/Position*"
+                                margin="normal"
+                                type="text"
+                                fullWidth
+                                onChange={handleChange}
+                              />
+                              <ErrorMessage
+                                name={`PrincipalInfo.${index}.title`}
+                              />
+                            </div>
+                            <div className="col-4">
+                              <FormControl
+                                style={{ width: "100%", marginTop: "16px" }}
+                              >
+                                <InputLabel htmlFor="formatted-text-mask-input">
+                                  Ownership* (%)
+                                </InputLabel>
+                                <Input
+                                  name={`PrincipalInfo.${index}.ownerShip`}
+                                  value={ownerShip}
+                                  label="Ơwnership* (%)"
+                                  margin="normal"
+                                  type="text"
+                                  fullWidth
+                                  onChange={handleChange}
+                                  startAdornment
+                                  inputProps={{
+                                    block: [3],
+                                    numericOnly: true,
+                                  }}
+                                  inputComponent={InputCustom}
+                                />
+                              </FormControl>
+
+                              <ErrorMessage
+                                name={`PrincipalInfo.${index}.ownerShip`}
+                              />
+                            </div>
+
+                            <div className="col-4">
+                              <TextField
+                                name={`PrincipalInfo.${index}.address`}
+                                defaultValue={address}
+                                label="Address*"
+                                margin="normal"
+                                type="text"
+                                fullWidth
+                                onChange={handleChange}
+                              />
+                              <ErrorMessage
+                                name={`PrincipalInfo.${index}.address`}
+                              />
+                            </div>
+
+                            <div className="col-4">
+                              <FormControl
+                                style={{ width: "100%", marginTop: "16px" }}
+                              >
+                                <InputLabel htmlFor="formatted-text-mask-input">
+                                  Social Security Number* (SSN)
+                                </InputLabel>
+                                <Input
+                                  name={`PrincipalInfo.${index}.ssn`}
+                                  value={SSN}
+                                  label="Social Security Number* (SSN)"
+                                  margin="normal"
+                                  onChange={handleChange}
+                                  startAdornment
+                                  inputProps={{
+                                    block: [3, 2, 4],
+                                    numericOnly: true,
+                                  }}
+                                  inputComponent={InputCustom}
+                                />
+                              </FormControl>
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.ssn`}
                               />
@@ -349,19 +402,26 @@ const EditPrincipal = ({
                                 name={`PrincipalInfo.${index}.mobilePhone`}
                               />
                             </div>
-                            <div className="col-4" style={styles.div}>
-                              <label>Email Address *</label>
-                              <Field
-                                placeholder="Address"
+                            <div className="col-4">
+                              <TextField
                                 name={`PrincipalInfo.${index}.email`}
-                                values={`PrincipalInfo.${index}.email`}
+                                defaultValue={email}
+                                label="Email Address*"
+                                margin="normal"
+                                type="email"
+                                fullWidth
+                                onChange={handleChange}
                               />
+
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.email`}
                               />
                             </div>
 
-                            <div className="col-4" style={{ marginTop: "5px" }}>
+                            <div
+                              className="col-4"
+                              style={{ marginTop: "12px" }}
+                            >
                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid container justify="flex-start">
                                   <label>Date of Birth* (mm/dd/yyyy)</label>
@@ -384,38 +444,45 @@ const EditPrincipal = ({
                               </MuiPickersUtilsProvider>
                             </div>
                             <div className="col-4" style={styles.div}>
-                              <label>Driver License Number*</label>
-                              <Field
-                                placeholder="Driver License Number*"
-                                name={`PrincipalInfo.${index}.driverNumber`}
-                                values={`PrincipalInfo.${index}.driverNumber`}
-                              />
+                              <FormControl style={{ width: "100%" }}>
+                                <InputLabel htmlFor="formatted-text-mask-input">
+                                  Driver License Number*
+                                </InputLabel>
+                                <Input
+                                  name={`PrincipalInfo.${index}.driverNumber`}
+                                  value={driverNumber}
+                                  margin="normal"
+                                  type="text"
+                                  fullWidth
+                                  onChange={handleChange}
+                                  startAdornment
+                                  inputProps={{
+                                    block: [13],
+                                    numericOnly: true,
+                                  }}
+                                  inputComponent={InputCustom}
+                                />
+                              </FormControl>
+
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.driverNumber`}
                               />
                             </div>
-
                             <div className="col-4" style={styles.div}>
-                              <label>State Issued*</label>
-                              <div>
-                                <Select
-                                  onChange={(e) =>
-                                    setFieldValue(
-                                      `PrincipalInfo.${index}.stateId`,
-                                      e.value
-                                    )
-                                  }
-                                  name={`PrincipalInfo.${index}.stateId`}
-                                  options={selectState}
-                                  defaultValue={{
-                                    value: `PrincipalInfo.${index}.stateId`,
-                                    label: stateName,
-                                  }}
-                                />
-                                <ErrorMessage
-                                  name={`PrincipalInfo.${index}.stateId`}
-                                />
-                              </div>
+                              <CustomSelect
+                                name="stateId"
+                                label="State Issued*"
+                                initialValue={stateId}
+                                handleChange={(e) =>
+                                  setFieldValue(
+                                    `PrincipalInfo.${index}.stateId`,
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <ErrorMessage
+                                name={`PrincipalInfo.${index}.stateId`}
+                              />
                             </div>
 
                             <div

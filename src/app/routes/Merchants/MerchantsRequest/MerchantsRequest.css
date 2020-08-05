@@ -28,11 +28,22 @@
   margin-top: 10px !important;
 }
 label {
-  font-size: 17px;
+  color: #909090;
+  color: rgba(0, 0, 0, 0.54);
+  padding: 0;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.00938em;
 }
 .pending-image {
   width: 100%;
   height: auto;
   max-width: 250px;
   background-position: center;
+}
+
+.ReactTable .rt-tbody .rt-td p {
+  font-size: 17px;
+  margin-bottom: 0px;
+  font-weight: 300;
 }

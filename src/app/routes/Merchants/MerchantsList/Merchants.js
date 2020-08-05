@@ -116,22 +116,23 @@ class Merchants extends React.Component {
     const columns = [
       {
         Header: "ID",
-        accessor: "merchantId",
+        id: "merchantId",
+        accessor: (row) => <p>{row?.merchantId}</p>,
         width: 60,
       },
       {
         Header: "MID",
         id: "mid",
-        accessor: (row) => <span>{row?.merchantCode}</span>,
+        accessor: (row) => <p>{row?.merchantCode}</p>,
       },
       {
         Header: "DBA",
         id: "general",
         accessor: "general",
         Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>
+          <p style={{ fontWeight: 400 }}>
             {e?.value ? e.value.doBusinessName : null}
-          </span>
+          </p>
         ),
       },
       {
@@ -139,32 +140,35 @@ class Merchants extends React.Component {
         Header: "Owner",
         accessor: (e) => e?.principals?.[0],
         Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>
+          <p style={{ fontWeight: 400 }}>
             {e?.value ? e.value.firstName + " " + e.value.lastName : null}
-          </span>
+          </p>
         ),
       },
       {
         Header: "Email",
-        accessor: "email",
+        id: "email",
+        accessor: (row) => <p>{row?.email}</p>,
       },
       {
         Header: "Store Phone",
-        accessor: "phone",
+        id: "phone",
+        accessor: (row) => <p>{row?.phone}</p>,
       },
       {
         Header: "Contact Phone",
         id: "contactPhone",
-        accessor: (row) => <span>{row?.general?.phoneContact}</span>,
+        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
       },
       {
         Header: "Status",
         accessor: "isDisabled",
         Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>
+          <p style={{ fontWeight: 400 }}>
             {e.value === 0 ? "Active" : "Inactive"}
-          </span>
+          </p>
         ),
+        width: 100,
       },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
@@ -185,7 +189,7 @@ class Merchants extends React.Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.MList" />}
         />
-        <div className="MerList page-heading" style={{ padding: "10px" }}>
+        <div className="MerList page-heading " style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
             <div className="search">
@@ -221,6 +225,7 @@ class Merchants extends React.Component {
           <div className="merchant-list-container">
             <ReactTable
               manual
+              sortable={false}
               page={page}
               pages={pageCount}
               data={data}

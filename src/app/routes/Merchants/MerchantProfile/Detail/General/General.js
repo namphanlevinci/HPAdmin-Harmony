@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAll_Merchants } from "../../../../../actions/merchants/actions";
+import { getAll_Merchants } from "../../../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 
 import Button from "@material-ui/core/Button";
-import formatPhone from "../../../../../util/formatPhone";
-import CheckPermissions from "../../../../../util/checkPermission";
+import formatPhone from "../../../../../../util/formatPhone";
+import CheckPermissions from "../../../../../../util/checkPermission";
 
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
-import "./Detail.css";
+import "../../MerchantProfile.css";
+import "../../../MerchantsRequest/MerchantReqProfile.css";
+import "../../../MerchantsRequest/MerchantsRequest.css";
+import "../Detail.css";
 class General extends Component {
   constructor(props) {
     super(props);
@@ -31,6 +31,8 @@ class General extends Component {
 
   render() {
     const e = this.props.MerchantProfile;
+    console.log("e", e);
+
     const renderGeneral = (
       <div className="container-fluid">
         <h2 style={styles.h2}>General Information</h2>
@@ -47,14 +49,41 @@ class General extends Component {
             <label>Federal Tax ID*</label>
             <p>{e?.general?.tax}</p>
           </div>
+          {/* Business Address */}
           <div className="col-4">
             <label>Business Address* (no P.O. Boxes)</label>
-            <p>{e?.addressFull}</p>
+            <p>{e?.address}</p>
           </div>
-          <div className="col-4">
+          <div className="col-3">
+            <label>City*</label>
+            <p>{e?.general?.city}</p>
+          </div>
+          <div className="col-3">
+            <label>State*</label>
+            <p>{e?.state?.name}</p>
+          </div>
+          <div className="col-2">
             <label>Zip Code*</label>
             <p>{e?.general?.zip}</p>
           </div>
+          {/* DBA Address */}
+          <div className="col-4">
+            <label>DBA Address*</label>
+            <p>{e?.general?.dbaAddress?.Address}</p>
+          </div>
+          <div className="col-3">
+            <label>City*</label>
+            <p>{e?.general?.dbaAddress?.City}</p>
+          </div>
+          <div className="col-3">
+            <label>State*</label>
+            <p>{e?.general?.dbaAddress?.StateName}</p>
+          </div>
+          <div className="col-2">
+            <label>Zip Code*</label>
+            <p>{e?.general?.dbaAddress?.Zip}</p>
+          </div>
+
           <div className="col-4">
             <label>Contact Email Address*</label>
             <p>{e?.general?.emailContact}</p>

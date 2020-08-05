@@ -107,27 +107,29 @@ class MerchantsList extends React.Component {
     const columns = [
       {
         Header: "ID",
-        accessor: "merchantId",
+        id: "merchantId",
+        accessor: (row) => <p>{row?.merchantId}</p>,
         width: 60,
       },
       {
         Header: "Approved Date",
         id: "date",
         accessor: (row) => (
-          <span>{moment(row.approvedDate).format("MM/DD/YYYY")}</span>
+          <p>{moment(row.approvedDate).format("MM/DD/YYYY")}</p>
         ),
+        width: 130,
       },
       {
         Header: "MID",
         id: "mid",
-        accessor: (row) => <span>{row?.merchantCode}</span>,
+        accessor: (row) => <p>{row?.merchantCode}</p>,
       },
       {
         Header: "DBA",
         id: "general",
         accessor: "general",
         Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>{e?.value?.doBusinessName}</span>
+          <p style={{ fontWeight: 400 }}>{e?.value?.doBusinessName}</p>
         ),
       },
       {
@@ -135,32 +137,34 @@ class MerchantsList extends React.Component {
         Header: "Owner",
         accessor: (e) => e.principals[0],
         Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>
+          <p style={{ fontWeight: 400 }}>
             {e?.value?.firstName + " " + e?.value?.lastName}
-          </span>
+          </p>
         ),
       },
       {
         Header: "Email",
-        accessor: "email",
+        id: "email",
+        accessor: (row) => <p>{row?.email}</p>,
       },
       {
         Header: "Store Phone",
-        accessor: "phone",
+        id: "phone",
+        accessor: (row) => <p>{row?.phone}</p>,
       },
       {
         Header: "Contact Phone",
         id: "phoneContact",
-        accessor: (row) => <span>{row?.general?.phoneContact}</span>,
+        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
       },
       {
         id: "approvedBy",
         Header: "Approved By",
         accessor: "adminUser",
         Cell: (e) => (
-          <span style={{ color: "#4251af", fontWeight: 500 }}>
+          <p style={{ color: "#4251af", fontWeight: 400 }}>
             {e?.value?.first_name + " " + e?.value?.last_name}
-          </span>
+          </p>
         ),
       },
     ];
@@ -206,6 +210,7 @@ class MerchantsList extends React.Component {
           <div className="merchant-list-container">
             <ReactTable
               manual
+              sortable={false}
               page={page}
               pages={pageCount}
               data={data}

@@ -11,6 +11,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import IntlMessages from "../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
+import formatPhone from "../../../../../util/formatPhone";
+
 import General from "./General";
 import Questions from "./Questions";
 import Bank from "./Bank";
@@ -44,6 +46,12 @@ const initialState = {
   position: "",
   contactPhoneCode: "+1",
   contactPhone: "",
+
+  sameAsBA: true,
+  dbaAddress: "",
+  dbaCity: "",
+  dbaState: "",
+  dbaZip: "",
 
   desc1: "",
   question1: "",
@@ -115,9 +123,9 @@ class AddMerchant extends React.Component {
         return (
           <General
             handleChange={this.handleChange}
+            handleCheckBox={this.handleCheckBox}
             handleSelect={this.handleSelect}
             value={this.state}
-            handleNumber={this.handleChangeNumber}
             handlePhone={this.handlePhone}
             handleCountryCode={this.handleCountryCode}
             validator={this.validator}
@@ -245,9 +253,14 @@ class AddMerchant extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleSelect = (value, name) => {
-    let stateName = name.name;
-    this.setState({ [stateName]: value.value });
+  handleSelect = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
+
+  handleCheckBox = (e) => {
+    const { name, value, checked } = e.target;
+    this.setState({ [name]: checked });
   };
 
   handleQuestions = (event, value, name) => {
@@ -255,26 +268,6 @@ class AddMerchant extends React.Component {
       [name]: value,
       [`question${event?.questionId}`]: event?.value,
     });
-  };
-
-  ssnFormat = (ssn) => {
-    return ssn
-      .replace(/[{( )}]/g, "")
-      .replace(/(\d{4})\-?(\d{3})\-?(\d{4})/, "+$1-$2-$3");
-  };
-
-  formatPhone = (Phone) => {
-    if (Phone.startsWith("1")) {
-      return Phone.replace(/[{( )}]/g, "").replace(
-        /(\d{4})\-?(\d{3})\-?(\d{4})/,
-        "+$1-$2-$3"
-      );
-    }
-    if (Phone.startsWith("84"))
-      return Phone.replace(/[{( )}]/g, "").replace(
-        /(\d{5})\-?(\d{3})\-?(\d{4})/,
-        "+$1-$2-$3"
-      );
   };
 
   submitAddMerchant = () => {
@@ -291,12 +284,19 @@ class AddMerchant extends React.Component {
           state: data?.state,
           zip: data?.zip,
         },
-        businessPhone: this.formatPhone(data?.businessPhone),
+        dbaAddress: {
+          address: data?.sameAsBA ? data?.address : data?.dbaAddress,
+          city: data?.sameAsBA ? data?.city : data?.dbaCity,
+          state: data?.sameAsBA ? data?.state : data?.dbaState,
+          zip: data?.sameAsBA ? data?.zip : data?.dbaZip,
+        },
+
+        businessPhone: formatPhone(data?.businessPhone),
         email: data?.email,
         firstName: data?.firstName,
         lastName: data?.lastName,
         position: data?.position,
-        contactPhone: this.formatPhone(data?.contactPhone),
+        contactPhone: formatPhone(data?.contactPhone),
       },
       businessInfo: {
         question1: {

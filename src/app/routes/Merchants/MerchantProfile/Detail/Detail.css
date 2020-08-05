@@ -144,9 +144,9 @@
   width: 100% !important;
   font-weight: 400;
   color: #000000;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   border: none;
-  border-bottom: 2px solid #dcdcdc;
+  /* border-bottom: 2px solid #dcdcdc; */
 }
 .general-content input:focus {
   outline: none;
@@ -309,9 +309,7 @@ thead th {
 }
 
 /*  SERVICE  */
-.Service div {
-  /* padding-bottom: 20px; */
-}
+
 .Service .small-label {
   font-size: 12px;
 }

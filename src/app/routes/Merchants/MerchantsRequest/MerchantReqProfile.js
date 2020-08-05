@@ -133,7 +133,7 @@ class MerchantReqProfile extends Component {
   render() {
     const e = this.props.PendingProfile;
     let principalLength = this.props.PendingProfile?.principals?.length;
-
+    console.log("e", e);
     // render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
@@ -485,37 +485,53 @@ class MerchantReqProfile extends Component {
           <div className="content react-transition swipe-right">
             <div className="container-fluid">
               <h2 style={styles.h2}>General Information</h2>
-              <div className="row justify-content-between">
+              <div className="row">
                 <div className="col-4">
                   <label>Legal Business Name*</label>
-                  <p>
-                    {e.general !== null ? e.general.legalBusinessName : null}
-                  </p>
+                  <p>{e?.general?.legalBusinessName}</p>
                 </div>
                 <div className="col-4">
                   <label>Doing Business As* (DBA)</label>
-                  <p>{e.general !== null ? e.general.doBusinessName : null}</p>
+                  <p>{e?.general?.doBusinessName}</p>
                 </div>
                 <div className="col-4">
                   <label>Federal Tax ID*</label>
-                  <p>{e.taxId}</p>
+                  <p>{e?.taxId}</p>
                 </div>
                 <div className="col-4">
                   <label>Business Address* (no P.O. Boxes)</label>
-                  <p>{e.general !== null ? e.general.address : null}</p>
+                  <p>{e?.general?.address}</p>
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label>City*</label>
                   <p>{e?.general?.city}</p>
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label>State Issued*</label>
                   <p>{e?.state?.name}</p>
                 </div>
-                <div className="col-4">
+                <div className="col-2">
                   <label>Zip Code*</label>
                   <p>{e.zip}</p>
                 </div>
+                {/* DBA ADDRESS */}
+                <div className="col-4">
+                  <label>DBA Address* </label>
+                  <p>{e?.general?.dbaAddress?.Address}</p>
+                </div>
+                <div className="col-3">
+                  <label>City*</label>
+                  <p>{e?.general?.dbaAddress?.City}</p>
+                </div>
+                <div className="col-3">
+                  <label>State Issued*</label>
+                  <p>{e?.general?.dbaAddress?.StateName}</p>
+                </div>
+                <div className="col-2">
+                  <label>Zip Code*</label>
+                  <p>{e?.general?.dbaAddress?.Zip}</p>
+                </div>
+
                 <div className="col-4">
                   <label>Business Phone Number*</label>
                   <p>{e.phone}</p>

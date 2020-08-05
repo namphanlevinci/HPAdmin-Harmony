@@ -288,18 +288,37 @@ class MerchantRejectedProfile extends Component {
                   <label>Business Address* (no P.O. Boxes)</label>
                   <p>{e?.address}</p>
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label>City*</label>
                   <p>{e?.city}</p>
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label>State Issued*</label>
                   <p>{e?.state?.name}</p>
                 </div>
-                <div className="col-4">
+                <div className="col-2">
                   <label>Zip Code*</label>
                   <p>{e?.general?.zip}</p>
                 </div>
+
+                {/* DBA ADDRESS */}
+                <div className="col-4">
+                  <label>DBA Address* </label>
+                  <p>{e?.general?.dbaAddress?.Address}</p>
+                </div>
+                <div className="col-3">
+                  <label>City*</label>
+                  <p>{e?.general?.dbaAddress?.City}</p>
+                </div>
+                <div className="col-3">
+                  <label>State Issued*</label>
+                  <p>{e?.general?.dbaAddress?.StateName}</p>
+                </div>
+                <div className="col-2">
+                  <label>Zip Code*</label>
+                  <p>{e?.general?.dbaAddress?.Zip}</p>
+                </div>
+
                 <div className="col-4">
                   <label>Business Phone Number*</label>
                   <p>{e?.general?.phoneBusiness}</p>

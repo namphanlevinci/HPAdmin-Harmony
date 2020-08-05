@@ -58,3 +58,6 @@
   font-weight: 400;
 }
 
+.react-tel-input .form-control {
+  width: 260px
+}
