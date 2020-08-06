@@ -131,17 +131,12 @@ class Service extends Component {
       {
         Header: "Service Name",
         accessor: "name",
-        width: 150,
-        Cell: (e) => (
-          <div>
-            <span style={styles.span}>{e.value}</span>
-          </div>
-        ),
+        width: 230,
+        Cell: (e) => <p style={{ fontWeight: 400 }}>{e.value}</p>,
       },
       {
         Header: "Image ",
         id: "Image",
-        width: 150,
         accessor: "name",
         Cell: (row) => {
           const image =
@@ -156,7 +151,7 @@ class Service extends Component {
                 width: "50px",
                 height: "50px",
               }}
-            ></div>
+            />
           );
         },
       },
@@ -164,45 +159,25 @@ class Service extends Component {
         id: "Categories",
         Header: "Categories",
         accessor: "categoryName",
-        Cell: (e) => (
-          <div>
-            <span style={styles.span}>{e.value}</span>
-          </div>
-        ),
-        width: 150,
+        Cell: (e) => <p>{e.value}</p>,
       },
       {
         id: "duration",
         Header: "Duration",
         accessor: "duration",
-        Cell: (e) => (
-          <div>
-            <span style={styles.span}>{e.value} Min</span>
-          </div>
-        ),
-        width: 100,
+        Cell: (e) => <p>{e.value} Min</p>,
       },
       {
         id: "price",
         Header: "Price",
         accessor: "price",
-        Cell: (e) => (
-          <div>
-            <span style={styles.span}>$ {e.value}</span>
-          </div>
-        ),
-        width: 150,
+        Cell: (e) => <p>$ {e.value}</p>,
       },
       {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: (e) => (
-          <span style={styles.span}>
-            {e.value === 0 ? "Active" : "Inactive"}
-          </span>
-        ),
-        width: 120,
+        Cell: (e) => <p>{e.value === 0 ? "Active" : "Inactive"}</p>,
       },
       {
         id: "Actions",

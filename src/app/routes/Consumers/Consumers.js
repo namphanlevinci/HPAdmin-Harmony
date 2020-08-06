@@ -103,40 +103,45 @@ class Consumers extends React.Component {
     const columns = [
       {
         Header: "Harmony ID",
-        accessor: "accountId",
+        id: "accountId",
+        accessor: (row) => <p>{row?.accountId}</p>,
         width: 170,
       },
       {
         Header: "Harmony ID",
-        accessor: "userId",
+        id: "userId",
+        accessor: (row) => <p>{row?.userId}</p>,
         show: false,
       },
       {
         Header: " First Name",
-        accessor: "firstName",
-        width: 130,
+        id: "firstName",
+        accessor: (row) => (
+          <p style={{ fontWeight: "400" }}>{row?.firstName}</p>
+        ),
       },
       {
         Header: "Last Name",
-        accessor: "lastName",
-        width: 130,
+        id: "lastName",
+        accessor: (row) => <p style={{ fontWeight: "400" }}>{row?.lastName}</p>,
       },
       {
         Header: "Phone number",
-        accessor: "phone",
+        id: "phone",
+        accessor: (row) => <p>{row?.phone}</p>,
         width: 180,
       },
       {
         Header: "Email",
-        accessor: "email",
+        id: "email",
+        accessor: (row) => <p>{row?.email}</p>,
         width: 300,
       },
       {
         Header: "Balance",
-        // accessor: "credit",
         id: "balance",
         accessor: (e) => e.credit,
-        Cell: (e) => <span>${e.value}</span>,
+        Cell: (e) => <p>${e.value}</p>,
       },
       {
         id: "totalAmount",
@@ -144,9 +149,7 @@ class Consumers extends React.Component {
         accessor: (e) => Number(e.totalAmount).toFixed(2),
         sortMethod: (a, b) => Number(a) - Number(b),
         Cell: (e) => (
-          <span className={Number(e.value) > 10000 ? "BIG" : ""}>
-            ${e.value}
-          </span>
+          <p className={Number(e.value) > 10000 ? "BIG" : ""}>${e.value}</p>
         ),
       },
       {

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import { Formik, Form } from "formik";
@@ -16,12 +15,10 @@ import axios from "axios";
 import * as Yup from "yup";
 
 import Dialog from "@material-ui/core/Dialog";
-// import AppBar from "@material-ui/core/AppBar";
-// import Toolbar from "@material-ui/core/Toolbar";
-// import IconButton from "@material-ui/core/IconButton";
-// import CloseIcon from "@material-ui/icons/Close";
+
 import Slide from "@material-ui/core/Slide";
 import LinearProgress from "../../../../../../util/linearProgress";
+import CurrencyInput from "react-currency-masked-input";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -103,11 +100,8 @@ class AddService extends Component {
 
   handleUploadImage = (e) => {
     e.preventDefault();
-    // handle preview Image
     this.setState({ imageProgress: true });
-
     let file = e.target.files[0];
-    // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
@@ -133,7 +127,6 @@ class AddService extends Component {
   };
 
   goBack = () => {
-    // this.props.history.push("/app/merchants/profile/service");
     this.setState({ open: false });
   };
 
@@ -178,7 +171,7 @@ class AddService extends Component {
               description: "",
               duration: "",
               price: "",
-              isDisabled: "",
+              isDisabled: 0,
               supplyFee: "",
             },
           ]
@@ -251,10 +244,10 @@ class AddService extends Component {
                       duration: "",
                       openTime: "",
                       secondTime: "",
-                      price: "",
+                      price: 0,
                       categoryId: "",
                       isDisabled: "",
-                      supplyFee: "",
+                      supplyFee: 0,
                       extras: ExtraInitialValues,
                     }}
                     validationSchema={validationSchema}
@@ -488,7 +481,9 @@ class AddService extends Component {
                                     Duration
                                   </label>
                                   <br />
-                                  <label style={{ color: "#333" }}>
+                                  <label
+                                    style={{ color: "#333", marginTop: "17px" }}
+                                  >
                                     <span className="small-label">
                                       Minutes*
                                     </span>
@@ -582,13 +577,14 @@ class AddService extends Component {
                                   </label>
                                   <br />
                                   <div className="input-box">
-                                    <input
+                                    <CurrencyInput
                                       name="price"
                                       type="number"
-                                      onChange={handleChange}
+                                      onChange={(value, masked) => [
+                                        setFieldValue("price", masked),
+                                      ]}
                                       onBlur={handleBlur}
                                       value={values.price}
-                                      // placeholder="$"
                                       style={{
                                         borderBottomColor: "#dddddd",
                                         borderBottomWidth: 1,
@@ -616,7 +612,6 @@ class AddService extends Component {
                                   <label style={{ color: "#4251af" }}>
                                     Status*
                                   </label>
-                                  {/* <br /> */}
                                   <Select
                                     styles={colourStyles}
                                     options={serviceStatus}
@@ -638,17 +633,18 @@ class AddService extends Component {
                                   style={{ marginTop: 60 }}
                                 >
                                   <label style={{ color: "#4251af" }}>
-                                    Surcharged
+                                    Surcharge
                                   </label>
                                   <br />
                                   <div className="input-box">
-                                    <input
+                                    <CurrencyInput
                                       name="supplyFee"
+                                      onChange={(value, masked) => [
+                                        setFieldValue("supplyFee", masked),
+                                      ]}
                                       type="number"
-                                      onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.supplyFee}
-                                      // placeholder="$"
                                       style={{
                                         borderBottomColor: "#dddddd",
                                         borderBottomWidth: 1,
@@ -660,7 +656,7 @@ class AddService extends Component {
                                           : "text-input"
                                       }
                                     />
-                                    <span className="unit">%</span>
+                                    <span className="unit">$</span>
                                   </div>
                                   {/* {errors.supplyFee && touched.supplyFee && (
                                     <div className="input-feedback">

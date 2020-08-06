@@ -72,8 +72,8 @@ class NewTemplate extends Component {
     ];
 
     const Status = [
-      { value: "1", label: "Active" },
-      { value: "2", label: "Disable" },
+      { value: "0", label: "Active" },
+      { value: "1", label: "Disable" },
     ];
 
     let { imagePreviewUrl } = this.state;
@@ -99,7 +99,7 @@ class NewTemplate extends Component {
             initialValues={{
               giftCardTemplateName: "",
               giftCardType: "",
-              status: "",
+              isDisabled: 0,
             }}
             validate={(values) => {
               const errors = {};
@@ -109,19 +109,25 @@ class NewTemplate extends Component {
               if (!values.giftCardType) {
                 errors.giftCardType = "Required";
               }
-              if (!values.status) {
-                errors.status = "Required";
+              if (!values.isDisabled) {
+                errors.isDisabled = "Required";
               }
               return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              const { giftCardTemplateName, giftCardType } = values;
+              const { giftCardTemplateName, giftCardType, isDisabled } = values;
               const { fileId, isConsumer } = this.state;
               // resetForm();
               axios
                 .post(
                   URL + "/giftcardtemplate",
-                  { giftCardTemplateName, giftCardType, isConsumer, fileId },
+                  {
+                    giftCardTemplateName,
+                    giftCardType,
+                    isConsumer,
+                    fileId,
+                    isDisabled: Number(isDisabled),
+                  },
                   {
                     headers: {
                       Authorization: `Bearer ${this.props.userLogin.token}`,
@@ -144,11 +150,7 @@ class NewTemplate extends Component {
                       },
                       width: 250,
                     });
-                    // this.setState({
-                    //   status: null,
-                    //   group: null,
-                    //   imagePreviewUrl: null,
-                    // });
+
                     this.props.history.push("/app/giftcard/template");
                   } else {
                     store.addNotification({
@@ -246,13 +248,15 @@ class NewTemplate extends Component {
                         <Select
                           options={Status}
                           onChange={(selectedOption) => {
-                            setFieldValue("status", selectedOption.value);
+                            setFieldValue("isDisabled", selectedOption.value);
                           }}
                           placeholder="Select Status"
-                          value={this.state.status}
+                          value={this.state.isDisabled}
                         />
-                        {errors.status && touched.status && (
-                          <div className="input-feedback">{errors.status}</div>
+                        {errors.isDisabled && touched.isDisabled && (
+                          <div className="input-feedback">
+                            {errors.isDisabled}
+                          </div>
                         )}
                       </div>
 
@@ -268,7 +272,6 @@ class NewTemplate extends Component {
                       </div>
                       <div className="col-8" style={{ paddingTop: "45px" }}>
                         <Checkbox
-                          // checked={checked}
                           id="isConsumer"
                           onChange={(e) =>
                             this.setState({ isConsumer: e.target.value })
@@ -279,14 +282,6 @@ class NewTemplate extends Component {
                         />
                         Visible on Consumer App
                       </div>
-                      {/* <div
-                        className="id-and-btn"
-                        style={{ paddingTop: "20px" }}
-                      >
-                        <Button className="btn btn-red" type="submit">
-                          SAVE
-                        </Button>
-                      </div> */}
                     </div>
                   </div>
                 </form>

@@ -27,8 +27,6 @@ class AddGeneration extends Component {
   }
 
   render() {
-    console.log("this.props.Template", this.props.Template);
-
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader

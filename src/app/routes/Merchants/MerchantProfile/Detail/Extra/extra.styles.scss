@@ -15,10 +15,16 @@
     font-weight: 500;
     letter-spacing: 1px;
   }
-
+  .close {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    color: white;
+  }
+ 
   input {
     width: 90%;
-    font-weight: 500;
+    font-weight: 300;
     color: #000000;
     border: none;
     border-bottom: 2px solid #dcdcdc;
@@ -27,7 +33,6 @@
   }
 
   label {
-    // font-weight: 600;
     color: #4251af;
     font-size: 17px;
   }

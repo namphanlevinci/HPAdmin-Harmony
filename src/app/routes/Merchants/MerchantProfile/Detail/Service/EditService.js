@@ -490,7 +490,7 @@ class EditService extends Component {
                         </div>
                       </div>
                       <div className="col-6" style={{ marginTop: 20 }}>
-                        <label style={{ color: "#4251af" }}>Supply Fee*</label>
+                        <label style={{ color: "#4251af" }}>Surcharge*</label>
                         <br />
                         <div className="input-box">
                           <input
@@ -504,7 +504,7 @@ class EditService extends Component {
                               marginTop: 4,
                             }}
                           />
-                          <span className="unit">%</span>
+                          <span className="unit">$</span>
                         </div>
                       </div>
                     </div>

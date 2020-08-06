@@ -81,7 +81,7 @@ class EditProduct extends Component {
     this.setState({ [name]: value });
   };
 
-  _handleImageChange = (e) => {
+  handleImage = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -235,24 +235,25 @@ class EditProduct extends Component {
     return (
       <div className="react-transition swipe-up service-container">
         <h2 style={{ color: "#4251af" }}>Edit Product</h2>
-        <div className="container Service">
+        <div className="container Service" style={{ paddingLeft: "0px" }}>
           <div className="row">
-            <div className="col-5">
+            <div className="col-4">
               <label>Image*</label>
               <br />
               {$imagePreview}
-              <input
-                name="price"
-                type="file"
-                onChange={this._handleImageChange}
-                style={{
-                  width: "auto",
-                  borderBottom: "none",
-                  paddingTop: "20px",
-                }}
-              />
+              <div style={{ width: "85%" }}>
+                <input
+                  name="price"
+                  type="file"
+                  className="custom-input"
+                  onChange={this.handleImage}
+                  style={{
+                    marginTop: "20px",
+                  }}
+                />
+              </div>
             </div>
-            <div className="col-7">
+            <div className="col-8">
               <div className="row">
                 <div className="col-4">
                   <label>Product*</label>
@@ -340,34 +341,23 @@ class EditProduct extends Component {
                   </div>
                 </div>
                 <div className="col-4">
-                  <label>Price* ($)</label>
+                  <label>Price* </label>
                   <br />
-
-                  <CurrencyInput
-                    name="price"
-                    value={this.state.price}
-                    onChange={(e, masked) => this.setState({ price: masked })}
-                  />
+                  <div className="input-box">
+                    <CurrencyInput
+                      name="price"
+                      value={this.state.price}
+                      onChange={(e, masked) => this.setState({ price: masked })}
+                    />
+                    <span className="unit">$</span>
+                  </div>
                 </div>
                 <div className="col-4">
                   <label>Status*</label>
                   <br />
-                  {/* <select
-                    onChange={(e) =>
-                      this.setState({ isDisabled: e.target.value })
-                    }
-                  >
-                    <option value="0" selected={this.state.isDisabled === 0}>
-                      Active
-                    </option>
-                    <option value="1" selected={this.state.isDisabled === 1}>
-                      Inactive
-                    </option>
-                  </select> */}
 
                   {this.state.loading && (
                     <Select
-                      // styles={colourStyles}
                       options={serviceStatus}
                       defaultValue={{
                         value: this.state.isDisabled,

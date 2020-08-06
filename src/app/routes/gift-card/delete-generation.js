@@ -11,12 +11,7 @@ import "./generation/code-log/code-log.styles.scss";
 const Delete = ({ open, handleCloseDelete, deleteGeneration, text }) => {
   return (
     <div>
-      <Dialog
-        open={open}
-        onClose={handleCloseDelete}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
+      <Dialog open={open} onClose={handleCloseDelete}>
         <DialogTitle id="alert-dialog-title">
           {`Are you sure you want to DELETE this ${text}?`}
         </DialogTitle>

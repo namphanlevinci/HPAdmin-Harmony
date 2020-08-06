@@ -52,7 +52,7 @@ class productDetail extends Component {
         <h2 style={{ color: "#4251af" }}>Product Detail</h2>
         <div className="container Service">
           <div className="row">
-            <div className="col-md-5">
+            <div className="col-md-4" style={{ paddingLeft: "0px" }}>
               <label style={{ marginBottom: "20px" }}>Image</label>
               <br />
               <img
@@ -61,7 +61,7 @@ class productDetail extends Component {
                 alt="void"
               />
             </div>
-            <div className="col-md-7">
+            <div className="col-md-8">
               <div className="row">
                 <div className="col-4">
                   <label>Product*</label>
@@ -124,11 +124,9 @@ class productDetail extends Component {
                 <div className="col-12">
                   <label>Description</label>
                   <br />
-                  <textarea
-                    disabled
-                    defaultValue={product.description}
-                    style={{ width: "100%", height: "60px", padding: "5px" }}
-                  />
+                  <p style={{ width: "100%", height: "60px" }}>
+                    {product.description}
+                  </p>
                 </div>
               </div>
             </div>

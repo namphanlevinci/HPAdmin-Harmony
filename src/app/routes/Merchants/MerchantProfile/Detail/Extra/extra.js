@@ -4,6 +4,7 @@ import { FaTrashRestoreAlt } from "react-icons/fa";
 import { GoTrashcan } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
+import { config } from "../../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -14,7 +15,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
 import EditExtra from "./edit-extra";
-import { config } from "../../../../../../url/url";
 import defaultImage from "./hpadmin2.png";
 import CheckPermissions from "../../../../../../util/checkPermission";
 
@@ -179,7 +179,7 @@ class ExtraTab extends Component {
         accessor: "name",
         Cell: (e) => (
           <div>
-            <span style={styles.span}> {e.value} </span>
+            <p style={{ fontWeight: 400 }}> {e.value} </p>
           </div>
         ),
       },
@@ -200,7 +200,7 @@ class ExtraTab extends Component {
                 width: "50px",
                 height: "50px",
               }}
-            ></div>
+            />
           );
         },
       },
@@ -210,7 +210,7 @@ class ExtraTab extends Component {
         accessor: "duration",
         Cell: (e) => (
           <div>
-            <span style={styles.span}>{e.value} Min</span>
+            <p>{e.value} Min</p>
           </div>
         ),
       },
@@ -220,7 +220,7 @@ class ExtraTab extends Component {
         accessor: "price",
         Cell: (e) => (
           <div>
-            <span style={styles.span}>$ {e.value}</span>
+            <p>$ {e.value}</p>
           </div>
         ),
       },
@@ -230,9 +230,7 @@ class ExtraTab extends Component {
         accessor: "isDisabled",
         Cell: (e) => (
           <div>
-            <span style={styles.span}>
-              {e.value === 0 ? "Active" : "Inactive"}
-            </span>
+            <p>{e.value === 0 ? "Active" : "Inactive"}</p>
           </div>
         ),
       },

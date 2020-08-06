@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { config } from "../../../../../../url/url";
+import { GrFormClose } from "react-icons/gr";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -56,8 +57,16 @@ const EditExtra = ({
       <DialogContent>
         <div className="category extra">
           <div className="extra-container">
-            <h2 className="title">Edit Extra</h2>
+            <h2 className="title">Edit Extra </h2>
+            <div
+              className="close"
+              onClick={() => handleClose("edit", false)}
+              style={{ fill: "white" }}
+            >
+              <GrFormClose size={40} />
+            </div>
           </div>
+
           <div>
             <Formik
               initialValues={{
@@ -233,13 +242,13 @@ const EditExtra = ({
                         type="file"
                         onChange={handleImageChange}
                         style={{
-                          width: "60%",
+                          width: "70%",
                           marginTop: "5px",
                         }}
                       />
                     </div>
                     <div>
-                      <label style={{ paddingTop: "10px" }}>Surcharged</label>
+                      <label style={{ paddingTop: "10px" }}>Surcharge</label>
 
                       <div className="input-box">
                         <CurrencyInput
@@ -285,3 +294,10 @@ const EditExtra = ({
 };
 
 export default EditExtra;
+
+const styles = {
+  close: {
+    color: "white",
+    cursor: "pointer",
+  },
+};

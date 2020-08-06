@@ -346,6 +346,7 @@ class EditTemplate extends Component {
                         <div className="col-4" style={{ paddingTop: "10px" }}>
                           <h4>Image</h4>
                           {$imagePreview}
+                          <br />
                           <input
                             type="file"
                             className="custom-input"

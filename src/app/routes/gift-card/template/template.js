@@ -8,6 +8,8 @@ import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
 import { FiEdit } from "react-icons/fi";
 import { Helmet } from "react-helmet";
+import { FaTrashRestoreAlt } from "react-icons/fa";
+import { config } from "../../../../url/url";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -18,8 +20,12 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import { config } from "../../../../url/url";
 import CheckPermissions from "../../../../util/checkPermission";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -29,6 +35,7 @@ class Generation extends Component {
     super(props);
     this.state = {
       openDelete: false,
+      openRestore: false,
       loading: false,
       search: "",
     };
@@ -40,6 +47,14 @@ class Generation extends Component {
 
   _handleOpenDelete = (ID) => {
     this.setState({ openDelete: true, deleteID: ID });
+  };
+
+  handleCloseRestore = () => {
+    this.setState({ openRestore: false });
+  };
+
+  handleOpenRestore = (ID) => {
+    this.setState({ openRestore: true, restoreID: ID });
   };
 
   fetchData = async (state) => {
@@ -139,6 +154,43 @@ class Generation extends Component {
       .catch((error) => console.log(error));
   };
 
+  restoreTemplate = () => {
+    const { restoreID } = this.state;
+    this.setState({ loading: true });
+    axios
+      .put(URL + "/giftcardtemplate/restore/" + restoreID, null, {
+        headers: {
+          Authorization: `Bearer ${this.props.userLogin.token}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.message === "Success") {
+          store.addNotification({
+            title: "Success!",
+            message: `${res.data.message}`,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 2500,
+              onScreen: true,
+            },
+            width: 250,
+          });
+          this.setState({
+            loading: false,
+            restoreID: "",
+            openRestore: false,
+            search: "",
+          });
+          this.fetchData();
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   editTemplate = (data) => {
     this.props.VIEW_DETAIL(data);
     this.props.history.push("/app/giftcard/template/edit");
@@ -199,20 +251,34 @@ class Generation extends Component {
         Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(43) && (
-                <Tooltip title="Delete">
-                  <span>
-                    <GoTrashcan
-                      size={22}
-                      onClick={() =>
-                        this._handleOpenDelete(
-                          row?.original?.giftCardTemplateId
-                        )
-                      }
-                    />
-                  </span>
-                </Tooltip>
-              )}
+              {CheckPermissions(43) &&
+                (Number(row?.original?.isDisabled) === 0 ? (
+                  <Tooltip title="Delete">
+                    <span>
+                      <GoTrashcan
+                        size={22}
+                        onClick={() =>
+                          this._handleOpenDelete(
+                            row?.original?.giftCardTemplateId
+                          )
+                        }
+                      />
+                    </span>
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Delete">
+                    <span>
+                      <FaTrashRestoreAlt
+                        size={20}
+                        onClick={() =>
+                          this.handleOpenRestore(
+                            row?.original?.giftCardTemplateId
+                          )
+                        }
+                      />
+                    </span>
+                  </Tooltip>
+                ))}
               {CheckPermissions(44) && (
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "10px" }}>
@@ -272,6 +338,37 @@ class Generation extends Component {
               deleteGeneration={this.deleteTemplate}
               text={"Template"}
             />
+
+            <Dialog open={this.state.openRestore}>
+              <DialogTitle id="alert-dialog-title">
+                {"Restore this Template ?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Are you sure you want to RESTORE this template?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() =>
+                    this.setState({ openRestore: false, restoreID: "" })
+                  }
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={() => [
+                    this.restoreTemplate(),
+                    this.setState({ openRestore: false, restoreID: "" }),
+                  ]}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
 
             <ReactTable
               manual
