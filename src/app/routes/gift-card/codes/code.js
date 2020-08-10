@@ -182,8 +182,8 @@ class Codes extends Component {
         Header: "ID",
         accessor: "giftCardId",
         Cell: (e) => (
-          <div style={{ fontWeight: "600", textAlign: "center" }}>
-            {e.value}
+          <div style={{ fontWeight: "400" }}>
+            <p>{e.value}</p>
           </div>
         ),
         width: 70,
@@ -191,24 +191,20 @@ class Codes extends Component {
       {
         Header: "Serial",
         accessor: "serialNumber",
-        Cell: (e) => <span style={{ fontWeight: "500" }}>{e.value}</span>,
+        Cell: (e) => <p style={{ fontWeight: "400" }}>{e.value}</p>,
         width: 200,
       },
       {
         id: "Pincode",
-        Header: "Pincode",
+        Header: "Pin Code",
         accessor: "pincode",
-        Cell: (e) => (
-          <span style={{ fontWeight: "600", textAlign: "center" }}>
-            {e.value}
-          </span>
-        ),
+        Cell: (e) => <p style={{ fontWeight: "400" }}>{e.value}</p>,
         width: 100,
       },
       {
         Header: "Created Date",
         accessor: "createdDate",
-        Cell: (e) => moment(e.value).format("MM/DD/YYYY"),
+        Cell: (e) => <p>{moment(e.value).format("MM/DD/YYYY")}</p>,
         width: 160,
       },
       {
@@ -255,9 +251,11 @@ class Codes extends Component {
         accessor: "usedDate",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
-            {moment(e.value) > moment(defaultDate)
-              ? moment(e.value).format("MM/DD/YYYY")
-              : "--"}
+            <p>
+              {moment(e.value) > moment(defaultDate)
+                ? moment(e.value).format("MM/DD/YYYY")
+                : "--"}
+            </p>
           </div>
         ),
       },

@@ -4,10 +4,10 @@ import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
 import { FaTrashRestoreAlt } from "react-icons/fa";
 import { GoTrashcan } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
+import { config } from "../../../../../../url/url";
 
 import ReactTable from "react-table";
 import axios from "axios";
-import { config } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -18,7 +18,10 @@ import defaultImage from "../Extra/hpadmin2.png";
 import ProductAdd from "./productAdd";
 import Slide from "@material-ui/core/Slide";
 import CheckPermissions from "../../../../../../util/checkPermission";
-
+import Tooltip from "@material-ui/core/Tooltip";
+import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
+import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 import "react-table/react-table.css";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -123,7 +126,7 @@ class Product extends Component {
         accessor: "name",
         Cell: (e) => (
           <div>
-            <span style={styles.span}>{e.value}</span>
+            <p style={styles.span}>{e.value}</p>
           </div>
         ),
       },
@@ -154,7 +157,7 @@ class Product extends Component {
         accessor: "categoryName",
         Cell: (e) => (
           <div>
-            <span style={styles.span}>{e.value}</span>
+            <p>{e.value}</p>
           </div>
         ),
         width: 160,
@@ -165,7 +168,7 @@ class Product extends Component {
         accessor: "quantity",
         Cell: (e) => (
           <div>
-            <span style={styles.span}>{e.value}</span>
+            <p>{e.value}</p>
           </div>
         ),
         width: 120,
@@ -176,7 +179,7 @@ class Product extends Component {
         accessor: "price",
         Cell: (e) => (
           <div>
-            <span style={styles.span}>$ {e.value}</span>
+            <p>$ {e.value}</p>
           </div>
         ),
         width: 150,
@@ -185,11 +188,7 @@ class Product extends Component {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: (e) => (
-          <span style={styles.span}>
-            {e.value === 0 ? "Active" : "Inactive"}
-          </span>
-        ),
+        Cell: (e) => <p>{e.value === 0 ? "Active" : "Inactive"}</p>,
         width: 120,
       },
       {
@@ -199,25 +198,28 @@ class Product extends Component {
         Cell: (row) => {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
-              <GoTrashcan
-                size={21}
-                onClick={() => [
-                  this.setState({
-                    productId: row.original.productId,
-                    dialog: true,
-                  }),
-                ]}
-              />
+              <Tooltip title="Delete">
+                <ArchiveOutlinedIcon
+                  size={21}
+                  onClick={() => [
+                    this.setState({
+                      productId: row.original.productId,
+                      dialog: true,
+                    }),
+                  ]}
+                />
+              </Tooltip>
             ) : (
-              <FaTrashRestoreAlt
-                size={20}
-                onClick={() =>
-                  this.setState({
-                    productId: row.original.productId,
-                    restoreDialog: true,
-                  })
-                }
-              />
+              <Tooltip title="Restore">
+                <UnarchiveOutlinedIcon
+                  onClick={() =>
+                    this.setState({
+                      productId: row.original.productId,
+                      restoreDialog: true,
+                    })
+                  }
+                />
+              </Tooltip>
             );
           return (
             <div style={{ textAlign: "center" }}>
@@ -225,10 +227,11 @@ class Product extends Component {
 
               {CheckPermissions(26) && (
                 <span style={{ paddingLeft: "20px" }}>
-                  <FiEdit
-                    size={20}
-                    onClick={() => this.viewDetail(row.original)}
-                  />
+                  <Tooltip title="Edit">
+                    <PageviewOutlinedIcon
+                      onClick={() => this.viewDetail(row.original)}
+                    />
+                  </Tooltip>
                 </span>
               )}
             </div>

@@ -17,6 +17,10 @@ import axios from "axios";
 import EditExtra from "./edit-extra";
 import defaultImage from "./hpadmin2.png";
 import CheckPermissions from "../../../../../../util/checkPermission";
+import Tooltip from "@material-ui/core/Tooltip";
+import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
+import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 
 import "react-table/react-table.css";
 
@@ -241,25 +245,27 @@ class ExtraTab extends Component {
         Cell: (row) => {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
-              <GoTrashcan
-                size={21}
-                onClick={() => [
-                  this.setState({
-                    extraId: row.original.extraId,
-                    dialog: true,
-                  }),
-                ]}
-              />
+              <Tooltip title="Delete">
+                <ArchiveOutlinedIcon
+                  onClick={() => [
+                    this.setState({
+                      extraId: row.original.extraId,
+                      dialog: true,
+                    }),
+                  ]}
+                />
+              </Tooltip>
             ) : (
-              <FaTrashRestoreAlt
-                size={20}
-                onClick={() =>
-                  this.setState({
-                    extraId: row.original.extraId,
-                    restoreDialog: true,
-                  })
-                }
-              />
+              <Tooltip title="Restore">
+                <UnarchiveOutlinedIcon
+                  onClick={() =>
+                    this.setState({
+                      extraId: row.original.extraId,
+                      restoreDialog: true,
+                    })
+                  }
+                />
+              </Tooltip>
             );
           return (
             <div style={{ textAlign: "center" }}>
@@ -267,13 +273,14 @@ class ExtraTab extends Component {
 
               {CheckPermissions(28) && (
                 <span style={{ paddingLeft: "20px" }}>
-                  <FiEdit
-                    size={20}
-                    onClick={() => [
-                      this.handleEdit(row.original),
-                      this.setState({ edit: true }),
-                    ]}
-                  />
+                  <Tooltip title="Edit">
+                    <PageviewOutlinedIcon
+                      onClick={() => [
+                        this.handleEdit(row.original),
+                        this.setState({ edit: true }),
+                      ]}
+                    />
+                  </Tooltip>
                 </span>
               )}
             </div>

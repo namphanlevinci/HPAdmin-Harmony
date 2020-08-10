@@ -40,29 +40,29 @@ class Pricing extends Component {
       {
         id: "id",
         Header: "ID",
-        accessor: (e) => <span>#{e?.packageId}</span>,
+        accessor: (e) => <p>#{e?.packageId}</p>,
         width: 100,
       },
       {
         id: "name",
         Header: "Title",
-        accessor: (e) => <span>{`Pricing package ${e?.packageId}`}</span>,
+        accessor: (e) => <p>{`Pricing package ${e?.packageId}`}</p>,
       },
       {
         Header: "Subtitle",
         accessor: "packageName",
-        Cell: (props) => <span>{props.value}</span>,
+        Cell: (props) => <p>{props.value}</p>,
       },
       {
         id: "price",
         Header: "Pricing",
-        accessor: (e) => <span>$ {e.pricing}</span>,
+        accessor: (e) => <p>$ {e.pricing}</p>,
       },
       {
         id: "status",
         Header: "Status", // Custom header components!
         accessor: (e) => (
-          <span>{e?.isDisabled === 0 ? "Active" : "Disable"}</span>
+          <pre>{e?.isDisabled === 0 ? "Active" : "Disable"}</pre>
         ),
       },
     ];

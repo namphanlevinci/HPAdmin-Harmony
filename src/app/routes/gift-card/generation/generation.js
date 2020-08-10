@@ -20,6 +20,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
 import Delete from "../delete-generation";
 import CheckPermissions from "../../../../util/checkPermission";
+import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -135,45 +137,41 @@ class Generation extends Component {
       {
         Header: "ID",
         accessor: "giftCardGeneralId",
-        Cell: (e) => <span>{`${e.value}`}</span>,
-        width: 60,
+        Cell: (e) => <p>{`${e.value}`}</p>,
+        width: 50,
       },
       {
         Header: "Name",
         accessor: "name",
-        Cell: (e) => <span className="giftcard-name">{e.value}</span>,
-        width: 240,
+        Cell: (e) => <p className="giftcard-name">{e.value}</p>,
       },
       {
         id: "Value",
         Header: "Value",
         // width: 100,
         accessor: (row) => `${row.amount}`,
-        Cell: (e) => <span style={{ textAlign: "start" }}>$ {e.value}</span>,
+        Cell: (e) => <p style={{ textAlign: "start" }}>$ {e.value}</p>,
       },
       {
         Header: "Template",
         accessor: "giftCardTemplateName",
-        Cell: (e) => <span className="giftcard-template">{e.value}</span>,
-        width: 240,
+        Cell: (e) => <p className="giftcard-template">{e.value}</p>,
       },
       {
         Header: "Date Created",
         accessor: "createdDate",
-        Cell: (e) => moment(e.value).format("MM/DD/YYYY"),
-        width: 190,
+        Cell: (e) => <p>{moment(e.value).format("MM/DD/YYYY")}</p>,
       },
       {
         id: "Quantity",
         Header: "Quantity",
-        accessor: "quantity",
-        // width: 70,
+        accessor: (row) => <p>{row.quantity}</p>,
       },
       {
         id: "Unused",
         Header: "Used",
         accessor: "unUsed",
-        // width: 70,
+        accessor: (row) => <p>{row.unUsed}</p>,
       },
       {
         id: "Actions",
@@ -183,23 +181,19 @@ class Generation extends Component {
           return (
             <div style={{ textAlign: "center" }}>
               {CheckPermissions(37) && (
-                <Tooltip title="Delete" arrow>
-                  <span>
-                    <GoTrashcan
-                      size={22}
-                      style={style.icon}
-                      onClick={() =>
-                        this.handleOpenDelete(row?.original?.giftCardGeneralId)
-                      }
-                    />
-                  </span>
+                <Tooltip title="Delete">
+                  <ArchiveOutlinedIcon
+                    style={style.icon}
+                    onClick={() =>
+                      this.handleOpenDelete(row?.original?.giftCardGeneralId)
+                    }
+                  />
                 </Tooltip>
               )}
               {CheckPermissions(38) && (
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "10px" }}>
-                    <FiEdit
-                      size={22}
+                    <PageviewOutlinedIcon
                       style={style.icon}
                       onClick={() => this.viewGeneration(row.original)}
                     />
@@ -292,5 +286,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Generation);
 const style = {
   icon: {
     cursor: "pointer",
+    fontWeight: "300",
   },
 };

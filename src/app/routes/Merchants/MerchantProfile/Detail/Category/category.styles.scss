@@ -93,3 +93,15 @@
     }
   }
 }
+
+.category__container .ReactTable .rt-tbody .rt-td p {
+  padding-left: 13px;
+}
+
+.category__container .ReactTable .rt-thead .rt-th, .ReactTable .rt-thead .rt-td {
+  background-color: #ebebeb;
+}
+
+.category__container .ReactTable .rt-resizable-header-content {
+   color: #000;
+}

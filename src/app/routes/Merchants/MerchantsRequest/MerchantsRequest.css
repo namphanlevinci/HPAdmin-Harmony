@@ -44,6 +44,6 @@ label {
 
 .ReactTable .rt-tbody .rt-td p {
   font-size: 17px;
-  margin-bottom: 0px;
+  margin-bottom: 0px !important;
   font-weight: 300;
 }

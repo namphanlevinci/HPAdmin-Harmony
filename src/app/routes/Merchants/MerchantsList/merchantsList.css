@@ -77,6 +77,10 @@
   padding: 15px 0;
 }
 
+.merchant-list-container .ReactTable  .rt-tbody {
+  cursor: pointer;
+}
+
 .merchant-list-container table tr:nth-child(2n + 2) {
   background-color: #fff;
 }
@@ -130,7 +134,7 @@
 
 .ReactTable .rt-tbody .rt-td p {
   font-size: 17px;
-  margin-bottom: 0px;
+  margin-bottom: 0px !important;
   font-weight: 300;
 }
 

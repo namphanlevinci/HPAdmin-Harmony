@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
 import { Formik } from "formik";
-import { FaTrashRestoreAlt } from "react-icons/fa";
-import { GoTrashcan } from "react-icons/go";
-import { FiEdit } from "react-icons/fi";
 import { store } from "react-notifications-component";
+import { config } from "../../../../../../url/url";
 
 import ReactTable from "react-table";
 import axios from "axios";
-import { config } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -18,6 +15,10 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Select from "react-select";
 import CheckPermissions from "../../../../../../util/checkPermission";
+import Tooltip from "@material-ui/core/Tooltip";
+import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
+import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 
 import "react-table/react-table.css";
 import "./category.styles.scss";
@@ -127,28 +128,34 @@ class Category extends Component {
       {
         Header: "Category Name",
         id: "Name",
-        width: 250,
         accessor: "name",
         Cell: (row) => {
-          return <div style={{ fontWeight: "500" }}>{row.original.name}</div>;
+          return (
+            <div>
+              <p style={{ fontWeight: "400" }}>{row.original.name}</p>
+            </div>
+          );
         },
       },
       {
         id: "Type",
         Header: "Type",
         accessor: "categoryType",
-        Cell: (e) => <div>{e.value.toUpperCase()}</div>,
+        Cell: (e) => (
+          <div>
+            <p>{e.value.toUpperCase()}</p>
+          </div>
+        ),
       },
       {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
         Cell: (e) => (
-          <div style={{ fontWeight: 500 }}>
-            {e.value === 0 ? "Active" : "Inactive"}
+          <div style={{ fontWeight: 400 }}>
+            <p>{e.value === 0 ? "Active" : "Inactive"}</p>
           </div>
         ),
-        width: 120,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
@@ -157,25 +164,27 @@ class Category extends Component {
         Cell: (row) => {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
-              <GoTrashcan
-                size={21}
-                onClick={() => [
-                  this.setState({
-                    categoryId: row.original.categoryId,
-                    dialog: true,
-                  }),
-                ]}
-              />
+              <Tooltip title="Delete">
+                <ArchiveOutlinedIcon
+                  onClick={() => [
+                    this.setState({
+                      categoryId: row.original.categoryId,
+                      dialog: true,
+                    }),
+                  ]}
+                />
+              </Tooltip>
             ) : (
-              <FaTrashRestoreAlt
-                size={20}
-                onClick={() =>
-                  this.setState({
-                    categoryId: row.original.categoryId,
-                    restoreDialog: true,
-                  })
-                }
-              />
+              <Tooltip title="Restore">
+                <UnarchiveOutlinedIcon
+                  onClick={() =>
+                    this.setState({
+                      categoryId: row.original.categoryId,
+                      restoreDialog: true,
+                    })
+                  }
+                />
+              </Tooltip>
             );
           return (
             <div style={{ textAlign: "center" }}>
@@ -183,10 +192,11 @@ class Category extends Component {
 
               {CheckPermissions(20) && (
                 <span style={{ paddingLeft: "20px" }}>
-                  <FiEdit
-                    size={20}
-                    onClick={() => this.handleEdit(row.original)}
-                  />
+                  <Tooltip title="Edit">
+                    <PageviewOutlinedIcon
+                      onClick={() => this.handleEdit(row.original)}
+                    />
+                  </Tooltip>
                 </span>
               )}
             </div>
@@ -397,7 +407,7 @@ class Category extends Component {
               </Dialog>
             </div>
           </div>
-          <div className="merchant-list-container">
+          <div className="merchant-list-container category__container">
             <ReactTable
               data={cagetoryList}
               columns={columns}

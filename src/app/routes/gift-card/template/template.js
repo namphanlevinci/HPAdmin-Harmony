@@ -18,7 +18,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../delete-generation";
-import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 import Dialog from "@material-ui/core/Dialog";
@@ -26,6 +25,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Tooltip from "@material-ui/core/Tooltip";
+import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
+import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -217,20 +220,19 @@ class Generation extends Component {
       },
       {
         Header: "Name",
-        accessor: "giftCardTemplateName",
+        id: "giftCardTemplateName",
+        accessor: (row) => <p>{row?.giftCardTemplateName}</p>,
         // width: 180,
       },
       {
         id: "Group",
         Header: "Group",
-        accessor: "giftCardType",
-        // width: 180,
+        accessor: (row) => <p>{row?.giftCardType}</p>,
       },
       {
         Header: "Status",
         accessor: "isDisabled",
-        Cell: (e) => <span>{e.value === 0 ? "Active" : "Inactive"}</span>,
-        // width: 150,
+        Cell: (e) => <p>{e.value === 0 ? "Active" : "Inactive"}</p>,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}>Visible on App</div>,
@@ -254,36 +256,31 @@ class Generation extends Component {
               {CheckPermissions(43) &&
                 (Number(row?.original?.isDisabled) === 0 ? (
                   <Tooltip title="Delete">
-                    <span>
-                      <GoTrashcan
-                        size={22}
-                        onClick={() =>
-                          this._handleOpenDelete(
-                            row?.original?.giftCardTemplateId
-                          )
-                        }
-                      />
-                    </span>
+                    <ArchiveOutlinedIcon
+                      style={style.icon}
+                      onClick={() =>
+                        this._handleOpenDelete(
+                          row?.original?.giftCardTemplateId
+                        )
+                      }
+                    />
                   </Tooltip>
                 ) : (
-                  <Tooltip title="Delete">
-                    <span>
-                      <FaTrashRestoreAlt
-                        size={20}
-                        onClick={() =>
-                          this.handleOpenRestore(
-                            row?.original?.giftCardTemplateId
-                          )
-                        }
-                      />
-                    </span>
+                  <Tooltip title="Restore">
+                    <UnarchiveOutlinedIcon
+                      style={style.icon}
+                      onClick={() =>
+                        this.handleOpenRestore(
+                          row?.original?.giftCardTemplateId
+                        )
+                      }
+                    />
                   </Tooltip>
                 ))}
               {CheckPermissions(44) && (
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "10px" }}>
-                    <FiEdit
-                      size={21}
+                    <PageviewOutlinedIcon
                       style={style.icon}
                       onClick={() => this.editTemplate(row.original)}
                     />
@@ -409,5 +406,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Generation);
 const style = {
   icon: {
     cursor: "pointer",
+    fontWeight: "300",
   },
 };

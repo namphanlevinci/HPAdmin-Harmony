@@ -247,7 +247,7 @@ class Settings extends Component {
             <div className="SettingsContent">
               <div>
                 <h3>The charged percent fee of credit card transactions</h3>
-                <div>
+                <div style={styles.div}>
                   <label>
                     Transactions Fee:
                     <span style={{ color: "black", paddingLeft: "10px" }}>
@@ -255,7 +255,7 @@ class Settings extends Component {
                     </span>
                   </label>
                 </div>
-                <div>
+                <div style={styles.div}>
                   <label>
                     Merchant ID:
                     <span style={{ color: "black", paddingLeft: "10px" }}>
@@ -263,7 +263,7 @@ class Settings extends Component {
                     </span>
                   </label>
                 </div>
-                <div>
+                <div style={styles.div}>
                   <label>
                     Merchant Token:
                     <span style={{ color: "black", paddingLeft: "10px" }}>
@@ -271,7 +271,7 @@ class Settings extends Component {
                     </span>
                   </label>
                 </div>
-                <div>
+                <div style={styles.div}>
                   <label>
                     Discount Rate:
                     <span style={{ color: "black", paddingLeft: "10px" }}>
@@ -279,7 +279,7 @@ class Settings extends Component {
                     </span>
                   </label>
                 </div>
-                <div>
+                <div style={styles.div}>
                   <label>
                     Point Rate:
                     <span style={{ color: "black", paddingLeft: "10px" }}>
@@ -327,3 +327,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+
+const styles = {
+  div: {
+    marginBottom: "8px",
+  },
+};

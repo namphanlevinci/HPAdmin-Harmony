@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FaTrashRestore } from "react-icons/fa";
-import { GoTrashcan } from "react-icons/go";
-
 import { VIEW_STAFF } from "../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../url/url";
-import { FiEdit } from "react-icons/fi";
 
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
@@ -18,6 +14,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import formatPhone from "../../../../../../util/formatPhone";
 import ScaleLoader from "../../../../../../util/scaleLoader";
 import CheckPermissions from "../../../../../../util/checkPermission";
+import Tooltip from "@material-ui/core/Tooltip";
+import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
+import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 
 import "react-table/react-table.css";
 import "../Detail.css";
@@ -123,46 +123,49 @@ class Staff extends Component {
     const columns = [
       {
         Header: "Staff ID",
-        accessor: "staffId",
+        id: "staffId",
+        accessor: (d) => <p style={{ fontWeight: 400 }}>{`${d.staffId}`}</p>,
         width: 80,
       },
       {
         Header: "Name",
         id: "fullName",
         accessor: (d) => (
-          <span
-            style={{ fontWeight: 500 }}
-          >{`${d.firstName} ${d.lastName}`}</span>
+          <p style={{ fontWeight: 400 }}>{`${d.firstName} ${d.lastName}`}</p>
         ),
       },
       {
         id: "Display",
         Header: "Display Name",
         accessor: (d) => (
-          <span style={{ fontWeight: 500 }}>{`${d.displayName}`}</span>
+          <p style={{ fontWeight: 400 }}>{`${d.displayName}`}</p>
         ),
       },
       {
         Header: "Phone",
         id: "Phone",
-        accessor: (row) => <span>{formatPhone(row?.phone)}</span>,
+        accessor: (row) => <p>{formatPhone(row?.phone)}</p>,
       },
       {
         Header: "Email",
-        accessor: "email",
+        id: "email",
+        accessor: (row) => <p>{formatPhone(row?.email)}</p>,
         width: 230,
       },
       {
         Header: "Role",
-        accessor: "roleName",
+        id: "roleName",
+        accessor: (row) => (
+          <p style={{ fontWeight: 400 }}>{formatPhone(row?.roleName)}</p>
+        ),
       },
       {
         Header: "Status",
         accessor: "isDisabled",
         Cell: (e) => (
-          <span style={{ fontWeight: 500 }}>
+          <p style={{ fontWeight: 400 }}>
             {e.value === 1 ? "Inactive" : "Active"}
-          </span>
+          </p>
         ),
       },
       {
@@ -172,27 +175,30 @@ class Staff extends Component {
         Cell: (row) => {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
-              <GoTrashcan
-                size={21}
-                onClick={() => [
-                  this.setState({
-                    extraId: row.original.staffId,
-                    dialog: true,
-                  }),
-                ]}
-                style={style.icon}
-              />
+              <Tooltip title="Delete">
+                <ArchiveOutlinedIcon
+                  onClick={() => [
+                    this.setState({
+                      extraId: row.original.staffId,
+                      dialog: true,
+                    }),
+                  ]}
+                  // style={style.icon}
+                />
+              </Tooltip>
             ) : (
-              <FaTrashRestore
-                size={20}
-                onClick={() =>
-                  this.setState({
-                    extraId: row.original.staffId,
-                    restoreDialog: true,
-                  })
-                }
-                style={style.icon}
-              />
+              <Tooltip title="Restore">
+                <UnarchiveOutlinedIcon
+                  size={20}
+                  onClick={() =>
+                    this.setState({
+                      extraId: row.original.staffId,
+                      restoreDialog: true,
+                    })
+                  }
+                  // style={style.icon}
+                />
+              </Tooltip>
             );
           return (
             <div style={{ textAlign: "center" }}>
@@ -200,11 +206,12 @@ class Staff extends Component {
 
               {CheckPermissions(17) && (
                 <span style={{ paddingLeft: "10px" }}>
-                  <FiEdit
-                    size={19}
-                    style={style.icon}
-                    onClick={() => this.viewStaff(row.original)}
-                  />
+                  <Tooltip title="Edit">
+                    <PageviewOutlinedIcon
+                      // style={style.icon}
+                      onClick={() => this.viewStaff(row.original)}
+                    />
+                  </Tooltip>
                 </span>
               )}
             </div>
@@ -255,11 +262,7 @@ class Staff extends Component {
             />
 
             {/* ARCHIVE */}
-            <Dialog
-              open={this.state.dialog}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
+            <Dialog open={this.state.dialog}>
               <DialogTitle id="alert-dialog-title">
                 {"Archive this Staff ?"}
               </DialogTitle>
@@ -289,11 +292,7 @@ class Staff extends Component {
               </DialogActions>
             </Dialog>
             {/* RESTORE */}
-            <Dialog
-              open={this.state.restoreDialog}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
+            <Dialog open={this.state.restoreDialog}>
               <DialogTitle id="alert-dialog-title">
                 {"Restore this Staff ?"}
               </DialogTitle>
@@ -346,5 +345,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Staff);
 const style = {
   icon: {
     cursor: "pointer",
+    fontSize: "30px",
   },
 };

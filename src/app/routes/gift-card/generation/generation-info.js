@@ -258,8 +258,8 @@ class Generation_Detail extends Component {
         Header: "ID",
         accessor: "giftCardId",
         Cell: (e) => (
-          <div style={{ fontWeight: "600", textAlign: "center" }}>
-            {e.value}
+          <div style={{ fontWeight: "500" }}>
+            <p>{e.value}</p>
           </div>
         ),
         width: 70,
@@ -267,24 +267,20 @@ class Generation_Detail extends Component {
       {
         Header: "Serial",
         accessor: "serialNumber",
-        Cell: (e) => <span style={{ fontWeight: "500" }}>{e.value}</span>,
+        Cell: (e) => <p style={{ fontWeight: "400" }}>{e.value}</p>,
         width: 200,
       },
       {
         id: "Pincode",
-        Header: "Pincode",
+        Header: "Pin Code",
         accessor: "pincode",
-        Cell: (e) => (
-          <span style={{ fontWeight: "600", textAlign: "center" }}>
-            {e.value}
-          </span>
-        ),
+        Cell: (e) => <p style={{ fontWeight: "400" }}>{e.value}</p>,
         width: 100,
       },
       {
         Header: "Created Date",
         accessor: "createdDate",
-        Cell: (e) => moment(e.value).format("MM/DD/YYYY"),
+        Cell: (e) => <p>{moment(e.value).format("MM/DD/YYYY")}</p>,
         width: 160,
       },
       {

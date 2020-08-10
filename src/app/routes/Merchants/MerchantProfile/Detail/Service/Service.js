@@ -18,6 +18,10 @@ import axios from "axios";
 import defaultImage from "../Extra/hpadmin2.png";
 import AddService from "./add-service";
 import CheckPermissions from "../../../../../../util/checkPermission";
+import Tooltip from "@material-ui/core/Tooltip";
+import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
+import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 
 import "react-table/react-table.css";
 const URL = config.url.URL;
@@ -177,7 +181,11 @@ class Service extends Component {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: (e) => <p>{e.value === 0 ? "Active" : "Inactive"}</p>,
+        Cell: (e) => (
+          <p style={{ fontWeight: 400 }}>
+            {e.value === 0 ? "Active" : "Inactive"}
+          </p>
+        ),
       },
       {
         id: "Actions",
@@ -186,25 +194,27 @@ class Service extends Component {
         Cell: (row) => {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
-              <GoTrashcan
-                size={22}
-                onClick={() => [
-                  this.setState({
-                    categoryId: row.original.serviceId,
-                    dialog: true,
-                  }),
-                ]}
-              />
+              <Tooltip title="Delete">
+                <ArchiveOutlinedIcon
+                  onClick={() => [
+                    this.setState({
+                      categoryId: row.original.serviceId,
+                      dialog: true,
+                    }),
+                  ]}
+                />
+              </Tooltip>
             ) : (
-              <FaTrashRestoreAlt
-                size={20}
-                onClick={() =>
-                  this.setState({
-                    categoryId: row.original.serviceId,
-                    restoreDialog: true,
-                  })
-                }
-              />
+              <Tooltip title="Restore">
+                <UnarchiveOutlinedIcon
+                  onClick={() =>
+                    this.setState({
+                      categoryId: row.original.serviceId,
+                      restoreDialog: true,
+                    })
+                  }
+                />
+              </Tooltip>
             );
           return (
             <div style={{ textAlign: "center" }}>
@@ -212,10 +222,11 @@ class Service extends Component {
 
               {CheckPermissions(23) && (
                 <span style={{ paddingLeft: "20px" }}>
-                  <FiEdit
-                    size={20}
-                    onClick={() => this.handleEdit(row.original)}
-                  />
+                  <Tooltip title="Edit">
+                    <PageviewOutlinedIcon
+                      onClick={() => this.handleEdit(row.original)}
+                    />
+                  </Tooltip>
                 </span>
               )}
             </div>

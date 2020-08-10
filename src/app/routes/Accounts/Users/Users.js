@@ -128,43 +128,57 @@ class Users extends Component {
       {
         Header: "ID",
         id: "id",
-        accessor: (row) => <div className="tr">{`${row.waUserId}`}</div>,
+        accessor: (row) => (
+          <div className="tr">
+            <p>{`${row.waUserId}`}</p>
+          </div>
+        ),
         width: 70,
       },
       {
         id: "image",
         Header: "",
-        // width: 200,
         accessor: (row) => (
-          <div>
+          <div style={{ textAlign: "center" }}>
             <img src={`${row.imageUrl}`} alt="Avatar" className="avatar" />
           </div>
         ),
-        width: 100,
       },
       {
         id: "Name",
         Header: "Full name",
-        // width: 200,
         accessor: (row) => (
-          <div className="tr">{`${row.firstName} ${row.lastName}`}</div>
+          <div className="tr">
+            <p>{`${row.firstName} ${row.lastName}`}</p>
+          </div>
         ),
       },
       {
         id: "email",
         Header: "Email",
-        accessor: (row) => <div className="tr">{`${row.email}`}</div>,
-        // width: 300,
+        accessor: (row) => (
+          <div className="tr">
+            <p>{`${row.email}`}</p>
+          </div>
+        ),
       },
       {
         id: "phoneNumber",
         Header: "Phone number",
-        accessor: (row) => <div className="tr">{`${row.phone}`}</div>,
+        accessor: (row) => (
+          <div className="tr">
+            <p>{`${row.phone}`}</p>
+          </div>
+        ),
       },
       {
         id: "Role",
         Header: "Role",
-        accessor: (row) => <div className="tr">{`${row.roleName}`}</div>,
+        accessor: (row) => (
+          <div className="tr">
+            <p>{`${row.roleName}`}</p>
+          </div>
+        ),
       },
     ];
 
