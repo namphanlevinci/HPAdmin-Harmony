@@ -216,7 +216,7 @@ const General = ({
               : validator.message(
                   "dbaState",
                   value.dbaState,
-                  "required|string"
+                  "required|integer"
                 )}
           </div>
         </div>

@@ -256,6 +256,7 @@ class AddMerchant extends React.Component {
   handleSelect = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+    console.log("this.state", this.state);
   };
 
   handleCheckBox = (e) => {
