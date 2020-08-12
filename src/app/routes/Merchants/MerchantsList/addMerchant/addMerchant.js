@@ -47,7 +47,7 @@ const initialState = {
   contactPhoneCode: "+1",
   contactPhone: "",
 
-  sameAsBA: true,
+  sameAsBA: false,
   dbaAddress: "",
   dbaCity: "",
   dbaState: "",
@@ -261,6 +261,23 @@ class AddMerchant extends React.Component {
 
   handleCheckBox = (e) => {
     const { name, value, checked } = e.target;
+    this.setState({ [name]: checked });
+    if (checked) {
+      this.setState({
+        dbaAddress: this.state.address,
+        dbaCity: this.state.city,
+        dbaState: this.state.state,
+        dbaZip: this.state.zip,
+      });
+    } else {
+      this.setState({
+        dbaAddress: "",
+        dbaCity: "",
+        dbaState: "",
+        dbaZip: "",
+      });
+    }
+
     this.setState({ [name]: checked });
   };
 

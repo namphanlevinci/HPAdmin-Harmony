@@ -22,7 +22,9 @@ const CodeLog = ({ open, handleClose, Log, Serial }) => {
       <Dialog open={open} onClose={handleClose} className="code-log">
         <div className="code-log-title">
           <p>{`Logs for ${Serial} `}</p>
-          <Button onClick={handleClose}>CLOSE</Button>
+          <Button className="close__btn" onClick={handleClose}>
+            Close
+          </Button>
         </div>
 
         <DialogContent>

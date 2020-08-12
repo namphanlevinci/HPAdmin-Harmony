@@ -282,7 +282,7 @@ class EditService extends Component {
                             color: "#4251af",
                           }}
                         >
-                          Category *
+                          Category*
                         </label>
                         <br />
                         <Select

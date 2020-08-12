@@ -18,7 +18,7 @@ import ReactTable from "react-table";
 import moment from "moment";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import Delete from "../delete-generation";
+// import Delete from "../delete-generation";
 import CheckPermissions from "../../../../util/checkPermission";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
@@ -46,37 +46,37 @@ class Generation extends Component {
     this.setState({ openDelete: true, deleteID: ID });
   };
 
-  Delete = () => {
-    const deleteID = this.state.deleteID;
-    this.setState({ loading: true });
-    axios
-      .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.message === "Success") {
-          store.addNotification({
-            title: "Success!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 2500,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          this.fetchData();
-          this.setState({ loading: false, deleteID: "", openDelete: false });
-        }
-      })
-      .catch((error) => console.log(error));
-  };
+  // Delete = () => {
+  //   const deleteID = this.state.deleteID;
+  //   this.setState({ loading: true });
+  //   axios
+  //     .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
+  //       headers: {
+  //         Authorization: `Bearer ${this.props.userLogin.token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       if (res.data.message === "Success") {
+  //         store.addNotification({
+  //           title: "Success!",
+  //           message: `${res.data.message}`,
+  //           type: "success",
+  //           insert: "top",
+  //           container: "top-right",
+  //           animationIn: ["animated", "fadeIn"],
+  //           animationOut: ["animated", "fadeOut"],
+  //           dismiss: {
+  //             duration: 2500,
+  //             onScreen: true,
+  //           },
+  //           width: 250,
+  //         });
+  //         this.fetchData();
+  //         this.setState({ loading: false, deleteID: "", openDelete: false });
+  //       }
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   fetchData = async (state) => {
     let page = state?.page ? state?.page : 0;
@@ -150,7 +150,9 @@ class Generation extends Component {
         Header: "Value",
         // width: 100,
         accessor: (row) => `${row.amount}`,
-        Cell: (e) => <p style={{ textAlign: "start" }}>$ {e.value}</p>,
+        Cell: (e) => (
+          <p style={{ textAlign: "start", fontWeight: 400 }}>$ {e.value}</p>
+        ),
       },
       {
         Header: "Template",
@@ -180,7 +182,7 @@ class Generation extends Component {
         Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(37) && (
+              {/* {CheckPermissions(37) && (
                 <Tooltip title="Delete">
                   <ArchiveOutlinedIcon
                     style={style.icon}
@@ -189,7 +191,7 @@ class Generation extends Component {
                     }
                   />
                 </Tooltip>
-              )}
+              )} */}
               {CheckPermissions(38) && (
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "10px" }}>
@@ -242,12 +244,12 @@ class Generation extends Component {
             )}
           </div>
           <div className="giftcard_content">
-            <Delete
+            {/* <Delete
               handleCloseDelete={this.handleCloseDelete}
               open={this.state.openDelete}
               deleteGeneration={this.Delete}
               text={"Gift Card"}
-            />
+            /> */}
             <ReactTable
               manual
               page={page}

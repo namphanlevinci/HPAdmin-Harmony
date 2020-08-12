@@ -50,6 +50,7 @@ class Generation_Detail extends Component {
     const ID = this.props.Detail;
     this.setState({ deleteID: ID, loadingData: true });
     this.getGiftCardById(ID);
+    console.log("  this.props.Detail", this.props.Detail);
   }
 
   // logs
@@ -178,6 +179,7 @@ class Generation_Detail extends Component {
 
   Delete = () => {
     const deleteID = this.state.deleteID;
+
     axios
       .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
         headers: {
@@ -211,7 +213,7 @@ class Generation_Detail extends Component {
 
   getExport = () => {
     this.setState({ isLoading: true });
-    const ID = this.props.Detail?.giftCardGeneralId;
+    const ID = this.props.Detail;
     axios
       .get(
         URL +
@@ -343,6 +345,7 @@ class Generation_Detail extends Component {
                 <GoInfo
                   size={22}
                   onClick={() => this.handleLogs(row.original)}
+                  style={{ cursor: "pointer" }}
                 />
               </div>
             </Tooltip>
@@ -552,5 +555,7 @@ const styles = {
   },
   btn: {
     padding: "7px 25px",
+    backgroundColor: "white",
+    color: "#4251af",
   },
 };

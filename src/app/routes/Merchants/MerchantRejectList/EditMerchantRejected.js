@@ -80,7 +80,7 @@ class EditMerchantRejected extends Component {
       dbaAddress: data?.dbaAddress?.Address,
       dbaCity: data?.dbaAddress?.City,
       dbaState: data?.dbaAddress?.State,
-      dbaZip: data?.dbaAddress?.dbaZip,
+      dbaZip: data?.dbaAddress?.Zip,
       loading: true,
     });
   }
