@@ -4,17 +4,18 @@ import { MdAddToPhotos } from "react-icons/md";
 import { Formik } from "formik";
 import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
 import { store } from "react-notifications-component";
+import { config } from "../../../../url/url";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import { config } from "../../../../url/url";
+import TextField from "@material-ui/core/TextField";
 
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
 
-import DefualtImage from "./default.png";
+import DefaultImage from "./default.png";
 import "../generation/generation.styles.scss";
 import "./template.styles.scss";
 
@@ -84,7 +85,7 @@ class NewTemplate extends Component {
       );
     } else {
       $imagePreview = (
-        <img className="template-img" src={DefualtImage} alt="void" />
+        <img className="template-img" src={DefaultImage} alt="void" />
       );
     }
 
@@ -188,7 +189,15 @@ class NewTemplate extends Component {
                   <div className="id-and-btn">
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <MdAddToPhotos size={23} />
-                      <h3 style={{ paddingLeft: "5px" }}>New Template</h3>
+                      <h3
+                        style={{
+                          paddingLeft: "13px",
+                          fontWeight: "400",
+                          fontSize: "21px",
+                        }}
+                      >
+                        New Template
+                      </h3>
                     </div>
 
                     <div>
@@ -208,14 +217,15 @@ class NewTemplate extends Component {
                   <div className="information container-fluid">
                     <h3 className="title">General Information</h3>
 
-                    <div className="row">
+                    <div className="row template__container">
                       <div className="col-4">
-                        <h4>Template Name</h4>
-                        <input
+                        <TextField
+                          style={{ marginTop: "16px", width: "100%" }}
                           type="text"
                           name="giftCardTemplateName"
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          label="Template Name"
                           value={values.giftCardTemplateName}
                         />
                         {errors.giftCardTemplateName &&
@@ -262,7 +272,7 @@ class NewTemplate extends Component {
 
                       <div className="col-4" style={{ paddingTop: "10px" }}>
                         <h4>Image</h4>
-                        {$imagePreview}
+                        <div className="image__container">{$imagePreview}</div>
                         <input
                           type="file"
                           className="custom-input"

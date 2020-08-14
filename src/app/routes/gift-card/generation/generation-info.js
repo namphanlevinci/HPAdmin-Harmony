@@ -375,12 +375,12 @@ class Generation_Detail extends Component {
               >
                 BACK
               </Button>
-              <Button
+              {/* <Button
                 className="btn btn-red"
                 onClick={() => this.setState({ openDelete: true })}
               >
                 DELETE
-              </Button>
+              </Button> */}
             </div>
           </div>
           <div className="information container-fluid">
@@ -487,12 +487,12 @@ class Generation_Detail extends Component {
                 </div>
               </div>
 
-              <Delete
+              {/* <Delete
                 handleCloseDelete={this.handleCloseDelete}
                 open={this.state.openDelete}
                 deleteGeneration={this.Delete}
                 text={"Gift Card"}
-              />
+              /> */}
               <CodeLog
                 open={this.state.open}
                 handleClose={this.handleClose}

@@ -11,6 +11,8 @@ import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
 import axios from "axios";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import { TextField, InputAdornment } from "@material-ui/core";
 
 import "./generation.styles.scss";
 
@@ -37,7 +39,15 @@ class AddGeneration extends Component {
           <div className="id-and-btn">
             <div style={{ display: "flex", alignItems: "center" }}>
               <MdAddToPhotos size={23} />
-              <h3 style={{ paddingLeft: "10px" }}>New Gift Card</h3>
+              <h3
+                style={{
+                  paddingLeft: "13px",
+                  fontWeight: "400",
+                  fontSize: "21px",
+                }}
+              >
+                New Gift Card
+              </h3>
             </div>
 
             <div>
@@ -132,10 +142,11 @@ class AddGeneration extends Component {
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-4">
-                      <h4>Gift Card Name</h4>
-                      <input
+                      <TextField
+                        style={styles.input}
                         type="text"
                         name="name"
+                        label="Gift Card Name*"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.name}
@@ -145,21 +156,33 @@ class AddGeneration extends Component {
                       )}
                     </div>
                     <div className="col-4">
-                      <h4>Value</h4>
-                      <input
+                      <TextField
+                        style={styles.input}
                         type="number"
                         name="amount"
-                        placeholder="$"
+                        label="Value*"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.amount}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <AttachMoneyIcon
+                                style={{
+                                  fontSize: "20px",
+                                  color: "rgba(0, 0, 0, 0.54)",
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                       {errors.amount && touched.amount && (
                         <div className="input-feedback">{errors.amount}</div>
                       )}
                     </div>
                     <div className="col-4">
-                      <h4>Template</h4>
+                      <label style={{ fontSize: "12px" }}>Template</label>
                       <Select
                         options={this.props.Template.filter(
                           (e) => e.isDisabled !== 1
@@ -199,9 +222,6 @@ class AddGeneration extends Component {
                         )}
                     </div>
 
-                    {/* <button type="submit" disabled={isSubmitting}>
-                      Submit
-                    </button> */}
                     <div className="id-and-btn" style={{ paddingTop: "20px" }}>
                       <Button className="btn btn-red" type="submit">
                         SAVE
@@ -229,3 +249,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(AddGeneration);
+
+const styles = {
+  input: {
+    width: "100%",
+    marginTop: "13px",
+  },
+};

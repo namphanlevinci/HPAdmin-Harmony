@@ -166,14 +166,16 @@ class Generation extends Component {
       },
       {
         id: "Quantity",
-        Header: "Quantity",
-        accessor: (row) => <p>{row.quantity}</p>,
+        Header: () => <div style={{ textAlign: "center" }}>Quantity</div>,
+        accessor: (row) => (
+          <p style={{ textAlign: "center" }}>{row.quantity}</p>
+        ),
       },
       {
         id: "Unused",
-        Header: "Used",
+        Header: () => <div style={{ textAlign: "center" }}>Used</div>,
         accessor: "unUsed",
-        accessor: (row) => <p>{row.unUsed}</p>,
+        accessor: (row) => <p style={{ textAlign: "center" }}>{row.unUsed}</p>,
       },
       {
         id: "Actions",

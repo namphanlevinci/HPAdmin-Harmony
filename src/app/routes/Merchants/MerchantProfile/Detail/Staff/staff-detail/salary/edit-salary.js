@@ -20,13 +20,13 @@ class EditSalary extends Component {
     const productSalaries = Salary?.productSalaries;
 
     this.setState({
-      salaryValue: Number(salaries?.perHour?.value).toFixed(2),
+      salaryValue: salaries?.perHour?.value,
       salaryIsCheck: salaries?.perHour?.isCheck,
       commIsCheck: salaries?.commission?.isCheck,
       commValue: salaries?.commission?.value,
       tipValue: tipFees?.percent?.value,
       tipIsCheck: tipFees?.percent?.isCheck,
-      fixValue: Number(tipFees?.fixedAmount?.value).toFixed(2),
+      fixValue: tipFees?.fixedAmount?.value,
       fixIsCheck: tipFees?.fixedAmount?.isCheck,
       prodCommValue: productSalaries?.commission?.value,
       prodCommIsCheck: productSalaries?.commission?.isCheck,
@@ -182,6 +182,8 @@ class EditSalary extends Component {
                   <div className="input-box">
                     <CurrencyInput
                       name="salaryValue"
+                      type="tel"
+                      separator="."
                       value={salaryValue}
                       disabled={commIsCheck ? true : false}
                       onChange={this.handleCurrency}
@@ -258,6 +260,8 @@ class EditSalary extends Component {
                   <div className="input-box">
                     <CurrencyInput
                       name="fixValue"
+                      type="tel"
+                      separator="."
                       value={fixValue}
                       disabled={tipIsCheck ? true : false}
                       onChange={this.handleCurrency}
@@ -294,13 +298,13 @@ class EditSalary extends Component {
                 </div>
 
                 <div className="col-6">
-                  <label style={{ paddingTop: "10px " }}>
-                    Salary Pay In Cash
-                  </label>
+                  <div className="checkbox">
+                    <Checkbox style={{ color: "white" }} />
+                    <label>Salary Pay In Cash</label>
+                  </div>
                   <div>
                     <div className="input-box">
                       <input
-                        style={{ marginTop: "7px" }}
                         name="cashPercent"
                         type="tel"
                         value={cashPercent}

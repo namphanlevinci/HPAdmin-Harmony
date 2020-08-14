@@ -230,9 +230,15 @@ class Generation extends Component {
         accessor: (row) => <p>{row?.giftCardType}</p>,
       },
       {
-        Header: "Status",
+        Header: () => <div style={{ textAlign: "center" }}>Status</div>,
         accessor: "isDisabled",
-        Cell: (e) => <p>{e.value === 0 ? "Active" : "Inactive"}</p>,
+        Cell: (e) => (
+          <div style={{ textAlign: "center" }}>
+            <p style={{ fontWeight: 400 }}>
+              {e.value === 0 ? "Active" : "Inactive"}
+            </p>
+          </div>
+        ),
       },
       {
         Header: () => <div style={{ textAlign: "center" }}>Visible on App</div>,

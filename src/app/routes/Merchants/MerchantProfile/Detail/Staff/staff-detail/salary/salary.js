@@ -66,7 +66,7 @@ export class salary extends Component {
               />
               <label>Tip Percent</label>
             </div>
-            <div class="input-box">
+            <div className="input-box">
               <input type="text" value={tipFees?.percent?.value} disabled />
               <span className="unit">%</span>
             </div>
@@ -113,11 +113,14 @@ export class salary extends Component {
           </div>
           {/* PAYOUT BY CASH */}
           <div className="col-6">
-            <label style={{ paddingTop: "10px " }}>Salary pay in Cash</label>
+            <div className="checkbox">
+              <Checkbox style={{ color: "white" }} />
+              <label>Salary Pay in Cash</label>
+            </div>
+
             <div>
               <div className="input-box">
                 <input
-                  style={{ marginTop: "7px" }}
                   name="cashPercent"
                   type="tel"
                   value={cashPercent}
