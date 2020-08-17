@@ -84,9 +84,9 @@
   margin: 0;
 }
 .content-body .content  p {
-  padding-bottom: 10px;
+  /* padding-bottom: 10px; */
   font-weight: 400;
-  color: #505050;
+  color: #252525;
   overflow-wrap: break-word;
   font-size: 16px;
 }

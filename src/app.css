@@ -93,3 +93,11 @@ label {
   background: #4251af;
 }
 
+
+.page-heading .breadcrumb > a:hover {
+  text-decoration: none;
+}
+
+.page-heading .breadcrumb-item {
+  cursor: default;
+}

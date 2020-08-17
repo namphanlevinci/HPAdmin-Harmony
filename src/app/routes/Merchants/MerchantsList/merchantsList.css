@@ -106,7 +106,7 @@
 .ReactTable .rt-resizable-header-content {
   font-weight: 400;
   font-size: 16px;
-  padding: 10px 10px 10px 13px;
+  padding: 10px 10px 10px 0px;
   color: #fff;
 }
 .ReactTable .rt-thead .rt-tr {
@@ -133,7 +133,7 @@
 } */
 
 .ReactTable .rt-tbody .rt-td p {
-  font-size: 17px;
+  font-size: 15px;
   margin-bottom: 0px !important;
   font-weight: 300;
 }

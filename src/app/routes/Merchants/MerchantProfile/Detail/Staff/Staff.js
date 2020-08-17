@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import { VIEW_STAFF } from "../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../url/url";
 
+import ArchiveSVG from "../../../../../../assets/images/archive.svg";
+import EditSVG from "../../../../../../assets/images/edit.svg";
+import RestoreSVG from "../../../../../../assets/images/restore.svg";
+import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
@@ -15,9 +19,6 @@ import formatPhone from "../../../../../../util/formatPhone";
 import ScaleLoader from "../../../../../../util/scaleLoader";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
-import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
-import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 
 import "react-table/react-table.css";
 import "../Detail.css";
@@ -122,23 +123,33 @@ class Staff extends Component {
 
     const columns = [
       {
+        Header: "",
+        id: "none",
+        accessor: "none",
+        Cell: (row) => {
+          row.styles["paddingLeft"] = "0px";
+          return <DragIndicatorOutlinedIcon />;
+        },
+        width: 40,
+      },
+      {
         Header: "Staff ID",
         id: "staffId",
-        accessor: (d) => <p style={{ fontWeight: 400 }}>{`${d.staffId}`}</p>,
+        accessor: (d) => <p style={{ fontWeight: 500 }}>{`${d.staffId}`}</p>,
         width: 80,
       },
       {
         Header: "Name",
         id: "fullName",
         accessor: (d) => (
-          <p style={{ fontWeight: 400 }}>{`${d.firstName} ${d.lastName}`}</p>
+          <p style={{ fontWeight: 500 }}>{`${d.firstName} ${d.lastName}`}</p>
         ),
       },
       {
         id: "Display",
         Header: "Display Name",
         accessor: (d) => (
-          <p style={{ fontWeight: 400 }}>{`${d.displayName}`}</p>
+          <p style={{ fontWeight: 500 }}>{`${d.displayName}`}</p>
         ),
       },
       {
@@ -156,14 +167,14 @@ class Staff extends Component {
         Header: "Role",
         id: "roleName",
         accessor: (row) => (
-          <p style={{ fontWeight: 400 }}>{formatPhone(row?.roleName)}</p>
+          <p style={{ fontWeight: 500 }}>{formatPhone(row?.roleName)}</p>
         ),
       },
       {
         Header: "Status",
         accessor: "isDisabled",
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <p style={{ fontWeight: 500 }}>
             {e.value === 1 ? "Inactive" : "Active"}
           </p>
         ),
@@ -176,27 +187,26 @@ class Staff extends Component {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
               <Tooltip title="Delete">
-                <ArchiveOutlinedIcon
+                <img
+                  src={ArchiveSVG}
                   onClick={() => [
                     this.setState({
                       extraId: row.original.staffId,
                       dialog: true,
                     }),
                   ]}
-                  // style={style.icon}
                 />
               </Tooltip>
             ) : (
               <Tooltip title="Restore">
-                <UnarchiveOutlinedIcon
-                  size={20}
+                <img
+                  src={RestoreSVG}
                   onClick={() =>
                     this.setState({
                       extraId: row.original.staffId,
                       restoreDialog: true,
                     })
                   }
-                  // style={style.icon}
                 />
               </Tooltip>
             );
@@ -205,10 +215,12 @@ class Staff extends Component {
               {CheckPermissions(16) && actionsBtn}
 
               {CheckPermissions(17) && (
-                <span style={{ paddingLeft: "10px" }}>
+                <span style={{ paddingLeft: "15px" }}>
                   <Tooltip title="Edit">
-                    <PageviewOutlinedIcon
-                      // style={style.icon}
+                    <img
+                      src={EditSVG}
+                      size={20}
+                      style={{ color: "#575757" }}
                       onClick={() => this.viewStaff(row.original)}
                     />
                   </Tooltip>
@@ -341,10 +353,3 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Staff);
-
-const style = {
-  icon: {
-    cursor: "pointer",
-    fontSize: "30px",
-  },
-};

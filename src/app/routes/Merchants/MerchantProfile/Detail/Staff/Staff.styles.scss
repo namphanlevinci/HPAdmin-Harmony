@@ -1,8 +1,9 @@
 
 .Staff .ReactTable .rt-tbody .rt-td {
-  padding-left: 15px;
+  // padding-left: 15px;
   // align-items: center;
   // display: flex;
+  padding: 10px 10px 10px 0px ;
 }
 
 .Staff .ReactTable .rt-thead .rt-th, .ReactTable .rt-thead .rt-td {
@@ -11,8 +12,13 @@
 }
 
 .Staff .ReactTable .rt-resizable-header-content {
-  color: black;
+  color: #252525;
   font-weight: 400;
+  
+}
+.Staff .ReactTable .rt-thead .rt-tr {
+  background-color: #ebebeb;
+
 }
 
 .add-staff {
