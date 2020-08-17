@@ -1,11 +1,13 @@
 import React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 // import NumericInput from "react-numeric-input";
+import CurrencyInput from "react-currency-masked-input";
 
 import "../Staff.styles.scss";
 const Salary = ({
   handleCheckBox,
   handleChange,
+  handleCurrency,
   validator,
   state: {
     salaryValue,
@@ -37,11 +39,11 @@ const Salary = ({
           <label>Salary per hour</label>
         </div>
         <div className="input-box">
-          <input
-            type="number"
+          <CurrencyInput
+            type="tel"
             name="salaryValue"
             value={salaryValue}
-            onChange={handleChange}
+            onChange={handleCurrency}
             disabled={commIsCheck ? true : false}
           />
           <span className="unit">$</span>
@@ -115,10 +117,10 @@ const Salary = ({
           <label>Tip Fixed Amount</label>
         </div>
         <div className="input-box">
-          <input
+          <CurrencyInput
             name="fixValue"
-            type="number"
-            onChange={handleChange}
+            type="tel"
+            onChange={handleCurrency}
             disabled={tipIsCheck === true ? true : false}
             value={fixValue}
           />
@@ -155,11 +157,11 @@ const Salary = ({
         </div>
       </div>
       <div className="col-6">
-        <label style={{ paddingTop: "10px " }}>Salary pay in Cash</label>
+        <Checkbox style={{ color: "white" }} />
+        <label>Salary pay in Cash</label>
         <div>
           <div className="input-box">
             <input
-              style={{ marginTop: "7px" }}
               name="cashPercent"
               type="tel"
               onChange={handleChange}
@@ -167,14 +169,6 @@ const Salary = ({
               min="0"
               max="100"
             />
-            {/* <NumericInput
-              className="form-control"
-              name="cashPercent"
-              onChange={(e) => console.log(e)}
-              value={cashPercent}
-              min="0"
-              max="100"
-            /> */}
             <span className="unit">%</span>
           </div>
         </div>

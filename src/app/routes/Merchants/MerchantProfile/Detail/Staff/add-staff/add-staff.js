@@ -145,6 +145,7 @@ class AddStaff extends Component {
   getSalary = () => {
     return (
       <Salary
+        handleCurrency={this.handleCurrency}
         handleChange={this.handleChange}
         handleCheckBox={this.handleCheckBox}
         state={this.state}
@@ -387,6 +388,11 @@ class AddStaff extends Component {
   handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  };
+
+  handleCurrency = (event, masked) => {
+    const { name } = event.target;
+    this.setState({ [name]: masked });
   };
 
   handlePhone = (e) => {

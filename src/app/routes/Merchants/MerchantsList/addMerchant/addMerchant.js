@@ -256,12 +256,17 @@ class AddMerchant extends React.Component {
   handleSelect = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-    console.log("this.state", this.state);
   };
 
   handleCheckBox = (e) => {
     const { name, value, checked } = e.target;
     this.setState({ [name]: checked });
+    this.setState({
+      dbaAddress: "",
+      dbaCity: "",
+      dbaState: "",
+      dbaZip: "",
+    });
     if (checked) {
       this.setState({
         dbaAddress: this.state.address,
@@ -277,8 +282,6 @@ class AddMerchant extends React.Component {
         dbaZip: "",
       });
     }
-
-    this.setState({ [name]: checked });
   };
 
   handleQuestions = (event, value, name) => {

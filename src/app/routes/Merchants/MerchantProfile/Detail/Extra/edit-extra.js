@@ -208,6 +208,7 @@ const EditExtra = ({
                       <div className="input-box">
                         <CurrencyInput
                           name="price"
+                          type="tel"
                           onChange={(e, masked) =>
                             setFieldValue("price", masked)
                           }
@@ -253,6 +254,7 @@ const EditExtra = ({
                       <div className="input-box">
                         <CurrencyInput
                           name="supplyFee"
+                          type="tel"
                           onChange={(e, masked) =>
                             setFieldValue("supplyFee", masked)
                           }

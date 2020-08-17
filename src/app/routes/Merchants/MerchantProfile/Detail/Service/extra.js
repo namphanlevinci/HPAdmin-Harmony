@@ -143,7 +143,7 @@ const Extra = ({
                           setFieldValue(`extras.${index}.price`, masked),
                         ]}
                         name={`extras.${index}.price`}
-                        type="number"
+                        type="tel"
                       />
                       <span className="unit">$</span>
                     </div>
@@ -168,7 +168,7 @@ const Extra = ({
                           setFieldValue(`extras.${index}.supplyFee`, masked),
                         ]}
                         name={`extras.${index}.supplyFee`}
-                        type="number"
+                        type="tel"
                       />
 
                       <span className="unit">$</span>

@@ -346,6 +346,7 @@ class EditProduct extends Component {
                   <div className="input-box">
                     <CurrencyInput
                       name="price"
+                      type="tel"
                       value={this.state.price}
                       onChange={(e, masked) => this.setState({ price: masked })}
                     />

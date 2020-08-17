@@ -144,7 +144,7 @@ const General = ({
               />
             </FormControl>
 
-            {validator.message("zip", value.zip, "required|string")}
+            {validator.message("zip", value.zip, "required|integer")}
           </div>
         </div>
       </div>
@@ -178,13 +178,7 @@ const General = ({
               onChange={handleChange}
               value={value.dbaAddress}
             />
-            {value.sameAsBA
-              ? null
-              : validator.message(
-                  "dbaAddress",
-                  value.dbaAddress,
-                  "required|string"
-                )}
+            {validator.message("dbaAddress", value.dbaAddress, "required")}
           </div>
         </div>
         <div className="col-3">
@@ -198,9 +192,7 @@ const General = ({
               onChange={handleChange}
               value={value.dbaCity}
             />
-            {value.sameAsBA
-              ? null
-              : validator.message("dbaCity", value.dbaCity, "required|string")}
+            {validator.message("dbaCity", value.dbaCity, "required")}
           </div>
         </div>
         <div className="col-3">
@@ -211,13 +203,7 @@ const General = ({
               initialValue={value.dbaState}
               handleChange={handleSelect}
             />
-            {value.sameAsBA
-              ? null
-              : validator.message(
-                  "dbaState",
-                  value.dbaState,
-                  "required|integer"
-                )}
+            {validator.message("dbaState", value.dbaState, "required")}
           </div>
         </div>
         <div className="col-2">
@@ -238,9 +224,7 @@ const General = ({
                 inputComponent={InputCustom}
               />
             </FormControl>
-            {value.sameAsBA
-              ? null
-              : validator.message("dbaZip", value.dbaZip, "required|string")}
+            {validator.message("dbaZip", value.dbaZip, "required")}
           </div>
         </div>
       </div>
