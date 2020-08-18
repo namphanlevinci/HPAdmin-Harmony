@@ -44,22 +44,19 @@ class EditTemplate extends Component {
       isDisabled: Data?.isDisabled,
       giftCardType: Data?.giftCardType,
       isConsumer: Data?.isConsumer,
+      isChecked: Number(Data?.isConsumer) === 1 ? true : false,
       ID: Data?.giftCardTemplateId,
       loading: true,
     });
-
-    if (Data?.isConsumer === 1) {
-      this.setState({ isChecked: true });
-    } else {
-      this.setState({ isChecked: false });
-    }
   }
 
-  handleCheckbox = (event) => {
-    if (event.target.checked === true) {
-      this.setState({ isConsumer: 1, isChecked: true });
+  handleCheckbox = (event, setFieldValue) => {
+    if (event) {
+      setFieldValue("isConsumer", 1);
+      setFieldValue("isChecked", event);
     } else {
-      this.setState({ isConsumer: 0, isChecked: false });
+      setFieldValue("isConsumer", 0);
+      setFieldValue("isChecked", event);
     }
   };
 
@@ -134,13 +131,15 @@ class EditTemplate extends Component {
       { value: "Happy Anniversary", label: "Happy Anniversary" },
       { value: "Happy Birthday", label: "Happy Birthday" },
       { value: "Happy New Year", label: "Happy New Year" },
-      { value: "Valentine", label: "Valentine" },
+      { value: "Happy Valentine", label: "Happy Valentine" },
       { value: "Thank You", label: "Thank You" },
+      { value: "I Love You", label: "I Love You" },
+      { value: "Merry Christmas", label: "Merry Christmas" },
     ];
 
     const Status = [
       { value: 0, label: "Active" },
-      { value: 1, label: "Disable" },
+      { value: 1, label: "Inactive" },
     ];
 
     let { imagePreviewUrl } = this.state;
@@ -333,7 +332,7 @@ class EditTemplate extends Component {
                             placeholder="Select Status"
                             value={{
                               label:
-                                values.isDisabled === 0 ? "Active" : "Disable",
+                                values.isDisabled === 0 ? "Active" : "Inactive",
                             }}
                           />
                           {errors.status && touched.status && (
@@ -357,8 +356,13 @@ class EditTemplate extends Component {
                         <div className="col-8" style={{ paddingTop: "45px" }}>
                           <Checkbox
                             id="isConsumer"
-                            checked={this.state.isChecked}
-                            onChange={this.handleCheckbox}
+                            checked={values.isChecked}
+                            onChange={(e) => [
+                              this.handleCheckbox(
+                                e.target.checked,
+                                setFieldValue
+                              ),
+                            ]}
                             value="isConsumer"
                             inputProps={{ "aria-label": "primary checkbox" }}
                             style={{ color: "#4251af" }}

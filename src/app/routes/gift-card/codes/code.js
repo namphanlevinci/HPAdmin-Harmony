@@ -267,7 +267,13 @@ class Codes extends Component {
         Cell: (row) => {
           return (
             <Tooltip title="Info" arrow>
-              <div style={{ color: "#4251af", textAlign: "center" }}>
+              <div
+                style={{
+                  color: "#4251af",
+                  textAlign: "center",
+                  cursor: "pointer",
+                }}
+              >
                 <GoInfo
                   size={22}
                   onClick={() => this.handleLogs(row.original)}

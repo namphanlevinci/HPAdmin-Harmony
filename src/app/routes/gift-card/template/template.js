@@ -264,7 +264,7 @@ class Generation extends Component {
             <div style={{ textAlign: "center" }}>
               {CheckPermissions(43) &&
                 (Number(row?.original?.isDisabled) === 0 ? (
-                  <Tooltip title="Delete">
+                  <Tooltip title="Archive">
                     <img
                       src={ArchiveSVG}
                       style={style.icon}

@@ -3,12 +3,22 @@
     padding: 10px 25px 25px 25px;
     min-width: 500px
   }
-  table {
+
+  .code__log__container {
     width: 100%;
     background-color: #fff;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     border-radius: 6px;
+
+    p {
+      font-size: 17px;
+      color: #404040;
+      padding-left: 10px ;
+      font-weight: 300;
+      margin-right:50px;
+    }
   }
+
   h4 {
     // text-align: center;
     color: black;
@@ -17,11 +27,7 @@
     padding-top: 15px;
     padding-left: 10px;
   }
-  td {
-    color: black;
-    font-weight: 300;
-    padding: 10px 20px 10px 10px;
-  }
+ 
 
   .code-log-title {
     padding: 20px 25px 5px 25px;
@@ -30,7 +36,7 @@
     align-items: center;
 
     p {
-      font-size: 17px;
+      font-size: 20px;
       margin-bottom: 0px;
     }
 
