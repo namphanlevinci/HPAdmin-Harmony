@@ -1,6 +1,7 @@
 import axios from "axios";
 import { select } from "redux-saga/effects";
 import { config } from "../../url/url";
+
 const URL = config.url.URL;
 
 // GET ALL MERCHANT API
@@ -192,6 +193,26 @@ export function* REJECT_MERCHANT_API(data) {
     .put(URL + "/merchant/reject/" + ID, { reason }, config)
     .then((result) => {
       return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// DELETE MERCHANT
+export function* DELETE_MERCHANT_API(ID) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .delete(URL + `/merchant/delete/${ID}`, config)
+    .then((result) => {
+      return result.data.data;
     })
     .catch((err) => {
       console.log(err);

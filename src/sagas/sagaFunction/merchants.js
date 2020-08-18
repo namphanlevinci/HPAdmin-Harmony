@@ -7,7 +7,9 @@ import {
   GET_ALL_MERCHANT_REQUEST_API,
   APPROVE_MERCHANT_API,
   REJECT_MERCHANT_API,
+  DELETE_MERCHANT_API,
 } from "../api/merchants";
+import { history } from "../../store/index";
 import * as typeMerchant from "../../actions/merchants/types";
 
 // GET ALL MERCHANTS
@@ -160,6 +162,30 @@ export function* MERCHANT_REJECT_SAGA() {
         yield put({
           type: typeMerchant.MERCHANT_REJECT_SUCCESS,
           payload: Approval,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+// DELETE MERCHANT
+export function* DELETE_MERCHANT_SAGA() {
+  yield takeLatest(typeMerchant.DELETE_MERCHANT, function*(action) {
+    const { ID, path } = action.payload;
+    try {
+      const result = yield DELETE_MERCHANT_API(ID);
+      if (result !== null) {
+        yield put({
+          type: typeMerchant.DELETE_MERCHANT_SUCCESS,
+          payload: result,
+        });
+        history.push(path);
+      } else {
+        yield put({
+          type: typeMerchant.DELETE_MERCHANT_ERROR,
+          payload: "Something went wrong, please try again later!",
         });
       }
     } catch (error) {

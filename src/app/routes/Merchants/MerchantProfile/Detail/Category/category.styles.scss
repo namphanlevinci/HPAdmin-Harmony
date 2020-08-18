@@ -94,8 +94,10 @@
   }
 }
 
-.category__container .ReactTable .rt-tbody .rt-td p {
-  padding-left: 13px;
+
+
+.category__container .ReactTable .rt-thead .rt-tr {
+  background-color: #ebebeb;
 }
 
 .category__container .ReactTable .rt-thead .rt-th, .ReactTable .rt-thead .rt-td {

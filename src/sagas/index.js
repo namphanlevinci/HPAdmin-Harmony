@@ -17,6 +17,7 @@ import {
   GET_ALL_MERCHANT_REQUEST_SAGA,
   MERCHANT_APPROVAL_SAGA,
   MERCHANT_REJECT_SAGA,
+  DELETE_MERCHANT_SAGA,
 } from "../sagas/sagaFunction/merchants";
 
 import { GET_ALL_NOTIFICATION_SAGA } from "../sagas/sagaFunction/notifications";
@@ -76,4 +77,5 @@ export default function* rootSaga() {
   yield fork(GET_PERMISSION_BY_ROLE_ID_SAGA);
   yield fork(GET_ALL_PERMISSION_SAGA);
   yield fork(UPDATE_PERMISSION_SAGA);
+  yield fork(DELETE_MERCHANT_SAGA);
 }

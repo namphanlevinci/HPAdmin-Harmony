@@ -47,6 +47,7 @@ import Approved_Static from "./Reports/Approved";
 import viewPrincipalInfo from "./Merchants/getPrincipal_Info";
 // Gift Card
 import GiftCardReducer from "./gift-card/gift-card.reducer";
+import MerchantReducer from "./Merchants/MerchantReducer";
 
 export default (history) =>
   combineReducers({
@@ -82,4 +83,5 @@ export default (history) =>
     serviceProps: VIEW_SERVICE_EDIT,
     GiftCardReducer,
     staffDetail: VIEW_STAFF_DETAIL,
+    MerchantReducer,
   });

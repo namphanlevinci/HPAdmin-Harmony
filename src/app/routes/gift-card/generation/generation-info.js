@@ -41,7 +41,7 @@ class Generation_Detail extends Component {
       deleteID: "",
       openDelete: false,
       loadingData: false,
-      typeExport: { value: "excel", label: "Excel" },
+      typeExport: { value: "excel", label: "CSV" },
       isLoading: false,
     };
   }
@@ -50,7 +50,6 @@ class Generation_Detail extends Component {
     const ID = this.props.Detail;
     this.setState({ deleteID: ID, loadingData: true });
     this.getGiftCardById(ID);
-    console.log("  this.props.Detail", this.props.Detail);
   }
 
   // logs
@@ -354,7 +353,7 @@ class Generation_Detail extends Component {
       },
     ];
     const typeExport = [
-      { value: "excel", label: "Excel" },
+      { value: "excel", label: "CSV" },
       // { value: "pdf", label: "Pdf" },
     ];
     return (

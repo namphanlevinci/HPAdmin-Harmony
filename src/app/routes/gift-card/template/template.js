@@ -29,6 +29,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
 import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
+import ArchiveSVG from "../../../../assets/images/archive.svg";
+import EditSVG from "../../../../assets/images/edit.svg";
+import RestoreSVG from "../../../../assets/images/restore.svg";
 
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -262,7 +265,8 @@ class Generation extends Component {
               {CheckPermissions(43) &&
                 (Number(row?.original?.isDisabled) === 0 ? (
                   <Tooltip title="Delete">
-                    <ArchiveOutlinedIcon
+                    <img
+                      src={ArchiveSVG}
                       style={style.icon}
                       onClick={() =>
                         this._handleOpenDelete(
@@ -273,7 +277,8 @@ class Generation extends Component {
                   </Tooltip>
                 ) : (
                   <Tooltip title="Restore">
-                    <UnarchiveOutlinedIcon
+                    <img
+                      src={RestoreSVG}
                       style={style.icon}
                       onClick={() =>
                         this.handleOpenRestore(
@@ -285,8 +290,9 @@ class Generation extends Component {
                 ))}
               {CheckPermissions(44) && (
                 <Tooltip title="Edit" arrow>
-                  <span style={{ paddingLeft: "10px" }}>
-                    <PageviewOutlinedIcon
+                  <span style={{ paddingLeft: "15px" }}>
+                    <img
+                      src={EditSVG}
                       style={style.icon}
                       onClick={() => this.editTemplate(row.original)}
                     />

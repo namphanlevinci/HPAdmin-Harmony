@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
+import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -38,6 +39,12 @@ import ExtraTab from "./Detail/Extra/extra";
 import ExportSettlement from "./Detail/ExportSettlement/export-settlement";
 import CheckPermissions from "../../../../util/checkPermission";
 import PrivateRoute from "../../../PrivateRoute";
+// DELETE
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
@@ -47,12 +54,24 @@ import "bootstrap/js/src/collapse.js";
 class merchantProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      openDelete: false,
+    };
   }
 
   _goBack = () => {
     this.props.history.push("/app/merchants/list");
   };
+
+  handleDeleteMerchant = () => {
+    const ID = this.props.MerchantProfile.merchantId;
+    const path = "/app/merchants/list";
+    const payload = { ID, path };
+
+    this.props.deleteMerchant(payload);
+    this.setState({ openDelete: false });
+  };
+
   render() {
     const e = this.props.MerchantProfile;
 
@@ -68,6 +87,13 @@ class merchantProfile extends Component {
             <div className="header col-md-12">
               <h3>ID: {e.merchantId}</h3>
               <span style={{ display: "flex" }}>
+                <Button
+                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  className="btn btn-green"
+                  onClick={() => this.setState({ openDelete: true })}
+                >
+                  DELETE
+                </Button>
                 {CheckPermissions(13) && (
                   <span style={{ marginRight: "20px" }}>
                     <ExportSettlement
@@ -90,6 +116,33 @@ class merchantProfile extends Component {
             <div className="content">
               <div className="container-fluid" style={{ padding: "10px" }}>
                 <div className="">
+                  <Dialog open={this.state.openDelete}>
+                    <DialogTitle id="alert-dialog-title">
+                      {"Delete Merchant?"}
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        This Merchant will be remove from the app. You can not
+                        restore this Merchant, Are you sure you want to do
+                        this?.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={() => this.setState({ openDelete: false })}
+                        color="primary"
+                      >
+                        Disagree
+                      </Button>
+                      <Button
+                        onClick={this.handleDeleteMerchant}
+                        color="primary"
+                        autoFocus
+                      >
+                        Agree
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                   <div className="profile-nav content-body">
                     <ul className="detail-tab">
                       <li>
@@ -187,10 +240,6 @@ class merchantProfile extends Component {
                           path="/app/merchants/profile/service"
                           component={Service}
                         />
-                        {/* <Route
-                          path="/app/merchants/profile/product/add"
-                          component={ProductAdd}
-                        /> */}
                         <Route
                           path="/app/merchants/profile/product/edit"
                           component={ProductEdit}
@@ -245,4 +294,12 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 
-export default withRouter(connect(mapStateToProps)(merchantProfile));
+const mapDispatchToProps = (dispatch) => ({
+  deleteMerchant: (payload) => {
+    dispatch(DELETE_MERCHANT(payload));
+  },
+});
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(merchantProfile)
+);

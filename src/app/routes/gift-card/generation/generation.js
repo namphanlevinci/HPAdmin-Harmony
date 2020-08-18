@@ -4,12 +4,12 @@ import {
   GET_GIFT_CARD,
   VIEW_DETAIL,
 } from "../../../../actions/gift-card/actions";
-import { GoTrashcan } from "react-icons/go";
-import { store } from "react-notifications-component";
+// import { GoTrashcan } from "react-icons/go";
+// import { store } from "react-notifications-component";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
-import { FiEdit } from "react-icons/fi";
 
+import EditSVG from "../../../../assets/images/edit.svg";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
@@ -197,7 +197,8 @@ class Generation extends Component {
               {CheckPermissions(38) && (
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "10px" }}>
-                    <PageviewOutlinedIcon
+                    <img
+                      src={EditSVG}
                       style={style.icon}
                       onClick={() => this.viewGeneration(row.original)}
                     />

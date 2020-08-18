@@ -60,7 +60,6 @@ class EditService extends Component {
         this.setState({ category: res.data.data });
       });
     const service = this.props.SERVICE;
-    console.log("SERVICE", this.props.SERVICE);
     if (service !== null) {
       this.setState(
         {
@@ -560,7 +559,7 @@ class EditService extends Component {
                               className="btn btn-red"
                               onClick={this.goBack}
                             >
-                              BACK
+                              CANCEL
                             </Button>
                           </div>
                         </form>

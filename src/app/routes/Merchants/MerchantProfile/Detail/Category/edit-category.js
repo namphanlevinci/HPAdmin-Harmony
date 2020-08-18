@@ -137,7 +137,7 @@ class EditCategory extends Component {
                           )
                         }
                       >
-                        BACK
+                        CANCEL
                       </Button>
                       <Button
                         style={{

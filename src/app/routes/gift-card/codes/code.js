@@ -45,7 +45,7 @@ class Codes extends Component {
       search: "",
 
       isLoading: false,
-      typeExport: { value: "excel", label: "Excel" },
+      typeExport: { value: "excel", label: "CSV" },
       isPhysical: { value: -1, label: "Select" },
       isActive: { value: -1, label: "Select" },
       isUsed: { value: -1, label: "Select" },
@@ -162,10 +162,12 @@ class Codes extends Component {
   };
 
   handleSelect = (value, name) => {
-    this.setState({
-      [name.name]: value,
-    });
-    this.fetchData();
+    this.setState(
+      {
+        [name.name]: value,
+      },
+      () => this.fetchData()
+    );
   };
 
   render() {
@@ -173,7 +175,7 @@ class Codes extends Component {
     const { page, pageCount, data } = this.state;
 
     const typeExport = [
-      { value: "excel", label: "Excel" },
+      { value: "excel", label: "CSV" },
       // { value: "pdf", label: "Pdf" },
     ];
 
@@ -452,5 +454,7 @@ const styles = {
   },
   btn: {
     padding: "7px 25px",
+    backgroundColor: "white",
+    color: "#4251af",
   },
 };

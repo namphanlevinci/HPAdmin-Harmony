@@ -138,3 +138,17 @@ export const VIEW_STAFF = (payload) => ({
   type: types.VIEW_STAFF,
   payload,
 });
+
+// DELETE MERCHANT
+export const DELETE_MERCHANT = (payload) => ({
+  type: types.DELETE_MERCHANT,
+  payload: payload,
+});
+export const DELETE_MERCHANT_SUCCESS = (payload) => ({
+  type: types.DELETE_MERCHANT_SUCCESS,
+  payload: payload,
+});
+export const DELETE_MERCHANT_ERROR = (payload) => ({
+  type: types.DELETE_MERCHANT_ERROR,
+  payload: payload,
+});

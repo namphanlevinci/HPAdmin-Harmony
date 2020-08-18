@@ -136,21 +136,21 @@ class Staff extends Component {
       {
         Header: "Staff ID",
         id: "staffId",
-        accessor: (d) => <p style={{ fontWeight: 500 }}>{`${d.staffId}`}</p>,
+        accessor: (d) => <p style={{ fontWeight: 400 }}>{`${d.staffId}`}</p>,
         width: 80,
       },
       {
         Header: "Name",
         id: "fullName",
         accessor: (d) => (
-          <p style={{ fontWeight: 500 }}>{`${d.firstName} ${d.lastName}`}</p>
+          <p style={{ fontWeight: 400 }}>{`${d.firstName} ${d.lastName}`}</p>
         ),
       },
       {
         id: "Display",
         Header: "Display Name",
         accessor: (d) => (
-          <p style={{ fontWeight: 500 }}>{`${d.displayName}`}</p>
+          <p style={{ fontWeight: 400 }}>{`${d.displayName}`}</p>
         ),
       },
       {
@@ -168,14 +168,14 @@ class Staff extends Component {
         Header: "Role",
         id: "roleName",
         accessor: (row) => (
-          <p style={{ fontWeight: 500 }}>{formatPhone(row?.roleName)}</p>
+          <p style={{ fontWeight: 400 }}>{formatPhone(row?.roleName)}</p>
         ),
       },
       {
         Header: "Status",
         accessor: "isDisabled",
         Cell: (e) => (
-          <p style={{ fontWeight: 500 }}>
+          <p style={{ fontWeight: 400 }}>
             {e.value === 1 ? "Inactive" : "Active"}
           </p>
         ),
@@ -187,7 +187,7 @@ class Staff extends Component {
         Cell: (row) => {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
-              <Tooltip title="Delete">
+              <Tooltip title="Archive">
                 <img
                   src={ArchiveSVG}
                   onClick={() => [

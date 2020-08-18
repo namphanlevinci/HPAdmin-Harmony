@@ -246,7 +246,7 @@ class AddService extends Component {
                       secondTime: "",
                       price: 0,
                       categoryId: "",
-                      isDisabled: "",
+                      isDisabled: 0,
                       supplyFee: 0,
                       extras: ExtraInitialValues,
                     }}
@@ -615,6 +615,7 @@ class AddService extends Component {
                                   <Select
                                     styles={colourStyles}
                                     options={serviceStatus}
+                                    defaultInputValue="Active"
                                     onChange={(selectedOption) => {
                                       setFieldValue(
                                         "isDisabled",
