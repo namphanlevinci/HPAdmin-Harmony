@@ -329,7 +329,7 @@ class EditProduct extends Component {
                   </div>
                 </div>
                 <div className="col-4">
-                  <label>High Threshold *</label>
+                  <label>High Threshold*</label>
                   <div className="input-box">
                     <input
                       name="maxThreshold"

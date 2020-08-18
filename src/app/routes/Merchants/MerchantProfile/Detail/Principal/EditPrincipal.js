@@ -167,6 +167,7 @@ class EditPrincipal extends Component {
     const e = this.props.principalInfo;
 
     let { imagePreviewUrl } = this.state;
+
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (

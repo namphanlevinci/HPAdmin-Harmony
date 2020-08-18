@@ -210,7 +210,7 @@ export class EditGeneral extends Component {
           </div>
           <div className="row ">
             <div className="col-4">
-              <label>First Name</label>
+              <label>First Name*</label>
               <input
                 name="firstName"
                 value={this.state.firstName}
@@ -226,7 +226,7 @@ export class EditGeneral extends Component {
               </span>
             </div>
             <div className="col-4">
-              <label>Last Name</label>
+              <label>Last Name*</label>
               <input
                 name="lastName"
                 value={this.state.lastName}
@@ -242,7 +242,7 @@ export class EditGeneral extends Component {
               </span>
             </div>
             <div className="col-4">
-              <label>Display Name</label>
+              <label>Display Name*</label>
               <input
                 name="displayName"
                 value={this.state.displayName}

@@ -19,9 +19,11 @@ import ProductAdd from "./productAdd";
 import Slide from "@material-ui/core/Slide";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
-import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
-import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
+import ArchiveSVG from "../../../../../../assets/images/archive.svg";
+import EditSVG from "../../../../../../assets/images/edit.svg";
+import RestoreSVG from "../../../../../../assets/images/restore.svg";
+import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
+
 import "react-table/react-table.css";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -120,6 +122,16 @@ class Product extends Component {
 
     const columns = [
       {
+        Header: "",
+        id: "none",
+        accessor: "none",
+        Cell: (row) => {
+          row.styles["paddingLeft"] = "0px";
+          return <DragIndicatorOutlinedIcon />;
+        },
+        width: 40,
+      },
+      {
         Header: "Product Name",
         id: "product",
         width: 150,
@@ -188,7 +200,11 @@ class Product extends Component {
         Header: "Status",
         id: "status",
         accessor: "isDisabled",
-        Cell: (e) => <p>{e.value === 0 ? "Active" : "Inactive"}</p>,
+        Cell: (e) => (
+          <p style={{ fontWeight: "500" }}>
+            {e.value === 0 ? "Active" : "Inactive"}
+          </p>
+        ),
         width: 120,
       },
       {
@@ -199,7 +215,8 @@ class Product extends Component {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
               <Tooltip title="Delete">
-                <ArchiveOutlinedIcon
+                <img
+                  src={ArchiveSVG}
                   size={21}
                   onClick={() => [
                     this.setState({
@@ -211,7 +228,8 @@ class Product extends Component {
               </Tooltip>
             ) : (
               <Tooltip title="Restore">
-                <UnarchiveOutlinedIcon
+                <img
+                  src={RestoreSVG}
                   onClick={() =>
                     this.setState({
                       productId: row.original.productId,
@@ -228,7 +246,8 @@ class Product extends Component {
               {CheckPermissions(26) && (
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
-                    <PageviewOutlinedIcon
+                    <img
+                      src={EditSVG}
                       onClick={() => this.viewDetail(row.original)}
                     />
                   </Tooltip>
@@ -246,7 +265,6 @@ class Product extends Component {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className="search">
               <form>
-                {/* <SearchIcon className="button" title="Search" /> */}
                 <input
                   type="text"
                   className="textBox"
@@ -261,7 +279,11 @@ class Product extends Component {
                 <Button
                   className="btn btn-green"
                   style={{ marginRight: "0px" }}
-                  onClick={() => this.setState({ isPopupAddProduct: true })}
+                  onClick={() =>
+                    this.props.history.push(
+                      "/app/merchants/profile/product/add"
+                    )
+                  }
                 >
                   NEW PRODUCT
                 </Button>
@@ -279,20 +301,6 @@ class Product extends Component {
               loading={this.state.loading}
             />
           </div>
-
-          <Dialog
-            fullScreen
-            open={this.state.isPopupAddProduct}
-            onClose={this.handleClickOpen}
-            TransitionComponent={Transition}
-          >
-            <DialogContent>
-              <ProductAdd
-                getProduct={this.getProduct}
-                closePopup={() => this.setState({ isPopupAddProduct: false })}
-              />
-            </DialogContent>
-          </Dialog>
 
           {/* ARCHIVE */}
           <Dialog open={this.state.dialog}>

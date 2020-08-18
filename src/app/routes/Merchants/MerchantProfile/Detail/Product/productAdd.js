@@ -3,12 +3,15 @@ import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import { store } from "react-notifications-component";
 import { Formik } from "formik";
+import { BsGridFill } from "react-icons/bs";
 
 import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
-import Dialog from "@material-ui/core/Dialog";
 import Select from "react-select";
+import IntlMessages from "../../../../../../util/IntlMessages";
+import ContainerHeader from "../../../../../../components/ContainerHeader/index";
+import { TextField, InputAdornment } from "@material-ui/core";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -119,14 +122,6 @@ class AddProduct extends Component {
 
   render() {
     const { category } = this.state;
-    // console.log("CATEGORY", category);
-    // const mapCategory = category
-    //   .filter((e) => e.categoryType !== "Service")
-    //   .map((e) => (
-    //     <option value={e.categoryId} key={e.categoryId}>
-    //       {e.name}
-    //     </option>
-    //   ));
 
     const mapCategory2 = category
       .filter((e) => e.categoryType !== "Service")
@@ -144,7 +139,7 @@ class AddProduct extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "120px", height: "120px", marginRight: 20 }}
+          style={{ width: "180px", height: "180px", marginRight: 20 }}
           alt="service 1"
         />
       );
@@ -152,184 +147,192 @@ class AddProduct extends Component {
       $imagePreview = (
         <img
           src={ServiceImg}
-          style={{ width: "120px", height: "120px", marginRight: 20 }}
+          style={{ width: "180px", height: "180px", marginRight: 20 }}
           alt="service"
         />
       );
     }
 
     return (
-      <div className="react-transition swipe-up service-container">
-        <h2
-          style={{
-            color: "#4054B2",
-            marginBottom: "50px",
-            marginTop: 15,
-            textAlign: "center",
-            letterSpacing: 0.6,
-          }}
-        >
-          New product
-        </h2>
-        <Formik
-          initialValues={{
-            categoryId: "",
-            description: "",
-            price: "",
-            tax: 0,
-            discount: 0,
-            fileId: 0,
-            name: "",
-            isDisabled: 0,
-            quantity: "",
-            maxThreshold: "",
-            minThreshold: "",
-            sku: "",
-          }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.name) {
-              errors.name = "Required";
-            }
-            if (!values.sku) {
-              errors.sku = "Please enter SKU number";
-            }
-            if (!values.categoryId) {
-              errors.categoryId = "Please choose a category";
-            }
-            if (!values.quantity) {
-              errors.quantity = "Please enter quantity";
-            }
-            if (!values.maxThreshold) {
-              errors.maxThreshold = "Please enter max threshold";
-            }
-            if (!values.minThreshold) {
-              errors.minThreshold = "Please enter min threshold";
-            }
-            if (!values.price) {
-              errors.price = "Please enter price";
-            }
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting, setFieldError }) => {
-            const {
-              categoryId,
-              description,
-              price,
-              tax,
-              discount,
-              name,
-              isDisabled,
-              quantity,
-              maxThreshold,
-              minThreshold,
-              sku,
-            } = values;
-            let fileId = this.state.fileId;
-            axios
-              .get(URL + "/product/checksku?sku=" + sku, {
-                headers: {
-                  Authorization: `Bearer ${this.props.userLogin.token}`,
-                },
-              })
-              .then((res) => {
-                if (Number(res.data.codeNumber) === 404) {
-                  setFieldError("sku", "SKU NUMBER ALREADY EXITS");
-                  setSubmitting(false);
-                } else {
-                  axios
-                    .post(
-                      URL + "/product",
-                      {
-                        categoryId,
-                        description,
-                        price,
-                        tax,
-                        discount,
-                        fileId,
-                        name,
-                        isDisabled,
-                        quantity,
-                        maxThreshold,
-                        minThreshold,
-                        sku,
-                      },
-                      {
-                        headers: {
-                          Authorization: `Bearer ${this.props.userLogin.token}`,
-                        },
-                      }
-                    )
-                    .then((res) => {
-                      let message = res.data.message;
-                      if (Number(res.data.codeNumber) === 200) {
-                        store.addNotification({
-                          title: "SUCCESS!",
-                          message: `${message}`,
-                          type: "success",
-                          insert: "top",
-                          container: "top-right",
-                          animationIn: ["animated", "fadeIn"],
-                          animationOut: ["animated", "fadeOut"],
-                          dismiss: {
-                            duration: 5000,
-                            onScreen: true,
-                          },
-                          width: 250,
-                        });
-                        this.props.closePopup();
-                        setTimeout(() => {
-                          this.props.getProduct();
-                        }, 800);
-                      } else {
-                        store.addNotification({
-                          title: "ERROR!",
-                          message: `${message}`,
-                          type: "danger",
-                          insert: "top",
-                          container: "top-right",
-                          animationIn: ["animated", "fadeIn"],
-                          animationOut: ["animated", "fadeOut"],
-                          dismiss: {
-                            duration: 5000,
-                            onScreen: true,
-                          },
-                          width: 250,
-                        });
-                      }
-                    });
-                }
-              });
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-            setFieldValue,
-            /* and other goodies */
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <div className="container Service">
-                <div
-                  onClick={() => this.props.closePopup()}
-                  style={{ position: "absolute", right: 30, top: 10 }}
-                >
-                  <AiOutlineClose
-                    style={{ fontWeight: "bold", width: 30, height: 30 }}
-                  />
-                </div>
-                <div className="row">
-                  <div className="col-6">
-                    <div className="row">
-                      <div className="col-6">
-                        <label style={{ color: "#4054B2" }}>Category*</label>
-                        <br />
+      <div className="container-fluid content-list">
+        <ContainerHeader
+          match={this.props.match}
+          title={<IntlMessages id="sidebar.dashboard.newProduct" />}
+          disableBreadcrumb={true}
+        />
+        <div className="react-transition swipe-up service-container page-heading add__product">
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <BsGridFill size={23} style={{ color: "black" }} />
+            <h2
+              style={{
+                marginTop: 13,
+                paddingLeft: "10px",
+                letterSpacing: 0.6,
+                fontWeight: 500,
+              }}
+            >
+              New Product
+            </h2>
+          </div>
 
+          <Formik
+            initialValues={{
+              categoryId: "",
+              description: "",
+              price: "",
+              tax: 0,
+              discount: 0,
+              fileId: 0,
+              name: "",
+              isDisabled: 0,
+              quantity: "",
+              maxThreshold: "",
+              minThreshold: "",
+              sku: "",
+            }}
+            validate={(values) => {
+              const errors = {};
+              if (!values.name) {
+                errors.name = "Required";
+              }
+              if (!values.sku) {
+                errors.sku = "Please enter SKU number";
+              }
+              if (!values.categoryId) {
+                errors.categoryId = "Please choose a category";
+              }
+              if (!values.quantity) {
+                errors.quantity = "Please enter quantity";
+              }
+              if (!values.maxThreshold) {
+                errors.maxThreshold = "Please enter max threshold";
+              }
+              if (!values.minThreshold) {
+                errors.minThreshold = "Please enter min threshold";
+              }
+              if (!values.price) {
+                errors.price = "Please enter price";
+              }
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting, setFieldError }) => {
+              const {
+                categoryId,
+                description,
+                price,
+                tax,
+                discount,
+                name,
+                isDisabled,
+                quantity,
+                maxThreshold,
+                minThreshold,
+                sku,
+              } = values;
+              let fileId = this.state.fileId;
+              axios
+                .get(URL + "/product/checksku?sku=" + sku, {
+                  headers: {
+                    Authorization: `Bearer ${this.props.userLogin.token}`,
+                  },
+                })
+                .then((res) => {
+                  if (Number(res.data.codeNumber) === 404) {
+                    setFieldError("sku", "SKU NUMBER ALREADY EXITS");
+                    setSubmitting(false);
+                  } else {
+                    axios
+                      .post(
+                        URL + "/product",
+                        {
+                          categoryId,
+                          description,
+                          price,
+                          tax,
+                          discount,
+                          fileId,
+                          name,
+                          isDisabled,
+                          quantity,
+                          maxThreshold,
+                          minThreshold,
+                          sku,
+                        },
+                        {
+                          headers: {
+                            Authorization: `Bearer ${this.props.userLogin.token}`,
+                          },
+                        }
+                      )
+                      .then((res) => {
+                        let message = res.data.message;
+                        if (Number(res.data.codeNumber) === 200) {
+                          store.addNotification({
+                            title: "SUCCESS!",
+                            message: `${message}`,
+                            type: "success",
+                            insert: "top",
+                            container: "top-right",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true,
+                            },
+                            width: 250,
+                          });
+
+                          setTimeout(() => {
+                            this.props.history.push(
+                              "/app/merchants/profile/product"
+                            );
+                          }, 800);
+                        } else {
+                          store.addNotification({
+                            title: "ERROR!",
+                            message: `${message}`,
+                            type: "danger",
+                            insert: "top",
+                            container: "top-right",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true,
+                            },
+                            width: 250,
+                          });
+                        }
+                      });
+                  }
+                });
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+              setFieldValue,
+              /* and other goodies */
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <div className="container Service">
+                  <div className="row">
+                    <div className="col-6" style={{ paddingLeft: "0px" }}>
+                      <label
+                        style={{
+                          color: "#4054B2",
+                          fontSize: "15px",
+                        }}
+                      >
+                        Category*
+                      </label>
+                      <br />
+                      <div style={{ width: "60%" }}>
                         <Select
                           styles={colourStyles}
                           options={mapCategory2}
@@ -337,268 +340,300 @@ class AddProduct extends Component {
                             setFieldValue("categoryId", selectedOption.value);
                           }}
                         />
-                        {errors.categoryId && touched.categoryId && (
-                          <div className="input-feedback">
-                            {errors.categoryId}
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12" style={{ marginTop: 20 }}>
-                        <br />
-                        <input
-                          name="name"
-                          type="text"
-                          placeholder="Product*"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.name}
-                          style={{
-                            borderBottomColor: "#dddddd",
-                            borderBottomWidth: 1,
-                          }}
-                          className={
-                            errors.name && touched.name
-                              ? "text-input error"
-                              : "text-input"
-                          }
-                        />
-                        {errors.name && touched.name && (
-                          <div className="input-feedback">{errors.name}</div>
-                        )}
                       </div>
 
-                      <div className="col-12" style={{ marginTop: 20 }}>
-                        <label style={{ color: "#4054B2" }}>Description</label>
-                        <br />
-                        <textarea
-                          style={styles.textarea}
-                          name="description"
-                          type="text"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.description}
-                        />
-                      </div>
+                      {errors.categoryId && touched.categoryId && (
+                        <div className="input-feedback">
+                          {errors.categoryId}
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-3" style={{ marginTop: 6 }}>
+                      <TextField
+                        name="sku"
+                        type="text"
+                        label="SKU Number*"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.sku}
+                        style={{
+                          borderBottomColor: "#dddddd",
+                          borderBottomWidth: 1,
+                          marginTop: 10,
+                        }}
+                        className={
+                          errors.sku && touched.sku
+                            ? "text-input error"
+                            : "text-input"
+                        }
+                      />
+                      {errors.sku && touched.sku && (
+                        <div className="input-feedback">{errors.sku}</div>
+                      )}
+                    </div>
+                    <div className="col-3" style={{ marginTop: 13 }}>
+                      <TextField
+                        name="quantity"
+                        type="number"
+                        label=" Items In Stock*"
+                        style={{
+                          borderBottomColor: "#dddddd",
+                          borderBottomWidth: 1,
+                          width: "100%",
+                          textAlign: "end",
+                        }}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.quantity}
+                        className={
+                          errors.quantity && touched.quantity
+                            ? "text-input error"
+                            : "text-input"
+                        }
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <p style={styles.p}>Item</p>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                      {errors.quantity && touched.quantity && (
+                        <div className="input-feedback">{errors.quantity}</div>
+                      )}
+                    </div>
+                    <div
+                      className="col-6"
+                      style={{ marginTop: 15, paddingLeft: "0px" }}
+                    >
+                      <TextField
+                        name="name"
+                        type="text"
+                        label="Product Name*"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.name}
+                        style={{
+                          borderBottomColor: "#dddddd",
+                          borderBottomWidth: 1,
+                          width: "100%",
+                        }}
+                        className={
+                          errors.name && touched.name
+                            ? "text-input error"
+                            : "text-input"
+                        }
+                      />
+                      {errors.name && touched.name && (
+                        <div className="input-feedback">{errors.name}</div>
+                      )}
+                    </div>
+                    <div className="col-3" style={{ marginTop: 15 }}>
+                      <TextField
+                        name="minThreshold"
+                        type="number"
+                        label="Low Threshold*"
+                        style={{
+                          borderBottomColor: "#dddddd",
+                          borderBottomWidth: 1,
+                          width: "100%",
+                          textAlign: "end",
+                        }}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.minThreshold}
+                        className={
+                          errors.minThreshold && touched.minThreshold
+                            ? "text-input error"
+                            : "text-input"
+                        }
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <p style={styles.p}>Item</p>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                      {errors.minThreshold && touched.minThreshold && (
+                        <div className="input-feedback">
+                          {errors.minThreshold}
+                        </div>
+                      )}
+                    </div>
 
-                      <div className="col-md-9" style={{ marginTop: 20 }}>
-                        <label
-                          style={{ marginBottom: "20px", color: "#4054B2" }}
-                        >
-                          Image
-                        </label>
+                    <div className="col-3" style={{ marginTop: 15 }}>
+                      <TextField
+                        name="maxThreshold"
+                        type="number"
+                        label="  High Threshold*"
+                        style={{
+                          borderBottomColor: "#dddddd",
+                          borderBottomWidth: 1,
+                          width: "100%",
+                          textAlign: "end",
+                        }}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.maxThreshold}
+                        className={
+                          errors.maxThreshold && touched.maxThreshold
+                            ? "text-input error"
+                            : "text-input"
+                        }
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <p style={styles.p}>Item</p>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+
+                      {errors.maxThreshold && touched.maxThreshold && (
+                        <div className="input-feedback">
+                          {errors.maxThreshold}
+                        </div>
+                      )}
+                    </div>
+
+                    <div
+                      className="col-6"
+                      style={{ marginTop: 15, paddingLeft: "0px" }}
+                    >
+                      <label
+                        style={{
+                          color: "#4054B2",
+                          fontSize: "14px",
+                        }}
+                      >
+                        Description
+                      </label>
+                      <br />
+                      <textarea
+                        style={styles.textarea}
+                        name="description"
+                        type="text"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.description}
+                      />
+                    </div>
+
+                    <div className="col-3" style={{ marginTop: 15 }}>
+                      <TextField
+                        name="price"
+                        type="number"
+                        label="Price*"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.price}
+                        style={{
+                          marginTop: 5,
+                          borderBottomWidth: 1,
+                          borderBottomColor: "#dddddd",
+                        }}
+                        className={
+                          errors.price && touched.price
+                            ? "text-input error"
+                            : "text-input"
+                        }
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <p style={styles.p}>$</p>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+
+                      {errors.price && touched.price && (
+                        <div className="input-feedback">{errors.price}</div>
+                      )}
+                    </div>
+
+                    <div className="col-3" style={{ marginTop: 15 }}>
+                      <label style={{ color: "#4054B2", fontSize: "13px" }}>
+                        Status*
+                      </label>
+                      <br />
+
+                      <Select
+                        styles={colourStyles}
+                        options={[
+                          { value: "0", label: "Active" },
+                          { value: "1", label: "Inactive" },
+                        ]}
+                        onChange={(selectedOption) => {
+                          setFieldValue("isDisabled", selectedOption.value);
+                        }}
+                      />
+                    </div>
+                    <div
+                      className="col-md-9"
+                      style={{ marginTop: 20, paddingLeft: "0px" }}
+                    >
+                      <label
+                        style={{
+                          marginBottom: "15px",
+                          color: "#4054B2",
+                          fontSize: "14px",
+                        }}
+                      >
+                        Image
+                      </label>
+                      <br />
+                      <div
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {$imagePreview}
                         <br />
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          {$imagePreview}
+                        <div style={{ marginTop: "10px", width: "23%" }}>
                           <input
                             name="price"
                             type="file"
+                            className="custom-input"
                             onChange={this._handleImageChange}
-                            style={{
-                              width: "auto",
-                              borderBottom: "none",
-                              paddingTop: "20px",
-                            }}
                           />
                         </div>
-                      </div>
-
-                      <div className="col-6" style={{ marginTop: 40 }}>
-                        <input
-                          name="sku"
-                          type="text"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.sku}
-                          placeholder="SKU Number*"
-                          style={{
-                            borderBottomColor: "#dddddd",
-                            borderBottomWidth: 1,
-                            marginTop: 10,
-                          }}
-                          className={
-                            errors.sku && touched.sku
-                              ? "text-input error"
-                              : "text-input"
-                          }
-                        />
-                        {errors.sku && touched.sku && (
-                          <div className="input-feedback">{errors.sku}</div>
-                        )}
-                      </div>
-                      <div className="col-6" style={{ marginTop: 40 }}></div>
-                      <div className="col-6" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#4054B2" }}>
-                          Items In Stock*
-                        </label>
-                        <br />
-                        <div class="input-box">
-                          <input
-                            name="quantity"
-                            type="number"
-                            // placeholder="Items in Stock*"
-                            style={{
-                              borderBottomColor: "#dddddd",
-                              borderBottomWidth: 1,
-                              width: "50%",
-                            }}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.quantity}
-                            className={
-                              errors.quantity && touched.quantity
-                                ? "text-input error"
-                                : "text-input"
-                            }
-                          />
-                          <span className="unit">Item</span>
-                        </div>
-
-                        {errors.quantity && touched.quantity && (
-                          <div className="input-feedback">
-                            {errors.quantity}
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-6" style={{ marginTop: 40 }}></div>
-                      <div className="col-6" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#4054B2" }}>
-                          Low Threshold*
-                        </label>
-                        <br />
-                        <div className="input-box">
-                          <input
-                            name="minThreshold"
-                            type="number"
-                            style={{
-                              borderBottomColor: "#dddddd",
-                              borderBottomWidth: 1,
-                            }}
-                            // placeholder="Item"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.minThreshold}
-                            className={
-                              errors.minThreshold && touched.minThreshold
-                                ? "text-input error"
-                                : "text-input"
-                            }
-                          />
-                          <span className="unit">Item</span>
-                        </div>
-                        {errors.minThreshold && touched.minThreshold && (
-                          <div className="input-feedback">
-                            {errors.minThreshold}
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-6" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#4054B2" }}>
-                          High Threshold*
-                        </label>
-                        <br />
-                        <div className="input-box">
-                          <input
-                            name="maxThreshold"
-                            type="number"
-                            style={{
-                              borderBottomColor: "#dddddd",
-                              borderBottomWidth: 1,
-                            }}
-                            // placeholder="Item"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.maxThreshold}
-                            className={
-                              errors.maxThreshold && touched.maxThreshold
-                                ? "text-input error"
-                                : "text-input"
-                            }
-                          />
-                          <span className="unit">Item</span>
-                        </div>
-                        {errors.maxThreshold && touched.maxThreshold && (
-                          <div className="input-feedback">
-                            {errors.maxThreshold}
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-6" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#4054B2" }}>Price*</label>
-                        <br />
-                        <div class="input-box">
-                          <input
-                            name="price"
-                            type="number"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.price}
-                            style={{
-                              marginTop: 5,
-                              borderBottomWidth: 1,
-                              borderBottomColor: "#dddddd",
-                            }}
-                            className={
-                              errors.price && touched.price
-                                ? "text-input error"
-                                : "text-input"
-                            }
-                          />
-                          <span className="unit">$</span>
-                        </div>
-                        {errors.price && touched.price && (
-                          <div className="input-feedback">{errors.price}</div>
-                        )}
-                      </div>
-                      <div className="col-6" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#4054B2" }}>Status*</label>
-                        <br />
-
-                        <Select
-                          styles={colourStyles}
-                          options={[
-                            { value: "0", label: "Active" },
-                            { value: "1", label: "Inactive" },
-                          ]}
-                          onChange={(selectedOption) => {
-                            setFieldValue("isDisabled", selectedOption.value);
-                          }}
-                        />
                       </div>
                     </div>
                   </div>
-                </div>
+                  {/* </div>
+                  </div> */}
 
-                <Button
-                  className="btn btn-green"
-                  style={{ backgroundColor: "#4251af", color: "white" }}
-                  type="submit"
-                  disabled={isSubmitting}
-                  style={{
-                    marginTop: 40,
-                    backgroundColor: "#4054B2",
-                    color: "white",
-                  }}
-                >
-                  Save
-                </Button>
-                <Button
-                  style={{ marginTop: 40 }}
-                  className="btn btn-red"
-                  onClick={() => this.props.closePopup()}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          )}
-        </Formik>
+                  <Button
+                    className="btn btn-green"
+                    style={{
+                      backgroundColor: "#4251af",
+                      color: "white",
+                    }}
+                    type="submit"
+                    disabled={isSubmitting}
+                    style={{
+                      marginTop: 40,
+                      backgroundColor: "#4054B2",
+                      color: "white",
+                    }}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    style={{ marginTop: 40 }}
+                    className="btn btn-red"
+                    onClick={() => this.props.history.goBack()}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            )}
+          </Formik>
+        </div>
       </div>
     );
   }
@@ -628,5 +663,9 @@ const styles = {
     fontWeight: 400,
     margin: "80px 0px",
     paddingLeft: "20px",
+  },
+  p: {
+    marginBottom: 0,
+    fontSize: "15px",
   },
 };

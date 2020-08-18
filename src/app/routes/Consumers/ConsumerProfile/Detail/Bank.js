@@ -48,10 +48,10 @@ class Bank extends Component {
                   <h4>Account Number:</h4>
                   <p>{i.accountNumber}</p>
                 </div>
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <h4>Post Code:</h4>
                   <p>{i.postCode}</p>
-                </div>
+                </div> */}
               </div>
             </div>
           );

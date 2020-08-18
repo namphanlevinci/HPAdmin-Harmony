@@ -153,7 +153,7 @@ const Extra = ({
                   </div>
                   <div className="col-10" style={{ marginTop: 20 }}>
                     <label style={{ fontSize: 14, color: "#4251af" }}>
-                      Surcharge
+                      Surcharged
                     </label>
                     <div className="input-box">
                       {/* <Field

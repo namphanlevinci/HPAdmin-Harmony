@@ -389,7 +389,7 @@ class EditService extends Component {
                       <div className="col-4" style={{ marginTop: 5 }}>
                         <label style={{ color: "#4251af" }}>Duration</label>
                         <br />
-                        <label style={{ color: "#333" }}>
+                        <label>
                           <span className="small-label">Minutes*</span>
                         </label>
                         <br />
@@ -408,9 +408,9 @@ class EditService extends Component {
                           <span className="unit">Min</span>
                         </div>
                       </div>
-                      <div className="col-4" style={{ marginTop: "40px" }}>
+                      <div className="col-4" style={{ marginTop: "30px" }}>
                         <label>
-                          <span className="small-label">Open time</span>
+                          <span className="small-label">Open Time</span>
                         </label>
                         <br />
                         <div className="input-box">
@@ -428,9 +428,9 @@ class EditService extends Component {
                           <span className="unit">Min</span>
                         </div>
                       </div>
-                      <div className="col-4" style={{ marginTop: "40px" }}>
+                      <div className="col-4" style={{ marginTop: "30px" }}>
                         <label>
-                          <span className="small-label">Second time</span>
+                          <span className="small-label">Second Time</span>
                         </label>
                         <br />
                         <div className="input-box">
@@ -449,7 +449,7 @@ class EditService extends Component {
                         </div>
                       </div>
                       <div className="col-6" style={{ marginTop: 20 }}>
-                        <label style={{ color: "#4251af" }}>Price *</label>
+                        <label style={{ color: "#4251af" }}>Price*</label>
                         <br />
                         <div className="input-box">
                           <input
@@ -468,7 +468,7 @@ class EditService extends Component {
                         </div>
                       </div>
                       <div className="col-6" style={{ marginTop: 20 }}>
-                        <label style={{ color: "#4251af" }}>Status</label>
+                        <label style={{ color: "#4251af" }}>Status*</label>
                         <br />
                         <div style={{ marginTop: 7 }}>
                           {this.state.loading && (
@@ -490,7 +490,7 @@ class EditService extends Component {
                         </div>
                       </div>
                       <div className="col-6" style={{ marginTop: 20 }}>
-                        <label style={{ color: "#4251af" }}>Surcharge*</label>
+                        <label style={{ color: "#4251af" }}>Surcharged*</label>
                         <br />
                         <div className="input-box">
                           <input

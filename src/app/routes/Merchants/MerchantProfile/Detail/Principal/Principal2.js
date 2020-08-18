@@ -19,7 +19,7 @@ class PrincipalInfo extends Component {
   }
   _editPrincipal = (data) => {
     this.props.UPDATE_PRINCIPAL(data);
-    this.props.history.push("/app/merchants/profile/pincipal/edit");
+    this.props.history.push("/app/merchants/profile/principal/edit");
   };
 
   render() {
@@ -55,8 +55,6 @@ class PrincipalInfo extends Component {
           </div>
           <div className="col-4">
             <label>Social Security Number* (SSN)</label>
-            {/* <p>{e?.ssn}</p> */}
-
             <NumberFormat
               value={e.ssn}
               displayType={"text"}

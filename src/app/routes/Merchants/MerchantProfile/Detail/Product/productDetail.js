@@ -98,7 +98,7 @@ class productDetail extends Component {
                   </div>
                 </div>
                 <div className="col-4">
-                  <label>High Threshold *</label>
+                  <label>High Threshold*</label>
                   <div className="input-box">
                     <p style={styles.p}>{product.maxThreshold}</p>
                     <span className="unit" style={styles.unit}>

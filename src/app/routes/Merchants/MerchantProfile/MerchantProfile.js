@@ -10,7 +10,7 @@ import EditGeneral from "./Detail/General/EditGeneral";
 // import Business from "./Detail/Business";
 import Bank from "./Detail/Bank";
 import EditBank from "./Detail/EditBank";
-import PricipalList from "./Detail/Principal/principal-list";
+import PrincipalList from "./Detail/Principal/principal-list";
 import PrincipalInfo from "./Detail/Principal/Principal2";
 import EditPrincipal from "./Detail/Principal/EditPrincipal";
 import Settings from "./Detail/Settings";
@@ -169,7 +169,7 @@ class merchantProfile extends Component {
                         />
                         <Route
                           path="/app/merchants/profile/principal"
-                          component={PricipalList}
+                          component={PrincipalList}
                         />
                         <Route
                           path="/app/merchants/profile/category/edit"
@@ -187,10 +187,10 @@ class merchantProfile extends Component {
                           path="/app/merchants/profile/service"
                           component={Service}
                         />
-                        <Route
+                        {/* <Route
                           path="/app/merchants/profile/product/add"
                           component={ProductAdd}
-                        />
+                        /> */}
                         <Route
                           path="/app/merchants/profile/product/edit"
                           component={ProductEdit}

@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import IntlMessages from "../util/IntlMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
+import Logo from "../assets/images/harmonylogo.png";
 
 const URL = config.url.URL;
 class SignIn extends React.Component {
@@ -48,9 +49,9 @@ class SignIn extends React.Component {
             <Link className="logo-lg" to="/" title="HPAdmin">
               <img
                 style={{ width: "200px" }}
-                src={require("../assets/images/logo-white.png")}
-                alt="jambo"
-                title="jambo"
+                src={Logo}
+                alt="Harmony"
+                title="Harmony"
               />
             </Link>
           </div>

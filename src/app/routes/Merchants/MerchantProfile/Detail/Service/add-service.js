@@ -633,7 +633,7 @@ class AddService extends Component {
                                   style={{ marginTop: 60 }}
                                 >
                                   <label style={{ color: "#4251af" }}>
-                                    Surcharge
+                                    Surcharged
                                   </label>
                                   <br />
                                   <div className="input-box">

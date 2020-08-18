@@ -11,6 +11,7 @@
 
   label {
     color: #4251af;
+    // color: black
     margin-top: 10px;
     font-size: 16px;
   }
@@ -37,3 +38,7 @@ textarea:focus, input:focus{
   outline: none !important;
 }
 
+
+.add__product label + .MuiInput-formControl {
+  margin-top: 25px
+}

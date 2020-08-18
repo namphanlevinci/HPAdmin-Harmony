@@ -18,9 +18,10 @@ import EditExtra from "./edit-extra";
 import defaultImage from "./hpadmin2.png";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
-import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
-import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
+import ArchiveSVG from "../../../../../../assets/images/archive.svg";
+import EditSVG from "../../../../../../assets/images/edit.svg";
+import RestoreSVG from "../../../../../../assets/images/restore.svg";
+import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 
 import "react-table/react-table.css";
 
@@ -179,6 +180,16 @@ class ExtraTab extends Component {
 
     const columns = [
       {
+        Header: "",
+        id: "none",
+        accessor: "none",
+        Cell: (row) => {
+          row.styles["paddingLeft"] = "0px";
+          return <DragIndicatorOutlinedIcon />;
+        },
+        width: 40,
+      },
+      {
         Header: " Extra name",
         accessor: "name",
         Cell: (e) => (
@@ -246,7 +257,8 @@ class ExtraTab extends Component {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
               <Tooltip title="Delete">
-                <ArchiveOutlinedIcon
+                <img
+                  src={ArchiveSVG}
                   onClick={() => [
                     this.setState({
                       extraId: row.original.extraId,
@@ -257,7 +269,8 @@ class ExtraTab extends Component {
               </Tooltip>
             ) : (
               <Tooltip title="Restore">
-                <UnarchiveOutlinedIcon
+                <img
+                  src={RestoreSVG}
                   onClick={() =>
                     this.setState({
                       extraId: row.original.extraId,
@@ -274,7 +287,8 @@ class ExtraTab extends Component {
               {CheckPermissions(28) && (
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
-                    <PageviewOutlinedIcon
+                    <img
+                      src={EditSVG}
                       onClick={() => [
                         this.handleEdit(row.original),
                         this.setState({ edit: true }),

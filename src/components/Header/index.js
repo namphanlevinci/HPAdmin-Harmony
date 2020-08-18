@@ -30,6 +30,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "../../components/TopNav/Menu";
 import UserInfoPopup from "../../components/UserInfo/UserInfoPopup";
 import axios from "axios";
+import Logo from "../../assets/images/harmonylogo.png";
 
 // import playMessageAudio from "../../util/sound";
 import { config } from "../../url/url";
@@ -310,11 +311,7 @@ class Header extends React.Component {
             </IconButton>
           )}
           <Link className="app-logo mr-2 d-none d-sm-block" to="/app/dashboard">
-            <img
-              src={require("../../assets/images/logo-white.png")}
-              alt="Harmony"
-              title="Harmony"
-            />
+            <img src={Logo} alt="Harmony" title="Harmony" />
           </Link>
 
           {/* <SearchBox styleName="d-none d-lg-block" placeholder=""

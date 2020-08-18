@@ -20,15 +20,15 @@ export class general extends Component {
           </div>
           <div className="row ">
             <div className="col-4">
-              <label>First Name</label>
+              <label>First Name*</label>
               <p>{Staff?.firstName}</p>
             </div>
             <div className="col-4">
-              <label>Last Name</label>
+              <label>Last Name*</label>
               <p>{Staff?.lastName}</p>
             </div>
             <div className="col-4">
-              <label>Display Name</label>
+              <label>Display Name*</label>
               <p>{Staff?.displayName}</p>
             </div>
             <div className="col-4">

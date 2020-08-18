@@ -249,7 +249,7 @@ const EditExtra = ({
                       />
                     </div>
                     <div>
-                      <label style={{ paddingTop: "10px" }}>Surcharge</label>
+                      <label style={{ paddingTop: "10px" }}>Surcharged </label>
 
                       <div className="input-box">
                         <CurrencyInput
