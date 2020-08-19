@@ -214,7 +214,7 @@ class Product extends Component {
         Cell: (row) => {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
-              <Tooltip title="Delete">
+              <Tooltip title="Archive">
                 <img
                   src={ArchiveSVG}
                   size={21}

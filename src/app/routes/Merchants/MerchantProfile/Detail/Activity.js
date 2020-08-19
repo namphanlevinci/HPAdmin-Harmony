@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { config } from "../../../../../url/url";
+
+import moment from "moment";
+import ReactTable from "react-table";
+import axios from "axios";
+
+import "react-table/react-table.css";
+
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import "../../MerchantsList/merchantsList.css";
 import "./Detail.css";
-import moment from "moment";
-// import TextField from "@material-ui/core/TextField";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-// import Button from "@material-ui/core/Button";
-import axios from "axios";
-import { config } from "../../../../../url/url";
 
 const URL = config.url.URL;
 const upFile = config.url.upFile;
@@ -42,12 +43,12 @@ class MerchantActi extends Component {
     const columns = [
       {
         id: "createDate",
-        Header: "Date/time",
+        Header: "Date/Time",
         accessor: (e) => {
           return moment
             .utc(e.createDate)
             .local()
-            .format("MM/DD/YYYY HH:mm A");
+            .format("MM/DD/YYYY hh:mm A");
         },
       },
       {
@@ -55,54 +56,11 @@ class MerchantActi extends Component {
         accessor: "action",
       },
     ];
-    // const { from, to } = this.state;
-    // let renderTable = this.props.userActivity;
-    // if (this.state.from) {
-    //   renderTable = renderTable.filter(e => {
-    //     let date = moment(e.createDate).format("YYYY-MM-DD");
-    //     return date >= from && date <= to;
-    //   });
-    // }
+
     return (
       <div className="content general-content react-transition swipe-right">
         <div>
-          {/* <div className="container">
-            <h2>Activities Logs</h2>
-            <div className="row">
-              <div className="col-md-4">
-                <form noValidate>
-                  <TextField
-                    id="date"
-                    label="From"
-                    type="date"
-                    // defaultValue={newToday}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    onChange={this.fromDate}
-                  />
-                </form>
-              </div>
-              <div className="col-md-4">
-                <form noValidate>
-                  <TextField
-                    id="date"
-                    label="To"
-                    type="date"
-                    // defaultValue={this.state.to}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    onChange={this.toDate}
-                  />
-                </form>
-              </div>
-              <div className="col-md-4 resetBtn">
-                <Button onClick={this.handleResetClick}>Reset</Button>
-              </div>
-            </div> */}
           <div className="TransactionTable ActivityTable">
-            <h2>Summary Data</h2>
             <ReactTable
               data={this.state.data}
               columns={columns}
@@ -113,7 +71,6 @@ class MerchantActi extends Component {
           </div>
         </div>
       </div>
-      //   </div>
     );
   }
 }

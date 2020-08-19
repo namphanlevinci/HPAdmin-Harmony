@@ -6,15 +6,17 @@ import {
   ViewProfile_Merchants,
 } from "../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
+import { config } from "../../../../../url/url";
 
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-// import { config } from "../../../../../url/url";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import "./Detail.css";
+
+const URL = config.url.URL;
 class EditSettings extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +41,6 @@ class EditSettings extends Component {
   };
   componentDidMount() {
     const data = this.props.MerchantProfile;
-    // console.log("DATA", data);
     this.setState({
       merchantCode: data.merchantCode,
       merchantToken: data.merchantToken,

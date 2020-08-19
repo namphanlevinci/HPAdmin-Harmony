@@ -11,7 +11,15 @@ import axios from "axios";
 import Select from "react-select";
 import IntlMessages from "../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../components/ContainerHeader/index";
-import { TextField, InputAdornment } from "@material-ui/core";
+import {
+  TextField,
+  InputAdornment,
+  FormControl,
+  InputLabel,
+  Input,
+} from "@material-ui/core";
+
+import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
@@ -20,8 +28,6 @@ import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import "../Detail.css";
 import "../Service/service.style.scss";
-
-import { AiOutlineClose } from "react-icons/ai";
 
 const URL = config.url.URL;
 const upFile = config.url.upFile;
@@ -520,32 +526,32 @@ class AddProduct extends Component {
                       />
                     </div>
 
-                    <div className="col-3" style={{ marginTop: 15 }}>
-                      <TextField
-                        name="price"
-                        type="number"
-                        label="Price*"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.price}
-                        style={{
-                          marginTop: 5,
-                          borderBottomWidth: 1,
-                          borderBottomColor: "#dddddd",
-                        }}
-                        className={
-                          errors.price && touched.price
-                            ? "text-input error"
-                            : "text-input"
-                        }
-                        InputProps={{
-                          startAdornment: (
+                    <div className="col-3" style={{ marginTop: 22 }}>
+                      <FormControl>
+                        <InputLabel htmlFor="formatted-text-mask-input">
+                          Price*
+                        </InputLabel>
+                        <Input
+                          onChange={(e, masked) =>
+                            setFieldValue("price", masked)
+                          }
+                          onBlur={handleBlur}
+                          value={values.price}
+                          name="price"
+                          id="custom-price-input"
+                          className={
+                            errors.price && touched.price
+                              ? "text-input error"
+                              : "text-input"
+                          }
+                          startAdornment={
                             <InputAdornment position="start">
                               <p style={styles.p}>$</p>
                             </InputAdornment>
-                          ),
-                        }}
-                      />
+                          }
+                          inputComponent={CustomCurrencyInput}
+                        />
+                      </FormControl>
 
                       {errors.price && touched.price && (
                         <div className="input-feedback">{errors.price}</div>
@@ -564,6 +570,7 @@ class AddProduct extends Component {
                           { value: "0", label: "Active" },
                           { value: "1", label: "Inactive" },
                         ]}
+                        defaultInputValue="Active"
                         onChange={(selectedOption) => {
                           setFieldValue("isDisabled", selectedOption.value);
                         }}

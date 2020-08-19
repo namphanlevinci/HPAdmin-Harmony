@@ -187,10 +187,7 @@ const EditExtra = ({
                   />
                   <div style={{ display: "flex" }}>
                     <div style={{ width: "35%" }}>
-                      <label style={{ paddingTop: "10px" }}>
-                        Duration*
-                        {/* <span style={{ fontSize: "10px" }}> (Minutes)</span> */}
-                      </label>
+                      <label style={{ paddingTop: "10px" }}>Duration*</label>
                       <div className="input-box">
                         <input
                           type="number"
@@ -208,7 +205,7 @@ const EditExtra = ({
                       <div className="input-box">
                         <CurrencyInput
                           name="price"
-                          type="tel"
+                          // type="tel"
                           onChange={(e, masked) =>
                             setFieldValue("price", masked)
                           }
@@ -254,7 +251,6 @@ const EditExtra = ({
                       <div className="input-box">
                         <CurrencyInput
                           name="supplyFee"
-                          type="tel"
                           onChange={(e, masked) =>
                             setFieldValue("supplyFee", masked)
                           }

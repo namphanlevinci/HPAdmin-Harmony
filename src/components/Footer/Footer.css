@@ -1,3 +1,7 @@
 .app-footer {
     font-family: 'Work Sans', sans-serif;
 }
+.footer__version {
+    margin-top: 10px;
+    font-size: 12px
+}
