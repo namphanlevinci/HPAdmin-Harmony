@@ -105,12 +105,15 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "dateTime",
-            accessor: (e) => {
-              return moment
-                .utc(e.settlementDate)
-                .local()
-                .format("MM/DD/YYYY HH:mm A");
-            },
+            accessor: (e) => (
+              <p>
+                {moment
+                  .utc(e.settlementDate)
+                  .local()
+                  .format("LLL")}
+              </p>
+            ),
+            width: 200,
           },
         ],
       },
@@ -122,8 +125,9 @@ class Transactions extends React.Component {
             Header: "",
             id: "DBA",
             accessor: (e) => (
-              <span style={{ fontWeight: 500 }}>{e.doBusinessName}</span>
+              <p style={{ fontWeight: 400 }}>{e.doBusinessName}</p>
             ),
+            width: 130,
           },
         ],
       },
@@ -132,7 +136,8 @@ class Transactions extends React.Component {
         columns: [
           {
             Header: "",
-            accessor: "merchantId",
+            id: "merchantId",
+            accessor: (e) => <p style={{ fontWeight: 400 }}>{e.merchantId}</p>,
           },
         ],
       },
@@ -149,24 +154,24 @@ class Transactions extends React.Component {
 
         columns: [
           {
-            Header: "Harmony Credit",
+            Header: "HarmonyPay",
             id: "paymentByHarmony",
-            accessor: (e) => <span>${e.paymentByHarmony}</span>,
+            accessor: (e) => <p>${e.paymentByHarmony}</p>,
           },
           {
             Header: "Credit Card",
             id: "paymentByCreditCard",
-            accessor: (e) => <span>${e.paymentByCreditCard}</span>,
+            accessor: (e) => <p>${e.paymentByCreditCard}</p>,
           },
           {
             Header: "Cash",
             id: "paymentByCash",
-            accessor: (e) => <span>${e.paymentByCash}</span>,
+            accessor: (e) => <p>${e.paymentByCash}</p>,
           },
           {
             Header: "Other",
             id: "otherPayment",
-            accessor: (e) => <span>${e.otherPayment}</span>,
+            accessor: (e) => <p>${e.otherPayment}</p>,
           },
         ],
       },
@@ -176,9 +181,7 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "total",
-            accessor: (e) => (
-              <span style={{ fontWeight: 500 }}>${e.total}</span>
-            ),
+            accessor: (e) => <p style={{ fontWeight: 400 }}>${e.total}</p>,
           },
         ],
       },

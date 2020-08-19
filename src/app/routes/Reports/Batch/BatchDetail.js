@@ -11,6 +11,7 @@ import moment from "moment";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
+import CreditCardIcon from "../../../../util/CreditCardIcon";
 
 import "../Transactions/Transactions.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
@@ -30,47 +31,71 @@ class Transactions extends React.Component {
   };
   render() {
     let BatchDetail = this.props.BatchDetail;
+
     const columns = [
       {
         Header: "Transaction ID",
         id: "transaction id",
-        accessor: (e) => e.paymentData.transaction_id,
-        width: 250,
+        accessor: (e) => (
+          <div className="batch__detail">
+            <p style={{ fontWeight: 400 }}>{e.paymentData.transaction_id}</p>
+          </div>
+        ),
+        width: 300,
       },
       {
         id: "Customer",
         Header: "Date/Time",
         accessor: (e) => (
-          <span style={{ fontWeight: 500 }}>
-            {moment
-              .utc(e.createdDate)
-              .local()
-              .format("MM/DD/YYYY HH:mm A")}
-          </span>
+          <div className="batch__detail">
+            <p style={{ fontWeight: 400 }}>
+              {moment
+                .utc(e.createdDate)
+                .local()
+                .format("LLL")}
+            </p>
+          </div>
         ),
+        width: 200,
       },
       {
         Header: "Invoice Number",
         id: "invoice number",
-        accessor: "checkoutId",
-        width: 170,
+        accessor: (e) => (
+          <div className="batch__detail">
+            <p>{e?.checkoutId}</p>
+          </div>
+        ),
+        width: 140,
       },
       {
         Header: "Status",
         id: "status",
-        accessor: (e) =>
-          e.status !== null ? <p className="BatchStatus">{e.status}</p> : null,
+        accessor: (e) => (
+          <div className="batch__detail">
+            <p className="BatchStatus">{e?.status}</p>
+          </div>
+        ),
         width: 100,
       },
       {
         Header: "Payment",
         id: "payment",
-        accessor: (e) => e.paymentData.transaction_type,
+        accessor: (e) => (
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img src={CreditCardIcon(e.paymentData.card_type)} />
+            <p>{e.paymentData.card_number}</p>
+          </div>
+        ),
       },
       {
         Header: "Total",
         id: "total",
-        accessor: (e) => <span style={{ fontWeight: 600 }}>${e.amount}</span>,
+        accessor: (e) => (
+          <div className="batch__detail">
+            <p style={{ fontWeight: 400 }}>${e.amount}</p>
+          </div>
+        ),
       },
     ];
 
@@ -86,7 +111,7 @@ class Transactions extends React.Component {
         >
           <div className=" TransactionsBox">
             <div style={{ display: "flex", alignItems: "center" }}>
-              <AiFillAppstore size={23} />
+              <AiFillAppstore size={23} style={{ color: " black" }} />
               <h3
                 style={{
                   paddingLeft: "5px",
