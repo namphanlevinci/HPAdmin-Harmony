@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { USER_LOGOUT } from "../../actions/user/actions";
 import { withRouter } from "react-router-dom";
 import AvatarIcon from "./avatar.png";
-// const signalR = require("@aspnet/signalr");
 
 class UserInfo extends React.Component {
   state = {

@@ -16,9 +16,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Select from "react-select";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
-import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
-import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
@@ -181,6 +178,7 @@ class Category extends Component {
             row.original.isDisabled !== 1 ? (
               <Tooltip title="Archive">
                 <img
+                  alt="archive"
                   src={ArchiveSVG}
                   onClick={() => [
                     this.setState({
@@ -193,6 +191,7 @@ class Category extends Component {
             ) : (
               <Tooltip title="Restore">
                 <img
+                  alt="restore"
                   src={RestoreSVG}
                   onClick={() =>
                     this.setState({
@@ -211,6 +210,7 @@ class Category extends Component {
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
+                      alt="edit"
                       src={EditSVG}
                       onClick={() => this.handleEdit(row.original)}
                     />

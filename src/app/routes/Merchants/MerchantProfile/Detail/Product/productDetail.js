@@ -14,7 +14,6 @@ import "../Detail.css";
 import "../Service/service.style.scss";
 
 const URL = config.url.URL;
-const upFile = config.url.upFile;
 
 class productDetail extends Component {
   constructor(props) {

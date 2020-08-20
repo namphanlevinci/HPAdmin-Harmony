@@ -14,7 +14,6 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Verify_User from "./Verify_User";
 import RTL from "../util/RTL";
-import asyncComponent from "../util/asyncComponent";
 import ReactNotification from "react-notifications-component";
 // transitions
 import "./react-transitions.css";

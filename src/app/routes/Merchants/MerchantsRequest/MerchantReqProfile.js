@@ -252,7 +252,7 @@ class MerchantReqProfile extends Component {
         />
         <div className="content-body page-heading">
           <div className="header col-md-12">
-            <h3>{"HP-" + e.merchantId}</h3>
+            <h3 style={{ marginBottom: "0px" }}>{"HP-" + e.merchantId}</h3>
 
             <span>
               <Button className="btn btn-red" onClick={this.goBack}>

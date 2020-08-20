@@ -15,7 +15,6 @@ import "../../MerchantsList/merchantsList.css";
 import "./Detail.css";
 
 const URL = config.url.URL;
-const upFile = config.url.upFile;
 class MerchantActi extends Component {
   constructor(props) {
     super(props);

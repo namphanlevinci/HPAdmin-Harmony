@@ -11,54 +11,65 @@
   color: white;
 }
 
-.AdminProfile {
+.admin_profile {
   width: 100%;
   background: #fff;
   margin-left: 0px;
-  padding: 10px;
+  padding: 50px 10px 10px 10px;
   font-size: 16px;
+   min-height: 520px;
   /* min-height: 650px; */
 }
-.AdminProfile h2 {
-  padding-top: 15px;
-  color: black;
-  font-weight: 400;
-  font-size: 20px;
-  opacity: 0.9;
-}
-.AdminProfile div img {
-  width: 100%;
-  height: auto;
+
+.admin_profile > div > img {
+  width: 288px;
+  height: 288px;
   max-width: 720px;
   background-position: center;
-  border-radius: 50%;
+}
+.admin_profile h1 {
+  font-size: 25px;
+  font-weight: 400;
+  color: #252525;
+  letter-spacing: 30;
+}
+.admin_profile  h4 {
+  font-weight: 400;
+  font-size: 20px;
+  color: #4251af;
 }
 
-.AdminProfile .error {
+.admin_profile  h2 {
+  font-weight: 400;
+  font-size: 18px;
+  color: #4251af;
+  padding: 25px 0px
+}
+
+.admin_profile label {
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.admin_profile .error {
   color: red;
 }
-.AdminProfile button:hover {
+.admin_profile button:hover {
 
   background: #4251af;
 
 }
-.AdminProfile h1 {
-  color: black;
-  font-weight: 550;
-}
-.AdminProfile h4 {
-  color: #4251af;
-  font-weight: 400;
-}
-.AdminProfile table {
+
+
+.admin_profile table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
-.AdminProfile p {
+.admin_profile p {
   margin-bottom: 0px;
 }
-.AdminProfile td,
+.admin_profile td,
 th {
   display: inline-block !important;
   text-align: left;
@@ -84,19 +95,14 @@ th {
   margin-top: 0 !important
 }
 
-/* .AdminProfile input:focus {
-  outline: none;
-  border-color: #4251af;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(66, 81, 175, 0.25);
-} */
 
 
 
 
-.AdminProfile .Birthday::placeholder {
+.admin_profile .Birthday::placeholder {
   text-align: center;
 }
-.AdminProfile .Birthday {
+.admin_profile .Birthday {
   padding: 3px;
   text-align: center;
 }
@@ -219,8 +225,9 @@ th {
   padding-left: 5%;
   padding-top: 5%;
 }
-.AdminProfile a {
-  font-weight: 500;
+.admin_profile a {
+  font-weight: 400;
+  font-size: 16px;
 }
 
 .avatar {
@@ -231,10 +238,28 @@ th {
   margin-right: 10px;
 }
 
-.user-table .tr {
+.user_table .tr {
   margin-top: 10px;
 }
 
-.user-table .ReactTable .rt-thead .rt-tr {
+.user_table .ReactTable .rt-thead .rt-tr {
   background: #4251af
 }
+.user_table .ReactTable .rt-tbody .rt-td p {
+  font-weight: 400;
+}
+
+
+@media (min-width: 1281px) {
+.admin_profile > div > img {
+  width: 244px;
+  height: 244px;
+}
+}
+
+@media (min-width: 1024px) {
+  .admin_profile > div > img {
+    width: 222px;
+    height: 222px;
+  }
+  }

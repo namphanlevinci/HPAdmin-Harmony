@@ -120,3 +120,23 @@ export const UPDATE_PERMISSIONS_FAILURE = (payload) => ({
   type: types.UPDATE_PERMISSIONS_FAILURE,
   payload: payload,
 });
+
+// Update user admin
+export const UPDATE_USER_ADMIN = (payload) => ({
+  type: types.UPDATE_USER_ADMIN,
+  payload: payload,
+});
+export const UPDATE_USER_ADMIN_SUCCESS = (payload) => ({
+  type: types.UPDATE_USER_ADMIN_SUCCESS,
+  payload: payload,
+});
+export const UPDATE_USER_ADMIN_FAILURE = (payload) => ({
+  type: types.UPDATE_USER_ADMIN_FAILURE,
+  payload: payload,
+});
+
+// Change user password
+export const UPDATE_USER_PASSWORD = (payload) => ({
+  type: types.UPDATE_USER_PASSWORD,
+  payload: payload,
+});

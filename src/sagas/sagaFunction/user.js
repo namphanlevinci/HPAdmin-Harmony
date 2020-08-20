@@ -1,4 +1,7 @@
 import * as typeUser from "../../actions/user/types";
+import * as typeNotification from "../../actions/notifications/types";
+import { history } from "../../store/index";
+
 import {
   USER_LOGIN_API,
   GET_ALL_USER_API,
@@ -8,6 +11,7 @@ import {
   GET_PERMISSION_BY_ROLE_ID_API,
   GET_ALL_PERMISSION_API,
   UPDATE_PERMISSION_API,
+  UPDATE_USER_API,
 } from "../api/user";
 import { takeLatest, put } from "redux-saga/effects";
 
@@ -28,6 +32,10 @@ export function* USER_LOGIN_SAGA() {
           type: typeUser.USER_LOGIN_FAILURE,
           payload: check.message,
         });
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: check.message,
+        });
       }
     } catch (error) {
       yield put({ type: typeUser.USER_LOGIN_FAILURE, payload: error });
@@ -43,9 +51,14 @@ export function* USER_VERIFY_SAGA() {
       const check = yield USER_VERIFY_API({ serial, code, token });
       if (check.data !== null) {
         yield put({ type: typeUser.VERIFY_SUCCESS, payload: check.data });
+        history.push("/app/merchants/list");
       }
       if (check.data === null) {
         yield put({ type: typeUser.VERIFY_FAILURE, payload: check.message });
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: check.message,
+        });
       }
     } catch (error) {
       yield put({ type: typeUser.VERIFY_FAILURE, payload: error });
@@ -82,9 +95,18 @@ export function* ADD_USER_SAGA() {
           type: typeUser.ADD_ADMIN_SUCCESS,
           payload: check.data.message,
         });
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: check.data.message,
+        });
+        history.push("/app/accounts/admin");
       }
       if (check.data === null) {
         yield put({ type: typeUser.ADD_ADMIN_FAILURE, payload: check.message });
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong!",
+        });
       }
     } catch (error) {
       yield put({ type: typeUser.ADD_ADMIN_FAILURE, payload: error });
@@ -177,15 +199,61 @@ export function* UPDATE_PERMISSION_SAGA() {
           type: typeUser.UPDATE_PERMISSIONS_SUCCESS,
           payload: check.data,
         });
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Update Permissions Success",
+        });
       }
       if (check.data === null) {
         yield put({
           type: typeUser.UPDATE_PERMISSIONS_FAILURE,
           payload: check.message,
         });
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong!",
+        });
       }
     } catch (error) {
       yield put({ type: typeUser.UPDATE_PERMISSIONS_FAILURE, payload: error });
+    }
+  });
+}
+
+// Update user
+export function* UPDATE_USER_SAGA() {
+  yield takeLatest(typeUser.UPDATE_USER_ADMIN, function*(action) {
+    try {
+      const check = yield UPDATE_USER_API(action.payload);
+      const ID = action.payload.ID;
+      if (check.data !== null) {
+        yield put({
+          type: typeUser.UPDATE_USER_ADMIN_SUCCESS,
+          payload: check.data,
+        });
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+
+        yield put({
+          type: typeUser.GET_USER_BY_ID,
+          payload: ID,
+        });
+        history.push("/app/accounts/admin/profile");
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeUser.UPDATE_USER_ADMIN_FAILURE,
+          payload: check.message,
+        });
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong!",
+        });
+      }
+    } catch (error) {
+      yield put({ type: typeUser.UPDATE_USER_ADMIN_FAILURE, payload: error });
     }
   });
 }

@@ -11,7 +11,7 @@ import {
   GET_PERMISSION_BY_ID,
 } from "../../../../actions/user/actions";
 
-import ReactTable from "react-table";
+// import ReactTable from "react-table";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -178,46 +178,46 @@ class Roles extends Component {
       staff2Permissions,
     } = this.state;
 
-    const department = [
-      {
-        Header: "Title",
-        id: "id",
-        accessor: "title",
-      },
-      {
-        Header: "Members",
-        id: "image",
-        accessor: (row) => (
-          <img style={styles.img} src={row.image} alt="admin avatar" />
-        ),
-      },
-      {
-        // id: "email",
-        Header: "No. of Members",
-        accessor: "number",
-      },
-      {
-        Header: "Status",
-        accessor: "status",
-      },
-      {
-        id: "Action",
-        Header: "Action",
-        accessor: (row) => (
-          <div>
-            <span>
-              <GoTrashcan size={20} />
-            </span>
-            <span style={{ margin: "0px 15px" }}>
-              <FiEdit size={20} />
-            </span>
-            <span>
-              <AiOutlineUserAdd size={20} />
-            </span>
-          </div>
-        ),
-      },
-    ];
+    // const department = [
+    //   {
+    //     Header: "Title",
+    //     id: "id",
+    //     accessor: "title",
+    //   },
+    //   {
+    //     Header: "Members",
+    //     id: "image",
+    //     accessor: (row) => (
+    //       <img style={styles.img} src={row.image} alt="admin avatar" />
+    //     ),
+    //   },
+    //   {
+    //     // id: "email",
+    //     Header: "No. of Members",
+    //     accessor: "number",
+    //   },
+    //   {
+    //     Header: "Status",
+    //     accessor: "status",
+    //   },
+    //   {
+    //     id: "Action",
+    //     Header: "Action",
+    //     accessor: (row) => (
+    //       <div>
+    //         <span>
+    //           <GoTrashcan size={20} />
+    //         </span>
+    //         <span style={{ margin: "0px 15px" }}>
+    //           <FiEdit size={20} />
+    //         </span>
+    //         <span>
+    //           <AiOutlineUserAdd size={20} />
+    //         </span>
+    //       </div>
+    //     ),
+    //   },
+    // ];
 
     const renderPermissionName = adminPermissions?.actions?.map((item) => {
       return (

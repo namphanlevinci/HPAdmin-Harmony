@@ -198,14 +198,7 @@ class EditProduct extends Component {
 
   render() {
     const product = this.props.SERVICE;
-    const { category } = this.state;
-    const mapCategory = category
-      .filter((e) => e.categoryType !== "Service")
-      .map((e) => (
-        <option value={e.categoryId} key={e.categoryId}>
-          {e.name}
-        </option>
-      ));
+    // const { category } = this.state;
 
     //~ preview image
     let { imagePreviewUrl } = this.state;

@@ -42,21 +42,24 @@ class ConsumerProfile extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
         />
-        <div className="content-body page-heading">
+        <div className="content-body page-heading general-content">
           <div className="header col-12">
             <div style={{ display: "flex" }}>
               <h3>Consumer ID: </h3>
               <h3 style={{ marginLeft: "10px" }}>{e?.accountId}</h3>
             </div>
-            <span>
-              <Button
-                style={{ color: "#4251af", backgroundColor: "white" }}
-                className="btn btn-green"
-                onClick={this._goBack}
-              >
-                BACK
-              </Button>
-            </span>
+
+            <Button
+              style={{
+                color: "#4251af",
+                backgroundColor: "white",
+                marginRight: "0px",
+              }}
+              className="btn btn-green"
+              onClick={this._goBack}
+            >
+              BACK
+            </Button>
           </div>
           <hr />
           <div className="content">

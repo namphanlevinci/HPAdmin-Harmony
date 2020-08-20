@@ -23,20 +23,6 @@ const userReducer = (state = initialState, { type, payload }) => {
       return { ...state, UserRoleID: waRoleId, VERIFY_NUMBER: verifyCodeId };
 
     case types.USER_LOGIN_FAILURE:
-      store.addNotification({
-        title: "ERROR!",
-        message: `${payload}`,
-        type: "danger",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 250,
-      });
       return { ...state };
 
     case types.USER_LOGOUT:
@@ -55,68 +41,22 @@ const userReducer = (state = initialState, { type, payload }) => {
       return { ...state };
 
     case types.VERIFY_SUCCESS:
-      console.log("payload", payload);
       localStorage.setItem("User_login", JSON.stringify(payload));
-      setTimeout(() => {
-        window.location.href = "/app/merchants/list";
-      }, 1000);
+
       return { ...state, User: payload };
 
     case types.VERIFY_FAILURE:
-      store.addNotification({
-        title: "ERROR!",
-        message: `${payload}`,
-        type: "danger",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 250,
-      });
       return { ...state };
     case types.VIEW_PROFILE_USER:
       return { ...state, viewUser: payload };
 
-    case types.GET_USER_BY_ID_SUCCESS:
+    case types.GET_USER_BY_ID:
       return { ...state, userByID: payload };
 
     case types.ADD_ADMIN_SUCCESS:
-      store.addNotification({
-        title: "SUCCESS!",
-        message: `${payload}`,
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 250,
-      });
-      window.location.href = "/app/accounts/admin";
       return { ...state, AddUser: payload };
 
     case types.ADD_ADMIN_FAILURE:
-      store.addNotification({
-        title: "ERROR!",
-        message: "Something went wrong",
-        type: "danger",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 250,
-      });
       return { ...state };
     case types.GET_PERMISSION_BY_ID_SUCCESS:
       return { ...state, userModulePages: payload };
@@ -125,37 +65,13 @@ const userReducer = (state = initialState, { type, payload }) => {
       return { ...state, allPermission: payload };
 
     case types.UPDATE_PERMISSIONS_SUCCESS:
-      store.addNotification({
-        title: "SUCCESS!",
-        message: "Update Permissions Success",
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 270,
-      });
-
       return { ...state };
     case types.UPDATE_PERMISSIONS_FAILURE:
-      store.addNotification({
-        title: "ERROR!",
-        message: `${payload}`,
-        type: "danger",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 250,
-      });
+      return { ...state };
+
+    case types.UPDATE_USER_ADMIN:
+      return { ...state };
+    case types.UPDATE_USER_PASSWORD:
       return { ...state };
     default:
       return state;

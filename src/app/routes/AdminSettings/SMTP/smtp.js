@@ -8,7 +8,7 @@ import "../Setting.css";
 import Axios from "axios";
 import { config } from "../../../../url/url";
 const URL = config.url.URL;
-const upFile = config.url.upFile;
+
 class SMTP extends Component {
   constructor(props) {
     super(props);

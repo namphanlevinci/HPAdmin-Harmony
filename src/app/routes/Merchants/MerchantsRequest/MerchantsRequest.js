@@ -54,6 +54,7 @@ class MerchantsRequest extends Component {
       )
       .then((res) => {
         const data = res.data.data;
+        console.log("data", data);
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,

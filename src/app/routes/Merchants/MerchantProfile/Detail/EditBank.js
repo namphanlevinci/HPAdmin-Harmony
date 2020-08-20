@@ -153,26 +153,26 @@ class EditBank extends Component {
       );
     }
 
-    const renderOldImg = (
-      <div className="col-12" style={{ paddingTop: "10px" }}>
-        {e.businessBank?.imageUrlOldFiles !== null ? (
-          <>
-            <label>Old Void Check*</label> <br />
-          </>
-        ) : null}
-        {e.businessBank?.imageUrlOldFiles?.map((e, index) => {
-          return (
-            <img
-              key={index}
-              className="bankVoid"
-              src={`${e}`}
-              alt="void check"
-              style={{ padding: "10px" }}
-            />
-          );
-        })}
-      </div>
-    );
+    // const renderOldImg = (
+    //   <div className="col-12" style={{ paddingTop: "10px" }}>
+    //     {e.businessBank?.imageUrlOldFiles !== null ? (
+    //       <>
+    //         <label>Old Void Check*</label> <br />
+    //       </>
+    //     ) : null}
+    //     {e.businessBank?.imageUrlOldFiles?.map((e, index) => {
+    //       return (
+    //         <img
+    //           key={index}
+    //           className="bankVoid"
+    //           src={`${e}`}
+    //           alt="void check"
+    //           style={{ padding: "10px" }}
+    //         />
+    //       );
+    //     })}
+    //   </div>
+    // );
 
     return (
       <div className="react-transition swipe-up general-content">
@@ -182,7 +182,7 @@ class EditBank extends Component {
             <div className="col-3">
               <label>Account Holder Name*</label>
               <input
-                style={{ width: "250px" }}
+                // style={{ width: "250px" }}
                 name="accountHolderName"
                 value={this.state.accountHolderName}
                 onChange={this._handleChange}
@@ -201,7 +201,7 @@ class EditBank extends Component {
             <div className="col-3">
               <label> Routing Number* (ABA)</label>
               <input
-                style={{ width: "250px" }}
+                // style={{ width: "250px" }}
                 name="routingNumber"
                 value={this.state.routingNumber}
                 onChange={this._handleChange}

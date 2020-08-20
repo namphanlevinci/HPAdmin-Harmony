@@ -156,7 +156,7 @@ class addAdmin2 extends Component {
 
     const renderProfile = (
       <div
-        className="row AdminProfile page-heading"
+        className="row admin_profile page-heading"
         style={{ minHeight: "650px" }}
       >
         <React.Fragment>

@@ -141,7 +141,7 @@ class UserProfile extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
         />
-        <div className="row AdminProfile page-heading">
+        <div className="row admin_profile page-heading">
           <div className="col-3 text-center">
             {e?.imageUrl !== null ? (
               <img src={e?.imageUrl} alt="avatar" />
@@ -152,7 +152,7 @@ class UserProfile extends Component {
               />
             )}
           </div>
-          <div className="col-9" style={{ paddingLeft: "30px" }}>
+          <div className="col-9" style={{ paddingLeft: "55px" }}>
             <div className="row">
               <div className="col-4">
                 <h1>{e?.firstName + " " + e?.lastName}</h1>
@@ -183,15 +183,15 @@ class UserProfile extends Component {
 
             <h2>Contact Information</h2>
             <div className="row">
-              <div className="col-6">
+              <div className="col-3">
                 <label>Phone:</label>
                 <p style={styles.p}>{e?.phone}</p>
               </div>
-              <div className="col-6">
+              <div className="col-4">
                 <label>Email:</label>
                 <p style={styles.p}>{e?.email}</p>
               </div>
-              <div className="col-12" style={{ paddingTop: "10px" }}>
+              <div className="col-5">
                 <label>Address:</label>
                 <p style={styles.p}>{e?.address}</p>
               </div>
@@ -199,7 +199,7 @@ class UserProfile extends Component {
             <h2>Basic Information</h2>
             <div className="row">
               <div className="col-12">
-                <label>Birthday:</label>
+                <label>Date of Birth:</label>
                 <p style={styles.p}>
                   {moment(e?.birthDate).format("MM/DD/YYYY")}
                 </p>

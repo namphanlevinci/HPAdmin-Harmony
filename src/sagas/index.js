@@ -8,6 +8,7 @@ import {
   GET_PERMISSION_BY_ROLE_ID_SAGA,
   GET_ALL_PERMISSION_SAGA,
   UPDATE_PERMISSION_SAGA,
+  UPDATE_USER_SAGA,
 } from "../sagas/sagaFunction/user";
 import {
   GET_ALL_MERCHANT_SAGA,
@@ -89,4 +90,5 @@ export default function* rootSaga() {
   yield fork(UPDATE_CONSUMER_SAGA);
   yield fork(RESTORE_CONSUMER_BY_ID_SAGA);
   yield fork(DELETE_CONSUMER_BY_ID_SAGA);
+  yield fork(UPDATE_USER_SAGA);
 }

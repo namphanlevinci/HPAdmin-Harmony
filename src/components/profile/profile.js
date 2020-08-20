@@ -281,7 +281,7 @@ class proFile extends Component {
             title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
           />
           <div
-            className="row justify-content-md-center AdminProfile page-heading"
+            className="row justify-content-md-center admin_profile page-heading"
             style={{ minHeight: "500px" }}
           >
             <div className="col-3 text-center">

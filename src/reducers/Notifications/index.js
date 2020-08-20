@@ -5,7 +5,6 @@ import { store } from "react-notifications-component";
 const initialState = [];
 
 const NotificationReducer = (state = initialState, { type, payload }) => {
-  console.log("payload", payload);
   switch (type) {
     case types.SUCCESS_NOTIFICATION:
       store.addNotification({

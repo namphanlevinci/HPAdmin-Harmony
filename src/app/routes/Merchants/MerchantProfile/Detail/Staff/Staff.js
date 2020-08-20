@@ -189,6 +189,7 @@ class Staff extends Component {
             row.original.isDisabled !== 1 ? (
               <Tooltip title="Archive">
                 <img
+                  alt="archive"
                   src={ArchiveSVG}
                   onClick={() => [
                     this.setState({
@@ -201,6 +202,7 @@ class Staff extends Component {
             ) : (
               <Tooltip title="Restore">
                 <img
+                  alt="restore"
                   src={RestoreSVG}
                   onClick={() =>
                     this.setState({
@@ -219,6 +221,7 @@ class Staff extends Component {
                 <span style={{ paddingLeft: "15px" }}>
                   <Tooltip title="Edit">
                     <img
+                      alt="edit"
                       src={EditSVG}
                       size={20}
                       style={{ color: "#575757" }}

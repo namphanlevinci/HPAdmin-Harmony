@@ -9,7 +9,7 @@ const General = ({
     <div>
       <h2 style={styles.h2}>Contact Information</h2>
       <div className="row">
-        <div className="col-4">
+        <div className="col-3">
           <label>Phone</label>
           <input
             type="text"
@@ -27,7 +27,7 @@ const General = ({
             onChange={handleChange}
           />
         </div>
-        <div className="col-4">
+        <div className="col-5">
           <label>Email</label>
           <input
             type="text"
@@ -42,7 +42,7 @@ const General = ({
 
       <div>
         <div style={{ display: "inline" }}>
-          <label>Birthday: </label>
+          <label>Date of Birth: </label>
         </div>
         <div style={{ display: "inline", paddingLeft: "15px" }}>
           <form noValidate>

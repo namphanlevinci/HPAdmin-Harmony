@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
-
-import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 import { store } from "react-notifications-component";
+
+import {
+  VIEW_PROFILE_USER,
+  UPDATE_USER_ADMIN,
+} from "../../../../actions/user/actions";
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,14 +29,8 @@ import Password from "./Password";
 import "./User.css";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
 
-// const options = [
-//   { value: "1", label: "Administrator" },
-//   { value: "2", label: "Manager" },
-//   { value: "3", label: "Staff Lv1" },
-//   { value: "4", label: "Staff Lv2" }
-// ];
-const URL = config.url.URL;
 const upFile = config.url.upFile;
+const URL = config.url.URL;
 
 class EditUserProfile extends Component {
   constructor(props) {
@@ -132,11 +129,9 @@ class EditUserProfile extends Component {
   };
 
   updateAdmin = () => {
+    console.log("yeet");
     const ID = this.props.UserProfile.waUserId;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token },
-    };
+
     const {
       firstName,
       lastName,
@@ -169,7 +164,9 @@ class EditUserProfile extends Component {
           phone,
           stateId,
           fileId,
+          ID,
         };
+    // this.props.UPDATE_USER_ADMIN(body);
     axios
       .put(URL + adminUrl + ID, body, config)
       .then(async (res) => {
@@ -266,7 +263,7 @@ class EditUserProfile extends Component {
             title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
           />
           <div
-            className="row justify-content-md-center AdminProfile page-heading"
+            className="row justify-content-md-center admin_profile page-heading"
             style={{ minHeight: "500px" }}
           >
             <div className="col-3 text-center">
@@ -284,9 +281,8 @@ class EditUserProfile extends Component {
                 <NavLink
                   to="/app/accounts/admin/profile/edit/general"
                   activeStyle={{
-                    fontWeight: "500",
+                    fontWeight: "300",
                     color: "#4251af",
-                    // textDecoration: "underline",
                     opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: false })}
@@ -297,13 +293,11 @@ class EditUserProfile extends Component {
                   </div>
                 </NavLink>
 
-                {/* <br /> */}
                 <NavLink
                   to="/app/accounts/admin/profile/edit/password"
                   activeStyle={{
-                    fontWeight: "500",
+                    fontWeight: "300",
                     color: "#4251af",
-                    // textDecoration: "underline",
                     opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: true })}
@@ -315,7 +309,7 @@ class EditUserProfile extends Component {
                 </NavLink>
               </div>
             </div>
-            <div className="col-9" style={{ paddingLeft: "30px" }}>
+            <div className="col-9" style={{ paddingLeft: "55px" }}>
               <div className="row">
                 <div className="col-4">
                   <h1>{e.firstName + " " + e.lastName}</h1>
@@ -329,7 +323,7 @@ class EditUserProfile extends Component {
                       this.props.history.push("/app/accounts/admin/profile")
                     }
                   >
-                    BACK
+                    CANCEL
                   </Button>
                   <Button
                     className="btn btn-red"
@@ -375,6 +369,9 @@ const mapDispatchToProps = (dispatch) => ({
   VIEW_PROFILE_USER: (payload) => {
     dispatch(VIEW_PROFILE_USER(payload));
   },
+  UPDATE_USER_ADMIN: (payload) => {
+    dispatch(UPDATE_USER_ADMIN(payload));
+  },
 });
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(EditUserProfile)
@@ -404,6 +401,6 @@ const styles = {
   navIcon: {
     display: "flex",
     alignItems: "center",
-    paddingBottom: "7px",
+    padding: "10px 0px",
   },
 };

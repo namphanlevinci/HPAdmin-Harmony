@@ -13,7 +13,6 @@ import * as Yup from "yup";
 import TextField from "@material-ui/core/TextField";
 import Select from "react-select";
 import selectState from "../../../../../util/selectState";
-import MaskedInput from "react-text-mask";
 import LinearIndeterminate from "../../../../../util/linearProgress";
 import InputCustom from "./custom-input";
 import FormControl from "@material-ui/core/FormControl";

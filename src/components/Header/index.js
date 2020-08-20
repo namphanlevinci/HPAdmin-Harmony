@@ -37,7 +37,6 @@ import { config } from "../../url/url";
 const URL = config.url.URL;
 
 class Header extends React.Component {
-  //load signalR
   async componentDidMount() {
     const User = localStorage.getItem("User_login");
     await this.setState({ User: JSON.parse(User) });
@@ -45,17 +44,14 @@ class Header extends React.Component {
     await this.props.getUserByID(ID);
 
     await this.loadNotify();
-    // setInterval(this.loadNotify, 180000);
     const messaging = firebase.messaging();
 
     messaging.onMessage((payload) => {
-      // console.log("payload", payload);
       this.loadNotify();
       this.setState({ appNotificationIcon: false });
     });
   }
 
-  //GỌI API LOAD DATA Notify TỪ SERVER MỖI 3'
   loadNotify = (next) => {
     const loadPage = next ? next : 1;
     try {

@@ -32,8 +32,6 @@ class Users extends Component {
   componentDidMount() {
     const User = localStorage.getItem("User_login");
     this.setState({ User: JSON.parse(User) });
-
-    // this.props.GET_USER_REQUEST();
   }
   _SearchUsers = async (e) => {
     await this.setState({ search: e.target.value });
@@ -143,6 +141,7 @@ class Users extends Component {
             <img src={`${row.imageUrl}`} alt="Avatar" className="avatar" />
           </div>
         ),
+        width: 100,
       },
       {
         id: "Name",
@@ -201,7 +200,6 @@ class Users extends Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className="UserSearchBox">
-            {/* SEARCH */}
             <div className="search">
               <form>
                 <SearchIcon className="button" title="Search" />
@@ -227,7 +225,7 @@ class Users extends Component {
             )}
           </div>
 
-          <div className="merchant-list-container user-table">
+          <div className="merchant-list-container user_table">
             <ReactTable
               manual
               page={page}

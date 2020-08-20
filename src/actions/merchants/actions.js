@@ -152,3 +152,17 @@ export const DELETE_MERCHANT_ERROR = (payload) => ({
   type: types.DELETE_MERCHANT_ERROR,
   payload: payload,
 });
+
+// Get merchant by id
+export const GET_MERCHANT_BY_ID = (payload) => ({
+  type: types.GET_MERCHANT_BY_ID,
+  payload: payload,
+});
+export const GET_MERCHANT_BY_ID_SUCCESS = (payload) => ({
+  type: types.GET_MERCHANT_BY_ID_SUCCESS,
+  payload: payload,
+});
+export const GET_MERCHANT_BY_ID_FAILURE = (payload) => ({
+  type: types.GET_MERCHANT_BY_ID_FAILURE,
+  payload: payload,
+});

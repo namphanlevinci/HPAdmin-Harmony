@@ -17,8 +17,8 @@ import moment from "moment";
 
 import "react-table/react-table.css";
 import "./merchantsList.css";
+
 const URL = config.url.URL;
-const upFile = config.url.upFile;
 
 class MerchantsList extends React.Component {
   constructor(props) {

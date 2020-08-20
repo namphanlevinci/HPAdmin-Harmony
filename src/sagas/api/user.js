@@ -181,3 +181,53 @@ export function* UPDATE_PERMISSION_API(data) {
     });
   return kq;
 }
+
+// Update user
+export function* UPDATE_USER_API(data) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const {
+    firstName,
+    lastName,
+    email,
+    birthDate,
+    address,
+    city,
+    zip,
+    waRoleId,
+    phone,
+    stateId,
+    fileId,
+    ID,
+  } = data;
+  const kq = yield axios
+    .put(
+      URL + `/adminuser/${ID}`,
+      {
+        firstName,
+        lastName,
+        email,
+        birthDate,
+        address,
+        city,
+        zip,
+        waRoleId,
+        phone,
+        stateId,
+        fileId,
+      },
+      config
+    )
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}

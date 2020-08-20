@@ -11,6 +11,7 @@ import {
 } from "../api/merchants";
 import { history } from "../../store/index";
 import * as typeMerchant from "../../actions/merchants/types";
+import * as typeNotification from "../../actions/notifications/types";
 
 // GET ALL MERCHANTS
 export function* GET_ALL_MERCHANT_SAGA() {
@@ -181,10 +182,15 @@ export function* DELETE_MERCHANT_SAGA() {
           type: typeMerchant.DELETE_MERCHANT_SUCCESS,
           payload: result,
         });
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+
         history.push(path);
       } else {
         yield put({
-          type: typeMerchant.DELETE_MERCHANT_ERROR,
+          type: typeNotification.FAILURE_NOTIFICATION,
           payload: "Something went wrong, please try again later!",
         });
       }
