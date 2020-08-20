@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 // import CustomScrollbars from "../../util/CustomScrollbars";
-import { getAll_Notifications } from "../../actions/notifications/actions";
 import { withRouter } from "react-router-dom";
 // import { BsPersonPlus } from "react-icons/bs";
 
@@ -79,11 +78,7 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   // Noti_List: state.getNoti,
 });
-const mapDispatchToProps = (dispatch) => ({
-  getAll_Notifications: () => {
-    dispatch(getAll_Notifications());
-  },
-});
+const mapDispatchToProps = (dispatch) => ({});
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(AppNotification)
 );

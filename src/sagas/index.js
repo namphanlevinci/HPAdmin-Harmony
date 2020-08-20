@@ -20,7 +20,7 @@ import {
   DELETE_MERCHANT_SAGA,
 } from "../sagas/sagaFunction/merchants";
 
-import { GET_ALL_NOTIFICATION_SAGA } from "../sagas/sagaFunction/notifications";
+// import { GET_ALL_NOTIFICATION_SAGA } from "../sagas/sagaFunction/notifications";
 import { GET_ALL_LOG_SAGA } from "../sagas/sagaFunction/logs";
 import {
   GET_ALL_QUESTION_SAGA,
@@ -45,12 +45,19 @@ import {
   GET_GIFT_CARD_CODE_LOG_BY_ID_SAGA,
 } from "./sagaFunction/gift-card";
 
+import {
+  GET_CONSUMER_BY_ID_SAGA,
+  UPDATE_CONSUMER_SAGA,
+  DELETE_CONSUMER_BY_ID_SAGA,
+  RESTORE_CONSUMER_BY_ID_SAGA,
+} from "./sagaFunction/Consumer";
+
 export default function* rootSaga() {
   yield fork(USER_LOGIN_SAGA);
   yield fork(GET_ALL_MERCHANT_SAGA);
   yield fork(GET_ALL_MERCHANT_REQUEST_SAGA);
   yield fork(GET_ALL_USER_SAGA);
-  yield fork(GET_ALL_NOTIFICATION_SAGA);
+  // yield fork(GET_ALL_NOTIFICATION_SAGA);
   yield fork(GET_ALL_LOG_SAGA);
   yield fork(GET_ALL_REJECTED_MERCHANT_SAGA);
   yield fork(GET_ALL_QUESTION_SAGA);
@@ -78,4 +85,8 @@ export default function* rootSaga() {
   yield fork(GET_ALL_PERMISSION_SAGA);
   yield fork(UPDATE_PERMISSION_SAGA);
   yield fork(DELETE_MERCHANT_SAGA);
+  yield fork(GET_CONSUMER_BY_ID_SAGA);
+  yield fork(UPDATE_CONSUMER_SAGA);
+  yield fork(RESTORE_CONSUMER_BY_ID_SAGA);
+  yield fork(DELETE_CONSUMER_BY_ID_SAGA);
 }

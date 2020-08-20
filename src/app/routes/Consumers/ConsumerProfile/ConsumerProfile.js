@@ -15,40 +15,39 @@ import Acti from "./Detail/Acti";
 import EditGeneral from "./Detail/EditGeneral";
 import Bank from "./Detail/Bank";
 import CheckPermissions from "../../../../util/checkPermission";
+import Setting from "./Detail/Setting";
 
 import "../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
+import "./Detail/Consumer.css";
 
 class ConsumerProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-  // handleTransactions = () => {
-  //   this.props.getTransactions(this.props.MerchantProfile?.userId);
-  // };
-  // handleActivity = () => {
-  //   this.props.getActivity(this.props.MerchantProfile?.userId);
-  // };
+
   _goBack = () => {
     this.props.history.push("/app/consumers/list");
   };
   render() {
     // render staff
-    const e = this.props.MerchantProfile;
+    const e = this.props.ConsumerProfile;
 
-    const renderConsumer = (
-      // e.firstName !== undefined ? (
+    return (
       <div className="container-fluid content-list">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
         />
         <div className="content-body page-heading">
-          <div className="header col-md-12">
-            <h3>Consumer ID: {e.accountId}</h3>
+          <div className="header col-12">
+            <div style={{ display: "flex" }}>
+              <h3>Consumer ID: </h3>
+              <h3 style={{ marginLeft: "10px" }}>{e?.accountId}</h3>
+            </div>
             <span>
               <Button
                 style={{ color: "#4251af", backgroundColor: "white" }}
@@ -75,20 +74,19 @@ class ConsumerProfile extends Component {
                     </li>
                     <li>
                       {CheckPermissions(33) && (
-                        <NavLink
-                          to="/app/consumers/profile/transactions"
-                          // onClick={this.handleTransactions}
-                        >
+                        <NavLink to="/app/consumers/profile/transactions">
                           Transactions
                         </NavLink>
                       )}
                     </li>
                     <li>
-                      <NavLink
-                        to="/app/consumers/profile/activies"
-                        // onClick={this.handleActivity}
-                      >
+                      <NavLink to="/app/consumers/profile/activies">
                         Activities
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/app/consumers/profile/setting">
+                        Setting
                       </NavLink>
                     </li>
                   </ul>
@@ -114,6 +112,10 @@ class ConsumerProfile extends Component {
                         path="/app/consumers/profile/activies"
                         component={Acti}
                       />
+                      <Route
+                        path="/app/consumers/profile/setting"
+                        component={Setting}
+                      />
                     </Switch>
                   </div>
                 </div>
@@ -123,14 +125,10 @@ class ConsumerProfile extends Component {
         </div>
       </div>
     );
-    // ) : (
-    //   <Redirect to="/app/consumers/list" />
-    // );
-    return <div>{renderConsumer}</div>;
   }
 }
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  ConsumerProfile: state.ConsumerReducer.Consumer,
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => {

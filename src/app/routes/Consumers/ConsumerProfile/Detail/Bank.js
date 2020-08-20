@@ -5,7 +5,7 @@ import { ViewProfile_Merchants } from "../../../../../actions/merchants/actions"
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
-import "../../../Merchants/MerchantProfile/Detail/Detail.css";
+import "./Consumer.css";
 class Bank extends Component {
   constructor(props) {
     super(props);
@@ -13,58 +13,49 @@ class Bank extends Component {
   }
 
   render() {
-    const e = this.props.MerchantProfile.banks;
-    // console.log("BANK INFORMATION", e);
-    // console.log("BANK INFORMATION", this.props.MerchantProfile);
-    const renderBank =
-      e !== undefined ? (
-        e.map((i) => {
+    const e = this.props.ConsumerProfile.banks;
+    return (
+      <div className="content general-content">
+        {e.map((i) => {
           return (
             <div className="container" key={i.bankAcountId}>
               <h2>Bank Information</h2>
-              <div className="row">
+              <div className="row" style={{ paddingTop: "25px" }}>
                 <div className="col-md-4">
-                  <h4>Account Holder Name:</h4>
+                  <label style={styles.label}>Bank Name:</label>
                   <p>{i.accountHolderName}</p>
                 </div>
                 <div className="col-md-4">
-                  <h4>Routing Number:</h4>
+                  <label style={styles.label}>Routing Number:</label>
                   <p>{i.routingNumber}</p>
                 </div>
                 <div className="col-md-4">
-                  <h4>Address:</h4>
+                  <label style={styles.label}>Account Number:</label>
+                  <p>{i.accountNumber}</p>
+                </div>
+                <div className="col-md-4">
+                  <label style={styles.label}>Address:</label>
                   <p>{i.address}</p>
                 </div>
                 <div className="col-md-4">
-                  <h4>State:</h4>
-                  {/* STATE TRẢ ID SỬA SAU */}
+                  <label style={styles.label}>State:</label>
                   <p>{i.stateName}</p>
                 </div>
                 <div className="col-md-4">
-                  <h4>City:</h4>
+                  <label style={styles.label}>City:</label>
                   <p>{i.city}</p>
                 </div>
-                <div className="col-md-4">
-                  <h4>Account Number:</h4>
-                  <p>{i.accountNumber}</p>
-                </div>
-                {/* <div className="col-md-4">
-                  <h4>Post Code:</h4>
-                  <p>{i.postCode}</p>
-                </div> */}
               </div>
             </div>
           );
-        })
-      ) : (
-        <h2>NO INFORMATION</h2>
-      );
-    return <div className="content general-content">{renderBank}</div>;
+        })}
+      </div>
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  ConsumerProfile: state.ConsumerReducer.Consumer,
   userLogin: state.userReducer.User,
 });
 
@@ -74,3 +65,16 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Bank);
+
+const styles = {
+  p: { fontWeight: 400, color: "black" },
+  Form: {
+    marginTop: "10px",
+  },
+  btnDiv: {
+    marginTop: "10px",
+  },
+  label: {
+    fontSize: "13px",
+  },
+};

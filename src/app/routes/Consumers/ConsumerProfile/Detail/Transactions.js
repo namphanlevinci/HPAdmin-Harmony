@@ -77,7 +77,6 @@ class Transactions extends Component {
   }
 
   fetchData = async (state) => {
-    // const { page, pageSize } = state;
     const page = state?.page ? state?.page : 0;
     const pageSize = state?.pageSize ? state?.pageSize : 20;
     const { ID, from, to, timeRange } = this.state;
@@ -181,7 +180,7 @@ class Transactions extends Component {
     const { page, pageCount, data, pageSize } = this.state;
 
     return (
-      <div className="content ConsumerTransactions react-transition swipe-right">
+      <div className="content ConsumerTransactions react-transition swipe-right general-content">
         <div>
           <div className="container-fluid">
             <div

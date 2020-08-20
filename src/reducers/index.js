@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
+
 import Settings from "./Settings";
 // USER
 import userReducer from "./User/UserReducer";
@@ -27,7 +28,7 @@ import updateMerchant_Infor from "./Merchants/updateMerchant_Infor";
 // GET MERCHANT BY ID
 import getMerchant_byID from "./Merchants/getMerchant_byID";
 // NOTIFICATIONS
-import getAll_Notifications from "./notifications/getAll_Notifications";
+import NotificationReducer from "./Notifications/";
 // LOGS
 import getAll_Logs from "./Logs/getAll_Logs";
 // BUSINESS
@@ -48,6 +49,8 @@ import viewPrincipalInfo from "./Merchants/getPrincipal_Info";
 // Gift Card
 import GiftCardReducer from "./gift-card/gift-card.reducer";
 import MerchantReducer from "./Merchants/MerchantReducer";
+// Consumer
+import ConsumerReducer from "./Consumer/index";
 
 export default (history) =>
   combineReducers({
@@ -62,7 +65,7 @@ export default (history) =>
     ViewMerchant_Request,
     ViewProfile_Rejected,
     Merchants_RejectedList,
-    getNoti: getAll_Notifications,
+    NotificationReducer,
     getLogs: getAll_Logs,
     getQuestions: getAll_Questions,
     getTransactions: getAll_Transactions,
@@ -84,4 +87,5 @@ export default (history) =>
     GiftCardReducer,
     staffDetail: VIEW_STAFF_DETAIL,
     MerchantReducer,
+    ConsumerReducer,
   });

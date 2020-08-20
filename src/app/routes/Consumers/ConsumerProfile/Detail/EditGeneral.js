@@ -1,22 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ViewProfile_Merchants } from "../../../../../actions/merchants/actions";
-import { store } from "react-notifications-component";
+import { UPDATE_CONSUMER } from "../../../../../actions/consumer/actions";
 
+import SimpleReactValidator from "simple-react-validator";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
-import { config } from "../../../../../url/url";
+import TextField from "@material-ui/core/TextField";
 
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import "../../../Merchants/MerchantProfile/Detail/Detail.css";
-
-const URL = config.url.URL;
+import "./Consumer.css";
 
 class EditGeneral extends Component {
   constructor(props) {
     super(props);
+    this.validator = new SimpleReactValidator({
+      messages: {
+        default: "Required!",
+      },
+    });
     this.state = {
       firstName: "",
       lastName: "",
@@ -28,10 +31,8 @@ class EditGeneral extends Component {
     };
   }
 
-  async componentDidMount() {
-    const Token = localStorage.getItem("User_login");
-    await this.setState({ Token: Token });
-    const data = this.props.MerchantProfile;
+  componentDidMount() {
+    const data = this.props.ConsumerProfile;
     this.setState({
       ID: data?.userId,
       firstName: data?.firstName,
@@ -50,94 +51,87 @@ class EditGeneral extends Component {
       [name]: value,
     });
   };
-  Update = () => {
-    const { ID, firstName, lastName, phone, email, limitAmount } = this.state;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token },
-    };
-    axios
-      .put(
-        URL + "/user/update/" + ID,
-        {
-          firstName,
-          lastName,
-          phone,
-          email,
-          limitAmount,
-        },
-        config
-      )
-      .then(async (res) => {
-        if (res.data.message === "Success") {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-          });
-          setTimeout(() => {
-            axios.get(URL + "/user/" + this.state.ID, config).then((res) => {
-              if (res.data.data !== null) {
-                this.props.ViewProfile_Merchants(res.data.data);
-                this.props.history.push("/app/consumers/profile/general");
-              }
-            });
-          }, 1500);
-        } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-          });
-        }
-      });
+
+  submitUpdate = () => {
+    if (this.validator.allValid()) {
+      this.props.UPDATE_CONSUMER(this.state, this.state.ID);
+    } else {
+      this.validator.showMessages();
+
+      this.forceUpdate();
+    }
   };
+
   _goBack = () => {
     this.props.history.push("/app/consumers/profile/general");
   };
   render() {
-    // const e = this.props.MerchantProfile;
     const renderGeneral = (
-      <div className="react-transition swipe-right">
+      <div className="react-transition swipe-right consumer__general">
         <div className="container-fluid">
           <h2>General Information</h2>
           <div className="row" style={{ marginTop: "15px" }}>
-            <div className="col-3">
-              <label>First Name*</label>
-              <input
+            <div className="col-sm-4 col-md-3">
+              <TextField
                 type="text"
+                label="First Name*"
                 name="firstName"
                 value={this.state.firstName}
                 onChange={this._handleChange}
               />
+
+              {
+                <p className="required">
+                  {this.validator.message(
+                    "firstName",
+                    this.state.firstName,
+                    "required"
+                  )}
+                </p>
+              }
             </div>
-            <div className="col-3">
-              <label>Last Name*</label>
-              <input
+            <div className="col-sm-4 col-md-3">
+              <TextField
+                label="Last Name*"
                 type="text"
                 name="lastName"
                 value={this.state.lastName}
                 onChange={this._handleChange}
               />
+
+              {
+                <p className="required">
+                  {this.validator.message(
+                    "lastName",
+                    this.state.lastName,
+                    "required"
+                  )}
+                </p>
+              }
             </div>
-            <div className="col-3">
-              <label>Phone Number*</label>
+
+            <div className="col-sm-12 col-md-6">
+              <div>
+                <TextField
+                  label="Contact Email*"
+                  type="email"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this._handleChange}
+                />
+                {
+                  <p className="required">
+                    {this.validator.message(
+                      "email",
+                      this.state.email,
+                      "required|email"
+                    )}
+                  </p>
+                }
+              </div>
+            </div>
+            <div className="col-sm-4 col-md-3" style={{ paddingTop: "10px" }}>
+              <label style={{ fontSize: "13px" }}>Phone Number*</label>
               <div>
                 <input
                   type="text"
@@ -147,41 +141,6 @@ class EditGeneral extends Component {
                 />
               </div>
             </div>
-            <div className="col-3">
-              <label>Contact Email*</label>
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this._handleChange}
-                />
-              </div>
-            </div>
-          </div>
-          <h2 style={{ marginTop: "15px" }}>
-            Daily transactions limit (unit $)
-          </h2>
-          <label>
-            The HarmonyPay system will alert any user and pervent any use
-            involved monetary transfer or transfers that are:
-          </label>
-          <label>
-            a. More than $10,000 in total from either cash-in or cash-out.
-          </label>
-          <br />
-          <label>b. Is conducted by the same person.</label>
-          <br />
-          <label>c. Is conducted on the same business day.</label>
-          <br />
-          <div style={{ marginTop: "3px" }}>
-            <input
-              type="text"
-              name="limitAmount"
-              value={this.state.limitAmount}
-              onChange={this._handleChange}
-              className="col-3"
-            />
           </div>
         </div>
 
@@ -189,7 +148,7 @@ class EditGeneral extends Component {
           className="SettingsContent general-content"
           style={{ marginTop: "20px" }}
         >
-          <Button className="btn btn-green" onClick={this.Update}>
+          <Button className="btn btn-green" onClick={this.submitUpdate}>
             SAVE
           </Button>
           <Button className="btn btn-red" onClick={this._goBack}>
@@ -204,13 +163,13 @@ class EditGeneral extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  ConsumerProfile: state.ConsumerReducer.Consumer,
   userLogin: state.userReducer.User,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
+  UPDATE_CONSUMER: (payload, id) => {
+    dispatch(UPDATE_CONSUMER(payload, id));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditGeneral);

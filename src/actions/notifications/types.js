@@ -1,3 +1,5 @@
-export const getAll_Notifications = 'getAll_Notifications'
-export const getAll_Notifications_Success = 'getAll_Notifications_Success'
-export const getAll_Notifications_Error = 'getAll_Notifications_Error'
+export const SUCCESS_NOTIFICATION = "SUCCESS_NOTIFICATION";
+export const FAILURE_NOTIFICATION = "FAILURE_NOTIFICATION";
+export const WARNING_NOTIFICATION = "WARNING_NOTIFICATION";
+export const DEFAULT_NOTIFICATION = "DEFAULT_NOTIFICATION";
+export const INFO_NOTIFICATION = "INFO_NOTIFICATION";

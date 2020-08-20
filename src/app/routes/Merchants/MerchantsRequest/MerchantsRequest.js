@@ -129,7 +129,7 @@ class MerchantsRequest extends Component {
         Header: "Submitted Date",
         id: "submitDate",
         accessor: (row) => (
-          <p>{moment(row?.createdDate).format("MM-DD-YYYY")}</p>
+          <p>{moment(row?.createdDate).format("MM/DD/YYYY")}</p>
         ),
       },
       {

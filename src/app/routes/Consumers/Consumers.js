@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ViewProfile_Merchants } from "../../../actions/merchants/actions";
+import { GET_CONSUMER_BY_ID } from "../../../actions/consumer/actions";
 import { store } from "react-notifications-component";
 import { config } from "../../../url/url";
 import { Helmet } from "react-helmet";
@@ -31,11 +31,6 @@ class Consumers extends React.Component {
     };
   }
 
-  _ConsumerProfile = (e) => {
-    this.props.ViewProfile_Merchants(e);
-    this.props.history.push("/app/consumers/profile/general");
-  };
-
   fetchData = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
@@ -54,6 +49,7 @@ class Consumers extends React.Component {
       )
       .then((res) => {
         const data = res.data.data;
+        console.log("data", data);
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,
@@ -174,7 +170,7 @@ class Consumers extends React.Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this._ConsumerProfile(rowInfo.row);
+            this.props.GET_CONSUMER_BY_ID(rowInfo.row._original.userId);
           }
         },
       };
@@ -235,8 +231,8 @@ const mapStateToProps = (state) => ({
   ConsumerList: state.getConsumerUsers,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
+  GET_CONSUMER_BY_ID: (payload) => {
+    dispatch(GET_CONSUMER_BY_ID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Consumers);

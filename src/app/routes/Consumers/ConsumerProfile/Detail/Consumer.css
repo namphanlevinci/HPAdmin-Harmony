@@ -3,6 +3,29 @@
   /* border-color: #4251af; */
 }
 
+.consumer__general .required {
+  margin-top: 5px;
+  color: red !important;
+}
+
+.consumer_btn_container .MuiDialogContent-root {
+  padding: 0;
+
+}
+
+.consumer_btn_container .MuiDialogContent-root:first-child {
+  padding-top: 0
+}
+
+.consumer_btn_container .disable__title {
+  background-color: #4251af;
+  height: 50px;
+  padding: 10px;
+  width: 100%;
+  z-index: 999;
+  color: white;
+  align-items: center;
+}
 
 .TransactionTable thead tr th {
   color: white;
@@ -67,7 +90,6 @@
     float: left;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     border-radius: 4px;
-    /* border: 0 !important; */
 }
 
 .date-picker:focus {
@@ -98,3 +120,4 @@ h2 {
 .rejectInput .close {
   font-size: 35px !important;
 }
+

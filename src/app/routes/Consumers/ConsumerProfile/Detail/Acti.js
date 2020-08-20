@@ -124,7 +124,7 @@ class Acti extends Component {
     const { from, to } = this.state;
 
     return (
-      <div className="content ConsumerTransactions  react-transition swipe-right">
+      <div className="content ConsumerTransactions  react-transition swipe-right general-content">
         <div>
           <div className="container-fluid">
             <div

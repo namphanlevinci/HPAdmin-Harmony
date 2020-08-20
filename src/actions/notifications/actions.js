@@ -1,16 +1,26 @@
-import * as types from './types'
+import * as types from "./types";
 
-export const getAll_Notifications = (payload) => ({
-    type: types.getAll_Notifications,
-    payload: payload
+export const SUCCESS_NOTIFICATION = (payload) => ({
+  type: types.SUCCESS_NOTIFICATION,
+  payload: payload,
 });
 
-export const getAll_Notifications_Success = (payload) => ({
-    type: types.getAll_Notifications_Success,
-    payload: payload
+export const FAILURE_NOTIFICATION = (payload) => ({
+  type: types.FAILURE_NOTIFICATION,
+  payload: payload,
 });
 
-export const getAll_Notifications_Error = (payload) => ({
-    type: types.getAll_Notifications_Error,
-    payload: payload
+export const WARNING_NOTIFICATION = (payload) => ({
+  type: types.WARNING_NOTIFICATION,
+  payload: payload,
+});
+
+export const DEFAULT_NOTIFICATION = (payload) => ({
+  type: types.DEFAULT_NOTIFICATION,
+  payload: payload,
+});
+
+export const INFO_NOTIFICATION = (payload) => ({
+  type: types.INFO_NOTIFICATION,
+  payload: payload,
 });
