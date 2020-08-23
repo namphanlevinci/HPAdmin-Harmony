@@ -124,6 +124,47 @@ export function* GET_USER_BY_ID_API(ID) {
   return kq;
 }
 
+export function* GET_CURRENT_USER_API(ID) {
+  const userID = ID;
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .get(URL + `/adminuser/${userID}`, config)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// Get permission on login
+export function* GET_PERMISSION_ON_LOGIN_API(ID) {
+  const waRoleId = ID;
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .get(URL + `/permission/getByRole/${waRoleId}`, config)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
 export function* GET_PERMISSION_BY_ROLE_ID_API(ID) {
   const waRoleId = ID;
   const getInfoLogin = (state) => state.userReducer.User;
@@ -229,5 +270,69 @@ export function* UPDATE_USER_API(data) {
     .catch((err) => {
       console.log(err);
     });
+  return kq;
+}
+
+// Logout
+export function* USER_LOGOUT_API(ID) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .put(URL + `/adminUser/logout/${ID}`, null, config)
+    .then((result) => {
+      console.log("result", result);
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  return kq;
+}
+
+// Disable user
+export function* DISABLE_USER_API(ID) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .delete(URL + `/adminuser/${ID}`, config)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  return kq;
+}
+
+// Restore user
+export function* ENABLE_USER_API(ID) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .put(URL + `/adminuser/enable/${ID}`, null, config)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
   return kq;
 }

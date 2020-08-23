@@ -415,7 +415,7 @@ class Roles extends Component {
 
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer?.User,
-  permissions: state.userReducer.allPermission,
+  permissions: state.userReducer.Permissions,
 });
 const mapDispatchToProps = (dispatch) => ({
   GET_ALL_PERMISSION: () => {

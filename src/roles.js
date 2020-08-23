@@ -5,7 +5,7 @@
          firstName:"Super",
          lastName:"Admin",
          email:"john@yahoo.com",
-         userModulePages:[
+         UserPermissions:[
             {
                modulePage:"Role",
                modulePageUrl:"user-roles-list",

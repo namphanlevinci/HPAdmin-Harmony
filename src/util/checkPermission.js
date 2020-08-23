@@ -2,7 +2,7 @@ import { store } from "../store";
 
 function CheckPermissions(permissionId) {
   const Permission = store.getState();
-  const checkPermission = Permission?.userReducer?.userModulePages;
+  const checkPermission = Permission?.userReducer?.UserPermissions;
 
   // console.log("checkPermission", checkPermission);
   // console.log("permissionId", permissionId);

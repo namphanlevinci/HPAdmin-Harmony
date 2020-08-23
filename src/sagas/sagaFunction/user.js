@@ -9,9 +9,14 @@ import {
   ADD_USER_API,
   GET_USER_BY_ID_API,
   GET_PERMISSION_BY_ROLE_ID_API,
+  GET_PERMISSION_ON_LOGIN_API,
   GET_ALL_PERMISSION_API,
   UPDATE_PERMISSION_API,
   UPDATE_USER_API,
+  USER_LOGOUT_API,
+  GET_CURRENT_USER_API,
+  ENABLE_USER_API,
+  DISABLE_USER_API,
 } from "../api/user";
 import { takeLatest, put } from "redux-saga/effects";
 
@@ -26,12 +31,9 @@ export function* USER_LOGIN_SAGA() {
           type: typeUser.USER_LOGIN_SUCCESS,
           payload: check.data,
         });
+        history.push("/verify");
       }
       if (check.data === null) {
-        yield put({
-          type: typeUser.USER_LOGIN_FAILURE,
-          payload: check.message,
-        });
         yield put({
           type: typeNotification.FAILURE_NOTIFICATION,
           payload: check.message,
@@ -45,16 +47,18 @@ export function* USER_LOGIN_SAGA() {
 
 // USER VERIFY
 export function* USER_VERIFY_SAGA() {
-  yield takeLatest(typeUser.Verify, function*(action) {
+  yield takeLatest(typeUser.VERIFY_USER, function*(action) {
     try {
-      const { serial, code, token } = action.payload;
+      const { serial, code, token, roleID } = action.payload;
+
       const check = yield USER_VERIFY_API({ serial, code, token });
+
       if (check.data !== null) {
         yield put({ type: typeUser.VERIFY_SUCCESS, payload: check.data });
-        history.push("/app/merchants/list");
+        yield put({ type: typeUser.GET_PERMISSION_ON_LOGIN, payload: roleID });
       }
       if (check.data === null) {
-        yield put({ type: typeUser.VERIFY_FAILURE, payload: check.message });
+        yield put({ type: typeUser.VERIFY_FAILURE, payload: false });
         yield put({
           type: typeNotification.FAILURE_NOTIFICATION,
           payload: check.message,
@@ -137,11 +141,31 @@ export function* GET_USER_BY_ID_SAGA() {
   });
 }
 
+// Get current login user
+export function* GET_CURRENT_USER_SAGA() {
+  yield takeLatest(typeUser.GET_CURRENT_USER, function*(action) {
+    try {
+      const check = yield GET_CURRENT_USER_API(action.payload);
+      if (check.data !== null) {
+        yield put({
+          type: typeUser.GET_CURRENT_USER_SUCCESS,
+          payload: check.data,
+        });
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeUser.GET_CURRENT_USER_FAILURE,
+          payload: check.message,
+        });
+      }
+    } catch (error) {
+      yield put({ type: typeUser.GET_CURRENT_USER_FAILURE, payload: error });
+    }
+  });
+}
+
 export function* GET_PERMISSION_BY_ROLE_ID_SAGA() {
-  yield takeLatest(typeUser.GET_PERMISSION_BY_ID, function*({
-    action,
-    payload,
-  }) {
+  yield takeLatest(typeUser.GET_PERMISSION_BY_ID, function*({ payload }) {
     try {
       const check = yield GET_PERMISSION_BY_ROLE_ID_API(payload);
       if (check.data !== null) {
@@ -149,6 +173,33 @@ export function* GET_PERMISSION_BY_ROLE_ID_SAGA() {
           type: typeUser.GET_PERMISSION_BY_ID_SUCCESS,
           payload: check.data,
         });
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeUser.GET_PERMISSION_BY_ID_FAILURE,
+          payload: check.message,
+        });
+      }
+    } catch (error) {
+      yield put({
+        type: typeUser.GET_PERMISSION_BY_ID_FAILURE,
+        payload: error,
+      });
+    }
+  });
+}
+
+export function* GET_PERMISSION_ON_LOGIN_SAGA() {
+  yield takeLatest(typeUser.GET_PERMISSION_ON_LOGIN, function*({ payload }) {
+    try {
+      const check = yield GET_PERMISSION_ON_LOGIN_API(payload);
+      if (check.data !== null) {
+        yield put({
+          type: typeUser.GET_PERMISSION_ON_LOGIN_SUCCESS,
+          payload: check.data,
+        });
+        yield put({ type: typeUser.VERIFY_FAILURE, payload: false });
+        history.push("/app/merchants/list");
       }
       if (check.data === null) {
         yield put({
@@ -254,6 +305,89 @@ export function* UPDATE_USER_SAGA() {
       }
     } catch (error) {
       yield put({ type: typeUser.UPDATE_USER_ADMIN_FAILURE, payload: error });
+    }
+  });
+}
+
+// Logout
+export function* USER_LOGOUT_SAGA() {
+  yield takeLatest(typeUser.USER_LOGOUT, function*(action) {
+    try {
+      const check = yield USER_LOGOUT_API(action.payload);
+      if (check.data !== null) {
+        localStorage.removeItem("User_login");
+        history.push("/");
+      } else {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong!",
+        });
+      }
+    } catch (error) {
+      yield put({
+        type: typeNotification.FAILURE_NOTIFICATION,
+        payload: "Something went wrong!",
+      });
+    }
+  });
+}
+
+// Disable user
+export function* DISABLE_USER_SAGA() {
+  yield takeLatest(typeUser.DISABLE_USER, function*({ payload }) {
+    try {
+      const check = yield DISABLE_USER_API(payload);
+      if (check.data !== null) {
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: check.message,
+        });
+        yield put({
+          type: typeUser.GET_USER_BY_ID,
+          payload: payload,
+        });
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: check.message,
+        });
+      }
+    } catch (error) {
+      yield put({
+        type: typeNotification.FAILURE_NOTIFICATION,
+        payload: "Something went wrong!",
+      });
+    }
+  });
+}
+
+// Restore user
+export function* ENABLE_USER_SAGA() {
+  yield takeLatest(typeUser.ENABLE_USER, function*({ payload }) {
+    try {
+      const check = yield ENABLE_USER_API(payload);
+      if (check.data !== null) {
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: check.message,
+        });
+        yield put({
+          type: typeUser.GET_USER_BY_ID,
+          payload: payload,
+        });
+      }
+      if (check.data === null) {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: check.message,
+        });
+      }
+    } catch (error) {
+      yield put({
+        type: typeNotification.FAILURE_NOTIFICATION,
+        payload: "Something went wrong!",
+      });
     }
   });
 }

@@ -21,8 +21,8 @@ export const USER_LOGOUT = (payload) => ({
 });
 
 // VERIFY USER
-export const Verify = (payload) => ({
-  type: types.Verify,
+export const VERIFY_USER = (payload) => ({
+  type: types.VERIFY_USER,
   payload: payload,
 });
 export const VERIFY_SUCCESS = (payload) => ({
@@ -107,6 +107,17 @@ export const GET_ALL_PERMISSION_FAILURE = (payload) => ({
   payload: payload,
 });
 
+// Get permissions on login
+export const GET_PERMISSION_ON_LOGIN = (payload) => ({
+  type: types.GET_PERMISSION_ON_LOGIN,
+  payload: payload,
+});
+
+export const GET_PERMISSION_ON_LOGIN_SUCCESS = (payload) => ({
+  type: types.GET_PERMISSION_ON_LOGIN_SUCCESS,
+  payload: payload,
+});
+
 // UPDATE ROLE PERMISSION
 export const UPDATE_PERMISSIONS = (payload) => ({
   type: types.UPDATE_PERMISSIONS,
@@ -138,5 +149,29 @@ export const UPDATE_USER_ADMIN_FAILURE = (payload) => ({
 // Change user password
 export const UPDATE_USER_PASSWORD = (payload) => ({
   type: types.UPDATE_USER_PASSWORD,
+  payload: payload,
+});
+
+// Get current user login
+export const GET_CURRENT_USER = (payload) => ({
+  type: types.GET_CURRENT_USER,
+  payload: payload,
+});
+export const GET_CURRENT_USER_SUCCESS = (payload) => ({
+  type: types.GET_CURRENT_USER_SUCCESS,
+  payload: payload,
+});
+export const GET_CURRENT_USER_FAILURE = (payload) => ({
+  type: types.GET_CURRENT_USER_FAILURE,
+  payload: payload,
+});
+
+// Enable & Disable user
+export const DISABLE_USER = (payload) => ({
+  type: types.DISABLE_USER,
+  payload: payload,
+});
+export const ENABLE_USER = (payload) => ({
+  type: types.ENABLE_USER,
   payload: payload,
 });

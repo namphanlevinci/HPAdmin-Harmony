@@ -83,7 +83,7 @@ class UserInfo extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  CurrentUser: state.userReducer.userByID,
+  CurrentUser: state.userReducer.LoggedUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   USER_LOGOUT: (ID) => {

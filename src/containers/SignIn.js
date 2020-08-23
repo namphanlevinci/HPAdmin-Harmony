@@ -10,7 +10,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import IntlMessages from "../util/IntlMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import axios from "axios";
 import Logo from "../assets/images/harmonylogo.png";
 
 const URL = config.url.URL;

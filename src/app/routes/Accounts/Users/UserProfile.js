@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { store } from "react-notifications-component";
-import { VIEW_PROFILE_USER } from "../../../../actions/user/actions";
+import {
+  VIEW_PROFILE_USER,
+  DISABLE_USER,
+  ENABLE_USER,
+} from "../../../../actions/user/actions";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -49,70 +53,14 @@ class UserProfile extends Component {
       });
   };
 
-  _disable = () => {
+  disableUser = () => {
     const ID = this.props.UserProfile.waUserId;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token },
-    };
-    axios
-      .delete(URL + "/adminuser/" + ID, config)
-      .then((res) => {
-        // console.log(res);
-        store.addNotification({
-          title: "SUCCESS!",
-          message: `${res.data.message}`,
-          type: "success",
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 5000,
-            onScreen: true,
-          },
-          width: 250,
-        });
-        setTimeout(() => {
-          this.getUserByID();
-        }, 1000);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+    this.props.DISABLE_USER(ID);
   };
 
-  _enable = () => {
+  enableUser = () => {
     const ID = this.props.UserProfile.waUserId;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token },
-    };
-    axios
-      .put(URL + "/adminuser/enable/" + ID, null, config)
-      .then((res) => {
-        // console.log(res);
-        store.addNotification({
-          title: "SUCCESS!",
-          message: `${res.data.message}`,
-          type: "success",
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 5000,
-            onScreen: true,
-          },
-          width: 250,
-        });
-        setTimeout(() => {
-          this.getUserByID();
-        }, 1000);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+    this.props.ENABLE_USER(ID);
   };
 
   render() {
@@ -122,7 +70,7 @@ class UserProfile extends Component {
         <Button
           className="btn btn-green"
           style={styles.button}
-          onClick={this._disable}
+          onClick={this.disableUser}
         >
           DISABLE
         </Button>
@@ -130,7 +78,7 @@ class UserProfile extends Component {
         <Button
           className="btn btn-green"
           style={styles.button}
-          onClick={this._enable}
+          onClick={this.enableUser}
         >
           ENABLE
         </Button>
@@ -213,12 +161,18 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.userReducer.viewUser,
+  UserProfile: state.userReducer.ViewUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   VIEW_PROFILE_USER: (payload) => {
     dispatch(VIEW_PROFILE_USER(payload));
+  },
+  DISABLE_USER: (payload) => {
+    dispatch(DISABLE_USER(payload));
+  },
+  ENABLE_USER: (payload) => {
+    dispatch(ENABLE_USER(payload));
   },
 });
 export default withRouter(

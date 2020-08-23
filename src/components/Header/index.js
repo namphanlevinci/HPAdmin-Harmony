@@ -14,7 +14,7 @@ import {
   ViewMerchant_Request,
 } from "../../actions/merchants/actions";
 import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
-import { GET_USER_BY_ID } from "../../actions/user/actions";
+import { GET_CURRENT_USER } from "../../actions/user/actions";
 
 import firebase from "../../firebase";
 // import SearchBox from 'components/SearchBox';
@@ -41,7 +41,7 @@ class Header extends React.Component {
     const User = localStorage.getItem("User_login");
     await this.setState({ User: JSON.parse(User) });
     const ID = this.state.User?.userAdmin?.waUserId;
-    await this.props.getUserByID(ID);
+    await this.props.GET_CURRENT_USER(ID);
 
     await this.loadNotify();
     const messaging = firebase.messaging();
@@ -499,8 +499,8 @@ const mapDispatchToProps = (dispatch) => ({
   switchLanguage: (payload) => {
     dispatch(switchLanguage(payload));
   },
-  getUserByID: (ID) => {
-    dispatch(GET_USER_BY_ID(ID));
+  GET_CURRENT_USER: (ID) => {
+    dispatch(GET_CURRENT_USER(ID));
   },
 });
 

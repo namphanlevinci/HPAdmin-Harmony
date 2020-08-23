@@ -6,52 +6,47 @@ const initialState = {
   User: JSON.parse(localStorage.getItem("User_login"))
     ? JSON.parse(localStorage.getItem("User_login"))
     : "",
-  userByID: "",
-  viewUser: "",
+  UserData: "",
+  ViewUser: "",
   AddUser: "",
   VERIFY_NUMBER: "",
   UserRoleID: "",
-  userModulePages: [],
-  allPermission: [],
+  UserPermissions: [],
+  Permissions: [],
+  GettingPermissions: false,
+  LoggedUser: "",
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.USER_LOGIN_SUCCESS:
-      window.location.href = "/verify";
       const { verifyCodeId, waRoleId } = payload;
       return { ...state, UserRoleID: waRoleId, VERIFY_NUMBER: verifyCodeId };
 
-    case types.USER_LOGIN_FAILURE:
-      return { ...state };
-
     case types.USER_LOGOUT:
-      const ID = payload;
-      const token = JSON.parse(localStorage.getItem("User_login"));
-      const config = {
-        headers: { Authorization: "bearer " + token.token },
-      };
-
-      axios
-        .put(`${URL}/adminUser/logout/${ID}`, null, config)
-        .then((res) => console.log("res", res));
-
-      localStorage.removeItem("User_login");
-      window.location.href = "/signin";
       return { ...state };
+
+    case types.VERIFY_USER:
+      return { ...state, GettingPermissions: true };
 
     case types.VERIFY_SUCCESS:
       localStorage.setItem("User_login", JSON.stringify(payload));
-
       return { ...state, User: payload };
 
     case types.VERIFY_FAILURE:
-      return { ...state };
+      return { ...state, GettingPermissions: false };
+
     case types.VIEW_PROFILE_USER:
-      return { ...state, viewUser: payload };
+      return { ...state, ViewUser: payload };
+
+    case types.GET_CURRENT_USER_SUCCESS:
+      return { ...state, LoggedUser: payload };
 
     case types.GET_USER_BY_ID:
-      return { ...state, userByID: payload };
+      return { ...state, UserData: payload };
+
+    case types.GET_USER_BY_ID_SUCCESS:
+      return { ...state, ViewUser: payload };
 
     case types.ADD_ADMIN_SUCCESS:
       return { ...state, AddUser: payload };
@@ -59,10 +54,13 @@ const userReducer = (state = initialState, { type, payload }) => {
     case types.ADD_ADMIN_FAILURE:
       return { ...state };
     case types.GET_PERMISSION_BY_ID_SUCCESS:
-      return { ...state, userModulePages: payload };
+      return { ...state, UserPermissions: payload };
+
+    case types.GET_PERMISSION_ON_LOGIN_SUCCESS:
+      return { ...state, UserPermissions: payload };
 
     case types.GET_ALL_PERMISSION_SUCCESS:
-      return { ...state, allPermission: payload };
+      return { ...state, Permissions: payload };
 
     case types.UPDATE_PERMISSIONS_SUCCESS:
       return { ...state };

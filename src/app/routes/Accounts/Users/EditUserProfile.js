@@ -363,7 +363,7 @@ class EditUserProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.userReducer.viewUser,
+  UserProfile: state.userReducer.ViewUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   VIEW_PROFILE_USER: (payload) => {

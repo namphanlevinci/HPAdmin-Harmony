@@ -9,6 +9,11 @@ import {
   GET_ALL_PERMISSION_SAGA,
   UPDATE_PERMISSION_SAGA,
   UPDATE_USER_SAGA,
+  USER_LOGOUT_SAGA,
+  GET_PERMISSION_ON_LOGIN_SAGA,
+  GET_CURRENT_USER_SAGA,
+  DISABLE_USER_SAGA,
+  ENABLE_USER_SAGA,
 } from "../sagas/sagaFunction/user";
 import {
   GET_ALL_MERCHANT_SAGA,
@@ -21,12 +26,10 @@ import {
   DELETE_MERCHANT_SAGA,
 } from "../sagas/sagaFunction/merchants";
 
-// import { GET_ALL_NOTIFICATION_SAGA } from "../sagas/sagaFunction/notifications";
 import { GET_ALL_LOG_SAGA } from "../sagas/sagaFunction/logs";
 import {
   GET_ALL_QUESTION_SAGA,
   UPDATE_QUESTION_SAGA,
-  // GET_ALL_USER_SAGA,
 } from "./sagaFunction/questions";
 import {
   GET_ALL_TRANSACTION_SAGA,
@@ -91,4 +94,9 @@ export default function* rootSaga() {
   yield fork(RESTORE_CONSUMER_BY_ID_SAGA);
   yield fork(DELETE_CONSUMER_BY_ID_SAGA);
   yield fork(UPDATE_USER_SAGA);
+  yield fork(USER_LOGOUT_SAGA);
+  yield fork(GET_PERMISSION_ON_LOGIN_SAGA);
+  yield fork(GET_CURRENT_USER_SAGA);
+  yield fork(DISABLE_USER_SAGA);
+  yield fork(ENABLE_USER_SAGA);
 }
