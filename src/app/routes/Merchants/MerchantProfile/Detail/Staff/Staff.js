@@ -280,7 +280,7 @@ class Staff extends Component {
             {/* ARCHIVE */}
             <Dialog open={this.state.dialog}>
               <DialogTitle id="alert-dialog-title">
-                {"Archive this Staff ?"}
+                {"Archive this Staff?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -310,7 +310,7 @@ class Staff extends Component {
             {/* RESTORE */}
             <Dialog open={this.state.restoreDialog}>
               <DialogTitle id="alert-dialog-title">
-                {"Restore this Staff ?"}
+                {"Restore this Staff?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">

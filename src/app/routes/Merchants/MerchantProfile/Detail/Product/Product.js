@@ -304,7 +304,7 @@ class Product extends Component {
 
           {/* ARCHIVE */}
           <Dialog open={this.state.dialog}>
-            <DialogTitle>{"Archive this product ?"}</DialogTitle>
+            <DialogTitle>{"Archive this Product?"}</DialogTitle>
             <DialogContent>
               <DialogContentText>
                 This product will not appear on the app. You can restore this
@@ -332,7 +332,7 @@ class Product extends Component {
           </Dialog>
           {/* RESTORE */}
           <Dialog open={this.state.restoreDialog}>
-            <DialogTitle>{"Restore this product ?"}</DialogTitle>
+            <DialogTitle>{"Restore this Product?"}</DialogTitle>
             <DialogContent>
               <DialogContentText>
                 This product will appear on the app as well as the related
@@ -367,7 +367,7 @@ class Product extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({

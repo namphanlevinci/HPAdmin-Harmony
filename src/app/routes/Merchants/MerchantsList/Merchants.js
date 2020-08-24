@@ -4,6 +4,7 @@ import {
   getAll_Merchants,
   SearchMerchants,
   ViewProfile_Merchants,
+  GET_MERCHANT_BY_ID,
 } from "../../../../actions/merchants/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
@@ -84,20 +85,10 @@ class Merchants extends React.Component {
   addMerchant = () => {
     this.props.history.push("/app/merchants/add");
   };
-  merchantProfile = (ID) => {
-    this.setState({ isLoading: true });
-    axios
-      .get(URL + "/merchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 200) {
-          this.props.ViewProfile_Merchants(res.data.data);
-          this.props.history.push("/app/merchants/profile/general");
-        }
-      });
+  MerchantProfilePage = (ID) => {
+    this.setState({ loading: true });
+    this.props.GET_MERCHANT_BY_ID(ID);
+    this.props.history.push("/app/merchants/profile/general");
   };
 
   keyPressed = (event) => {
@@ -175,7 +166,7 @@ class Merchants extends React.Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.merchantProfile(rowInfo.original.merchantId);
+            this.MerchantProfilePage(rowInfo.original.merchantId);
           }
         },
       };
@@ -260,6 +251,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
+  },
+  GET_MERCHANT_BY_ID: (ID) => {
+    dispatch(GET_MERCHANT_BY_ID(ID));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Merchants);

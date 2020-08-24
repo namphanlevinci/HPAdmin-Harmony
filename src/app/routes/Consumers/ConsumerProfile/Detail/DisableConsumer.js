@@ -60,7 +60,7 @@ export default function DisableConsumer({
                 </div>
                 <Form style={styles.Form}>
                   <h2 style={{ color: "black" }}>
-                    Are you sure you want to Archive this consumer?
+                    Are you sure you want to Archive this Consumer?
                   </h2>
                   <Field
                     style={{ padding: "10px" }}

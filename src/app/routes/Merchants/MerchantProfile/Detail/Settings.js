@@ -5,11 +5,14 @@ import {
   getAll_Merchants,
   GetMerchant_byID,
   ViewProfile_Merchants,
+  ARCHIVE_MERCHANT,
+  RESTORE_MERCHANT,
 } from "../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
 import { config } from "../../../../../url/url";
 import Popup from "reactjs-popup";
 import CheckPermissions from "../../../../../util/checkPermission";
@@ -19,7 +22,6 @@ import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import "./Detail.css";
 const URL = config.url.URL;
-const upFile = config.url.upFile;
 
 class Settings extends Component {
   constructor(props) {
@@ -55,184 +57,106 @@ class Settings extends Component {
       Token: Token,
     });
   }
-  handleOpenAccept = () => {
-    this.setState({ isOpenAccept: true });
+
+  handleOpenArchive = () => {
+    this.setState({ open: !this.state.open });
   };
 
-  handleCloseAccept = () => {
-    this.setState({ isOpenAccept: false });
-  };
-  handleOpenReject = () => {
-    this.setState({ isOpenReject: true });
-  };
-
-  handleCloseReject = () => {
-    this.setState({ isOpenReject: false });
-  };
   _toggleConfirm = () => {
     this.setState({ update: !this.state.update });
   };
 
   _enable = () => {
+    this.setState({ open: false });
     const { ID } = this.state;
-    let token = JSON.parse(this.state.Token);
-    axios
-      .put(URL + "/merchant/enable/" + ID, null, {
-        headers: { Authorization: `Bearer ${token.token}` },
-      })
-      .then((res) => {
-        if (res.data.message === "Success") {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          setTimeout(() => {
-            this.props.GetMerchant_byID(ID);
-          }, 1000);
-          setTimeout(() => {
-            this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
-            this.props.history.push("/app/merchants/profile/settings");
-          }, 2000);
-        }
-      });
+    this.props.RESTORE_MERCHANT(ID);
   };
   render() {
     const MerchantStatus =
       this.props.MerchantProfile.isDisabled !== 1 ? (
-        <Popup
-          trigger={<Button className="btn btn-red">INACTIVE</Button>}
-          modal
-          on="click"
-          open={this.state.isOpenReject}
-          onOpen={this.handleOpenReject}
-          closeOnDocumentClick
-          style={{ top: "-300px" }}
-        >
-          <span>
-            <Formik
-              initialValues={{ rejectReason: "" }}
-              validate={(values) => {
-                let errors = {};
-                if (!values.rejectReason) {
-                  errors.rejectReason = "Required";
-                }
-                return errors;
-              }}
-              onSubmit={(values, { setSubmitting }) => {
-                const reason = values.rejectReason;
-                const { ID } = this.state;
-                let token = JSON.parse(this.state.Token);
-                axios
-                  .delete(URL + "/merchant/" + ID, {
-                    headers: {
-                      Authorization: `Bearer ${token.token}`,
-                    },
-                    data: { reason },
-                  })
-                  .then(async (res) => {
-                    if (res.data.message === "Success") {
-                      store.addNotification({
-                        title: "SUCCESS!",
-                        message: `${res.data.message}`,
-                        type: "success",
-                        insert: "top",
-                        container: "top-right",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 5000,
-                          onScreen: true,
-                        },
-                        width: 250,
-                      });
-                      setTimeout(() => {
-                        this.props.GetMerchant_byID(ID);
-                      }, 1000);
-                      setTimeout(() => {
-                        this.props.ViewProfile_Merchants(
-                          this.props.getMerchant.Data
-                        );
-                        this.props.history.push(
-                          "/app/merchants/profile/settings"
-                        );
-                      }, 1500);
-                    } else {
-                      store.addNotification({
-                        title: "ERROR!",
-                        message: `${res.data.message}`,
-                        type: "warning",
-                        insert: "top",
-                        container: "top-right",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 5000,
-                          onScreen: true,
-                        },
-                        width: 250,
-                      });
-                    }
+        <div>
+          <Button className="btn btn-red" onClick={this.handleOpenArchive}>
+            ARCHIVE
+          </Button>
+          <Dialog
+            open={this.state.open}
+            onClose={this.handleOpenArchive}
+            className="merchant_btn_container"
+          >
+            <DialogContent style={{ maxWidth: "600px" }}>
+              <Formik
+                initialValues={{ rejectReason: "" }}
+                validate={(values) => {
+                  let errors = {};
+                  if (!values.rejectReason) {
+                    errors.rejectReason = "Required";
+                  }
+                  return errors;
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                  this.props.ARCHIVE_MERCHANT({
+                    ID: this.state.ID,
+                    reason: values.rejectReason,
                   });
-              }}
-            >
-              {({ values, _handleChange, isSubmitting }) => (
-                <div className="rejectInput">
-                  <h2 className="title">
-                    Are you sure you want to disable this merchant?
-                  </h2>
-                  <Form>
-                    <Field
-                      type="textarea"
-                      name="rejectReason"
-                      component="textarea"
-                      placeholder="Please enter your reason."
-                    />
-                    <ErrorMessage name="rejectReason" component="div" />
-                    <div>
-                      <Button
-                        type="submit"
-                        className="btn btn-red"
-                        onClick={this.handleCloseReject}
-                      >
-                        BACK
-                      </Button>
-                      <Button
+                }}
+              >
+                {({ values, isSubmitting }) => (
+                  <div className="rejectInput">
+                    <p className="close" onClick={this.handleOpenArchive}>
+                      &times;
+                    </p>
+                    <div className="disable__title">
+                      <p
                         style={{
+                          fontSize: "22px",
+                          textAlign: "center",
                           color: "white",
-                          backgroundColor: "#4251af",
-                          textTransform: "uppercase",
-                          letterSpacing: "2px",
-                          fontSize: "12px",
-                          padding: "10px 30px",
-                          borderRadius: "5px",
-                          border: "1px solid rgba(0, 0, 0, 0.3)",
-                          borderBottomWidth: "3px",
-                          fontWeight: "900",
-                          marginLeft: "0px",
+                          fontWeight: "400",
                         }}
-                        type="submit"
-                        className="btn btn-green"
-                        onClick={this.onSubmit}
                       >
-                        CONFIRM
-                      </Button>
+                        Warning!
+                      </p>
                     </div>
-                  </Form>
-                </div>
-              )}
-            </Formik>
-          </span>
-        </Popup>
+                    <Form style={styles.Form}>
+                      <h2 style={{ color: "black" }}>
+                        Are you sure you want to Archive this Merchant?
+                      </h2>
+                      <Field
+                        type="textarea"
+                        name="rejectReason"
+                        component="textarea"
+                        placeholder="Please enter your reason."
+                      />
+                      <ErrorMessage
+                        name="rejectReason"
+                        component="div"
+                        style={{
+                          color: "red",
+                          fontWeight: "400",
+                          fontSize: "17px",
+                        }}
+                      />
+
+                      <div style={styles.btnDiv} className="general-content">
+                        <Button type="submit" className="btn btn-green">
+                          CONFIRM
+                        </Button>
+
+                        <Button
+                          onClick={this.handleOpenArchive}
+                          type="submit"
+                          className="btn btn-red"
+                        >
+                          CANCEL
+                        </Button>
+                      </div>
+                    </Form>
+                  </div>
+                )}
+              </Formik>
+            </DialogContent>
+          </Dialog>
+        </div>
       ) : (
         <Button className="btn btn-green" onClick={this._enable}>
           ACTIVE
@@ -309,20 +233,16 @@ class Settings extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
-  getMerchant: state.getMerchant,
 });
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAll_Merchants: () => {
-      dispatch(getAll_Merchants());
+    ARCHIVE_MERCHANT: (payload) => {
+      dispatch(ARCHIVE_MERCHANT(payload));
     },
-    ViewProfile_Merchants: (payload) => {
-      dispatch(ViewProfile_Merchants(payload));
-    },
-    GetMerchant_byID: (ID) => {
-      dispatch(GetMerchant_byID(ID));
+    RESTORE_MERCHANT: (ID) => {
+      dispatch(RESTORE_MERCHANT(ID));
     },
   };
 };
@@ -331,5 +251,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 const styles = {
   div: {
     marginBottom: "8px",
+  },
+  p: { fontWeight: 400, color: "black" },
+  Form: {
+    padding: "25px",
+    textAlign: "center",
+  },
+  btnDiv: {
+    marginTop: "10px",
+  },
+  label: {
+    fontSize: "13px",
   },
 };

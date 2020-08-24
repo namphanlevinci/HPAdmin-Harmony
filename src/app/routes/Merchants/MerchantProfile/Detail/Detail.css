@@ -474,3 +474,22 @@ label {
   font-weight: 300;
   color: #888888
 }
+
+.merchant_btn_container .MuiDialogContent-root {
+  padding: 0;
+
+}
+
+.merchant_btn_container .MuiDialogContent-root:first-child {
+  padding-top: 0
+}
+
+.merchant_btn_container .disable__title {
+  background-color: #4251af;
+  height: 50px;
+  padding: 10px;
+  width: 100%;
+  z-index: 999;
+  color: white;
+  align-items: center;
+}

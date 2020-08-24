@@ -25,6 +25,8 @@ import {
   MERCHANT_APPROVAL_SAGA,
   MERCHANT_REJECT_SAGA,
   DELETE_MERCHANT_SAGA,
+  RESTORE_MERCHANT_SAGA,
+  ARCHIVE_MERCHANT_SAGA,
 } from "../sagas/sagaFunction/merchants";
 
 import { GET_ALL_LOG_SAGA } from "../sagas/sagaFunction/logs";
@@ -100,6 +102,7 @@ export default function* rootSaga() {
   yield fork(GET_CURRENT_USER_SAGA);
   yield fork(DISABLE_USER_SAGA);
   yield fork(ENABLE_USER_SAGA);
-
   yield fork(CHANGE_USER_PASSWORD_SAGA);
+  yield fork(RESTORE_MERCHANT_SAGA);
+  yield fork(ARCHIVE_MERCHANT_SAGA);
 }

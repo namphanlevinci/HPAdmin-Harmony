@@ -396,25 +396,8 @@ class EditProduct extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
   SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(EditProduct);
-
-// const colourStyles = {
-//   control: (styles) => ({
-//     ...styles,
-//     borderWidth: 0,
-//     borderBottomWidth: 1,
-//     borderRadius: 0,
-//   }),
-//   input: (styles) => ({
-//     ...styles,
-//     borderWidth: 0,
-//     fontSize: 16,
-//     paddingLeft: 0,
-//   }),
-//   placeholder: (styles) => ({ ...styles }),
-//   // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
-// };

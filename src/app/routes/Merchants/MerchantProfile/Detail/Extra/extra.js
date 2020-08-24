@@ -341,7 +341,7 @@ class ExtraTab extends Component {
 
             {/* ARCHIVE */}
             <Dialog open={this.state.dialog}>
-              <DialogTitle>{"Archive this extra ?"}</DialogTitle>
+              <DialogTitle>{"Archive this Extra?"}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   This extra will not appear on the app. You can restore this
@@ -369,7 +369,7 @@ class ExtraTab extends Component {
             </Dialog>
             {/* RESTORE */}
             <Dialog open={this.state.restoreDialog}>
-              <DialogTitle>{"Restore this extra ?"}</DialogTitle>
+              <DialogTitle>{"Restore this Extra?"}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   This extra will appear on the app as well as the related
@@ -405,7 +405,7 @@ class ExtraTab extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({

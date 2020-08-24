@@ -8,6 +8,8 @@ import {
   APPROVE_MERCHANT_API,
   REJECT_MERCHANT_API,
   DELETE_MERCHANT_API,
+  ARCHIVE_MERCHANT_API,
+  RESTORE_MERCHANT_API,
 } from "../api/merchants";
 import { history } from "../../store/index";
 import * as typeMerchant from "../../actions/merchants/types";
@@ -62,18 +64,18 @@ export function* UPDATE_MERCHANT_SAGA() {
 
 // GET MERCHANT BY ID
 export function* GET_MERCHANT_BY_ID_SAGA() {
-  yield takeLatest(typeMerchant.GetMerchant_byID, function*(action) {
+  yield takeLatest(typeMerchant.GET_MERCHANT_BY_ID, function*(action) {
     const ID = action.payload;
     try {
       const getMerchant = yield GET_MERCHANT_BY_ID_API(ID);
       if (getMerchant !== null) {
         yield put({
-          type: typeMerchant.GetMerchant_byID_Success,
+          type: typeMerchant.GET_MERCHANT_BY_ID_SUCCESS,
           payload: getMerchant,
         });
       } else {
         yield put({
-          type: typeMerchant.GetMerchant_byID_Error,
+          type: typeNotification.FAILURE_NOTIFICATION,
           payload: "Something went wrong, please try again later!",
         });
       }
@@ -188,6 +190,60 @@ export function* DELETE_MERCHANT_SAGA() {
         });
 
         history.push(path);
+      } else {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong, please try again later!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+// ARCHIVE MERCHANT
+export function* ARCHIVE_MERCHANT_SAGA() {
+  yield takeLatest(typeMerchant.ARCHIVE_MERCHANT, function*(action) {
+    try {
+      const result = yield ARCHIVE_MERCHANT_API(action.payload);
+      console.log("action.payload", action.payload);
+      if (result !== null) {
+        yield put({
+          type: typeMerchant.GET_MERCHANT_BY_ID,
+          payload: action.payload.ID,
+        });
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+      } else {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong, please try again later!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+// ARCHIVE MERCHANT
+export function* RESTORE_MERCHANT_SAGA() {
+  yield takeLatest(typeMerchant.RESTORE_MERCHANT, function*(action) {
+    try {
+      const result = yield RESTORE_MERCHANT_API(action.payload);
+      console.log("result", result);
+      if (result.message === "Success") {
+        yield put({
+          type: typeMerchant.GET_MERCHANT_BY_ID,
+          payload: action.payload,
+        });
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
       } else {
         yield put({
           type: typeNotification.FAILURE_NOTIFICATION,

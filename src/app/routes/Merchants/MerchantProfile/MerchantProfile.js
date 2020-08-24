@@ -85,7 +85,7 @@ class merchantProfile extends Component {
           />
           <div className="content-body page-heading">
             <div className="header col-md-12">
-              <h3>ID: {e.merchantId}</h3>
+              <h3>ID: {e?.merchantId}</h3>
               <span style={{ display: "flex" }}>
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
@@ -289,8 +289,9 @@ class merchantProfile extends Component {
     );
   }
 }
+
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
 

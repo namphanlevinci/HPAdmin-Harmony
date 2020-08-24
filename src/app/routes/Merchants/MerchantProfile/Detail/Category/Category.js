@@ -436,13 +436,9 @@ class Category extends Component {
             />
 
             {/* ARCHIVE */}
-            <Dialog
-              open={this.state.dialog}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
+            <Dialog open={this.state.dialog}>
               <DialogTitle id="alert-dialog-title">
-                {"Archive this category ?"}
+                {"Archive this Category?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -472,13 +468,9 @@ class Category extends Component {
               </DialogActions>
             </Dialog>
             {/* RESTORE */}
-            <Dialog
-              open={this.state.restoreDialog}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
+            <Dialog open={this.state.restoreDialog}>
               <DialogTitle id="alert-dialog-title">
-                {"Restore this category ?"}
+                {"Restore this Category?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -515,7 +507,7 @@ class Category extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({

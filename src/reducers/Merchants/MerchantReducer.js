@@ -1,9 +1,7 @@
 import * as types from "../../actions/merchants/types";
-import { store } from "react-notifications-component";
-import { Redirect } from "react-router";
 
 const initialState = {
-  MerchantProfile: "",
+  MerchantData: "",
 };
 
 const MerchantReducer = (state = initialState, { type, payload }) => {
@@ -12,7 +10,7 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
       state = payload;
       return { ...state };
     case types.GET_MERCHANT_BY_ID_SUCCESS:
-      state = payload;
+      state.MerchantData = payload;
       return { ...state };
 
     default:

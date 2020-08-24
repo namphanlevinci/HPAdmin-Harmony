@@ -44,6 +44,7 @@ class Service extends Component {
 
   getService = () => {
     const ID = this.props.MerchantProfile.merchantId;
+    console.log("object", this.props.MerchantProfile);
     axios
       .get(URL + "/service/getbymerchant/" + ID, {
         headers: {
@@ -284,7 +285,7 @@ class Service extends Component {
             {/* ARCHIVE */}
             <Dialog open={this.state.dialog}>
               <DialogTitle id="alert-dialog-title">
-                {"Archive this service ?"}
+                {"Archive this Service?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -316,7 +317,7 @@ class Service extends Component {
             {/* RESTORE */}
             <Dialog open={this.state.restoreDialog}>
               <DialogTitle id="alert-dialog-title">
-                {"Restore this service ?"}
+                {"Restore this Service?"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -353,7 +354,7 @@ class Service extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({

@@ -219,3 +219,45 @@ export function* DELETE_MERCHANT_API(ID) {
     });
   return kq;
 }
+
+// ARCHIVE MERCHANT
+export function* ARCHIVE_MERCHANT_API(payload) {
+  console.log("payload", payload);
+  const { ID, reason } = payload;
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  const kq = yield axios
+    .delete(URL + `/merchant/${ID}`, {
+      headers: {
+        Authorization: "Bearer " + infoLogin.token,
+      },
+      data: { reason },
+    })
+    .then((result) => {
+      return result.data.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// RESTORE MERCHANT
+export function* RESTORE_MERCHANT_API(ID) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .put(URL + `/merchant/enable/${ID}`, null, config)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}

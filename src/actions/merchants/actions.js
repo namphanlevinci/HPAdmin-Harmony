@@ -153,7 +153,7 @@ export const DELETE_MERCHANT_ERROR = (payload) => ({
   payload: payload,
 });
 
-// Get merchant by id
+// Get Merchant by ID
 export const GET_MERCHANT_BY_ID = (payload) => ({
   type: types.GET_MERCHANT_BY_ID,
   payload: payload,
@@ -164,5 +164,21 @@ export const GET_MERCHANT_BY_ID_SUCCESS = (payload) => ({
 });
 export const GET_MERCHANT_BY_ID_FAILURE = (payload) => ({
   type: types.GET_MERCHANT_BY_ID_FAILURE,
+  payload: payload,
+});
+
+// View Merchant profile
+export const VIEW_MERCHANT = (payload) => ({
+  type: types.VIEW_MERCHANT,
+  payload: payload,
+});
+
+// Archive & Restore
+export const ARCHIVE_MERCHANT = (payload) => ({
+  type: types.ARCHIVE_MERCHANT,
+  payload: payload,
+});
+export const RESTORE_MERCHANT = (payload) => ({
+  type: types.RESTORE_MERCHANT,
   payload: payload,
 });

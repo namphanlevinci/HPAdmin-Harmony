@@ -501,7 +501,7 @@ class General extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
   UpdateStatus: state.updateMerchant_Infor,
   getMerchant: state.getMerchant,
