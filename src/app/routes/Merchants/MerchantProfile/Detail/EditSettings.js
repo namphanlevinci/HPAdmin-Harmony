@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   getAll_Merchants,
-  GetMerchant_byID,
   ViewProfile_Merchants,
+  GET_MERCHANT_BY_ID,
 } from "../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
 import { config } from "../../../../../url/url";
@@ -101,10 +101,9 @@ class EditSettings extends Component {
             width: 250,
           });
           setTimeout(() => {
-            this.props.GetMerchant_byID(ID);
+            this.props.GET_MERCHANT_BY_ID(ID);
           }, 1000);
           setTimeout(() => {
-            this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
             this.props.history.push("/app/merchants/profile/settings");
           }, 2000);
         } else {
@@ -253,8 +252,8 @@ const mapDispatchToProps = (dispatch) => {
     ViewProfile_Merchants: (payload) => {
       dispatch(ViewProfile_Merchants(payload));
     },
-    GetMerchant_byID: (ID) => {
-      dispatch(GetMerchant_byID(ID));
+    GET_MERCHANT_BY_ID: (ID) => {
+      dispatch(GET_MERCHANT_BY_ID(ID));
     },
   };
 };
