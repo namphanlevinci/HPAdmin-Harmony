@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { config } from "../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
-import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import ReactTable from "react-table";
 import DateInput from "./date-input";
 import axios from "axios";
-import { config } from "../../../../../url/url";
 
+import "react-datepicker/dist/react-datepicker.css";
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -52,7 +52,7 @@ class Acti extends Component {
   };
 
   componentDidMount() {
-    const ID = this.props.MerchantProfile?.userId;
+    const ID = this.props.ConsumerProfile?.userId;
     this.setState(
       {
         ID: ID,
@@ -204,7 +204,7 @@ class Acti extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  ConsumerProfile: state.ConsumerReducer.Consumer,
   userLogin: state.userReducer.User,
   userActivity: state.userActivity,
 });

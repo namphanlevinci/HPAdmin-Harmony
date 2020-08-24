@@ -9,7 +9,6 @@ function CustomCurrencyInput(props) {
       ref={(ref) => {
         inputRef(ref ? ref.inputElement : null);
       }}
-      type="tel"
     />
   );
 }

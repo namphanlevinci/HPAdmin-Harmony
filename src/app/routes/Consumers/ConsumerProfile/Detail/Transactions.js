@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { config } from "../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
 import moment from "moment";
-import "moment/locale/it";
 import ReactTable from "react-table";
 import DateInput from "./date-input";
 import axios from "axios";
-import { config } from "../../../../../url/url";
 
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
@@ -17,6 +16,7 @@ import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
 import "./Consumer.css";
 import "../../../Merchants/MerchantsList/merchantsList.css";
+import "moment/locale/it";
 
 const URL = config.url.URL;
 
@@ -60,7 +60,7 @@ class Transactions extends Component {
   };
 
   componentDidMount() {
-    const ID = this.props.MerchantProfile?.userId;
+    const ID = this.props.ConsumerProfile?.userId;
     this.setState(
       {
         ID: ID,
@@ -282,20 +282,9 @@ class Transactions extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  ConsumerProfile: state.ConsumerReducer.Consumer,
   userLogin: state.userReducer.User,
   TransactionsList: state.userTransaction,
 });
 
 export default connect(mapStateToProps)(Transactions);
-
-// const styles = {
-//   input: {
-//     width: "100%",
-//     fontWeight: "400",
-//     color: "#000000",
-//     border: "none",
-//     borderBottom: "2px solid #dcdcdc",
-//     fontSize: "16px",
-//   },
-// };

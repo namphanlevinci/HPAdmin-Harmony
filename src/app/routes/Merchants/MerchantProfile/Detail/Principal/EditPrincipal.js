@@ -4,6 +4,7 @@ import { config } from "../../../../../../url/url";
 import {
   ViewProfile_Merchants,
   GetMerchant_byID,
+  GET_MERCHANT_BY_ID,
 } from "../../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
 
@@ -134,7 +135,8 @@ class EditPrincipal extends Component {
       config
     )
       .then((res) => {
-        if (res.data.message === "Update pricipal completed") {
+        // Server trả về sai lỗi chính tả
+        if (Number(res.data.codeNumber) === 200) {
           store.addNotification({
             title: "SUCCESS!",
             message: "Update principal completed",
@@ -150,11 +152,10 @@ class EditPrincipal extends Component {
             width: 250,
           });
           setTimeout(() => {
-            this.props.GetMerchant_byID(IDMerchant);
+            this.props.GET_MERCHANT_BY_ID(IDMerchant);
           }, 1500);
           setTimeout(() => {
-            this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
-            this.props.history.push("/app/merchants/profile/pincipal");
+            this.props.history.push("/app/merchants/profile/principal");
           }, 2500);
         }
       })
@@ -349,16 +350,15 @@ class EditPrincipal extends Component {
 
 const mapStateToProps = (state) => ({
   principalInfo: state.viewPrincipal,
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
-  getMerchant: state.getMerchant,
 });
 const mapDispatchToProps = (dispatch) => ({
   ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
   },
-  GetMerchant_byID: (ID) => {
-    dispatch(GetMerchant_byID(ID));
+  GET_MERCHANT_BY_ID: (ID) => {
+    dispatch(GET_MERCHANT_BY_ID(ID));
   },
 });
 

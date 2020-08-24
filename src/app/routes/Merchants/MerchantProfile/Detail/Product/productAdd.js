@@ -46,7 +46,6 @@ const colourStyles = {
     paddingLeft: 0,
   }),
   placeholder: (styles) => ({ ...styles }),
-  // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
 };
 
 class AddProduct extends Component {
@@ -325,7 +324,7 @@ class AddProduct extends Component {
               setFieldValue,
               /* and other goodies */
             }) => (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} noValidate>
                 <div className="container Service">
                   <div className="row">
                     <div className="col-6" style={{ paddingLeft: "0px" }}>
@@ -601,7 +600,6 @@ class AddProduct extends Component {
                         <br />
                         <div style={{ marginTop: "10px", width: "23%" }}>
                           <input
-                            name="price"
                             type="file"
                             className="custom-input"
                             onChange={this._handleImageChange}
@@ -610,8 +608,6 @@ class AddProduct extends Component {
                       </div>
                     </div>
                   </div>
-                  {/* </div>
-                  </div> */}
 
                   <Button
                     className="btn btn-green"

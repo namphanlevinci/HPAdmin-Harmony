@@ -119,7 +119,7 @@ class PrincipalInfo extends Component {
                 <div className="row" key={index}>
                   <hr />
                   <div className="col-4">
-                    <label>Home Phone*</label>
+                    <label>Home Phone</label>
                     <p>{formatPhone(e?.homePhone)}</p>
                   </div>
                   <div className="col-4">
@@ -159,7 +159,7 @@ class PrincipalInfo extends Component {
 
 const mapStateToProps = (state) => ({
   principalInfo: state?.viewPrincipal,
-  MerchantProfile: state?.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state?.userReducer.User,
 });
 

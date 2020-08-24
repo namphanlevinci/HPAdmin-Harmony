@@ -29,9 +29,13 @@ class SignIn extends React.Component {
     const { email, password } = this.state;
     this.props.USER_LOGIN_REQUEST({ email, password });
   };
-  componentDidMount() {
-    document.addEventListener("keypress", this.keyPressed);
-  }
+  // componentDidMount() {
+  //   document.addEventListener("keypress", this.keyPressed);
+  // }
+
+  // componentWillUnmount() {
+  //   document.removeEventListener("keypress", this.keyPressed);
+  // }
 
   keyPressed = (e) => {
     if (e.code === "Enter") {

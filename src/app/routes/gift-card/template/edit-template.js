@@ -4,12 +4,13 @@ import { MdAddToPhotos } from "react-icons/md";
 import { Formik } from "formik";
 import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
 import { store } from "react-notifications-component";
+import { config } from "../../../../url/url";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import { config } from "../../../../url/url";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -32,6 +33,7 @@ class EditTemplate extends Component {
       openDelete: false,
       isChecked: false,
       loading: false,
+      isUploadImage: false,
     };
   }
 
@@ -107,6 +109,7 @@ class EditTemplate extends Component {
       this.setState({
         file: file,
         imagePreviewUrl: reader.result,
+        isUploadImage: true,
       });
     };
     reader.readAsDataURL(file);
@@ -119,10 +122,11 @@ class EditTemplate extends Component {
     axios
       .post(upFile, formData, config)
       .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
+        this.setState({ fileId: res.data.data.fileId, isUploadImage: false });
       })
       .catch((err) => {
         console.log(err);
+        this.setState({ isUploadImage: false });
       });
   };
 
@@ -273,7 +277,11 @@ class EditTemplate extends Component {
                         DELETE
                       </Button>
 
-                      <Button className="btn btn-red" type="submit">
+                      <Button
+                        className="btn btn-red"
+                        type="submit"
+                        disabled={this.state.isUploadImage}
+                      >
                         SAVE
                       </Button>
                     </div>
@@ -344,7 +352,19 @@ class EditTemplate extends Component {
 
                         <div className="col-4" style={{ paddingTop: "10px" }}>
                           <h4>Image</h4>
-                          {$imagePreview}
+
+                          {this.state.isUploadImage ? (
+                            <div
+                              style={{ padding: "20px", textAlign: "center" }}
+                            >
+                              <CircularProgress size={50} />
+                            </div>
+                          ) : (
+                            <div className="image__container">
+                              {$imagePreview}
+                            </div>
+                          )}
+
                           <br />
                           <input
                             type="file"
