@@ -273,6 +273,35 @@ export function* UPDATE_USER_API(data) {
   return kq;
 }
 
+// Change user password
+export function* CHANGE_USER_PASSWORD_API(data) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const { oldPassword, newPassword, ID } = data;
+
+  const kq = yield axios
+    .put(
+      URL + `/adminUser/changepassword/${ID}`,
+      {
+        oldPassword,
+        newPassword,
+      },
+      config
+    )
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
 // Logout
 export function* USER_LOGOUT_API(ID) {
   const getInfoLogin = (state) => state.userReducer.User;

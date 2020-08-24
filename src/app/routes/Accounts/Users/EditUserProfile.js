@@ -7,6 +7,7 @@ import { store } from "react-notifications-component";
 import {
   VIEW_PROFILE_USER,
   UPDATE_USER_ADMIN,
+  UPDATE_USER_PASSWORD,
 } from "../../../../actions/user/actions";
 import {
   BrowserRouter as Router,
@@ -129,9 +130,7 @@ class EditUserProfile extends Component {
   };
 
   updateAdmin = () => {
-    console.log("yeet");
     const ID = this.props.UserProfile.waUserId;
-
     const {
       firstName,
       lastName,
@@ -148,10 +147,8 @@ class EditUserProfile extends Component {
       newPassword,
       isPass,
     } = this.state;
-    // const password = newPassword !== null ? newPassword : currentPassword;
-    const adminUrl = isPass ? "/adminUser/changepassword/" : "/adminuser/";
     let body = isPass
-      ? { oldPassword: currentPassword, newPassword }
+      ? { oldPassword: currentPassword, newPassword, ID }
       : {
           firstName,
           lastName,
@@ -166,42 +163,12 @@ class EditUserProfile extends Component {
           fileId,
           ID,
         };
-    // this.props.UPDATE_USER_ADMIN(body);
-    axios
-      .put(URL + adminUrl + ID, body, config)
-      .then(async (res) => {
-        if (res.data.message) {
-          store.addNotification({
-            title: "Success!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          await axios
-            .get(URL + "/adminuser/" + ID, config)
-            .then((res) => {
-              setTimeout(
-                () => this.props.VIEW_PROFILE_USER(res.data.data),
-                this.props.history.push("/app/accounts/admin/profile"),
-                1000
-              );
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    if (isPass) {
+      this.props.UPDATE_USER_PASSWORD(body);
+    } else {
+      this.props.UPDATE_USER_ADMIN(body);
+    }
   };
 
   _updateSettings = () => {
@@ -371,6 +338,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   UPDATE_USER_ADMIN: (payload) => {
     dispatch(UPDATE_USER_ADMIN(payload));
+  },
+  UPDATE_USER_PASSWORD: (payload) => {
+    dispatch(UPDATE_USER_PASSWORD(payload));
   },
 });
 export default withRouter(

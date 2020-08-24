@@ -69,6 +69,10 @@ const userReducer = (state = initialState, { type, payload }) => {
 
     case types.UPDATE_USER_ADMIN:
       return { ...state };
+
+    case types.UPDATE_USER_ADMIN_SUCCESS:
+      return { ...state };
+
     case types.UPDATE_USER_PASSWORD:
       return { ...state };
     default:

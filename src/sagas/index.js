@@ -14,6 +14,7 @@ import {
   GET_CURRENT_USER_SAGA,
   DISABLE_USER_SAGA,
   ENABLE_USER_SAGA,
+  CHANGE_USER_PASSWORD_SAGA,
 } from "../sagas/sagaFunction/user";
 import {
   GET_ALL_MERCHANT_SAGA,
@@ -99,4 +100,6 @@ export default function* rootSaga() {
   yield fork(GET_CURRENT_USER_SAGA);
   yield fork(DISABLE_USER_SAGA);
   yield fork(ENABLE_USER_SAGA);
+
+  yield fork(CHANGE_USER_PASSWORD_SAGA);
 }

@@ -1,5 +1,5 @@
 import React from "react";
-// import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
+import TextField from "@material-ui/core/TextField";
 
 function Password({
   data: { password, showPassword, error, confirmError },
@@ -37,22 +37,20 @@ function Password({
       <h2 style={styles.h2}>New Password</h2>
       <div className="row">
         <div className="col-4">
-          <label>New Password</label>
           <div style={{ display: "flex" }}>
-            <input
+            <TextField
+              label="New Password"
               type={showPassword ? "text" : "password"}
               name="newPassword"
-              //   value={password}
               onChange={handleChange}
-              //   style={styles.input}
             />
           </div>
           {<p style={styles.p}>{error}</p>}
         </div>
         <div className="col-5">
-          <label>Confirm Password</label>
           <div>
-            <input
+            <TextField
+              label="Confirm Password"
               type={showPassword ? "text" : "password"}
               name="confirmPassword"
               //   value={password}

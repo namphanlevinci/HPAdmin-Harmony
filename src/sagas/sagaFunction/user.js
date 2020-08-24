@@ -17,6 +17,7 @@ import {
   GET_CURRENT_USER_API,
   ENABLE_USER_API,
   DISABLE_USER_API,
+  CHANGE_USER_PASSWORD_API,
 } from "../api/user";
 import { takeLatest, put } from "redux-saga/effects";
 
@@ -277,6 +278,7 @@ export function* UPDATE_USER_SAGA() {
     try {
       const check = yield UPDATE_USER_API(action.payload);
       const ID = action.payload.ID;
+      const isCurrentUserPage = action.payload.isCurrentUserPage;
       if (check.data !== null) {
         yield put({
           type: typeUser.UPDATE_USER_ADMIN_SUCCESS,
@@ -287,11 +289,18 @@ export function* UPDATE_USER_SAGA() {
           payload: "Success",
         });
 
-        yield put({
-          type: typeUser.GET_USER_BY_ID,
-          payload: ID,
-        });
-        history.push("/app/accounts/admin/profile");
+        if (isCurrentUserPage) {
+          yield put({
+            type: typeUser.GET_CURRENT_USER,
+            payload: ID,
+          });
+        } else {
+          yield put({
+            type: typeUser.GET_USER_BY_ID,
+            payload: ID,
+          });
+          history.goBack();
+        }
       }
       if (check.data === null) {
         yield put({
@@ -305,6 +314,49 @@ export function* UPDATE_USER_SAGA() {
       }
     } catch (error) {
       yield put({ type: typeUser.UPDATE_USER_ADMIN_FAILURE, payload: error });
+    }
+  });
+}
+
+// Change user password
+export function* CHANGE_USER_PASSWORD_SAGA() {
+  yield takeLatest(typeUser.UPDATE_USER_PASSWORD, function*(action) {
+    try {
+      const check = yield CHANGE_USER_PASSWORD_API(action.payload);
+      const ID = action.payload.ID;
+      const isCurrentUserPage = action.payload.isCurrentUserPage;
+
+      if (check.data !== null) {
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+
+        if (isCurrentUserPage) {
+          yield put({
+            type: typeUser.GET_CURRENT_USER,
+            payload: ID,
+          });
+        } else {
+          yield put({
+            type: typeUser.GET_USER_BY_ID,
+            payload: ID,
+          });
+          history.goBack();
+        }
+
+        history.goBack();
+      } else {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong!",
+        });
+      }
+    } catch (error) {
+      yield put({
+        type: typeNotification.FAILURE_NOTIFICATION,
+        payload: "Something went wrong!",
+      });
     }
   });
 }

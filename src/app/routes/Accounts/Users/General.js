@@ -10,8 +10,8 @@ const General = ({
       <h2 style={styles.h2}>Contact Information</h2>
       <div className="row">
         <div className="col-3">
-          <label>Phone</label>
-          <input
+          <TextField
+            label="Phone"
             type="text"
             name="phone"
             value={phone}
@@ -19,8 +19,8 @@ const General = ({
           />
         </div>
         <div className="col-4">
-          <label>Address</label>
-          <input
+          <TextField
+            label="Address"
             type="text"
             name="address"
             value={address}
@@ -28,8 +28,8 @@ const General = ({
           />
         </div>
         <div className="col-5">
-          <label>Email</label>
-          <input
+          <TextField
+            label="Email"
             type="text"
             name="email"
             value={email}

@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../url/url";
-import { VIEW_PROFILE_USER } from "../../actions/user/actions";
-import { store } from "react-notifications-component";
+import {
+  VIEW_PROFILE_USER,
+  UPDATE_USER_ADMIN,
+  UPDATE_USER_PASSWORD,
+  GET_USER_BY_ID,
+} from "../../actions/user/actions";
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,7 +16,6 @@ import {
 } from "react-router-dom";
 import { GiCheckedShield } from "react-icons/gi";
 import { FaPen } from "react-icons/fa";
-import { GET_USER_BY_ID } from "../../actions/user/actions";
 
 import IntlMessages from "../../util/IntlMessages";
 import ContainerHeader from "../../components/ContainerHeader/index";
@@ -25,7 +28,6 @@ import Password from "./ProfileHeader/password";
 
 import "./profile.css";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class proFile extends Component {
@@ -56,6 +58,7 @@ class proFile extends Component {
       currentPassword: null,
       confirmPassword: null,
       newPassword: null,
+      isCurrentUserPage: true,
     };
   }
 
@@ -90,10 +93,9 @@ class proFile extends Component {
     this.setState({
       [name]: value,
     });
-    // console.log("THIS.STATE", this.state);
   };
 
-  _uploadFile = (event) => {
+  uploadFile = (event) => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -127,10 +129,6 @@ class proFile extends Component {
 
   updateAdmin = () => {
     const ID = this.props.CurrentUser?.waUserId;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token },
-    };
     const {
       firstName,
       lastName,
@@ -146,11 +144,11 @@ class proFile extends Component {
       isPass,
       newPassword,
       currentPassword,
+      isCurrentUserPage,
     } = this.state;
 
-    const adminUrl = isPass ? "/adminUser/changepassword/" : "/adminuser/";
     let body = isPass
-      ? { oldPassword: currentPassword, newPassword }
+      ? { oldPassword: currentPassword, newPassword, ID, isCurrentUserPage }
       : {
           firstName,
           lastName,
@@ -163,40 +161,15 @@ class proFile extends Component {
           phone,
           stateId,
           fileId,
+          ID,
+          isCurrentUserPage,
         };
 
-    axios
-      .put(URL + adminUrl + ID, body, config)
-      .then(async (res) => {
-        if (res.data.message === "Success") {
-          store.addNotification({
-            title: "Success!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-
-          this.props.getUserByID(ID);
-          setTimeout(
-            () => [
-              this.props.VIEW_PROFILE_USER(this.props.CurrentUser),
-              this.props.history.push("/app/profile/general"),
-            ],
-            1000
-          );
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (isPass) {
+      this.props.UPDATE_USER_PASSWORD(body);
+    } else {
+      this.props.UPDATE_USER_ADMIN(body);
+    }
   };
 
   _updateSettings = () => {
@@ -282,7 +255,7 @@ class proFile extends Component {
           />
           <div
             className="row justify-content-md-center admin_profile page-heading"
-            style={{ minHeight: "500px" }}
+            style={{ minHeight: "500px", paddingTop: "50px" }}
           >
             <div className="col-3 text-center">
               {$imagePreview}
@@ -292,7 +265,7 @@ class proFile extends Component {
                   name="image"
                   id="file"
                   className="custom-input"
-                  onChange={(e) => this._uploadFile(e)}
+                  onChange={(e) => this.uploadFile(e)}
                 />
               </div>
               <div className="nav-btn" style={{ marginTop: "5px" }}>
@@ -338,7 +311,9 @@ class proFile extends Component {
                   <Button
                     className="btn btn-green"
                     style={styles.button}
-                    onClick={() => this.props.history.push("/app/dashboard")}
+                    onClick={() =>
+                      this.props.history.push("/app/merchants/list")
+                    }
                   >
                     BACK
                   </Button>
@@ -387,8 +362,11 @@ const mapDispatchToProps = (dispatch) => ({
   VIEW_PROFILE_USER: (payload) => {
     dispatch(VIEW_PROFILE_USER(payload));
   },
-  getUserByID: (ID) => {
-    dispatch(GET_USER_BY_ID(ID));
+  UPDATE_USER_ADMIN: (payload) => {
+    dispatch(UPDATE_USER_ADMIN(payload));
+  },
+  UPDATE_USER_PASSWORD: (payload) => {
+    dispatch(UPDATE_USER_PASSWORD(payload));
   },
 });
 

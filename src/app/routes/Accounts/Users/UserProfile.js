@@ -136,12 +136,12 @@ class UserProfile extends Component {
                 <p style={styles.p}>{e?.phone}</p>
               </div>
               <div className="col-4">
-                <label>Email:</label>
-                <p style={styles.p}>{e?.email}</p>
-              </div>
-              <div className="col-5">
                 <label>Address:</label>
                 <p style={styles.p}>{e?.address}</p>
+              </div>
+              <div className="col-5">
+                <label>Email:</label>
+                <p style={styles.p}>{e?.email}</p>
               </div>
             </div>
             <h2>Basic Information</h2>
