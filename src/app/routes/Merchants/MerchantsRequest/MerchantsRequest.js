@@ -161,7 +161,7 @@ class MerchantsRequest extends Component {
         id: "status",
         accessor: (row) => (
           <p style={{ fontWeight: "400" }}>
-            {Number(row?.status) === 1 ? "Processing" : "Pending"}
+            {Number(row?.status) === 1 ? "Handling" : "Pending"}
           </p>
         ),
       },
