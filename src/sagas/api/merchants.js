@@ -324,3 +324,99 @@ export function* MERCHANT_UPDATE_SETTING_API(payload) {
     });
   return kq;
 }
+
+// Update merchant principal info
+export function* UPDATE_MERCHANT_PRINCIPAL_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const {
+    Address,
+    FileId,
+    DriverNumber,
+    HomePhone,
+    MobilePhone,
+    StateId,
+    email,
+    principalID,
+  } = payload;
+  const kq = yield axios
+    .put(
+      URL + `/merchant/principal/${principalID}`,
+      {
+        Address,
+        FileId,
+        DriverNumber,
+        HomePhone,
+        MobilePhone,
+        StateId,
+        email,
+      },
+      config
+    )
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// Update merchant service
+export function* UPDATE_MERCHANT_SERVICE_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const {
+    categoryId,
+    name,
+    duration,
+    description,
+    openTime,
+    secondTime,
+    price,
+    discount,
+    isDisabled,
+    fileId,
+    serviceId,
+    supplyFee,
+    merchantId,
+    extras,
+  } = payload;
+  const kq = yield axios
+    .put(
+      URL + `/service/${serviceId}`,
+      {
+        categoryId,
+        name,
+        duration,
+        description,
+        openTime,
+        secondTime,
+        price,
+        discount,
+        isDisabled,
+        fileId,
+        supplyFee,
+        merchantId,
+        extras,
+      },
+      config
+    )
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}

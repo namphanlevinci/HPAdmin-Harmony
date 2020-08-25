@@ -105,15 +105,33 @@ export const MERCHANT_REJECT_ERROR = (payload) => ({
   payload: payload,
 });
 
-// UPDATE PRINCIPAL INFORMATION
-export const UPDATE_PRINCIPAL = (payload) => ({
-  type: types.UPDATE_PRINCIPAL,
+// VIEW & UPDATE PRINCIPAL INFORMATION
+export const VIEW_PRINCIPAL = (payload) => ({
+  type: types.VIEW_PRINCIPAL,
   payload: payload,
 });
 
-// VIEW SERVICE
+export const UPDATE_MERCHANT_PRINCIPAL = (payload) => ({
+  type: types.UPDATE_MERCHANT_PRINCIPAL,
+  payload: payload,
+});
+
+export const UPDATE_MERCHANT_PRINCIPAL_SUCCESS = (payload) => ({
+  type: types.UPDATE_MERCHANT_PRINCIPAL_SUCCESS,
+  payload: payload,
+});
+
+// VIEW  & UPDATE SERVICE
 export const VIEW_SERVICE = (payload) => ({
   type: types.VIEW_SERVICE,
+  payload,
+});
+export const UPDATE_MERCHANT_SERVICE = (payload) => ({
+  type: types.UPDATE_MERCHANT_SERVICE,
+  payload,
+});
+export const UPDATE_MERCHANT_SERVICE_SUCCESS = (payload) => ({
+  type: types.UPDATE_MERCHANT_SERVICE_SUCCESS,
   payload,
 });
 

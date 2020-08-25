@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Formik } from "formik";
 import { store } from "react-notifications-component";
+import { UPDATE_MERCHANT_SERVICE } from "../../../../../../actions/merchants/actions";
 
 import Extra from "./extra";
 import Button from "@material-ui/core/Button";
@@ -59,7 +60,7 @@ class EditService extends Component {
       .then((res) => {
         this.setState({ category: res.data.data });
       });
-    const service = this.props.SERVICE;
+    const service = this.props.ServiceData;
     if (service !== null) {
       this.setState(
         {
@@ -93,9 +94,7 @@ class EditService extends Component {
     e.preventDefault();
     this.setState({ imageProgress: true });
     // handle preview Image
-
     let file = e.target.files[0];
-
     // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
@@ -138,70 +137,26 @@ class EditService extends Component {
       fileId,
       serviceId,
       supplyFee,
+      extras,
     } = this.state;
-    const extras = this.state.extras.length !== 0 ? this.state.extras : [];
     const merchantId = this.props.MerchantProfile.merchantId;
-    axios
-      .put(
-        URL + "/service/" + serviceId,
-        {
-          categoryId,
-          name,
-          duration,
-          description,
-          openTime,
-          secondTime,
-          price,
-          discount,
-          isDisabled,
-          fileId,
-          extras,
-          merchantId,
-          supplyFee,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        let message = res.data.message;
-        if (res.data.codeNumber === 200) {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          setTimeout(() => {
-            this.props.history.push("/app/merchants/profile/service");
-          }, 800);
-        } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${message}`,
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-        }
-      });
+    const payload = {
+      categoryId,
+      name,
+      duration,
+      description,
+      openTime,
+      secondTime,
+      price,
+      discount,
+      isDisabled,
+      fileId,
+      serviceId,
+      supplyFee,
+      extras,
+      merchantId,
+    };
+    this.props.UPDATE_MERCHANT_SERVICE(payload);
   };
 
   render() {
@@ -209,7 +164,7 @@ class EditService extends Component {
       { value: "0", label: "Active" },
       { value: "1", label: "Inactive" },
     ];
-    const service = this.props.SERVICE;
+    const service = this.props.ServiceData;
 
     //~ preview image
     let { imagePreviewUrl } = this.state;
@@ -232,19 +187,23 @@ class EditService extends Component {
       );
     }
 
+    const validationSchema =
+      service.extras.length > 0
+        ? Yup.object().shape({
+            extras: Yup.array().of(
+              Yup.object().shape({
+                name: Yup.string()
+                  .min(3, "too short")
+                  .required("Required"),
+                duration: Yup.string().required("Required"),
+                price: Yup.string().required("Required"),
+                isDisabled: Yup.string().required("Required"),
+              })
+            ),
+          })
+        : null;
+
     //FORMIK VALIDATE
-    const validationSchema = Yup.object().shape({
-      extras: Yup.array().of(
-        Yup.object().shape({
-          name: Yup.string()
-            .min(3, "too short")
-            .required("Required"),
-          duration: Yup.string().required("Required"),
-          price: Yup.string().required("Required"),
-          isDisabled: Yup.string().required("Required"),
-        })
-      ),
-    });
 
     const extraItem =
       service?.extras.length !== 0
@@ -513,9 +472,16 @@ class EditService extends Component {
                       initialValues={{ extras: extraItem }}
                       validationSchema={validationSchema}
                       onSubmit={(values, { setSubmitting }) => {
-                        this.setState({
-                          extras: values.extras,
-                        });
+                        if (values.extras === null) {
+                          this.setState({
+                            extras: [],
+                          });
+                        } else {
+                          this.setState({
+                            extras: values.extras,
+                          });
+                        }
+
                         this.updateService();
                       }}
                     >
@@ -578,9 +544,18 @@ class EditService extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
-  SERVICE: state.serviceProps,
+  ServiceData: state.MerchantReducer.ServiceData,
 });
-export default connect(mapStateToProps)(EditService);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    UPDATE_MERCHANT_SERVICE: (payload) => {
+      dispatch(UPDATE_MERCHANT_SERVICE(payload));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditService);
 
 const styles = {
   textarea: {
@@ -615,5 +590,4 @@ const colourStyles = {
     paddingLeft: 0,
   }),
   placeholder: (styles) => ({ ...styles }),
-  // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
 };

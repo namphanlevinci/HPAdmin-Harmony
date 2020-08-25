@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  getAll_Rejected_Merchants,
-  ViewProfile_Merchants,
-} from "../../../../actions/merchants/actions";
+import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 import { withRouter, Redirect } from "react-router-dom";
 import { store } from "react-notifications-component";
@@ -50,7 +47,6 @@ class MerchantRejectedProfile extends Component {
   }
 
   _goRevert = () => {
-    this.props.getAll_Rejected_Merchants();
     const ID = this.props.RejectedProfile.merchantId;
     axios
       .put(URL + "/merchant/restorepending/" + ID, null, {
@@ -98,7 +94,6 @@ class MerchantRejectedProfile extends Component {
     this.props.history.push("/app/merchants/rejected/profile/edit");
   };
   _goBack = () => {
-    this.props.getAll_Rejected_Merchants();
     this.props.history.push("/app/merchants/rejected");
   };
   _togglePopupAccept = () => {
@@ -437,9 +432,6 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Rejected_Merchants: () => {
-    dispatch(getAll_Rejected_Merchants());
-  },
   ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
   },

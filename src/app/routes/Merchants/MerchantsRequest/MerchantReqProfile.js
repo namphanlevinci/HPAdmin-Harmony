@@ -4,6 +4,7 @@ import {
   MERCHANT_APPROVAL,
   MERCHANT_REJECT,
   SET_PENDING_STATUS,
+  DELETE_MERCHANT,
 } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -15,7 +16,11 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
-
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import NumberFormat from "react-number-format";
 import formatPhone from "../../../../util/formatPhone";
 import checkPermission from "../../../../util/checkPermission";
@@ -39,6 +44,7 @@ class MerchantReqProfile extends Component {
       merchantToken: "",
       rejectReason: "",
       discountRate: "",
+      openDelete: false,
     };
   }
   handleChange(event) {
@@ -77,6 +83,14 @@ class MerchantReqProfile extends Component {
     const status = event.target.value;
     const payload = { ID, status };
     this.props.setStatus(payload);
+  };
+
+  handleDeleteMerchant = () => {
+    const ID = this.props.PendingProfile.merchantId;
+    const path = "/app/merchants/pending";
+    const payload = { ID, path };
+    this.props.deleteMerchant(payload);
+    this.setState({ openDelete: false });
   };
 
   render() {
@@ -202,9 +216,44 @@ class MerchantReqProfile extends Component {
           <div className="header col-md-12">
             <h3 style={{ marginBottom: "0px" }}>{"HP-" + e.merchantId}</h3>
 
+            {/* // Delete */}
+            <Dialog open={this.state.openDelete}>
+              <DialogTitle id="alert-dialog-title">
+                {"Delete Merchant?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  This Merchant will be remove from the app. You can not restore
+                  this Merchant, Are you sure you want to do this?.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() => this.setState({ openDelete: false })}
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={this.handleDeleteMerchant}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
+
             <span>
               <Button className="btn btn-red" onClick={this.goBack}>
                 BACK
+              </Button>
+              <Button
+                style={{ color: "#4251af", backgroundColor: "white" }}
+                className="btn btn-red"
+                onClick={() => this.setState({ openDelete: true })}
+              >
+                DELETE
               </Button>
               {checkPermission(4) && (
                 <Button className="btn btn-red" onClick={this.handleEdit}>
@@ -613,6 +662,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setStatus: (payload) => {
       dispatch(SET_PENDING_STATUS(payload));
+    },
+    deleteMerchant: (payload) => {
+      dispatch(DELETE_MERCHANT(payload));
     },
   };
 };

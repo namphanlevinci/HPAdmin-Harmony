@@ -44,7 +44,6 @@ class Service extends Component {
 
   getService = () => {
     const ID = this.props.MerchantProfile.merchantId;
-    console.log("object", this.props.MerchantProfile);
     axios
       .get(URL + "/service/getbymerchant/" + ID, {
         headers: {

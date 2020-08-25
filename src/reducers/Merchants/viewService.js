@@ -4,6 +4,7 @@ const initialState = {};
 
 const VIEW_SERVICE_EDIT = (state = initialState, action) => {
   switch (action.type) {
+    // >>>>>???????
     case typeMerchants.VIEW_SERVICE:
       state = action.payload;
       return { ...state };
