@@ -71,13 +71,14 @@ class EditGeneral extends Component {
         <div className="container-fluid">
           <h2>General Information</h2>
           <div className="row" style={{ marginTop: "15px" }}>
-            <div className="col-sm-4 col-md-3">
+            <div className="col-sm-4 col-md-4">
               <TextField
                 type="text"
                 label="First Name*"
                 name="firstName"
                 value={this.state.firstName}
                 onChange={this._handleChange}
+                fullWidth={true}
               />
 
               {
@@ -90,13 +91,14 @@ class EditGeneral extends Component {
                 </p>
               }
             </div>
-            <div className="col-sm-4 col-md-3">
+            <div className="col-sm-4 col-md-4">
               <TextField
                 label="Last Name*"
                 type="text"
                 name="lastName"
                 value={this.state.lastName}
                 onChange={this._handleChange}
+                fullWidth={true}
               />
 
               {
@@ -110,7 +112,7 @@ class EditGeneral extends Component {
               }
             </div>
 
-            <div className="col-sm-12 col-md-6">
+            <div className="col-sm-12 col-md-4">
               <div>
                 <TextField
                   label="Contact Email*"
@@ -118,6 +120,7 @@ class EditGeneral extends Component {
                   name="email"
                   value={this.state.email}
                   onChange={this._handleChange}
+                  fullWidth={true}
                 />
                 {
                   <p className="required">

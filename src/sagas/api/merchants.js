@@ -282,3 +282,45 @@ export function* SET_PENDING_STATUS_API(payload) {
     });
   return kq;
 }
+
+// Update merchant settings
+export function* MERCHANT_UPDATE_SETTING_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const {
+    ID,
+    merchantCode,
+    merchantToken,
+    transactionsFee,
+    totalAmountLimit,
+    discountRate,
+    pointRate,
+  } = payload;
+  const transactionsfee = transactionsFee;
+
+  const kq = yield axios
+    .put(
+      URL + `/merchant/updatesetting/${ID}`,
+      {
+        merchantCode,
+        merchantToken,
+        transactionsfee,
+        totalAmountLimit,
+        discountRate,
+        pointRate,
+      },
+      config
+    )
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}

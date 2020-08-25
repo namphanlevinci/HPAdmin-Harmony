@@ -28,6 +28,7 @@ import {
   RESTORE_MERCHANT_SAGA,
   ARCHIVE_MERCHANT_SAGA,
   SET_PENDING_STATUS_SAGA,
+  MERCHANT_UPDATE_SETTING_SAGA,
 } from "../sagas/sagaFunction/merchants";
 
 import { GET_ALL_LOG_SAGA } from "../sagas/sagaFunction/logs";
@@ -107,4 +108,5 @@ export default function* rootSaga() {
   yield fork(RESTORE_MERCHANT_SAGA);
   yield fork(ARCHIVE_MERCHANT_SAGA);
   yield fork(SET_PENDING_STATUS_SAGA);
+  yield fork(MERCHANT_UPDATE_SETTING_SAGA);
 }
