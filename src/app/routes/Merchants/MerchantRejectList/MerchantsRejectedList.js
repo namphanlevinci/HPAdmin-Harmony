@@ -212,7 +212,6 @@ class MerchantsRequest extends Component {
 
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
-  RejectedList: state.Merchants_RejectedList,
 });
 const mapDispatchToProps = (dispatch) => ({
   getAll_Rejected_Merchants: () => {

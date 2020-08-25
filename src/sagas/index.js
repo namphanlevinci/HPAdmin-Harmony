@@ -17,7 +17,7 @@ import {
   CHANGE_USER_PASSWORD_SAGA,
 } from "../sagas/sagaFunction/user";
 import {
-  GET_ALL_MERCHANT_SAGA,
+  // GET_ALL_MERCHANT_SAGA,
   UPDATE_MERCHANT_SAGA,
   GET_MERCHANT_BY_ID_SAGA,
   GET_ALL_REJECTED_MERCHANT_SAGA,
@@ -27,6 +27,7 @@ import {
   DELETE_MERCHANT_SAGA,
   RESTORE_MERCHANT_SAGA,
   ARCHIVE_MERCHANT_SAGA,
+  SET_PENDING_STATUS_SAGA,
 } from "../sagas/sagaFunction/merchants";
 
 import { GET_ALL_LOG_SAGA } from "../sagas/sagaFunction/logs";
@@ -61,7 +62,7 @@ import {
 
 export default function* rootSaga() {
   yield fork(USER_LOGIN_SAGA);
-  yield fork(GET_ALL_MERCHANT_SAGA);
+  // yield fork(GET_ALL_MERCHANT_SAGA);
   yield fork(GET_ALL_MERCHANT_REQUEST_SAGA);
   yield fork(GET_ALL_USER_SAGA);
   // yield fork(GET_ALL_NOTIFICATION_SAGA);
@@ -105,4 +106,5 @@ export default function* rootSaga() {
   yield fork(CHANGE_USER_PASSWORD_SAGA);
   yield fork(RESTORE_MERCHANT_SAGA);
   yield fork(ARCHIVE_MERCHANT_SAGA);
+  yield fork(SET_PENDING_STATUS_SAGA);
 }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { store } from "react-notifications-component";
 import {
-  getAll_Merchants,
   ViewProfile_Merchants,
   UpdateMerchant_Infor,
   GetMerchant_byID,
@@ -54,7 +53,6 @@ class General extends Component {
     });
   }
   _goBack = () => {
-    this.props.getAll_Merchants();
     this.props.history.push("/app/merchants/profile/general");
   };
   Update = () => {
@@ -508,9 +506,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAll_Merchants: () => {
-      dispatch(getAll_Merchants());
-    },
     ViewProfile_Merchants: (payload) => {
       dispatch(ViewProfile_Merchants(payload));
     },

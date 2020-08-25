@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  getAll_Merchants,
   SearchMerchants,
   ViewProfile_Merchants,
 } from "../../../../actions/merchants/actions";
@@ -235,9 +234,6 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Merchants: () => {
-    dispatch(getAll_Merchants());
-  },
   SearchMerchants: (payload) => {
     dispatch(SearchMerchants(payload));
   },

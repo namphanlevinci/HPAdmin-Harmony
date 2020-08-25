@@ -1,21 +1,5 @@
 import * as types from "./types";
 
-// GET ALL ACCEPTED MERCHANT LIST
-export const getAll_Merchants = (payload) => ({
-  type: types.getAll_Merchants,
-  payload: payload,
-});
-
-export const getAll_Merchants_Success = (payload) => ({
-  type: types.getAll_Merchants_Success,
-  payload: payload,
-});
-
-export const getAll_Merchants_Error = (payload) => ({
-  type: types.getAll_Merchants_Error,
-  payload: payload,
-});
-
 export const SearchMerchants = (payload) => ({
   type: types.SearchMerchants,
   payload: payload,
@@ -154,9 +138,10 @@ export const DELETE_MERCHANT_ERROR = (payload) => ({
 });
 
 // Get Merchant by ID
-export const GET_MERCHANT_BY_ID = (payload) => ({
+export const GET_MERCHANT_BY_ID = (payload, path) => ({
   type: types.GET_MERCHANT_BY_ID,
   payload: payload,
+  path: path,
 });
 export const GET_MERCHANT_BY_ID_SUCCESS = (payload) => ({
   type: types.GET_MERCHANT_BY_ID_SUCCESS,
@@ -180,5 +165,19 @@ export const ARCHIVE_MERCHANT = (payload) => ({
 });
 export const RESTORE_MERCHANT = (payload) => ({
   type: types.RESTORE_MERCHANT,
+  payload: payload,
+});
+
+// Handle status pending merchant
+export const SET_PENDING_STATUS = (payload) => ({
+  type: types.SET_PENDING_STATUS,
+  payload: payload,
+});
+export const SET_PENDING_STATUS_SUCCESS = (payload) => ({
+  type: types.SET_PENDING_STATUS_SUCCESS,
+  payload: payload,
+});
+export const SET_PENDING_STATUS_FAILURE = (payload) => ({
+  type: types.SET_PENDING_STATUS_FAILURE,
   payload: payload,
 });

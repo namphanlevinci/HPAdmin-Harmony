@@ -722,7 +722,6 @@ class EditPendingMerchant extends Component {
 const mapStateToProps = (state) => ({
   Profile: state.ViewMerchant_Request,
   userLogin: state.userReducer.User,
-  ApprovalStatus: state.Approval,
   RejectStatus: state.Reject,
 });
 

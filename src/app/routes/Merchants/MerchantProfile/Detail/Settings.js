@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
-  getAll_Merchants,
   GetMerchant_byID,
   ViewProfile_Merchants,
   ARCHIVE_MERCHANT,

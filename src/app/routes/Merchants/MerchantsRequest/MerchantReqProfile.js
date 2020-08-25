@@ -3,12 +3,11 @@ import { connect } from "react-redux";
 import {
   MERCHANT_APPROVAL,
   MERCHANT_REJECT,
+  SET_PENDING_STATUS,
 } from "../../../../actions/merchants/actions";
-import { getAll_Merchants } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { withRouter } from "react-router-dom";
-import { store } from "react-notifications-component";
 import { config } from "../../../../url/url";
 
 import IntlMessages from "../../../../util/IntlMessages";
@@ -16,9 +15,12 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
+
 import NumberFormat from "react-number-format";
 import formatPhone from "../../../../util/formatPhone";
 import checkPermission from "../../../../util/checkPermission";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import "./MerchantReqProfile.css";
 import "./MerchantsRequest.css";
@@ -39,7 +41,7 @@ class MerchantReqProfile extends Component {
       discountRate: "",
     };
   }
-  _handleChange(event) {
+  handleChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -69,71 +71,17 @@ class MerchantReqProfile extends Component {
   handleCloseReject = () => {
     this.setState({ isOpenReject: false });
   };
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.ApprovalStatus !== this.props.ApprovalStatus) {
-      this.props.getAll_Merchants();
-      if (nextProps.ApprovalStatus.message === "Merchant code is exist!") {
-        store.addNotification({
-          title: "WARNING!",
-          message: "MERCHANT ID IS ALREADY EXIST!",
-          type: "warning",
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 5000,
-            onScreen: true,
-          },
-          width: 250,
-        });
-      } else {
-        this.setState({ showPopupAccept: false });
-        store.addNotification({
-          title: "SUCCESS!",
-          message: "SUCCESS",
-          type: "success",
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 5000,
-            onScreen: true,
-          },
-          width: 250,
-        });
-        setTimeout(() => {
-          this.props.history.push("/app/merchants/pending");
-        }, 1000);
-      }
-    }
-    if (nextProps.RejectStatus !== this.props.RejectStatus) {
-      this.props.getAll_Merchants();
-      this.setState({ showPopupReject: false });
-      store.addNotification({
-        title: "SUCCESS!",
-        message: "SUCCESS",
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 250,
-      });
-      setTimeout(() => {
-        this.props.history.push("/app/merchants/pending");
-      }, 1000);
-    }
-  }
+
+  handleSetStatus = (event) => {
+    const ID = this.props.PendingProfile.merchantId;
+    const status = event.target.value;
+    const payload = { ID, status };
+    this.props.setStatus(payload);
+  };
+
   render() {
     const e = this.props.PendingProfile;
     let principalLength = this.props.PendingProfile?.principals?.length;
-    console.log("e", e);
     // render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
@@ -241,8 +189,8 @@ class MerchantReqProfile extends Component {
       ) : (
         <label>&nbsp;- NO BUSINESS INFORMATION</label>
       );
-    //render profile
 
+    //render profile
     return (
       <div className="container-fluid content-list ">
         <ContainerHeader
@@ -304,10 +252,10 @@ class MerchantReqProfile extends Component {
                         const reason = values.rejectReason;
                         const ID = this.props.PendingProfile.merchantId;
                         const data = { reason, ID };
-                        this.props.sendReject(data);
+                        this.props.RejectMerchant(data);
                       }}
                     >
-                      {({ values, _handleChange, isSubmitting }) => (
+                      {({ values, handleChange, isSubmitting }) => (
                         <div className="rejectInput">
                           <h2 className="title">REASONS FOR REJECTION</h2>
                           <Form>
@@ -410,7 +358,7 @@ class MerchantReqProfile extends Component {
                           ID,
                           discountRate,
                         };
-                        this.props.sendApproval(data);
+                        this.props.ApproveMerchant(data);
                       }}
                     >
                       {({ lol }) => (
@@ -480,6 +428,32 @@ class MerchantReqProfile extends Component {
                 </Popup>
               )}
             </span>
+          </div>
+          <hr />
+          <div className="pending_status ">
+            <Select
+              value={e.status}
+              onChange={this.handleSetStatus}
+              displayEmpty
+              className="status_select"
+              inputProps={{ "aria-label": "Without label" }}
+            >
+              <MenuItem value={0}>Pending</MenuItem>
+              <MenuItem value={1}>Handling</MenuItem>
+            </Select>
+
+            <h4>
+              By{" "}
+              <span style={{ fontWeight: 500 }}>
+                {e.handlingActivities[0].waUserName}
+              </span>
+            </h4>
+            <h4>
+              Date/Time:{" "}
+              {moment(e.handlingActivities[0].createDate).format(
+                "MM/DD/YYYY - hh:mm A"
+              )}
+            </h4>
           </div>
           <hr />
           <div className="content react-transition swipe-right">
@@ -618,22 +592,21 @@ class MerchantReqProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  PendingProfile: state.ViewMerchant_Request,
+  PendingProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
-  ApprovalStatus: state.Approval,
-  RejectStatus: state.Reject,
+
   checkPermission: state.userReducer.checkPermission,
 });
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendApproval: (payload) => {
+    ApproveMerchant: (payload) => {
       dispatch(MERCHANT_APPROVAL(payload));
     },
-    getAll_Merchants: (payload) => {
-      dispatch(getAll_Merchants());
-    },
-    sendReject: (payload) => {
+    RejectMerchant: (payload) => {
       dispatch(MERCHANT_REJECT(payload));
+    },
+    setStatus: (payload) => {
+      dispatch(SET_PENDING_STATUS(payload));
     },
   };
 };

@@ -15,7 +15,6 @@ const persistConfig = {
   storage,
   blacklist: [
     "MerchantRequests_List",
-    "Merchants_RejectedList",
     "MerchantsList",
     "Reject",
     "User",

@@ -105,8 +105,8 @@ class EditPrincipal extends Component {
     this.props.history.push("/app/merchants/profile/principal/info");
   };
   _update = () => {
-    const ID = this.props.principalInfo.principalId;
-    const IDMerchant = this.props.MerchantProfile.merchantId;
+    const principalID = this.props.principalInfo.principalId;
+    const ID = this.props.MerchantProfile.merchantId;
     let token = JSON.parse(this.state.Token);
     const config = {
       headers: { Authorization: "bearer " + token.token },
@@ -122,7 +122,7 @@ class EditPrincipal extends Component {
     } = this.state;
 
     Axios.put(
-      URL + "/merchant/principal/" + ID,
+      URL + "/merchant/principal/" + principalID,
       {
         Address,
         FileId,
@@ -152,11 +152,9 @@ class EditPrincipal extends Component {
             width: 250,
           });
           setTimeout(() => {
-            this.props.GET_MERCHANT_BY_ID(IDMerchant);
+            const payload = { ID, path: "/app/merchants/profile/principal" };
+            this.props.GET_MERCHANT_BY_ID(payload);
           }, 1500);
-          setTimeout(() => {
-            this.props.history.push("/app/merchants/profile/principal");
-          }, 2500);
         }
       })
       .catch((err) => {

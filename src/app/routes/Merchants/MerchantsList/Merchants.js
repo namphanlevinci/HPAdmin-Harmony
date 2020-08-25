@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  getAll_Merchants,
   SearchMerchants,
   ViewProfile_Merchants,
   GET_MERCHANT_BY_ID,
@@ -87,8 +86,8 @@ class Merchants extends React.Component {
   };
   MerchantProfilePage = (ID) => {
     this.setState({ loading: true });
-    this.props.GET_MERCHANT_BY_ID(ID);
-    this.props.history.push("/app/merchants/profile/general");
+    const payload = { ID, path: "/app/merchants/profile/general" };
+    this.props.GET_MERCHANT_BY_ID(payload);
   };
 
   keyPressed = (event) => {
@@ -240,12 +239,8 @@ class Merchants extends React.Component {
 
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
-  Merchants_List: state.MerchantsList,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Merchants: () => {
-    dispatch(getAll_Merchants());
-  },
   SearchMerchants: (payload) => {
     dispatch(SearchMerchants(payload));
   },

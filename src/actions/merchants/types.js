@@ -1,7 +1,3 @@
-// GET ALL ACCEPTED MERCHANT LIST
-export const getAll_Merchants = "getAll_Merchants";
-export const getAll_Merchants_Success = "getAll_Merchants_Success";
-export const getAll_Merchants_Error = "getAll_Merchants_Error";
 export const SearchMerchants = "SearchMerchants";
 export const ViewProfile_Merchants = "ViewProfile_Merchants";
 // GET PENDING MERCHANT LIST
@@ -57,3 +53,8 @@ export const RESTORE_MERCHANT = "RESTORE_MERCHANT";
 
 // View Merchant
 export const VIEW_MERCHANT = "VIEW_MERCHANT";
+
+// Handle status pending merchant
+export const SET_PENDING_STATUS = "SET_PENDING_STATUS";
+export const SET_PENDING_STATUS_SUCCESS = "SET_PENDING_STATUS_SUCCESS";
+export const SET_PENDING_STATUS_FAILURE = "SET_PENDING_STATUS_FAILURE";

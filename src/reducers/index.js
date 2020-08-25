@@ -8,11 +8,8 @@ import getAllUser from "./User/getAllUser";
 // import Verify from "./User/Verify";
 // import addAdminUser from "./User/addAdmin";
 // MERCHANT ACCEPTED LIST
-import MerchantsList from "./Merchants/Merchants_List";
 import SearchMerchants from "./Merchants/SearchMerchants";
 import ViewProfile_Merchants from "./Merchants/ViewProfile_Merchants";
-// MERCHANT REJECTED LIST
-import Merchants_RejectedList from "./Merchants/Merchants_RejectList";
 import ViewProfile_Rejected from "./Merchants/ViewProfile_Rejected";
 // MERCHANT PENDING LIST
 import MerchantRequests_List from "./Merchants/MerchantsPending_List";
@@ -44,8 +41,7 @@ import getAllP2P_Transactions from "./Transactions/getP2P";
 import getBatchDetail from "./Transactions/getBatchDetail";
 // REPORT STATICS
 import Approved_Static from "./Reports/Approved";
-// View Principal InFor
-import viewPrincipalInfo from "./Merchants/getPrincipal_Info";
+
 // Gift Card
 import GiftCardReducer from "./gift-card/gift-card.reducer";
 import MerchantReducer from "./Merchants/MerchantReducer";
@@ -59,12 +55,10 @@ export default (history) =>
     getAllUser,
     userReducer,
     ViewProfile_Merchants,
-    MerchantsList,
     SearchMerchants,
     MerchantRequests_List,
     ViewMerchant_Request,
     ViewProfile_Rejected,
-    Merchants_RejectedList,
     NotificationReducer,
     getLogs: getAll_Logs,
     getQuestions: getAll_Questions,
@@ -82,7 +76,7 @@ export default (history) =>
     getAllBatch,
     GetP2P: getAllP2P_Transactions,
     BatchDetail: getBatchDetail,
-    viewPrincipal: viewPrincipalInfo,
+
     serviceProps: VIEW_SERVICE_EDIT,
     GiftCardReducer,
     staffDetail: VIEW_STAFF_DETAIL,

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAll_Merchants } from "../../../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 
 import Button from "@material-ui/core/Button";
@@ -170,9 +169,7 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Merchants: () => {
-    dispatch(getAll_Merchants());
-  },
+
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);
 

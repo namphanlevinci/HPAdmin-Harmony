@@ -261,3 +261,24 @@ export function* RESTORE_MERCHANT_API(ID) {
     });
   return kq;
 }
+
+// Set status pending merchant
+export function* SET_PENDING_STATUS_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const { ID, status } = payload;
+  const kq = yield axios
+    .put(URL + `/merchant/updateStatus/${ID}`, { Status: status }, config)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}

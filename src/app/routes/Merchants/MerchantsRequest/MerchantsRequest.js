@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   getAll_Merchant_Requests,
   ViewMerchant_Request,
+  GET_MERCHANT_BY_ID,
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 import { store } from "react-notifications-component";
@@ -54,7 +55,6 @@ class MerchantsRequest extends Component {
       )
       .then((res) => {
         const data = res.data.data;
-        console.log("data", data);
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,
@@ -101,20 +101,10 @@ class MerchantsRequest extends Component {
     }
   };
 
-  pendingProfile = (ID) => {
-    this.setState({ isLoading: true });
-    axios
-      .get(URL + "/merchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 200) {
-          this.props.ViewMerchant_Request(res.data.data);
-          this.props.history.push("/app/merchants/pending/profile");
-        }
-      });
+  goToPendingPage = (ID) => {
+    const path = "/app/merchants/pending/profile";
+    const payload = { ID, path };
+    this.props.GET_MERCHANT_BY_ID(payload);
   };
   render() {
     const { page, pageCount, data, pageSize } = this.state;
@@ -166,12 +156,21 @@ class MerchantsRequest extends Component {
         id: "phoneContact",
         accessor: (row) => <p>{row?.general?.phoneContact}</p>,
       },
+      {
+        Header: "Status",
+        id: "status",
+        accessor: (row) => (
+          <p style={{ fontWeight: "400" }}>
+            {Number(row?.status) === 1 ? "Processing" : "Pending"}
+          </p>
+        ),
+      },
     ];
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.pendingProfile(rowInfo.original.merchantId);
+            this.goToPendingPage(rowInfo.original.merchantId);
           }
         },
       };
@@ -236,6 +235,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   ViewMerchant_Request: (payload) => {
     dispatch(ViewMerchant_Request(payload));
+  },
+  GET_MERCHANT_BY_ID: (payload) => {
+    dispatch(GET_MERCHANT_BY_ID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);

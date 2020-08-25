@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  getAll_Merchants,
   ViewProfile_Merchants,
   GET_MERCHANT_BY_ID,
 } from "../../../../../actions/merchants/actions";
@@ -54,7 +53,6 @@ class EditSettings extends Component {
     this.setState({ update: !this.state.update });
   };
   _goBack = () => {
-    this.props.getAll_Merchants();
     this.props.history.push("/app/merchants/profile/settings");
   };
   _updateSettings = () => {
@@ -101,11 +99,9 @@ class EditSettings extends Component {
             width: 250,
           });
           setTimeout(() => {
-            this.props.GET_MERCHANT_BY_ID(ID);
+            const payload = { ID, path: "/app/merchants/profile/settings" };
+            this.props.GET_MERCHANT_BY_ID(payload);
           }, 1000);
-          setTimeout(() => {
-            this.props.history.push("/app/merchants/profile/settings");
-          }, 2000);
         } else {
           store.addNotification({
             title: "ERROR!",
@@ -246,9 +242,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAll_Merchants: () => {
-      dispatch(getAll_Merchants());
-    },
     ViewProfile_Merchants: (payload) => {
       dispatch(ViewProfile_Merchants(payload));
     },

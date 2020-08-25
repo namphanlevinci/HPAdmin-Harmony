@@ -52,6 +52,8 @@ const EditExtra = ({
     );
   }
 
+  const formatPrice = price?.toString()?.replace(",", "");
+  const formatSupplyFee = supplyFee?.toString()?.replace(",", "");
   return (
     <Dialog open={edit}>
       <DialogContent>
@@ -74,14 +76,14 @@ const EditExtra = ({
                 discount,
                 extraId,
                 duration,
-                price,
+                price: formatPrice,
                 isDisabled,
                 name,
                 quantity,
                 tax,
                 merchantId,
                 imageUrl,
-                supplyFee,
+                supplyFee: formatSupplyFee,
               }}
               validate={(values) => {
                 const errors = {};
