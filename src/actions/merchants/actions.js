@@ -181,3 +181,17 @@ export const SET_PENDING_STATUS_FAILURE = (payload) => ({
   type: types.SET_PENDING_STATUS_FAILURE,
   payload: payload,
 });
+
+// Update merchant settings
+export const MERCHANT_UPDATE_SETTING = (payload) => ({
+  type: types.MERCHANT_UPDATE_SETTING,
+  payload: payload,
+});
+export const MERCHANT_UPDATE_SETTING_SUCCESS = (payload) => ({
+  type: types.MERCHANT_UPDATE_SETTING_SUCCESS,
+  payload: payload,
+});
+export const MERCHANT_UPDATE_SETTING_FAILURE = (payload) => ({
+  type: types.MERCHANT_UPDATE_SETTING_FAILURE,
+  payload: payload,
+});

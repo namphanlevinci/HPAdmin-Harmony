@@ -2,40 +2,29 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
-  GetMerchant_byID,
-  ViewProfile_Merchants,
   ARCHIVE_MERCHANT,
   RESTORE_MERCHANT,
 } from "../../../../../actions/merchants/actions";
-import { store } from "react-notifications-component";
+import TextField from "@material-ui/core/TextField";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
-import { config } from "../../../../../url/url";
-import Popup from "reactjs-popup";
 import CheckPermissions from "../../../../../util/checkPermission";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import "./Detail.css";
-const URL = config.url.URL;
 
 class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      transactionsFee: "",
-      merchantCode: "",
-      merchantToken: "",
-      totalAmountLimit: "",
       ID: "",
-      Token: "",
-      discountRate: "",
-      pointRate: "",
       isOpenReject: false,
       isOpenAccept: false,
+      open: false,
     };
   }
   _gotoEdit = () => {
@@ -43,17 +32,9 @@ class Settings extends Component {
   };
   async componentDidMount() {
     const data = this.props.MerchantProfile;
-    const Token = localStorage.getItem("User_login");
-    await this.setState({ Token: Token });
+
     this.setState({
-      merchantCode: data.merchantCode,
-      merchantToken: data.merchantToken,
-      transactionsFee: data.transactionsFee,
-      totalAmountLimit: data.totalAmountLimit,
-      discountRate: data.discountRate,
-      pointRate: data?.pointRate,
       ID: data.merchantId,
-      Token: Token,
     });
   }
 
@@ -61,16 +42,13 @@ class Settings extends Component {
     this.setState({ open: !this.state.open });
   };
 
-  _toggleConfirm = () => {
-    this.setState({ update: !this.state.update });
-  };
-
-  _enable = () => {
+  restoreMerchant = () => {
     this.setState({ open: false });
     const { ID } = this.state;
     this.props.RESTORE_MERCHANT(ID);
   };
   render() {
+    const data = this.props.MerchantProfile;
     const MerchantStatus =
       this.props.MerchantProfile.isDisabled !== 1 ? (
         <div>
@@ -157,7 +135,7 @@ class Settings extends Component {
           </Dialog>
         </div>
       ) : (
-        <Button className="btn btn-green" onClick={this._enable}>
+        <Button className="btn btn-green" onClick={this.restoreMerchant}>
           ACTIVE
         </Button>
       );
@@ -166,55 +144,55 @@ class Settings extends Component {
       <React.Fragment>
         <div className="container-fluid">
           <h2 style={{ marginBottom: "10px" }}>Settings</h2>
-          <div className="">
-            <div className="SettingsContent">
-              <div>
-                <h3>The charged percent fee of credit card transactions</h3>
-                <div style={styles.div}>
-                  <label>
-                    Transactions Fee:
-                    <span style={{ color: "black", paddingLeft: "10px" }}>
-                      {this.state.transactionsFee}
-                    </span>
-                  </label>
-                </div>
-                <div style={styles.div}>
-                  <label>
-                    Merchant ID:
-                    <span style={{ color: "black", paddingLeft: "10px" }}>
-                      {this.state.merchantCode}
-                    </span>
-                  </label>
-                </div>
-                <div style={styles.div}>
-                  <label>
-                    Merchant Token:
-                    <span style={{ color: "black", paddingLeft: "10px" }}>
-                      {this.state.merchantToken}
-                    </span>
-                  </label>
-                </div>
-                <div style={styles.div}>
-                  <label>
-                    Discount Rate:
-                    <span style={{ color: "black", paddingLeft: "10px" }}>
-                      {this.state.discountRate}
-                    </span>
-                  </label>
-                </div>
-                <div style={styles.div}>
-                  <label>
-                    Point Rate:
-                    <span style={{ color: "black", paddingLeft: "10px" }}>
-                      {this.state.pointRate}
-                    </span>
-                  </label>
-                </div>
+          <h3 style={styles.h3}>
+            The charged percent fee of credit card transactions
+          </h3>
+
+          <div>
+            <div className="row">
+              <div className="col-4" style={styles.div}>
+                <TextField
+                  label="Transactions Fee"
+                  disabled
+                  value={data.transactionsFee}
+                  InputProps={{
+                    startAdornment: (
+                      <span style={{ border: "none", paddingRight: "10px" }}>
+                        %
+                      </span>
+                    ),
+                  }}
+                />
               </div>
-              <br />
+              <div className="col-4" style={styles.div}>
+                <TextField
+                  label=" Merchant ID"
+                  disabled
+                  value={data.merchantCode}
+                />
+              </div>
+              <div className="col-4" style={styles.div}>
+                <TextField
+                  label="Merchant Token"
+                  disabled
+                  value={data.merchantToken}
+                />
+              </div>
+              <div className="col-4" style={styles.div}>
+                <TextField
+                  label="Discount Rate"
+                  disabled
+                  value={data.discountRate}
+                />
+              </div>
+              <div className="col-4" style={styles.div}>
+                <TextField label="Point Rate" disabled value={data.pointRate} />
+              </div>
             </div>
+            <br />
           </div>
         </div>
+
         <div style={{ display: "flex" }}>
           <div className="SettingsContent general-content ">
             {CheckPermissions(29) && (
@@ -249,7 +227,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 
 const styles = {
   div: {
-    marginBottom: "8px",
+    marginBottom: "10px",
   },
   p: { fontWeight: 400, color: "black" },
   Form: {
@@ -261,5 +239,8 @@ const styles = {
   },
   label: {
     fontSize: "13px",
+  },
+  h3: {
+    padding: "15px 0px",
   },
 };

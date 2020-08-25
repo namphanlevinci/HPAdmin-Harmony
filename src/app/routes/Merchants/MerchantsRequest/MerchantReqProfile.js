@@ -430,6 +430,7 @@ class MerchantReqProfile extends Component {
             </span>
           </div>
           <hr />
+
           <div className="pending_status ">
             <Select
               value={e.status}
@@ -442,19 +443,24 @@ class MerchantReqProfile extends Component {
               <MenuItem value={1}>Handling</MenuItem>
             </Select>
 
-            <h4>
-              By{" "}
-              <span style={{ fontWeight: 500 }}>
-                {e.handlingActivities[0].waUserName}
-              </span>
-            </h4>
-            <h4>
-              Date/Time:{" "}
-              {moment(e.handlingActivities[0].createDate).format(
-                "MM/DD/YYYY - hh:mm A"
-              )}
-            </h4>
+            {Number(e.handlingActivities.length) !== 0 && (
+              <>
+                <h4>
+                  By{" "}
+                  <span style={{ fontWeight: 500 }}>
+                    {e.handlingActivities[0]?.waUserName}
+                  </span>
+                </h4>
+                <h4>
+                  Date/Time:{" "}
+                  {moment(e.handlingActivities[0]?.createDate).format(
+                    "MM/DD/YYYY - hh:mm A"
+                  )}
+                </h4>
+              </>
+            )}
           </div>
+
           <hr />
           <div className="content react-transition swipe-right">
             <div className="container-fluid">

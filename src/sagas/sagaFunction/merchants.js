@@ -11,6 +11,7 @@ import {
   ARCHIVE_MERCHANT_API,
   RESTORE_MERCHANT_API,
   SET_PENDING_STATUS_API,
+  MERCHANT_UPDATE_SETTING_API,
 } from "../api/merchants";
 import { history } from "../../store/index";
 import * as typeMerchant from "../../actions/merchants/types";
@@ -67,7 +68,6 @@ export function* UPDATE_MERCHANT_SAGA() {
 export function* GET_MERCHANT_BY_ID_SAGA() {
   yield takeLatest(typeMerchant.GET_MERCHANT_BY_ID, function*(action) {
     const { ID, path } = action.payload;
-
     try {
       const getMerchant = yield GET_MERCHANT_BY_ID_API(ID);
       if (getMerchant !== null) {
@@ -222,11 +222,11 @@ export function* ARCHIVE_MERCHANT_SAGA() {
   yield takeLatest(typeMerchant.ARCHIVE_MERCHANT, function*(action) {
     try {
       const result = yield ARCHIVE_MERCHANT_API(action.payload);
-      console.log("action.payload", action.payload);
+
       if (result !== null) {
         yield put({
           type: typeMerchant.GET_MERCHANT_BY_ID,
-          payload: action.payload.ID,
+          payload: action.payload,
         });
         yield put({
           type: typeNotification.SUCCESS_NOTIFICATION,
@@ -249,11 +249,11 @@ export function* RESTORE_MERCHANT_SAGA() {
   yield takeLatest(typeMerchant.RESTORE_MERCHANT, function*(action) {
     try {
       const result = yield RESTORE_MERCHANT_API(action.payload);
-      console.log("result", result);
+      const payload = { ID: action.payload };
       if (result.message === "Success") {
         yield put({
           type: typeMerchant.GET_MERCHANT_BY_ID,
-          payload: action.payload,
+          payload: payload,
         });
         yield put({
           type: typeNotification.SUCCESS_NOTIFICATION,
@@ -289,6 +289,33 @@ export function* SET_PENDING_STATUS_SAGA() {
         yield put({
           type: typeMerchant.SET_PENDING_STATUS_FAILURE,
           payload: action.payload,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+// Update merchant settings
+export function* MERCHANT_UPDATE_SETTING_SAGA() {
+  yield takeLatest(typeMerchant.MERCHANT_UPDATE_SETTING, function*(action) {
+    try {
+      const result = yield MERCHANT_UPDATE_SETTING_API(action.payload);
+      if (result.message === "Success") {
+        yield put({
+          type: typeMerchant.GET_MERCHANT_BY_ID,
+          payload: action.payload,
+        });
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+        history.push("/app/merchants/profile/settings");
+      } else {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong, please try again later!",
         });
       }
     } catch (error) {
