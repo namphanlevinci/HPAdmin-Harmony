@@ -38,8 +38,6 @@ class Roles extends Component {
   componentDidMount = async () => {
     await this.props.GET_ALL_PERMISSION();
 
-    console.log("PERMISSIONS BRO", this.props.permissions);
-
     const adminPermissions = this.props.permissions
       .filter(({ waRoleId }) => waRoleId === 1)
       .reduce((obj, item) => item, {});
@@ -166,14 +164,6 @@ class Roles extends Component {
     ];
 
     await this.props.UPDATE_PERMISSIONS(data, ID);
-
-    // await this.props.GET_ALL_PERMISSION();
-
-    // setTimeout(() => {
-    //   this.props.GET_PERMISSION_BY_ID(
-    //     this.props?.userLogin?.userAdmin?.waRoleId
-    //   );
-    // }, 1000);
   };
 
   render() {
