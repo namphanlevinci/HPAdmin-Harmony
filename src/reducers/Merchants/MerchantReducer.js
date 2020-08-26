@@ -5,6 +5,7 @@ const initialState = {
   setPendingStatus: "",
   PrincipalData: "",
   ServiceData: "",
+  ExtraData: "",
 };
 
 const MerchantReducer = (state = initialState, { type, payload }) => {
@@ -23,6 +24,9 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
       return { ...state };
     case types.VIEW_SERVICE:
       state.ServiceData = payload;
+      return { ...state };
+    case types.GET_MERCHANT_EXTRA_SUCCESS:
+      state.ExtraData = payload;
       return { ...state };
     default:
       return state;

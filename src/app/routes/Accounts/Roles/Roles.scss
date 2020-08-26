@@ -5,63 +5,43 @@
     font-weight: 500;
 }
 
-// .role-department  {
-//   margin: 20px 0px;
-// }
-
-
-.role .role-permissions {
-
-    table {
-      width: 100%;
-      color: #4251af;
-    }
-    table thead tr th {
-      font-size: 16px;
-      font-weight: 500;
-      text-align: center;
-    }
-    table tr td {
-      text-align: center;
-    }
-    table tr td:first-child {
-      text-align: left;
-    }
-    
-    // table th:first-child {
-    //   text-align: left;
-    // }
-    table .module th {
-      padding: 15px 0px;
-      color: black;
-      font-weight: 500;
-      font-size: 15px;
-    }
-    table td:first-child {
-      padding-left: 10px;
-    }
-    table td {
-      box-shadow: 0 0 0 1px #dddddd; /* this draws the table border  */ 
-    }
-
-    table .role-name {
-      font-size: 16px;
-      font-weight: 400;
-      // height: 44px;
-
-    }
-   
-
-    table .module2 {
-      color: #4251af;
-      text-align: center;
-      font-size: 16px;
-    }
-   .module .none  th {
-      color: white;
-
-    }
+.role_permissions > h3 {
+  font-weight: 400;
+  font-size: 24px
+}
+.role_permissions  p {
+  color: #4251af;
+  font-size: 18px;
+  font-weight: 400; 
 
 }
 
 
+.permission_name > h4 {
+  font-size: 18px;
+  color: #4251af;
+  padding: 5px 0px;
+  margin: 15px 0px;  
+}
+
+.permission_name_container {
+  box-shadow: 0 0 0 1px #dddddd;
+  width: 98%;
+}
+.permission_name_container > p {
+  font-size: 15px;
+  color: black;
+  font-weight: 400;
+  padding: 10px 0px 10px 15px;
+  margin-bottom: 0px;  
+}
+
+.permission_name > .none {
+  color: white;
+  height: 31px;
+}
+.permission_name_check {
+  padding: 0px 15px;
+  box-shadow: 0 0 0 1px #dddddd;
+  width: 98%;
+}

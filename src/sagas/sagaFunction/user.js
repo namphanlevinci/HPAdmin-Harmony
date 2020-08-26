@@ -251,9 +251,18 @@ export function* UPDATE_PERMISSION_SAGA() {
           type: typeUser.UPDATE_PERMISSIONS_SUCCESS,
           payload: check.data,
         });
+
+        yield put({
+          type: typeUser.GET_ALL_PERMISSION,
+          payload: action.payload,
+        });
         yield put({
           type: typeNotification.SUCCESS_NOTIFICATION,
           payload: "Update Permissions Success",
+        });
+        yield put({
+          type: typeUser.GET_PERMISSION_BY_ID,
+          payload: action.currentUser,
         });
       }
       if (check.data === null) {

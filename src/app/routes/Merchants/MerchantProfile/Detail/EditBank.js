@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../url/url";
-import {
-  ViewProfile_Merchants,
-  GetMerchant_byID,
-} from "../../../../../actions/merchants/actions";
-import { store } from "react-notifications-component";
+import { UPDATE_MERCHANT_BANK } from "../../../../../actions/merchants/actions";
+
 import LinearProgress from "../../../../../util/linearProgress";
 
 import "../MerchantProfile.css";
@@ -15,7 +12,6 @@ import "../../MerchantsRequest/MerchantsRequest.css";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class EditBank extends Component {
@@ -33,19 +29,15 @@ class EditBank extends Component {
     };
   }
   async componentDidMount() {
-    const Token = localStorage.getItem("User_login");
-    await this.setState({ Token: Token });
     const data = this.props.MerchantProfile.businessBank;
-    if (data !== null) {
-      this.setState({
-        name: data?.name,
-        fileId: data?.fileId,
-        routingNumber: data?.routingNumber,
-        accountNumber: data?.accountNumber,
-        accountHolderName: data?.accountHolderName,
-        newFileId: null,
-      });
-    }
+    this.setState({
+      name: data?.name,
+      fileId: data?.fileId,
+      routingNumber: data?.routingNumber,
+      accountNumber: data?.accountNumber,
+      accountHolderName: data?.accountHolderName,
+      newFileId: null,
+    });
   }
 
   _handleChange = (event) => {
@@ -58,11 +50,9 @@ class EditBank extends Component {
   };
   uploadFile = (e) => {
     e.preventDefault();
-
     // handle preview Image
     let file = e.target.files[0];
     this.setState({ loadingProgress: true });
-
     // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
@@ -87,16 +77,14 @@ class EditBank extends Component {
         console.log(err);
       });
   };
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/merchants/profile/bank");
   };
   updateBank = () => {
-    const ID = this.props.MerchantProfile.businessBank.businessBankId;
-    const IDMerchant = this.props.MerchantProfile.merchantId;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token },
-    };
+    const businessBankId = this.props.MerchantProfile.businessBank
+      .businessBankId;
+    const ID = this.props.MerchantProfile.merchantId;
+
     const {
       name,
       fileId,
@@ -104,40 +92,17 @@ class EditBank extends Component {
       accountNumber,
       accountHolderName,
     } = this.state;
-    axios
-      .put(
-        URL + "/merchant/businessbank/" + ID,
-        { name, fileId, routingNumber, accountNumber, accountHolderName },
-        config
-      )
-      .then((res) => {
-        if (res.data.message === "Update bank completed") {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          setTimeout(() => {
-            this.props.GetMerchant_byID(IDMerchant);
-          }, 1500);
-          setTimeout(() => {
-            this.props.ViewProfile_Merchants(this.props.getMerchant.Data);
-            this.props.history.push("/app/merchants/profile/bank");
-          }, 2500);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    const payload = {
+      name,
+      fileId,
+      routingNumber,
+      accountNumber,
+      accountHolderName,
+      businessBankId,
+      ID,
+    };
+    this.props.UPDATE_MERCHANT_BANK(payload);
   };
   render() {
     const e = this.props.MerchantProfile;
@@ -152,27 +117,6 @@ class EditBank extends Component {
         <img className="bankVoid" src={e?.businessBank?.imageUrl} alt="void" />
       );
     }
-
-    // const renderOldImg = (
-    //   <div className="col-12" style={{ paddingTop: "10px" }}>
-    //     {e.businessBank?.imageUrlOldFiles !== null ? (
-    //       <>
-    //         <label>Old Void Check*</label> <br />
-    //       </>
-    //     ) : null}
-    //     {e.businessBank?.imageUrlOldFiles?.map((e, index) => {
-    //       return (
-    //         <img
-    //           key={index}
-    //           className="bankVoid"
-    //           src={`${e}`}
-    //           alt="void check"
-    //           style={{ padding: "10px" }}
-    //         />
-    //       );
-    //     })}
-    //   </div>
-    // );
 
     return (
       <div className="react-transition swipe-up general-content">
@@ -217,7 +161,7 @@ class EditBank extends Component {
                 style={styles.input}
               />
             </div>
-            <div className="col-4" style={{ paddingTop: "20px" }}>
+            <div className="col-3" style={{ paddingTop: "20px" }}>
               <label>Void Check*</label> <br />
               {$imagePreview}
               <div style={{ width: "100%", marginTop: "15px" }}>
@@ -231,8 +175,6 @@ class EditBank extends Component {
                 onChange={(e) => this.uploadFile(e)}
               />
             </div>
-
-            {/* {renderOldImg} */}
           </div>
         </div>
         <br />
@@ -240,7 +182,7 @@ class EditBank extends Component {
           <Button className="btn btn-green" onClick={this.updateBank}>
             SAVE
           </Button>
-          <Button className="btn btn-red" onClick={this._goBack}>
+          <Button className="btn btn-red" onClick={this.goBack}>
             CANCEL
           </Button>
         </div>
@@ -255,11 +197,8 @@ const mapStateToProps = (state) => ({
   getMerchant: state.getMerchant,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
-  },
-  GetMerchant_byID: (ID) => {
-    dispatch(GetMerchant_byID(ID));
+  UPDATE_MERCHANT_BANK: (payload) => {
+    dispatch(UPDATE_MERCHANT_BANK(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditBank);

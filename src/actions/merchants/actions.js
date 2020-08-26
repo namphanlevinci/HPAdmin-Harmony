@@ -227,3 +227,41 @@ export const ADD_MERCHANT_FAILURE = (payload) => ({
   type: types.ADD_MERCHANT_FAILURE,
   payload: payload,
 });
+
+// Update merchant bank
+export const UPDATE_MERCHANT_BANK = (payload) => ({
+  type: types.UPDATE_MERCHANT_BANK,
+  payload: payload,
+});
+export const UPDATE_MERCHANT_BANK_SUCCESS = (payload) => ({
+  type: types.UPDATE_MERCHANT_BANK_SUCCESS,
+  payload: payload,
+});
+export const UPDATE_MERCHANT_BANK_FAILURE = (payload) => ({
+  type: types.UPDATE_MERCHANT_BANK_FAILURE,
+  payload: payload,
+});
+
+// Get merchant extra by ID
+export const GET_MERCHANT_EXTRA = (payload) => ({
+  type: types.GET_MERCHANT_EXTRA,
+  payload: payload,
+});
+export const GET_MERCHANT_EXTRA_SUCCESS = (payload) => ({
+  type: types.GET_MERCHANT_EXTRA_SUCCESS,
+  payload: payload,
+});
+// Archive & Restore merchant extra
+export const ARCHIVE_MERCHANT_EXTRA = (payload) => ({
+  type: types.ARCHIVE_MERCHANT_EXTRA,
+  payload: payload,
+});
+export const RESTORE_MERCHANT_EXTRA = (payload) => ({
+  type: types.RESTORE_MERCHANT_EXTRA,
+  payload: payload,
+});
+// Update merchant extra
+export const UPDATE_MERCHANT_EXTRA = (payload) => ({
+  type: types.UPDATE_MERCHANT_EXTRA,
+  payload: payload,
+});
