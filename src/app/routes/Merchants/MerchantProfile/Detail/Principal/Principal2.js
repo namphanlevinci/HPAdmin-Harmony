@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { UPDATE_PRINCIPAL } from "../../../../../../actions/merchants/actions";
+import { VIEW_PRINCIPAL } from "../../../../../../actions/merchants/actions";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import CheckPermissions from "../../../../../../util/checkPermission";
@@ -18,12 +18,12 @@ class PrincipalInfo extends Component {
     this.state = {};
   }
   _editPrincipal = (data) => {
-    this.props.UPDATE_PRINCIPAL(data);
+    this.props.VIEW_PRINCIPAL(data);
     this.props.history.push("/app/merchants/profile/principal/edit");
   };
 
   render() {
-    const e = this.props.principalInfo;
+    const e = this.props.principalData;
 
     return (
       <div className="react-transition swipe-up principal-container container-fuild">
@@ -56,7 +56,7 @@ class PrincipalInfo extends Component {
           <div className="col-4">
             <label>Social Security Number* (SSN)</label>
             <NumberFormat
-              value={e.ssn}
+              value={e?.ssn}
               displayType={"text"}
               thousandSeparator={true}
               p
@@ -158,15 +158,15 @@ class PrincipalInfo extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  principalInfo: state?.viewPrincipal,
+  principalData: state.MerchantReducer.PrincipalData,
   MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state?.userReducer.User,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    UPDATE_PRINCIPAL: (payload) => {
-      dispatch(UPDATE_PRINCIPAL(payload));
+    VIEW_PRINCIPAL: (payload) => {
+      dispatch(VIEW_PRINCIPAL(payload));
     },
   };
 };

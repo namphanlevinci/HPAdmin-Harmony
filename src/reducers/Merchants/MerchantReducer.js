@@ -3,6 +3,8 @@ import * as types from "../../actions/merchants/types";
 const initialState = {
   MerchantData: "",
   setPendingStatus: "",
+  PrincipalData: "",
+  ServiceData: "",
 };
 
 const MerchantReducer = (state = initialState, { type, payload }) => {
@@ -15,6 +17,12 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
       return { ...state };
     case types.SET_PENDING_STATUS_SUCCESS:
       state.setPendingStatus = payload;
+      return { ...state };
+    case types.VIEW_PRINCIPAL:
+      state.PrincipalData = payload;
+      return { ...state };
+    case types.VIEW_SERVICE:
+      state.ServiceData = payload;
       return { ...state };
     default:
       return state;

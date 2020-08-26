@@ -68,12 +68,11 @@ const General = ({
           <div className="form-group">
             <TextField
               name="firstName"
-              label="First Name"
+              label="First Name*"
               margin="normal"
               type="text"
               fullWidth
               onChange={handleChange}
-              required
               value={firstName}
               style={styles.input}
             />
@@ -84,12 +83,11 @@ const General = ({
           <div className="form-group">
             <TextField
               name="lastName"
-              label="Last Name"
+              label="Last Name*"
               margin="normal"
               type="text"
               fullWidth
               onChange={handleChange}
-              required
               value={lastName}
               style={styles.input}
             />
@@ -100,12 +98,11 @@ const General = ({
           <div className="form-group">
             <TextField
               name="displayName"
-              label="Display Name"
+              label="Display Name*"
               margin="normal"
               type="text"
               fullWidth
               onChange={handleChange}
-              required
               value={displayName}
               style={styles.input}
             />

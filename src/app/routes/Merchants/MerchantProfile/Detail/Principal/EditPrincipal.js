@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import {
   ViewProfile_Merchants,
-  GetMerchant_byID,
+  UPDATE_MERCHANT_PRINCIPAL,
   GET_MERCHANT_BY_ID,
 } from "../../../../../../actions/merchants/actions";
 import { store } from "react-notifications-component";
@@ -48,17 +48,17 @@ class EditPrincipal extends Component {
   async componentDidMount() {
     const Token = localStorage.getItem("User_login");
     await this.setState({ Token: Token });
-    const data = this.props.principalInfo;
+    const data = this.props.principalData;
     if (data !== null) {
       this.setState({
-        HomePhone: data.homePhone,
-        MobilePhone: data.mobilePhone,
-        Address: data.address,
-        StateId: data.stateId,
-        DriverNumber: data.driverNumber,
-        FileId: data.fileId,
-        stateName: data.state.name,
-        email: data.email,
+        HomePhone: data?.homePhone,
+        MobilePhone: data?.mobilePhone,
+        Address: data?.address,
+        StateId: data?.stateId,
+        DriverNumber: data?.driverNumber,
+        FileId: data?.fileId,
+        stateName: data?.state?.name,
+        email: data?.email,
         loading: true,
       });
     }
@@ -105,12 +105,9 @@ class EditPrincipal extends Component {
     this.props.history.push("/app/merchants/profile/principal/info");
   };
   _update = () => {
-    const principalID = this.props.principalInfo.principalId;
+    const principalID = this.props.principalData.principalId;
     const ID = this.props.MerchantProfile.merchantId;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token },
-    };
+
     const {
       Address,
       FileId,
@@ -121,49 +118,63 @@ class EditPrincipal extends Component {
       email,
     } = this.state;
 
-    Axios.put(
-      URL + "/merchant/principal/" + principalID,
-      {
-        Address,
-        FileId,
-        DriverNumber,
-        HomePhone,
-        MobilePhone,
-        StateId,
-        email,
-      },
-      config
-    )
-      .then((res) => {
-        // Server trả về sai lỗi chính tả
-        if (Number(res.data.codeNumber) === 200) {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: "Update principal completed",
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          setTimeout(() => {
-            const payload = { ID, path: "/app/merchants/profile/principal" };
-            this.props.GET_MERCHANT_BY_ID(payload);
-          }, 1500);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const payload = {
+      Address,
+      FileId,
+      DriverNumber,
+      HomePhone,
+      MobilePhone,
+      StateId,
+      email,
+      ID,
+      principalID,
+    };
+
+    this.props.UPDATE_MERCHANT_PRINCIPAL(payload);
+
+    // Axios.put(
+    //   URL + "/merchant/principal/" + principalID,
+    //   {
+    //     Address,
+    //     FileId,
+    //     DriverNumber,
+    //     HomePhone,
+    //     MobilePhone,
+    //     StateId,
+    //     email,
+    //   },
+    //   config
+    // )
+    //   .then((res) => {
+    //     // Server trả về sai lỗi chính tả
+    //     if (Number(res.data.codeNumber) === 200) {
+    //       store.addNotification({
+    //         title: "SUCCESS!",
+    //         message: "Update principal completed",
+    //         type: "success",
+    //         insert: "top",
+    //         container: "top-right",
+    //         animationIn: ["animated", "fadeIn"],
+    //         animationOut: ["animated", "fadeOut"],
+    //         dismiss: {
+    //           duration: 5000,
+    //           onScreen: true,
+    //         },
+    //         width: 250,
+    //       });
+    //       setTimeout(() => {
+    //         const payload = { ID, path: "/app/merchants/profile/principal" };
+    //         this.props.GET_MERCHANT_BY_ID(payload);
+    //       }, 1500);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   render() {
-    const e = this.props.principalInfo;
+    const e = this.props.principalData;
 
     let { imagePreviewUrl } = this.state;
 
@@ -347,13 +358,13 @@ class EditPrincipal extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  principalInfo: state.viewPrincipal,
+  principalData: state.MerchantReducer.PrincipalData,
   MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
+  UPDATE_MERCHANT_PRINCIPAL: (payload) => {
+    dispatch(UPDATE_MERCHANT_PRINCIPAL(payload));
   },
   GET_MERCHANT_BY_ID: (ID) => {
     dispatch(GET_MERCHANT_BY_ID(ID));
