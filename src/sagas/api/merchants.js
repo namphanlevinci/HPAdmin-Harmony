@@ -222,7 +222,6 @@ export function* DELETE_MERCHANT_API(ID) {
 
 // ARCHIVE MERCHANT
 export function* ARCHIVE_MERCHANT_API(payload) {
-  console.log("payload", payload);
   const { ID, reason } = payload;
   const getInfoLogin = (state) => state.userReducer.User;
   const infoLogin = yield select(getInfoLogin);
@@ -421,4 +420,95 @@ export function* UPDATE_MERCHANT_SERVICE_API(payload) {
   return kq;
 }
 
-// Add merchant
+// Update merchant bank
+export function* UPDATE_MERCHANT_BANK_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const {
+    name,
+    fileId,
+    routingNumber,
+    accountNumber,
+    accountHolderName,
+    businessBankId,
+  } = payload;
+  const kq = yield axios
+    .put(
+      URL + `/merchant/businessbank/${businessBankId}`,
+      { name, fileId, routingNumber, accountNumber, accountHolderName },
+      config
+    )
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// Get merchant extra by id
+export function* GET_MERCHANT_EXTRA_API(ID) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const kq = yield axios
+    .get(URL + `/extra/getbymerchant/${ID}`, config)
+    .then((result) => {
+      return result.data.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// Archive merchant extra by ID
+export function* ARCHIVE_MERCHANT_EXTRA_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const { extraId } = payload;
+  const kq = yield axios
+    .put(URL + `/extra/archive/${extraId}`, null, config)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+// Restore merchant extra by ID
+export function* RESTORE_MERCHANT_EXTRA_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const { extraId } = payload;
+  const kq = yield axios
+    .put(URL + `/extra/restore/${extraId}`, null, config)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}

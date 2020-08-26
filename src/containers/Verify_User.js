@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { VERIFY_USER } from "../actions/user/actions";
 import { connect } from "react-redux";
-import { GET_PERMISSION_ON_LOGIN } from "../actions/user/actions";
 
 import IntlMessages from "../util/IntlMessages";
 import TextField from "@material-ui/core/TextField";
@@ -120,9 +119,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   VERIFY_USER: (payload) => {
     dispatch(VERIFY_USER(payload));
-  },
-  GET_PERMISSION_ON_LOGIN: (payload) => {
-    dispatch(GET_PERMISSION_ON_LOGIN(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Verify_User);

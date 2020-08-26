@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FaTrashRestoreAlt } from "react-icons/fa";
-import { GoTrashcan } from "react-icons/go";
-import { FiEdit } from "react-icons/fi";
-import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
+import {
+  VIEW_SERVICE,
+  GET_MERCHANT_EXTRA,
+  ARCHIVE_MERCHANT_EXTRA,
+  RESTORE_MERCHANT_EXTRA,
+} from "../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
@@ -33,7 +35,7 @@ class ExtraTab extends Component {
     this.state = {
       search: "",
       data: [],
-      loading: true,
+      loading: false,
       // Archive & Restore
       dialog: false,
       restoreDialog: false,
@@ -99,7 +101,8 @@ class ExtraTab extends Component {
   };
 
   componentDidMount() {
-    this.getExtra();
+    const ID = this.props.MerchantProfile.merchantId;
+    this.props.GET_MERCHANT_EXTRA(ID);
   }
 
   handleClose = (name, value) => {
@@ -132,36 +135,20 @@ class ExtraTab extends Component {
     });
   };
 
-  handleArchive = (ID) => {
-    axios
-      .put(URL + "/extra/archive/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {});
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.getExtra();
-    }, 1500);
+  handleArchive = (extraId) => {
+    const ID = this.props.MerchantProfile.merchantId;
+    const payload = { ID, extraId };
+    this.props.ARCHIVE_MERCHANT_EXTRA(payload);
   };
 
-  handleRestore = (ID) => {
-    axios
-      .put(URL + "/extra/restore/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {});
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.getExtra();
-    }, 1500);
+  handleRestore = (extraId) => {
+    const ID = this.props.MerchantProfile.merchantId;
+    const payload = { ID, extraId };
+    this.props.RESTORE_MERCHANT_EXTRA(payload);
   };
   render() {
     // Search
-    let extraList = this.state.data;
+    let extraList = this.props.ExtraData;
     if (extraList) {
       if (this.state.search) {
         extraList = extraList.filter((e) => {
@@ -256,7 +243,7 @@ class ExtraTab extends Component {
         Cell: (row) => {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
-              <Tooltip title="Delete">
+              <Tooltip title="Archive">
                 <img
                   src={ArchiveSVG}
                   onClick={() => [
@@ -336,7 +323,7 @@ class ExtraTab extends Component {
               defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              // loading={this.state.loading}
             />
 
             {/* ARCHIVE */}
@@ -407,17 +394,20 @@ class ExtraTab extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
+  ExtraData: state.MerchantReducer.ExtraData,
 });
 const mapDispatchToProps = (dispatch) => ({
   VIEW_SERVICE: (payload) => {
     dispatch(VIEW_SERVICE(payload));
   },
+  GET_MERCHANT_EXTRA: (ID) => {
+    dispatch(GET_MERCHANT_EXTRA(ID));
+  },
+  ARCHIVE_MERCHANT_EXTRA: (payload) => {
+    dispatch(ARCHIVE_MERCHANT_EXTRA(payload));
+  },
+  RESTORE_MERCHANT_EXTRA: (payload) => {
+    dispatch(RESTORE_MERCHANT_EXTRA(payload));
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);
-
-const styles = {
-  span: {
-    fontWeight: "400",
-    color: "black",
-  },
-};

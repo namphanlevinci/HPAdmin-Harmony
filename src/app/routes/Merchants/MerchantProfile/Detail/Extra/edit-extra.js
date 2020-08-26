@@ -63,7 +63,7 @@ const EditExtra = ({
             <div
               className="close"
               onClick={() => handleClose("edit", false)}
-              style={{ fill: "white" }}
+              style={{ color: "white !important" }}
             >
               <GrFormClose size={40} />
             </div>

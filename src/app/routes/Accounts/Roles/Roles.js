@@ -20,6 +20,9 @@ import Button from "@material-ui/core/Button";
 import update from "immutability-helper";
 import CheckPermissions from "../../../../util/checkPermission";
 
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+
 import "./Roles.scss";
 import "react-table/react-table.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
@@ -34,6 +37,8 @@ class Roles extends Component {
 
   componentDidMount = async () => {
     await this.props.GET_ALL_PERMISSION();
+
+    console.log("PERMISSIONS BRO", this.props.permissions);
 
     const adminPermissions = this.props.permissions
       .filter(({ waRoleId }) => waRoleId === 1)
@@ -146,6 +151,7 @@ class Roles extends Component {
   };
 
   handleUpdatePermission = async () => {
+    const ID = this.props?.userLogin?.userAdmin?.waRoleId;
     const {
       adminPermissions,
       managerPermissions,
@@ -159,15 +165,15 @@ class Roles extends Component {
       { ...staff2Permissions },
     ];
 
-    await this.props.UPDATE_PERMISSIONS(data);
+    await this.props.UPDATE_PERMISSIONS(data, ID);
 
-    await this.props.GET_ALL_PERMISSION();
+    // await this.props.GET_ALL_PERMISSION();
 
-    setTimeout(() => {
-      this.props.GET_PERMISSION_BY_ID(
-        this.props?.userLogin?.userAdmin?.waRoleId
-      );
-    }, 1000);
+    // setTimeout(() => {
+    //   this.props.GET_PERMISSION_BY_ID(
+    //     this.props?.userLogin?.userAdmin?.waRoleId
+    //   );
+    // }, 1000);
   };
 
   render() {
@@ -221,72 +227,92 @@ class Roles extends Component {
 
     const renderPermissionName = adminPermissions?.actions?.map((item) => {
       return (
-        <tr key={item.actionId}>
-          <td className="role-name">
-            {item?.name}
-            <Checkbox style={styles.none} disabled />
-          </td>
-        </tr>
+        <div key={item.actionId} className="permission_name">
+          {item.title && <h4>{item.title}</h4>}
+          <div className="permission_name_container">
+            <p>{item.name}</p>
+          </div>
+        </div>
       );
     });
 
     const renderAdmin = adminPermissions?.actions?.map((item) => {
       return (
-        <tr key={item.actionId}>
-          <td style={{ textAlign: "center" }}>
+        <div key={item.actionId} className="permission_name">
+          {item.title && <h4 className="none">{item.title}</h4>}
+
+          <div
+            style={{ textAlign: "center" }}
+            className="permission_name_check"
+          >
             <Checkbox
               checked={item?.roleIsActive}
               style={styles.checkbox}
               onChange={(check) => this.handleChange(check, item)}
               name={item?.action}
             />
-          </td>
-        </tr>
+          </div>
+        </div>
       );
     });
 
     const renderManager = managerPermissions?.actions?.map((item) => {
       return (
-        <tr key={item.actionId}>
-          <td style={{ textAlign: "center" }}>
+        <div key={item.actionId} className="permission_name">
+          {item.title && <h4 className="none">{item.title}</h4>}
+
+          <div
+            style={{ textAlign: "center" }}
+            className="permission_name_check"
+          >
             <Checkbox
               checked={item?.roleIsActive}
               style={styles.checkbox}
               onChange={(check) => this.handleChange(check, item)}
               name={item?.action}
             />
-          </td>
-        </tr>
+          </div>
+        </div>
       );
     });
 
     const renderStaffLv1 = staff1Permissions?.actions?.map((item) => {
       return (
-        <tr key={item.actionId}>
-          <td style={{ textAlign: "center" }}>
+        <div key={item.actionId} className="permission_name">
+          {item.title && <h4 className="none">{item.title}</h4>}
+
+          <div
+            style={{ textAlign: "center" }}
+            className="permission_name_check"
+          >
             <Checkbox
               checked={item?.roleIsActive}
               style={styles.checkbox}
               onChange={(check) => this.handleChange(check, item)}
               name={item?.action}
             />
-          </td>
-        </tr>
+          </div>
+        </div>
       );
     });
 
     const renderStaffLv2 = staff2Permissions?.actions?.map((item) => {
       return (
-        <tr key={item.actionId}>
-          <td style={{ textAlign: "center" }}>
+        <div key={item.actionId} className="permission_name">
+          {item.title && <h4 className="none">{item.title}</h4>}
+
+          <div
+            style={{ textAlign: "center" }}
+            className="permission_name_check"
+          >
             <Checkbox
               checked={item?.roleIsActive}
               style={styles.checkbox}
               onChange={(check) => this.handleChange(check, item)}
               name={item?.action}
             />
-          </td>
-        </tr>
+          </div>
+        </div>
       );
     });
 
@@ -315,87 +341,41 @@ class Roles extends Component {
 
             <ReactTable columns={department} data={data} minRows={1} />
           </div> */}
-          <div className="role-permissions">
+          <div className="role_permissions">
             <h3>Permissions</h3>
+            <Grid container spacing={0}>
+              <Grid item xs={6} sm={4}>
+                <p>Roles</p>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <p style={styles.p}>Administrator</p>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <p style={styles.p}>Manager</p>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <p style={styles.p}>Staff Level 1</p>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <p style={styles.p}>Staff Level 2</p>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                {renderPermissionName}
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                {renderAdmin}
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                {renderManager}
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                {renderStaffLv1}
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                {renderStaffLv2}
+              </Grid>
+            </Grid>
 
-            <div style={{ display: "flex" }}>
-              {/* permissions name */}
-              <table style={{ width: "40%" }}>
-                <tbody>
-                  <tr className="module">
-                    <th style={styles.none}>''</th>
-                  </tr>
-                  <tr>
-                    <th>Roles</th>
-                  </tr>
-                  <tr className="module">
-                    <th style={{ paddingBottom: "18px" }}>Module</th>
-                  </tr>
-
-                  {renderPermissionName}
-                </tbody>
-              </table>
-              {/* Admin */}
-              <table style={{ width: "15%" }}>
-                <tbody>
-                  <tr className="module">
-                    <th style={styles.none}>''</th>
-                  </tr>
-                  <tr className="module2">
-                    <th>Administrator</th>
-                  </tr>
-                  <tr className="module">
-                    <th style={styles.none}>""</th>
-                  </tr>
-                  {renderAdmin}
-                </tbody>
-              </table>
-              {/* Manager */}
-              <table style={{ width: "15%" }}>
-                <tbody>
-                  <tr className="module">
-                    <th style={styles.none}>''</th>
-                  </tr>
-                  <tr className="module2">
-                    <th>Manager</th>
-                  </tr>
-                  <tr className="module">
-                    <th style={styles.none}>""</th>
-                  </tr>
-                  {renderManager}
-                </tbody>
-              </table>
-              {/* // Staff Lv1 */}
-              <table style={{ width: "15%" }}>
-                <tbody>
-                  <tr className="module">
-                    <th style={styles.none}>''</th>
-                  </tr>
-                  <tr className="module2">
-                    <th>Staff Lv1</th>
-                  </tr>
-                  <tr className="module">
-                    <th style={styles.none}>""</th>
-                  </tr>
-                  {renderStaffLv1}
-                </tbody>
-              </table>
-              {/* // Staff Lv2 */}
-              <table style={{ width: "15%" }}>
-                <tbody>
-                  <tr className="module">
-                    <th style={styles.none}>''</th>
-                  </tr>
-                  <tr className="module2">
-                    <th>Staff Lv2</th>
-                  </tr>
-                  <tr className="module">
-                    <th style={styles.none}>""</th>
-                  </tr>
-                  {renderStaffLv2}
-                </tbody>
-              </table>
-            </div>
             {CheckPermissions(52) && (
               <div style={styles.btn}>
                 <Button
@@ -421,8 +401,8 @@ const mapDispatchToProps = (dispatch) => ({
   GET_ALL_PERMISSION: () => {
     dispatch(GET_ALL_PERMISSION());
   },
-  UPDATE_PERMISSIONS: (data) => {
-    dispatch(UPDATE_PERMISSIONS(data));
+  UPDATE_PERMISSIONS: (data, ID) => {
+    dispatch(UPDATE_PERMISSIONS(data, ID));
   },
   GET_PERMISSION_BY_ID: (payload) => {
     dispatch(GET_PERMISSION_BY_ID(payload));
@@ -446,5 +426,8 @@ const styles = {
   },
   role: {
     textAlign: "center !important",
+  },
+  p: {
+    textAlign: "center",
   },
 };

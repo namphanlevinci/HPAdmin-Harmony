@@ -131,46 +131,6 @@ class EditPrincipal extends Component {
     };
 
     this.props.UPDATE_MERCHANT_PRINCIPAL(payload);
-
-    // Axios.put(
-    //   URL + "/merchant/principal/" + principalID,
-    //   {
-    //     Address,
-    //     FileId,
-    //     DriverNumber,
-    //     HomePhone,
-    //     MobilePhone,
-    //     StateId,
-    //     email,
-    //   },
-    //   config
-    // )
-    //   .then((res) => {
-    //     // Server trả về sai lỗi chính tả
-    //     if (Number(res.data.codeNumber) === 200) {
-    //       store.addNotification({
-    //         title: "SUCCESS!",
-    //         message: "Update principal completed",
-    //         type: "success",
-    //         insert: "top",
-    //         container: "top-right",
-    //         animationIn: ["animated", "fadeIn"],
-    //         animationOut: ["animated", "fadeOut"],
-    //         dismiss: {
-    //           duration: 5000,
-    //           onScreen: true,
-    //         },
-    //         width: 250,
-    //       });
-    //       setTimeout(() => {
-    //         const payload = { ID, path: "/app/merchants/profile/principal" };
-    //         this.props.GET_MERCHANT_BY_ID(payload);
-    //       }, 1500);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
 
   render() {
@@ -183,7 +143,7 @@ class EditPrincipal extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "260px", height: "200px" }}
+          style={{ width: "270px", height: "200px" }}
           alt="service 1"
         />
       );
@@ -191,7 +151,7 @@ class EditPrincipal extends Component {
       $imagePreview = (
         <img
           src={e.imageUrl}
-          style={{ width: "260px", height: "200px" }}
+          style={{ width: "270px", height: "200px" }}
           alt="service"
         />
       );
@@ -319,17 +279,17 @@ class EditPrincipal extends Component {
               )}
             </div>
             <div className="col-12">
-              <label>Driver License Picture</label> <br />
+              <label>Driver License Picture*</label> <br />
               {$imagePreview}
               <div style={{ width: "30%", marginTop: "15px" }}>
                 {this.state.loadingProgress ? <LinearProgress /> : null}
               </div>
             </div>
           </div>
-          <div style={{ width: "30%" }}>
+          <div className="col-3" style={{ paddingLeft: "0px" }}>
             <input
               type="file"
-              style={{ width: "250px !important" }}
+              // style={{ width: "250px !important" }}
               name="image"
               id="file"
               className="custom-input"

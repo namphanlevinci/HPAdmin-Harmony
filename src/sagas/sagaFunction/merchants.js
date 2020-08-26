@@ -14,6 +14,10 @@ import {
   MERCHANT_UPDATE_SETTING_API,
   UPDATE_MERCHANT_PRINCIPAL_API,
   UPDATE_MERCHANT_SERVICE_API,
+  UPDATE_MERCHANT_BANK_API,
+  GET_MERCHANT_EXTRA_API,
+  RESTORE_MERCHANT_EXTRA_API,
+  ARCHIVE_MERCHANT_EXTRA_API,
 } from "../api/merchants";
 import { history } from "../../store/index";
 import * as typeMerchant from "../../actions/merchants/types";
@@ -370,6 +374,102 @@ export function* UPDATE_MERCHANT_SERVICE_SAGA() {
           payload: "Success",
         });
         history.push("/app/merchants/profile/service");
+      } else {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong, please try again later!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+// Update merchant bank
+export function* UPDATE_MERCHANT_BANK_SAGA() {
+  yield takeLatest(typeMerchant.UPDATE_MERCHANT_BANK, function*(action) {
+    try {
+      const result = yield UPDATE_MERCHANT_BANK_API(action.payload);
+      if (Number(result.codeNumber) === 200) {
+        yield put({
+          type: typeMerchant.GET_MERCHANT_BY_ID,
+          payload: action.payload,
+        });
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+        history.push("/app/merchants/profile/bank");
+      } else {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong, please try again later!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+// Get merchant extra by id
+export function* GET_MERCHANT_EXTRA_SAGA() {
+  yield takeLatest(typeMerchant.GET_MERCHANT_EXTRA, function*(action) {
+    try {
+      const result = yield GET_MERCHANT_EXTRA_API(action.payload);
+      if (result !== null) {
+        yield put({
+          type: typeMerchant.GET_MERCHANT_EXTRA_SUCCESS,
+          payload: result,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+// Archive merchant extra
+export function* ARCHIVE_MERCHANT_EXTRA_SAGA() {
+  yield takeLatest(typeMerchant.ARCHIVE_MERCHANT_EXTRA, function*(action) {
+    try {
+      const result = yield ARCHIVE_MERCHANT_EXTRA_API(action.payload);
+      if (result !== null) {
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+        yield put({
+          type: typeMerchant.GET_MERCHANT_EXTRA,
+          payload: action.payload.ID,
+        });
+      } else {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong, please try again later!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+// Restore merchant extra
+export function* RESTORE_MERCHANT_EXTRA_SAGA() {
+  yield takeLatest(typeMerchant.RESTORE_MERCHANT_EXTRA, function*(action) {
+    try {
+      const result = yield RESTORE_MERCHANT_EXTRA_API(action.payload);
+      if (result !== null) {
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+        yield put({
+          type: typeMerchant.GET_MERCHANT_EXTRA,
+          payload: action.payload.ID,
+        });
       } else {
         yield put({
           type: typeNotification.FAILURE_NOTIFICATION,

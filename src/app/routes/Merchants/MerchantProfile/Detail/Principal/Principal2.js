@@ -17,7 +17,7 @@ class PrincipalInfo extends Component {
     super(props);
     this.state = {};
   }
-  _editPrincipal = (data) => {
+  editPrincipal = (data) => {
     this.props.VIEW_PRINCIPAL(data);
     this.props.history.push("/app/merchants/profile/principal/edit");
   };
@@ -82,7 +82,7 @@ class PrincipalInfo extends Component {
             <p>{e?.state !== undefined ? e?.state?.name : null}</p>
           </div>
           <div className="col-6">
-            <label>Driver License Picture</label> <br />
+            <label>Driver License Picture*</label> <br />
             <img
               style={{
                 width: "250px",
@@ -98,7 +98,7 @@ class PrincipalInfo extends Component {
           {CheckPermissions(14) && (
             <Button
               className="btn btn-green"
-              onClick={() => this._editPrincipal(e)}
+              onClick={() => this.editPrincipal(e)}
             >
               EDIT
             </Button>

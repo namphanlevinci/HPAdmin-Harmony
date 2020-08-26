@@ -119,9 +119,10 @@ export const GET_PERMISSION_ON_LOGIN_SUCCESS = (payload) => ({
 });
 
 // UPDATE ROLE PERMISSION
-export const UPDATE_PERMISSIONS = (payload) => ({
+export const UPDATE_PERMISSIONS = (payload, ID) => ({
   type: types.UPDATE_PERMISSIONS,
   payload: payload,
+  currentUser: ID,
 });
 export const UPDATE_PERMISSIONS_SUCCESS = (payload) => ({
   type: types.UPDATE_PERMISSIONS_SUCCESS,

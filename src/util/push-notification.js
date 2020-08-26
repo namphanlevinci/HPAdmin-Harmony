@@ -2,7 +2,7 @@ import firebase from "firebase";
 
 export const initializeFirebase = () => {
   firebase.initializeApp({
-    messagingSenderId: "23857670381",
+    messagingSenderId: "126818741090",
   });
 
   navigator.serviceWorker.register("/my-sw.js").then((registration) => {
