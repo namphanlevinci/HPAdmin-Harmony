@@ -5,7 +5,6 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import TextField from "@material-ui/core/TextField";
 
 const Questions = ({ handleQuestions, businessInfo, handleChange }) => {
-  // console.log("value", businessInfo);
   const mapQuestion = businessInfo.map((data, index) => {
     return (
       <div className="col-6" key={data.questionId}>
@@ -31,7 +30,7 @@ const Questions = ({ handleQuestions, businessInfo, handleChange }) => {
             <FormControlLabel
               value="true"
               control={<Radio color="primary" />}
-              label="Yes"
+              label={customLabel(data.questionId)}
             />
           </RadioGroup>
           <br />
@@ -56,3 +55,20 @@ const Questions = ({ handleQuestions, businessInfo, handleChange }) => {
 };
 
 export default Questions;
+
+function customLabel(questionId) {
+  switch (questionId) {
+    case 5:
+      return "Yes (if yes, who was the processor)";
+    case 4:
+      return "Yes (if yes, who was the processor)";
+    case 3:
+      return "Yes (if yes, date flied)";
+    case 2:
+      return "Yes (if yes, what was program and when)";
+    case 1:
+      return "Yes (if yes, who was your previous company)";
+    default:
+      return "Yes";
+  }
+}

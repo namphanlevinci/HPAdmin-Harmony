@@ -12,7 +12,7 @@ const CreditCardIcon = (type) => {
     case "Americaexpress":
       return AmericanExpress;
     default:
-      return null;
+      return Other;
   }
 };
 

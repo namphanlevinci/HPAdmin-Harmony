@@ -420,3 +420,5 @@ export function* UPDATE_MERCHANT_SERVICE_API(payload) {
     });
   return kq;
 }
+
+// Add merchant

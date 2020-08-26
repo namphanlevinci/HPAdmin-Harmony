@@ -4,8 +4,6 @@ import {
   GET_MERCHANT_BY_ID,
   MERCHANT_UPDATE_SETTING,
 } from "../../../../../actions/merchants/actions";
-import { store } from "react-notifications-component";
-import { config } from "../../../../../url/url";
 
 import axios from "axios";
 import Button from "@material-ui/core/Button";
@@ -16,7 +14,6 @@ import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
 import "./Detail.css";
 
-const URL = config.url.URL;
 class EditSettings extends Component {
   constructor(props) {
     super(props);
@@ -60,12 +57,13 @@ class EditSettings extends Component {
     const ID = this.props.MerchantProfile.merchantId;
     const {
       merchantCode,
-      merchantToken,
       transactionsFee,
       totalAmountLimit,
       discountRate,
       pointRate,
     } = this.state;
+
+    const merchantToken = "";
 
     const payload = {
       merchantCode,
@@ -82,7 +80,7 @@ class EditSettings extends Component {
     return (
       <div className="container-fluid ">
         <h2 style={{ marginBottom: "10px" }}>Settings</h2>
-        <div className="general-content ">
+        <div className="general-content">
           <h3 style={styles.h3}>
             The charged percent fee of credit card transactions
           </h3>
@@ -97,9 +95,7 @@ class EditSettings extends Component {
                 onChange={this._handleChange}
                 InputProps={{
                   startAdornment: (
-                    <span style={{ border: "none", paddingRight: "10px" }}>
-                      %
-                    </span>
+                    <span style={{ paddingRight: "10px" }}>%</span>
                   ),
                 }}
               />
@@ -115,7 +111,7 @@ class EditSettings extends Component {
               />
             </div>
 
-            <div className="col-4" style={styles.div}>
+            {/* <div className="col-4" style={styles.div}>
               <TextField
                 label="Merchant Token"
                 type="text"
@@ -123,7 +119,7 @@ class EditSettings extends Component {
                 value={this.state.merchantToken}
                 onChange={this._handleChange}
               />
-            </div>
+            </div> */}
 
             <div className="col-4" style={styles.div}>
               <TextField

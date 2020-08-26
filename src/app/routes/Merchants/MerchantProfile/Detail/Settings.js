@@ -157,7 +157,11 @@ class Settings extends Component {
                   value={data.transactionsFee}
                   InputProps={{
                     startAdornment: (
-                      <span style={{ border: "none", paddingRight: "10px" }}>
+                      <span
+                        style={{
+                          paddingRight: "10px",
+                        }}
+                      >
                         %
                       </span>
                     ),
@@ -171,13 +175,13 @@ class Settings extends Component {
                   value={data.merchantCode}
                 />
               </div>
-              <div className="col-4" style={styles.div}>
+              {/* <div className="col-4" style={styles.div}>
                 <TextField
                   label="Merchant Token"
                   disabled
                   value={data.merchantToken}
                 />
-              </div>
+              </div> */}
               <div className="col-4" style={styles.div}>
                 <TextField
                   label="Discount Rate"

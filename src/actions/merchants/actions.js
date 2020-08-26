@@ -213,3 +213,17 @@ export const MERCHANT_UPDATE_SETTING_FAILURE = (payload) => ({
   type: types.MERCHANT_UPDATE_SETTING_FAILURE,
   payload: payload,
 });
+
+// Add merchant
+export const ADD_MERCHANT = (payload) => ({
+  type: types.ADD_MERCHANT,
+  payload: payload,
+});
+export const ADD_MERCHANT_SUCCESS = (payload) => ({
+  type: types.ADD_MERCHANT_SUCCESS,
+  payload: payload,
+});
+export const ADD_MERCHANT_FAILURE = (payload) => ({
+  type: types.ADD_MERCHANT_FAILURE,
+  payload: payload,
+});
