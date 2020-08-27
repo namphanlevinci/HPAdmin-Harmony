@@ -12,7 +12,6 @@ import {
 } from "@material-ui/core";
 import CustomCurrencyInput from "../../../../../util/CustomCurrencyInput";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
 
 import "./Consumer.css";
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../../url/url";
-import { ViewMerchant_Request } from "../../../../../actions/merchants/actions";
+import { GET_MERCHANT_BY_ID } from "../../../../../actions/merchants/actions";
 
 import EditPrincipal from "./EditPrincipal";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
@@ -18,7 +18,11 @@ import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
-
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+  WARNING_NOTIFICATION,
+} from "../../../../../actions/notifications/actions";
 import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
 import "../MerchantReqProfile.css";
@@ -229,11 +233,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.legalBusinessName}
                     />
-                    {this.validator.message(
-                      "legalBusinessName",
-                      this.state.legalBusinessName,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "legalBusinessName",
+                          this.state.legalBusinessName,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -249,11 +257,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.doBusinessName}
                     />
-                    {this.validator.message(
-                      "doingBusiness",
-                      this.state.doBusinessName,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "doingBusiness",
+                          this.state.doBusinessName,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -274,11 +286,15 @@ class EditPendingMerchant extends Component {
                         inputComponent={InputCustom}
                       />
                     </FormControl>
-                    {this.validator.message(
-                      "tax",
-                      this.state.tax,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "tax",
+                          this.state.tax,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -293,11 +309,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.address}
                     />
-                    {this.validator.message(
-                      "address",
-                      this.state.address,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "address",
+                          this.state.address,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
                 <div className="col-3">
@@ -311,11 +331,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.city}
                     />
-                    {this.validator.message(
-                      "city",
-                      this.state.city,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "city",
+                          this.state.city,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
                 <div className="col-3">
@@ -331,11 +355,15 @@ class EditPendingMerchant extends Component {
                       />
                     )}
                   </div>
-                  {this.validator.message(
-                    "state",
-                    this.state.stateId,
-                    "required|integer"
-                  )}
+                  {
+                    <p style={styles.p}>
+                      {this.validator.message(
+                        "state",
+                        this.state.stateId,
+                        "required|integer"
+                      )}
+                    </p>
+                  }
                 </div>
                 <div className="col-2">
                   <div className="form-group">
@@ -357,11 +385,15 @@ class EditPendingMerchant extends Component {
                       />
                     </FormControl>
 
-                    {this.validator.message(
-                      "zip",
-                      this.state.zip,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "zip",
+                          this.state.zip,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -377,11 +409,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.dbaAddress}
                     />
-                    {this.validator.message(
-                      "dbaAddress",
-                      this.state.dbaAddress,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "dbaAddress",
+                          this.state.dbaAddress,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
                 <div className="col-3">
@@ -395,11 +431,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.dbaCity}
                     />
-                    {this.validator.message(
-                      "dbaCity",
-                      this.state.dbaCity,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "dbaCity",
+                          this.state.dbaCity,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
                 <div className="col-3">
@@ -415,11 +455,15 @@ class EditPendingMerchant extends Component {
                       />
                     )}
                   </div>
-                  {this.validator.message(
-                    "dbaState",
-                    this.state.dbaState,
-                    "required|integer"
-                  )}
+                  {
+                    <p style={styles.p}>
+                      {this.validator.message(
+                        "dbaState",
+                        this.state.dbaState,
+                        "required|integer"
+                      )}
+                    </p>
+                  }
                 </div>
                 <div className="col-2">
                   <div className="form-group">
@@ -441,11 +485,15 @@ class EditPendingMerchant extends Component {
                       />
                     </FormControl>
 
-                    {this.validator.message(
-                      "dbaZip",
-                      this.state.dbaZip,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "dbaZip",
+                          this.state.dbaZip,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -460,11 +508,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.emailContact}
                     />
-                    {this.validator.message(
-                      "emailContact",
-                      this.state.emailContact,
-                      "required|email"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "emailContact",
+                          this.state.emailContact,
+                          "required|email"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -483,15 +535,6 @@ class EditPendingMerchant extends Component {
                   )}
                 </div>
               </div>
-              {/* <h2
-                style={{
-                  paddingTop: "15px",
-                  color: "#4251af",
-                  fontWeight: "400",
-                }}
-              >
-                Representative Information
-              </h2> */}
               <div className="row justify-content-between">
                 <div className="col-3">
                   <div className="form-group">
@@ -504,11 +547,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.firstName}
                     />
-                    {this.validator.message(
-                      "firstName",
-                      this.state.firstName,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "firstName",
+                          this.state.firstName,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
                 <div className="col-3">
@@ -522,11 +569,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.lastName}
                     />
-                    {this.validator.message(
-                      "lastName",
-                      this.state.lastName,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "lastName",
+                          this.state.lastName,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -541,11 +592,15 @@ class EditPendingMerchant extends Component {
                       onChange={this.handleChange}
                       value={this.state.title}
                     />
-                    {this.validator.message(
-                      "title",
-                      this.state.title,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "title",
+                          this.state.title,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
                 <div className="col-3">
@@ -575,15 +630,6 @@ class EditPendingMerchant extends Component {
                 Bank Information
               </h2>
               <div className="row ">
-                {/* <PendingInput
-                  styles="col-3"
-                  label="Account Holder Name*"
-                  name="accountHolderName"
-                  initValue={this.state.accountHolderName}
-                  onChangeInput={this.handleChange}
-                  validator={this.validator}
-                /> */}
-
                 <div className="col-3">
                   <div className="form-group">
                     <TextField
@@ -595,11 +641,15 @@ class EditPendingMerchant extends Component {
                       fullWidth
                       onChange={this.handleChange}
                     />
-                    {this.validator.message(
-                      "accountHolderName",
-                      this.state.accountHolderName,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "accountHolderName",
+                          this.state.accountHolderName,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -614,11 +664,15 @@ class EditPendingMerchant extends Component {
                       fullWidth
                       onChange={this.handleChange}
                     />
-                    {this.validator.message(
-                      "bankName",
-                      this.state.bankName,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "bankName",
+                          this.state.bankName,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -642,11 +696,15 @@ class EditPendingMerchant extends Component {
                       />
                     </FormControl>
 
-                    {this.validator.message(
-                      "routingNumber",
-                      this.state.routingNumber,
-                      "required|string"
-                    )}
+                    {
+                      <p style={styles.p}>
+                        {this.validator.message(
+                          "routingNumber",
+                          this.state.routingNumber,
+                          "required|string"
+                        )}
+                      </p>
+                    }
                   </div>
                 </div>
 
@@ -707,8 +765,11 @@ class EditPendingMerchant extends Component {
                   principals={this.state.principals}
                   getData={this.getData}
                   token={this.props.userLogin.token}
-                  ViewMerchant_Request={this.props.ViewMerchant_Request}
+                  GetMerchantByID={this.props.GET_MERCHANT_BY_ID}
                   history={this.props.history}
+                  SuccessNotification={this.props.SUCCESS_NOTIFICATION}
+                  FailureNotification={this.props.FAILURE_NOTIFICATION}
+                  WarningNotification={this.props.WARNING_NOTIFICATION}
                 />
               )}
             </div>
@@ -726,8 +787,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ViewMerchant_Request: (payload) => {
-    dispatch(ViewMerchant_Request(payload));
+  GET_MERCHANT_BY_ID: (payload) => {
+    dispatch(GET_MERCHANT_BY_ID(payload));
+  },
+  SUCCESS_NOTIFICATION: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  FAILURE_NOTIFICATION: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
+  },
+  WARNING_NOTIFICATION: (payload) => {
+    dispatch(WARNING_NOTIFICATION(payload));
   },
 });
 export default withRouter(
@@ -742,5 +812,9 @@ const styles = {
   imageInput: {
     border: "none",
     marginTop: "10px",
+  },
+  p: {
+    color: "red",
+    fontSize: "18px",
   },
 };

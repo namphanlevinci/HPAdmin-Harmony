@@ -5,6 +5,7 @@ import { UPDATE_MERCHANT_BANK } from "../../../../../actions/merchants/actions";
 
 import LinearProgress from "../../../../../util/linearProgress";
 import SimpleReactValidator from "simple-react-validator";
+import Cleave from "cleave.js/react";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -171,11 +172,14 @@ class EditBank extends Component {
 
             <div className="col-3">
               <label> Routing Number* (ABA)</label>
-              <input
+              <Cleave
                 name="routingNumber"
                 value={this.state.routingNumber}
                 onChange={this._handleChange}
                 style={styles.input}
+                options={{
+                  numericOnly: true,
+                }}
               />
               {
                 <p style={styles.p}>
@@ -189,11 +193,14 @@ class EditBank extends Component {
             </div>
             <div className="col-3">
               <label>Account Number* (DDA)</label>
-              <input
+              <Cleave
                 name="accountNumber"
                 value={this.state.accountNumber}
                 onChange={this._handleChange}
                 style={styles.input}
+                options={{
+                  numericOnly: true,
+                }}
               />
               {
                 <p style={styles.p}>
