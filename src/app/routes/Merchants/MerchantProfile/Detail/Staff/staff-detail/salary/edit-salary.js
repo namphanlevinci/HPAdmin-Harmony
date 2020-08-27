@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
+import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions";
 
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import updateStaff from "../updateStaff";
 import CurrencyInput from "react-currency-masked-input";
 import Grid from "@material-ui/core/Grid";
 
@@ -78,8 +77,8 @@ class EditSalary extends Component {
       cashPercent,
     } = this.state;
     const data = this.props.Staff;
-    const ID = this.props.Staff.staffId;
-    const MerchantId = this.props.merchantID;
+    const staffId = this.props.Staff.staffId;
+    const MerchantId = this.props.MerchantData.merchantId;
 
     const body = {
       firstName: data.firstName,
@@ -135,15 +134,13 @@ class EditSalary extends Component {
       MerchantId,
     };
 
-    const path = "/app/merchants/staff/salary";
-    updateStaff(
-      ID,
+    const payload = {
       body,
-      this.props.token,
-      this.props.VIEW_STAFF,
-      this.props.history,
-      path
-    );
+      staffId,
+      MerchantId,
+      path: "/app/merchants/staff/salary",
+    };
+    this.props.UPDATE_STAFF(payload);
   };
 
   render() {
@@ -346,12 +343,13 @@ class EditSalary extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  Staff: state.staffDetail,
+  Staff: state.MerchantReducer.StaffData,
+  MerchantData: state.MerchantReducer.MerchantData,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_STAFF: (payload) => {
-    dispatch(VIEW_STAFF(payload));
+  UPDATE_STAFF: (payload) => {
+    dispatch(UPDATE_STAFF(payload));
   },
 });
 

@@ -512,3 +512,95 @@ export function* RESTORE_MERCHANT_EXTRA_API(payload) {
     });
   return kq;
 }
+
+// Get Staff by ID
+export function* GET_STAFF_BY_ID_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+
+  const { staffId, ID } = payload;
+  const kq = yield axios
+    .get(URL + `/staff/${staffId}?merchantId=${ID}`, config)
+    .then((result) => {
+      return result.data.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}
+
+// Update staff by ID
+export function* UPDATE_STAFF_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+  const {
+    firstName,
+    lastName,
+    displayName,
+    cashPercent,
+    address: { street, city, state, zip },
+    cellphone,
+    email,
+    pin,
+    fileId,
+    confirmPin,
+    isActive,
+    isDisabled,
+    driverLicense,
+    socialSecurityNumber,
+    professionalLicense,
+    workingTime,
+    tipFee,
+    salary,
+    productSalary,
+    Roles: { NameRole },
+    MerchantId,
+  } = payload.body;
+  const { staffId } = payload;
+  const kq = yield axios
+    .put(
+      URL + `/staff/${staffId}`,
+      {
+        firstName,
+        lastName,
+        displayName,
+        cashPercent,
+        address: { street, city, state, zip },
+        cellphone,
+        email,
+        pin,
+        fileId,
+        confirmPin,
+        isActive,
+        isDisabled,
+        driverLicense,
+        socialSecurityNumber,
+        professionalLicense,
+        workingTime,
+        tipFee,
+        salary,
+        productSalary,
+        Roles: { NameRole },
+        MerchantId,
+      },
+      config
+    )
+    .then((result) => {
+      return result.data.message;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}

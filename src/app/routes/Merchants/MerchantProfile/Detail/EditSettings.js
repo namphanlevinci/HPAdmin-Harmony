@@ -4,8 +4,13 @@ import {
   GET_MERCHANT_BY_ID,
   MERCHANT_UPDATE_SETTING,
 } from "../../../../../actions/merchants/actions";
-
-import axios from "axios";
+import {
+  InputAdornment,
+  FormControl,
+  InputLabel,
+  Input,
+} from "@material-ui/core";
+import CustomCurrencyInput from "../../../../../util/CustomCurrencyInput";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
@@ -87,18 +92,25 @@ class EditSettings extends Component {
 
           <div className="row">
             <div className="col-4" style={styles.div}>
-              <TextField
-                label="Transactions Fee"
-                type="number"
-                name="transactionsFee"
-                value={this.state.transactionsFee}
-                onChange={this._handleChange}
-                InputProps={{
-                  startAdornment: (
-                    <span style={{ paddingRight: "10px" }}>%</span>
-                  ),
-                }}
-              />
+              <FormControl>
+                <InputLabel htmlFor="formatted-text-mask-input">
+                  Transactions Fee
+                </InputLabel>
+                <Input
+                  onChange={(e, masked) =>
+                    this.setState({ transactionsFee: masked })
+                  }
+                  value={this.state.transactionsFee}
+                  name="transactionsFee"
+                  id="custom-transaction-fee-input"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <p style={{ marginBottom: "5px" }}>%</p>
+                    </InputAdornment>
+                  }
+                  inputComponent={CustomCurrencyInput}
+                />
+              </FormControl>
             </div>
 
             <div className="col-4" style={styles.div}>
@@ -122,13 +134,21 @@ class EditSettings extends Component {
             </div> */}
 
             <div className="col-4" style={styles.div}>
-              <TextField
-                label="Discount Rate"
-                type="number"
-                name="discountRate"
-                value={this.state.discountRate}
-                onChange={this._handleChange}
-              />
+              <FormControl>
+                <InputLabel htmlFor="formatted-text-mask-input">
+                  Discount Rate
+                </InputLabel>
+                <Input
+                  onChange={(e, masked) =>
+                    this.setState({ discountRate: masked })
+                  }
+                  value={this.state.discountRate}
+                  name="discountRate"
+                  id="custom-transaction-fee-input"
+                  startAdornment
+                  inputComponent={CustomCurrencyInput}
+                />
+              </FormControl>
             </div>
 
             <div className="col-4" style={styles.div}>
