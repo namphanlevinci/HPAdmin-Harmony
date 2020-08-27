@@ -113,7 +113,7 @@ class MerchantApprovedProfile extends Component {
         e.business.map((e) => {
           return (
             <div className="col-6" key={e.businessId}>
-              <label>{e.question}</label>
+              <label>{e.question}</label> <br />
               <Checkbox checked={e.answer === false} />
               No <Checkbox checked={e.answer === true} /> Yes
               <h5>Answer: {e.answerReply} </h5>
@@ -265,7 +265,7 @@ class MerchantApprovedProfile extends Component {
                   </div>
                   <div className="col-4">
                     <label>Void Check*</label>
-
+                    <br />
                     <img
                       style={{ width: "300px" }}
                       src={`${e?.businessBank?.imageUrl}`}

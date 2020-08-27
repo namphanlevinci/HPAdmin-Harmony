@@ -14,6 +14,7 @@ import LinearProgress from "../../../../../../../util/linearProgress";
 import InputCustom from "../../../../MerchantsList/addMerchant/custom-input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
+import ReactImageAppear from "react-image-appear";
 
 import "react-phone-input-2/lib/high-res.css";
 
@@ -316,13 +317,11 @@ const General = ({
           <label>Image</label>
 
           <div className="form-group">
-            {imagePreviewUrl !== null ? (
-              <img
+            {imagePreviewUrl !== "" ? (
+              <ReactImageAppear
                 src={imagePreviewUrl}
                 alt="avatar"
-                height={250}
-                width={250}
-                style={{ borderRadius: "50%" }}
+                className="staff_avatar"
               />
             ) : (
               <img
@@ -334,11 +333,11 @@ const General = ({
               />
             )}
 
-            {progressLoading ? (
+            {/* {progressLoading ? (
               <div style={{ width: "34%", paddingTop: "10px" }}>
                 <LinearProgress />
               </div>
-            ) : null}
+            ) : null} */}
           </div>
           <input
             type="file"

@@ -217,7 +217,7 @@ class MerchantReqProfile extends Component {
             <h3 style={{ marginBottom: "0px" }}>{"HP-" + e.merchantId}</h3>
 
             {/* // Delete */}
-            <Dialog open={this.state.openDelete}>
+            {/* <Dialog open={this.state.openDelete}>
               <DialogTitle id="alert-dialog-title">
                 {"Delete Merchant?"}
               </DialogTitle>
@@ -242,19 +242,19 @@ class MerchantReqProfile extends Component {
                   Agree
                 </Button>
               </DialogActions>
-            </Dialog>
+            </Dialog> */}
 
             <span>
               <Button className="btn btn-red" onClick={this.goBack}>
                 BACK
               </Button>
-              <Button
+              {/* <Button
                 style={{ color: "#4251af", backgroundColor: "white" }}
                 className="btn btn-red"
                 onClick={() => this.setState({ openDelete: true })}
               >
                 DELETE
-              </Button>
+              </Button> */}
               {checkPermission(4) && (
                 <Button className="btn btn-red" onClick={this.handleEdit}>
                   EDIT

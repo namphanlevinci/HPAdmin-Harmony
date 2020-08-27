@@ -5,6 +5,7 @@ import {
   ViewProfile_Merchants,
   UpdateMerchant_Infor,
   GetMerchant_byID,
+  GET_MERCHANT_BY_ID,
 } from "../../../../../../actions/merchants/actions";
 
 import Button from "@material-ui/core/Button";
@@ -103,7 +104,11 @@ class General extends Component {
     };
     this.props.updateMerchant(payload);
     setTimeout(() => {
-      this.props.GetMerchant_byID(IDMerchant);
+      const payload = {
+        ID: this.props.MerchantProfile.merchantId,
+        path: "/app/merchants/profile/general",
+      };
+      this.props.GET_MERCHANT_BY_ID(payload);
     }, 1000);
   };
 
@@ -512,8 +517,8 @@ const mapDispatchToProps = (dispatch) => {
     updateMerchant: (payload) => {
       dispatch(UpdateMerchant_Infor(payload));
     },
-    GetMerchant_byID: (ID) => {
-      dispatch(GetMerchant_byID(ID));
+    GET_MERCHANT_BY_ID: (ID) => {
+      dispatch(GET_MERCHANT_BY_ID(ID));
     },
   };
 };

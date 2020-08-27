@@ -2,6 +2,7 @@ import React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 // import NumericInput from "react-numeric-input";
 import CurrencyInput from "react-currency-masked-input";
+import Grid from "@material-ui/core/Grid";
 
 import "../Staff.styles.scss";
 const Salary = ({
@@ -23,15 +24,14 @@ const Salary = ({
     cashPercent,
   },
 }) => (
-  <div className="container Salary">
-    <div className="row justify-content-center">
-      <div className="col-6 ">
+  <div className=" Salary">
+    <Grid container spacing={1}>
+      <Grid item md={6} sm={12} xs={12}>
         <div className="checkbox">
           <Checkbox
             name="salaryIsCheck"
-            disabled={commIsCheck ? true : false}
+            checked={salaryIsCheck}
             onChange={handleCheckBox("salaryIsCheck")}
-            value="true"
             inputProps={{
               "aria-label": "primary checkbox",
             }}
@@ -48,14 +48,13 @@ const Salary = ({
           />
           <span className="unit">$</span>
         </div>
-      </div>
-      <div className="col-6">
+      </Grid>
+      <Grid item md={6} sm={12} xs={12}>
         <div className="checkbox">
           <Checkbox
             name="commIsCheck"
-            disabled={salaryIsCheck ? true : false}
+            checked={commIsCheck}
             onChange={handleCheckBox("commIsCheck")}
-            value="true"
             inputProps={{
               "aria-label": "primary checkbox",
             }}
@@ -64,26 +63,55 @@ const Salary = ({
         </div>
 
         <div className="input-box">
-          <input
+          <CurrencyInput
+            type="tel"
             name="commValue"
             margin="normal"
-            onChange={handleChange}
+            onChange={handleCurrency}
             value={commValue}
             disabled={salaryIsCheck ? true : false}
           />
           <span className="unit">%</span>
         </div>
-      </div>
-    </div>
-    {/* TIP FEE */}
-    <div className="row justify-content-center">
-      <div className="col-6">
+      </Grid>
+
+      {/* PRODUCT SALARY  */}
+
+      <Grid item md={6} sm={12} xs={12}>
+        <div className="checkbox">
+          <Checkbox
+            name="prodCommIsCheck"
+            checked={prodCommIsCheck}
+            onChange={handleCheckBox("prodCommIsCheck")}
+            inputProps={{
+              "aria-label": "primary checkbox",
+            }}
+          />
+          <label>Product Commission</label>
+        </div>
+        <div>
+          <div className="input-box">
+            <CurrencyInput
+              name="prodCommValue"
+              type="number"
+              onChange={handleCurrency}
+              disabled={prodCommIsCheck ? false : true}
+              value={prodCommValue}
+            />
+            <span className="unit">%</span>
+          </div>
+        </div>
+      </Grid>
+
+      <Grid item md={6} sm={12} xs={12}></Grid>
+      {/* TIP FEE */}
+
+      <Grid item md={6} sm={12} xs={12}>
         <div className="checkbox">
           <Checkbox
             name="tipIsCheck"
-            disabled={fixIsCheck ? true : false}
+            checked={tipIsCheck}
             onChange={handleCheckBox("tipIsCheck")}
-            value="true"
             inputProps={{
               "aria-label": "primary checkbox",
             }}
@@ -92,24 +120,23 @@ const Salary = ({
         </div>
         <div>
           <div className="input-box">
-            <input
+            <CurrencyInput
               name="tipValue"
               type="number"
-              onChange={handleChange}
+              onChange={handleCurrency}
               disabled={fixIsCheck ? true : false}
               value={tipValue}
             />
             <span className="unit">%</span>
           </div>
         </div>
-      </div>
-      <div className="col-6">
+      </Grid>
+      <Grid item md={6} sm={12} xs={12}>
         <div className="checkbox">
           <Checkbox
             name="fixIsCheck"
-            disabled={tipIsCheck ? true : false}
+            checked={fixIsCheck}
             onChange={handleCheckBox("fixIsCheck")}
-            value="true"
             inputProps={{
               "aria-label": "primary checkbox",
             }}
@@ -126,45 +153,17 @@ const Salary = ({
           />
           <span className="unit">$</span>
         </div>
-      </div>
-    </div>
-    {/* PRODUCT SALARY  */}
-    <div className="row">
-      <div className="col-6">
-        <div className="checkbox">
-          <Checkbox
-            name="prodCommIsCheck"
-            checked={prodCommIsCheck}
-            onChange={handleCheckBox("prodCommIsCheck")}
-            value="true"
-            inputProps={{
-              "aria-label": "primary checkbox",
-            }}
-          />
-          <label>Product Commission</label>
-        </div>
-        <div>
-          <div className="input-box">
-            <input
-              name="prodCommValue"
-              type="number"
-              onChange={handleChange}
-              disabled={prodCommIsCheck ? false : true}
-              value={prodCommValue}
-            />
-            <span className="unit">%</span>
-          </div>
-        </div>
-      </div>
-      <div className="col-6">
+      </Grid>
+
+      <Grid item md={6} sm={12} xs={12}>
         <Checkbox style={{ color: "white" }} />
         <label>Salary pay in Cash</label>
         <div>
           <div className="input-box">
-            <input
+            <CurrencyInput
               name="cashPercent"
               type="tel"
-              onChange={handleChange}
+              onChange={handleCurrency}
               value={cashPercent}
               min="0"
               max="100"
@@ -172,8 +171,8 @@ const Salary = ({
             <span className="unit">%</span>
           </div>
         </div>
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   </div>
 );
 

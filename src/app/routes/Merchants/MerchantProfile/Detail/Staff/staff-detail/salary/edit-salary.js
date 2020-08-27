@@ -6,6 +6,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import updateStaff from "../updateStaff";
 import CurrencyInput from "react-currency-masked-input";
+import Grid from "@material-ui/core/Grid";
 
 class EditSalary extends Component {
   constructor(props) {
@@ -165,8 +166,8 @@ class EditSalary extends Component {
           <h2>Salary</h2>
           {this.state.loading && (
             <React.Fragment>
-              <div className="row">
-                <div className="col-6">
+              <Grid container spacing={1} style={{ paddingTop: "10px" }}>
+                <Grid item md={6} sm={12} xs={12}>
                   <div className="checkbox">
                     <Checkbox
                       name="salaryIsCheck"
@@ -191,8 +192,8 @@ class EditSalary extends Component {
 
                     <span className="unit">$</span>
                   </div>
-                </div>
-                <div className="col-6">
+                </Grid>
+                <Grid item md={6} sm={12} xs={12}>
                   <div className="checkbox">
                     <Checkbox
                       name="commIsCheck"
@@ -206,21 +207,49 @@ class EditSalary extends Component {
                     <label>Salary Commission</label>
                   </div>
                   <div className="input-box">
-                    <input
+                    <CurrencyInput
                       type="number"
                       name="commValue"
+                      type="tel"
+                      separator="."
                       value={commValue}
                       disabled={salaryIsCheck ? true : false}
-                      onChange={this.handleChange}
+                      onChange={this.handleCurrency}
                     />
 
                     <span className="unit">%</span>
                   </div>
-                </div>
-                <br />
-              </div>
-              <div className="row justify-content-center">
-                <div className="col-6">
+                </Grid>
+
+                <Grid item md={6} sm={12} xs={12}>
+                  <div className="checkbox">
+                    <Checkbox
+                      name="prodCommIsCheck"
+                      checked={prodCommIsCheck}
+                      onChange={this.handleCheckBox("prodCommIsCheck")}
+                      value="true"
+                      inputProps={{
+                        "aria-label": "primary checkbox",
+                      }}
+                    />
+                    <label>Product Commission</label>
+                  </div>
+                  <div className="input-box">
+                    <CurrencyInput
+                      type="number"
+                      name="prodCommValue"
+                      value={prodCommValue}
+                      type="tel"
+                      separator="."
+                      disabled={prodCommIsCheck ? false : true}
+                      onChange={this.handleCurrency}
+                    />
+                    <span className="unit">%</span>
+                  </div>
+                </Grid>
+                <Grid item md={6} sm={12} xs={12}></Grid>
+
+                <Grid item md={6} sm={12} xs={12}>
                   <div className="checkbox">
                     <Checkbox
                       name="tipIsCheck"
@@ -234,17 +263,19 @@ class EditSalary extends Component {
                     <label>Tip Percent</label>
                   </div>
                   <div className="input-box">
-                    <input
+                    <CurrencyInput
                       type="number"
                       name="tipValue"
                       value={tipValue}
+                      type="tel"
+                      separator="."
                       disabled={fixIsCheck ? true : false}
-                      onChange={this.handleChange}
+                      onChange={this.handleCurrency}
                     />
                     <span className="unit">%</span>
                   </div>
-                </div>
-                <div className="col-6">
+                </Grid>
+                <Grid item md={6} sm={12} xs={12}>
                   <div className="checkbox">
                     <Checkbox
                       name="fixIsCheck"
@@ -269,54 +300,30 @@ class EditSalary extends Component {
 
                     <span className="unit">$</span>
                   </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-6">
-                  <div className="checkbox">
-                    <Checkbox
-                      name="prodCommIsCheck"
-                      checked={prodCommIsCheck}
-                      onChange={this.handleCheckBox("prodCommIsCheck")}
-                      value="true"
-                      inputProps={{
-                        "aria-label": "primary checkbox",
-                      }}
-                    />
-                    <label>Product Commission</label>
-                  </div>
-                  <div className="input-box">
-                    <input
-                      type="number"
-                      name="prodCommValue"
-                      value={prodCommValue}
-                      disabled={prodCommIsCheck ? false : true}
-                      onChange={this.handleChange}
-                    />
-                    <span className="unit">%</span>
-                  </div>
-                </div>
+                </Grid>
 
-                <div className="col-6">
+                <Grid item md={6} sm={12} xs={12}>
                   <div className="checkbox">
                     <Checkbox style={{ color: "white" }} />
                     <label>Salary Pay In Cash</label>
                   </div>
                   <div>
                     <div className="input-box">
-                      <input
+                      <CurrencyInput
                         name="cashPercent"
                         type="tel"
                         value={cashPercent}
-                        onChange={this.handleChange}
+                        onChange={this.handleCurrency}
                         min="0"
                         max="100"
+                        type="tel"
+                        separator="."
                       />
                       <span className="unit">%</span>
                     </div>
                   </div>
-                </div>
-              </div>
+                </Grid>
+              </Grid>
             </React.Fragment>
           )}
 

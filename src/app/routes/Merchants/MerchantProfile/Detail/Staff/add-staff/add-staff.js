@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { store } from "react-notifications-component";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../../../actions/notifications/actions";
 
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -26,7 +30,7 @@ class AddStaff extends Component {
     this.state = {
       activeStep: 0,
       match: true,
-      imagePreviewUrl: null,
+      imagePreviewUrl: "",
       // General
       lastName: "",
       firstName: "",
@@ -351,35 +355,38 @@ class AddStaff extends Component {
       )
       .then((res) => {
         if (Number(res.data.codeNumber) === 204) {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-          });
+          this.props.FailureNotification(res.data.message);
+
+          // store.addNotification({
+          //   title: "ERROR!",
+          //   message: `${res.data.message}`,
+          //   type: "warning",
+          //   insert: "top",
+          //   container: "top-right",
+          //   animationIn: ["animated", "fadeIn"],
+          //   animationOut: ["animated", "fadeOut"],
+          //   dismiss: {
+          //     duration: 5000,
+          //     onScreen: true,
+          //   },
+          // });
           this.setState({ activeStep: 0 });
         }
         if (Number(res.data.codeNumber) === 200) {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-          });
+          this.props.SuccessNotification(res.data.message);
+          // store.addNotification({
+          //   title: "SUCCESS!",
+          //   message: `${res.data.message}`,
+          //   type: "success",
+          //   insert: "top",
+          //   container: "top-right",
+          //   animationIn: ["animated", "fadeIn"],
+          //   animationOut: ["animated", "fadeOut"],
+          //   dismiss: {
+          //     duration: 5000,
+          //     onScreen: true,
+          //   },
+          // });
           this.props.history.push("/app/merchants/profile/staff");
         }
       });
@@ -406,7 +413,20 @@ class AddStaff extends Component {
   };
 
   handleCheckBox = (name) => (event) => {
-    this.setState({ ...this.state, [name]: event.target.checked });
+    const value = event.target.checked;
+    this.setState({ ...this.state, [name]: value });
+    if (name === "salaryIsCheck" && value === true) {
+      this.setState({ commIsCheck: false, commValue: 0 });
+    }
+    if (name === "commIsCheck" && value === true) {
+      this.setState({ salaryIsCheck: false, salaryValue: 0 });
+    }
+    if (name === "tipIsCheck" && value === true) {
+      this.setState({ fixIsCheck: false, fixValue: 0 });
+    }
+    if (name === "fixIsCheck" && value === true) {
+      this.setState({ tipIsCheck: false, tipValue: 0 });
+    }
   };
 
   handleSelect = (selectedOption, Inputname) => {
@@ -478,16 +498,12 @@ class AddStaff extends Component {
               })}
             </Stepper>
             <div>
-              {this.state.activeStep === steps.length ? (
-                <div>
-                  <Typography className="my-2">
-                    <h1>Complete™</h1>
-                  </Typography>
-                  <Button className="btn btn-green" onClick={this.handleReset}>
-                    Reset
-                  </Button>
-                </div>
-              ) : (
+              {this.state.activeStep ===
+              steps.length ? //   <Button className="btn btn-green" onClick={this.handleReset}> //   </Typography> //     <h1>Complete™</h1> //   <Typography className="my-2"> // <div>
+              //     Reset
+              //   </Button>
+              // </div>
+              null : (
                 <div>
                   {this.getStepContent(activeStep)}
                   <div
@@ -537,7 +553,17 @@ class AddStaff extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
-export default connect(mapStateToProps)(AddStaff);
+
+const mapDispatchToProps = (dispatch) => ({
+  SuccessNotification: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  FailureNotification: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddStaff);

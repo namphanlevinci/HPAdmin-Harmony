@@ -209,6 +209,7 @@ class MerchantRejectedProfile extends Component {
           return (
             <div className="col-6" key={e.businessId}>
               <label>{e.question}</label>
+              <br />
               <Checkbox checked={e.answer === false} />
               No <Checkbox checked={e.answer === true} /> Yes
               <h5>Answer: {e.answerReply} </h5>
