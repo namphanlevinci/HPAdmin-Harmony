@@ -302,7 +302,7 @@ class EditSalary extends Component {
                 <Grid item md={6} sm={12} xs={12}>
                   <div className="checkbox">
                     <Checkbox checked />
-                    <label>Salary Pay In Cash</label>
+                    <label>Payout with Cash </label>
                   </div>
                   <div>
                     <div className="input-box">
@@ -331,7 +331,7 @@ class EditSalary extends Component {
             <Button
               className="btn btn-red"
               onClick={() =>
-                this.props.history.push("/app/merchants/staff/general")
+                this.props.history.push("/app/merchants/staff/salary")
               }
             >
               CANCEL
