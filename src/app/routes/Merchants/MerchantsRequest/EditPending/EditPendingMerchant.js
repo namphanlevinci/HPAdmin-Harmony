@@ -7,9 +7,9 @@ import { GET_MERCHANT_BY_ID } from "../../../../../actions/merchants/actions";
 import EditPrincipal from "./EditPrincipal";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../../util/IntlMessages";
-import PendingInput from "../pendingInput";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 
-import PhoneInput from "react-phone-input-2";
+// import PhoneInput from "react-phone-input-2";
 import axios from "axios";
 import LinearProgress from "../../../../../util/linearProgress";
 import SimpleReactValidator from "simple-react-validator";
@@ -24,10 +24,11 @@ import {
   WARNING_NOTIFICATION,
 } from "../../../../../actions/notifications/actions";
 import InputCustom from "../../MerchantsList/addMerchant/custom-input";
+import update from "immutability-helper";
 
 import "../MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
-import "react-phone-input-2/lib/high-res.css";
+// import "react-phone-input-2/lib/high-res.css";
 
 const upFile = config.url.upFile;
 
@@ -89,6 +90,14 @@ class EditPendingMerchant extends Component {
         }),
       {}
     );
+    // const DateOfBirth = "";
+    // const newObj = update(Profile?.principals[0], {
+    //   $merge: { DateOfBirth: 0 },
+    // });
+    // const initialPrincipal = Profile?.principals;
+
+    // console.log("principalsValue", principalsValue);
+    // console.log("newObj", newObj);
     this.setState(
       {
         ID: Profile?.merchantId,
@@ -521,11 +530,10 @@ class EditPendingMerchant extends Component {
                 </div>
 
                 <div className="col-4">
-                  <label>Business Phone Number*</label>
                   {this.state.loading && (
-                    <PhoneInput
+                    <MaterialUiPhoneNumber
                       style={{ marginTop: "10px" }}
-                      placeholder="Business Phone Number*"
+                      label="Business Phone Number*"
                       name="businessPhone"
                       value={this.state.phoneBusiness}
                       onChange={(phone) =>
@@ -604,11 +612,10 @@ class EditPendingMerchant extends Component {
                   </div>
                 </div>
                 <div className="col-3">
-                  <label>Contact Phone Number*</label>
                   {this.state.loading && (
-                    <PhoneInput
+                    <MaterialUiPhoneNumber
                       style={{ marginTop: "10px" }}
-                      placeholder="Contact Phone Number"
+                      label="Contact Phone Number*"
                       name="phoneContact"
                       value={this.state.phoneContact}
                       onChange={(phone) =>

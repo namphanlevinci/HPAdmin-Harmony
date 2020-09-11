@@ -31,6 +31,7 @@ class EditSettings extends Component {
       update: false,
       discountRate: "",
       pointRate: "",
+      turnAmount: "",
     };
   }
   _handleChange = (event) => {
@@ -50,6 +51,7 @@ class EditSettings extends Component {
       totalAmountLimit: data.totalAmountLimit,
       discountRate: data.discountRate,
       pointRate: data?.pointRate,
+      turnAmount: data?.turnAmount,
     });
   }
   _toggleConfirm = () => {
@@ -66,6 +68,7 @@ class EditSettings extends Component {
       totalAmountLimit,
       discountRate,
       pointRate,
+      turnAmount,
     } = this.state;
 
     const merchantToken = "";
@@ -75,6 +78,7 @@ class EditSettings extends Component {
       merchantToken,
       transactionsFee,
       totalAmountLimit,
+      turnAmount,
       discountRate,
       pointRate,
       ID,
@@ -123,16 +127,6 @@ class EditSettings extends Component {
               />
             </div>
 
-            {/* <div className="col-4" style={styles.div}>
-              <TextField
-                label="Merchant Token"
-                type="text"
-                name="merchantToken"
-                value={this.state.merchantToken}
-                onChange={this._handleChange}
-              />
-            </div> */}
-
             <div className="col-4" style={styles.div}>
               <FormControl>
                 <InputLabel htmlFor="formatted-text-mask-input">
@@ -152,15 +146,6 @@ class EditSettings extends Component {
             </div>
 
             <div className="col-4" style={styles.div}>
-              {/* <TextField
-                label="Point Rate"
-                type="number"
-                name="pointRate"
-                min={1}
-                max={100}
-                value={this.state.pointRate}
-                onChange={this._handleChange}
-              /> */}
               <FormControl>
                 <InputLabel htmlFor="formatted-text-mask-input">
                   Point Rate
@@ -170,6 +155,22 @@ class EditSettings extends Component {
                   value={this.state.pointRate}
                   name="pointRate"
                   id="custom-transaction-point--rate-input"
+                  startAdornment
+                  inputComponent={CustomCurrencyInput}
+                />
+              </FormControl>
+            </div>
+            <div className="col-4" style={styles.div}>
+              <FormControl>
+                <InputLabel htmlFor="formatted-text-mask-input">
+                  Turn Amount
+                </InputLabel>
+                <Input
+                  onChange={(e, masked) =>
+                    this.setState({ turnAmount: masked })
+                  }
+                  value={this.state.turnAmount}
+                  name="turnAmount"
                   startAdornment
                   inputComponent={CustomCurrencyInput}
                 />

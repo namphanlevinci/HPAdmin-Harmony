@@ -299,6 +299,7 @@ export function* MERCHANT_UPDATE_SETTING_API(payload) {
     totalAmountLimit,
     discountRate,
     pointRate,
+    turnAmount,
   } = payload;
   const transactionsfee = transactionsFee;
 
@@ -312,6 +313,7 @@ export function* MERCHANT_UPDATE_SETTING_API(payload) {
         totalAmountLimit,
         discountRate,
         pointRate,
+        turnAmount,
       },
       config
     )

@@ -12,7 +12,6 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
-import PhoneInput from "react-phone-input-2";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import moment from "moment";
@@ -25,8 +24,7 @@ import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 
 import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
@@ -80,6 +78,8 @@ const EditPrincipal = ({
     const payload = { ID, path: "/app/merchants/pending/profile" };
     GetMerchantByID(payload);
   };
+
+  // console.log("principals", principals);
 
   const editMerchant = (principalInfo) => {
     let PrincipalInfo = principalInfo.PrincipalInfo;
@@ -180,7 +180,7 @@ const EditPrincipal = ({
                         const title = PrincipalInfo?.title;
                         const ownerShip = PrincipalInfo?.ownerShip;
                         const address = PrincipalInfo?.address;
-                        const birthDate = moment(
+                        const DateOfBirth = moment(
                           PrincipalInfo?.birthDate
                         ).format("MM/DD/YYYY");
                         const SSN = PrincipalInfo?.ssn;
@@ -324,9 +324,9 @@ const EditPrincipal = ({
                             </div>
 
                             <div className="col-4" style={styles.div}>
-                              <label>Home Phone</label>
-                              <PhoneInput
-                                placeholder="Home Phone"
+                              <MaterialUiPhoneNumber
+                                label="Home Phone"
+                                fullWidth
                                 name={`PrincipalInfo.${index}.homePhone`}
                                 value={homePhone}
                                 country="us"
@@ -342,9 +342,9 @@ const EditPrincipal = ({
                               />
                             </div>
                             <div className="col-4" style={styles.div}>
-                              <label>Mobile Phone*</label>
-                              <PhoneInput
-                                placeholder="Home Phone"
+                              <MaterialUiPhoneNumber
+                                label="Mobile Phone*"
+                                fullWidth
                                 name={`PrincipalInfo.${index}.mobilePhone`}
                                 value={mobilePhone}
                                 onChange={(e) =>
@@ -380,15 +380,16 @@ const EditPrincipal = ({
                             >
                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid container justify="flex-start">
-                                  <label>Date of Birth* (mm/dd/yyyy)</label>
                                   <KeyboardDatePicker
+                                    label="Date of Birth* (mm/dd/yyyy)"
                                     style={{ marginTop: "0px" }}
                                     margin="normal"
+                                    fullWidth
                                     format="MM/dd/yyyy"
-                                    value={birthDate}
+                                    value={DateOfBirth}
                                     onChange={(e) =>
                                       setFieldValue(
-                                        `PrincipalInfo.${index}.birthDate`,
+                                        `PrincipalInfo.${index}.DateOfBirth`,
                                         moment(e).format("YYYY-MM-DD")
                                       )
                                     }
@@ -451,6 +452,7 @@ const EditPrincipal = ({
                               <br />
                               <img
                                 className="pending-image"
+                                style={{ width: "200px" }}
                                 src={PrincipalInfo?.imageUrl}
                                 alt="void"
                               />

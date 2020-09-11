@@ -46,11 +46,6 @@ class Settings extends Component {
     this.setState({ openActive: !this.state.openActive });
   };
 
-  restoreMerchant = () => {
-    this.setState({ open: false });
-    const { ID } = this.state;
-    // this.props.RESTORE_MERCHANT(ID);
-  };
   render() {
     const data = this.props.MerchantProfile;
     const MerchantStatus =
@@ -262,13 +257,7 @@ class Settings extends Component {
                   value={data.merchantCode}
                 />
               </div>
-              {/* <div className="col-4" style={styles.div}>
-                <TextField
-                  label="Merchant Token"
-                  disabled
-                  value={data.merchantToken}
-                />
-              </div> */}
+
               <div className="col-4" style={styles.div}>
                 <TextField
                   label="Discount Rate"
@@ -278,6 +267,13 @@ class Settings extends Component {
               </div>
               <div className="col-4" style={styles.div}>
                 <TextField label="Point Rate" disabled value={data.pointRate} />
+              </div>
+              <div className="col-4" style={styles.div}>
+                <TextField
+                  label="Turn Amount"
+                  disabled
+                  value={data.turnAmount}
+                />
               </div>
             </div>
             <br />
