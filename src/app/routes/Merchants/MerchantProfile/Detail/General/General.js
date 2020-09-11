@@ -168,9 +168,7 @@ const mapStateToProps = (state) => ({
   MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
-const mapDispatchToProps = (dispatch) => ({
-
-});
+const mapDispatchToProps = (dispatch) => ({});
 export default connect(mapStateToProps, mapDispatchToProps)(General);
 
 const styles = {

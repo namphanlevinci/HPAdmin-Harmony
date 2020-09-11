@@ -16,7 +16,6 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
-
 import "react-table/react-table.css";
 import "./merchantsList.css";
 import "../MerchantsRequest/MerchantReqProfile.css";
@@ -44,8 +43,9 @@ class Merchants extends React.Component {
 
   fetchData = async (state) => {
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
     this.setState({ loading: true });
+
     await axios
       .get(
         URL +

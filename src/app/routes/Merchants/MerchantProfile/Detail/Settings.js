@@ -53,7 +53,6 @@ class Settings extends Component {
   };
   render() {
     const data = this.props.MerchantProfile;
-    console.log("data", data);
     const MerchantStatus =
       this.props.MerchantProfile.isDisabled !== 1 ? (
         <div>
@@ -128,7 +127,6 @@ class Settings extends Component {
 
                         <Button
                           onClick={this.handleOpenArchive}
-                          type="submit"
                           className="btn btn-red"
                         >
                           CANCEL
@@ -214,8 +212,7 @@ class Settings extends Component {
                         </Button>
 
                         <Button
-                          onClick={this.handleOpenArchive}
-                          type="submit"
+                          onClick={this.handleOpenActive}
                           className="btn btn-red"
                         >
                           CANCEL
