@@ -619,6 +619,7 @@ class MerchantReqProfile extends Component {
                 </div>
                 <div className="col-4">
                   <label>Void Check*</label>
+                  <br />
 
                   {e.businessBank !== null ? (
                     <a

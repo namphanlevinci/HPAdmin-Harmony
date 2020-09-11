@@ -7,19 +7,24 @@ import axios from "axios";
 import defaultImage from "./hpadmin2.png";
 import ErrorMessage from "../../MerchantProfile/Detail/Service/error-message";
 import Button from "@material-ui/core/Button";
-import PhoneInput from "react-phone-input-2";
 import * as Yup from "yup";
-
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 import TextField from "@material-ui/core/TextField";
-import Select from "react-select";
-import selectState from "../../../../../util/selectState";
 import LinearIndeterminate from "../../../../../util/linearProgress";
 import InputCustom from "./custom-input";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
+import CustomStateSelect from "../../../../../util/CustomStateSelect";
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
+import ReactPlaceholder from "react-placeholder";
 
-import "react-phone-input-2/lib/high-res.css";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+
 import "nprogress/nprogress.css";
 import "react-placeholder/lib/reactPlaceholder.css";
 
@@ -72,34 +77,20 @@ class Principal extends Component {
       });
   };
 
-  formatPhone = (Phone) => {
-    if (Phone.startsWith("1")) {
-      return Phone.replace(/[{( )}]/g, "").replace(
-        /(\d{4})\-?(\d{3})\-?(\d{4})/,
-        "+$1-$2-$3"
-      );
-    }
-    if (Phone.startsWith("84"))
-      return Phone.replace(/[{( )}]/g, "").replace(
-        /(\d{5})\-?(\d{3})\-?(\d{4})/,
-        "+$1-$2-$3"
-      );
-  };
-
   render() {
     // ValidationSchema
     const validationSchema = Yup.object().shape({
       principalInfo: Yup.array().of(
         Yup.object().shape({
-          firstName: Yup.string().required("Required"),
+          firstName: Yup.string().required("First Name cannot be empty!"),
           lastName: Yup.string().required("Required"),
           position: Yup.string().required("Required"),
           ownership: Yup.string().required("Required"),
-          // homePhone: Yup.string().required("Required"),
           mobilePhone: Yup.string().required("Required"),
-          // yearAtThisAddress: Yup.string().required("Required"),
           ssn: Yup.string().required("Required"),
-          dateOfBirth: Yup.string().required("Required"),
+          dateOfBirth: Yup.string()
+            .required("Please Enter Birth date")
+            .nullable(),
           email: Yup.string().required("Required"),
           driverLicense: Yup.string().required("Required"),
           stateIssued: Yup.string().required("Required"),
@@ -138,7 +129,7 @@ class Principal extends Component {
                   },
                   yearAtThisAddress: 0,
                   ssn: "",
-                  dateOfBirth: "",
+                  dateOfBirth: null,
                   email: "",
                   driverLicense: "",
                   stateIssued: "",
@@ -152,7 +143,7 @@ class Principal extends Component {
               this.props.setDataPrincipal(values?.principalInfo);
             }}
           >
-            {({ values, setFieldValue, isSubmitting }) => (
+            {({ values, setFieldValue, isSubmitting, errors, touched }) => (
               <Form className="principal-form">
                 <FieldArray
                   name="principalInfo"
@@ -164,7 +155,12 @@ class Principal extends Component {
                       {values.principalInfo &&
                       values.principalInfo.length > 0 ? (
                         values.principalInfo.map((principal, index) => {
-                          const PrincipalImage = principal?.imageUrl;
+                          const principalImage = principal?.imageUrl;
+                          const principalState =
+                            principal.addressPrincipal?.state;
+                          const driverLicenseState = principal?.stateIssued;
+                          const principalBirthday = principal?.dateOfBirth;
+                          const firstName = principal?.firstName;
                           return (
                             <div key={index}>
                               <div className="row align-items-center  add-merchant-div">
@@ -197,6 +193,7 @@ class Principal extends Component {
                                       )
                                     }
                                   />
+
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.firstName`}
@@ -266,35 +263,33 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>Home Phone</label>
-                                  <PhoneInput
-                                    // style={{ marginTop: "10px" }}
-                                    country={"us"}
-                                    placeholder="Home Phone Number"
+                                  <MaterialUiPhoneNumber
+                                    label="Home Phone"
+                                    fullWidth
                                     name={`principalInfo.${index}.mobilePhone`}
                                     value={values.homePhone}
                                     onChange={(e) =>
                                       setFieldValue(
                                         `principalInfo.${index}.homePhone`,
-                                        this.formatPhone(e)
+                                        e
                                       )
                                     }
                                   />
                                 </div>
                                 <div className="col-4">
-                                  <label>Mobile Phone*</label>
-                                  <PhoneInput
-                                    country={"us"}
-                                    placeholder="Business Phone Number"
+                                  <MaterialUiPhoneNumber
+                                    fullWidth
+                                    label="Mobile Phone*"
                                     name={`principalInfo.${index}.mobilePhone`}
                                     value={values.mobilePhone}
                                     onChange={(e) =>
                                       setFieldValue(
                                         `principalInfo.${index}.mobilePhone`,
-                                        this.formatPhone(e)
+                                        e
                                       )
                                     }
                                   />
+
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.mobilePhone`}
@@ -344,16 +339,15 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>State*</label>
-                                  <Select
-                                    onChange={(e) =>
+                                  <CustomStateSelect
+                                    initialValue={principalState}
+                                    label="State Issued*"
+                                    handleChange={(e) =>
                                       setFieldValue(
                                         `principalInfo.${index}.addressPrincipal.state`,
-                                        e.value
+                                        e.target.value
                                       )
                                     }
-                                    name={`principalInfo.${index}.addressPrincipal.state`}
-                                    options={selectState}
                                   />
 
                                   <div className="input-feedback">
@@ -451,16 +445,26 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label style={{ marginTop: "12px" }}>
-                                    Date of Birth* (mm/dd/yyyy)
-                                  </label>
-                                  <Field
-                                    type="date"
-                                    name={`principalInfo.${index}.dateOfBirth`}
-                                    values={`principalInfo.${index}.dateOfBirth`}
-                                    placeholder="MM/DD/YYYY"
-                                  />
-
+                                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <Grid container justify="space-around">
+                                      <KeyboardDatePicker
+                                        disableToolbar
+                                        variant="inline"
+                                        format="MM/dd/yyyy"
+                                        margin="normal"
+                                        fullWidth
+                                        label="Date Of Birth*"
+                                        value={principalBirthday}
+                                        name={`principalInfo.${index}.dateOfBirth`}
+                                        onChange={(e) =>
+                                          setFieldValue(
+                                            `principalInfo.${index}.dateOfBirth`,
+                                            e
+                                          )
+                                        }
+                                      />
+                                    </Grid>
+                                  </MuiPickersUtilsProvider>
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.dateOfBirth`}
@@ -508,17 +512,18 @@ class Principal extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <label>State Issued*</label>
-                                  <Select
+                                  <CustomStateSelect
+                                    label="State*"
                                     onChange={(e) =>
                                       setFieldValue(
                                         `principalInfo.${index}.stateIssued`,
-                                        e.value
+                                        e.target.value
                                       )
                                     }
-                                    name={`principalInfo.${index}.stateIssued`}
-                                    options={selectState}
+                                    name={driverLicenseState}
+                                    initialValue={driverLicenseState}
                                   />
+
                                   <div className="input-feedback">
                                     <ErrorMessage
                                       name={`principalInfo.${index}.stateIssued`}
@@ -528,17 +533,17 @@ class Principal extends Component {
 
                                 <div className="col-12">
                                   <div className="form-group">
-                                    <label style={{ margin: "10px" }}>
+                                    <label style={{ margin: "10px 0px" }}>
                                       Driver License Picture*
                                     </label>
                                     <br />
                                     <div className="Upload">
                                       <div style={{ display: "flex" }}>
-                                        {PrincipalImage ? (
+                                        {principalImage ? (
                                           <div
                                             className="driver-image"
                                             style={{
-                                              backgroundImage: `url("${PrincipalImage}")`,
+                                              backgroundImage: `url("${principalImage}")`,
                                             }}
                                           />
                                         ) : (

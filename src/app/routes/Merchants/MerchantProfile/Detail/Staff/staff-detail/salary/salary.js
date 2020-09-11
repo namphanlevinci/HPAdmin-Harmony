@@ -118,7 +118,7 @@ export class salary extends Component {
           {/* PAYOUT BY CASH */}
           <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">
-              <Checkbox style={{ color: "white" }} />
+              <Checkbox checked />
               <label>Salary Pay in Cash</label>
             </div>
 

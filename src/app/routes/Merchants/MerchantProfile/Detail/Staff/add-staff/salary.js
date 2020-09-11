@@ -156,7 +156,7 @@ const Salary = ({
       </Grid>
 
       <Grid item md={6} sm={12} xs={12}>
-        <Checkbox style={{ color: "white" }} />
+        <Checkbox checked />
         <label>Salary pay in Cash</label>
         <div>
           <div className="input-box">

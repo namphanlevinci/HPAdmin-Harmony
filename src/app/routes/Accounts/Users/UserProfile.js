@@ -92,11 +92,12 @@ class UserProfile extends Component {
         <div className="row admin_profile page-heading">
           <div className="col-3 text-center">
             {e?.imageUrl !== null ? (
-              <img src={e?.imageUrl} alt="avatar" />
+              <img src={e?.imageUrl} alt="avatar" className="admin-avatar" />
             ) : (
               <img
                 src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
                 alt="avatar"
+                className="admin-avatar"
               />
             )}
           </div>

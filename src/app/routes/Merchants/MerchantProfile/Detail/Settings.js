@@ -6,6 +6,7 @@ import {
   RESTORE_MERCHANT,
 } from "../../../../../actions/merchants/actions";
 import TextField from "@material-ui/core/TextField";
+import ReactFitText from "react-fittext";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -22,8 +23,7 @@ class Settings extends Component {
     super(props);
     this.state = {
       ID: "",
-      isOpenReject: false,
-      isOpenAccept: false,
+      openActive: false,
       open: false,
     };
   }
@@ -42,13 +42,18 @@ class Settings extends Component {
     this.setState({ open: !this.state.open });
   };
 
+  handleOpenActive = () => {
+    this.setState({ openActive: !this.state.openActive });
+  };
+
   restoreMerchant = () => {
     this.setState({ open: false });
     const { ID } = this.state;
-    this.props.RESTORE_MERCHANT(ID);
+    // this.props.RESTORE_MERCHANT(ID);
   };
   render() {
     const data = this.props.MerchantProfile;
+    console.log("data", data);
     const MerchantStatus =
       this.props.MerchantProfile.isDisabled !== 1 ? (
         <div>
@@ -62,22 +67,22 @@ class Settings extends Component {
           >
             <DialogContent style={{ maxWidth: "600px" }}>
               <Formik
-                initialValues={{ rejectReason: "" }}
+                initialValues={{ archiveReason: "" }}
                 validate={(values) => {
                   let errors = {};
-                  if (!values.rejectReason) {
-                    errors.rejectReason = "Required";
+                  if (!values.archiveReason) {
+                    errors.archiveReason = "Archive reason cannot be empty!";
                   }
                   return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                   this.props.ARCHIVE_MERCHANT({
                     ID: this.state.ID,
-                    reason: values.rejectReason,
+                    reason: values.archiveReason,
                   });
                 }}
               >
-                {({ values, isSubmitting }) => (
+                {({ values, isSubmitting, handleChange, errors, touched }) => (
                   <div className="rejectInput">
                     <p className="close" onClick={this.handleOpenArchive}>
                       &times;
@@ -95,25 +100,27 @@ class Settings extends Component {
                       </p>
                     </div>
                     <Form style={styles.Form}>
-                      <h2 style={{ color: "black" }}>
-                        Are you sure you want to Archive this Merchant?
-                      </h2>
-                      <Field
-                        type="textarea"
-                        name="rejectReason"
-                        component="textarea"
-                        placeholder="Please enter your reason."
+                      <ReactFitText compressor={2.5}>
+                        <h4 style={{ color: "black" }}>
+                          Are you sure you want to Archive this Merchant?
+                        </h4>
+                      </ReactFitText>
+                      <TextField
+                        name="archiveReason"
+                        variant="outlined"
+                        placeholder="Please enter your reason"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        inputProps={{ maxLength: 100 }}
+                        onChange={handleChange}
+                        helperText={
+                          touched.archiveReason ? errors.archiveReason : ""
+                        }
+                        error={
+                          touched.archiveReason && Boolean(errors.archiveReason)
+                        }
                       />
-                      <ErrorMessage
-                        name="rejectReason"
-                        component="div"
-                        style={{
-                          color: "red",
-                          fontWeight: "400",
-                          fontSize: "17px",
-                        }}
-                      />
-
                       <div style={styles.btnDiv} className="general-content">
                         <Button type="submit" className="btn btn-green">
                           CONFIRM
@@ -135,9 +142,92 @@ class Settings extends Component {
           </Dialog>
         </div>
       ) : (
-        <Button className="btn btn-green" onClick={this.restoreMerchant}>
-          ACTIVE
-        </Button>
+        <>
+          <Button className="btn btn-green" onClick={this.handleOpenActive}>
+            ACTIVE
+          </Button>
+          <Dialog
+            open={this.state.openActive}
+            onClose={this.handleOpenActive}
+            className="merchant_btn_container"
+          >
+            <DialogContent style={{ maxWidth: "600px" }}>
+              <Formik
+                initialValues={{ archiveReason: "" }}
+                onSubmit={(values, { setSubmitting }) => {
+                  this.setState({ openActive: false });
+                  const { ID } = this.state;
+                  this.props.RESTORE_MERCHANT(ID);
+                }}
+              >
+                {({ values, isSubmitting, handleChange, errors, touched }) => (
+                  <div className="rejectInput">
+                    <p className="close" onClick={this.handleOpenActive}>
+                      &times;
+                    </p>
+                    <div className="disable__title">
+                      <p
+                        style={{
+                          fontSize: "22px",
+                          textAlign: "center",
+                          color: "white",
+                          fontWeight: "400",
+                        }}
+                      >
+                        Confirmation
+                      </p>
+                    </div>
+                    <Form style={styles.Form}>
+                      <ReactFitText compressor={2.5}>
+                        <h2 style={{ color: "black", padding: "0px 25px" }}>
+                          Are you sure you want to enable this Merchant?
+                        </h2>
+                      </ReactFitText>
+                      <div style={{ textAlign: "left", color: "black" }}>
+                        <ReactFitText compressor={3}>
+                          <h4 style={{ fontSize: "20px", padding: "10px 0px" }}>
+                            Why disabled:
+                          </h4>
+                        </ReactFitText>
+                        <ReactFitText compressor={3}>
+                          <p style={{ fontSize: "16px", color: "#707070" }}>
+                            {data?.disabledReason}
+                          </p>
+                        </ReactFitText>
+                      </div>
+
+                      {/* <TextField
+                        style={{ margin: "20px 0px" }}
+                        name="archiveReason"
+                        variant="outlined"
+                        label="Why disabled"
+                        fullWidth
+                        multiline
+                        value={data?.disabledReason}
+                        onChange={handleChange}
+                        disabled
+                      /> */}
+
+                      <div style={styles.btnDiv} className="general-content">
+                        <Button type="submit" className="btn btn-green">
+                          CONFIRM
+                        </Button>
+
+                        <Button
+                          onClick={this.handleOpenArchive}
+                          type="submit"
+                          className="btn btn-red"
+                        >
+                          CANCEL
+                        </Button>
+                      </div>
+                    </Form>
+                  </div>
+                )}
+              </Formik>
+            </DialogContent>
+          </Dialog>
+        </>
       );
 
     return (
@@ -239,7 +329,7 @@ const styles = {
     textAlign: "center",
   },
   btnDiv: {
-    marginTop: "10px",
+    marginTop: "15px",
   },
   label: {
     fontSize: "13px",

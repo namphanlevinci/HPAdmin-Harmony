@@ -39,14 +39,13 @@ class AddStaff extends Component {
       city: "",
       zip: "",
       state: "",
-      countryCode: { value: "+1", label: "+1" },
       cellphone: "",
       email: "",
       pin: "",
       confirmPin: "",
       isActive: true,
-      nameRole: { value: "admin", label: "Admin" },
-      isDisabled: { value: "0", label: "Active" },
+      nameRole: "admin",
+      isDisabled: 0,
       // Work time
       timeStart2: { value: "09:30 AM", label: "09:30 AM" },
       timeEnd2: { value: "07:00 PM", label: "07:00 PM" },
@@ -96,7 +95,13 @@ class AddStaff extends Component {
       progressLoading: false,
     };
 
-    this.validator = new SimpleReactValidator();
+    this.validator = new SimpleReactValidator({
+      messages: {
+        email: "That is not an email.",
+        // OR
+        default: "Required!", // will override all messages
+      },
+    });
   }
 
   getSteps = () => {
@@ -128,6 +133,7 @@ class AddStaff extends Component {
         validator={this.validator}
         uploadFile={this.uploadFile}
         handleSelect={this.handleSelect}
+        handleMISelect={this.handleMISelect}
         toggleVisibility={this.toggleVisibility}
         handleCheckBox={this.handleCheckBox}
       />
@@ -236,7 +242,7 @@ class AddStaff extends Component {
       isActive,
     } = this.state;
 
-    const nameRole = this.state.nameRole.value;
+    const nameRole = this.state.nameRole;
     const isDisabled = Number(this.state.isDisabled.value);
     const state = this.state.state.value;
     const timeStart2 = this.state.timeStart2.value;
@@ -434,6 +440,11 @@ class AddStaff extends Component {
     this.setState({ [name]: selectedOption });
   };
 
+  handleMISelect = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   handleNext = () => {
     const { activeStep, pin, confirmPin } = this.state;
     if (pin !== confirmPin) {
@@ -498,12 +509,7 @@ class AddStaff extends Component {
               })}
             </Stepper>
             <div>
-              {this.state.activeStep ===
-              steps.length ? //   <Button className="btn btn-green" onClick={this.handleReset}> //   </Typography> //     <h1>Complete™</h1> //   <Typography className="my-2"> // <div>
-              //     Reset
-              //   </Button>
-              // </div>
-              null : (
+              {this.state.activeStep === steps.length ? null : ( // </div> //   </Button> //     Reset //   <Button className="btn btn-green" onClick={this.handleReset}> //   </Typography> //     <h1>Complete™</h1> //   <Typography className="my-2"> // <div>
                 <div>
                   {this.getStepContent(activeStep)}
                   <div

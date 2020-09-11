@@ -301,7 +301,7 @@ class EditSalary extends Component {
 
                 <Grid item md={6} sm={12} xs={12}>
                   <div className="checkbox">
-                    <Checkbox style={{ color: "white" }} />
+                    <Checkbox checked />
                     <label>Salary Pay In Cash</label>
                   </div>
                   <div>

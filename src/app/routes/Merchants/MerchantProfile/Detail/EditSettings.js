@@ -152,7 +152,7 @@ class EditSettings extends Component {
             </div>
 
             <div className="col-4" style={styles.div}>
-              <TextField
+              {/* <TextField
                 label="Point Rate"
                 type="number"
                 name="pointRate"
@@ -160,7 +160,20 @@ class EditSettings extends Component {
                 max={100}
                 value={this.state.pointRate}
                 onChange={this._handleChange}
-              />
+              /> */}
+              <FormControl>
+                <InputLabel htmlFor="formatted-text-mask-input">
+                  Point Rate
+                </InputLabel>
+                <Input
+                  onChange={(e, masked) => this.setState({ pointRate: masked })}
+                  value={this.state.pointRate}
+                  name="pointRate"
+                  id="custom-transaction-point--rate-input"
+                  startAdornment
+                  inputComponent={CustomCurrencyInput}
+                />
+              </FormControl>
             </div>
           </div>
           <br />
