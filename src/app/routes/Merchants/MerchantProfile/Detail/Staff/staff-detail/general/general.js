@@ -7,7 +7,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 import "../../Staff.styles.scss";
 export class general extends Component {
   render() {
@@ -114,7 +113,7 @@ export class general extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.staffDetail,
+  Staff: state.MerchantReducer.StaffData,
 });
 
 const mapDispatchToProps = {};

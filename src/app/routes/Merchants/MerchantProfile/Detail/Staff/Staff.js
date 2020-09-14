@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { VIEW_STAFF } from "../../../../../../actions/merchants/actions";
+import { GET_STAFF_BY_ID } from "../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../url/url";
 
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
@@ -93,9 +93,12 @@ class Staff extends Component {
   };
 
   viewStaff = async (data) => {
+    const staffId = data?.staffId;
+    const ID = this.props.MerchantProfile.merchantId;
+    const path = "/app/merchants/staff/general";
+    const payload = { staffId, ID, path };
     this.setState({ isLoading: true });
-    await this.props.VIEW_STAFF(data);
-    this.props.history.push("/app/merchants/staff/general");
+    await this.props.GET_STAFF_BY_ID(payload);
   };
 
   render() {
@@ -352,8 +355,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_STAFF: (payload) => {
-    dispatch(VIEW_STAFF(payload));
+  GET_STAFF_BY_ID: (payload) => {
+    dispatch(GET_STAFF_BY_ID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Staff);

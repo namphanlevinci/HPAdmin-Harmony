@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
-import { store } from "react-notifications-component";
 
 import {
   VIEW_PROFILE_USER,
@@ -31,7 +30,6 @@ import "./User.css";
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
 
 const upFile = config.url.upFile;
-const URL = config.url.URL;
 
 class EditUserProfile extends Component {
   constructor(props) {
@@ -54,7 +52,6 @@ class EditUserProfile extends Component {
       defaultValue: {
         value: { label: "", value: "" },
       },
-      Token: null,
       imagePreviewUrl: "",
       loading: false,
       showPassword: false,
@@ -64,12 +61,9 @@ class EditUserProfile extends Component {
   }
 
   async componentDidMount() {
-    const Token = localStorage.getItem("User_login");
     const e = this.props.UserProfile;
-    // console.log("e", e);
     this.setState(
       {
-        Token: Token,
         firstName: e.firstName,
         lastName: e.lastName,
         email: e.email,
@@ -95,6 +89,10 @@ class EditUserProfile extends Component {
     this.setState({
       [name]: value,
     });
+  };
+
+  handlePhone = (value) => {
+    this.setState({ phone: value });
   };
 
   _uploadFile = (event) => {
@@ -209,15 +207,18 @@ class EditUserProfile extends Component {
     const e = this.props.UserProfile;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = <img src={imagePreviewUrl} alt="avatar" />;
+      $imagePreview = (
+        <img src={imagePreviewUrl} alt="avatar" className="admin-avatar" />
+      );
     } else {
       $imagePreview =
         e.imageUrl !== null ? (
-          <img src={e.imageUrl} alt="avatar" />
+          <img src={e.imageUrl} alt="avatar" className="admin-avatar" />
         ) : (
           <img
             src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
             alt="avatar"
+            className="admin-avatar"
           />
         );
     }
@@ -308,6 +309,7 @@ class EditUserProfile extends Component {
                   <Route path="/app/accounts/admin/profile/edit/general">
                     <General
                       data={this.state}
+                      handlePhone={this.handlePhone}
                       handleChange={this.handleChange}
                       showPassword={this.showPassword}
                     />

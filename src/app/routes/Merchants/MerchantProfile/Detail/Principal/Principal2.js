@@ -5,7 +5,6 @@ import moment from "moment";
 import Button from "@material-ui/core/Button";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import formatPhone from "../../../../../../util/formatPhone";
-import formatSSN from "../../../../../../util/formatSSN";
 import NumberFormat from "react-number-format";
 
 import "./principal.styles.scss";

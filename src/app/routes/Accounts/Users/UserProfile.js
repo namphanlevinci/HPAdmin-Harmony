@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { store } from "react-notifications-component";
 import {
   VIEW_PROFILE_USER,
   DISABLE_USER,
@@ -92,11 +91,12 @@ class UserProfile extends Component {
         <div className="row admin_profile page-heading">
           <div className="col-3 text-center">
             {e?.imageUrl !== null ? (
-              <img src={e?.imageUrl} alt="avatar" />
+              <img src={e?.imageUrl} alt="avatar" className="admin-avatar" />
             ) : (
               <img
                 src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
                 alt="avatar"
+                className="admin-avatar"
               />
             )}
           </div>

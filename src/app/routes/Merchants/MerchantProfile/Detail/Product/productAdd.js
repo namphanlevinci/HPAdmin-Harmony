@@ -8,7 +8,7 @@ import { BsGridFill } from "react-icons/bs";
 import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
-import Select from "react-select";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import IntlMessages from "../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../components/ContainerHeader/index";
 import {
@@ -18,6 +18,8 @@ import {
   InputLabel,
   Input,
 } from "@material-ui/core";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 
@@ -31,22 +33,6 @@ import "../Service/service.style.scss";
 
 const URL = config.url.URL;
 const upFile = config.url.upFile;
-
-const colourStyles = {
-  control: (styles) => ({
-    ...styles,
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderRadius: 0,
-  }),
-  input: (styles) => ({
-    ...styles,
-    borderWidth: 0,
-    fontSize: 16,
-    paddingLeft: 0,
-  }),
-  placeholder: (styles) => ({ ...styles }),
-};
 
 class AddProduct extends Component {
   constructor(props) {
@@ -131,10 +117,7 @@ class AddProduct extends Component {
     const mapCategory2 = category
       .filter((e) => e.categoryType !== "Service")
       .map((e) => {
-        return {
-          value: e.categoryId,
-          label: e.name,
-        };
+        return <MenuItem value={e.categoryId}>{e.name}</MenuItem>;
       });
 
     //~ preview image
@@ -328,30 +311,24 @@ class AddProduct extends Component {
                 <div className="container Service">
                   <div className="row">
                     <div className="col-6" style={{ paddingLeft: "0px" }}>
-                      <label
-                        style={{
-                          color: "#4054B2",
-                          fontSize: "15px",
-                        }}
-                      >
-                        Category*
-                      </label>
-                      <br />
-                      <div style={{ width: "60%" }}>
-                        <Select
-                          styles={colourStyles}
-                          options={mapCategory2}
-                          onChange={(selectedOption) => {
-                            setFieldValue("categoryId", selectedOption.value);
-                          }}
-                        />
+                      <div>
+                        <FormControl
+                          style={{ width: "50%" }}
+                          error={errors.categoryId && touched.categoryId}
+                        >
+                          <InputLabel>Category*</InputLabel>
+                          <Select
+                            onChange={(selectedOption) => {
+                              setFieldValue("categoryId", selectedOption.value);
+                            }}
+                          >
+                            {mapCategory2}
+                          </Select>
+                          {errors.categoryId && touched.categoryId && (
+                            <FormHelperText>Required</FormHelperText>
+                          )}
+                        </FormControl>
                       </div>
-
-                      {errors.categoryId && touched.categoryId && (
-                        <div className="input-feedback">
-                          {errors.categoryId}
-                        </div>
-                      )}
                     </div>
                     <div className="col-3" style={{ marginTop: 6 }}>
                       <TextField
@@ -366,15 +343,9 @@ class AddProduct extends Component {
                           borderBottomWidth: 1,
                           marginTop: 10,
                         }}
-                        className={
-                          errors.sku && touched.sku
-                            ? "text-input error"
-                            : "text-input"
-                        }
+                        error={touched.sku && Boolean(errors.sku)}
+                        helperText={touched.sku ? errors.sku : ""}
                       />
-                      {errors.sku && touched.sku && (
-                        <div className="input-feedback">{errors.sku}</div>
-                      )}
                     </div>
                     <div className="col-3" style={{ marginTop: 13 }}>
                       <TextField
@@ -390,11 +361,8 @@ class AddProduct extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.quantity}
-                        className={
-                          errors.quantity && touched.quantity
-                            ? "text-input error"
-                            : "text-input"
-                        }
+                        error={touched.quantity && Boolean(errors.quantity)}
+                        helperText={touched.quantity ? errors.quantity : ""}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
@@ -403,9 +371,6 @@ class AddProduct extends Component {
                           ),
                         }}
                       />
-                      {errors.quantity && touched.quantity && (
-                        <div className="input-feedback">{errors.quantity}</div>
-                      )}
                     </div>
                     <div
                       className="col-6"
@@ -423,15 +388,10 @@ class AddProduct extends Component {
                           borderBottomWidth: 1,
                           width: "100%",
                         }}
-                        className={
-                          errors.name && touched.name
-                            ? "text-input error"
-                            : "text-input"
-                        }
+                        // variant="outlined"
+                        error={errors.name && touched.name}
+                        helperText={touched.name ? errors.name : ""}
                       />
-                      {errors.name && touched.name && (
-                        <div className="input-feedback">{errors.name}</div>
-                      )}
                     </div>
                     <div className="col-3" style={{ marginTop: 15 }}>
                       <TextField
@@ -447,6 +407,12 @@ class AddProduct extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.minThreshold}
+                        error={
+                          touched.minThreshold && Boolean(errors.minThreshold)
+                        }
+                        helperText={
+                          touched.minThreshold ? errors.minThreshold : ""
+                        }
                         className={
                           errors.minThreshold && touched.minThreshold
                             ? "text-input error"
@@ -460,11 +426,6 @@ class AddProduct extends Component {
                           ),
                         }}
                       />
-                      {errors.minThreshold && touched.minThreshold && (
-                        <div className="input-feedback">
-                          {errors.minThreshold}
-                        </div>
-                      )}
                     </div>
 
                     <div className="col-3" style={{ marginTop: 15 }}>
@@ -481,6 +442,12 @@ class AddProduct extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.maxThreshold}
+                        error={
+                          touched.maxThreshold && Boolean(errors.maxThreshold)
+                        }
+                        helperText={
+                          touched.maxThreshold ? errors.maxThreshold : ""
+                        }
                         className={
                           errors.maxThreshold && touched.maxThreshold
                             ? "text-input error"
@@ -494,12 +461,6 @@ class AddProduct extends Component {
                           ),
                         }}
                       />
-
-                      {errors.maxThreshold && touched.maxThreshold && (
-                        <div className="input-feedback">
-                          {errors.maxThreshold}
-                        </div>
-                      )}
                     </div>
 
                     <div
@@ -525,7 +486,7 @@ class AddProduct extends Component {
                       />
                     </div>
 
-                    <div className="col-3" style={{ marginTop: 22 }}>
+                    <div className="col-3">
                       <FormControl>
                         <InputLabel htmlFor="formatted-text-mask-input">
                           Price*
@@ -538,6 +499,8 @@ class AddProduct extends Component {
                           value={values.price}
                           name="price"
                           id="custom-price-input"
+                          error={touched.price && errors.price}
+                          helperText={touched.price ? errors.price : ""}
                           className={
                             errors.price && touched.price
                               ? "text-input error"
@@ -551,29 +514,22 @@ class AddProduct extends Component {
                           inputComponent={CustomCurrencyInput}
                         />
                       </FormControl>
-
-                      {errors.price && touched.price && (
-                        <div className="input-feedback">{errors.price}</div>
-                      )}
                     </div>
 
-                    <div className="col-3" style={{ marginTop: 15 }}>
-                      <label style={{ color: "#4054B2", fontSize: "13px" }}>
-                        Status*
-                      </label>
-                      <br />
-
-                      <Select
-                        styles={colourStyles}
-                        options={[
-                          { value: "0", label: "Active" },
-                          { value: "1", label: "Inactive" },
-                        ]}
-                        defaultInputValue="Active"
-                        onChange={(selectedOption) => {
-                          setFieldValue("isDisabled", selectedOption.value);
-                        }}
-                      />
+                    <div className="col-3">
+                      <FormControl style={{ width: "100%" }}>
+                        <InputLabel>Status*</InputLabel>
+                        <Select
+                          onChange={(selectedOption) => {
+                            setFieldValue("isDisabled", selectedOption.value);
+                          }}
+                          name="isDisabled"
+                          value={values.isDisabled}
+                        >
+                          <MenuItem value={0}>Active</MenuItem>
+                          <MenuItem value={1}>Inactive</MenuItem>
+                        </Select>
+                      </FormControl>
                     </div>
                     <div
                       className="col-md-9"
@@ -611,10 +567,6 @@ class AddProduct extends Component {
 
                   <Button
                     className="btn btn-green"
-                    style={{
-                      backgroundColor: "#4251af",
-                      color: "white",
-                    }}
                     type="submit"
                     disabled={isSubmitting}
                     style={{

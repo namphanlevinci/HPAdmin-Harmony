@@ -2,22 +2,25 @@ import React from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 import TextField from "@material-ui/core/TextField";
-import State from "../../../../../../../util/InitialState";
-import Select from "react-select";
-import PhoneInput from "react-phone-input-2";
+// import Select from "react-select";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import LinearProgress from "../../../../../../../util/linearProgress";
 import InputCustom from "../../../../MerchantsList/addMerchant/custom-input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
+import ReactImageAppear from "react-image-appear";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
+import CustomSelect from "../../../../../../../util/getState";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
 import "react-phone-input-2/lib/high-res.css";
 
 const General = ({
+  handleMISelect,
   handleSelect,
   handleChange,
   uploadFile,
@@ -48,152 +51,120 @@ const General = ({
   },
   validator,
 }) => {
-  const roles = [
-    { value: "admin", label: "Admin" },
-    { value: "staff", label: "Staff" },
-  ];
-
-  const status = [
-    { value: "0", label: "Active" },
-    {
-      value: "1",
-      label: "Disable",
-    },
-  ];
-
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
         <div className="col-4">
-          <div className="form-group">
-            <TextField
-              name="firstName"
-              label="First Name*"
-              margin="normal"
-              type="text"
-              fullWidth
+          <TextField
+            name="firstName"
+            label="First Name*"
+            margin="normal"
+            type="text"
+            fullWidth
+            onChange={handleChange}
+            value={firstName}
+            style={styles.input}
+          />
+          {validator.message("firstName", firstName, "required|string")}
+        </div>
+        <div className="col-4">
+          <TextField
+            name="lastName"
+            label="Last Name*"
+            margin="normal"
+            type="text"
+            fullWidth
+            onChange={handleChange}
+            value={lastName}
+            style={styles.input}
+          />
+          {validator.message("lastName", lastName, "required|string")}
+        </div>
+        <div className="col-4">
+          <TextField
+            name="displayName"
+            label="Display Name*"
+            margin="normal"
+            type="text"
+            fullWidth
+            onChange={handleChange}
+            value={displayName}
+            style={styles.input}
+          />
+          {validator.message("displayName", displayName, "required|string")}
+        </div>
+        <div className="col-4">
+          <TextField
+            name="street"
+            label="Address"
+            margin="normal"
+            type="text"
+            fullWidth
+            onChange={handleChange}
+            value={street}
+            style={styles.input}
+          />
+        </div>
+        <div className="col-4">
+          <TextField
+            name="city"
+            label="City"
+            margin="normal"
+            type="text"
+            fullWidth
+            onChange={handleChange}
+            value={city}
+            style={styles.input}
+          />
+        </div>
+        <div className="col-4">
+          <CustomSelect
+            name="state"
+            label="State*"
+            initialValue={state}
+            handleChange={handleMISelect}
+            margin="normal"
+          />
+        </div>
+        <div className="col-4">
+          <FormControl style={{ width: "100%", marginTop: "16px" }}>
+            <InputLabel htmlFor="formatted-text-mask-input">
+              Zip Code
+            </InputLabel>
+            <Input
+              value={zip}
               onChange={handleChange}
-              value={firstName}
-              style={styles.input}
+              name="zip"
+              id="custom-zip-input"
+              inputProps={{
+                block: [5],
+                numericOnly: true,
+              }}
+              inputComponent={InputCustom}
             />
-            {validator.message("firstName", firstName, "required|string")}
-          </div>
-        </div>
-        <div className="col-4">
-          <div className="form-group">
-            <TextField
-              name="lastName"
-              label="Last Name*"
-              margin="normal"
-              type="text"
-              fullWidth
-              onChange={handleChange}
-              value={lastName}
-              style={styles.input}
-            />
-            {validator.message("lastName", lastName, "required|string")}
-          </div>
-        </div>
-        <div className="col-4">
-          <div className="form-group">
-            <TextField
-              name="displayName"
-              label="Display Name*"
-              margin="normal"
-              type="text"
-              fullWidth
-              onChange={handleChange}
-              value={displayName}
-              style={styles.input}
-            />
-            {validator.message("displayName", displayName, "required|string")}
-          </div>
-        </div>
-        <div className="col-4">
-          <div className="form-group">
-            <TextField
-              name="street"
-              label="Address"
-              margin="normal"
-              type="text"
-              fullWidth
-              onChange={handleChange}
-              value={street}
-              style={styles.input}
-            />
-          </div>
-        </div>
-        {/* </div> */}
-        {/* <div className="row justify-content-center"> */}
-        <div className="col-4">
-          <div className="form-group">
-            <TextField
-              name="city"
-              label="City"
-              margin="normal"
-              type="text"
-              fullWidth
-              onChange={handleChange}
-              value={city}
-              style={styles.input}
-            />
-          </div>
-        </div>
-        <div className="col-4">
-          <div className="form-group">
-            <label>State</label>
-            <Select
-              name="state"
-              options={State}
-              onChange={handleSelect}
-              value={state}
-            />
-          </div>
-        </div>
-        <div className="col-4">
-          <div className="form-group">
-            <FormControl style={{ width: "100%", marginTop: "10px" }}>
-              <InputLabel htmlFor="formatted-text-mask-input">
-                Zip Code
-              </InputLabel>
-              <Input
-                value={zip}
-                onChange={handleChange}
-                name="zip"
-                id="custom-zip-input"
-                inputProps={{
-                  block: [5],
-                  numericOnly: true,
-                }}
-                inputComponent={InputCustom}
-              />
-            </FormControl>
-          </div>
+          </FormControl>
         </div>
 
         <div className="col-4">
-          <label>Cell Phone</label>
-          <PhoneInput
-            country={"us"}
-            placeholder="Phone Number"
+          <MaterialUiPhoneNumber
+            label="Phone"
             name="cellphone"
+            value={cellphone}
             onChange={handlePhone}
+            fullWidth
+            margin="normal"
           />
-          {/* </div> */}
         </div>
         <div className="col-4">
-          <div className="form-group">
-            <TextField
-              name="email"
-              label="Contact Email"
-              margin="normal"
-              type="text"
-              fullWidth
-              onChange={handleChange}
-              value={email}
-              style={{ marginTop: "9px" }}
-            />
-          </div>
+          <TextField
+            name="email"
+            label="Contact Email"
+            margin="normal"
+            type="text"
+            fullWidth
+            onChange={handleChange}
+            value={email}
+          />
         </div>
       </div>
       <div className="row">
@@ -202,7 +173,7 @@ const General = ({
             <TextField
               name="pin"
               label="Create PIN*"
-              margin="normal"
+              margin="large"
               type={showPin ? "text" : "password"}
               fullWidth
               value={pin}
@@ -221,8 +192,8 @@ const General = ({
                 <FaRegEye onClick={() => toggleVisibility("showPin", true)} />
               </i>
             )}
+            {validator.message("pin", pin, "required|numeric")}
           </div>
-          {validator.message("pin", pin, "required|numeric")}
         </div>
         <div className="col-4">
           <div
@@ -236,7 +207,7 @@ const General = ({
             <TextField
               name="confirmPin"
               label="Confirm PIN*"
-              margin="normal"
+              margin="larrge"
               type={showConfirmPin ? "text" : "password"}
               fullWidth
               onChange={handleChange}
@@ -271,25 +242,33 @@ const General = ({
       <div className="row ">
         <div className="col-4">
           <div className="form-group">
-            <label>Role</label>
-            <Select
-              options={roles}
-              onChange={handleSelect}
-              name="nameRole"
-              value={nameRole}
-            />
+            <FormControl style={{ width: "100%" }}>
+              <InputLabel>Role</InputLabel>
+              <Select
+                name="nameRole"
+                value={nameRole}
+                onChange={handleMISelect}
+                label="Role"
+              >
+                <MenuItem value="admin">Admin</MenuItem>
+                <MenuItem value="staff">Staff</MenuItem>
+              </Select>
+            </FormControl>
           </div>
         </div>
         <div className="col-4">
           <div className="form-group">
-            <label>Status</label>
-
-            <Select
-              options={status}
-              onChange={handleSelect}
-              name="isDisabled"
-              value={isDisabled}
-            />
+            <FormControl style={{ width: "100%" }}>
+              <InputLabel>Status</InputLabel>
+              <Select
+                name="isDisabled"
+                value={isDisabled}
+                onChange={handleMISelect}
+              >
+                <MenuItem value="0">Active</MenuItem>
+                <MenuItem value="1">Disabled</MenuItem>
+              </Select>
+            </FormControl>
           </div>
         </div>
         <div className="col-4">
@@ -316,13 +295,11 @@ const General = ({
           <label>Image</label>
 
           <div className="form-group">
-            {imagePreviewUrl !== null ? (
-              <img
+            {imagePreviewUrl !== "" ? (
+              <ReactImageAppear
                 src={imagePreviewUrl}
                 alt="avatar"
-                height={250}
-                width={250}
-                style={{ borderRadius: "50%" }}
+                className="staff_avatar"
               />
             ) : (
               <img
@@ -334,11 +311,11 @@ const General = ({
               />
             )}
 
-            {progressLoading ? (
+            {/* {progressLoading ? (
               <div style={{ width: "34%", paddingTop: "10px" }}>
                 <LinearProgress />
               </div>
-            ) : null}
+            ) : null} */}
           </div>
           <input
             type="file"

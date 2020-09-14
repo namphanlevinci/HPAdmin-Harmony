@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+
 export class salary extends Component {
   render() {
     const Salary = this.props.Staff;
@@ -14,8 +16,8 @@ export class salary extends Component {
     return (
       <div className="container Salary">
         <h2>Salary</h2>
-        <div className="row">
-          <div className="col-6">
+        <Grid container spacing={1} style={{ paddingTop: "10px" }}>
+          <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">
               <Checkbox
                 name="salaryIsCheck"
@@ -34,8 +36,8 @@ export class salary extends Component {
               />
               <span className="unit">$</span>
             </div>
-          </div>
-          <div className="col-6">
+          </Grid>
+          <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">
               <Checkbox
                 name="commIsCheck"
@@ -50,12 +52,32 @@ export class salary extends Component {
               <input type="text" value={salaries?.commission?.value} disabled />
               <span className="unit">$</span>
             </div>
-          </div>
+          </Grid>
           <br />
-        </div>
-        {/* TIP FEE */}
-        <div className="row justify-content-center">
-          <div className="col-6">
+
+          {/* PRODUCT SALARY  */}
+
+          <Grid item md={6} sm={12} xs={12}>
+            <div className="checkbox">
+              <Checkbox
+                name="prodCommIsCheck"
+                checked={productSalaries?.commission?.isCheck}
+                value="true"
+                inputProps={{
+                  "aria-label": "primary checkbox",
+                }}
+              />
+              <label>Product Commission</label>
+            </div>
+            <div className="input-box">
+              <input type="text" value={productSalaries?.commission?.value} />
+              <span className="unit">%</span>
+            </div>
+          </Grid>
+
+          <Grid item md={6} sm={12} xs={12}></Grid>
+          {/* TIP FEE */}
+          <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">
               <Checkbox
                 name="tipIsCheck"
@@ -70,8 +92,9 @@ export class salary extends Component {
               <input type="text" value={tipFees?.percent?.value} disabled />
               <span className="unit">%</span>
             </div>
-          </div>
-          <div className="col-6">
+          </Grid>
+
+          <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">
               <Checkbox
                 name="fixIsCheck"
@@ -90,32 +113,13 @@ export class salary extends Component {
               />
               <span className="unit">$</span>
             </div>
-          </div>
-        </div>
-        {/* PRODUCT SALARY  */}
-        <div className="row">
-          <div className="col-6">
-            <div className="checkbox">
-              <Checkbox
-                name="prodCommIsCheck"
-                checked={productSalaries?.commission?.isCheck}
-                value="true"
-                inputProps={{
-                  "aria-label": "primary checkbox",
-                }}
-              />
-              <label>Product Commission</label>
-            </div>
-            <div className="input-box">
-              <input type="text" value={productSalaries?.commission?.value} />
-              <span className="unit">%</span>
-            </div>
-          </div>
+          </Grid>
+
           {/* PAYOUT BY CASH */}
-          <div className="col-6">
+          <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">
-              <Checkbox style={{ color: "white" }} />
-              <label>Salary Pay in Cash</label>
+              <Checkbox checked />
+              <label>Payout with Cash </label>
             </div>
 
             <div>
@@ -131,8 +135,8 @@ export class salary extends Component {
                 <span className="unit">%</span>
               </div>
             </div>
-          </div>
-        </div>
+          </Grid>
+        </Grid>
         <div
           className="SettingsContent general-content"
           style={{ paddingTop: "20px" }}
@@ -152,7 +156,7 @@ export class salary extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.staffDetail,
+  Staff: state.MerchantReducer.StaffData,
 });
 
 const mapDispatchToProps = {};

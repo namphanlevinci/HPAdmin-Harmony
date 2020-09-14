@@ -261,15 +261,3 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Users);
-
-const styles = {
-  spinner: {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-  },
-  text: {
-    marginTop: "30%",
-  },
-};

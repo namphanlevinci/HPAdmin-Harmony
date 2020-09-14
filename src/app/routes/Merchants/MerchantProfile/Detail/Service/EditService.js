@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Formik } from "formik";
-import { store } from "react-notifications-component";
 import { UPDATE_MERCHANT_SERVICE } from "../../../../../../actions/merchants/actions";
 
 import Extra from "./extra";

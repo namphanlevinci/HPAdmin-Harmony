@@ -19,7 +19,6 @@ import "react-table/react-table.css";
 import "../../Merchants/MerchantsList/merchantsList.css";
 
 const URL = config.url.URL;
-const upFile = config.url.upFile;
 
 class Transactions extends React.Component {
   constructor(props) {

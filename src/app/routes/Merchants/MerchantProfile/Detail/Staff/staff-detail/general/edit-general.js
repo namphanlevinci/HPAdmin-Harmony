@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
-import { VIEW_STAFF } from "../../../../../../../../actions/merchants/actions";
+import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
 import selectState from "../../../../../../../../util/selectState";
 import PhoneInput from "react-phone-input-2";
-import updateStaff from "../updateStaff";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -76,8 +75,8 @@ export class EditGeneral extends Component {
   handleUpdateStaff = () => {
     const state = this.state;
     const data = this.props.Staff;
-    const ID = this.props.Staff.staffId;
-    const MerchantId = this.props.merchantID;
+    const staffId = this.props.Staff.staffId;
+    const MerchantId = this.props.MerchantData.merchantId;
 
     const body = {
       firstName: state.firstName,
@@ -110,17 +109,15 @@ export class EditGeneral extends Component {
       },
       MerchantId,
     };
+    const payload = {
+      body,
+      staffId,
+      MerchantId,
+      path: "/app/merchants/staff/general",
+    };
 
     if (this.validator.allValid()) {
-      const path = "/app/merchants/staff/general";
-      updateStaff(
-        ID,
-        body,
-        this.props.token,
-        this.props.VIEW_STAFF,
-        this.props.history,
-        path
-      );
+      this.props.UPDATE_STAFF(payload);
     } else {
       this.validator.showMessages();
       this.forceUpdate();
@@ -221,7 +218,7 @@ export class EditGeneral extends Component {
                 {this.validator.message(
                   "firstName",
                   this.state.firstName,
-                  "required|alpha"
+                  "required|string"
                 )}
               </span>
             </div>
@@ -237,7 +234,7 @@ export class EditGeneral extends Component {
                 {this.validator.message(
                   "lastName",
                   this.state.lastName,
-                  "required|alpha"
+                  "required|string"
                 )}
               </span>
             </div>
@@ -433,12 +430,13 @@ export class EditGeneral extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.staffDetail,
+  Staff: state.MerchantReducer.StaffData,
+  MerchantData: state.MerchantReducer.MerchantData,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_STAFF: (payload) => {
-    dispatch(VIEW_STAFF(payload));
+  UPDATE_STAFF: (payload) => {
+    dispatch(UPDATE_STAFF(payload));
   },
 });
 

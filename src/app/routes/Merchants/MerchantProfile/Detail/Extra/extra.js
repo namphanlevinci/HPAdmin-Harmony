@@ -245,6 +245,7 @@ class ExtraTab extends Component {
             row.original.isDisabled !== 1 ? (
               <Tooltip title="Archive">
                 <img
+                  alt=""
                   src={ArchiveSVG}
                   onClick={() => [
                     this.setState({
@@ -257,6 +258,7 @@ class ExtraTab extends Component {
             ) : (
               <Tooltip title="Restore">
                 <img
+                  alt=""
                   src={RestoreSVG}
                   onClick={() =>
                     this.setState({
@@ -275,6 +277,7 @@ class ExtraTab extends Component {
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
+                      alt=""
                       src={EditSVG}
                       onClick={() => [
                         this.handleEdit(row.original),

@@ -4,6 +4,8 @@ import { config } from "../../../../../url/url";
 import { UPDATE_MERCHANT_BANK } from "../../../../../actions/merchants/actions";
 
 import LinearProgress from "../../../../../util/linearProgress";
+import SimpleReactValidator from "simple-react-validator";
+import Cleave from "cleave.js/react";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -27,6 +29,9 @@ class EditBank extends Component {
       imagePreviewUrl: "",
       loadingProgress: false,
     };
+    this.validator = new SimpleReactValidator({
+      messages: { default: "Required" },
+    });
   }
   async componentDidMount() {
     const data = this.props.MerchantProfile.businessBank;
@@ -84,7 +89,6 @@ class EditBank extends Component {
     const businessBankId = this.props.MerchantProfile.businessBank
       .businessBankId;
     const ID = this.props.MerchantProfile.merchantId;
-
     const {
       name,
       fileId,
@@ -102,7 +106,13 @@ class EditBank extends Component {
       businessBankId,
       ID,
     };
-    this.props.UPDATE_MERCHANT_BANK(payload);
+
+    if (this.validator.allValid()) {
+      this.props.UPDATE_MERCHANT_BANK(payload);
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
   };
   render() {
     const e = this.props.MerchantProfile;
@@ -120,18 +130,26 @@ class EditBank extends Component {
 
     return (
       <div className="react-transition swipe-up general-content">
-        <h2 style={styles.h2}>Bank Information</h2>
         <div className="container-fluid">
+          <h2 style={styles.h2}>Bank Information</h2>
           <div className="row">
             <div className="col-3">
               <label>Account Holder Name*</label>
               <input
-                // style={{ width: "250px" }}
                 name="accountHolderName"
                 value={this.state.accountHolderName}
                 onChange={this._handleChange}
                 style={styles.input}
               />
+              {
+                <p style={styles.p}>
+                  {this.validator.message(
+                    "accountHolderName",
+                    this.state.accountHolderName,
+                    "required|string"
+                  )}
+                </p>
+              }
             </div>
             <div className="col-3">
               <label>Bank Name*</label>
@@ -139,27 +157,60 @@ class EditBank extends Component {
                 name="name"
                 value={this.state.name}
                 onChange={this._handleChange}
+                style={styles.input}
               />
+              {
+                <p style={styles.p}>
+                  {this.validator.message(
+                    "name",
+                    this.state.name,
+                    "required|string"
+                  )}
+                </p>
+              }
             </div>
 
             <div className="col-3">
               <label> Routing Number* (ABA)</label>
-              <input
-                // style={{ width: "250px" }}
+              <Cleave
                 name="routingNumber"
                 value={this.state.routingNumber}
                 onChange={this._handleChange}
                 style={styles.input}
+                options={{
+                  numericOnly: true,
+                }}
               />
+              {
+                <p style={styles.p}>
+                  {this.validator.message(
+                    "routingNumber",
+                    this.state.routingNumber,
+                    "required"
+                  )}
+                </p>
+              }
             </div>
             <div className="col-3">
               <label>Account Number* (DDA)</label>
-              <input
+              <Cleave
                 name="accountNumber"
                 value={this.state.accountNumber}
                 onChange={this._handleChange}
                 style={styles.input}
+                options={{
+                  numericOnly: true,
+                }}
               />
+              {
+                <p style={styles.p}>
+                  {this.validator.message(
+                    "accountNumber",
+                    this.state.accountNumber,
+                    "required"
+                  )}
+                </p>
+              }
             </div>
             <div className="col-3" style={{ paddingTop: "20px" }}>
               <label>Void Check*</label> <br />
@@ -209,5 +260,9 @@ const styles = {
   },
   input: {
     marginBottom: "10px",
+  },
+  p: {
+    color: "red",
+    fontSize: "18px",
   },
 };

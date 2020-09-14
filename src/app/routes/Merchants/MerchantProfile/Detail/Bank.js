@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
-import { config } from "../../../../../url/url.js";
+
 import CheckPermissions from "../../../../../util/checkPermission";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
 import "../../MerchantsRequest/MerchantsRequest.css";
-
-const URL = config.url.URL;
 
 class Bank extends Component {
   constructor(props) {

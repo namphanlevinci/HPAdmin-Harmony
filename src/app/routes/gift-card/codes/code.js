@@ -375,7 +375,7 @@ class Codes extends Component {
               text={"Template"}
             />
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <h2 style={styles.h2}></h2>
+              {/* <h2 style={styles.h2}></h2> */}
               <div
                 style={{
                   display: "flex",

@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { USER_LOGIN_REQUEST } from "../actions/user/actions";
-import { store } from "react-notifications-component";
-import { config } from "../url/url";
 import { USER_LOGIN_SUCCESS } from "../actions/user/actions";
 
 import TextField from "@material-ui/core/TextField";
@@ -12,7 +10,6 @@ import IntlMessages from "../util/IntlMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Logo from "../assets/images/harmonylogo.png";
 
-const URL = config.url.URL;
 class SignIn extends React.Component {
   constructor() {
     super();

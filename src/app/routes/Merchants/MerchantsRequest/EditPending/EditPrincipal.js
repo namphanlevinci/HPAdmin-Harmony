@@ -1,30 +1,28 @@
 import React from "react";
-import { Formik, Form, Field, FieldArray } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { store } from "react-notifications-component";
 import { config } from "../../../../../url/url";
+import { GET_MERCHANT_BY_ID } from "../../../../../actions/merchants/actions";
+
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
-import PhoneInput from "react-phone-input-2";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import moment from "moment";
-// import Select from "react-select";
-import selectState from "../../../../../util/selectState";
 import axios from "axios";
 import * as Yup from "yup";
 import ErrorMessage from "../errorMessage";
-import Cleave from "cleave.js/react";
 import CustomSelect from "../../../../../util/getState";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 
 import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
@@ -68,22 +66,15 @@ const EditPrincipal = ({
   getData,
   initValue,
   token,
-  ViewMerchant_Request,
+  GetMerchantByID,
   history,
+  SuccessNotification,
+  FailureNotification,
+  WarningNotification,
 }) => {
   const getMerchantById = (ID) => {
-    axios
-      .get(URL + "/merchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 200) {
-          ViewMerchant_Request(res.data.data);
-          history.push("/app/merchants/pending/profile");
-        }
-      });
+    const payload = { ID, path: "/app/merchants/pending/profile" };
+    GetMerchantByID(payload);
   };
 
   const editMerchant = (principalInfo) => {
@@ -141,58 +132,19 @@ const EditPrincipal = ({
         })
         .then((res) => {
           if ((res.status = 200)) {
-            store.addNotification({
-              title: "Success!",
-              message: `${res.data.message}`,
-              type: "success",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-              },
-              width: 250,
-            });
+            SuccessNotification(res.data.message);
             setTimeout(() => {
               getMerchantById(`${initValue?.ID}`);
             }, 1000);
           } else {
-            store.addNotification({
-              title: "ERROR!",
-              message: "Something went wrong",
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-              },
-              width: 250,
-            });
+            FailureNotification(res.data.message);
           }
         })
         .catch((error) => {
           console.log(error);
         });
     } else {
-      store.addNotification({
-        title: "WARNING!",
-        message: "Please Enter Required Information",
-        type: "warning",
-        insert: "top",
-        container: "top-center",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        width: 300,
-      });
+      WarningNotification("Please Enter Required Information");
     }
   };
   return (
@@ -224,9 +176,10 @@ const EditPrincipal = ({
                         const title = PrincipalInfo?.title;
                         const ownerShip = PrincipalInfo?.ownerShip;
                         const address = PrincipalInfo?.address;
-                        const birthDate = moment(
-                          PrincipalInfo?.birthDate
+                        const DateOfBirth = moment(
+                          PrincipalInfo?.DateOfBirth
                         ).format("MM/DD/YYYY");
+
                         const SSN = PrincipalInfo?.ssn;
                         const email = PrincipalInfo?.email;
                         const driverNumber = PrincipalInfo?.driverNumber;
@@ -368,9 +321,9 @@ const EditPrincipal = ({
                             </div>
 
                             <div className="col-4" style={styles.div}>
-                              <label>Home Phone</label>
-                              <PhoneInput
-                                placeholder="Home Phone"
+                              <MaterialUiPhoneNumber
+                                label="Home Phone"
+                                fullWidth
                                 name={`PrincipalInfo.${index}.homePhone`}
                                 value={homePhone}
                                 country="us"
@@ -386,9 +339,9 @@ const EditPrincipal = ({
                               />
                             </div>
                             <div className="col-4" style={styles.div}>
-                              <label>Mobile Phone*</label>
-                              <PhoneInput
-                                placeholder="Home Phone"
+                              <MaterialUiPhoneNumber
+                                label="Mobile Phone*"
+                                fullWidth
                                 name={`PrincipalInfo.${index}.mobilePhone`}
                                 value={mobilePhone}
                                 onChange={(e) =>
@@ -424,15 +377,16 @@ const EditPrincipal = ({
                             >
                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid container justify="flex-start">
-                                  <label>Date of Birth* (mm/dd/yyyy)</label>
                                   <KeyboardDatePicker
+                                    label="Date of Birth* (mm/dd/yyyy)"
                                     style={{ marginTop: "0px" }}
                                     margin="normal"
+                                    fullWidth
                                     format="MM/dd/yyyy"
-                                    value={birthDate}
+                                    value={DateOfBirth}
                                     onChange={(e) =>
                                       setFieldValue(
-                                        `PrincipalInfo.${index}.birthDate`,
+                                        `PrincipalInfo.${index}.DateOfBirth`,
                                         moment(e).format("YYYY-MM-DD")
                                       )
                                     }
@@ -495,6 +449,7 @@ const EditPrincipal = ({
                               <br />
                               <img
                                 className="pending-image"
+                                style={{ width: "200px" }}
                                 src={PrincipalInfo?.imageUrl}
                                 alt="void"
                               />
@@ -553,8 +508,13 @@ const EditPrincipal = ({
   );
 };
 
-export default EditPrincipal;
+const mapDispatchToProps = (dispatch) => ({
+  GET_MERCHANT_BY_ID: (payload) => {
+    dispatch(GET_MERCHANT_BY_ID(payload));
+  },
+});
 
+export default withRouter(connect(null, mapDispatchToProps)(EditPrincipal));
 const styles = {
   label: { paddingTop: "10px" },
   div: {

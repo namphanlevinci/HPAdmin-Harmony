@@ -28,7 +28,6 @@ import Category from "./Detail/Category/Category";
 import Product from "./Detail/Product/Product";
 import ProductDetail from "./Detail/Product/productDetail";
 import ProductEdit from "./Detail/Product/productEdit";
-import ProductAdd from "./Detail/Product/productAdd";
 // Staff
 import Staff from "./Detail/Staff/Staff";
 import AddStaff from "./Detail/Staff/add-staff/add-staff";

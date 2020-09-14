@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../../../actions/notifications/actions";
 
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import SimpleReactValidator from "simple-react-validator";
 import General from "./general";
 import WorkTime from "./work-time";
@@ -26,7 +28,7 @@ class AddStaff extends Component {
     this.state = {
       activeStep: 0,
       match: true,
-      imagePreviewUrl: null,
+      imagePreviewUrl: "",
       // General
       lastName: "",
       firstName: "",
@@ -35,14 +37,13 @@ class AddStaff extends Component {
       city: "",
       zip: "",
       state: "",
-      countryCode: { value: "+1", label: "+1" },
       cellphone: "",
       email: "",
       pin: "",
       confirmPin: "",
       isActive: true,
-      nameRole: { value: "admin", label: "Admin" },
-      isDisabled: { value: "0", label: "Active" },
+      nameRole: "admin",
+      isDisabled: 0,
       // Work time
       timeStart2: { value: "09:30 AM", label: "09:30 AM" },
       timeEnd2: { value: "07:00 PM", label: "07:00 PM" },
@@ -92,7 +93,13 @@ class AddStaff extends Component {
       progressLoading: false,
     };
 
-    this.validator = new SimpleReactValidator();
+    this.validator = new SimpleReactValidator({
+      messages: {
+        email: "That is not an email.",
+        // OR
+        default: "Required!", // will override all messages
+      },
+    });
   }
 
   getSteps = () => {
@@ -124,6 +131,7 @@ class AddStaff extends Component {
         validator={this.validator}
         uploadFile={this.uploadFile}
         handleSelect={this.handleSelect}
+        handleMISelect={this.handleMISelect}
         toggleVisibility={this.toggleVisibility}
         handleCheckBox={this.handleCheckBox}
       />
@@ -232,7 +240,7 @@ class AddStaff extends Component {
       isActive,
     } = this.state;
 
-    const nameRole = this.state.nameRole.value;
+    const nameRole = this.state.nameRole;
     const isDisabled = Number(this.state.isDisabled.value);
     const state = this.state.state.value;
     const timeStart2 = this.state.timeStart2.value;
@@ -351,35 +359,38 @@ class AddStaff extends Component {
       )
       .then((res) => {
         if (Number(res.data.codeNumber) === 204) {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-          });
+          this.props.FailureNotification(res.data.message);
+
+          // store.addNotification({
+          //   title: "ERROR!",
+          //   message: `${res.data.message}`,
+          //   type: "warning",
+          //   insert: "top",
+          //   container: "top-right",
+          //   animationIn: ["animated", "fadeIn"],
+          //   animationOut: ["animated", "fadeOut"],
+          //   dismiss: {
+          //     duration: 5000,
+          //     onScreen: true,
+          //   },
+          // });
           this.setState({ activeStep: 0 });
         }
         if (Number(res.data.codeNumber) === 200) {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-          });
+          this.props.SuccessNotification(res.data.message);
+          // store.addNotification({
+          //   title: "SUCCESS!",
+          //   message: `${res.data.message}`,
+          //   type: "success",
+          //   insert: "top",
+          //   container: "top-right",
+          //   animationIn: ["animated", "fadeIn"],
+          //   animationOut: ["animated", "fadeOut"],
+          //   dismiss: {
+          //     duration: 5000,
+          //     onScreen: true,
+          //   },
+          // });
           this.props.history.push("/app/merchants/profile/staff");
         }
       });
@@ -406,12 +417,30 @@ class AddStaff extends Component {
   };
 
   handleCheckBox = (name) => (event) => {
-    this.setState({ ...this.state, [name]: event.target.checked });
+    const value = event.target.checked;
+    this.setState({ ...this.state, [name]: value });
+    if (name === "salaryIsCheck" && value === true) {
+      this.setState({ commIsCheck: false, commValue: 0 });
+    }
+    if (name === "commIsCheck" && value === true) {
+      this.setState({ salaryIsCheck: false, salaryValue: 0 });
+    }
+    if (name === "tipIsCheck" && value === true) {
+      this.setState({ fixIsCheck: false, fixValue: 0 });
+    }
+    if (name === "fixIsCheck" && value === true) {
+      this.setState({ tipIsCheck: false, tipValue: 0 });
+    }
   };
 
   handleSelect = (selectedOption, Inputname) => {
     const { name } = Inputname;
     this.setState({ [name]: selectedOption });
+  };
+
+  handleMISelect = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   };
 
   handleNext = () => {
@@ -478,16 +507,7 @@ class AddStaff extends Component {
               })}
             </Stepper>
             <div>
-              {this.state.activeStep === steps.length ? (
-                <div>
-                  <Typography className="my-2">
-                    <h1>Complete™</h1>
-                  </Typography>
-                  <Button className="btn btn-green" onClick={this.handleReset}>
-                    Reset
-                  </Button>
-                </div>
-              ) : (
+              {this.state.activeStep === steps.length ? null : ( // </div> //   </Button> //     Reset //   <Button className="btn btn-green" onClick={this.handleReset}> //   </Typography> //     <h1>Complete™</h1> //   <Typography className="my-2"> // <div>
                 <div>
                   {this.getStepContent(activeStep)}
                   <div
@@ -537,7 +557,17 @@ class AddStaff extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
+  MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
-export default connect(mapStateToProps)(AddStaff);
+
+const mapDispatchToProps = (dispatch) => ({
+  SuccessNotification: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  FailureNotification: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddStaff);

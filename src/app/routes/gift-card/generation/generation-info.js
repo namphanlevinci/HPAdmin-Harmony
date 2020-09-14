@@ -18,7 +18,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import CodeLog from "./code-log/code-log";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import Delete from "../delete-generation";
 import Select from "react-select";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";

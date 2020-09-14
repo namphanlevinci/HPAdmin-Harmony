@@ -2,8 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";

@@ -12,7 +12,6 @@ import Typography from "@material-ui/core/Typography";
 import IntlMessages from "../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
 import formatPhone from "../../../../../util/formatPhone";
-
 import General from "./General";
 import Questions from "./Questions";
 import Bank from "./Bank";
@@ -80,7 +79,7 @@ class AddMerchant extends React.Component {
     this.state = initialState;
     this.validator = new SimpleReactValidator({
       messages: {
-        default: "Required", // will override all messages
+        default: "Required",
       },
     });
   }
@@ -259,7 +258,7 @@ class AddMerchant extends React.Component {
   };
 
   handleCheckBox = (e) => {
-    const { name, value, checked } = e.target;
+    const { name, checked } = e.target;
     this.setState({ [name]: checked });
     this.setState({
       dbaAddress: "",

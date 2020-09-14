@@ -6,6 +6,7 @@ const initialState = {
   PrincipalData: "",
   ServiceData: "",
   ExtraData: "",
+  StaffData: "",
 };
 
 const MerchantReducer = (state = initialState, { type, payload }) => {
@@ -27,6 +28,9 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
       return { ...state };
     case types.GET_MERCHANT_EXTRA_SUCCESS:
       state.ExtraData = payload;
+      return { ...state };
+    case types.GET_STAFF_BY_ID_SUCCESS:
+      state.StaffData = payload;
       return { ...state };
     default:
       return state;

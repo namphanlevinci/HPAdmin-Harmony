@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FaTrashRestoreAlt } from "react-icons/fa";
-import { GoTrashcan } from "react-icons/go";
-import { FiEdit } from "react-icons/fi";
 
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../url/url";
@@ -208,6 +205,7 @@ class Service extends Component {
             row.original.isDisabled !== 1 ? (
               <Tooltip title="Archive">
                 <img
+                  alt=""
                   src={ArchiveSVG}
                   onClick={() => [
                     this.setState({
@@ -220,6 +218,7 @@ class Service extends Component {
             ) : (
               <Tooltip title="Restore">
                 <img
+                  alt=""
                   src={RestoreSVG}
                   onClick={() =>
                     this.setState({
@@ -238,6 +237,7 @@ class Service extends Component {
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
+                      alt=""
                       src={EditSVG}
                       onClick={() => this.handleEdit(row.original)}
                     />
@@ -362,10 +362,3 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Service);
-
-const styles = {
-  span: {
-    fontWeight: "400",
-    color: "black",
-  },
-};

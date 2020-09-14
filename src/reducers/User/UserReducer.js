@@ -1,6 +1,4 @@
 import * as types from "../../actions/user/types";
-import { store } from "react-notifications-component";
-import axios from "axios";
 
 const initialState = {
   User: JSON.parse(localStorage.getItem("User_login"))

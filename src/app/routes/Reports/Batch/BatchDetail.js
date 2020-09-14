@@ -83,7 +83,7 @@ class Transactions extends React.Component {
         id: "payment",
         accessor: (e) => (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <img src={CreditCardIcon(e.paymentData.card_type)} />
+            <img src={CreditCardIcon(e.paymentData.card_type)} alt="" />
             <p>{e.paymentData.card_number}</p>
           </div>
         ),

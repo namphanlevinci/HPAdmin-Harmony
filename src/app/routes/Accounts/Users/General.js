@@ -1,21 +1,27 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
+
+import "react-phone-number-input/style.css";
 
 const General = ({
-  data: { phone, email, address, birthDate, password, loading },
   handleChange,
+  handlePhone,
+  data: { phone, email, address, birthDate, password, loading },
 }) => {
+  console.log("handlePhone", handlePhone);
+  console.log("handleChange", handleChange);
   return (
     <div>
       <h2 style={styles.h2}>Contact Information</h2>
+
       <div className="row">
         <div className="col-3">
-          <TextField
+          <MaterialUiPhoneNumber
             label="Phone"
-            type="text"
-            name="phone"
             value={phone}
-            onChange={handleChange}
+            onChange={handlePhone}
+            fullWidth
           />
         </div>
         <div className="col-4">
@@ -25,6 +31,7 @@ const General = ({
             name="address"
             value={address}
             onChange={handleChange}
+            fullWidth
           />
         </div>
         <div className="col-5">

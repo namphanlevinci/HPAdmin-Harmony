@@ -6,7 +6,6 @@ import {
   VIEW_PROFILE_USER,
   UPDATE_USER_ADMIN,
   UPDATE_USER_PASSWORD,
-  GET_USER_BY_ID,
 } from "../../actions/user/actions";
 import {
   BrowserRouter as Router,
@@ -217,6 +216,10 @@ class proFile extends Component {
     }
   };
 
+  handlePhone = (value) => {
+    this.setState({ phone: value });
+  };
+
   _goBack = () => {
     this.props.history.push("/app/dashboard");
   };
@@ -230,15 +233,18 @@ class proFile extends Component {
     const e = this.props.CurrentUser;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = <img src={imagePreviewUrl} alt="avatar" />;
+      $imagePreview = (
+        <img src={imagePreviewUrl} alt="avatar" className="admin-avatar" />
+      );
     } else {
       $imagePreview =
         e?.imageUrl !== null ? (
-          <img src={e.imageUrl} alt="avatar" />
+          <img src={e.imageUrl} alt="avatar" className="admin-avatar" />
         ) : (
           <img
             src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
             alt="avatar"
+            className="admin-avatar"
           />
         );
     }
@@ -333,6 +339,7 @@ class proFile extends Component {
                   <Route path="/app/profile/general">
                     <General
                       data={this.state}
+                      handlePhone={this.handlePhone}
                       handleChange={this.handleChange}
                       showPassword={this.showPassword}
                     />

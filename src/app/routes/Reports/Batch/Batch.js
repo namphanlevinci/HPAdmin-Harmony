@@ -23,7 +23,7 @@ import "react-table/react-table.css";
 import "./Batch.css";
 
 const URL = config.url.URL;
-const upFile = config.url.upFile;
+
 class Transactions extends React.Component {
   constructor(props) {
     super(props);

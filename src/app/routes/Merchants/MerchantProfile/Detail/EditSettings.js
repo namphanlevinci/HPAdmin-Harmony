@@ -4,8 +4,13 @@ import {
   GET_MERCHANT_BY_ID,
   MERCHANT_UPDATE_SETTING,
 } from "../../../../../actions/merchants/actions";
-
-import axios from "axios";
+import {
+  InputAdornment,
+  FormControl,
+  InputLabel,
+  Input,
+} from "@material-ui/core";
+import CustomCurrencyInput from "../../../../../util/CustomCurrencyInput";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
@@ -26,6 +31,7 @@ class EditSettings extends Component {
       update: false,
       discountRate: "",
       pointRate: "",
+      turnAmount: "",
     };
   }
   _handleChange = (event) => {
@@ -45,6 +51,7 @@ class EditSettings extends Component {
       totalAmountLimit: data.totalAmountLimit,
       discountRate: data.discountRate,
       pointRate: data?.pointRate,
+      turnAmount: data?.turnAmount,
     });
   }
   _toggleConfirm = () => {
@@ -61,6 +68,7 @@ class EditSettings extends Component {
       totalAmountLimit,
       discountRate,
       pointRate,
+      turnAmount,
     } = this.state;
 
     const merchantToken = "";
@@ -70,6 +78,7 @@ class EditSettings extends Component {
       merchantToken,
       transactionsFee,
       totalAmountLimit,
+      turnAmount,
       discountRate,
       pointRate,
       ID,
@@ -87,18 +96,25 @@ class EditSettings extends Component {
 
           <div className="row">
             <div className="col-4" style={styles.div}>
-              <TextField
-                label="Transactions Fee"
-                type="number"
-                name="transactionsFee"
-                value={this.state.transactionsFee}
-                onChange={this._handleChange}
-                InputProps={{
-                  startAdornment: (
-                    <span style={{ paddingRight: "10px" }}>%</span>
-                  ),
-                }}
-              />
+              <FormControl>
+                <InputLabel htmlFor="formatted-text-mask-input">
+                  Transactions Fee
+                </InputLabel>
+                <Input
+                  onChange={(e, masked) =>
+                    this.setState({ transactionsFee: masked })
+                  }
+                  value={this.state.transactionsFee}
+                  name="transactionsFee"
+                  id="custom-transaction-fee-input"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <p style={{ marginBottom: "5px" }}>%</p>
+                    </InputAdornment>
+                  }
+                  inputComponent={CustomCurrencyInput}
+                />
+              </FormControl>
             </div>
 
             <div className="col-4" style={styles.div}>
@@ -111,36 +127,54 @@ class EditSettings extends Component {
               />
             </div>
 
-            {/* <div className="col-4" style={styles.div}>
-              <TextField
-                label="Merchant Token"
-                type="text"
-                name="merchantToken"
-                value={this.state.merchantToken}
-                onChange={this._handleChange}
-              />
-            </div> */}
-
             <div className="col-4" style={styles.div}>
-              <TextField
-                label="Discount Rate"
-                type="number"
-                name="discountRate"
-                value={this.state.discountRate}
-                onChange={this._handleChange}
-              />
+              <FormControl>
+                <InputLabel htmlFor="formatted-text-mask-input">
+                  Discount Rate
+                </InputLabel>
+                <Input
+                  onChange={(e, masked) =>
+                    this.setState({ discountRate: masked })
+                  }
+                  value={this.state.discountRate}
+                  name="discountRate"
+                  id="custom-transaction-fee-input"
+                  startAdornment
+                  inputComponent={CustomCurrencyInput}
+                />
+              </FormControl>
             </div>
 
             <div className="col-4" style={styles.div}>
-              <TextField
-                label="Point Rate"
-                type="number"
-                name="pointRate"
-                min={1}
-                max={100}
-                value={this.state.pointRate}
-                onChange={this._handleChange}
-              />
+              <FormControl>
+                <InputLabel htmlFor="formatted-text-mask-input">
+                  Point Rate
+                </InputLabel>
+                <Input
+                  onChange={(e, masked) => this.setState({ pointRate: masked })}
+                  value={this.state.pointRate}
+                  name="pointRate"
+                  id="custom-transaction-point--rate-input"
+                  startAdornment
+                  inputComponent={CustomCurrencyInput}
+                />
+              </FormControl>
+            </div>
+            <div className="col-4" style={styles.div}>
+              <FormControl>
+                <InputLabel htmlFor="formatted-text-mask-input">
+                  Turn Amount
+                </InputLabel>
+                <Input
+                  onChange={(e, masked) =>
+                    this.setState({ turnAmount: masked })
+                  }
+                  value={this.state.turnAmount}
+                  name="turnAmount"
+                  startAdornment
+                  inputComponent={CustomCurrencyInput}
+                />
+              </FormControl>
             </div>
           </div>
           <br />

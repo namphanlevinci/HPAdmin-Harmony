@@ -1,6 +1,5 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import PhoneInput from "react-phone-input-2";
 import InputCustom from "./custom-input";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -9,8 +8,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CustomSelect from "../../../../../util/getState";
 import FormGroup from "@material-ui/core/FormGroup";
-
-import "react-phone-input-2/lib/high-res.css";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 
 const General = ({
   handleChange,
@@ -152,6 +150,7 @@ const General = ({
       <div>
         <FormGroup>
           <FormControlLabel
+            style={{ width: "50%" }}
             control={
               <Checkbox
                 checked={value.sameAsBA}
@@ -245,17 +244,15 @@ const General = ({
           </div>
         </div>
         <div className="col-4">
-          <div style={{ width: "80%" }}>
-            <label>Business Phone Number*</label>
-            <PhoneInput
-              style={{ marginTop: "10px" }}
-              country={"us"}
-              placeholder="Business Phone Number"
+          <div>
+            <MaterialUiPhoneNumber
+              label="Business Phone Number"
               name="businessPhone"
               value={value.businessPhone}
               onChange={(e) => handlePhone(e, "businessPhone")}
+              fullWidth
+              margin="normal"
             />
-
             {validator.message(
               "businessPhone",
               value.businessPhone,
@@ -312,16 +309,15 @@ const General = ({
               {validator.message("position", value.position, "required|string")}
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-4">
             <div>
-              <label>Contact Phone Number*</label>
-              <PhoneInput
-                country={"us"}
-                style={{ marginTop: "10px" }}
-                placeholder="Contact Phone Number"
+              <MaterialUiPhoneNumber
+                label="Contact Phone Number*"
                 name="contactPhone"
                 value={value.contactPhone}
                 onChange={(e) => handlePhone(e, "contactPhone")}
+                fullWidth
+                margin="normal"
               />
               {validator.message(
                 "contactPhone",

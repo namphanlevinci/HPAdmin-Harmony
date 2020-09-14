@@ -51,7 +51,14 @@ class productDetail extends Component {
         <h2 style={{ color: "#4251af" }}>Product Detail</h2>
         <div className="container Service">
           <div className="row">
-            <div className="col-md-4" style={{ paddingLeft: "0px" }}>
+            <div className="col-6" style={{ paddingLeft: "0px" }}>
+              <label>Category*</label>
+              <p>{product.categoryName}</p>
+              <label>Product*</label>
+              <p>{product.name}</p>
+              <label>Description</label>
+              <p>{product.description}</p>
+
               <label style={{ marginBottom: "20px" }}>Image</label>
               <br />
               <img
@@ -60,24 +67,15 @@ class productDetail extends Component {
                 alt="void"
               />
             </div>
-            <div className="col-md-8">
+            <div className="col-6">
               <div className="row">
-                <div className="col-4">
-                  <label>Product*</label>
-                  <br />
-                  <p>{product.name}</p>
-                </div>
-                <div className="col-4">
+                <div className="col-6">
                   <label>SKU Number*</label>
                   <br />
                   <p>{product.sku}</p>
                 </div>
-                <div className="col-4">
-                  <label>Category*</label>
-                  <br />
-                  <p>{product.categoryName}</p>
-                </div>
-                <div className="col-4">
+
+                <div className="col-6">
                   <label>Items In Stock*</label>
                   <div className="input-box">
                     <p style={styles.p}>{product.quantity} </p>
@@ -86,8 +84,7 @@ class productDetail extends Component {
                     </span>
                   </div>
                 </div>
-
-                <div className="col-4">
+                <div className="col-6">
                   <label>Low Threshold*</label>
                   <div className="input-box">
                     <p style={styles.p}>{product.minThreshold}</p>
@@ -96,7 +93,7 @@ class productDetail extends Component {
                     </span>
                   </div>
                 </div>
-                <div className="col-4">
+                <div className="col-6">
                   <label>High Threshold*</label>
                   <div className="input-box">
                     <p style={styles.p}>{product.maxThreshold}</p>
@@ -105,12 +102,12 @@ class productDetail extends Component {
                     </span>
                   </div>
                 </div>
-                <div className="col-4">
+                <div className="col-6">
                   <label>Need To Order</label>
                   <br />
                   <p>{product.needToorDer}</p>
                 </div>
-                <div className="col-4">
+                <div className="col-6">
                   <label>Price* ($)</label>
                   <br />
                   <p>$ {product.price}</p>
@@ -119,13 +116,6 @@ class productDetail extends Component {
                   <label>Status*</label>
                   <br />
                   <p>{product.isDisabled !== 1 ? "Active" : "Inactive"}</p>
-                </div>
-                <div className="col-12">
-                  <label>Description</label>
-                  <br />
-                  <p style={{ width: "100%", height: "60px" }}>
-                    {product.description}
-                  </p>
                 </div>
               </div>
             </div>

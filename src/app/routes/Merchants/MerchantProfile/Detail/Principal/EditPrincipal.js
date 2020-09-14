@@ -2,29 +2,26 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import {
-  ViewProfile_Merchants,
   UPDATE_MERCHANT_PRINCIPAL,
   GET_MERCHANT_BY_ID,
 } from "../../../../../../actions/merchants/actions";
-import { store } from "react-notifications-component";
 
 import LinearProgress from "../../../../../../util/linearProgress";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
-import Axios from "axios";
 import axios from "axios";
 import Cleave from "cleave.js/react";
 import Select from "react-select";
 import selectState from "../../../../../../util/selectState";
-import PhoneInput from "react-phone-input-2";
+// import PhoneInput from "react-phone-input-2";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 
 import "./principal.styles.scss";
 import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
-import "react-phone-input-2/lib/high-res.css";
+// import "react-phone-input-2/lib/high-res.css";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class EditPrincipal extends Component {
@@ -37,7 +34,6 @@ class EditPrincipal extends Component {
       StateId: "",
       DriverNumber: "",
       FileId: "",
-      Token: "",
       stateName: "",
       email: "",
       imagePreviewUrl: "",
@@ -46,22 +42,18 @@ class EditPrincipal extends Component {
   }
 
   async componentDidMount() {
-    const Token = localStorage.getItem("User_login");
-    await this.setState({ Token: Token });
     const data = this.props.principalData;
-    if (data !== null) {
-      this.setState({
-        HomePhone: data?.homePhone,
-        MobilePhone: data?.mobilePhone,
-        Address: data?.address,
-        StateId: data?.stateId,
-        DriverNumber: data?.driverNumber,
-        FileId: data?.fileId,
-        stateName: data?.state?.name,
-        email: data?.email,
-        loading: true,
-      });
-    }
+    await this.setState({
+      HomePhone: data?.homePhone,
+      MobilePhone: data?.mobilePhone,
+      Address: data?.address,
+      StateId: data?.stateId,
+      DriverNumber: data?.driverNumber,
+      FileId: data?.fileId,
+      stateName: data?.state?.name,
+      email: data?.email,
+      loading: true,
+    });
   }
   _handleChange = (event) => {
     const target = event.target;
@@ -104,7 +96,7 @@ class EditPrincipal extends Component {
   _goBack = () => {
     this.props.history.push("/app/merchants/profile/principal/info");
   };
-  _update = () => {
+  updatePrincipal = () => {
     const principalID = this.props.principalData.principalId;
     const ID = this.props.MerchantProfile.merchantId;
 
@@ -157,116 +149,117 @@ class EditPrincipal extends Component {
       );
     }
 
-    const renderPrincipal =
-      e !== null ? (
-        <React.Fragment>
-          <div className="row">
-            <div className="col-4">
-              <label>Name*</label>
-              <input
-                name="name"
-                value={e.firstName + " " + e.lastName}
-                onChange={this._handleChange}
-                disabled
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>Title/Position*</label>
-              <input
-                name="Title"
-                value={e.title}
-                onChange={this._handleChange}
-                disabled
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>Ownership* (%)</label>
-              <input
-                name="name"
-                value={e.ownerShip}
-                onChange={this._handleChange}
-                disabled
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>Home Phone</label>
+    return (
+      <div className="react-transition swipe-up  principal-container container-fuild">
+        <h2 style={styles.h2}>Principal Information</h2>
+        {this.state.loading && (
+          <div className="edit-principal">
+            <div className="row">
+              <div className="col-4">
+                <label>Name*</label>
+                <input
+                  name="name"
+                  value={e.firstName + " " + e.lastName}
+                  onChange={this._handleChange}
+                  disabled
+                  style={styles.input}
+                />
+              </div>
+              <div className="col-4">
+                <label>Title/Position*</label>
+                <input
+                  name="Title"
+                  value={e.title}
+                  onChange={this._handleChange}
+                  disabled
+                  style={styles.input}
+                />
+              </div>
+              <div className="col-4">
+                <label>Ownership* (%)</label>
+                <input
+                  name="name"
+                  value={e.ownerShip}
+                  onChange={this._handleChange}
+                  disabled
+                  style={styles.input}
+                />
+              </div>
+              <div className="col-4">
+                <label>Home Phone</label>
+                <br />
 
-              <PhoneInput
-                name="HomePhone"
-                value={this.state.HomePhone}
-                onChange={(e) => this.setState({ HomePhone: e })}
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>Mobile Phone*</label>
-              <PhoneInput
-                name="MobilePhone"
-                value={this.state.MobilePhone}
-                onChange={(e) => this.setState({ MobilePhone: e })}
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>Address*</label>
-              <input
-                name="Address"
-                value={this.state.Address}
-                onChange={this._handleChange}
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>Social Security Number* (SSN)</label>
+                <MaterialUiPhoneNumber
+                  name="HomePhone"
+                  autoFormat="true"
+                  value={this.state.HomePhone}
+                  onChange={(e) => this.setState({ HomePhone: e })}
+                />
+              </div>
+              <div className="col-4">
+                <label>Mobile Phone*</label>
 
-              <Cleave
-                name="ssn"
-                value={e.ssn}
-                onChange={this._handleChange}
-                style={styles.input}
-                options={{
-                  blocks: [3, 2, 4],
-                  delimiter: "-",
-                  numericOnly: true,
-                }}
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>Date of Birth* (mm/dd/yyyy)*</label>
-              <input
-                name="birthday"
-                value={moment(e.birthDate).format("MM/DD/YYYY")}
-                onChange={this._handleChange}
-                disabled
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>Email Address*</label>
-              <input
-                name="email"
-                value={this.state.email}
-                onChange={this._handleChange}
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>Driver License Number*</label>
-              <input
-                name="DriverNumber"
-                value={this.state.DriverNumber}
-                onChange={this._handleChange}
-                style={styles.input}
-              />
-            </div>
-            <div className="col-4">
-              <label>State Issued*</label>
+                <MaterialUiPhoneNumber
+                  name="MobilePhone"
+                  value={this.state.MobilePhone}
+                  onChange={(e) => this.setState({ MobilePhone: e })}
+                />
+              </div>
+              <div className="col-4">
+                <label>Address*</label>
+                <input
+                  name="Address"
+                  value={this.state.Address}
+                  onChange={this._handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div className="col-4">
+                <label>Social Security Number* (SSN)</label>
 
-              {this.state.loading && (
+                <Cleave
+                  name="ssn"
+                  value={e.ssn}
+                  onChange={this._handleChange}
+                  style={styles.input}
+                  options={{
+                    blocks: [3, 2, 4],
+                    delimiter: "-",
+                    numericOnly: true,
+                  }}
+                />
+              </div>
+              <div className="col-4">
+                <label>Date of Birth* (mm/dd/yyyy)*</label>
+                <input
+                  name="birthday"
+                  value={moment(e.birthDate).format("MM/DD/YYYY")}
+                  onChange={this._handleChange}
+                  disabled
+                  style={styles.input}
+                />
+              </div>
+              <div className="col-4">
+                <label>Email Address*</label>
+                <input
+                  name="email"
+                  value={this.state.email}
+                  onChange={this._handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div className="col-4">
+                <label>Driver License Number*</label>
+                <input
+                  name="DriverNumber"
+                  value={this.state.DriverNumber}
+                  onChange={this._handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div className="col-4">
+                <label>State Issued*</label>
+
                 <Select
                   onChange={(e) => this.setState({ StateId: e.value })}
                   name="state"
@@ -276,42 +269,35 @@ class EditPrincipal extends Component {
                     label: this.state.stateName,
                   }}
                 />
-              )}
-            </div>
-            <div className="col-12">
-              <label>Driver License Picture*</label> <br />
-              {$imagePreview}
-              <div style={{ width: "30%", marginTop: "15px" }}>
-                {this.state.loadingProgress ? <LinearProgress /> : null}
+              </div>
+              <div className="col-12">
+                <label>Driver License Picture*</label> <br />
+                {$imagePreview}
+                <div style={{ width: "30%", marginTop: "15px" }}>
+                  {this.state.loadingProgress ? <LinearProgress /> : null}
+                </div>
               </div>
             </div>
+            <div className="col-3" style={{ paddingLeft: "0px" }}>
+              <input
+                type="file"
+                // style={{ width: "250px !important" }}
+                name="image"
+                id="file"
+                className="custom-input"
+                onChange={(e) => this.uploadFile(e)}
+              />
+            </div>
+            <div style={{ paddingTop: "20px" }}>
+              <Button className="btn btn-green" onClick={this.updatePrincipal}>
+                SAVE
+              </Button>
+              <Button className="btn btn-red" onClick={this._goBack}>
+                CANCEL
+              </Button>
+            </div>
           </div>
-          <div className="col-3" style={{ paddingLeft: "0px" }}>
-            <input
-              type="file"
-              // style={{ width: "250px !important" }}
-              name="image"
-              id="file"
-              className="custom-input"
-              onChange={(e) => this.uploadFile(e)}
-            />
-          </div>
-          <div style={{ paddingTop: "20px" }}>
-            <Button className="btn btn-green" onClick={this._update}>
-              SAVE
-            </Button>
-            <Button className="btn btn-red" onClick={this._goBack}>
-              CANCEL
-            </Button>
-          </div>
-        </React.Fragment>
-      ) : (
-        <label>&nbsp;- NO PRINCIPAL INFORMATION</label>
-      );
-    return (
-      <div className="react-transition swipe-up general-content principal-container container-fuild">
-        <h2 style={styles.h2}>Principal Information</h2>
-        <div className="edit-principal">{renderPrincipal}</div>
+        )}
       </div>
     );
   }
@@ -341,3 +327,7 @@ const styles = {
     marginBottom: "10px",
   },
 };
+
+// const formatPhoneNumber = (value) => {
+//   if (!value?.toString()?.startsWith("+")) return (value = "+".concat(value));
+// };

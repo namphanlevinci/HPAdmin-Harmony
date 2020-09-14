@@ -267,7 +267,7 @@ export class workTime extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.staffDetail,
+  Staff: state.MerchantReducer.StaffData,
 });
 
 const mapDispatchToProps = {};

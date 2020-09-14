@@ -1,18 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
 import {
   ViewProfile_Merchants,
   UpdateMerchant_Infor,
-  GetMerchant_byID,
+  GET_MERCHANT_BY_ID,
 } from "../../../../../../actions/merchants/actions";
 
 import Button from "@material-ui/core/Button";
-// import StateComponent from "../../../../../util/State";
 import PhoneInput from "react-phone-input-2";
-import Select from "react-select";
-import selectState from "../../../../../../util/selectState";
-import Cleave from "cleave.js/react";
+
 import SimpleReactValidator from "simple-react-validator";
 
 import CustomSelect from "../../../../../../util/getState";
@@ -57,7 +53,6 @@ class General extends Component {
   };
   Update = () => {
     const ID = this.props.MerchantProfile.general.generalId;
-    const IDMerchant = this.props.MerchantProfile.merchantId;
 
     const {
       emailContact,
@@ -103,7 +98,11 @@ class General extends Component {
     };
     this.props.updateMerchant(payload);
     setTimeout(() => {
-      this.props.GetMerchant_byID(IDMerchant);
+      const payload = {
+        ID: this.props.MerchantProfile.merchantId,
+        path: "/app/merchants/profile/general",
+      };
+      this.props.GET_MERCHANT_BY_ID(payload);
     }, 1000);
   };
 
@@ -512,8 +511,8 @@ const mapDispatchToProps = (dispatch) => {
     updateMerchant: (payload) => {
       dispatch(UpdateMerchant_Infor(payload));
     },
-    GetMerchant_byID: (ID) => {
-      dispatch(GetMerchant_byID(ID));
+    GET_MERCHANT_BY_ID: (ID) => {
+      dispatch(GET_MERCHANT_BY_ID(ID));
     },
   };
 };
