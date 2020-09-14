@@ -258,7 +258,7 @@ class AddMerchant extends React.Component {
   };
 
   handleCheckBox = (e) => {
-    const { name, value, checked } = e.target;
+    const { name, checked } = e.target;
     this.setState({ [name]: checked });
     this.setState({
       dbaAddress: "",

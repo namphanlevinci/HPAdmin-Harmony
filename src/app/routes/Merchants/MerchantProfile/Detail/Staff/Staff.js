@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  VIEW_STAFF,
-  GET_STAFF_BY_ID,
-} from "../../../../../../actions/merchants/actions";
+import { GET_STAFF_BY_ID } from "../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../url/url";
 
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";

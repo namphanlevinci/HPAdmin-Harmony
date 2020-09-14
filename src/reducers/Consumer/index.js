@@ -1,5 +1,4 @@
 import * as types from "../../actions/consumer/types";
-import { store } from "react-notifications-component";
 
 const initialState = {
   Consumer: "",

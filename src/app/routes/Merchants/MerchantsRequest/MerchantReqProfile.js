@@ -16,11 +16,6 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Popup from "reactjs-popup";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import NumberFormat from "react-number-format";
 import formatPhone from "../../../../util/formatPhone";
 import checkPermission from "../../../../util/checkPermission";
@@ -270,9 +265,9 @@ class MerchantReqProfile extends Component {
                   onOpen={this.handleOpenReject}
                   closeOnDocumentClick
                 >
-                  <a className="close" onClick={this.handleCloseReject}>
+                  <h4 className="close" onClick={this.handleCloseReject}>
                     &times;
-                  </a>
+                  </h4>
                   <div
                     style={{
                       backgroundColor: "#4251af",
@@ -353,9 +348,9 @@ class MerchantReqProfile extends Component {
                   closeOnDocumentClick
                 >
                   <span>
-                    <a className="close" onClick={this.handleCloseAccept}>
+                    <h4 className="close" onClick={this.handleCloseAccept}>
                       &times;
-                    </a>
+                    </h4>
                     <div
                       style={{
                         backgroundColor: "#4251af",

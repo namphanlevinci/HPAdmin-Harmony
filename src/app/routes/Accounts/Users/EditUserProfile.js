@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
-import { store } from "react-notifications-component";
 
 import {
   VIEW_PROFILE_USER,

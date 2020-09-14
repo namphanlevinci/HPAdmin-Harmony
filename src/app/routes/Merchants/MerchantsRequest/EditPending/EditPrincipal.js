@@ -1,10 +1,9 @@
 import React from "react";
-import { Formik, Form, Field, FieldArray } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { store } from "react-notifications-component";
 import { config } from "../../../../../url/url";
 import { GET_MERCHANT_BY_ID } from "../../../../../actions/merchants/actions";
 
@@ -15,7 +14,6 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import moment from "moment";
-import selectState from "../../../../../util/selectState";
 import axios from "axios";
 import * as Yup from "yup";
 import ErrorMessage from "../errorMessage";

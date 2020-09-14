@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Formik, Form, Field, FieldArray } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 import { config } from "../../../../../url/url";
 import { IoIosClose } from "react-icons/io";
 
@@ -18,7 +18,6 @@ import Input from "@material-ui/core/Input";
 import CustomStateSelect from "../../../../../util/CustomStateSelect";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
-import ReactPlaceholder from "react-placeholder";
 
 import {
   MuiPickersUtilsProvider,
@@ -28,7 +27,6 @@ import {
 import "nprogress/nprogress.css";
 import "react-placeholder/lib/reactPlaceholder.css";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class Principal extends Component {
@@ -160,7 +158,7 @@ class Principal extends Component {
                             principal.addressPrincipal?.state;
                           const driverLicenseState = principal?.stateIssued;
                           const principalBirthday = principal?.dateOfBirth;
-                          const firstName = principal?.firstName;
+
                           return (
                             <div key={index}>
                               <div className="row align-items-center  add-merchant-div">

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
-import { config } from "../../../../../url/url";
 import { UPDATE_CONSUMER } from "../../../../../actions/consumer/actions";
 
 import {
@@ -14,8 +12,6 @@ import CustomCurrencyInput from "../../../../../util/CustomCurrencyInput";
 import Button from "@material-ui/core/Button";
 
 import "./Consumer.css";
-
-const URL = config.url.URL;
 
 class Setting extends Component {
   constructor(props) {

@@ -1,19 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
 import {
   ViewProfile_Merchants,
   UpdateMerchant_Infor,
-  GetMerchant_byID,
   GET_MERCHANT_BY_ID,
 } from "../../../../../../actions/merchants/actions";
 
 import Button from "@material-ui/core/Button";
-// import StateComponent from "../../../../../util/State";
 import PhoneInput from "react-phone-input-2";
-import Select from "react-select";
-import selectState from "../../../../../../util/selectState";
-// import Cleave from "cleave.js/react";
+
 import SimpleReactValidator from "simple-react-validator";
 
 import CustomSelect from "../../../../../../util/getState";
@@ -58,7 +53,6 @@ class General extends Component {
   };
   Update = () => {
     const ID = this.props.MerchantProfile.general.generalId;
-    const IDMerchant = this.props.MerchantProfile.merchantId;
 
     const {
       emailContact,

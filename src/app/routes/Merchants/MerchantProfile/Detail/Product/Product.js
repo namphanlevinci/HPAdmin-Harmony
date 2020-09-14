@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
-import { FaTrashRestoreAlt } from "react-icons/fa";
-import { GoTrashcan } from "react-icons/go";
-import { FiEdit } from "react-icons/fi";
 import { config } from "../../../../../../url/url";
 
 import ReactTable from "react-table";
@@ -15,8 +12,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import defaultImage from "../Extra/hpadmin2.png";
-import ProductAdd from "./productAdd";
-import Slide from "@material-ui/core/Slide";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
@@ -26,9 +21,6 @@ import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined"
 
 import "react-table/react-table.css";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 const URL = config.url.URL;
 class Product extends Component {
   constructor(props) {
@@ -216,6 +208,7 @@ class Product extends Component {
             row.original.isDisabled !== 1 ? (
               <Tooltip title="Archive">
                 <img
+                  alt=""
                   src={ArchiveSVG}
                   size={21}
                   onClick={() => [
@@ -229,6 +222,7 @@ class Product extends Component {
             ) : (
               <Tooltip title="Restore">
                 <img
+                  alt=""
                   src={RestoreSVG}
                   onClick={() =>
                     this.setState({
@@ -247,6 +241,7 @@ class Product extends Component {
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
+                      alt=""
                       src={EditSVG}
                       onClick={() => this.viewDetail(row.original)}
                     />

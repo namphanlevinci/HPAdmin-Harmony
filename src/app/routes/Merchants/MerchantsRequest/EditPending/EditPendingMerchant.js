@@ -214,9 +214,6 @@ class EditPendingMerchant extends Component {
       );
     }
 
-    const inputProps = {
-      step: 300,
-    };
     return (
       <div className="container-fluid content-list ">
         <ContainerHeader

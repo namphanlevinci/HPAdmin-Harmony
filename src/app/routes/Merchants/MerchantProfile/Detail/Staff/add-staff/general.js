@@ -3,13 +3,11 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 import TextField from "@material-ui/core/TextField";
 // import Select from "react-select";
-import PhoneInput from "react-phone-input-2";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import LinearProgress from "../../../../../../../util/linearProgress";
 import InputCustom from "../../../../MerchantsList/addMerchant/custom-input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
@@ -17,7 +15,6 @@ import ReactImageAppear from "react-image-appear";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../../../../util/getState";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import Select from "@material-ui/core/Select";
 
 import "react-phone-input-2/lib/high-res.css";
@@ -54,19 +51,6 @@ const General = ({
   },
   validator,
 }) => {
-  const roles = [
-    { value: "admin", label: "Admin" },
-    { value: "staff", label: "Staff" },
-  ];
-
-  const status = [
-    { value: "0", label: "Active" },
-    {
-      value: "1",
-      label: "Disable",
-    },
-  ];
-
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">

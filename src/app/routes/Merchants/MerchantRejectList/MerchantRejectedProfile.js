@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { store } from "react-notifications-component";
 import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
 import { config } from "../../../../url/url";

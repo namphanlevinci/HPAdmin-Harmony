@@ -7,11 +7,9 @@ import {
 } from "../../../../../actions/consumer/actions";
 
 import Button from "@material-ui/core/Button";
-import Popup from "reactjs-popup";
+
 import CheckPermissions from "../../../../../util/checkPermission";
 import DisableConsumer from "./DisableConsumer.js";
-
-import { config } from "../../../../../url/url";
 
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
 import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";

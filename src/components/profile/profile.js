@@ -6,7 +6,6 @@ import {
   VIEW_PROFILE_USER,
   UPDATE_USER_ADMIN,
   UPDATE_USER_PASSWORD,
-  GET_USER_BY_ID,
 } from "../../actions/user/actions";
 import {
   BrowserRouter as Router,

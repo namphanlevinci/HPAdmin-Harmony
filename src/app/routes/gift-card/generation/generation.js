@@ -20,8 +20,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
 // import Delete from "../delete-generation";
 import CheckPermissions from "../../../../util/checkPermission";
-import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
-import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -174,7 +172,6 @@ class Generation extends Component {
       {
         id: "Unused",
         Header: () => <div style={{ textAlign: "center" }}>Unused</div>,
-        accessor: "unUsed",
         accessor: (row) => <p style={{ textAlign: "center" }}>{row.unUsed}</p>,
       },
       {
@@ -198,6 +195,7 @@ class Generation extends Component {
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "10px" }}>
                     <img
+                      alt=""
                       src={EditSVG}
                       style={style.icon}
                       onClick={() => this.viewGeneration(row.original)}

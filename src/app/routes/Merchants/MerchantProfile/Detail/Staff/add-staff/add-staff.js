@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
 import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
@@ -10,7 +9,6 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import SimpleReactValidator from "simple-react-validator";
 import General from "./general";
 import WorkTime from "./work-time";

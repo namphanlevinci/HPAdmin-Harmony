@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { GET_ALL_PERMISSION } from "../../../actions/user/actions";
 import { connect } from "react-redux";
 

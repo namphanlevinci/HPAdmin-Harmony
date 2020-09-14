@@ -2,7 +2,6 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import defaultImage from "./hpadmin2.png";
 import LinearIndeterminate from "../../../../../util/linearProgress";
-import Cleave from "cleave.js/react";
 import InputCustom from "./custom-input";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";

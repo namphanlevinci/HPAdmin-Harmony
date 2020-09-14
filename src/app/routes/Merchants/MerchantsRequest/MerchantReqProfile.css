@@ -84,7 +84,6 @@
   margin: 0;
 }
 .content-body .content p {
-  /* padding-bottom: 10px; */
   font-weight: 400;
   color: #252525;
   overflow-wrap: break-word;
@@ -122,9 +121,9 @@ h4 {
   color: #4251af;
   font-size: 17px;
 }
-.content-list .content-body form {
+/* .content-list .content-body form {
   text-align: center;
-}
+} */
 .content-list .content-body .title {
   padding-top: 15px;
   color: #4251af;

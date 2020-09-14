@@ -4,11 +4,9 @@ import {
   GET_TEMPLATE,
   VIEW_DETAIL,
 } from "../../../../actions/gift-card/actions";
-import { GoTrashcan } from "react-icons/go";
 import { store } from "react-notifications-component";
-import { FiEdit } from "react-icons/fi";
+
 import { Helmet } from "react-helmet";
-import { FaTrashRestoreAlt } from "react-icons/fa";
 import { config } from "../../../../url/url";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -26,9 +24,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Tooltip from "@material-ui/core/Tooltip";
-import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
-import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
-import PageviewOutlinedIcon from "@material-ui/icons/PageviewOutlined";
 import ArchiveSVG from "../../../../assets/images/archive.svg";
 import EditSVG from "../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../assets/images/restore.svg";
@@ -268,6 +263,7 @@ class Generation extends Component {
                     <img
                       src={ArchiveSVG}
                       style={style.icon}
+                      alt=""
                       onClick={() =>
                         this._handleOpenDelete(
                           row?.original?.giftCardTemplateId
@@ -278,6 +274,7 @@ class Generation extends Component {
                 ) : (
                   <Tooltip title="Restore">
                     <img
+                      alt=""
                       src={RestoreSVG}
                       style={style.icon}
                       onClick={() =>
@@ -292,6 +289,7 @@ class Generation extends Component {
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "15px" }}>
                     <img
+                      alt=""
                       src={EditSVG}
                       style={style.icon}
                       onClick={() => this.editTemplate(row.original)}

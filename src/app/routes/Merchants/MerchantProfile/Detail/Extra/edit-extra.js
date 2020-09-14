@@ -294,10 +294,3 @@ const EditExtra = ({
 };
 
 export default EditExtra;
-
-const styles = {
-  close: {
-    color: "white",
-    cursor: "pointer",
-  },
-};

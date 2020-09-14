@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-// import { FaTrashRestoreAlt } from "react-icons/fa";
-import { GoTrashcan } from "react-icons/go";
-import { FiEdit } from "react-icons/fi";
 import { Helmet } from "react-helmet";
-import { AiOutlineUserAdd } from "react-icons/ai";
 import { connect } from "react-redux";
 import {
   GET_ALL_PERMISSION,
@@ -21,7 +17,6 @@ import update from "immutability-helper";
 import CheckPermissions from "../../../../util/checkPermission";
 
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 
 import "./Roles.scss";
 import "react-table/react-table.css";

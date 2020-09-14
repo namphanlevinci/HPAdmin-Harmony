@@ -6,7 +6,6 @@ import {
 } from "../../../../actions/merchants/actions";
 import { ViewMerchant_Rejected_Merchants } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
 import { Redirect } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
