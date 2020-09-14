@@ -79,8 +79,6 @@ const EditPrincipal = ({
     GetMerchantByID(payload);
   };
 
-  // console.log("principals", principals);
-
   const editMerchant = (principalInfo) => {
     let PrincipalInfo = principalInfo.PrincipalInfo;
 
@@ -181,8 +179,9 @@ const EditPrincipal = ({
                         const ownerShip = PrincipalInfo?.ownerShip;
                         const address = PrincipalInfo?.address;
                         const DateOfBirth = moment(
-                          PrincipalInfo?.birthDate
+                          PrincipalInfo?.DateOfBirth
                         ).format("MM/DD/YYYY");
+
                         const SSN = PrincipalInfo?.ssn;
                         const email = PrincipalInfo?.email;
                         const driverNumber = PrincipalInfo?.driverNumber;

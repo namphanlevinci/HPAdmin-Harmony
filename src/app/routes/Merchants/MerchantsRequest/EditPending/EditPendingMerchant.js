@@ -28,7 +28,6 @@ import update from "immutability-helper";
 
 import "../MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
-// import "react-phone-input-2/lib/high-res.css";
 
 const upFile = config.url.upFile;
 
@@ -49,7 +48,6 @@ class EditPendingMerchant extends Component {
 
   _uploadFile = (e) => {
     e.preventDefault();
-
     let file = e.target.files[0];
     this.setState({ progress: true });
     // handle upload image
@@ -90,14 +88,19 @@ class EditPendingMerchant extends Component {
         }),
       {}
     );
-    // const DateOfBirth = "";
-    // const newObj = update(Profile?.principals[0], {
-    //   $merge: { DateOfBirth: 0 },
-    // });
-    // const initialPrincipal = Profile?.principals;
 
-    // console.log("principalsValue", principalsValue);
-    // console.log("newObj", newObj);
+    let newPrincipalState = update(Profile, {
+      principals: {
+        $apply: (b) =>
+          b.map((item, ii) => {
+            return {
+              ...item,
+              DateOfBirth: item.birthDate,
+            };
+          }),
+      },
+    });
+
     this.setState(
       {
         ID: Profile?.merchantId,
@@ -131,7 +134,7 @@ class EditPendingMerchant extends Component {
         routingNumber: Profile?.businessBank?.routingNumber,
         fileId: Profile?.businessBank?.fileId,
         // Principal Information
-        principals: Profile?.principals,
+        principals: newPrincipalState.principals,
       },
       () => this.setState({ loading: true })
     );
