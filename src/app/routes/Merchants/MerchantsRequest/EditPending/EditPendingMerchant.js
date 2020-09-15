@@ -38,6 +38,7 @@ class EditPendingMerchant extends Component {
       loading: false,
       progress: false,
       progressPrincipal: false,
+      isSubmitting: false,
     };
     this.validator = new SimpleReactValidator({
       messages: {
@@ -73,6 +74,14 @@ class EditPendingMerchant extends Component {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  handleSubmitting = () => {
+    this.setState({ isSubmitting: true });
+  };
+
+  handleSubmitFail = () => {
+    this.setState({ isSubmitting: false });
   };
 
   async componentDidMount() {
@@ -777,6 +786,8 @@ class EditPendingMerchant extends Component {
                   SuccessNotification={this.props.SUCCESS_NOTIFICATION}
                   FailureNotification={this.props.FAILURE_NOTIFICATION}
                   WarningNotification={this.props.WARNING_NOTIFICATION}
+                  handleSubmit={this.handleSubmitting}
+                  handleSubmitFail={this.handleSubmitFail}
                 />
               )}
             </div>

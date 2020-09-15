@@ -23,7 +23,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
-
+import CircularProgress from "@material-ui/core/CircularProgress";
 import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
 import LinearProgress from "../../../../../util/linearProgress";
@@ -71,6 +71,8 @@ const EditPrincipal = ({
   SuccessNotification,
   FailureNotification,
   WarningNotification,
+  handleSubmit,
+  handleSubmitFail,
 }) => {
   const getMerchantById = (ID) => {
     const payload = { ID, path: "/app/merchants/pending/profile" };
@@ -78,8 +80,8 @@ const EditPrincipal = ({
   };
 
   const editMerchant = (principalInfo) => {
+    handleSubmit();
     let PrincipalInfo = principalInfo.PrincipalInfo;
-
     const isValid = checkValid();
     const body = {
       generalInfo: {
@@ -137,6 +139,7 @@ const EditPrincipal = ({
               getMerchantById(`${initValue?.ID}`);
             }, 1000);
           } else {
+            handleSubmitFail();
             FailureNotification(res.data.message);
           }
         })
@@ -144,6 +147,7 @@ const EditPrincipal = ({
           console.log(error);
         });
     } else {
+      handleSubmitFail();
       WarningNotification("Please Enter Required Information");
     }
   };
@@ -155,7 +159,13 @@ const EditPrincipal = ({
         initialValues={{ PrincipalInfo: principals }}
         onSubmit={(values) => editMerchant(values)}
       >
-        {({ values, setFieldValue, submitForm, handleChange }) => (
+        {({
+          values,
+          setFieldValue,
+          submitForm,
+          handleChange,
+          isSubmitting,
+        }) => (
           <Form>
             <FieldArray
               name="PrincipalInfo"
@@ -494,7 +504,18 @@ const EditPrincipal = ({
                     >
                       BACK
                     </Button>
-                    <Button type="submit" className="btn btn-green">
+                    <Button
+                      type="submit"
+                      className="btn btn-green"
+                      disabled={initValue.isSubmitting}
+                    >
+                      {initValue.isSubmitting && (
+                        <CircularProgress
+                          style={{ color: "white", marginRight: "8px" }}
+                          size={15}
+                          thickness={4}
+                        />
+                      )}
                       SAVE
                     </Button>
                   </div>
