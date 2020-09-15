@@ -218,9 +218,9 @@ class Staff extends Component {
             );
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(16) && actionsBtn}
+              {CheckPermissions("active-staff") && actionsBtn}
 
-              {CheckPermissions(17) && (
+              {CheckPermissions("edit-staff") && (
                 <span style={{ paddingLeft: "15px" }}>
                   <Tooltip title="Edit">
                     <img
@@ -256,7 +256,7 @@ class Staff extends Component {
               </form>
             </div>
             <div>
-              {CheckPermissions(15) && (
+              {CheckPermissions("add-new-staff") && (
                 <Button
                   className="btn btn-green"
                   style={{ marginRight: "0px" }}

@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import PhoneInput from "react-phone-input-2";
 
 import SimpleReactValidator from "simple-react-validator";
-
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../../../util/getState";
 import InputCustom from "../../../MerchantsList/addMerchant/custom-input";
 import TextField from "@material-ui/core/TextField";
@@ -155,7 +155,7 @@ class General extends Component {
   }
   render() {
     return (
-      <div className="content general-content react-transition swipe-right">
+      <div className="content  react-transition swipe-right">
         <div className="container-fluid">
           <h2 style={styles.h2}>General Information</h2>
           <div className="row">
@@ -405,10 +405,11 @@ class General extends Component {
               </div>
             </div>
             <div className="col-4">
-              <label>Business Phone*</label>
-              <PhoneInput
+              <MaterialUiPhoneNumber
                 placeholder="Business Phone Number"
+                label="Business Phone*"
                 name="businessPhone"
+                margin="normal"
                 value={this.state.phoneBusiness}
                 onChange={(phone) => this.setState({ phoneBusiness: phone })}
               />
@@ -471,8 +472,9 @@ class General extends Component {
               </div>
             </div>
             <div className="col-3">
-              <label>Contact Phone Number*</label>
-              <PhoneInput
+              <MaterialUiPhoneNumber
+                label="Contact Phone Number*"
+                margin="normal"
                 placeholder="Business Phone Number"
                 name="businessPhone"
                 value={this.state.phoneContact}

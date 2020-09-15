@@ -94,7 +94,7 @@ class PrincipalInfo extends Component {
           </div>
         </div>
         <span className="SettingsContent general-content">
-          {CheckPermissions(14) && (
+          {CheckPermissions("edit-merchant") && (
             <Button
               className="btn btn-green"
               onClick={() => this.editPrincipal(e)}

@@ -204,9 +204,9 @@ class Category extends Component {
             );
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(19) && actionsBtn}
+              {CheckPermissions("active-category") && actionsBtn}
 
-              {CheckPermissions(20) && (
+              {CheckPermissions("edit-category") && (
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
@@ -246,7 +246,7 @@ class Category extends Component {
             <div>
               {/* NEW ADD FORM */}
 
-              {CheckPermissions(18) && (
+              {CheckPermissions("add-new-category") && (
                 <Button
                   className="btn add-category"
                   style={{ marginTop: "0px" }}

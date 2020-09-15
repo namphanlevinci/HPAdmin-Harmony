@@ -76,7 +76,7 @@ class ConsumerProfile extends Component {
                       <NavLink to="/app/consumers/profile/bank">Bank</NavLink>
                     </li>
                     <li>
-                      {CheckPermissions(33) && (
+                      {CheckPermissions("view-consumer-transactions") && (
                         <NavLink to="/app/consumers/profile/transactions">
                           Transactions
                         </NavLink>

@@ -1,6 +1,8 @@
 import React from "react";
 import { config } from "../../../../../url/url";
 import { store } from "react-notifications-component";
+import { Formik, Form, Field } from "formik";
+import { compose, withState, withHandlers } from "recompose";
 
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
@@ -12,14 +14,14 @@ import Typography from "@material-ui/core/Typography";
 import IntlMessages from "../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
 import formatPhone from "../../../../../util/formatPhone";
-import General from "./General";
-import Questions from "./Questions";
-import Bank from "./Bank";
-import Principal from "./Principal";
-import PricingPlan from "./PricingPlan";
+// import General from "./General";
+// import Questions from "./Questions";
+// import Bank from "./Bank";
+// import Principal from "./Principal";
+// import PricingPlan from "./PricingPlan";
 
-import "../merchantsList.css";
-import "./add-merchant.styles.scss";
+// import "../merchantsList.css";
+// import "./add-merchant.styles.scss";
 
 const URL = config.url.URL;
 const upFile = config.url.upFile;
@@ -105,10 +107,6 @@ class AddMerchant extends React.Component {
     });
   }
 
-  handleChangePricingPlan = (e) => {
-    this.setState({ valuePricingPlane: e.target.value });
-  };
-
   getSteps = () => {
     return [
       "General Information",
@@ -141,51 +139,56 @@ class AddMerchant extends React.Component {
     switch (stepIndex) {
       case 0:
         return (
-          <General
-            handleChange={this.handleChange}
-            handleCheckBox={this.handleCheckBox}
-            handleSelect={this.handleSelect}
-            value={this.state}
-            handlePhone={this.handlePhone}
-            handleCountryCode={this.handleCountryCode}
-            validator={this.validator}
-          />
+          <h1>1</h1>
+          //   <General
+          //     handleChange={this.handleChange}
+          //     handleCheckBox={this.handleCheckBox}
+          //     handleSelect={this.handleSelect}
+          //     value={this.state}
+          //     handlePhone={this.handlePhone}
+          //     handleCountryCode={this.handleCountryCode}
+          //     validator={this.validator}
+          //   />
         );
       case 1:
         return (
-          <Questions
-            handleQuestions={this.handleQuestions}
-            handleChange={this.handleChange}
-            businessInfo={this.state.initialBusinessQuestions}
-            validator={this.validator}
-          />
+          <h1>2</h1>
+          //   <Questions
+          //     handleQuestions={this.handleQuestions}
+          //     handleChange={this.handleChange}
+          //     businessInfo={this.state.initialBusinessQuestions}
+          //     validator={this.validator}
+          //   />
         );
       case 2:
         return (
-          <Bank
-            uploadFile={this.uploadFile}
-            handleChange={this.handleChange}
-            value={this.state}
-            validator={this.validator}
-          />
+          <h1>3</h1>
+          //   <Bank
+          //     uploadFile={this.uploadFile}
+          //     handleChange={this.handleChange}
+          //     value={this.state}
+          //     validator={this.validator}
+          //   />
         );
       case 3:
         return (
-          <Principal
-            setDataPrincipal={this.setDataPrincipal}
-            handleNext={this.handleNext}
-            handlePrincipal={this.handlePrincipal}
-            Info={this.state}
-            handleBack={this.handleBack}
-            cancelMerchant={this.props.history}
-          />
+          <h1>4</h1>
+          //   <Principal
+          //     setDataPrincipal={this.setDataPrincipal}
+          //     handleNext={this.handleNext}
+          //     handlePrincipal={this.handlePrincipal}
+          //     Info={this.state}
+          //     handleBack={this.handleBack}
+          //     cancelMerchant={this.props.history}
+          //   />
         );
       case 4:
         return (
-          <PricingPlan
-            value={this.state.valuePricingPlane}
-            handleChangePricingPlan={this.handleChangePricingPlan}
-          />
+          <h1>5</h1>
+          //   <PricingPlan
+          //     value={this.state.valuePricingPlane}
+          //     handleChangePricingPlan={this.handleChangePricingPlan}
+          //   />
         );
 
       default:
@@ -461,59 +464,70 @@ class AddMerchant extends React.Component {
                   <Button onClick={this.handleReset}>Reset</Button>
                 </div>
               ) : (
-                <div>
-                  {this.getStepContent(activeStep)}
+                <Formik
+                //   initialValues={}
+                //   validationSchema={}
+                //   onSubmit={_handleSubmit}
+                >
+                  <Form id={formId}>
+                    {this.getStepContent(activeStep)}
 
-                  {this.state.activeStep === 3 ? null : (
-                    <div
-                      style={{
-                        marginTop: "15px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div>
-                        <Button
-                          disabled={activeStep === 0}
-                          onClick={this.handleBack}
-                          className="btn btn-red"
-                          style={{ color: "black" }}
-                        >
-                          Back
-                        </Button>
+                    {this.state.activeStep === 3 ? null : (
+                      <div
+                        style={{
+                          marginTop: "15px",
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div>
+                          <Button
+                            disabled={activeStep === 0}
+                            onClick={this.handleBack}
+                            className="btn btn-red"
+                            style={{ color: "black" }}
+                          >
+                            Back
+                          </Button>
 
-                        <Button
-                          className="btn btn-red"
-                          onClick={() => {
-                            if (activeStep === steps.length - 1)
-                              this.submitAddMerchant();
-                            else this.handleNext();
-                          }}
-                          style={{ backgroundColor: "#4251af", color: "white" }}
-                          disabled={
-                            this.state.isSubmitting || this.state.progress
-                              ? true
-                              : false
-                          }
-                        >
-                          {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                        </Button>
+                          <Button
+                            className="btn btn-red"
+                            onClick={() => {
+                              if (activeStep === steps.length - 1)
+                                this.submitAddMerchant();
+                              else this.handleNext();
+                            }}
+                            style={{
+                              backgroundColor: "#4251af",
+                              color: "white",
+                            }}
+                            disabled={
+                              this.state.isSubmitting || this.state.progress
+                                ? true
+                                : false
+                            }
+                          >
+                            {activeStep === steps.length - 1
+                              ? "Submit"
+                              : "Next"}
+                          </Button>
+                        </div>
+
+                        <div>
+                          <Button
+                            onClick={() =>
+                              this.props.history.push("/app/merchants/list")
+                            }
+                            className="btn btn-red"
+                            style={{ color: "black" }}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
                       </div>
-
-                      <div>
-                        <Button
-                          onClick={() =>
-                            this.props.history.push("/app/merchants/list")
-                          }
-                          className="btn btn-red"
-                          style={{ color: "black" }}
-                        >
-                          Cancel
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </Form>
+                </Formik>
               )}
             </div>
           </div>

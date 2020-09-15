@@ -32,7 +32,6 @@ class Roles extends Component {
 
   componentDidMount = async () => {
     await this.props.GET_ALL_PERMISSION();
-
     const adminPermissions = this.props.permissions
       .filter(({ waRoleId }) => waRoleId === 1)
       .reduce((obj, item) => item, {});
@@ -70,10 +69,6 @@ class Roles extends Component {
     const index = Number(name.actionId) - 1;
 
     if (Number(name.waRoleId) === 1) {
-      this.setState({
-        [name.action]: isCheck,
-      });
-
       const newState = update(adminPermissions, {
         actions: {
           [index]: {
@@ -104,10 +99,6 @@ class Roles extends Component {
       });
     }
     if (Number(name.waRoleId) === 3) {
-      this.setState({
-        [name.action]: isCheck,
-      });
-
       const newState = update(staff1Permissions, {
         actions: {
           [index]: {
@@ -123,10 +114,6 @@ class Roles extends Component {
       });
     }
     if (Number(name.waRoleId) === 4) {
-      this.setState({
-        [name.action]: isCheck,
-      });
-
       const newState = update(staff2Permissions, {
         actions: {
           [index]: {
@@ -168,7 +155,7 @@ class Roles extends Component {
       staff1Permissions,
       staff2Permissions,
     } = this.state;
-
+    // console.log("this.state.adminPermissions", this.state.adminPermissions);
     // const department = [
     //   {
     //     Header: "Title",
@@ -227,7 +214,7 @@ class Roles extends Component {
           {item.title && <h4 className="none">{item.title}</h4>}
 
           <div
-            style={{ textAlign: "center" }}
+            style={{ textAlign: "center", display: "flex" }}
             className="permission_name_check"
           >
             <Checkbox
@@ -361,7 +348,7 @@ class Roles extends Component {
               </Grid>
             </Grid>
 
-            {CheckPermissions(52) && (
+            {CheckPermissions("edit-role") && (
               <div style={styles.btn}>
                 <Button
                   className="btn btn-green"

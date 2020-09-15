@@ -271,9 +271,9 @@ class ExtraTab extends Component {
             );
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(27) && actionsBtn}
+              {CheckPermissions("active-extra") && actionsBtn}
 
-              {CheckPermissions(28) && (
+              {CheckPermissions("edit-extra") && (
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img

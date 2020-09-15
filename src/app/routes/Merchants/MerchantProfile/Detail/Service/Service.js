@@ -231,9 +231,9 @@ class Service extends Component {
             );
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(22) && actionsBtn}
+              {CheckPermissions("active-service") && actionsBtn}
 
-              {CheckPermissions(23) && (
+              {CheckPermissions("edit-service") && (
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
@@ -267,7 +267,9 @@ class Service extends Component {
               </form>
             </div>
             <div>
-              {CheckPermissions(21) && <AddService reload={this.getService} />}
+              {CheckPermissions("add-new-service") && (
+                <AddService reload={this.getService} />
+              )}
             </div>
           </div>
 

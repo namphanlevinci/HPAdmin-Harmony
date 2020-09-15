@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
-import { store } from "react-notifications-component";
 import { Formik } from "formik";
 import { BsGridFill } from "react-icons/bs";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../../actions/notifications/actions";
 
 import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
@@ -20,7 +23,6 @@ import {
 } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 
 import "react-table/react-table.css";
@@ -47,7 +49,7 @@ class AddProduct extends Component {
       name: "",
       openTime: 0,
       position: 0,
-      price: 0,
+      price: "",
       secondTime: 0,
       serviceId: 0,
       duration: 0,
@@ -228,7 +230,8 @@ class AddProduct extends Component {
                   if (Number(res.data.codeNumber) === 404) {
                     setFieldError("sku", "SKU NUMBER ALREADY EXITS");
                     setSubmitting(false);
-                  } else {
+                  }
+                  if (Number(res.data.codeNumber) === 200) {
                     axios
                       .post(
                         URL + "/product",
@@ -255,41 +258,16 @@ class AddProduct extends Component {
                       .then((res) => {
                         let message = res.data.message;
                         if (Number(res.data.codeNumber) === 200) {
-                          store.addNotification({
-                            title: "SUCCESS!",
-                            message: `${message}`,
-                            type: "success",
-                            insert: "top",
-                            container: "top-right",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                              duration: 5000,
-                              onScreen: true,
-                            },
-                            width: 250,
-                          });
-
+                          const payload = { message };
+                          this.props.successNotify(message);
                           setTimeout(() => {
                             this.props.history.push(
                               "/app/merchants/profile/product"
                             );
                           }, 800);
                         } else {
-                          store.addNotification({
-                            title: "ERROR!",
-                            message: `${message}`,
-                            type: "danger",
-                            insert: "top",
-                            container: "top-right",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                              duration: 5000,
-                              onScreen: true,
-                            },
-                            width: 250,
-                          });
+                          const payload = { message };
+                          this.props.failureNotify(payload);
                         }
                       });
                   }
@@ -318,8 +296,8 @@ class AddProduct extends Component {
                         >
                           <InputLabel>Category*</InputLabel>
                           <Select
-                            onChange={(selectedOption) => {
-                              setFieldValue("categoryId", selectedOption.value);
+                            onChange={(e) => {
+                              setFieldValue("categoryId", e.target.value);
                             }}
                           >
                             {mapCategory2}
@@ -330,7 +308,7 @@ class AddProduct extends Component {
                         </FormControl>
                       </div>
                     </div>
-                    <div className="col-3" style={{ marginTop: 6 }}>
+                    <div className="col-3">
                       <TextField
                         name="sku"
                         type="text"
@@ -341,13 +319,12 @@ class AddProduct extends Component {
                         style={{
                           borderBottomColor: "#dddddd",
                           borderBottomWidth: 1,
-                          marginTop: 10,
                         }}
                         error={touched.sku && Boolean(errors.sku)}
                         helperText={touched.sku ? errors.sku : ""}
                       />
                     </div>
-                    <div className="col-3" style={{ marginTop: 13 }}>
+                    <div className="col-3">
                       <TextField
                         name="quantity"
                         type="number"
@@ -372,10 +349,7 @@ class AddProduct extends Component {
                         }}
                       />
                     </div>
-                    <div
-                      className="col-6"
-                      style={{ marginTop: 15, paddingLeft: "0px" }}
-                    >
+                    <div className="col-6" style={{ paddingLeft: "0px" }}>
                       <TextField
                         name="name"
                         type="text"
@@ -393,7 +367,7 @@ class AddProduct extends Component {
                         helperText={touched.name ? errors.name : ""}
                       />
                     </div>
-                    <div className="col-3" style={{ marginTop: 15 }}>
+                    <div className="col-3">
                       <TextField
                         name="minThreshold"
                         type="number"
@@ -428,7 +402,7 @@ class AddProduct extends Component {
                       />
                     </div>
 
-                    <div className="col-3" style={{ marginTop: 15 }}>
+                    <div className="col-3">
                       <TextField
                         name="maxThreshold"
                         type="number"
@@ -495,12 +469,13 @@ class AddProduct extends Component {
                           onChange={(e, masked) =>
                             setFieldValue("price", masked)
                           }
+                          error={touched.price && Boolean(errors.price)}
+                          helperText={touched.price ? errors.price : ""}
                           onBlur={handleBlur}
                           value={values.price}
+                          margin="normal"
                           name="price"
                           id="custom-price-input"
-                          error={touched.price && errors.price}
-                          helperText={touched.price ? errors.price : ""}
                           className={
                             errors.price && touched.price
                               ? "text-input error"
@@ -520,12 +495,13 @@ class AddProduct extends Component {
                       <FormControl style={{ width: "100%" }}>
                         <InputLabel>Status*</InputLabel>
                         <Select
-                          onChange={(selectedOption) => {
-                            setFieldValue("isDisabled", selectedOption.value);
+                          onChange={(e) => {
+                            setFieldValue("isDisabled", e.target.value);
                           }}
                           name="isDisabled"
                           value={values.isDisabled}
                         >
+                          <MenuItem value="">Active</MenuItem>
                           <MenuItem value={0}>Active</MenuItem>
                           <MenuItem value={1}>Inactive</MenuItem>
                         </Select>
@@ -599,7 +575,17 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   SERVICE: state.serviceProps,
 });
-export default connect(mapStateToProps)(AddProduct);
+
+const mapDispatchToProps = (dispatch) => ({
+  successNotify: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  failureNotify: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);
 
 const styles = {
   textarea: {

@@ -231,14 +231,16 @@ class MerchantRejectedProfile extends Component {
           <div className="header col-12">
             <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2>
             <span>
-              <Button
-                style={{ color: "#4251af", backgroundColor: "white" }}
-                className="btn btn-green"
-                onClick={() => this.setState({ openDelete: true })}
-              >
-                DELETE
-              </Button>
-              {CheckPermissions(9) && (
+              {CheckPermissions("delete-merchant-in-rejected-request") && (
+                <Button
+                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  className="btn btn-green"
+                  onClick={() => this.setState({ openDelete: true })}
+                >
+                  DELETE
+                </Button>
+              )}
+              {CheckPermissions("edit-merchant-in-rejected-request") && (
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
@@ -247,7 +249,7 @@ class MerchantRejectedProfile extends Component {
                   EDIT
                 </Button>
               )}
-              {CheckPermissions(10) && (
+              {CheckPermissions("revert-merchant-in-rejected-request") && (
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
@@ -256,7 +258,6 @@ class MerchantRejectedProfile extends Component {
                   REVERT
                 </Button>
               )}
-
               <Button
                 style={{ color: "#4251af", backgroundColor: "white" }}
                 className="btn btn-green"

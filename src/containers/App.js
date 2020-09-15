@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { MuiPickersUtilsProvider } from "material-ui-pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";

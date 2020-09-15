@@ -411,30 +411,26 @@ class Generation_Detail extends Component {
                 </p>
               </div>
 
-              {CheckPermissions(39) && (
-                <div className="col-12">
-                  <h3 className="title">Add Gift Codes</h3>
-                  <label>Quantity*</label> <br />
-                  <input
-                    type="number"
-                    name="amount"
-                    className="add-codes"
-                    onChange={(e) =>
-                      this.setState({ quantity: e.target.value })
-                    }
-                    style={{ width: "20%" }}
-                    value={this.state.quantity}
-                  />
-                  <br />
-                  <Button
-                    className="btn btn-red"
-                    style={{ marginTop: "10px" }}
-                    onClick={this.handleGenerate}
-                  >
-                    Generate
-                  </Button>
-                </div>
-              )}
+              <div className="col-12">
+                <h3 className="title">Add Gift Codes</h3>
+                <label>Quantity*</label> <br />
+                <input
+                  type="number"
+                  name="amount"
+                  className="add-codes"
+                  onChange={(e) => this.setState({ quantity: e.target.value })}
+                  style={{ width: "20%" }}
+                  value={this.state.quantity}
+                />
+                <br />
+                <Button
+                  className="btn btn-red"
+                  style={{ marginTop: "10px" }}
+                  onClick={this.handleGenerate}
+                >
+                  Generate
+                </Button>
+              </div>
             </div>
             <div style={{ zIndex: "9999" }}>
               <ScaleLoader isLoading={this.state.isLoading} />
@@ -458,31 +454,32 @@ class Generation_Detail extends Component {
                     onKeyPress={this.keyPressed}
                   />
                 </form>
-
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <label style={styles.h4}>Export to:</label>
+                {CheckPermissions("export-generation") && (
                   <div
                     style={{
-                      width: "100px",
-                      zIndex: "9999",
-                      marginRight: "10px",
+                      display: "flex",
+                      alignItems: "center",
                     }}
                   >
-                    <Select
-                      value={this.state.typeExport}
-                      options={typeExport}
-                      onChange={(e) => this.setState({ typeExport: e })}
-                    />
+                    <label style={styles.h4}>Export to:</label>
+                    <div
+                      style={{
+                        width: "100px",
+                        zIndex: "9999",
+                        marginRight: "10px",
+                      }}
+                    >
+                      <Select
+                        value={this.state.typeExport}
+                        options={typeExport}
+                        onChange={(e) => this.setState({ typeExport: e })}
+                      />
+                    </div>
+                    <Button style={styles.btn} onClick={this.getExport}>
+                      Export
+                    </Button>
                   </div>
-                  <Button style={styles.btn} onClick={this.getExport}>
-                    Export
-                  </Button>
-                </div>
+                )}
               </div>
 
               {/* <Delete

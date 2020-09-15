@@ -86,14 +86,16 @@ class merchantProfile extends Component {
             <div className="header col-md-12">
               <h3>ID: {e?.merchantId}</h3>
               <span style={{ display: "flex" }}>
-                <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
-                  className="btn btn-green"
-                  onClick={() => this.setState({ openDelete: true })}
-                >
-                  DELETE
-                </Button>
-                {CheckPermissions(13) && (
+                {CheckPermissions("delete-merchant") && (
+                  <Button
+                    style={{ color: "#4251af", backgroundColor: "white" }}
+                    className="btn btn-green"
+                    onClick={() => this.setState({ openDelete: true })}
+                  >
+                    DELETE
+                  </Button>
+                )}
+                {CheckPermissions("export-settlement") && (
                   <span style={{ marginRight: "20px" }}>
                     <ExportSettlement
                       MerchantId={e?.merchantId}

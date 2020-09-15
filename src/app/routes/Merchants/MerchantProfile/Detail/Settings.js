@@ -282,14 +282,14 @@ class Settings extends Component {
 
         <div style={{ display: "flex" }}>
           <div className="SettingsContent general-content ">
-            {CheckPermissions(29) && (
+            {CheckPermissions("edit-setting") && (
               <Button className="btn btn-green" onClick={this._gotoEdit}>
                 EDIT
               </Button>
             )}
           </div>
 
-          {CheckPermissions(30) && MerchantStatus}
+          {CheckPermissions("active-merchant") && MerchantStatus}
         </div>
       </React.Fragment>
     );

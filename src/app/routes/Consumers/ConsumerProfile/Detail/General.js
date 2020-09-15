@@ -37,6 +37,25 @@ class General extends Component {
   render() {
     const e = this.props.ConsumerProfile;
     const ID = this.props.ConsumerProfile.userId;
+
+    const ConsumerStatus =
+      e.isDisabled !== 1 ? (
+        <DisableConsumer
+          open={this.state.open}
+          handleToggle={this.handleDialog}
+          ConsumerID={this.props.ConsumerProfile.userId}
+          deleteConsumer={this.props.DELETE_CONSUMER_BY_ID}
+        />
+      ) : (
+        <Button
+          type="submit"
+          className="btn btn-green"
+          onClick={() => this.props.RESTORE_CONSUMER_BY_ID(ID)}
+        >
+          ENABLE
+        </Button>
+      );
+
     return (
       <div className="content ">
         <div className="react-transition swipe-right consumer__general">
@@ -68,27 +87,12 @@ class General extends Component {
           className="SettingsContent general-content"
           style={{ marginTop: "20px", display: "flex" }}
         >
-          {CheckPermissions(32) && (
+          {CheckPermissions("edit-consumer") && (
             <Button className="btn btn-green" onClick={this.EditPage}>
               EDIT
             </Button>
           )}
-          {e.isDisabled !== 1 ? (
-            <DisableConsumer
-              open={this.state.open}
-              handleToggle={this.handleDialog}
-              ConsumerID={this.props.ConsumerProfile.userId}
-              deleteConsumer={this.props.DELETE_CONSUMER_BY_ID}
-            />
-          ) : (
-            <Button
-              type="submit"
-              className="btn btn-green"
-              onClick={() => this.props.RESTORE_CONSUMER_BY_ID(ID)}
-            >
-              ENABLE
-            </Button>
-          )}
+          {CheckPermissions("active-consumer") && ConsumerStatus}
         </div>
       </div>
     );

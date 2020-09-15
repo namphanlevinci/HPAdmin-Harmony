@@ -115,9 +115,9 @@ class UserProfile extends Component {
                 >
                   BACK
                 </Button>
-                {CheckPermissions(49) && userStatus}
+                {CheckPermissions("active-user") && userStatus}
 
-                {CheckPermissions(50) && (
+                {CheckPermissions("edit-user") && (
                   <Button
                     className="btn btn-red"
                     style={styles.button}

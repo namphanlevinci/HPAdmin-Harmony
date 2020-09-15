@@ -153,7 +153,7 @@ class General extends Component {
           <div className="row justify-content-between">{renderQuestion}</div>
         </div>
         <div className="SettingsContent general-content">
-          {CheckPermissions(14) && (
+          {CheckPermissions("edit-merchant") && (
             <Button className="btn btn-green" onClick={this._toggleEdit}>
               EDIT
             </Button>

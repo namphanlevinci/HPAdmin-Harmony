@@ -235,9 +235,9 @@ class Product extends Component {
             );
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(25) && actionsBtn}
+              {CheckPermissions("active-product") && actionsBtn}
 
-              {CheckPermissions(26) && (
+              {CheckPermissions("edit-product") && (
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
@@ -270,7 +270,7 @@ class Product extends Component {
               </form>
             </div>
             <div>
-              {CheckPermissions(24) && (
+              {CheckPermissions("add-new-product") && (
                 <Button
                   className="btn btn-green"
                   style={{ marginRight: "0px" }}

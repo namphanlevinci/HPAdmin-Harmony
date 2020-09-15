@@ -89,7 +89,7 @@ class Bank extends Component {
             className="SettingsContent general-content"
             style={{ paddingTop: "15px" }}
           >
-            {CheckPermissions(14) && (
+            {CheckPermissions("edit-merchant") && (
               <Button className="btn btn-green" onClick={this.handleBank}>
                 EDIT
               </Button>
