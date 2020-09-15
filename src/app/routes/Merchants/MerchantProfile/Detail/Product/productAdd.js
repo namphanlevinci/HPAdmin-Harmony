@@ -259,7 +259,7 @@ class AddProduct extends Component {
                         let message = res.data.message;
                         if (Number(res.data.codeNumber) === 200) {
                           const payload = { message };
-                          this.props.successNotify(message);
+                          this.props.successNotify(payload);
                           setTimeout(() => {
                             this.props.history.push(
                               "/app/merchants/profile/product"

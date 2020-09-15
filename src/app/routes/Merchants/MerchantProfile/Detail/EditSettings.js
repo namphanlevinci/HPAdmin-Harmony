@@ -34,7 +34,7 @@ class EditSettings extends Component {
       turnAmount: "",
     };
   }
-  _handleChange = (event) => {
+  handleChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -54,10 +54,10 @@ class EditSettings extends Component {
       turnAmount: data?.turnAmount,
     });
   }
-  _toggleConfirm = () => {
+  toggleConfirm = () => {
     this.setState({ update: !this.state.update });
   };
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/merchants/profile/settings");
   };
   updateMerchantSetting = () => {
@@ -123,7 +123,7 @@ class EditSettings extends Component {
                 type="text"
                 name="merchantCode"
                 value={this.state.merchantCode}
-                onChange={this._handleChange}
+                onChange={this.handleChange}
               />
             </div>
 
@@ -190,7 +190,7 @@ class EditSettings extends Component {
           >
             SAVE
           </Button>
-          <Button className="btn btn-red" onClick={this._goBack}>
+          <Button className="btn btn-red" onClick={this.goBack}>
             CANCEL
           </Button>
         </div>

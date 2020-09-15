@@ -7,7 +7,7 @@ import {
 } from "../../../../../../actions/merchants/actions";
 
 import Button from "@material-ui/core/Button";
-import PhoneInput from "react-phone-input-2";
+// import PhoneInput from "react-phone-input-2";
 
 import SimpleReactValidator from "simple-react-validator";
 import MaterialUiPhoneNumber from "material-ui-phone-number";

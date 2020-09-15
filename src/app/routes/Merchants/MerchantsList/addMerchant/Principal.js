@@ -158,7 +158,7 @@ class Principal extends Component {
                             principal.addressPrincipal?.state;
                           const driverLicenseState = principal?.stateIssued;
                           const principalBirthday = principal?.dateOfBirth;
-                          const firstName = principal?.firstName;
+                          // const firstName = principal?.firstName;
                           return (
                             <div key={index}>
                               <div className="row align-items-center  add-merchant-div">
