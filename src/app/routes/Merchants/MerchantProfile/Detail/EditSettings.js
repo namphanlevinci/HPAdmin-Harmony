@@ -155,7 +155,11 @@ class EditSettings extends Component {
                   value={this.state.pointRate}
                   name="pointRate"
                   id="custom-transaction-point--rate-input"
-                  startAdornment
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <p style={{ marginBottom: "5px" }}>%</p>
+                    </InputAdornment>
+                  }
                   inputComponent={CustomCurrencyInput}
                 />
               </FormControl>

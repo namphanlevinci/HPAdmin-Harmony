@@ -266,7 +266,22 @@ class Settings extends Component {
                 />
               </div>
               <div className="col-4" style={styles.div}>
-                <TextField label="Point Rate" disabled value={data.pointRate} />
+                <TextField
+                  label="Point Rate"
+                  disabled
+                  value={data.pointRate}
+                  InputProps={{
+                    startAdornment: (
+                      <span
+                        style={{
+                          paddingRight: "10px",
+                        }}
+                      >
+                        %
+                      </span>
+                    ),
+                  }}
+                />
               </div>
               <div className="col-4" style={styles.div}>
                 <TextField
