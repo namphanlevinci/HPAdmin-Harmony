@@ -95,6 +95,7 @@ class MerchantsRequest extends Component {
 
   keyPressed = (event) => {
     if (event.key === "Enter") {
+      console.log("press 111");
       event.preventDefault();
       this.setState({ loading: true });
       this.fetchData();

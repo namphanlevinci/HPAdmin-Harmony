@@ -65,6 +65,7 @@ class MerchantsList extends React.Component {
       )
       .then((res) => {
         const data = res.data.data;
+
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,

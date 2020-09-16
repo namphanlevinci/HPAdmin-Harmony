@@ -30,7 +30,6 @@ class General extends Component {
 
   render() {
     const e = this.props.MerchantProfile;
-    console.log("e", e);
 
     const renderGeneral = (
       <div className="container-fluid">

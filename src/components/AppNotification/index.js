@@ -6,6 +6,8 @@ import { withRouter } from "react-router-dom";
 
 import InfiniteScroll from "react-infinite-scroller";
 
+import { MdDateRange } from "react-icons/md";
+
 import DeleteIcon from "@material-ui/icons/Delete";
 import Avatar from "@material-ui/core/Avatar";
 // import Button from "@material-ui/core/Button";
@@ -24,44 +26,48 @@ class AppNotification extends Component {
   render() {
     if (this.props.Notify !== undefined) {
       let loadNotify = this.props.Notify;
-      const renderNotify = loadNotify?.map((Notify) => {
+      const renderNotify = loadNotify?.map((Notify, index) => {
         const { createdDate, waNotificationId, content } = Notify;
         const time = moment
           .utc(createdDate)
           .local()
           .format("MM-DD-YYYY hh:mm A");
         return (
-          <li>
-            <div className="media" key={waNotificationId}>
-              <Avatar alt={avatar} src={avatar} className="mr-2" />
-              {/* <BsPersonPlus className="mr-2" size={26} /> */}
-              <div
-                style={{ cursor: "pointer" }}
-                onClick={() => this.props.gotoList(Notify)}
-                className="media-body"
-              >
-                <p className="content">{content}</p>
+          <li className="media" key={index}>
+            <Avatar alt={avatar} src={avatar} className="mr-2" />
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => this.props.gotoList(Notify)}
+              className="media-body"
+            >
+              <p className="content">{content}</p>
 
-                <p className="meta-date">{time}</p>
-              </div>
-              <IconButton onClick={() => this.props.handleDelete(Notify)}>
-                <DeleteIcon fontSize="small" />
-              </IconButton>
+              <span className="meta-date">
+                <small style={{ paddingRight: "5px" }}>
+                  <MdDateRange />
+                </small>
+                {time}
+              </span>
             </div>
+            <IconButton
+              className="delete-btn"
+              onClick={() => this.props.handleDelete(Notify)}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
           </li>
         );
       });
       return (
-        <div style={{ maxHeight: "280px", overflow: "auto" }}>
+        <div
+          style={{ maxHeight: "280px", overflow: "auto" }}
+          className="messages-list scrollbar"
+        >
           <InfiniteScroll
             pageStart={0}
             loadMore={this.props.loadNotify}
             hasMore={this.props.hasMore}
-            loader={
-              <div className="loader" key={0}>
-                Loading ...
-              </div>
-            }
+            loader={<div key={0}>Loading ...</div>}
             useWindow={false}
           >
             <ul className="list-unstyled">{renderNotify}</ul>
@@ -76,9 +82,9 @@ class AppNotification extends Component {
 
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
-  // Noti_List: state.getNoti,
 });
 const mapDispatchToProps = (dispatch) => ({});
+
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(AppNotification)
 );
