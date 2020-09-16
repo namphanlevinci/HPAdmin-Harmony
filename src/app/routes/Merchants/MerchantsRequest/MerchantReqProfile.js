@@ -118,11 +118,13 @@ class MerchantReqProfile extends Component {
               </div>
               <div className="col-4">
                 <label>Home Phone</label>
-                <p>{formatPhone(e.homePhone)}</p>
+                {/* <p>{formatPhone(e.homePhone)}</p> */}
+                <p>{e.homePhone}</p>
               </div>
               <div className="col-4">
                 <label>Mobile Phone*</label>
-                <p>{formatPhone(e.mobilePhone)}</p>
+                {/* <p>{formatPhone(e.mobilePhone)}</p> */}
+                <p>{e.mobilePhone}</p>
               </div>
               <div className="col-4">
                 <label>Address*</label>
@@ -181,7 +183,7 @@ class MerchantReqProfile extends Component {
     // render question
     const renderQuestion =
       e.business !== undefined ? (
-        e.business.map((e) => {
+        e.business.map((e, index) => {
           return (
             <div className="col-6" key={e.businessId}>
               <label>{e.question}</label> <br />
@@ -189,7 +191,7 @@ class MerchantReqProfile extends Component {
               No
               <span className={e.answer ? "checked-red" : ""}>
                 <Checkbox checked={e.answer === true} />
-                Yes
+                {customLabel(index + 1)}
               </span>
               <h5>Answer: {e.answerReply} </h5>
             </div>
@@ -682,3 +684,20 @@ const styles = {
     marginBottom: "10px",
   },
 };
+
+function customLabel(questionId) {
+  switch (questionId) {
+    case 1:
+      return "Yes (if yes, who was the processor)";
+    case 2:
+      return "Yes (if yes, who was the processor)";
+    case 3:
+      return "Yes (if yes, date filed)";
+    case 4:
+      return "Yes (if yes, what was program and when)";
+    case 5:
+      return "Yes (if yes, who was your previous company)";
+    default:
+      return "Yes";
+  }
+}

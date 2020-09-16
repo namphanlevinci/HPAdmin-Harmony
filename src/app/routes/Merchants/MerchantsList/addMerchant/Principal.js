@@ -110,32 +110,35 @@ class Principal extends Component {
           <Formik
             enableReinitialize={true}
             validationSchema={validationSchema}
-            initialValues={{
-              principalInfo: [
-                {
-                  firstName: "",
-                  lastName: "",
-                  position: "",
-                  ownership: "",
-                  homePhone: "",
-                  mobilePhone: "",
-                  addressPrincipal: {
-                    address: "",
-                    city: "",
-                    state: "",
-                    zip: "",
+            initialValues={
+              // this.props.Info.principalInfo
+              {
+                principalInfo: [
+                  {
+                    firstName: "",
+                    lastName: "",
+                    position: "",
+                    ownership: "",
+                    homePhone: "",
+                    mobilePhone: "",
+                    addressPrincipal: {
+                      address: "",
+                      city: "",
+                      state: "",
+                      zip: "",
+                    },
+                    yearAtThisAddress: 0,
+                    ssn: "",
+                    dateOfBirth: null,
+                    email: "",
+                    driverLicense: "",
+                    stateIssued: "",
+                    fileId: "",
+                    progress: false,
                   },
-                  yearAtThisAddress: 0,
-                  ssn: "",
-                  dateOfBirth: null,
-                  email: "",
-                  driverLicense: "",
-                  stateIssued: "",
-                  fileId: "",
-                  progress: false,
-                },
-              ],
-            }}
+                ],
+              }
+            }
             onSubmit={(values, { setSubmitting }) => {
               this.props.handleNext();
               this.props.setDataPrincipal(values?.principalInfo);
