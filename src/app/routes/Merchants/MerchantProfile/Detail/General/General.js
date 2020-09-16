@@ -130,12 +130,13 @@ class General extends Component {
 
     const renderQuestion =
       e.business !== undefined ? (
-        e.business.map((e) => {
+        e.business.map((e, index) => {
           return (
             <div className="col-6" key={e.businessId}>
               <label>{e.question}</label> <br />
               <Checkbox checked={e.answer === false} />
-              No <Checkbox checked={e.answer === true} /> Yes
+              No <Checkbox checked={e.answer === true} />{" "}
+              {customLabel(index + 1)}
               <h5 style={{ marginLeft: "25%" }}>Answer: {e.answerReply} </h5>
             </div>
           );
@@ -175,3 +176,20 @@ const styles = {
     paddingBottom: "10px",
   },
 };
+
+function customLabel(questionId) {
+  switch (questionId) {
+    case 1:
+      return "Yes (if yes, who was the processor)";
+    case 2:
+      return "Yes (if yes, who was the processor)";
+    case 3:
+      return "Yes (if yes, date filed)";
+    case 4:
+      return "Yes (if yes, what was program and when)";
+    case 5:
+      return "Yes (if yes, who was your previous company)";
+    default:
+      return "Yes";
+  }
+}

@@ -5,14 +5,14 @@ import {
   UPDATE_MERCHANT_PRINCIPAL,
   GET_MERCHANT_BY_ID,
 } from "../../../../../../actions/merchants/actions";
-
+import CustomSelect from "../../../../../../util/getState";
 import LinearProgress from "../../../../../../util/linearProgress";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import Cleave from "cleave.js/react";
-import Select from "react-select";
-import selectState from "../../../../../../util/selectState";
+// import Select from "react-select";
+// import selectState from "../../../../../../util/selectState";
 // import PhoneInput from "react-phone-input-2";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 
@@ -150,7 +150,7 @@ class EditPrincipal extends Component {
     }
 
     return (
-      <div className="react-transition swipe-up  principal-container container-fuild">
+      <div className="react-transition swipe-up  principal-container container-fluid">
         <h2 style={styles.h2}>Principal Information</h2>
         {this.state.loading && (
           <div className="edit-principal">
@@ -206,6 +206,47 @@ class EditPrincipal extends Component {
                 />
               </div>
               <div className="col-4">
+                <label>Email Address*</label>
+                <input
+                  name="email"
+                  value={this.state.email}
+                  onChange={this._handleChange}
+                  style={styles.input}
+                />
+              </div>
+              {/* === */}
+              <div className="col-4">
+                <label>City*</label>
+                <input
+                  name="city"
+                  value={e?.city}
+                  onChange={this._handleChange}
+                  style={styles.input}
+                  disabled
+                />
+              </div>
+              <div className="col-4">
+                <label>State*</label>
+                <input
+                  name="state"
+                  value={e?.state?.name}
+                  onChange={this._handleChange}
+                  style={styles.input}
+                  disabled
+                />
+              </div>
+              <div className="col-4">
+                <label>Zip</label>
+                <input
+                  name="state"
+                  value={e?.zip}
+                  onChange={this._handleChange}
+                  style={styles.input}
+                  disabled
+                />
+              </div>
+              {/* === */}
+              <div className="col-4">
                 <label>Address*</label>
                 <input
                   name="Address"
@@ -239,15 +280,7 @@ class EditPrincipal extends Component {
                   style={styles.input}
                 />
               </div>
-              <div className="col-4">
-                <label>Email Address*</label>
-                <input
-                  name="email"
-                  value={this.state.email}
-                  onChange={this._handleChange}
-                  style={styles.input}
-                />
-              </div>
+
               <div className="col-4">
                 <label>Driver License Number*</label>
                 <input
@@ -259,8 +292,7 @@ class EditPrincipal extends Component {
               </div>
               <div className="col-4">
                 <label>State Issued*</label>
-
-                <Select
+                {/* <Select
                   onChange={(e) => this.setState({ StateId: e.value })}
                   name="state"
                   options={selectState}
@@ -268,6 +300,14 @@ class EditPrincipal extends Component {
                     value: this.state.StateId,
                     label: this.state.stateName,
                   }}
+                /> */}
+                <CustomSelect
+                  name="state"
+                  // label="State Issued*"
+                  initialValue={this.state.StateId}
+                  handleChange={(e) =>
+                    this.setState({ StateId: e.target.value })
+                  }
                 />
               </div>
               <div className="col-12">

@@ -36,7 +36,7 @@ const Salary = ({
               "aria-label": "primary checkbox",
             }}
           />
-          <label>Salary per hour</label>
+          <label>Salary Per Hour</label>
         </div>
         <div className="input-box">
           <CurrencyInput
@@ -157,7 +157,7 @@ const Salary = ({
 
       <Grid item md={6} sm={12} xs={12}>
         <Checkbox checked />
-        <label>Salary pay in Cash</label>
+        <label>Payout With Cash</label>
         <div>
           <div className="input-box">
             <CurrencyInput

@@ -7,7 +7,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 import InputCustom from "../../../../MerchantsList/addMerchant/custom-input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
@@ -51,6 +50,7 @@ const General = ({
   },
   validator,
 }) => {
+  // const { errorMessages, fields,  } = validator;
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
@@ -65,6 +65,7 @@ const General = ({
             value={firstName}
             style={styles.input}
           />
+
           {validator.message("firstName", firstName, "required|string")}
         </div>
         <div className="col-4">
@@ -128,7 +129,7 @@ const General = ({
         </div>
         <div className="col-4">
           <FormControl style={{ width: "100%", marginTop: "16px" }}>
-            <InputLabel htmlFor="formatted-text-mask-input">
+            <InputLabel shrink htmlFor="formatted-text-mask-input">
               Zip Code
             </InputLabel>
             <Input
@@ -169,7 +170,14 @@ const General = ({
       </div>
       <div className="row">
         <div className="col-4">
-          <div className="form-group" style={styles.pin}>
+          <div
+            className="form-group"
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              marginBottom: "0px",
+            }}
+          >
             <TextField
               name="pin"
               label="Create PIN*"
@@ -192,8 +200,8 @@ const General = ({
                 <FaRegEye onClick={() => toggleVisibility("showPin", true)} />
               </i>
             )}
-            {validator.message("pin", pin, "required|numeric")}
           </div>
+          {validator.message("pin", pin, "required|numeric")}
         </div>
         <div className="col-4">
           <div
@@ -207,7 +215,7 @@ const General = ({
             <TextField
               name="confirmPin"
               label="Confirm PIN*"
-              margin="larrge"
+              margin="large"
               type={showConfirmPin ? "text" : "password"}
               fullWidth
               onChange={handleChange}
@@ -239,7 +247,7 @@ const General = ({
           )}
         </div>
       </div>
-      <div className="row ">
+      <div className="row" style={{ paddingTop: "15px" }}>
         <div className="col-4">
           <div className="form-group">
             <FormControl style={{ width: "100%" }}>
@@ -266,7 +274,7 @@ const General = ({
                 onChange={handleMISelect}
               >
                 <MenuItem value="0">Active</MenuItem>
-                <MenuItem value="1">Disabled</MenuItem>
+                <MenuItem value="1">Inactive</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -275,15 +283,16 @@ const General = ({
           <label></label>
           <div className="form-group">
             <FormControl component="fieldset">
-              <FormLabel component="legend"></FormLabel>
+              {/* <FormLabel component="legend"></FormLabel> */}
               <FormGroup aria-label="position" row>
                 <FormControlLabel
                   value="true"
                   checked={isActive}
                   control={<Checkbox color="primary" />}
                   onChange={handleCheckBox("isActive")}
-                  label="Visible"
+                  label="Visible on app"
                   labelPlacement="end"
+                  // margin="normal"
                 />
               </FormGroup>
             </FormControl>

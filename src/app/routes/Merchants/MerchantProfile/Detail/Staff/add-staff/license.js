@@ -20,6 +20,9 @@ const License = ({
             margin="normal"
             type="text"
             fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
             onChange={handleChange}
             // required
             value={driverlicense}
@@ -34,7 +37,7 @@ const License = ({
       <div className="col-12">
         <div className="form-group">
           <FormControl style={{ width: "100%", marginTop: "10px" }}>
-            <InputLabel htmlFor="formatted-text-mask-input">
+            <InputLabel shrink htmlFor="formatted-text-mask-input">
               Social Security Number
             </InputLabel>
             <Input
@@ -69,6 +72,10 @@ const License = ({
             margin="normal"
             type="text"
             fullWidth
+            shrink
+            InputLabelProps={{
+              shrink: true,
+            }}
             onChange={handleChange}
             // required
             value={professionalLicense}

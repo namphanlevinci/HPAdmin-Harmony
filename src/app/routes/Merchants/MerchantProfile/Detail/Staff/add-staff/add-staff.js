@@ -118,7 +118,7 @@ class AddStaff extends Component {
         return this.getLicense();
 
       default:
-        return "Uknown stepIndex";
+        return "Unknown stepIndex";
     }
   };
 
@@ -361,36 +361,11 @@ class AddStaff extends Component {
         if (Number(res.data.codeNumber) === 204) {
           this.props.FailureNotification(res.data.message);
 
-          // store.addNotification({
-          //   title: "ERROR!",
-          //   message: `${res.data.message}`,
-          //   type: "warning",
-          //   insert: "top",
-          //   container: "top-right",
-          //   animationIn: ["animated", "fadeIn"],
-          //   animationOut: ["animated", "fadeOut"],
-          //   dismiss: {
-          //     duration: 5000,
-          //     onScreen: true,
-          //   },
-          // });
           this.setState({ activeStep: 0 });
         }
         if (Number(res.data.codeNumber) === 200) {
           this.props.SuccessNotification(res.data.message);
-          // store.addNotification({
-          //   title: "SUCCESS!",
-          //   message: `${res.data.message}`,
-          //   type: "success",
-          //   insert: "top",
-          //   container: "top-right",
-          //   animationIn: ["animated", "fadeIn"],
-          //   animationOut: ["animated", "fadeOut"],
-          //   dismiss: {
-          //     duration: 5000,
-          //     onScreen: true,
-          //   },
-          // });
+
           this.props.history.push("/app/merchants/profile/staff");
         }
       });

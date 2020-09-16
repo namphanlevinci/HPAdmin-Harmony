@@ -27,7 +27,7 @@ class AppNotification extends Component {
     if (this.props.Notify !== undefined) {
       let loadNotify = this.props.Notify;
       const renderNotify = loadNotify?.map((Notify, index) => {
-        const { createdDate, waNotificationId, content } = Notify;
+        const { createdDate, content } = Notify;
         const time = moment
           .utc(createdDate)
           .local()

@@ -25,7 +25,7 @@ class PrincipalInfo extends Component {
     const e = this.props.principalData;
 
     return (
-      <div className="react-transition swipe-up principal-container container-fuild">
+      <div className="react-transition swipe-up principal-container container-fluid">
         <h2 style={styles.h2}>Principal Information</h2>
         <div className="row" key={e?.principalId}>
           <div className="col-4">
@@ -49,6 +49,24 @@ class PrincipalInfo extends Component {
             <p>{formatPhone(e?.mobilePhone)}</p>
           </div>
           <div className="col-4">
+            <label>Email Address*</label>
+            <p>{e?.email}</p>
+          </div>
+          {/* === */}
+          <div className="col-4">
+            <label>City*</label>
+            <p>{e?.city}</p>
+          </div>
+          <div className="col-4">
+            <label>State*</label>
+            <p>{e?.state?.name}</p>
+          </div>
+          <div className="col-4">
+            <label>Zip*</label>
+            <p>{e?.zip}</p>
+          </div>
+          {/* === */}
+          <div className="col-4">
             <label>Address*</label>
             <p>{e?.address}</p>
           </div>
@@ -68,10 +86,7 @@ class PrincipalInfo extends Component {
             <label>Date of Birth* (mm/dd/yyyy)*</label>
             <p>{moment(e?.birthDate).format("MM/DD/YYYY")}</p>
           </div>
-          <div className="col-4">
-            <label>Email Address*</label>
-            <p>{e?.email}</p>
-          </div>
+
           <div className="col-4">
             <label>Driver License Number*</label>
             <p>{e?.driverNumber}</p>
