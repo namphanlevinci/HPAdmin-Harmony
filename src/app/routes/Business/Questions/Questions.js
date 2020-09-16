@@ -56,7 +56,7 @@ class Questions extends Component {
     const data = { ID, value };
     this.props.UPDATE_QUESTIONS(data);
   };
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.uQuestions !== this.props.uQuestions) {
       if (this.props.uQuestions.message === "Success") {
         this.props.getAll_Questions();

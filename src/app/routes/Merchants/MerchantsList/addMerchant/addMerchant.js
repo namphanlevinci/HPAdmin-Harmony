@@ -226,21 +226,21 @@ class AddMerchant extends React.Component {
 
   handleNext = () => {
     const { activeStep, pin, confirmPin } = this.state;
-    if (pin !== confirmPin) {
-      this.setState({ match: false });
-    } else {
-      if (this.validator.allValid()) {
-        this.setState({
-          activeStep: activeStep + 1,
-        });
-      } else {
-        this.validator.showMessages();
-        this.forceUpdate();
-      }
-    }
-    // this.setState({
-    //   activeStep: activeStep + 1,
-    // });
+    // if (pin !== confirmPin) {
+    //   this.setState({ match: false });
+    // } else {
+    //   if (this.validator.allValid()) {
+    //     this.setState({
+    //       activeStep: activeStep + 1,
+    //     });
+    //   } else {
+    //     this.validator.showMessages();
+    //     this.forceUpdate();
+    //   }
+    // }
+    this.setState({
+      activeStep: activeStep + 1,
+    });
   };
 
   handleBack = () => {

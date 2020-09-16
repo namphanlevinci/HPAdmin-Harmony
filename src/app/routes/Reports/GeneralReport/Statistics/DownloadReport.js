@@ -45,7 +45,7 @@ class DownloadReport extends Component {
       });
     }, 500);
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.Approved !== this.props.Approved) {
       const Content = this.props.Approved.data;
       this.setState({ DownloadStatics: Content.numberUserDowloaded });
