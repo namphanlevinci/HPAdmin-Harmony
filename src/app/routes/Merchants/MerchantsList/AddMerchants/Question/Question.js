@@ -18,7 +18,6 @@ export default function Question(props) {
           <div>
             {formField.principalInfo && formField.principalInfo.length > 0 ? (
               formField.principalInfo.map((principal, index) => {
-                console.log("principal", principal, index);
                 return (
                   <div key={index}>
                     <InputField

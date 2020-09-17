@@ -34,7 +34,7 @@ const initialState = {
   imagePreviewUrl: "",
   initialBusinessQuestions: {},
 
-  activeStep: 1,
+  activeStep: 0,
   // General Info
   businessName: "",
   doingBusiness: "",
@@ -134,13 +134,14 @@ class AddMerchant extends React.Component {
     this.setState({ principalInfo: info });
   };
 
-  getStepContent = (stepIndex) => {
+  getStepContent = (stepIndex, values) => {
+    console.log("values", values);
     const { formField } = checkoutFormModel;
     switch (stepIndex) {
       case 0:
         return <General formField={formField} />;
       case 1:
-        return <Question formField={formField} />;
+        return <Question formField={formField} values={values} />;
       case 2:
         return <Bank />;
       case 3:
@@ -441,7 +442,7 @@ class AddMerchant extends React.Component {
                 >
                   {({ values, isSubmitting }) => (
                     <Form id={formId}>
-                      {this.getStepContent(activeStep)}
+                      {this.getStepContent(activeStep, values)}
 
                       {this.state.activeStep === 3 ? null : (
                         <div

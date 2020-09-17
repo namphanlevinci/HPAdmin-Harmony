@@ -18,12 +18,12 @@ const Merchants = ({ match, location }) => {
         />
 
         {/* ADD MERCHANT V2 */}
-        {/* <Route
+        <Route
           path={`${match.url}/add2`}
           component={asyncComponent(() =>
             import("./MerchantsList/AddMerchants/AddMerchant")
           )}
-        /> */}
+        />
         {/* ====== */}
 
         {/* <PrivateRoute

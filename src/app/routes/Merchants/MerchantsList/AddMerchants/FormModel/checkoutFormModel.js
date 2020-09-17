@@ -90,7 +90,7 @@ export default {
     //   requiredErrorMsg: "CVV is required",
     //   invalidErrorMsg: "CVV is invalid (e.g. 357)",
     // },
-
+    principalInfo: "",
     // Principal
     principalInfo: [
       {
