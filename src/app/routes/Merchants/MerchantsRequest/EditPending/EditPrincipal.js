@@ -27,7 +27,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
 import LinearProgress from "../../../../../util/linearProgress";
-import formatPhone from "../../../../../util/formatPhone";
 
 import "../MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";

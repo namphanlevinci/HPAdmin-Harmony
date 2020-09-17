@@ -4,7 +4,6 @@ import { store } from "react-notifications-component";
 import { Formik, Form, Field } from "formik";
 import { compose, withState, withHandlers } from "recompose";
 
-import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -14,11 +13,16 @@ import Typography from "@material-ui/core/Typography";
 import IntlMessages from "../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
 import formatPhone from "../../../../../util/formatPhone";
-// import General from "./General";
-// import Questions from "./Questions";
-// import Bank from "./Bank";
-// import Principal from "./Principal";
-// import PricingPlan from "./PricingPlan";
+
+import General from "./General/General";
+import Question from "./Question/Question";
+import Bank from "./Bank/Bank";
+import Principal from "./Principal/Principal";
+import PricingPlan from "./PricingPlan/PricingPlan";
+
+import validationSchema from "./FormModel/validationSchema";
+import checkoutFormModel from "./FormModel/checkoutFormModel";
+import formInitialValues from "./FormModel/formInitialValues";
 
 // import "../merchantsList.css";
 // import "./add-merchant.styles.scss";
@@ -30,7 +34,7 @@ const initialState = {
   imagePreviewUrl: "",
   initialBusinessQuestions: {},
 
-  activeStep: 0,
+  activeStep: 1,
   // General Info
   businessName: "",
   doingBusiness: "",
@@ -100,11 +104,6 @@ class AddMerchant extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-    this.validator = new SimpleReactValidator({
-      messages: {
-        default: "Required",
-      },
-    });
   }
 
   getSteps = () => {
@@ -136,60 +135,18 @@ class AddMerchant extends React.Component {
   };
 
   getStepContent = (stepIndex) => {
+    const { formField } = checkoutFormModel;
     switch (stepIndex) {
       case 0:
-        return (
-          <h1>1</h1>
-          //   <General
-          //     handleChange={this.handleChange}
-          //     handleCheckBox={this.handleCheckBox}
-          //     handleSelect={this.handleSelect}
-          //     value={this.state}
-          //     handlePhone={this.handlePhone}
-          //     handleCountryCode={this.handleCountryCode}
-          //     validator={this.validator}
-          //   />
-        );
+        return <General formField={formField} />;
       case 1:
-        return (
-          <h1>2</h1>
-          //   <Questions
-          //     handleQuestions={this.handleQuestions}
-          //     handleChange={this.handleChange}
-          //     businessInfo={this.state.initialBusinessQuestions}
-          //     validator={this.validator}
-          //   />
-        );
+        return <Question formField={formField} />;
       case 2:
-        return (
-          <h1>3</h1>
-          //   <Bank
-          //     uploadFile={this.uploadFile}
-          //     handleChange={this.handleChange}
-          //     value={this.state}
-          //     validator={this.validator}
-          //   />
-        );
+        return <Bank />;
       case 3:
-        return (
-          <h1>4</h1>
-          //   <Principal
-          //     setDataPrincipal={this.setDataPrincipal}
-          //     handleNext={this.handleNext}
-          //     handlePrincipal={this.handlePrincipal}
-          //     Info={this.state}
-          //     handleBack={this.handleBack}
-          //     cancelMerchant={this.props.history}
-          //   />
-        );
+        return <Principal />;
       case 4:
-        return (
-          <h1>5</h1>
-          //   <PricingPlan
-          //     value={this.state.valuePricingPlane}
-          //     handleChangePricingPlan={this.handleChangePricingPlan}
-          //   />
-        );
+        return <PricingPlan />;
 
       default:
         return "Unknown stepIndex";
@@ -227,23 +184,33 @@ class AddMerchant extends React.Component {
       });
   };
 
-  handleNext = () => {
+  _submitForm = (values, actions) => {
     const { activeStep, pin, confirmPin } = this.state;
-    // if (pin !== confirmPin) {
-    //   this.setState({ match: false });
-    // } else {
-    //   if (this.validator.allValid()) {
-    //     this.setState({
-    //       activeStep: activeStep + 1,
-    //     });
-    //   } else {
-    //     this.validator.showMessages();
-    //     this.forceUpdate();
-    //   }
-    // }
+
+    // await _sleep(1000);
+    alert(JSON.stringify(values, null, 2));
+    actions.setSubmitting(false);
+
     this.setState({
       activeStep: activeStep + 1,
     });
+  };
+
+  _handleSubmit = (values, actions) => {
+    console.log("actions", actions);
+    const { activeStep, pin, confirmPin } = this.state;
+    const steps = this.getSteps();
+    const isLastStep = activeStep === steps.length - 1;
+    console.log("isLastStep", isLastStep);
+    if (isLastStep) {
+      this._submitForm(values, actions);
+    } else {
+      this.setState({
+        activeStep: activeStep + 1,
+      });
+      actions.setTouched({});
+      actions.setSubmitting(false);
+    }
   };
 
   handleBack = () => {
@@ -427,6 +394,9 @@ class AddMerchant extends React.Component {
   render() {
     const steps = this.getSteps();
     const { activeStep } = this.state;
+    const { formId } = checkoutFormModel;
+    const currentValidationSchema = validationSchema[activeStep];
+
     return (
       <div className="react-transition swipe-right add-merchant-container ">
         <ContainerHeader
@@ -465,68 +435,67 @@ class AddMerchant extends React.Component {
                 </div>
               ) : (
                 <Formik
-                //   initialValues={}
-                //   validationSchema={}
-                //   onSubmit={_handleSubmit}
+                  initialValues={formInitialValues}
+                  validationSchema={currentValidationSchema}
+                  onSubmit={this._handleSubmit}
                 >
-                  <Form id={formId}>
-                    {this.getStepContent(activeStep)}
+                  {({ values, isSubmitting }) => (
+                    <Form id={formId}>
+                      {this.getStepContent(activeStep)}
 
-                    {this.state.activeStep === 3 ? null : (
-                      <div
-                        style={{
-                          marginTop: "15px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <div>
-                          <Button
-                            disabled={activeStep === 0}
-                            onClick={this.handleBack}
-                            className="btn btn-red"
-                            style={{ color: "black" }}
-                          >
-                            Back
-                          </Button>
+                      {this.state.activeStep === 3 ? null : (
+                        <div
+                          style={{
+                            marginTop: "15px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div>
+                            <Button
+                              disabled={activeStep === 0}
+                              onClick={this.handleBack}
+                              className="btn btn-red"
+                              style={{ color: "black" }}
+                            >
+                              Back
+                            </Button>
 
-                          <Button
-                            className="btn btn-red"
-                            onClick={() => {
-                              if (activeStep === steps.length - 1)
-                                this.submitAddMerchant();
-                              else this.handleNext();
-                            }}
-                            style={{
-                              backgroundColor: "#4251af",
-                              color: "white",
-                            }}
-                            disabled={
-                              this.state.isSubmitting || this.state.progress
-                                ? true
-                                : false
-                            }
-                          >
-                            {activeStep === steps.length - 1
-                              ? "Submit"
-                              : "Next"}
-                          </Button>
+                            <Button
+                              className="btn btn-red"
+                              // onClick={() => {
+                              //   if (activeStep === steps.length - 1)
+                              //     this.submitAddMerchant();
+                              //   else this.handleNext();
+                              // }}
+                              type="submit"
+                              style={{
+                                backgroundColor: "#4251af",
+                                color: "white",
+                              }}
+                              disabled={isSubmitting}
+                            >
+                              {activeStep === steps.length - 1
+                                ? "Submit"
+                                : "Next"}
+                            </Button>
+                          </div>
+
+                          <div>
+                            <Button
+                              onClick={() =>
+                                this.props.history.push("/app/merchants/list")
+                              }
+                              className="btn btn-red"
+                              style={{ color: "black" }}
+                            >
+                              Cancel
+                            </Button>
+                          </div>
                         </div>
-
-                        <div>
-                          <Button
-                            onClick={() =>
-                              this.props.history.push("/app/merchants/list")
-                            }
-                            className="btn btn-red"
-                            style={{ color: "black" }}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                  </Form>
+                      )}
+                    </Form>
+                  )}
                 </Formik>
               )}
             </div>

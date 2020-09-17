@@ -7,21 +7,28 @@ import {
   DELETE_MERCHANT,
 } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
+import IconButton from "@material-ui/core/IconButton";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 
+import CloseIcon from "@material-ui/icons/Close";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
-import Popup from "reactjs-popup";
 import NumberFormat from "react-number-format";
-import formatPhone from "../../../../util/formatPhone";
+import Dialog from "@material-ui/core/Dialog";
 import checkPermission from "../../../../util/checkPermission";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import DialogContent from "@material-ui/core/DialogContent";
+import * as Yup from "yup";
 
+import Typography from "@material-ui/core/Typography";
 import "./MerchantReqProfile.css";
 import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
@@ -200,6 +207,35 @@ class MerchantReqProfile extends Component {
       ) : (
         <label>&nbsp;- NO BUSINESS INFORMATION</label>
       );
+    const styles = (theme) => ({
+      root: {
+        margin: 0,
+        padding: theme.spacing(2),
+      },
+      closeButton: {
+        position: "absolute",
+        right: theme.spacing(1),
+        top: theme.spacing(1),
+        color: "white",
+      },
+    });
+    const DialogTitle = withStyles(styles)((props) => {
+      const { children, classes, onClose, ...other } = props;
+      return (
+        <MuiDialogTitle disableTypography className={classes.root} {...other}>
+          <Typography variant="h5">{children}</Typography>
+          {onClose ? (
+            <IconButton
+              aria-label="close"
+              className={classes.closeButton}
+              onClick={onClose}
+            >
+              <CloseIcon />
+            </IconButton>
+          ) : null}
+        </MuiDialogTitle>
+      );
+    });
 
     //render profile
     return (
@@ -240,238 +276,229 @@ class MerchantReqProfile extends Component {
                 </Button>
               </DialogActions>
             </Dialog> */}
-
             <span>
               <Button className="btn btn-red" onClick={this.goBack}>
                 BACK
               </Button>
-              {/* <Button
-                style={{ color: "#4251af", backgroundColor: "white" }}
-                className="btn btn-red"
-                onClick={() => this.setState({ openDelete: true })}
-              >
-                DELETE
-              </Button> */}
+
+              {checkPermission(5) && (
+                <>
+                  <Button
+                    className="btn btn-red"
+                    color="primary"
+                    onClick={this.handleOpenReject}
+                  >
+                    REJECT
+                  </Button>
+                  <Dialog
+                    onClose={this.handleCloseReject}
+                    open={this.state.isOpenReject}
+                    fullWidth={true}
+                    maxWidth="sm"
+                  >
+                    <DialogTitle
+                      id="customized-dialog-title"
+                      onClose={this.handleCloseReject}
+                      className="modal-title"
+                    >
+                      Confirmation
+                    </DialogTitle>
+                    <DialogContent dividers>
+                      <Formik
+                        initialValues={{ rejectReason: "" }}
+                        validate={(values) => {
+                          let errors = {};
+                          if (!values.rejectReason) {
+                            errors.rejectReason = "Reject reason is required";
+                          }
+                          return errors;
+                        }}
+                        onSubmit={(values, { setSubmitting }) => {
+                          const reason = values.rejectReason;
+                          const ID = this.props.PendingProfile.merchantId;
+                          const data = { reason, ID };
+                          this.props.RejectMerchant(data);
+                        }}
+                      >
+                        {({
+                          values,
+                          handleChange,
+                          isSubmitting,
+                          errors,
+                          touched,
+                        }) => (
+                          <div className="reject-container">
+                            <h2 className="title">REASONS FOR REJECTION</h2>
+                            <Form>
+                              <TextField
+                                id="filled-multiline-flexible"
+                                name="rejectReason"
+                                multiline
+                                fullWidth
+                                rows={4}
+                                value={values.rejectReason}
+                                onChange={handleChange}
+                                variant="outlined"
+                                placeholder="Please enter your reason."
+                                helperText={
+                                  touched.rejectReason
+                                    ? errors.rejectReason
+                                    : ""
+                                }
+                                error={
+                                  touched.rejectReason &&
+                                  Boolean(errors.rejectReason)
+                                }
+                              />
+
+                              <div style={{ paddingTop: "10px" }}>
+                                <Button
+                                  type="submit"
+                                  className="btn btn-red"
+                                  onClick={this.handleCloseReject}
+                                >
+                                  BACK
+                                </Button>
+                                <Button type="submit" className="btn btn-green">
+                                  CONFIRM
+                                </Button>
+                              </div>
+                            </Form>
+                          </div>
+                        )}
+                      </Formik>
+                    </DialogContent>
+                  </Dialog>
+                </>
+              )}
+
               {checkPermission(4) && (
                 <Button className="btn btn-red" onClick={this.handleEdit}>
                   EDIT
                 </Button>
               )}
-              {/* REJECT BTN */}
-              {checkPermission(5) && (
-                <Popup
-                  trigger={<Button className="btn btn-red">REJECT</Button>}
-                  modal
-                  on="click"
-                  open={this.state.isOpenReject}
-                  onOpen={this.handleOpenReject}
-                  closeOnDocumentClick
-                >
-                  <h4 className="close" onClick={this.handleCloseReject}>
-                    &times;
-                  </h4>
-                  <div
-                    style={{
-                      backgroundColor: "#4251af",
-                      height: "50px",
-                      padding: "10px",
-                      zIndex: "999",
-                      color: "white",
-                      alignItems: "center",
-                    }}
-                  >
-                    <p style={{ fontSize: "22px", textAlign: "center" }}>
-                      Confirmation
-                    </p>
-                  </div>
-                  <span>
-                    <Formik
-                      initialValues={{ rejectReason: "" }}
-                      validate={(values) => {
-                        let errors = {};
-                        if (!values.rejectReason) {
-                          errors.rejectReason = "Required";
-                        }
-                        return errors;
-                      }}
-                      onSubmit={(values, { setSubmitting }) => {
-                        const reason = values.rejectReason;
-                        const ID = this.props.PendingProfile.merchantId;
-                        const data = { reason, ID };
-                        this.props.RejectMerchant(data);
-                      }}
-                    >
-                      {({ values, handleChange, isSubmitting }) => (
-                        <div className="rejectInput">
-                          <h2 className="title">REASONS FOR REJECTION</h2>
-                          <Form>
-                            <Field
-                              type="textarea"
-                              name="rejectReason"
-                              component="textarea"
-                              placeholder="Please enter your reason."
-                            />
-                            <ErrorMessage
-                              style={{
-                                color: "#4251af",
-                                fontWeight: "400",
-                                fontSize: "18px",
-                              }}
-                              name="rejectReason"
-                              component="div"
-                            />
-                            <div>
-                              <Button
-                                type="submit"
-                                className="btn btn-red"
-                                onClick={this.handleCloseReject}
-                              >
-                                BACK
-                              </Button>
-                              <Button type="submit" className="btn btn-green">
-                                CONFIRM
-                              </Button>
-                            </div>
-                          </Form>
-                        </div>
-                      )}
-                    </Formik>
-                  </span>
-                </Popup>
-              )}
+
               {/* ACCEPT BTN */}
+
               {checkPermission(6) && (
-                <Popup
-                  trigger={<Button className="btn btn-green"> ACCEPT </Button>}
-                  modal
-                  on="click"
-                  open={this.state.isOpenAccept}
-                  onOpen={this.handleOpenAccept}
-                  closeOnDocumentClick
-                >
-                  <span>
-                    <h4 className="close" onClick={this.handleCloseAccept}>
-                      &times;
-                    </h4>
-                    <div
-                      style={{
-                        backgroundColor: "#4251af",
-                        height: "50px",
-                        padding: "10px",
-                        zIndex: "999",
-                        color: "white",
-                        alignItems: "center",
-                      }}
+                <>
+                  <Button
+                    className="btn btn-green"
+                    color="primary"
+                    onClick={this.handleOpenAccept}
+                  >
+                    ACCEPT
+                  </Button>
+                  <Dialog
+                    onClose={this.handleCloseAccept}
+                    open={this.state.isOpenAccept}
+                    fullWidth={true}
+                    maxWidth="sm"
+                  >
+                    <DialogTitle
+                      id="customized-dialog-title"
+                      onClose={this.handleCloseAccept}
+                      className="modal-title"
                     >
-                      <p style={{ fontSize: "22px", textAlign: "center" }}>
-                        Confirmation
-                      </p>
-                    </div>
-                    <h3 className="title">
-                      ARE YOU SURE YOU WANT TO ACCEPT THIS MERCHANT?
-                    </h3>
-                    <Formik
-                      initialValues={{
-                        merchantID: "",
-                        // merchantToken: "",
-                        fee: "",
-                        discountRate: "",
-                      }}
-                      validate={(values) => {
-                        let errors = {};
-                        if (!values.merchantID) {
-                          errors.merchantID = "Required";
-                        }
-                        // } else if (!values.merchantToken) {
-                        // errors.merchantToken = 'Required';
-                        // }
-                        else if (!values.fee) {
-                          errors.fee = "Required";
-                        } else if (!values.discount) {
-                          errors.discount = "Required";
-                        }
-                        return errors;
-                      }}
-                      onSubmit={(values, { setSubmitting }) => {
-                        const ID = this.props.PendingProfile.merchantId;
-                        const merchantCode = values.merchantID;
-                        // const merchantToken = values.merchantToken;
-                        const transactionsFee = values.fee;
-                        const discountRate = values.discount;
-                        const data = {
-                          transactionsFee,
-                          merchantCode,
-                          ID,
-                          discountRate,
-                        };
-                        this.props.ApproveMerchant(data);
-                      }}
-                    >
-                      {({ lol }) => (
-                        <Form
-                          style={{ textAlign: "center" }}
-                          className="InputBox"
-                        >
-                          <div style={styles.div}>
-                            <label>Merchant ID</label>
-                            <br />
-                            <Field name="merchantID" type="number" />
-                            <ErrorMessage
-                              style={{
-                                color: "#4251af",
-                                fontWeight: "400",
-                                fontSize: "18px",
-                              }}
-                              name="merchantID"
-                              component="div"
-                            />
-                          </div>
-                          <div style={styles.div}>
-                            <label>Transaction Fee</label> <br />
-                            <Field type="number" name="fee" />
-                            <ErrorMessage
-                              style={{
-                                color: "#4251af",
-                                fontWeight: "400",
-                                fontSize: "18px",
-                              }}
-                              name="fee"
-                              component="div"
-                            />
-                          </div>
-                          <div style={styles.div}>
-                            <label>Discount Rate</label> <br />
-                            <Field type="number" name="discount" />
-                            <ErrorMessage
-                              style={{
-                                color: "#4251af",
-                                fontWeight: "400",
-                                fontSize: "18px",
-                              }}
-                              name="discount"
-                              component="div"
-                            />
-                          </div>
-                          <br />
-                          <div
-                            style={{ textAlign: "center", paddingTop: "10px" }}
-                          >
-                            <Button
-                              type="submit"
-                              className="btn btn-red"
-                              onClick={this.handleCloseAccept}
+                      Confirmation
+                    </DialogTitle>
+                    <DialogContent dividers>
+                      <Formik
+                        initialValues={{
+                          merchantID: "",
+                          fee: "",
+                          discount: "",
+                        }}
+                        validationSchema={AcceptSchema}
+                        onSubmit={(values, { setSubmitting }) => {
+                          const ID = this.props.PendingProfile.merchantId;
+                          const merchantCode = values.merchantID;
+                          const transactionsFee = values.fee;
+                          const discountRate = values.discount;
+                          const data = {
+                            transactionsFee,
+                            merchantCode,
+                            ID,
+                            discountRate,
+                          };
+                          this.props.ApproveMerchant(data);
+                        }}
+                      >
+                        {({ values, handleChange, errors, touched }) => (
+                          <div className="accept-container">
+                            <h2 className="title">
+                              Are you sure you want to accept this request?
+                            </h2>
+
+                            <Form
+                              style={{ textAlign: "center" }}
+                              className="InputBox"
                             >
-                              NO
-                            </Button>
-                            <Button type="submit" className="btn btn-green">
-                              YES
-                            </Button>
+                              <div style={styles.div}>
+                                <label>Merchant ID</label>
+                                <br />
+
+                                <TextField
+                                  onChange={handleChange}
+                                  name="merchantID"
+                                  type="number"
+                                  helperText={
+                                    touched.merchantID ? errors.merchantID : ""
+                                  }
+                                  error={
+                                    touched.merchantID &&
+                                    Boolean(errors.merchantID)
+                                  }
+                                />
+                              </div>
+                              <div style={styles.div}>
+                                <label>Transaction Fee</label> <br />
+                                <TextField
+                                  onChange={handleChange}
+                                  name="fee"
+                                  type="number"
+                                  helperText={touched.fee ? errors.fee : ""}
+                                  error={touched.fee && Boolean(errors.fee)}
+                                />
+                              </div>
+                              <div style={styles.div}>
+                                <label>Discount Rate</label> <br />
+                                <TextField
+                                  onChange={handleChange}
+                                  name="discount"
+                                  type="number"
+                                  helperText={
+                                    touched.discount ? errors.discount : ""
+                                  }
+                                  error={
+                                    touched.discount && Boolean(errors.discount)
+                                  }
+                                />
+                              </div>
+                              <br />
+                              <div
+                                style={{
+                                  textAlign: "center",
+                                  paddingTop: "10px",
+                                }}
+                              >
+                                <Button
+                                  className="btn btn-red"
+                                  onClick={this.handleCloseAccept}
+                                >
+                                  NO
+                                </Button>
+                                <Button type="submit" className="btn btn-green">
+                                  YES
+                                </Button>
+                              </div>
+                            </Form>
                           </div>
-                        </Form>
-                      )}
-                    </Formik>
-                  </span>
-                </Popup>
+                        )}
+                      </Formik>
+                    </DialogContent>
+                  </Dialog>
+                </>
               )}
             </span>
           </div>
@@ -671,20 +698,6 @@ export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(MerchantReqProfile)
 );
 
-const styles = {
-  h2: {
-    padding: "10px 0px",
-    color: "#4251af",
-    fontWeight: "400",
-    margin: "0",
-  },
-  div: {
-    marginLeft: "40%",
-    textAlign: "left",
-    marginBottom: "10px",
-  },
-};
-
 function customLabel(questionId) {
   switch (questionId) {
     case 1:
@@ -701,3 +714,9 @@ function customLabel(questionId) {
       return "Yes";
   }
 }
+
+const AcceptSchema = Yup.object().shape({
+  merchantID: Yup.number().min(4, "Min 4 digit").required("Required"),
+  fee: Yup.number().required("Transaction fee is required"),
+  discount: Yup.number().required("Discount rate is required"),
+});

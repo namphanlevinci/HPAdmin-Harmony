@@ -16,6 +16,16 @@ const Merchants = ({ match, location }) => {
             import("./MerchantsList/addMerchant/addMerchant")
           )}
         />
+
+        {/* ADD MERCHANT V2 */}
+        {/* <Route
+          path={`${match.url}/add2`}
+          component={asyncComponent(() =>
+            import("./MerchantsList/AddMerchants/AddMerchant")
+          )}
+        /> */}
+        {/* ====== */}
+
         {/* <PrivateRoute
           permissionID={12}
           path={`${match.url}/add2`}
