@@ -1,39 +1,37 @@
-
 .role h3 {
-    color: black;
-    font-size: 21px;
-    font-weight: 500;
+  color: black;
+  font-size: 21px;
+  font-weight: 500;
 }
 
 .role_permissions > h3 {
   font-weight: 400;
-  font-size: 24px
+  font-size: 24px;
 }
-.role_permissions  p {
+.role_permissions p {
   color: #4251af;
   font-size: 18px;
-  font-weight: 400; 
-
+  font-weight: 400;
 }
-
 
 .permission_name > h4 {
   font-size: 18px;
   color: #4251af;
   padding: 5px 0px;
-  margin: 15px 0px;  
+  margin: 15px 0px;
 }
 
 .permission_name_container {
   box-shadow: 0 0 0 1px #dddddd;
   width: 98%;
+  white-space: nowrap;
 }
 .permission_name_container > p {
   font-size: 15px;
   color: black;
   font-weight: 400;
   padding: 10px 0px 10px 15px;
-  margin-bottom: 0px;  
+  margin-bottom: 0px;
 }
 
 .permission_name > .none {

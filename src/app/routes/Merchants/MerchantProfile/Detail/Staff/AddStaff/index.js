@@ -4,18 +4,22 @@ import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
 } from "../../../../../../../actions/notifications/actions";
+import { Formik, Form } from "formik";
 
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import SimpleReactValidator from "simple-react-validator";
-import General from "./general";
-import WorkTime from "./work-time";
-import Salary from "./salary";
-import License from "./license";
+import General from "./Form/General";
+import WorkTime from "./Form/WorkTime";
+import Salary from "./Form/Salary";
+import License from "./Form/License";
 import axios from "axios";
 import { config } from "../../../../../../../url/url";
+
+import validationSchema from "./FormModel/validationSchema";
+import formInitialValues from "./FormModel/formInitialValues";
 
 import "../Staff.styles.scss";
 
@@ -26,7 +30,7 @@ class AddStaff extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 0,
+      activeStep: 2,
       match: true,
       imagePreviewUrl: "",
       // General
@@ -106,60 +110,39 @@ class AddStaff extends Component {
     return ["General Information", "Working time", "Salary", "License"];
   };
 
-  getStepContent = (stepIndex) => {
+  handleShowPin = () => {
+    this.setState({ showPin: !this.state.showPin });
+  };
+  handleConfirmPin = () => {
+    this.setState({ showConfirmPin: !this.state.showConfirmPin });
+  };
+
+  getStepContent = (stepIndex, values, handleChange, setFieldValue) => {
     switch (stepIndex) {
       case 0:
-        return this.getGeneralInformation();
+        return (
+          <General
+            uploadFile={this.uploadFile}
+            imagePreviewUrl={this.state.imagePreviewUrl}
+            showPin={this.state.showPin}
+            handleShowPin={this.handleShowPin}
+            showConfirmPin={this.state.showConfirmPin}
+            handleConfirmPin={this.handleConfirmPin}
+            initValue={values}
+            handleChange={handleChange}
+            setFieldValue={setFieldValue}
+          />
+        );
       case 1:
-        return this.getWorkTime();
+        return <WorkTime initValue={values} setFieldValue={setFieldValue} />;
       case 2:
-        return this.getSalary();
+        return <Salary initValue={values} setFieldValue={setFieldValue} />;
       case 3:
         return this.getLicense();
 
       default:
         return "Unknown stepIndex";
     }
-  };
-
-  getGeneralInformation = () => {
-    return (
-      <General
-        handleChange={this.handleChange}
-        handlePhone={this.handlePhone}
-        state={this.state}
-        validator={this.validator}
-        uploadFile={this.uploadFile}
-        handleSelect={this.handleSelect}
-        handleMISelect={this.handleMISelect}
-        toggleVisibility={this.toggleVisibility}
-        handleCheckBox={this.handleCheckBox}
-      />
-    );
-  };
-
-  getWorkTime = () => {
-    return (
-      <WorkTime
-        handleChange={this.handleChange}
-        state={this.state}
-        validator={this.validator}
-        handleCheckBox={this.handleCheckBox}
-        handleSelect={this.handleSelect}
-      />
-    );
-  };
-
-  getSalary = () => {
-    return (
-      <Salary
-        handleCurrency={this.handleCurrency}
-        handleChange={this.handleChange}
-        handleCheckBox={this.handleCheckBox}
-        state={this.state}
-        validator={this.validator}
-      />
-    );
   };
 
   getLicense = () => {
@@ -173,7 +156,8 @@ class AddStaff extends Component {
   };
 
   //handle upload avatar
-  uploadFile = (event) => {
+  uploadFile = (event, setFieldValue) => {
+    console.log("setFieldValue", setFieldValue);
     event.stopPropagation();
     event.preventDefault();
 
@@ -188,7 +172,7 @@ class AddStaff extends Component {
     axios
       .post(upFile, formData, config)
       .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
+        setFieldValue("fileId", res.data.data.fileId);
         let reader = new FileReader();
         reader.onloadend = () => {
           this.setState({
@@ -201,6 +185,33 @@ class AddStaff extends Component {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  _submitForm = (values, actions) => {
+    const { activeStep } = this.state;
+
+    // await _sleep(1000);
+    alert(JSON.stringify(values, null, 2));
+    actions.setSubmitting(false);
+
+    this.setState({
+      activeStep: activeStep + 1,
+    });
+  };
+
+  _handleSubmit = (values, actions) => {
+    const { activeStep } = this.state;
+    const steps = this.getSteps();
+    const isLastStep = activeStep === steps.length - 1;
+    if (isLastStep) {
+      this._submitForm(values, actions);
+    } else {
+      this.setState({
+        activeStep: activeStep + 1,
+      });
+      actions.setTouched({});
+      actions.setSubmitting(false);
+    }
   };
 
   addStaff = () => {
@@ -381,62 +392,28 @@ class AddStaff extends Component {
     this.setState({ [name]: masked });
   };
 
-  handlePhone = (e) => {
-    this.setState({ cellphone: e });
-  };
-
   toggleVisibility = (name, value) => {
     this.setState({
       [name]: value,
     });
   };
 
-  handleCheckBox = (name) => (event) => {
-    const value = event.target.checked;
-    this.setState({ ...this.state, [name]: value });
-    if (name === "salaryIsCheck" && value === true) {
-      this.setState({ commIsCheck: false, commValue: 0 });
-    }
-    if (name === "commIsCheck" && value === true) {
-      this.setState({ salaryIsCheck: false, salaryValue: 0 });
-    }
-    if (name === "tipIsCheck" && value === true) {
-      this.setState({ fixIsCheck: false, fixValue: 0 });
-    }
-    if (name === "fixIsCheck" && value === true) {
-      this.setState({ tipIsCheck: false, tipValue: 0 });
-    }
-  };
-
-  handleSelect = (selectedOption, Inputname) => {
-    const { name } = Inputname;
-    this.setState({ [name]: selectedOption });
-  };
-
-  handleMISelect = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
-
-  handleNext = () => {
-    const { activeStep, pin, confirmPin } = this.state;
-    if (pin !== confirmPin) {
-      this.setState({ match: false });
-    } else {
-      if (this.validator.allValid()) {
-        this.setState({
-          activeStep: activeStep + 1,
-        });
-      }
-
-      if (Number(activeStep) === 3) {
-        this.addStaff();
-      } else {
-        this.validator.showMessages();
-        this.forceUpdate();
-      }
-    }
-  };
+  // handleCheckBox = (name) => (event) => {
+  //   const value = event.target.checked;
+  //   this.setState({ ...this.state, [name]: value });
+  //   if (name === "salaryIsCheck" && value === true) {
+  //     this.setState({ commIsCheck: false, commValue: 0 });
+  //   }
+  //   if (name === "commIsCheck" && value === true) {
+  //     this.setState({ salaryIsCheck: false, salaryValue: 0 });
+  //   }
+  //   if (name === "tipIsCheck" && value === true) {
+  //     this.setState({ fixIsCheck: false, fixValue: 0 });
+  //   }
+  //   if (name === "fixIsCheck" && value === true) {
+  //     this.setState({ tipIsCheck: false, tipValue: 0 });
+  //   }
+  // };
 
   handleBack = () => {
     this.validator.purgeFields();
@@ -455,6 +432,7 @@ class AddStaff extends Component {
   render() {
     const steps = this.getSteps();
     const { activeStep } = this.state;
+    const currentValidationSchema = validationSchema[activeStep];
 
     return (
       <div className="container-fluid react-transition swipe-right add-staff">
@@ -484,44 +462,66 @@ class AddStaff extends Component {
             <div>
               {this.state.activeStep === steps.length ? null : ( // </div> //   </Button> //     Reset //   <Button className="btn btn-green" onClick={this.handleReset}> //   </Typography> //     <h1>Complete™</h1> //   <Typography className="my-2"> // <div>
                 <div>
-                  {this.getStepContent(activeStep)}
-                  <div
-                    style={{
-                      paddingTop: "20px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
+                  <Formik
+                    initialValues={formInitialValues}
+                    validationSchema={currentValidationSchema}
+                    onSubmit={this._handleSubmit}
                   >
-                    <span>
-                      <Button
-                        disabled={activeStep === 0}
-                        onClick={this.handleBack}
-                        className="btn btn-red"
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleNext}
-                        className="btn btn-green"
-                      >
-                        {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                      </Button>
-                    </span>
-                    <span>
-                      <Button
-                        onClick={() =>
-                          this.props.history.push(
-                            "/app/merchants/profile/staff"
-                          )
-                        }
-                        className="btn btn-red"
-                      >
-                        Cancel
-                      </Button>
-                    </span>
-                  </div>
+                    {({
+                      values,
+                      isSubmitting,
+                      handleChange,
+                      setFieldValue,
+                    }) => (
+                      <Form noValidate>
+                        {this.getStepContent(
+                          activeStep,
+                          values,
+                          handleChange,
+                          setFieldValue
+                        )}
+                        <div
+                          style={{
+                            paddingTop: "20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <span>
+                            <Button
+                              disabled={activeStep === 0}
+                              onClick={this.handleBack}
+                              className="btn btn-red"
+                            >
+                              Back
+                            </Button>
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              type="submit"
+                              className="btn btn-green"
+                            >
+                              {activeStep === steps.length - 1
+                                ? "Finish"
+                                : "Next"}
+                            </Button>
+                          </span>
+                          <span>
+                            <Button
+                              onClick={() =>
+                                this.props.history.push(
+                                  "/app/merchants/profile/staff"
+                                )
+                              }
+                              className="btn btn-red"
+                            >
+                              Cancel
+                            </Button>
+                          </span>
+                        </div>{" "}
+                      </Form>
+                    )}
+                  </Formik>
                 </div>
               )}
             </div>

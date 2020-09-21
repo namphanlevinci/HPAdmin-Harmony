@@ -83,12 +83,12 @@
   font-weight: 400;
   margin: 0;
 }
-.content-body .content p {
+/* .content-body .content p {
   font-weight: 400;
   color: #252525;
   overflow-wrap: break-word;
   font-size: 16px;
-}
+} */
 
 h4 {
   margin-bottom: 4px;
@@ -110,7 +110,6 @@ h4 {
   font-size: 17px;
 }
 
-
 .content-list .content-body .title {
   padding-top: 15px;
   color: #4251af;
@@ -131,7 +130,6 @@ h4 {
   outline: none;
   border-color: #4251af;
 }
-
 
 .MuiCheckbox-colorSecondary.Mui-checked {
   color: #4251af !important;
@@ -183,7 +181,6 @@ h4 {
   color: white;
 }
 
-
 .pending_status > div > .status_select {
   color: white;
   width: 130px;
@@ -220,7 +217,6 @@ h4 {
 }
 
 @media (min-width: 1024px) and (max-width: 1280px) {
-
   .content-body label {
     font-size: 15px;
   }

@@ -442,7 +442,6 @@ class AddMerchant extends React.Component {
                 </div>
               ) : (
                 <Formik
-                  // enableReinitialize={true}
                   initialValues={formInitialValues}
                   validationSchema={currentValidationSchema}
                   onSubmit={this._handleSubmit}

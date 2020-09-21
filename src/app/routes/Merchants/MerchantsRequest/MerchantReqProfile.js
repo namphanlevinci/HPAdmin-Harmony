@@ -513,7 +513,7 @@ class MerchantReqProfile extends Component {
 
           <div className="pending_status ">
             <div>
-              {!this.state.pendingStatus ? (
+              {this.props.setPendingStatus ? (
                 <div className="loading-progress">
                   <CircularProgress
                     size={20}
@@ -693,7 +693,7 @@ class MerchantReqProfile extends Component {
 const mapStateToProps = (state) => ({
   PendingProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
-
+  setPendingStatus: state.MerchantReducer.setPendingStatus,
   checkPermission: state.userReducer.checkPermission,
 });
 const mapDispatchToProps = (dispatch) => {
@@ -735,7 +735,9 @@ function customLabel(questionId) {
 }
 
 const AcceptSchema = Yup.object().shape({
-  merchantID: Yup.number().min(4, "Min 4 digit").required("Required"),
+  merchantID: Yup.number()
+    .min(4, "Min 4 digit")
+    .required("Required"),
   fee: Yup.number().required("Transaction fee is required"),
   discount: Yup.number().required("Discount rate is required"),
 });

@@ -214,7 +214,7 @@ class Roles extends Component {
           {item.title && <h4 className="none">{item.title}</h4>}
 
           <div
-            style={{ textAlign: "center", display: "flex" }}
+            style={{ textAlign: "center" }}
             className="permission_name_check"
           >
             <Checkbox

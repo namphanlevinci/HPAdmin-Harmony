@@ -206,7 +206,7 @@ class EditSalary extends Component {
                   <div className="input-box">
                     <CurrencyInput
                       name="commValue"
-                      type="number"
+                      type="tel"
                       separator="."
                       value={commValue}
                       disabled={salaryIsCheck ? true : false}
@@ -232,7 +232,7 @@ class EditSalary extends Component {
                   </div>
                   <div className="input-box">
                     <CurrencyInput
-                      type="number"
+                      type="tel"
                       name="prodCommValue"
                       value={prodCommValue}
                       separator="."
@@ -259,7 +259,7 @@ class EditSalary extends Component {
                   </div>
                   <div className="input-box">
                     <CurrencyInput
-                      type="number"
+                      type="tel"
                       name="tipValue"
                       value={tipValue}
                       separator="."
@@ -309,7 +309,7 @@ class EditSalary extends Component {
                         onChange={this.handleCurrency}
                         min="0"
                         max="100"
-                        type="number"
+                        type="tel"
                         separator="."
                       />
                       <span className="unit">%</span>
