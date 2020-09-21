@@ -134,14 +134,20 @@ class AddMerchant extends React.Component {
     this.setState({ principalInfo: info });
   };
 
-  getStepContent = (stepIndex, values) => {
-    console.log("values", values);
+  getStepContent = (stepIndex, values, handleChange) => {
+    console.log("VALUES BAN DAU", values);
     const { formField } = checkoutFormModel;
     switch (stepIndex) {
       case 0:
         return <General formField={formField} />;
       case 1:
-        return <Question formField={formField} values={values} />;
+        return (
+          <Question
+            formField={formField}
+            values={values}
+            handleChange={handleChange}
+          />
+        );
       case 2:
         return <Bank />;
       case 3:
@@ -436,13 +442,14 @@ class AddMerchant extends React.Component {
                 </div>
               ) : (
                 <Formik
+                  // enableReinitialize={true}
                   initialValues={formInitialValues}
                   validationSchema={currentValidationSchema}
                   onSubmit={this._handleSubmit}
                 >
-                  {({ values, isSubmitting }) => (
+                  {({ values, isSubmitting, handleChange }) => (
                     <Form id={formId}>
-                      {this.getStepContent(activeStep, values)}
+                      {this.getStepContent(activeStep, values, handleChange)}
 
                       {this.state.activeStep === 3 ? null : (
                         <div

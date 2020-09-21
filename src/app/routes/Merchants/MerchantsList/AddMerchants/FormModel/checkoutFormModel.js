@@ -23,6 +23,50 @@ export default {
       label: "Business Address* (no P.O. Boxes)",
       requiredErrorMsg: "Business address is required",
     },
+    city: {
+      name: "city",
+      label: "City",
+      requiredErrorMsg: "City is required",
+    },
+    state: {
+      name: "state",
+      label: "State Issued*",
+      requiredErrorMsg: "State is required",
+    },
+    zip: {
+      name: "zip",
+      label: "Zip Code*",
+      requiredErrorMsg: "Zip code is required",
+    },
+    businessPhone: {
+      name: "businessPhone",
+      label: "Business Phone Number",
+    },
+    contactPhone: {
+      name: "contactPhone",
+      label: "Contact Phone Number*",
+      requiredErrorMsg: "Contact phone number is required",
+    },
+    email: {
+      name: "email",
+      label: "Email Contact*",
+      requiredErrorMsg: "Email is required",
+    },
+    firstName: {
+      name: "firstName",
+      label: "First Name*",
+      requiredErrorMsg: "First name is required",
+    },
+    lastName: {
+      name: "lastName",
+      label: "Last Name*",
+      requiredErrorMsg: "Last name is required",
+    },
+    position: {
+      name: "position",
+      label: "Title/Position*",
+      requiredErrorMsg: "Title/Position is required",
+    },
 
     // firstName: {
     //   name: "firstName",
@@ -90,7 +134,7 @@ export default {
     //   requiredErrorMsg: "CVV is required",
     //   invalidErrorMsg: "CVV is invalid (e.g. 357)",
     // },
-    principalInfo: "",
+
     // Principal
     principalInfo: [
       {

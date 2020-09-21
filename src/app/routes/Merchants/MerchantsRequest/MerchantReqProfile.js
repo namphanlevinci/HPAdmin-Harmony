@@ -27,6 +27,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import DialogContent from "@material-ui/core/DialogContent";
 import * as Yup from "yup";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Typography from "@material-ui/core/Typography";
 import "./MerchantReqProfile.css";
@@ -47,6 +48,7 @@ class MerchantReqProfile extends Component {
       rejectReason: "",
       discountRate: "",
       openDelete: false,
+      pendingStatus: true,
     };
   }
   handleChange(event) {
@@ -81,10 +83,15 @@ class MerchantReqProfile extends Component {
   };
 
   handleSetStatus = (event) => {
+    this.setState({ pendingStatus: false });
     const ID = this.props.PendingProfile.merchantId;
     const status = event.target.value;
     const payload = { ID, status };
     this.props.setStatus(payload);
+
+    setTimeout(() => {
+      this.setState({ pendingStatus: true });
+    }, 2000);
   };
 
   handleDeleteMerchant = () => {
@@ -505,17 +512,29 @@ class MerchantReqProfile extends Component {
           <hr />
 
           <div className="pending_status ">
-            <Select
-              value={e.status}
-              onChange={this.handleSetStatus}
-              displayEmpty
-              className="status_select"
-              inputProps={{ "aria-label": "Without label" }}
-            >
-              <MenuItem value={0}>Pending</MenuItem>
-              <MenuItem value={1}>Handling</MenuItem>
-            </Select>
-
+            <div>
+              {!this.state.pendingStatus ? (
+                <div className="loading-progress">
+                  <CircularProgress
+                    size={20}
+                    style={{
+                      color: "white",
+                    }}
+                  />
+                </div>
+              ) : (
+                <Select
+                  value={e.status}
+                  onChange={this.handleSetStatus}
+                  displayEmpty
+                  className="status_select"
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem value={0}>Pending</MenuItem>
+                  <MenuItem value={1}>Handling</MenuItem>
+                </Select>
+              )}
+            </div>
             {Number(e.handlingActivities.length) !== 0 && (
               <>
                 <h4>

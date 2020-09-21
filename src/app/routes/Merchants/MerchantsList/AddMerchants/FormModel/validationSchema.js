@@ -1,42 +1,36 @@
 import * as Yup from "yup";
 import moment from "moment";
-import checkoutFormModel from "./checkoutFormModel";
-const {
-  formField: {
-    businessName,
-    doingBusiness,
-    tax,
-    address,
-    principalInfo: { firstName, lastName, position },
-  },
-} = checkoutFormModel;
-
-// const visaRegEx = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
 
 export default [
   // General
   Yup.object().shape({
-    [businessName.name]: Yup.string().required(
-      `${businessName.requiredErrorMsg}`
-    ),
-    [doingBusiness.name]: Yup.string().required(
-      `${doingBusiness.requiredErrorMsg}`
-    ),
+    businessName: Yup.string().required("Business name is required"),
+    doingBusiness: Yup.string().required("Doing Business name is required"),
+    tax: Yup.string().required("Tax number is required"),
   }),
 
-  // Principal
   Yup.object().shape({
     principalInfo: Yup.array().of(
       Yup.object().shape({
-        [firstName?.name]: Yup.string().required(
-          `${firstName?.requiredErrorMsg}`
-        ),
-        [lastName?.name]: Yup.string().required(
-          `${lastName?.requiredErrorMsg}`
-        ),
-        [position?.name]: Yup.string().required(
-          `${position?.requiredErrorMsg}`
-        ),
+        firstName: Yup.string().required("First Name cannot be empty!"),
+        lastName: Yup.string().required("Required"),
+        // position: Yup.string().required("Required"),
+        // ownership: Yup.string().required("Required"),
+        // mobilePhone: Yup.string().required("Required"),
+        // ssn: Yup.string().required("Required"),
+        // dateOfBirth: Yup.string()
+        //   .required("Please Enter Birth date")
+        //   .nullable(),
+        // email: Yup.string().required("Required"),
+        // driverLicense: Yup.string().required("Required"),
+        // stateIssued: Yup.string().required("Required"),
+        // fileId: Yup.string().required("Required"),
+        // addressPrincipal: Yup.object().shape({
+        //   address: Yup.string().required("Required"),
+        //   city: Yup.string().required("Required"),
+        //   state: Yup.string().required("Required"),
+        //   zip: Yup.string().required("Required"),
+        // }),
       })
     ),
   }),

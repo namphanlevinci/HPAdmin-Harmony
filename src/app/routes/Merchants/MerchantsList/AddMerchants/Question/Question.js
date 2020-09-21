@@ -2,34 +2,45 @@ import React from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { FieldArray } from "formik";
 import InputField from "../FormFields/InputField";
+import TextField from "@material-ui/core/TextField";
 
 export default function Question(props) {
-  const { formField } = props;
-  console.log("props", props);
+  const { formField, values } = props;
+  console.log("PRINCIPAL PROPS", props);
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
         Shipping address
       </Typography>
-
       <FieldArray
-        name={formField.principalInfo}
+        name="principalInfo"
         render={(arrayHelpers) => (
           <div>
-            {formField.principalInfo && formField.principalInfo.length > 0 ? (
-              formField.principalInfo.map((principal, index) => {
+            {values.principalInfo && values.principalInfo.length > 0 ? (
+              values.principalInfo.map((principal, index) => {
                 return (
                   <div key={index}>
+                    {/* <TextField
+                      name={`principalInfo.${index}.firstName`}
+                      values={`principalInfo.${index}.firstName`}
+                      label="First Name*"
+                      margin="normal"
+                      fullWidth
+                      // onChange={(e) =>
+                      //   setFieldValue(
+                      //     `principalInfo.${index}.firstName`,
+                      //     e.target.value
+                      //   )
+                      // }
+                    /> */}
+
                     <InputField
-                      name={principal.firstName.name}
-                      label={principal.firstName.label}
+                      name={`principalInfo.${index}.firstName`}
+                      label={`principalInfo.${index}.firstName.label`}
                       fullWidth
                     />
-                    <InputField
-                      name={principal.lastName.name}
-                      label={principal.lastName.label}
-                      fullWidth
-                    />
+
                     <button
                       type="button"
                       onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
@@ -46,15 +57,13 @@ export default function Question(props) {
                 );
               })
             ) : (
-              <button type="button" onClick={() => arrayHelpers.push("")}>
-                {/* show this when user has removed all friends from the list */}
-                Add a friend
+              <button type="button" onClick={() => arrayHelpers.push()}>
+                ADD
               </button>
             )}
           </div>
         )}
       />
-
       {/* <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <InputField

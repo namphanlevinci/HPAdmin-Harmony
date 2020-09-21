@@ -173,8 +173,18 @@ h4 {
   visibility: hidden;
 }
 
-.pending_status > .status_select {
+.pending_status > div {
   background-color: #4251af;
+  width: 15%;
+  text-align: center;
+}
+.pending_status .loading-progress {
+  padding: 10px 0px;
+  color: white;
+}
+
+
+.pending_status > div > .status_select {
   color: white;
   width: 130px;
   padding: 5px 10px;
