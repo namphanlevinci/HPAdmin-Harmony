@@ -6,7 +6,7 @@ export default {
   address: {
     street: "",
     city: "",
-    state: "",
+    state: 0,
     zip: "",
   },
   cellphone: "",
@@ -84,4 +84,9 @@ export default {
       isCheck: false,
     },
   },
+  cashPercent: 0,
+  // License
+  driverlicense: "",
+  socialSecurityNumber: "",
+  professionalLicense: "",
 };

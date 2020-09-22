@@ -13,11 +13,7 @@ function NumberFormatCustom(props) {
       ref={(ref) => {
         inputRef(ref ? ref.inputElement : null);
       }}
-      options={{
-        blocks: [props.blocks],
-        delimiter: props?.delimiter,
-        numericOnly: props?.numericOnly,
-      }}
+      options={props.options}
     />
   );
 }
@@ -43,7 +39,7 @@ export default function CustomNumberField(props) {
         inputComponent: NumberFormatCustom,
       }}
       inputProps={{
-        blocks: props.block,
+        options: props.options,
       }}
     />
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, Typography } from "@material-ui/core";
+import { InputAdornment, IconButton } from "@material-ui/core";
 
 import InputField from "../FormFields/InputField";
 import SelectField from "../FormFields/SelectField";
@@ -14,13 +15,10 @@ import State from "../../../../../../../../util/InitialState";
 import Checkbox from "@material-ui/core/Checkbox";
 import ReactImageAppear from "react-image-appear";
 
-import { InputAdornment, IconButton } from "@material-ui/core";
-
 function General(props) {
   const {
     uploadFile,
     imagePreviewUrl,
-    handleChange,
     setFieldValue,
     showPin,
     handleShowPin,
@@ -62,7 +60,9 @@ function General(props) {
             name={`address.zip`}
             label="Zip Code"
             fullWidth
-            block="5"
+            options={{
+              blocks: [5],
+            }}
           />
         </Grid>
         <Grid item xs={12} md={4}>
@@ -89,7 +89,11 @@ function General(props) {
                     aria-label="toggle pin visibility"
                     onClick={handleShowPin}
                   >
-                    {showPin ? <Visibility /> : <VisibilityOff />}
+                    {showPin ? (
+                      <Visibility style={{ fontSize: 18 }} />
+                    ) : (
+                      <VisibilityOff style={{ fontSize: 18 }} />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -109,7 +113,11 @@ function General(props) {
                     aria-label="toggle pin visibility"
                     onClick={handleConfirmPin}
                   >
-                    {showConfirmPin ? <Visibility /> : <VisibilityOff />}
+                    {showConfirmPin ? (
+                      <Visibility style={{ fontSize: 18 }} />
+                    ) : (
+                      <VisibilityOff style={{ fontSize: 18 }} />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -160,7 +168,7 @@ function General(props) {
             <img
               src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
               alt="avatar"
-              style={{ borderRadius: "50%" }}
+              style={{ borderRadius: "50%", width: "100%" }}
             />
           )}
 
@@ -168,7 +176,7 @@ function General(props) {
             type="file"
             style={{
               marginTop: "20px",
-              width: "90%",
+              width: "100%",
               fontWeight: "normal",
               borderBottom: "none",
             }}

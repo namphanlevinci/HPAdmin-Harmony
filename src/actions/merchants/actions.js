@@ -162,6 +162,21 @@ export const UPDATE_STAFF = (payload) => ({
   payload,
 });
 
+export const ADD_STAFF = (payload) => ({
+  type: types.ADD_STAFF,
+  payload,
+});
+
+export const ADD_STAFF_SUCCESS = (payload) => ({
+  type: types.ADD_STAFF_SUCCESS,
+  payload,
+});
+
+export const ADD_STAFF_FAILURE = (payload) => ({
+  type: types.ADD_STAFF_FAILURE,
+  payload,
+});
+
 // DELETE MERCHANT
 export const DELETE_MERCHANT = (payload) => ({
   type: types.DELETE_MERCHANT,

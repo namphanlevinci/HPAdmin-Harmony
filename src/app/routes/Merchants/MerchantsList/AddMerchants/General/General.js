@@ -37,7 +37,10 @@ export default function General(props) {
           <CustomNumberField
             name={tax.name}
             label={tax.label}
-            block="2, 7"
+            options={{
+              numericOnly: true,
+              blocks: [2, 7],
+            }}
             fullWidth
           />
 

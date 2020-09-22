@@ -21,7 +21,6 @@ function CurrencyFormat(props) {
 export default function CustomCurrencyField(props) {
   const { errorText, ...rest } = props;
   const [field, meta] = useField(props);
-
   function _renderHelperText() {
     const [touched, error] = at(meta, "touched", "error");
     if (touched && error) {
@@ -37,8 +36,8 @@ export default function CustomCurrencyField(props) {
       {...rest}
       InputProps={{
         inputComponent: CurrencyFormat,
+        startAdornment: props.InputProps?.startAdornment,
       }}
-      InputProps={props.InputProps}
     />
   );
 }

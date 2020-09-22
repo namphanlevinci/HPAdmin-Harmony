@@ -30,7 +30,6 @@ import ProductDetail from "./Detail/Product/productDetail";
 import ProductEdit from "./Detail/Product/productEdit";
 // Staff
 import Staff from "./Detail/Staff/Staff";
-import AddStaff from "./Detail/Staff/add-staff/add-staff";
 import AddStaff2 from "./Detail/Staff/AddStaff/index.js";
 // import StaffGeneral from "./Detail/Staff/staff-detail/staff-info";
 // Extra Tab
@@ -258,14 +257,10 @@ class merchantProfile extends Component {
                           path="/app/merchants/profile/extra"
                           component={ExtraTab}
                         />
+
                         <PrivateRoute
                           permissionID={15}
                           path="/app/merchants/profile/staff/add"
-                          component={AddStaff}
-                        />
-                        <PrivateRoute
-                          permissionID={15}
-                          path="/app/merchants/profile/staff/add2"
                           component={AddStaff2}
                         />
                         <Route
