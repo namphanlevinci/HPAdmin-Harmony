@@ -7,7 +7,15 @@ import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
 } from "../../../../../../actions/notifications/actions";
-import { Grid } from "@material-ui/core";
+
+import {
+  Grid,
+  TextField,
+  InputAdornment,
+  FormControl,
+  InputLabel,
+  Input,
+} from "@material-ui/core";
 
 import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
@@ -15,13 +23,7 @@ import axios from "axios";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import IntlMessages from "../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../components/ContainerHeader/index";
-import {
-  TextField,
-  InputAdornment,
-  FormControl,
-  InputLabel,
-  Input,
-} from "@material-ui/core";
+
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
@@ -130,7 +132,7 @@ class AddProduct extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "70%", height: "auto", marginRight: 20 }}
+          style={{ width: "60%", height: "auto", marginRight: 20 }}
           alt="service 1"
         />
       );
@@ -138,7 +140,7 @@ class AddProduct extends Component {
       $imagePreview = (
         <img
           src={ServiceImg}
-          style={{ width: "70%", height: "auto", marginRight: 20 }}
+          style={{ width: "60%", height: "auto", marginRight: 20 }}
           alt="service"
         />
       );
@@ -520,7 +522,7 @@ class AddProduct extends Component {
                     >
                       {$imagePreview}
                       <br />
-                      <div style={{ marginTop: "10px", width: "70%" }}>
+                      <div style={{ marginTop: "10px", width: "60%" }}>
                         <input
                           type="file"
                           className="custom-input"

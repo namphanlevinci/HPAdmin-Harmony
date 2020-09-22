@@ -5,6 +5,15 @@ import { config } from "../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
 
+import {
+  Grid,
+  TextField,
+  InputAdornment,
+  FormControl,
+  InputLabel,
+  Input,
+} from "@material-ui/core";
+
 import "react-table/react-table.css";
 import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
