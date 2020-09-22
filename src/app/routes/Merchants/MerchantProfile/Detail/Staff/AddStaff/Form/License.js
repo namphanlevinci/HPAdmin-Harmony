@@ -3,11 +3,7 @@ import { Grid, Typography } from "@material-ui/core";
 import CustomNumberField from "../FormFields/CustomNumberField";
 
 function License(props) {
-  const {
-    setFieldValue,
-    handleChange,
-    initValue: { professionalLicense, socialSecurityNumber },
-  } = props;
+  const { handleChange } = props;
 
   return (
     <div>

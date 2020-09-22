@@ -7,6 +7,7 @@ import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
 } from "../../../../../../actions/notifications/actions";
+import { Grid } from "@material-ui/core";
 
 import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
@@ -129,7 +130,7 @@ class AddProduct extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "180px", height: "180px", marginRight: 20 }}
+          style={{ width: "70%", height: "auto", marginRight: 20 }}
           alt="service 1"
         />
       );
@@ -137,7 +138,7 @@ class AddProduct extends Component {
       $imagePreview = (
         <img
           src={ServiceImg}
-          style={{ width: "180px", height: "180px", marginRight: 20 }}
+          style={{ width: "70%", height: "auto", marginRight: 20 }}
           alt="service"
         />
       );
@@ -230,8 +231,7 @@ class AddProduct extends Component {
                   if (Number(res.data.codeNumber) === 404) {
                     setFieldError("sku", "SKU NUMBER ALREADY EXITS");
                     setSubmitting(false);
-                  }
-                  if (Number(res.data.codeNumber) === 200) {
+                  } else if (Number(res.data.codeNumber) === 200) {
                     axios
                       .post(
                         URL + "/product",
@@ -257,17 +257,16 @@ class AddProduct extends Component {
                       )
                       .then((res) => {
                         let message = res.data.message;
+
                         if (Number(res.data.codeNumber) === 200) {
-                          const payload = { message };
-                          this.props.successNotify(payload);
+                          this.props.successNotify(message);
                           setTimeout(() => {
                             this.props.history.push(
                               "/app/merchants/profile/product"
                             );
                           }, 800);
                         } else {
-                          const payload = { message };
-                          this.props.failureNotify(payload);
+                          this.props.failureNotify(message);
                         }
                       });
                   }
@@ -286,281 +285,271 @@ class AddProduct extends Component {
               /* and other goodies */
             }) => (
               <form onSubmit={handleSubmit} noValidate>
-                <div className="container Service">
-                  <div className="row">
-                    <div className="col-6" style={{ paddingLeft: "0px" }}>
-                      <div>
-                        <FormControl
-                          style={{ width: "50%" }}
-                          error={errors.categoryId && touched.categoryId}
-                        >
-                          <InputLabel>Category*</InputLabel>
-                          <Select
-                            onChange={(e) => {
-                              setFieldValue("categoryId", e.target.value);
-                            }}
-                          >
-                            {mapCategory2}
-                          </Select>
-                          {errors.categoryId && touched.categoryId && (
-                            <FormHelperText>Required</FormHelperText>
-                          )}
-                        </FormControl>
-                      </div>
-                    </div>
-                    <div className="col-3">
-                      <TextField
-                        name="sku"
-                        type="text"
-                        label="SKU Number*"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.sku}
-                        style={{
-                          borderBottomColor: "#dddddd",
-                          borderBottomWidth: 1,
-                        }}
-                        error={touched.sku && Boolean(errors.sku)}
-                        helperText={touched.sku ? errors.sku : ""}
-                      />
-                    </div>
-                    <div className="col-3">
-                      <TextField
-                        name="quantity"
-                        type="number"
-                        label=" Items In Stock*"
-                        style={{
-                          borderBottomColor: "#dddddd",
-                          borderBottomWidth: 1,
-                          width: "100%",
-                          textAlign: "end",
-                        }}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.quantity}
-                        error={touched.quantity && Boolean(errors.quantity)}
-                        helperText={touched.quantity ? errors.quantity : ""}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <p style={styles.p}>Item</p>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
-                    <div className="col-6" style={{ paddingLeft: "0px" }}>
-                      <TextField
-                        name="name"
-                        type="text"
-                        label="Product Name*"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.name}
-                        style={{
-                          borderBottomColor: "#dddddd",
-                          borderBottomWidth: 1,
-                          width: "100%",
-                        }}
-                        // variant="outlined"
-                        error={errors.name && touched.name}
-                        helperText={touched.name ? errors.name : ""}
-                      />
-                    </div>
-                    <div className="col-3">
-                      <TextField
-                        name="minThreshold"
-                        type="number"
-                        label="Low Threshold*"
-                        style={{
-                          borderBottomColor: "#dddddd",
-                          borderBottomWidth: 1,
-                          width: "100%",
-                          textAlign: "end",
-                        }}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.minThreshold}
-                        error={
-                          touched.minThreshold && Boolean(errors.minThreshold)
-                        }
-                        helperText={
-                          touched.minThreshold ? errors.minThreshold : ""
-                        }
-                        className={
-                          errors.minThreshold && touched.minThreshold
-                            ? "text-input error"
-                            : "text-input"
-                        }
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <p style={styles.p}>Item</p>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
-
-                    <div className="col-3">
-                      <TextField
-                        name="maxThreshold"
-                        type="number"
-                        label="  High Threshold*"
-                        style={{
-                          borderBottomColor: "#dddddd",
-                          borderBottomWidth: 1,
-                          width: "100%",
-                          textAlign: "end",
-                        }}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.maxThreshold}
-                        error={
-                          touched.maxThreshold && Boolean(errors.maxThreshold)
-                        }
-                        helperText={
-                          touched.maxThreshold ? errors.maxThreshold : ""
-                        }
-                        className={
-                          errors.maxThreshold && touched.maxThreshold
-                            ? "text-input error"
-                            : "text-input"
-                        }
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <p style={styles.p}>Item</p>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
-
-                    <div
-                      className="col-6"
-                      style={{ marginTop: 15, paddingLeft: "0px" }}
+                <Grid container spacing={3}>
+                  {/* <div className="Service"> */}
+                  <Grid item xs={12} md={6}>
+                    <FormControl
+                      style={{ width: "50%" }}
+                      error={errors.categoryId && touched.categoryId}
                     >
-                      <label
-                        style={{
-                          color: "#4054B2",
-                          fontSize: "14px",
+                      <InputLabel>Category*</InputLabel>
+                      <Select
+                        onChange={(e) => {
+                          setFieldValue("categoryId", e.target.value);
                         }}
                       >
-                        Description
-                      </label>
-                      <br />
-                      <textarea
-                        style={styles.textarea}
-                        name="description"
-                        type="text"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.description}
-                      />
-                    </div>
+                        {mapCategory2}
+                      </Select>
+                      {errors.categoryId && touched.categoryId && (
+                        <FormHelperText>Required</FormHelperText>
+                      )}
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <TextField
+                      name="sku"
+                      type="text"
+                      label="SKU Number*"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.sku}
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
+                      }}
+                      error={touched.sku && Boolean(errors.sku)}
+                      helperText={touched.sku ? errors.sku : ""}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <TextField
+                      name="quantity"
+                      type="number"
+                      label=" Items In Stock*"
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
+                        width: "100%",
+                        textAlign: "end",
+                      }}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.quantity}
+                      error={touched.quantity && Boolean(errors.quantity)}
+                      helperText={touched.quantity ? errors.quantity : ""}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <p style={styles.p}>Item</p>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      name="name"
+                      type="text"
+                      label="Product Name*"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.name}
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
+                        width: "100%",
+                      }}
+                      // variant="outlined"
+                      error={errors.name && touched.name}
+                      helperText={touched.name ? errors.name : ""}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <TextField
+                      name="minThreshold"
+                      type="number"
+                      label="Low Threshold*"
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
+                        width: "100%",
+                        textAlign: "end",
+                      }}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.minThreshold}
+                      error={
+                        touched.minThreshold && Boolean(errors.minThreshold)
+                      }
+                      helperText={
+                        touched.minThreshold ? errors.minThreshold : ""
+                      }
+                      className={
+                        errors.minThreshold && touched.minThreshold
+                          ? "text-input error"
+                          : "text-input"
+                      }
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <p style={styles.p}>Item</p>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
 
-                    <div className="col-3">
-                      <FormControl>
-                        <InputLabel htmlFor="formatted-text-mask-input">
-                          Price*
-                        </InputLabel>
-                        <Input
-                          onChange={(e, masked) =>
-                            setFieldValue("price", masked)
-                          }
-                          error={touched.price && Boolean(errors.price)}
-                          helperText={touched.price ? errors.price : ""}
-                          onBlur={handleBlur}
-                          value={values.price}
-                          margin="normal"
-                          name="price"
-                          id="custom-price-input"
-                          className={
-                            errors.price && touched.price
-                              ? "text-input error"
-                              : "text-input"
-                          }
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <p style={styles.p}>$</p>
-                            </InputAdornment>
-                          }
-                          inputComponent={CustomCurrencyInput}
+                  <Grid item xs={12} md={3}>
+                    <TextField
+                      name="maxThreshold"
+                      type="number"
+                      label="  High Threshold*"
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
+                        width: "100%",
+                        textAlign: "end",
+                      }}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.maxThreshold}
+                      error={
+                        touched.maxThreshold && Boolean(errors.maxThreshold)
+                      }
+                      helperText={
+                        touched.maxThreshold ? errors.maxThreshold : ""
+                      }
+                      className={
+                        errors.maxThreshold && touched.maxThreshold
+                          ? "text-input error"
+                          : "text-input"
+                      }
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <p style={styles.p}>Item</p>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} md={6}>
+                    <label
+                      style={{
+                        color: "#4054B2",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Description
+                    </label>
+                    <br />
+                    <textarea
+                      style={styles.textarea}
+                      name="description"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.description}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} md={3}>
+                    <FormControl>
+                      <InputLabel htmlFor="formatted-text-mask-input">
+                        Price*
+                      </InputLabel>
+                      <Input
+                        onChange={(e, masked) => setFieldValue("price", masked)}
+                        error={touched.price && Boolean(errors.price)}
+                        helperText={touched.price ? errors.price : ""}
+                        onBlur={handleBlur}
+                        value={values.price}
+                        margin="normal"
+                        name="price"
+                        id="custom-price-input"
+                        className={
+                          errors.price && touched.price
+                            ? "text-input error"
+                            : "text-input"
+                        }
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <p style={styles.p}>$</p>
+                          </InputAdornment>
+                        }
+                        inputComponent={CustomCurrencyInput}
+                      />
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={12} md={3}>
+                    <FormControl style={{ width: "100%" }}>
+                      <InputLabel>Status*</InputLabel>
+                      <Select
+                        onChange={(e) => {
+                          setFieldValue("isDisabled", e.target.value);
+                        }}
+                        name="isDisabled"
+                        value={values.isDisabled}
+                        displayEmpty
+                      >
+                        <MenuItem value={0}>Active</MenuItem>
+                        <MenuItem value={1}>Inactive</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <label
+                      style={{
+                        marginBottom: "15px",
+                        color: "#4054B2",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Image
+                    </label>
+                    <br />
+                    <div
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      {$imagePreview}
+                      <br />
+                      <div style={{ marginTop: "10px", width: "70%" }}>
+                        <input
+                          type="file"
+                          className="custom-input"
+                          onChange={this._handleImageChange}
                         />
-                      </FormControl>
-                    </div>
-
-                    <div className="col-3">
-                      <FormControl style={{ width: "100%" }}>
-                        <InputLabel>Status*</InputLabel>
-                        <Select
-                          onChange={(e) => {
-                            setFieldValue("isDisabled", e.target.value);
-                          }}
-                          name="isDisabled"
-                          value={values.isDisabled}
-                        >
-                          <MenuItem value="">Active</MenuItem>
-                          <MenuItem value={0}>Active</MenuItem>
-                          <MenuItem value={1}>Inactive</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                    <div
-                      className="col-md-9"
-                      style={{ marginTop: 20, paddingLeft: "0px" }}
-                    >
-                      <label
-                        style={{
-                          marginBottom: "15px",
-                          color: "#4054B2",
-                          fontSize: "14px",
-                        }}
-                      >
-                        Image
-                      </label>
-                      <br />
-                      <div
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        {$imagePreview}
-                        <br />
-                        <div style={{ marginTop: "10px", width: "23%" }}>
-                          <input
-                            type="file"
-                            className="custom-input"
-                            onChange={this._handleImageChange}
-                          />
-                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <Button
-                    className="btn btn-green"
-                    type="submit"
-                    disabled={isSubmitting}
-                    style={{
-                      marginTop: 40,
-                      backgroundColor: "#4054B2",
-                      color: "white",
-                    }}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    style={{ marginTop: 40 }}
-                    className="btn btn-red"
-                    onClick={() => this.props.history.goBack()}
-                  >
-                    Cancel
-                  </Button>
-                </div>
+                    <Button
+                      className="btn btn-green"
+                      type="submit"
+                      disabled={isSubmitting}
+                      style={{
+                        marginTop: 25,
+                        backgroundColor: "#4054B2",
+                        color: "white",
+                      }}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      style={{ marginTop: 25 }}
+                      className="btn btn-red"
+                      onClick={() => this.props.history.goBack()}
+                    >
+                      Cancel
+                    </Button>
+                  </Grid>
+                </Grid>
               </form>
             )}
           </Formik>
