@@ -2,17 +2,27 @@ import React from "react";
 import { Grid, Typography } from "@material-ui/core";
 import InputField from "../FormFields/InputField";
 import CustomNumberField from "../FormFields/CustomNumberField";
+import SelectField from "../FormFields/SelectField";
+import CheckboxField from "../FormFields/CheckboxField";
+import State from "../../../../../../util/InitialState";
+
 import TextField from "@material-ui/core/TextField";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import InputCustom from "../../addMerchant/custom-input";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
 
 export default function General(props) {
   const {
-    formField: { businessName, doingBusiness, tax, address },
-    handleChange,
+    values: { generalInfo, sameAsBusiness },
+
+    setFieldValue,
   } = props;
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -21,46 +31,158 @@ export default function General(props) {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4}>
           <InputField
-            name={businessName.name}
-            label={businessName.label}
+            name={`generalInfo.businessName`}
+            label="Legal Business Name*"
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <InputField
-            name={doingBusiness.name}
-            label={doingBusiness.label}
+            name={`generalInfo.doingBusiness`}
+            label="Doing Business As* (DBA)"
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <CustomNumberField
-            name={tax.name}
-            label={tax.label}
+            name={`generalInfo.tax`}
+            label="Federal Tax ID*"
             options={{
-              numericOnly: true,
               blocks: [2, 7],
+              delimiter: "-",
             }}
             fullWidth
           />
-
-          <FormControl style={{ width: "100%", marginTop: "16px" }}>
-            <InputLabel htmlFor="formatted-text-mask-input">
-              Federal Tax ID*
-            </InputLabel>
-            <Input
-              onChange={handleChange}
-              name="tax"
-              id="custom-tax-input"
-              inputProps={{
-                block: [2, 7],
-                // numericOnly: true,
-              }}
-              inputComponent={InputCustom}
-            />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <InputField
+            name={`generalInfo.businessAddress.address`}
+            label="Business Address* (no P.O. Boxes)"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <InputField
+            name={`generalInfo.businessAddress.city`}
+            label="City*"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <SelectField
+            name={`generalInfo.businessAddress.state`}
+            label="State"
+            data={State}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={2}>
+          <CustomNumberField
+            name={`generalInfo.businessAddress.zip`}
+            label="Zip Code*"
+            options={{
+              blocks: [5],
+            }}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <FormControl component="fieldset">
+            <FormGroup aria-label="position" row>
+              <FormControlLabel
+                value="true"
+                checked={sameAsBusiness}
+                control={<Checkbox color="primary" />}
+                onChange={(e) =>
+                  handleSameAddress(
+                    `sameAsBusiness`,
+                    e.target.checked,
+                    setFieldValue,
+                    generalInfo
+                  )
+                }
+                label="Same as Business Address"
+              />
+            </FormGroup>
           </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <InputField
+            name={`generalInfo.dbaAddress.address`}
+            label="DBA Address*"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <InputField
+            name={`generalInfo.dbaAddress.city`}
+            label="City*"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <SelectField
+            name={`generalInfo.dbaAddress.state`}
+            label="State"
+            data={State}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={2}>
+          <CustomNumberField
+            name={`generalInfo.dbaAddress.zip`}
+            label="Zip Code*"
+            options={{
+              blocks: [5],
+            }}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <InputField
+            name={`generalInfo.email`}
+            label="Email Contact*"
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={4}>
+          <MaterialUiPhoneNumber
+            label="Business Phone Number"
+            name={`generalInfo.businessPhone`}
+            onChange={(e) => setFieldValue("generalInfo.businessPhone", e)}
+            fullWidth
+          />
         </Grid>
       </Grid>
     </React.Fragment>
   );
+
+  function handleSameAddress(name, value, setFieldValue, generalInfo) {
+    setFieldValue(name, value);
+
+    if (value) {
+      setFieldValue(
+        "generalInfo.dbaAddress.address",
+        generalInfo.businessAddress.address
+      );
+      setFieldValue(
+        "generalInfo.dbaAddress.city",
+        generalInfo.businessAddress.city
+      );
+      setFieldValue(
+        "generalInfo.dbaAddress.state",
+        generalInfo.businessAddress.state
+      );
+      setFieldValue(
+        "generalInfo.dbaAddress.zip",
+        generalInfo.businessAddress.zip
+      );
+    } else {
+      setFieldValue("generalInfo.dbaAddress.address", "");
+      setFieldValue("generalInfo.dbaAddress.city", "");
+      setFieldValue("generalInfo.dbaAddress.state", "");
+      setFieldValue("generalInfo.dbaAddress.zip", "");
+    }
+  }
 }

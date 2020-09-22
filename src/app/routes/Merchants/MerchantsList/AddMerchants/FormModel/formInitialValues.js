@@ -1,43 +1,30 @@
-import checkoutFormModel from "./checkoutFormModel";
-const {
-  formField: {
-    businessName,
-    doingBusiness,
-    tax,
-    address,
-    city,
-    state,
-    zip,
-    businessPhone,
-    email,
-    position,
-    firstName,
-    lastName,
-    contactPhone,
-    // principalInfo: [{ firstName, lastName }],
-  },
-} = checkoutFormModel;
-console.log("checkoutFormModel", checkoutFormModel.formField);
+import * as Yup from "yup";
 
 export default {
-  [businessName.name]: "",
-  [doingBusiness.name]: "",
-  [tax.name]: "",
-  [address.name]: "",
-  [city.name]: "",
-  [state.name]: "",
-  [zip.name]: "",
-  [businessPhone.name]: "",
-  [email.name]: "",
-  [firstName.name]: "",
-  [lastName.name]: "",
-  [position.name]: "",
-  [contactPhone.name]: "",
+  sameAsBusiness: false,
+  // General
+  generalInfo: {
+    businessName: "",
+    doingBusiness: "",
+    tax: "",
+    businessAddress: {
+      address: "",
+      city: "",
+      state: "",
+      zip: "",
+    },
+    dbaAddress: {
+      address: "",
+      city: "",
+      state: "",
+      zip: "",
+    },
 
-  // principalInfo: [
-  //   {
-  //     [firstName.name]: "",
-  //     [lastName.name]: "",
-  //   },
-  // ],
+    businessPhone: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    position: "",
+    contactPhone: "",
+  },
 };

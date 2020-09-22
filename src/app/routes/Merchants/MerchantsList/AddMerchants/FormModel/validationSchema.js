@@ -1,12 +1,35 @@
 import * as Yup from "yup";
-import moment from "moment";
+// import moment from "moment";
 
 export default [
   // General
   Yup.object().shape({
-    businessName: Yup.string().required("Business name is required"),
-    doingBusiness: Yup.string().required("Doing Business name is required"),
-    tax: Yup.string().required("Tax number is required"),
+    generalInfo: Yup.object().shape({
+      businessName: Yup.string().required("Business name is required"),
+      doingBusiness: Yup.string().required("Doing Business name is required"),
+      tax: Yup.string().required("Tax number is required"),
+
+      businessAddress: Yup.object().shape({
+        address: Yup.string().required("Address is required"),
+        city: Yup.string().required("City is required"),
+        state: Yup.string().required("State is required"),
+        zip: Yup.string().required("Zip is required"),
+      }),
+
+      dbaAddress: Yup.object().shape({
+        address: Yup.string().required("Address is required"),
+        city: Yup.string().required("City is required"),
+        state: Yup.string().required("State is required"),
+        zip: Yup.string().required("Zip is required"),
+      }),
+
+      email: Yup.string()
+        .email("Email is not valid")
+        .required("Email is required"),
+      businessPhone: Yup.string().required("Business phone number is required"),
+      firstName: Yup.string().required("First Name is required"),
+      lastName: Yup.string().required("Last name is required"),
+    }),
   }),
 
   Yup.object().shape({

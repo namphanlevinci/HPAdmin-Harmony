@@ -21,7 +21,6 @@ import Principal from "./Principal/Principal";
 import PricingPlan from "./PricingPlan/PricingPlan";
 
 import validationSchema from "./FormModel/validationSchema";
-import checkoutFormModel from "./FormModel/checkoutFormModel";
 import formInitialValues from "./FormModel/formInitialValues";
 
 // import "../merchantsList.css";
@@ -134,17 +133,16 @@ class AddMerchant extends React.Component {
     this.setState({ principalInfo: info });
   };
 
-  getStepContent = (stepIndex, values, handleChange) => {
+  getStepContent = (stepIndex, values, handleChange, setFieldValue) => {
     console.log("VALUES BAN DAU", values);
-    const { formField } = checkoutFormModel;
     switch (stepIndex) {
       case 0:
-        return <General formField={formField} />;
+        return <General values={values} setFieldValue={setFieldValue} />;
       case 1:
         return (
           <Question
-            formField={formField}
             values={values}
+            setFieldValue={setFieldValue}
             handleChange={handleChange}
           />
         );
@@ -401,7 +399,6 @@ class AddMerchant extends React.Component {
   render() {
     const steps = this.getSteps();
     const { activeStep } = this.state;
-    const { formId } = checkoutFormModel;
     const currentValidationSchema = validationSchema[activeStep];
 
     return (
@@ -446,9 +443,14 @@ class AddMerchant extends React.Component {
                   validationSchema={currentValidationSchema}
                   onSubmit={this._handleSubmit}
                 >
-                  {({ values, isSubmitting, handleChange }) => (
-                    <Form id={formId}>
-                      {this.getStepContent(activeStep, values, handleChange)}
+                  {({ values, isSubmitting, handleChange, setFieldValue }) => (
+                    <Form>
+                      {this.getStepContent(
+                        activeStep,
+                        values,
+                        handleChange,
+                        setFieldValue
+                      )}
 
                       {this.state.activeStep === 3 ? null : (
                         <div
