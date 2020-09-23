@@ -1,11 +1,8 @@
 import React from "react";
 import { at } from "lodash";
 import { useField } from "formik";
-import TextField from "@material-ui/core/TextField";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
 import Cleave from "cleave.js/react";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 
 function NumberFormatCustom(props) {
   const { inputRef, ...other } = props;
@@ -25,7 +22,7 @@ function NumberFormatCustom(props) {
   );
 }
 
-export default function CustomNumberField(props) {
+export default function CustomPhoneField(props) {
   const { errorText, ...rest } = props;
   const [field, meta] = useField(props);
 
@@ -37,17 +34,12 @@ export default function CustomNumberField(props) {
   }
 
   return (
-    <TextField
+    <MaterialUiPhoneNumber
+      type="text"
       error={meta.touched && meta.error && true}
       helperText={_renderHelperText()}
       {...field}
       {...rest}
-      InputProps={{
-        inputComponent: NumberFormatCustom,
-      }}
-      inputProps={{
-        blocks: props.block,
-      }}
     />
   );
 }

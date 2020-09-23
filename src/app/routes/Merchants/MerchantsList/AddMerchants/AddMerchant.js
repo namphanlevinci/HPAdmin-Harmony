@@ -1,24 +1,26 @@
 import React from "react";
 import { config } from "../../../../../url/url";
-import { store } from "react-notifications-component";
-import { Formik, Form, Field } from "formik";
-import { compose, withState, withHandlers } from "recompose";
+import { Formik, Form } from "formik";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../actions/notifications/actions";
+import { connect } from "react-redux";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import IntlMessages from "../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
-import formatPhone from "../../../../../util/formatPhone";
 
-import General from "./General/General";
-import Question from "./Question/Question";
-import Bank from "./Bank/Bank";
-import Principal from "./Principal/Principal";
-import PricingPlan from "./PricingPlan/PricingPlan";
+import General from "./Steps/General/General";
+import Question from "./Steps/Question/Question";
+import Bank from "./Steps/Bank/Bank";
+import Principal from "./Steps/Principal/Principal";
+import PricingPlan from "./Steps/PricingPlan/PricingPlan";
 
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
@@ -29,80 +31,17 @@ import formInitialValues from "./FormModel/formInitialValues";
 const URL = config.url.URL;
 const upFile = config.url.upFile;
 
-const initialState = {
-  imagePreviewUrl: "",
-  initialBusinessQuestions: {},
-
-  activeStep: 0,
-  // General Info
-  businessName: "",
-  doingBusiness: "",
-  tax: "",
-  address: "",
-  city: "",
-  state: "",
-  zip: "",
-  businessPhoneCode: "+1",
-  businessPhone: "",
-  email: "",
-  firstName: "",
-  lastName: "",
-  position: "",
-  contactPhoneCode: "+1",
-  contactPhone: "",
-
-  sameAsBA: false,
-  dbaAddress: "",
-  dbaCity: "",
-  dbaState: "",
-  dbaZip: "",
-
-  desc1: "",
-  question1: "",
-  isAccept1: false,
-  isAccept2: false,
-  isAccept3: false,
-  isAccept4: false,
-  isAccept5: false,
-  // Bank Info
-  bankName: "",
-  routingNumber: "",
-  accountNumber: "",
-  accountHolderName: "",
-  fileId: "",
-  valuePricingPlane: "1",
-  principalInfo: {
-    firstName: "",
-    lastName: "",
-    position: "",
-    ownership: "",
-    homePhone: "",
-    mobilePhone: "",
-    addressPrincipal: {
-      address: "",
-      city: "",
-      state: "",
-      zip: "",
-    },
-    yearAtThisAddress: 0,
-    ssn: "",
-    dateOfBirth: null,
-    email: "",
-    driverLicense: "",
-    stateIssued: "",
-    fileId: "",
-    progress: false,
-  },
-
-  //
-  isSubmitting: false,
-  progress: false,
-};
-
 class AddMerchant extends React.Component {
   constructor(props) {
     super(props);
-    this.state = initialState;
+    this.state = {
+      activeStep: 0,
+      imagePreviewUrl: "",
+      // initialBusinessQuestions: {},
+
+      progress: false,
+      isSubmitting: false,
+    };
   }
 
   getSteps = () => {
@@ -115,43 +54,87 @@ class AddMerchant extends React.Component {
     ];
   };
 
-  componentDidMount() {
-    axios.get(URL + "/question").then((res) => {
-      const data = res.data.data;
+  // componentDidMount() {
+  //   axios.get(URL + "/question").then((res) => {
+  //     const data = res.data.data;
 
-      this.setState({
-        initialBusinessQuestions: data,
-      });
-    });
-  }
+  //     this.setState({
+  //       initialBusinessQuestions: data,
+  //     });
+  //   });
+  // }
 
   navigateToMerchantList() {
     this.props.history.push("/app/merchants/list");
   }
 
-  setDataPrincipal = (info, fileId) => {
-    this.setState({ principalInfo: info });
-  };
-
-  getStepContent = (stepIndex, values, handleChange, setFieldValue) => {
-    console.log("VALUES BAN DAU", values);
+  getStepContent = (
+    stepIndex,
+    values,
+    handleChange,
+    setFieldValue,
+    errors,
+    touched,
+    handleBlur
+  ) => {
     switch (stepIndex) {
       case 0:
-        return <General values={values} setFieldValue={setFieldValue} />;
+        return (
+          <General
+            values={values}
+            setFieldValue={setFieldValue}
+            errors={errors}
+            touched={touched}
+            handleBlur={handleBlur}
+          />
+        );
       case 1:
         return (
           <Question
             values={values}
             setFieldValue={setFieldValue}
             handleChange={handleChange}
+            errors={errors}
+            touched={touched}
+            handleBlur={handleBlur}
           />
         );
       case 2:
-        return <Bank />;
+        return (
+          <Bank
+            values={values}
+            setFieldValue={setFieldValue}
+            handleChange={handleChange}
+            errors={errors}
+            touched={touched}
+            handleBlur={handleBlur}
+            uploadFile={this.uploadFile}
+          />
+        );
       case 3:
-        return <Principal />;
+        return (
+          <Principal
+            values={values}
+            setFieldValue={setFieldValue}
+            handleChange={handleChange}
+            errors={errors}
+            touched={touched}
+            handleBlur={handleBlur}
+            uploadFile={this.uploadFile}
+            handleBack={this.handleBack}
+          />
+        );
       case 4:
-        return <PricingPlan />;
+        return (
+          <PricingPlan
+            values={values}
+            setFieldValue={setFieldValue}
+            handleChange={handleChange}
+            errors={errors}
+            touched={touched}
+            handleBlur={handleBlur}
+          />
+        );
 
       default:
         return "Unknown stepIndex";
@@ -159,7 +142,9 @@ class AddMerchant extends React.Component {
   };
 
   //handle upload avatar
-  uploadFile = (event) => {
+  uploadFile = (event, imageUrl, setFieldValue) => {
+    const { name } = event.target;
+
     event.stopPropagation();
     event.preventDefault();
     this.setState({ progress: true });
@@ -174,12 +159,12 @@ class AddMerchant extends React.Component {
     axios
       .post(upFile, formData, config)
       .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
+        setFieldValue(`${name}`, res.data.data.fileId);
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
+          setFieldValue(`${imageUrl}`, reader.result);
           this.setState({
-            imagePreviewUrl: reader.result,
             progress: false,
           });
         };
@@ -190,10 +175,27 @@ class AddMerchant extends React.Component {
   };
 
   _submitForm = (values, actions) => {
-    const { activeStep, pin, confirmPin } = this.state;
+    const { activeStep } = this.state;
 
-    // await _sleep(1000);
-    alert(JSON.stringify(values, null, 2));
+    axios
+      .post(URL + "/merchant", { ...values })
+      .then((res) => {
+        console.log("res", res);
+        if ((res.status = 200)) {
+          this.props.SuccessNotification(res.data.message);
+
+          setTimeout(() => {
+            this.navigateToMerchantList();
+          }, 1500);
+        } else {
+          this.props.FailureNotification(res.data.message);
+        }
+        this.setState({ isSubmitting: false });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     actions.setSubmitting(false);
 
     this.setState({
@@ -202,11 +204,10 @@ class AddMerchant extends React.Component {
   };
 
   _handleSubmit = (values, actions) => {
-    console.log("actions", actions);
-    const { activeStep, pin, confirmPin } = this.state;
+    const { activeStep } = this.state;
     const steps = this.getSteps();
     const isLastStep = activeStep === steps.length - 1;
-    console.log("isLastStep", isLastStep);
+
     if (isLastStep) {
       this._submitForm(values, actions);
     } else {
@@ -229,171 +230,6 @@ class AddMerchant extends React.Component {
     this.setState({
       activeStep: 0,
     });
-  };
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  handleCountryCode = ({ value }, { name }) => {
-    this.setState({ [name]: value });
-  };
-
-  handlePhone = (value, name) => {
-    this.setState({ [name]: value });
-  };
-
-  handleChangeNumber = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  handleSelect = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  handleCheckBox = (e) => {
-    const { name, checked } = e.target;
-    this.setState({ [name]: checked });
-    this.setState({
-      dbaAddress: "",
-      dbaCity: "",
-      dbaState: "",
-      dbaZip: "",
-    });
-    if (checked) {
-      this.setState({
-        dbaAddress: this.state.address,
-        dbaCity: this.state.city,
-        dbaState: this.state.state,
-        dbaZip: this.state.zip,
-      });
-    } else {
-      this.setState({
-        dbaAddress: "",
-        dbaCity: "",
-        dbaState: "",
-        dbaZip: "",
-      });
-    }
-  };
-
-  handleQuestions = (event, value, name) => {
-    this.setState({
-      [name]: value,
-      [`question${event?.questionId}`]: event?.value,
-    });
-  };
-
-  submitAddMerchant = () => {
-    this.setState({ isSubmitting: true });
-    const data = this.state;
-    const body = {
-      generalInfo: {
-        businessName: data?.businessName,
-        doingBusiness: data?.doingBusiness,
-        tax: data?.tax,
-        businessAddress: {
-          address: data?.address,
-          city: data?.city,
-          state: data?.state,
-          zip: data?.zip,
-        },
-        dbaAddress: {
-          address: data?.sameAsBA ? data?.address : data?.dbaAddress,
-          city: data?.sameAsBA ? data?.city : data?.dbaCity,
-          state: data?.sameAsBA ? data?.state : data?.dbaState,
-          zip: data?.sameAsBA ? data?.zip : data?.dbaZip,
-        },
-
-        businessPhone: formatPhone(data?.businessPhone),
-        email: data?.email,
-        firstName: data?.firstName,
-        lastName: data?.lastName,
-        position: data?.position,
-        contactPhone: formatPhone(data?.contactPhone),
-      },
-      businessInfo: {
-        question1: {
-          isAccept: data?.isAccept1,
-          desc: data?.isAnswer1,
-          question: data?.question1,
-        },
-        question2: {
-          isAccept: data?.isAccept2,
-          desc: data?.isAnswer2,
-          question: data?.question2,
-        },
-        question3: {
-          isAccept: data?.isAccept3,
-          desc: data?.isAnswer3,
-          question: data?.question3,
-        },
-        question4: {
-          isAccept: data?.isAccept4,
-          desc: data?.isAnswer4,
-          question: data?.question4,
-        },
-        question5: {
-          isAccept: data?.isAccept5,
-          desc: data?.isAnswer5,
-          question: data?.question5,
-        },
-      },
-      bankInfo: {
-        bankName: data?.bankName,
-        routingNumber: data?.routingNumber,
-        accountNumber: data?.accountNumber,
-        fileId: data.fileId ? data.fileId : 0,
-        accountHolderName: data?.accountHolderName,
-      },
-      principalInfo: data.principalInfo,
-      packagePricing: Number(data.valuePricingPlane),
-    };
-
-    axios
-      .post(URL + "/merchant", body)
-      .then((res) => {
-        if ((res.status = 200)) {
-          store.addNotification({
-            title: "Success!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          setTimeout(() => {
-            this.navigateToMerchantList();
-          }, 1500);
-        } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: "Something went wrong",
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-        }
-        this.setState({ isSubmitting: false });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   render() {
@@ -430,12 +266,8 @@ class AddMerchant extends React.Component {
             </Stepper>
             <div>
               {this.state.activeStep === steps.length ? (
-                <div>
-                  <Typography className="my-2">
-                    {alert("Coming Soon™")}
-                    <h1>Coming Soon™</h1>
-                  </Typography>
-                  <Button onClick={this.handleReset}>Reset</Button>
+                <div style={{ textAlign: "center", padding: "40px" }}>
+                  <CircularProgress size={45} />
                 </div>
               ) : (
                 <Formik
@@ -443,13 +275,24 @@ class AddMerchant extends React.Component {
                   validationSchema={currentValidationSchema}
                   onSubmit={this._handleSubmit}
                 >
-                  {({ values, isSubmitting, handleChange, setFieldValue }) => (
+                  {({
+                    values,
+                    isSubmitting,
+                    handleChange,
+                    setFieldValue,
+                    errors,
+                    touched,
+                    handleBlur,
+                  }) => (
                     <Form>
                       {this.getStepContent(
                         activeStep,
                         values,
                         handleChange,
-                        setFieldValue
+                        setFieldValue,
+                        errors,
+                        touched,
+                        handleBlur
                       )}
 
                       {this.state.activeStep === 3 ? null : (
@@ -472,11 +315,6 @@ class AddMerchant extends React.Component {
 
                             <Button
                               className="btn btn-red"
-                              // onClick={() => {
-                              //   if (activeStep === steps.length - 1)
-                              //     this.submitAddMerchant();
-                              //   else this.handleNext();
-                              // }}
                               type="submit"
                               style={{
                                 backgroundColor: "#4251af",
@@ -515,4 +353,13 @@ class AddMerchant extends React.Component {
   }
 }
 
-export default AddMerchant;
+const mapDispatchToProps = (dispatch) => ({
+  SuccessNotification: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  FailureNotification: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(AddMerchant);

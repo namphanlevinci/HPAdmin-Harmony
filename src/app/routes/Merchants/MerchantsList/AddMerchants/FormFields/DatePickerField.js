@@ -6,6 +6,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import moment from "moment";
 
 export default function DatePickerField(props) {
   const [field, meta, helper] = useField(props);
@@ -17,22 +18,24 @@ export default function DatePickerField(props) {
 
   useEffect(() => {
     if (value) {
-      const date = new Date(value);
-      setSelectedDate(date);
+      const newDate = moment(value).format("MM/DD/YYYY");
+      setSelectedDate(newDate);
     }
   }, [value]);
 
   function _onChange(date) {
+    const newDate = moment(date).format("MM/DD/YYYY");
+
     if (date) {
-      setSelectedDate(date);
+      setSelectedDate(newDate);
       try {
-        const ISODateString = date.toISOString();
-        setValue(ISODateString);
+        const newDate = moment(date).format("MM/DD/YYYY");
+        setValue(newDate);
       } catch (error) {
-        setValue(date);
+        setValue(newDate);
       }
     } else {
-      setValue(date);
+      setValue(newDate);
     }
   }
 

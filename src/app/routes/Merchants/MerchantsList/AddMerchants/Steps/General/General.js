@@ -1,16 +1,12 @@
 import React from "react";
 import { Grid, Typography } from "@material-ui/core";
-import InputField from "../FormFields/InputField";
-import CustomNumberField from "../FormFields/CustomNumberField";
-import SelectField from "../FormFields/SelectField";
-import CheckboxField from "../FormFields/CheckboxField";
-import State from "../../../../../../util/InitialState";
+import InputField from "../../FormFields/InputField";
+import CustomNumberField from "../../FormFields/CustomNumberField";
+import SelectField from "../../FormFields/SelectField";
+import State from "../../../../../../../util/InitialState";
 
-import TextField from "@material-ui/core/TextField";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
-import InputCustom from "../../addMerchant/custom-input";
+import InputCustom from "../../../addMerchant/custom-input";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -19,7 +15,9 @@ import FormGroup from "@material-ui/core/FormGroup";
 export default function General(props) {
   const {
     values: { generalInfo, sameAsBusiness },
-
+    touched,
+    errors,
+    handleBlur,
     setFieldValue,
   } = props;
 
@@ -78,6 +76,7 @@ export default function General(props) {
         </Grid>
         <Grid item xs={12} sm={2}>
           <CustomNumberField
+            InputLabelProps={{ shrink: true }}
             name={`generalInfo.businessAddress.zip`}
             label="Zip Code*"
             options={{
@@ -130,6 +129,7 @@ export default function General(props) {
         </Grid>
         <Grid item xs={12} sm={2}>
           <CustomNumberField
+            InputLabelProps={{ shrink: true }}
             name={`generalInfo.dbaAddress.zip`}
             label="Zip Code*"
             options={{
@@ -149,9 +149,62 @@ export default function General(props) {
         <Grid item xs={12} sm={4}>
           <MaterialUiPhoneNumber
             label="Business Phone Number"
+            value={generalInfo.businessPhone}
             name={`generalInfo.businessPhone`}
             onChange={(e) => setFieldValue("generalInfo.businessPhone", e)}
             fullWidth
+            error={
+              touched.generalInfo?.businessPhone &&
+              Boolean(errors.generalInfo?.businessPhone)
+            }
+            helperText={
+              touched.generalInfo?.businessPhone
+                ? errors.generalInfo?.businessPhone
+                : ""
+            }
+            onBlur={handleBlur}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={4}>
+          <InputField
+            name={`generalInfo.firstName`}
+            label="First Name*"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <InputField
+            name={`generalInfo.lastName`}
+            label="Last Name*"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <InputField
+            name={`generalInfo.position`}
+            label="Title/Position*"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <MaterialUiPhoneNumber
+            label="Contact Phone Number"
+            value={generalInfo.contactPhone}
+            name={`generalInfo.contactPhone`}
+            onChange={(e) => setFieldValue("generalInfo.contactPhone", e)}
+            fullWidth
+            error={
+              touched.generalInfo?.contactPhone &&
+              Boolean(errors.generalInfo?.contactPhone)
+            }
+            helperText={
+              touched.generalInfo?.contactPhone
+                ? errors.generalInfo?.contactPhone
+                : ""
+            }
+            onBlur={handleBlur}
           />
         </Grid>
       </Grid>

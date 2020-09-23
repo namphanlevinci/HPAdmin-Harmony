@@ -29,31 +29,52 @@ export default [
       businessPhone: Yup.string().required("Business phone number is required"),
       firstName: Yup.string().required("First Name is required"),
       lastName: Yup.string().required("Last name is required"),
+      position: Yup.string().required("Position is required"),
+      contactPhone: Yup.string().required("Contact phone number is required"),
+    }),
+  }),
+
+  // Business Information
+  Yup.object().shape({}),
+  // Bank Information
+  Yup.object().shape({
+    bankInfo: Yup.object().shape({
+      bankName: Yup.string().required("Bank name is required"),
+      routingNumber: Yup.string().required("Routing number is required"),
+      accountNumber: Yup.string().required("Account number is required"),
+      fileId: Yup.string().required("Void check image is required"),
+      accountHolderName: Yup.string().required(
+        "Account holder name is required"
+      ),
     }),
   }),
 
   Yup.object().shape({
     principalInfo: Yup.array().of(
       Yup.object().shape({
-        firstName: Yup.string().required("First Name cannot be empty!"),
-        lastName: Yup.string().required("Required"),
-        // position: Yup.string().required("Required"),
-        // ownership: Yup.string().required("Required"),
-        // mobilePhone: Yup.string().required("Required"),
-        // ssn: Yup.string().required("Required"),
-        // dateOfBirth: Yup.string()
-        //   .required("Please Enter Birth date")
-        //   .nullable(),
-        // email: Yup.string().required("Required"),
-        // driverLicense: Yup.string().required("Required"),
-        // stateIssued: Yup.string().required("Required"),
-        // fileId: Yup.string().required("Required"),
-        // addressPrincipal: Yup.object().shape({
-        //   address: Yup.string().required("Required"),
-        //   city: Yup.string().required("Required"),
-        //   state: Yup.string().required("Required"),
-        //   zip: Yup.string().required("Required"),
-        // }),
+        firstName: Yup.string().required("First name is  required"),
+        lastName: Yup.string().required("Last name is required"),
+        position: Yup.string().required("Title/Position is required"),
+        ownership: Yup.string().required("Ownership is required"),
+        mobilePhone: Yup.string().required("Mobile phone is required"),
+        ssn: Yup.string().required("Social security number is required"),
+        dateOfBirth: Yup.string()
+          .required("Date of birth is required")
+          .nullable(),
+        email: Yup.string()
+          .email("Please enter a valid email")
+          .required("Email is required"),
+        driverLicense: Yup.string().required(
+          "Driver license number is required"
+        ),
+        stateIssued: Yup.string().required("State issued is required"),
+        fileId: Yup.string().required("Driver license image is required"),
+        addressPrincipal: Yup.object().shape({
+          address: Yup.string().required("Address is required"),
+          city: Yup.string().required("City is required"),
+          state: Yup.string().required("State is required"),
+          zip: Yup.string().required("Zip code is required"),
+        }),
       })
     ),
   }),

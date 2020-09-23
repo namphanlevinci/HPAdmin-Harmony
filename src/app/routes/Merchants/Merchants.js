@@ -9,17 +9,17 @@ const Merchants = ({ match, location }) => {
       <Switch>
         <Redirect exact from={`${match.url}/`} to={`${match.url}/`} />
 
-        <PrivateRoute
+        {/* <PrivateRoute
           permissionID={12}
           path={`${match.url}/add`}
           component={asyncComponent(() =>
             import("./MerchantsList/addMerchant/addMerchant")
           )}
-        />
+        /> */}
 
         {/* ADD MERCHANT V2 */}
         <Route
-          path={`${match.url}/add2`}
+          path={`${match.url}/add`}
           component={asyncComponent(() =>
             import("./MerchantsList/AddMerchants/AddMerchant")
           )}
