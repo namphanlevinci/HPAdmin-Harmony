@@ -13,6 +13,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import General from "./Form/General";
 import WorkTime from "./Form/WorkTime";
@@ -217,7 +218,11 @@ class AddStaff extends Component {
               })}
             </Stepper>
             <div>
-              {this.state.activeStep === steps.length ? null : ( // </div> //   </Button> //     Reset //   <Button className="btn btn-green" onClick={this.handleReset}> //   </Typography> //     <h1>Complete™</h1> //   <Typography className="my-2"> // <div>
+              {this.state.activeStep === steps.length ? (
+                <div style={{ textAlign: "center", padding: "20px " }}>
+                  <CircularProgress size={50} />
+                </div>
+              ) : (
                 <div>
                   <Formik
                     initialValues={formInitialValues}
