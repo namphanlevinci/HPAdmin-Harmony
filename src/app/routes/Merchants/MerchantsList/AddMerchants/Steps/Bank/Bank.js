@@ -85,12 +85,7 @@ function Bank(props) {
               width: "100%",
               fontWeight: "normal",
             }}
-            className={
-              "custom-input"
-              // touched.bankInfo?.fileId
-              //   ? "custom-input file-error"
-              //   : "custom-input"
-            }
+            className={"custom-input"}
             name={`bankInfo.fileId`}
             id="file"
             onChange={(e) =>

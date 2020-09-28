@@ -108,9 +108,7 @@ class EditSettings extends Component {
                   name="transactionsFee"
                   id="custom-transaction-fee-input"
                   startAdornment={
-                    <InputAdornment position="start">
-                      <p style={{ marginBottom: "5px" }}>%</p>
-                    </InputAdornment>
+                    <InputAdornment position="start">%</InputAdornment>
                   }
                   inputComponent={CustomCurrencyInput}
                 />
@@ -156,9 +154,7 @@ class EditSettings extends Component {
                   name="pointRate"
                   id="custom-transaction-point--rate-input"
                   startAdornment={
-                    <InputAdornment position="start">
-                      <p style={{ marginBottom: "5px" }}>%</p>
-                    </InputAdornment>
+                    <InputAdornment position="start">%</InputAdornment>
                   }
                   inputComponent={CustomCurrencyInput}
                 />

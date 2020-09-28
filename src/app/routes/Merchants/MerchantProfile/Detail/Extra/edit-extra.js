@@ -1,26 +1,38 @@
 import React from "react";
 import { Formik } from "formik";
 import { config } from "../../../../../../url/url";
-import { GrFormClose } from "react-icons/gr";
+import { withStyles } from "@material-ui/core/styles";
+
+import {
+  TextField,
+  Grid,
+  Input,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  InputAdornment,
+  DialogTitle,
+} from "@material-ui/core";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import defaultImg from "./hpadmin2.png";
-import Select from "react-select";
-import CurrencyInput from "react-currency-masked-input";
+import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
 
 import "./extra.styles.scss";
 
 const URL = config.url.URL;
 
-const options = [
-  { value: 1, label: "Disable" },
-  { value: 0, label: "Active" },
-];
-
 const EditExtra = ({
+  SuccessNotify,
+  FailureNotify,
   handleImageChange,
   getExtra,
   merchantId,
@@ -45,10 +57,14 @@ const EditExtra = ({
 }) => {
   let $imagePreview = null;
   if (imagePreviewUrl) {
-    $imagePreview = <img src={imagePreviewUrl} alt="void" />;
+    $imagePreview = <img src={imagePreviewUrl} style={styles.img} alt="void" />;
   } else {
     $imagePreview = (
-      <img src={imageUrl === "" ? defaultImg : imageUrl} alt="void" />
+      <img
+        style={styles.img}
+        src={imageUrl === "" ? defaultImg : imageUrl}
+        alt="void"
+      />
     );
   }
 
@@ -63,9 +79,9 @@ const EditExtra = ({
             <div
               className="close"
               onClick={() => handleClose("edit", false)}
-              style={{ color: "white !important" }}
+              style={{ color: "white", margin: "0px 10px" }}
             >
-              <GrFormClose size={40} />
+              <CloseIcon size={44} />
             </div>
           </div>
 
@@ -88,13 +104,13 @@ const EditExtra = ({
               validate={(values) => {
                 const errors = {};
                 if (!values.duration) {
-                  errors.duration = "Required";
+                  errors.duration = "Duration is required";
                 }
                 if (!values.name) {
-                  errors.name = "Required";
+                  errors.name = "Extra name is required";
                 }
                 if (!values.price) {
-                  errors.price = "Required";
+                  errors.price = "Price is required";
                 }
                 if (!values.supplyFee) {
                   errors.supplyFee = "Required";
@@ -138,14 +154,17 @@ const EditExtra = ({
                     }
                   )
                   .then((res) => {
+                    console.log("res", res.data);
                     if (res.data.codeNumber === 200) {
+                      SuccessNotify(res.data.message);
                       handleClose("loading", true);
                       handleClose("edit", false);
 
                       setTimeout(() => {
-                        getExtra();
-                      }, 800);
+                        getExtra(merchantId);
+                      }, 1000);
                     } else {
+                      FailureNotify(res.data.message);
                     }
                   });
               }}
@@ -160,81 +179,97 @@ const EditExtra = ({
                 isSubmitting,
                 setFieldValue,
               }) => (
-                <form onSubmit={handleSubmit}>
-                  <label style={{ padding: "10px 0px" }}>Extra Name*</label>
-                  <input
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    name="name"
-                    text="text"
-                    value={values.name}
-                    className={
-                      errors.name && touched.name
-                        ? "text-input error"
-                        : "text-input"
-                    }
-                  />
-                  {errors.name && touched.name && (
-                    <div className="input-feedback">{errors.name}</div>
-                  )}
-                  <br />
-                  <label style={{ padding: "10px 0px" }}>Description</label>
-                  <textarea
-                    type="text"
-                    name="description"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.description ? values.description : ""}
-                    style={{ width: "100%", height: "70px", padding: "10px" }}
-                  />
-                  <div style={{ display: "flex" }}>
-                    <div style={{ width: "35%" }}>
-                      <label style={{ paddingTop: "10px" }}>Duration*</label>
-                      <div className="input-box">
-                        <input
-                          type="number"
-                          name="duration"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.duration}
-                          style={{ width: "80%" }}
-                        />
-                        <span className="unit">Min</span>
-                      </div>
-                    </div>
-                    <div style={{ width: "35%" }}>
-                      <label style={{ paddingTop: "10px" }}>Price*</label>
-                      <div className="input-box">
-                        <CurrencyInput
-                          name="price"
-                          // type="tel"
+                <form onSubmit={handleSubmit} noValidate>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Extra Name*"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="name"
+                        text="text"
+                        value={values.name}
+                        error={errors.name && Boolean(touched.name)}
+                        helperText={
+                          errors.name && touched.name ? errors.name : ""
+                        }
+                      />
+                    </Grid>
+
+                    <Grid item sx={12} style={{ width: "100%" }}>
+                      <TextField
+                        type="text"
+                        label="Description"
+                        name="description"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.description ? values.description : ""}
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        fullWidth
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Duration*"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="duration"
+                        text="text"
+                        value={values.duration}
+                        error={errors.duration && Boolean(touched.duration)}
+                        helperText={
+                          errors.duration && touched.duration
+                            ? errors.duration
+                            : ""
+                        }
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              Min
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FormControl>
+                        <InputLabel htmlFor="formatted-text-mask-input">
+                          Price*
+                        </InputLabel>
+                        <Input
                           onChange={(e, masked) =>
                             setFieldValue("price", masked)
                           }
                           onBlur={handleBlur}
                           value={values.price}
-                          style={{ width: "80%" }}
+                          inputComponent={CustomCurrencyInput}
+                          startAdornment={
+                            <InputAdornment position="start">$</InputAdornment>
+                          }
                         />
-                        <span className="unit">$</span>
-                      </div>
-                    </div>
-                    <div style={{ width: "30%" }}>
-                      <label style={{ paddingTop: "10px " }}>Status*</label>
-
-                      <Select
-                        options={options}
-                        name="isDisabled"
-                        onChange={(e) => setFieldValue("isDisabled", e.value)}
-                        defaultValue={{
-                          label:
-                            Number(isDisabled) === 0 ? "Active" : "Inactive",
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <label style={{ paddingTop: "10px" }}>Image</label>
-                  <div className="extra-image-container">
-                    <div style={{ height: "250px" }}>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={4} style={{ width: "100%" }}>
+                      <FormControl>
+                        <InputLabel id="demo-simple-select-helper-label">
+                          Status*
+                        </InputLabel>
+                        <Select
+                          value={values.isDisabled}
+                          onChange={(e) =>
+                            setFieldValue("isDisabled", e.target.value)
+                          }
+                          fullWidth
+                        >
+                          <MenuItem value={0}>Active</MenuItem>
+                          <MenuItem value={1}>Inactive</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <label>Image</label>
                       {$imagePreview} <br />
                       <input
                         name="image"
@@ -242,47 +277,46 @@ const EditExtra = ({
                         type="file"
                         onChange={handleImageChange}
                         style={{
-                          width: "70%",
                           marginTop: "5px",
                         }}
                       />
-                    </div>
-                    <div>
-                      <label style={{ paddingTop: "10px" }}>Surcharged </label>
-
-                      <div className="input-box">
-                        <CurrencyInput
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControl>
+                        <InputLabel htmlFor="formatted-text-mask-input">
+                          Surcharged
+                        </InputLabel>
+                        <Input
                           name="supplyFee"
                           onChange={(e, masked) =>
                             setFieldValue("supplyFee", masked)
                           }
                           onBlur={handleBlur}
                           value={values.supplyFee}
-                          style={{ width: "80%" }}
+                          inputComponent={CustomCurrencyInput}
+                          startAdornment={
+                            <InputAdornment position="start">$</InputAdornment>
+                          }
                         />
-                        <span className="unit" style={{ top: "1px" }}>
-                          $
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="category-button">
-                    <Button
-                      style={{ marginTop: "20px" }}
-                      className="btn btn-green"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      SAVE
-                    </Button>
-                    <Button
-                      style={{ marginTop: "20px" }}
-                      className="btn btn-red"
-                      onClick={() => handleClose("edit", false)}
-                    >
-                      CANCEL
-                    </Button>
-                  </div>
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item auto>
+                      <Button
+                        className="btn btn-green"
+                        type="submit"
+                        disabled={isSubmitting}
+                      >
+                        SAVE
+                      </Button>
+                      <Button
+                        className="btn btn-red"
+                        onClick={() => handleClose("edit", false)}
+                      >
+                        CANCEL
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </form>
               )}
             </Formik>
@@ -294,3 +328,10 @@ const EditExtra = ({
 };
 
 export default EditExtra;
+
+const styles = {
+  img: {
+    width: "100%",
+    objectFit: "cover",
+  },
+};

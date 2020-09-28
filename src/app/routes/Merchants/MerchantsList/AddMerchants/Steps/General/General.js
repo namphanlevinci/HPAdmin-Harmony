@@ -6,7 +6,6 @@ import SelectField from "../../FormFields/SelectField";
 import State from "../../../../../../../util/InitialState";
 
 import FormControl from "@material-ui/core/FormControl";
-import InputCustom from "../../../addMerchant/custom-input";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -43,6 +42,7 @@ export default function General(props) {
         </Grid>
         <Grid item xs={12} sm={4}>
           <CustomNumberField
+            InputLabelProps={{ shrink: true }}
             name={`generalInfo.tax`}
             label="Federal Tax ID*"
             options={{

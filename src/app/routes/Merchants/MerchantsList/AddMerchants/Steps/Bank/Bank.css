@@ -4,6 +4,7 @@
 }
 
 .error-text {
+    padding: 5px 0px;
     color: #f44336;
     margin: 0;
     font-size: 0.75rem;

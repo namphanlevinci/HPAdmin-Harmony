@@ -228,7 +228,7 @@ class EditProduct extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "250px", height: "250px" }}
+          style={{ width: "100%", height: "auto" }}
           alt="void"
         />
       );
@@ -236,7 +236,7 @@ class EditProduct extends Component {
       $imagePreview = (
         <img
           src={this.state.imageUrl === "" ? ServiceImg : this.state.imageUrl}
-          style={{ width: "250px", height: "250px" }}
+          style={{ width: "100%", height: "auto" }}
           alt="void"
         />
       );
@@ -326,12 +326,10 @@ class EditProduct extends Component {
                 )
                 .then((res) => {
                   let message = res.data.message;
-                  if ((message = "The SKU is exist.")) {
-                    setFieldError("sku", "SKU NUMBER ALREADY EXITS");
+                  if (message === "The SKU is exist.") {
+                    setFieldError("sku", "SKU number already exits");
                     setSubmitting(false);
-                  }
-
-                  if (Number(res.data.codeNumber) === 200) {
+                  } else if (Number(res.data.codeNumber) === 200) {
                     this.props.successNotify(message);
                     setTimeout(() => {
                       this.props.history.push("/app/merchants/profile/product");
@@ -558,7 +556,7 @@ class EditProduct extends Component {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={4}>
                     <label
                       style={{
                         marginBottom: "15px",
@@ -578,7 +576,7 @@ class EditProduct extends Component {
                     >
                       {$imagePreview}
                       <br />
-                      <div style={{ marginTop: "10px", width: "60%" }}>
+                      <div style={{ marginTop: "10px" }}>
                         <input
                           type="file"
                           className="custom-input"

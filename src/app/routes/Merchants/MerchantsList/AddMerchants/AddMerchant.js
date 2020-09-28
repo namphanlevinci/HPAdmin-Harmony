@@ -25,9 +25,6 @@ import PricingPlan from "./Steps/PricingPlan/PricingPlan";
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
 
-// import "../merchantsList.css";
-// import "./add-merchant.styles.scss";
-
 const URL = config.url.URL;
 const upFile = config.url.upFile;
 
@@ -35,9 +32,8 @@ class AddMerchant extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 0,
+      activeStep: 2,
       imagePreviewUrl: "",
-      // initialBusinessQuestions: {},
 
       progress: false,
       isSubmitting: false,
