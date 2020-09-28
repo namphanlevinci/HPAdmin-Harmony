@@ -1,6 +1,12 @@
 import React from "react";
 import { Grid, Typography } from "@material-ui/core";
-import { InputAdornment, IconButton } from "@material-ui/core";
+import {
+  InputAdornment,
+  IconButton,
+  Select,
+  MenuItem,
+  InputLabel,
+} from "@material-ui/core";
 
 import InputField from "../FormFields/InputField";
 import SelectField from "../FormFields/SelectField";
@@ -82,6 +88,7 @@ function General(props) {
             label="Pin"
             fullWidth
             type={showPin ? "text" : "password"}
+            inputProps={{ maxLength: 4 }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -106,6 +113,7 @@ function General(props) {
             label="Confirm Pin"
             fullWidth
             type={showConfirmPin ? "text" : "password"}
+            inputProps={{ maxLength: 4 }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -134,12 +142,19 @@ function General(props) {
           />
         </Grid>
         <Grid item xs={12} md={4}>
-          <SelectField
-            name="isDisabled"
-            label="Status"
-            data={status}
-            fullWidth
-          />
+          <FormControl fullWidth>
+            <InputLabel>Status</InputLabel>
+            <Select
+              // name="isDisabled"
+              fullWidth
+              onChange={(e) => {
+                setFieldValue("isDisabled", e.target.value);
+              }}
+            >
+              <MenuItem value={0}>Active</MenuItem>
+              <MenuItem value={1}>Inactive</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} md={4}>
           <FormControl component="fieldset">
@@ -206,11 +221,11 @@ const role = [
 
 const status = [
   {
-    value: "0",
+    value: 0,
     label: "Active",
   },
   {
-    value: "1",
+    value: 1,
     label: "Inactive",
   },
 ];
