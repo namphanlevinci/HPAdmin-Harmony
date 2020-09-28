@@ -218,7 +218,7 @@ class EditSalary extends Component {
                     onChange={this.handleCurrency}
                     inputComponent={CustomCurrencyInput}
                     startAdornment={
-                      <InputAdornment position="start">$</InputAdornment>
+                      <InputAdornment position="start">%</InputAdornment>
                     }
                   />
                 </Grid>

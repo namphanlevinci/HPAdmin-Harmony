@@ -63,7 +63,7 @@ export class salary extends Component {
               disabled
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">$</InputAdornment>
+                  <InputAdornment position="start">%</InputAdornment>
                 ),
               }}
             />
