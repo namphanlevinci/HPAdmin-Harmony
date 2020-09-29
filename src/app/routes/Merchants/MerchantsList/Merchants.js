@@ -1,21 +1,28 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  SearchMerchants,
   ViewProfile_Merchants,
   GET_MERCHANT_BY_ID,
 } from "../../../../actions/merchants/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
+import {
+  InputAdornment,
+  IconButton,
+  FormControl,
+  OutlinedInput,
+} from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
+
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
+
 import "react-table/react-table.css";
 import "./merchantsList.css";
 import "../MerchantsRequest/MerchantReqProfile.css";
@@ -181,27 +188,37 @@ class Merchants extends React.Component {
         />
         <div className="MerList page-heading " style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* SEARCH */}
-            <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
+            <div>
+              <FormControl variant="outlined">
+                <OutlinedInput
+                  inputProps={{
+                    style: {
+                      padding: 14,
+                    },
+                  }}
                   placeholder="Search.."
                   value={this.state.search}
                   onChange={this._SearchMerchants}
                   onKeyPress={this.keyPressed}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton edge="end">
+                        <SearchIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={0}
                 />
-              </form>
+              </FormControl>
             </div>
+
             <div>
               {CheckPermissions("add-new-merchant") && (
                 <Button
                   style={{
                     backgroundColor: "#4251af",
                     color: "white",
-                    marginTop: "0px",
+                    marginTop: "10px",
                   }}
                   className="btn btn-red"
                   onClick={this.addMerchant}
@@ -241,9 +258,6 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  SearchMerchants: (payload) => {
-    dispatch(SearchMerchants(payload));
-  },
   ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
   },

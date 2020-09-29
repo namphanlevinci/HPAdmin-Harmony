@@ -20,7 +20,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
-import EditExtra from "./edit-extra";
 import defaultImage from "./hpadmin2.png";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -31,7 +30,6 @@ import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined"
 
 import "react-table/react-table.css";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 class ExtraTab extends Component {
   constructor(props) {
@@ -302,7 +300,7 @@ class ExtraTab extends Component {
             </div>
             <div></div>
           </div>
-          <EditExtra
+          {/* <EditExtra
             getExtra={this.props.GET_MERCHANT_EXTRA}
             edit={this.state.edit}
             data={this.state}
@@ -312,7 +310,7 @@ class ExtraTab extends Component {
             merchantId={this.props.MerchantProfile.merchantId}
             SuccessNotify={this.props.SuccessNotify}
             FailureNotify={this.props.FailureNotify}
-          />
+          /> */}
           <div className="merchant-list-container">
             <ReactTable
               data={extraList}

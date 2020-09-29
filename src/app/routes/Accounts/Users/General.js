@@ -18,6 +18,7 @@ const General = ({
       <div className="row">
         <div className="col-3">
           <MaterialUiPhoneNumber
+            onlyCountries={["us", "vn"]}
             label="Phone"
             value={phone}
             onChange={handlePhone}

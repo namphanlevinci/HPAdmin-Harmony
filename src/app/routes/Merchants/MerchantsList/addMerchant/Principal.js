@@ -265,6 +265,7 @@ class Principal extends Component {
                                 </div>
                                 <div className="col-4">
                                   <MaterialUiPhoneNumber
+                                    onlyCountries={["us", "vn"]}
                                     label="Home Phone"
                                     fullWidth
                                     name={`principalInfo.${index}.mobilePhone`}
@@ -279,6 +280,7 @@ class Principal extends Component {
                                 </div>
                                 <div className="col-4">
                                   <MaterialUiPhoneNumber
+                                    onlyCountries={["us", "vn"]}
                                     fullWidth
                                     label="Mobile Phone*"
                                     name={`principalInfo.${index}.mobilePhone`}

@@ -7,8 +7,6 @@ import {
 } from "../../../../../../actions/merchants/actions";
 
 import Button from "@material-ui/core/Button";
-// import PhoneInput from "react-phone-input-2";
-
 import SimpleReactValidator from "simple-react-validator";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../../../util/getState";
@@ -406,6 +404,7 @@ class General extends Component {
             </div>
             <div className="col-4">
               <MaterialUiPhoneNumber
+                onlyCountries={["us", "vn"]}
                 placeholder="Business Phone Number"
                 label="Business Phone*"
                 name="businessPhone"
@@ -473,6 +472,7 @@ class General extends Component {
             </div>
             <div className="col-3">
               <MaterialUiPhoneNumber
+                onlyCountries={["us", "vn"]}
                 label="Contact Phone Number*"
                 margin="normal"
                 placeholder="Business Phone Number"

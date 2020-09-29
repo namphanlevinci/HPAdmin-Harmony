@@ -11,16 +11,12 @@ import moment from "moment";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import Cleave from "cleave.js/react";
-// import Select from "react-select";
-// import selectState from "../../../../../../util/selectState";
-// import PhoneInput from "react-phone-input-2";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 
 import "./principal.styles.scss";
 import "../../MerchantProfile.css";
 import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
-// import "react-phone-input-2/lib/high-res.css";
 
 const upFile = config.url.upFile;
 
@@ -190,6 +186,7 @@ class EditPrincipal extends Component {
                 <br />
 
                 <MaterialUiPhoneNumber
+                  onlyCountries={["us", "vn"]}
                   name="HomePhone"
                   autoFormat="true"
                   value={this.state.HomePhone}
@@ -200,6 +197,7 @@ class EditPrincipal extends Component {
                 <label>Mobile Phone*</label>
 
                 <MaterialUiPhoneNumber
+                  onlyCountries={["us", "vn"]}
                   name="MobilePhone"
                   value={this.state.MobilePhone}
                   onChange={(e) => this.setState({ MobilePhone: e })}

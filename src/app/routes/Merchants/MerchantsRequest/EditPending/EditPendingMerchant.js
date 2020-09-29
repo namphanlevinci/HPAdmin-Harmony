@@ -9,7 +9,6 @@ import ContainerHeader from "../../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../../util/IntlMessages";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 
-// import PhoneInput from "react-phone-input-2";
 import axios from "axios";
 import LinearProgress from "../../../../../util/linearProgress";
 import SimpleReactValidator from "simple-react-validator";
@@ -541,6 +540,7 @@ class EditPendingMerchant extends Component {
                 <div className="col-4">
                   {this.state.loading && (
                     <MaterialUiPhoneNumber
+                      onlyCountries={["us", "vn"]}
                       style={{ marginTop: "10px" }}
                       label="Business Phone Number*"
                       name="businessPhone"
@@ -623,6 +623,7 @@ class EditPendingMerchant extends Component {
                 <div className="col-3">
                   {this.state.loading && (
                     <MaterialUiPhoneNumber
+                      onlyCountries={["us", "vn"]}
                       style={{ marginTop: "10px" }}
                       label="Contact Phone Number*"
                       name="phoneContact"

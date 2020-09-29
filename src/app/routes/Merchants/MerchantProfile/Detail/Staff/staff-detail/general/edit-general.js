@@ -7,7 +7,7 @@ import { config } from "../../../../../../../../url/url";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
 import selectState from "../../../../../../../../util/selectState";
-import PhoneInput from "react-phone-input-2";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -126,12 +126,8 @@ export class EditGeneral extends Component {
 
   uploadFile = (e) => {
     e.preventDefault();
-
-    // handle preview Image
     let file = e.target.files[0];
     this.setState({ loadingProgress: true });
-
-    // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
@@ -297,10 +293,12 @@ export class EditGeneral extends Component {
 
             <div className="col-4" style={{ paddingTop: "5px" }}>
               <label>Cell Phone</label>
-              <PhoneInput
-                country={"us"}
+              <MaterialUiPhoneNumber
+                onlyCountries={["us", "vn"]}
+                name="cellphone"
                 value={this.state.phone}
                 onChange={(phone) => this.setState({ phone })}
+                fullWidth
               />
             </div>
             <div className="col-4" style={styles.div}>

@@ -73,6 +73,7 @@ function General(props) {
         </Grid>
         <Grid item xs={12} md={4}>
           <MaterialUiPhoneNumber
+            onlyCountries={["us", "vn"]}
             label="Phone"
             name="cellphone"
             onChange={(e) => setFieldValue("cellphone", e)}

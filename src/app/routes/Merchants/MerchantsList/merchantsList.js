@@ -1,11 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  SearchMerchants,
-  ViewProfile_Merchants,
-} from "../../../../actions/merchants/actions";
+import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import {
+  InputAdornment,
+  IconButton,
+  FormControl,
+  OutlinedInput,
+} from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -191,20 +194,27 @@ class MerchantsList extends React.Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* SEARCH */}
-            <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._SearchMerchants}
-                  onKeyPress={this.keyPressed}
-                />
-              </form>
-            </div>
+            <FormControl>
+              <OutlinedInput
+                inputProps={{
+                  style: {
+                    padding: 14,
+                  },
+                }}
+                placeholder="Search.."
+                value={this.state.search}
+                onChange={this._SearchMerchants}
+                onKeyPress={this.keyPressed}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton edge="end">
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={0}
+              />
+            </FormControl>
           </div>
 
           <div className="merchant-list-container">
@@ -235,9 +245,6 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  SearchMerchants: (payload) => {
-    dispatch(SearchMerchants(payload));
-  },
   ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
   },

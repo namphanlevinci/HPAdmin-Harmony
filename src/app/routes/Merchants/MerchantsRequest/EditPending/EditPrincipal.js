@@ -331,6 +331,7 @@ const EditPrincipal = ({
 
                             <div className="col-4" style={styles.div}>
                               <MaterialUiPhoneNumber
+                                onlyCountries={["us", "vn"]}
                                 label="Home Phone"
                                 fullWidth
                                 name={`PrincipalInfo.${index}.homePhone`}
@@ -349,6 +350,7 @@ const EditPrincipal = ({
                             </div>
                             <div className="col-4" style={styles.div}>
                               <MaterialUiPhoneNumber
+                                onlyCountries={["us", "vn"]}
                                 label="Mobile Phone*"
                                 fullWidth
                                 name={`PrincipalInfo.${index}.mobilePhone`}

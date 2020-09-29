@@ -10,7 +10,7 @@ import General from "./general/general";
 import workTime from "./work-time/work-time";
 import salary from "./salary/salary";
 import license from "./license/license";
-
+import PersonIcon from "@material-ui/icons/Person";
 import EditGeneral from "./general/edit-general";
 import EditWorkTime from "./work-time/edit-workTime";
 import EditSalary from "./salary/edit-salary";
@@ -46,10 +46,10 @@ class staffGeneral extends Component {
             title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
           />
           <div className="content-body page-heading">
-            <div className="header col-md-12">
-              <div style={{ display: "flex" }}>
-                <MdPerson size={22} style={{ color: "black" }} />
-                <h3>
+            <div className="header col-12">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <PersonIcon style={{ color: "black" }} />
+                <h3 style={{ margin: "0px" }}>
                   Staff {Staff?.staffId} - {Staff?.displayName}
                 </h3>
               </div>

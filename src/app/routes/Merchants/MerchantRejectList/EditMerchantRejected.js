@@ -12,8 +12,7 @@ import Button from "@material-ui/core/Button";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import SimpleReactValidator from "simple-react-validator";
-
-import PhoneInput from "react-phone-input-2";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../util/getState";
 import InputCustom from "../MerchantsList/addMerchant/custom-input";
 import TextField from "@material-ui/core/TextField";
@@ -26,7 +25,6 @@ import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
 import "./EditMerchant.css";
 import "../MerchantProfile/Detail/Detail.css";
-import "react-phone-input-2/lib/high-res.css";
 
 class EditMerchantRejected extends Component {
   constructor(props) {
@@ -429,8 +427,9 @@ class EditMerchantRejected extends Component {
                 <div className="col-4">
                   <label>Business Phone Number*</label>
                   {this.state.loading && (
-                    <PhoneInput
+                    <MaterialUiPhoneNumber
                       style={{ marginTop: "10px" }}
+                      onlyCountries={["us", "vn"]}
                       placeholder="Business Phone Number*"
                       name="businessPhone"
                       value={this.state.phoneBusiness}
@@ -502,7 +501,8 @@ class EditMerchantRejected extends Component {
                 <div className="col-3">
                   <label>Contact Phone Number*</label>
                   {this.state.loading && (
-                    <PhoneInput
+                    <MaterialUiPhoneNumber
+                      onlyCountries={["us", "vn"]}
                       style={{ marginTop: "10px" }}
                       placeholder="Contact Phone Number"
                       name="phoneContact"

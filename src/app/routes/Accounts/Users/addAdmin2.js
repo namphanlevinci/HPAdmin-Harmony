@@ -12,7 +12,8 @@ import moment from "moment";
 import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdLibraryAdd } from "react-icons/md";
-import PhoneInput from "react-phone-input-2";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
+
 import "react-phone-input-2/lib/high-res.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -21,6 +22,7 @@ import { ADD_ADMIN, VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import { config } from "../../../../url/url";
 import IntlMessages from "../../../../util/IntlMessages";
+
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
 import "./User.css";
 
@@ -329,13 +331,14 @@ class addAdmin2 extends Component {
                   </div>
                   <div className="col-4">
                     <label>Phone</label>
-                    <PhoneInput
-                      country={"us"}
+                    <MaterialUiPhoneNumber
+                      onlyCountries={["us", "vn"]}
                       style={{ marginTop: "10px" }}
                       placeholder="Contact Phone Number"
                       name="phone"
                       onChange={(phone) => setFieldValue("phone", phone)}
                     />
+
                     <ErrorMessage
                       name="phone"
                       component="div"

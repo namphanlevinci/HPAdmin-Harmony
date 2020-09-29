@@ -444,7 +444,7 @@ thead th {
 
 .input-box input {
    display: block; 
-   /* border: 1px solid #d7d6d6; */
+  
    background: #fff;
    padding: 10px 10px 0px 50px ; 
    text-align: right;
@@ -454,6 +454,7 @@ thead th {
   display: block; 
   background: #fff;
   padding: 10px 10px 0px 50px ; 
+  
   /* text-align: right; */
 }
 

@@ -5,7 +5,7 @@ const initialState = {
   setPendingStatus: false,
   PrincipalData: "",
   ServiceData: "",
-  ExtraData: "",
+  ExtraData: [],
   StaffData: "",
   AddStaff: false,
 };
@@ -43,7 +43,9 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
     case types.ADD_STAFF:
       state.AddStaff = payload;
       return { ...state };
-
+    case types.MERCHANT_APPROVAL_SUCCESS:
+      state = payload;
+      return { ...state };
     default:
       return state;
   }

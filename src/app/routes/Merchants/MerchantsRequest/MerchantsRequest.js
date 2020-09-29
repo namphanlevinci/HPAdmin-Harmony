@@ -8,6 +8,12 @@ import { connect } from "react-redux";
 import { store } from "react-notifications-component";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
+import {
+  InputAdornment,
+  IconButton,
+  FormControl,
+  OutlinedInput,
+} from "@material-ui/core";
 
 import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
@@ -188,19 +194,27 @@ class MerchantsRequest extends Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._SearchMerchants}
-                  onKeyPress={this.keyPressed}
-                />
-              </form>
-            </div>
+            <FormControl>
+              <OutlinedInput
+                inputProps={{
+                  style: {
+                    padding: 14,
+                  },
+                }}
+                placeholder="Search.."
+                value={this.state.search}
+                onChange={this._SearchMerchants}
+                onKeyPress={this.keyPressed}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton edge="end">
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={0}
+              />
+            </FormControl>
           </div>
           <ScaleLoader isLoading={this.state.isLoading} />
 

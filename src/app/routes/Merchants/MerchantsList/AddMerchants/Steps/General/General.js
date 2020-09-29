@@ -148,6 +148,7 @@ export default function General(props) {
 
         <Grid item xs={12} sm={4}>
           <MaterialUiPhoneNumber
+            onlyCountries={["us", "vn"]}
             label="Business Phone Number"
             value={generalInfo.businessPhone}
             name={`generalInfo.businessPhone`}
@@ -190,6 +191,7 @@ export default function General(props) {
         </Grid>
         <Grid item xs={12} sm={4}>
           <MaterialUiPhoneNumber
+            onlyCountries={["us", "vn"]}
             label="Contact Phone Number"
             value={generalInfo.contactPhone}
             name={`generalInfo.contactPhone`}

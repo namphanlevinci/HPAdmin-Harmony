@@ -246,6 +246,7 @@ const General = ({
         <div className="col-4">
           <div>
             <MaterialUiPhoneNumber
+              onlyCountries={["us", "vn"]}
               label="Business Phone Number"
               name="businessPhone"
               value={value.businessPhone}
@@ -312,6 +313,7 @@ const General = ({
           <div className="col-4">
             <div>
               <MaterialUiPhoneNumber
+                onlyCountries={["us", "vn"]}
                 label="Contact Phone Number*"
                 name="contactPhone"
                 value={value.contactPhone}

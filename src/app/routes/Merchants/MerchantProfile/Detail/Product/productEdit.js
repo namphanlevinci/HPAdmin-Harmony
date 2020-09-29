@@ -24,13 +24,6 @@ import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
 import CurrencyInput from "react-currency-masked-input";
 
-// import "../../MerchantProfile.css";
-// import "../../../MerchantsRequest/MerchantReqProfile.css";
-// import "../../../MerchantsRequest/MerchantsRequest.css";
-// import "../../../MerchantsList/merchantsList.css";
-// import "../Detail.css";
-// import "../Service/service.style.scss";
-
 const URL = config.url.URL;
 const upFile = config.url.upFile;
 
@@ -128,94 +121,8 @@ class EditProduct extends Component {
     this.props.history.push("/app/merchants/profile/product");
   };
 
-  updateProduct = () => {
-    const {
-      categoryId,
-      description,
-      price,
-      tax,
-      discount,
-      fileId,
-      name,
-      isDisabled,
-      quantity,
-      maxThreshold,
-      minThreshold,
-      sku,
-      imageUrl,
-      productId,
-    } = this.state;
-    const merchantId = this.props.MerchantProfile.merchantId;
-
-    axios
-      .put(
-        URL + "/product/" + productId,
-        {
-          categoryId,
-          description,
-          price,
-          tax,
-          discount,
-          fileId,
-          name,
-          isDisabled,
-          quantity,
-          maxThreshold,
-          minThreshold,
-          sku,
-          imageUrl,
-          merchantId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        let message = res.data.message;
-        if (res.data.codeNumber === 200) {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          setTimeout(() => {
-            this.props.history.push("/app/merchants/profile/product");
-          }, 800);
-        } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${message}`,
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-        }
-      });
-  };
-
   render() {
-    // const product = this.props.SERVICE;
-
     const { category } = this.state;
-
     const mapCategory2 = category
       .filter((e) => e.categoryType !== "Service")
       .map((e) => {
@@ -361,6 +268,8 @@ class EditProduct extends Component {
                       <InputLabel>Category*</InputLabel>
                       <Select
                         defaultValue={values.categoryId}
+                        value={values.categoryId}
+                        displayEmpty
                         onChange={(e) => {
                           setFieldValue("categoryId", e.target.value);
                         }}
@@ -376,6 +285,7 @@ class EditProduct extends Component {
                     <TextField
                       name="sku"
                       type="text"
+                      fullWidth
                       label="SKU Number*"
                       onChange={handleChange}
                       onBlur={handleBlur}
