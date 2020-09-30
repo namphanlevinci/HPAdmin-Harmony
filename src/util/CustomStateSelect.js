@@ -15,7 +15,7 @@ function CustomStateSelect(props) {
         onChange={handleChange}
         {...props}
       >
-        <MenuItem value=""> </MenuItem>
+        <MenuItem value=""></MenuItem>
         <MenuItem value={1}> New York</MenuItem>
         <MenuItem value={2}> Florida</MenuItem>
         <MenuItem value={4}> California</MenuItem>

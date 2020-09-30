@@ -505,19 +505,17 @@ const mapStateToProps = (state) => ({
   UpdateStatus: state.updateMerchant_Infor,
   getMerchant: state.getMerchant,
 });
-const mapDispatchToProps = (dispatch) => {
-  return {
-    ViewProfile_Merchants: (payload) => {
-      dispatch(ViewProfile_Merchants(payload));
-    },
-    updateMerchant: (payload) => {
-      dispatch(UpdateMerchant_Infor(payload));
-    },
-    GET_MERCHANT_BY_ID: (ID) => {
-      dispatch(GET_MERCHANT_BY_ID(ID));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  ViewProfile_Merchants: (payload) => {
+    dispatch(ViewProfile_Merchants(payload));
+  },
+  updateMerchant: (payload) => {
+    dispatch(UpdateMerchant_Infor(payload));
+  },
+  GET_MERCHANT_BY_ID: (ID) => {
+    dispatch(GET_MERCHANT_BY_ID(ID));
+  },
+});
 export default connect(mapStateToProps, mapDispatchToProps)(General);
 
 const styles = {

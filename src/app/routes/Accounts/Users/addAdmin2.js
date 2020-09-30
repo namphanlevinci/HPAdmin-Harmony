@@ -1,91 +1,34 @@
-import DateFnsUtils from "@date-io/date-fns";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import React, { Component } from "react";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
-import axios from "axios";
-import "date-fns";
-import { ErrorMessage, Form, Formik } from "formik";
-import moment from "moment";
-import React, { Component } from "react";
-import "react-datepicker/dist/react-datepicker.css";
-import { MdLibraryAdd } from "react-icons/md";
-import MaterialUiPhoneNumber from "material-ui-phone-number";
-
-import "react-phone-input-2/lib/high-res.css";
+import { Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import Select from "react-select";
-import { ADD_ADMIN, VIEW_PROFILE_USER } from "../../../../actions/user/actions";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
 import { config } from "../../../../url/url";
+import { ADD_ADMIN, VIEW_PROFILE_USER } from "../../../../actions/user/actions";
+import { TextField, Grid, Button } from "@material-ui/core";
+
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import CustomStateSelect from "../../../../util/CustomStateSelect";
+import DateFnsUtils from "@date-io/date-fns";
+import axios from "axios";
+import moment from "moment";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
+import "date-fns";
+
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 
 import "../../Merchants/MerchantProfile/Detail/Detail.css";
+import "react-datepicker/dist/react-datepicker.css";
 import "./User.css";
-
-const roles = [
-  { value: "1", label: "Administrator" },
-  { value: "2", label: "Manager" },
-  { value: "3", label: "Staff Lv1" },
-  { value: "4", label: "Staff Lv2" },
-];
-
-const stateID = [
-  { value: "1", label: "New York" },
-  { value: "2", label: "Florida" },
-  { value: "4", label: "California" },
-  { value: "5", label: "Texas" },
-  { value: "7", label: "Alaska" },
-  { value: "8", label: "Alabama" },
-  { value: "9", label: "Arkansas" },
-  { value: "10", label: "Arizona" },
-  { value: "11", label: "Colorado" },
-  { value: "12", label: "Connecticut" },
-  { value: "13", label: "Washington, D.C." },
-  { value: "14", label: "Delaware" },
-  { value: "15", label: "Georgia" },
-  { value: "16", label: "Hawaii" },
-  { value: "17", label: "Iowa" },
-  { value: "18", label: "Idaho" },
-  { value: "19", label: "Illinois" },
-  { value: "20", label: "Indiana" },
-  { value: "21", label: "Kansas" },
-  { value: "22", label: "Kentucky" },
-  { value: "23", label: "Louisiana" },
-  { value: "24", label: "Massachusetts" },
-  { value: "25", label: "Maryland" },
-  { value: "26", label: "Maine" },
-  { value: "27", label: "Michigan" },
-  { value: "28", label: "Minnesota" },
-  { value: "29", label: "Missouri" },
-  { value: "30", label: "Mississippi" },
-  { value: "31", label: "Montana" },
-  { value: "32", label: "North Carolina" },
-  { value: "33", label: "North Dakota" },
-  { value: "34", label: "Nebraska" },
-  { value: "35", label: "New Hampshire" },
-  { value: "36", label: "New Jersey" },
-  { value: "37", label: "New Mexico" },
-  { value: "38", label: "Nevada" },
-  { value: "39", label: "Ohio" },
-  { value: "40", label: "Oklahoma" },
-  { value: "41", label: "Oregon" },
-  { value: "42", label: "Pennsylvania" },
-  { value: "43", label: "Rhode Island" },
-  { value: "44", label: "South Carolina" },
-  { value: "45", label: "South Dakota" },
-  { value: "46", label: "Tennessee" },
-  { value: "47", label: "Utah" },
-  { value: "48", label: "Virginia" },
-  { value: "49", label: "Vermont" },
-  { value: "50", label: "Washington" },
-  { value: "51", label: "Wisconsin" },
-  { value: "52", label: "West Virginia" },
-  { value: "53", label: "Wyoming" },
-];
 
 const upFile = config.url.upFile;
 
@@ -97,12 +40,6 @@ class addAdmin2 extends Component {
     };
   }
 
-  handleRoles = (selectedOption) => {
-    this.setState({ roles: selectedOption.value });
-  };
-  handleState = (selectedOption) => {
-    this.setState({ stateID: selectedOption.value });
-  };
   uploadFile = (event, setFieldValue) => {
     event.stopPropagation();
     event.preventDefault();
@@ -137,14 +74,14 @@ class addAdmin2 extends Component {
   };
 
   render() {
-    let { imagePreviewUrl } = this.state;
+    let { imagePreviewUrl, loading } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
           alt="avatar"
-          style={{ width: "192px", height: "192px" }}
+          style={{ width: "100%", height: "auto" }}
         />
       );
     } else {
@@ -152,426 +89,10 @@ class addAdmin2 extends Component {
         <img
           src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
           alt="avatar"
+          style={{ width: "100%", height: "auto" }}
         />
       );
     }
-
-    const renderProfile = (
-      <div
-        className="row admin_profile page-heading"
-        style={{ minHeight: "650px" }}
-      >
-        <React.Fragment>
-          <Formik
-            initialValues={{
-              email: "",
-              password: "",
-              WaRoleId: "",
-              confirmPassword: "",
-              stateID: "",
-              firstname: "",
-              lastname: "",
-              address: "",
-              city: "",
-              zip: "",
-              BirthDate: Date(),
-              phone: "",
-              fileId: 0,
-              userName: "",
-            }}
-            validate={(values) => {
-              const errors = {};
-              if (!values.email) {
-                errors.email = "Required";
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = "Invalid email address";
-              }
-              if (!values.firstname) {
-                errors.firstname = "Required";
-              }
-              if (!values.lastname) {
-                errors.lastname = "Required";
-              }
-              if (!values.userName) {
-                errors.userName = "Required";
-              }
-              if (!values.password) {
-                errors.password = "Password cannot be empty ";
-              }
-              if (!values.confirmPassword) {
-                errors.confirmPassword = "Confirm Password cannot be empty ";
-              }
-              if (!values.confirmPassword) {
-                errors.confirmPassword = "Please confirm your password";
-              } else if (values.password !== values.confirmPassword) {
-                errors.confirmPassword = "Confirm password didn't match";
-              }
-              if (!values.WaRoleId) {
-                errors.WaRoleId = "Please choose a Role";
-              }
-              if (!values.phone) {
-                errors.phone = "Please enter Phone number";
-              }
-              if (!values.address) {
-                errors.address = "Required";
-              }
-              // if (!values.zip) {
-              //   errors.zip = "Required";
-              // }
-              if (!values.city) {
-                errors.city = "Required";
-              }
-              if (!values.stateID) {
-                errors.stateID = "Required";
-              }
-              if (!values.BirthDate) {
-                errors.BirthDate = "Required";
-              }
-              return errors;
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              const {
-                stateID,
-                WaRoleId,
-                firstname,
-                lastname,
-                email,
-                password,
-                address,
-                city,
-                zip,
-                phone,
-                fileId,
-              } = values;
-              const BirthDate = moment(values.BirthDate).format("MM/DD/YYYY");
-              const fullname = firstname + lastname;
-              const Data = {
-                stateID,
-                WaRoleId,
-                firstname,
-                lastname,
-                email,
-                password,
-                address,
-                city,
-                zip,
-                BirthDate,
-                fullname,
-                phone,
-                fileId,
-              };
-              this.props.addUserAdmin(Data);
-            }}
-          >
-            {({
-              isSubmitting,
-              setFieldValue,
-              values,
-              handleChange,
-              handleBlur,
-            }) => (
-              <Form style={{ width: "100%" }}>
-                <div className="admin-header-div col-12" style={styles.div}>
-                  <div
-                    style={{
-                      alignItems: "center",
-                      display: "flex",
-                      color: "black",
-                    }}
-                  >
-                    <MdLibraryAdd size={24} />
-                    <h2 style={{ fontWeight: 600, paddingLeft: "10px" }}>
-                      New Account
-                    </h2>
-                  </div>
-                  <span>
-                    <Button
-                      style={{ color: "#4251af", backgroundColor: "white" }}
-                      className="btn btn-green"
-                      onClick={this._goBack}
-                    >
-                      BACK
-                    </Button>
-                  </span>
-                </div>
-
-                <div className="col-12">
-                  <h2 style={styles.h2}>Personal Information</h2>
-                </div>
-                <div className="row" style={styles.row}>
-                  <div className="col-4" style={styles.margin}>
-                    <TextField
-                      label=" First Name*"
-                      name="firstname"
-                      style={styles.input}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <ErrorMessage
-                      name="firstname"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="col-4" style={styles.margin}>
-                    <TextField
-                      label="Last Name*"
-                      name="lastname"
-                      style={styles.input}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <ErrorMessage
-                      name="lastname"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="col-4">
-                    <label>Phone</label>
-                    <MaterialUiPhoneNumber
-                      onlyCountries={["us", "vn"]}
-                      style={{ marginTop: "10px" }}
-                      placeholder="Contact Phone Number"
-                      name="phone"
-                      onChange={(phone) => setFieldValue("phone", phone)}
-                    />
-
-                    <ErrorMessage
-                      name="phone"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="col-4" style={styles.margin}>
-                    <TextField
-                      label="Address*"
-                      name="address"
-                      style={styles.input}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <ErrorMessage
-                      name="address"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="col-4" style={styles.margin}>
-                    <TextField
-                      label="City"
-                      name="city"
-                      style={styles.input}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    {/* <ErrorMessage
-                      name="city"
-                      component="div"
-                      className="error"
-                    /> */}
-                  </div>
-                  <div className="col-4">
-                    <label>State</label>
-                    <Select
-                      value={this.state.stateID}
-                      onChange={(value) =>
-                        setFieldValue("stateID", value.value)
-                      }
-                      options={stateID}
-                      name="stateID"
-                    />
-                    {/* <ErrorMessage
-                      name="stateID"
-                      component="div"
-                      className="error"
-                    /> */}
-                  </div>
-                  <div className="col-4" style={styles.margin}>
-                    <TextField
-                      label="Email*"
-                      name="email"
-                      style={styles.input}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="col-4" style={styles.margin}>
-                    <TextField
-                      label="Gender"
-                      name="gender"
-                      style={styles.input}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <ErrorMessage
-                      name="gender"
-                      component="div"
-                      className="error"
-                    />
-
-                    {/* <Select
-                      // value={this.state.stateID}
-                      // onChange={(value) =>
-                      //   setFieldValue("stateID", value.value)
-                      // }
-                      textFieldProps={{
-                        label: 'Label',
-                        InputLabelProps: {
-                        shrink: true,
-                        },
-                        }}
-                      options={[
-                        { value: "Male", label: "Male" },
-                        { value: "Female", label: "Female" },
-                        { value: "Other", label: "Other" },
-                      ]}
-                      name="stateID"
-                    /> */}
-                  </div>
-                  <div className="col-4" style={{ marginTop: "8px" }}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        label="Birthday"
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        placeholder="MM/DD/YYYY"
-                        value={moment(values.BirthDate).format("YYYY-MM-DD")}
-                        onChange={(date) => setFieldValue("BirthDate", date)}
-                        KeyboardButtonProps={{
-                          "aria-label": "change date",
-                        }}
-                        style={{ marginTop: "0px", width: "100%" }}
-                      />
-                    </MuiPickersUtilsProvider>
-                    <ErrorMessage
-                      name="BirthDate"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="col-4" style={styles.margin}>
-                    <label>Role</label>
-                    <Select
-                      required
-                      name="WaRoleId"
-                      onChange={(value) =>
-                        setFieldValue("WaRoleId", value.value)
-                      }
-                      options={roles}
-                    />
-                    <ErrorMessage
-                      name="WaRoleId"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-                <div className="col-3">
-                  <label style={{ padding: "10px 0px", fontWeight: "400" }}>
-                    Avatar
-                  </label>
-
-                  {$imagePreview}
-                  <div>
-                    <br />
-                    <input
-                      type="file"
-                      name="image"
-                      id="file"
-                      className="custom-input"
-                      onChange={(e) => this.uploadFile(e, setFieldValue)}
-                    />
-                  </div>
-                </div>
-                <div className="col-12">
-                  <h2 style={styles.h2}>Account Information</h2>
-                </div>
-                <div className="row" style={styles.row}>
-                  <div className="col-4" style={styles.margin}>
-                    <TextField
-                      label="User Name*"
-                      type="text"
-                      name="userName"
-                      style={styles.input}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <ErrorMessage
-                      name="userName"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="col-4" style={styles.margin}>
-                    <TextField
-                      label="Password*"
-                      type="password"
-                      name="password"
-                      style={styles.input}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="col-4" style={styles.margin}>
-                    <TextField
-                      label="Confirm Password*"
-                      type="password"
-                      name="confirmPassword"
-                      style={styles.input}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <ErrorMessage
-                      name="confirmPassword"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="admin-header-div"
-                  style={{
-                    display: "block",
-                    padding: "20px 15px 20px 15px",
-                    marginBottom: "20px",
-                  }}
-                >
-                  <Button
-                    style={{ color: "#4251af", backgroundColor: "white" }}
-                    className="btn btn-green"
-                    onClick={this._goBack}
-                  >
-                    CANCEL
-                  </Button>
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn btn-red"
-                  >
-                    SAVE
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </React.Fragment>
-      </div>
-    );
 
     return (
       <div className="container-fluid UserProfile">
@@ -579,7 +100,394 @@ class addAdmin2 extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.addAdmin" />}
         />
-        {renderProfile}
+
+        <div className="row admin_profile page-heading">
+          <>
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+                WaRoleId: "",
+                confirmPassword: "",
+                stateID: "",
+                firstname: "",
+                lastname: "",
+                address: "",
+                city: "",
+                zip: "",
+                BirthDate: null,
+                phone: "",
+                fileId: 0,
+                userName: "",
+                gender: "",
+              }}
+              validate={(values) => {
+                const errors = {};
+                if (!values.email) {
+                  errors.email = "Email is required";
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                  errors.email = "Invalid email address";
+                }
+                if (!values.firstname) {
+                  errors.firstname = "First name is required";
+                }
+                if (!values.lastname) {
+                  errors.lastname = "Last name is required";
+                }
+                if (!values.userName) {
+                  errors.userName = "Username is required";
+                }
+                if (!values.password) {
+                  errors.password = "Password cannot be empty ";
+                }
+                if (!values.confirmPassword) {
+                  errors.confirmPassword = "Confirm password cannot be empty ";
+                }
+                if (!values.confirmPassword) {
+                  errors.confirmPassword = "Please confirm your password";
+                } else if (values.password !== values.confirmPassword) {
+                  errors.confirmPassword = "Confirm password didn't match";
+                }
+                if (!values.WaRoleId) {
+                  errors.WaRoleId = "Please choose a Role";
+                }
+                if (!values.phone) {
+                  errors.phone = "Please enter Phone number";
+                }
+                if (!values.address) {
+                  errors.address = "Address is required";
+                }
+                // if (!values.zip) {
+                //   errors.zip = "Required";
+                // }
+                if (!values.city) {
+                  errors.city = "City is required";
+                }
+                if (!values.stateID) {
+                  errors.stateID = "Please choose a State";
+                }
+                if (!values.BirthDate) {
+                  errors.BirthDate = "Date of birth is required";
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                const {
+                  stateID,
+                  WaRoleId,
+                  firstname,
+                  lastname,
+                  email,
+                  password,
+                  address,
+                  city,
+                  zip,
+                  phone,
+                  fileId,
+                } = values;
+                const BirthDate = moment(values.BirthDate).format("MM/DD/YYYY");
+                const fullname = firstname + lastname;
+                const Data = {
+                  stateID,
+                  WaRoleId,
+                  firstname,
+                  lastname,
+                  email,
+                  password,
+                  address,
+                  city,
+                  zip,
+                  BirthDate,
+                  fullname,
+                  phone,
+                  fileId,
+                };
+                this.props.addUserAdmin(Data);
+              }}
+            >
+              {({
+                isSubmitting,
+                setFieldValue,
+                values,
+                handleChange,
+                handleBlur,
+                errors,
+                touched,
+              }) => (
+                <Form style={{ width: "100%" }}>
+                  <Grid container spacing={3} style={styles.grid}>
+                    <Grid
+                      item
+                      xs={12}
+                      className="admin-header-div"
+                      style={styles.div}
+                    >
+                      <div
+                        style={{
+                          alignItems: "center",
+                          display: "flex",
+                          color: "black",
+                        }}
+                      >
+                        <AddToPhotosIcon size={24} />
+                        <p style={styles.p}>New Account</p>
+                      </div>
+                      <span>
+                        <Button
+                          style={{
+                            color: "#4251af",
+                            backgroundColor: "white",
+                          }}
+                          className="btn btn-green"
+                          onClick={this._goBack}
+                        >
+                          BACK
+                        </Button>
+                      </span>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <h2 style={styles.h2}>Personal Information</h2>
+                    </Grid>
+
+                    <Grid item xs={4} style={styles.margin}>
+                      <TextField
+                        label="First Name*"
+                        name="firstname"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        fullWidth
+                        error={touched.firstname && Boolean(errors.firstname)}
+                        helperText={touched.firstname ? errors.firstname : ""}
+                      />
+                    </Grid>
+                    <Grid item xs={4} style={styles.margin}>
+                      <TextField
+                        label="Last Name*"
+                        name="lastname"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        fullWidth
+                        error={touched.lastname && Boolean(errors.lastname)}
+                        helperText={touched.lastname ? errors.lastname : ""}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <MaterialUiPhoneNumber
+                        onlyCountries={["us", "vn"]}
+                        placeholder="Contact Phone Number"
+                        name="phone"
+                        fullWidth
+                        label="Phone"
+                        onChange={(phone) => setFieldValue("phone", phone)}
+                        error={touched.phone && Boolean(errors.phone)}
+                        helperText={touched.phone ? errors.phone : ""}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Address*"
+                        name="address"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        fullWidth
+                        error={touched.address && Boolean(errors.address)}
+                        helperText={touched.address ? errors.address : ""}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="City"
+                        name="city"
+                        fullWidth
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <CustomStateSelect
+                        label="State"
+                        name="stateID"
+                        initialValue={values.stateID}
+                        handleChange={(state) =>
+                          setFieldValue("stateID", state.target.value)
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Email*"
+                        name="email"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        fullWidth
+                        error={touched.email && Boolean(errors.email)}
+                        helperText={touched.email ? errors.email : ""}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FormControl style={{ width: "100%" }}>
+                        <InputLabel>Gender</InputLabel>
+                        <Select
+                          displayEmpty
+                          fullWidth
+                          // error={touched.gender && Boolean(errors.gender)}
+                          // helperText={touched.gender ? errors.gender : ""}
+                          value={values.gender}
+                          onChange={(gender) =>
+                            setFieldValue("gender", gender.target.value)
+                          }
+                        >
+                          <MenuItem value=""></MenuItem>
+                          <MenuItem value="male">Male</MenuItem>
+                          <MenuItem value="female">Female</MenuItem>
+                          <MenuItem value="other">Other</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          disableToolbar
+                          label="Birthday"
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          placeholder="MM/DD/YYYY"
+                          value={values.BirthDate}
+                          onChange={(date) => setFieldValue("BirthDate", date)}
+                          KeyboardButtonProps={{
+                            "aria-label": "change date",
+                          }}
+                          fullWidth
+                          error={touched.BirthDate && Boolean(errors.BirthDate)}
+                          // helperText={
+                          //   touched.BirthDate ? errors.BirthDate : ""
+                          // }
+                        />
+                      </MuiPickersUtilsProvider>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FormControl style={{ width: "100%" }}>
+                        <InputLabel>Role</InputLabel>
+                        <Select
+                          displayEmpty
+                          fullWidth
+                          error={touched.WaRoleId && Boolean(errors.WaRoleId)}
+                          helperText={touched.WaRoleId ? errors.WaRoleId : ""}
+                          value={values.WaRoleId}
+                          onChange={(role) =>
+                            setFieldValue("WaRoleId", Number(role.target.value))
+                          }
+                        >
+                          <MenuItem value={1}>Administrator</MenuItem>
+                          <MenuItem value={2}>Manager</MenuItem>
+                          <MenuItem value={3}>Staff Lv1</MenuItem>
+                          <MenuItem value={4}>Staff Lv2</MenuItem>
+                        </Select>
+                      </FormControl>
+                      {errors.WaRoleId && touched.WaRoleId ? (
+                        <FormHelperText style={styles.errorText}>
+                          {errors.WaRoleId}
+                        </FormHelperText>
+                      ) : null}
+                    </Grid>
+                    <Grid item xs={8} />
+                    <Grid item xs={4}>
+                      <label style={{ padding: "10px 0px", fontWeight: "400" }}>
+                        Avatar
+                      </label>{" "}
+                      <br />
+                      {$imagePreview}
+                      <div>
+                        <br />
+                        <input
+                          type="file"
+                          name="image"
+                          id="file"
+                          className="custom-input"
+                          onChange={(e) => this.uploadFile(e, setFieldValue)}
+                        />
+                      </div>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <h2 style={styles.h2}>Account Information</h2>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                      <TextField
+                        label="User Name*"
+                        type="text"
+                        name="userName"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        fullWidth
+                        error={touched.userName && Boolean(errors.userName)}
+                        helperText={touched.userName ? errors.userName : ""}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Password*"
+                        type="password"
+                        name="password"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        fullWidth
+                        error={touched.password && Boolean(errors.password)}
+                        helperText={touched.password ? errors.password : ""}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Confirm Password*"
+                        type="password"
+                        name="confirmPassword"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        fullWidth
+                        error={
+                          touched.confirmPassword &&
+                          Boolean(errors.confirmPassword)
+                        }
+                        helperText={
+                          touched.confirmPassword ? errors.confirmPassword : ""
+                        }
+                      />
+                    </Grid>
+
+                    <Grid
+                      item
+                      xs={12}
+                      className="admin-header-div"
+                      style={{
+                        display: "block",
+                        padding: "20px 15px 0px 15px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <Button
+                        style={{ color: "#4251af", backgroundColor: "white" }}
+                        className="btn btn-green"
+                        onClick={this._goBack}
+                      >
+                        CANCEL
+                      </Button>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="btn btn-red"
+                      >
+                        SAVE
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Form>
+              )}
+            </Formik>
+          </>
+        </div>
       </div>
     );
   }
@@ -602,17 +510,27 @@ export default withRouter(
 );
 
 const styles = {
+  grid: {
+    padding: "0px 10px",
+  },
   div: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  margin: {
-    marginTop: "9px",
+  p: {
+    fontWeight: "500",
+    fontSize: "19px",
+    paddingLeft: "10px",
+  },
+  errorText: {
+    color: "red",
   },
   h2: {
     color: "#4251af",
-    fontWeight: "600",
+    fontWeight: "400",
+    padding: "10px 0px",
+    fontSize: "22px",
   },
   row: {
     padding: "0px 15px 0px 15px",
