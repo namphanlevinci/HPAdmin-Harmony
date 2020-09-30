@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import { GiCheckedShield } from "react-icons/gi";
 import { FaPen } from "react-icons/fa";
+import { Grid } from "@material-ui/core";
 
 import IntlMessages from "../../util/IntlMessages";
 import ContainerHeader from "../../components/ContainerHeader/index";
@@ -259,11 +260,12 @@ class proFile extends Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
           />
-          <div
+          <Grid
+            container
             className="row justify-content-md-center admin_profile page-heading"
             style={{ minHeight: "500px", paddingTop: "50px" }}
           >
-            <div className="col-3 text-center">
+            <Grid item xs={3}>
               {$imagePreview}
               <div style={{ paddingTop: "10px" }}>
                 <input
@@ -306,7 +308,7 @@ class proFile extends Component {
                   </div>
                 </NavLink>
               </div>
-            </div>
+            </Grid>
             <div className="col-9" style={{ paddingLeft: "30px" }}>
               <div className="row">
                 <div className="col-4">
@@ -354,7 +356,7 @@ class proFile extends Component {
                 </Switch>
               )}
             </div>
-          </div>
+          </Grid>
         </div>
       </Router>
     );

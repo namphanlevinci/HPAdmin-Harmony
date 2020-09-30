@@ -104,3 +104,13 @@ label {
 
 
 
+.content__title {
+  color: #4251af;
+}
+.content__label {
+  color: #707070;
+}
+.content__text {
+  color: #404040;
+  font-weight: 500 !important;
+}

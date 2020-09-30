@@ -26,8 +26,9 @@
     opacity: 0.9;
   }
   .admin-avatar {
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
     background-position: center;
   }
   

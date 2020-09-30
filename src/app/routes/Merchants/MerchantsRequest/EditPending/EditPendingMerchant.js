@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../../url/url";
 import { GET_MERCHANT_BY_ID } from "../../../../../actions/merchants/actions";
+import { CustomTitle } from "../../../../../util/CustomText";
 
 import EditPrincipal from "./EditPrincipal";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
@@ -13,7 +14,7 @@ import axios from "axios";
 import LinearProgress from "../../../../../util/linearProgress";
 import SimpleReactValidator from "simple-react-validator";
 import CustomSelect from "../../../../../util/getState";
-import TextField from "@material-ui/core/TextField";
+import { TextField, Grid } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
@@ -234,546 +235,498 @@ class EditPendingMerchant extends Component {
           </div>
           <hr />
           <div className="content react-transition swipe-right">
-            <div className="container-fluid">
-              <h2 style={{ color: "#4251af", fontWeight: "400" }}>
-                General Information
-              </h2>
-              <div className="row ">
-                <div className="col-4">
-                  <div className="form-group">
-                    <TextField
-                      name="legalBusinessName"
-                      label="Legal Business Name*"
-                      margin="normal"
-                      type="text"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.legalBusinessName}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "legalBusinessName",
-                          this.state.legalBusinessName,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-
-                <div className="col-4">
-                  <div className="form-group">
-                    <TextField
-                      name="doBusinessName"
-                      label="Doing Business As* (DBA)"
-                      type="text"
-                      autoComplete="doingBusiness"
-                      margin="normal"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.doBusinessName}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "doingBusiness",
-                          this.state.doBusinessName,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-
-                <div className="col-4">
-                  <div className="form-group">
-                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
-                      <InputLabel htmlFor="formatted-text-mask-input">
-                        Federal Tax ID*
-                      </InputLabel>
-                      <Input
-                        value={this.state.tax}
-                        onChange={this.handleChange}
-                        name="tax"
-                        startAdornment
-                        inputProps={{
-                          block: [2, 7],
-                        }}
-                        inputComponent={InputCustom}
-                      />
-                    </FormControl>
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "tax",
-                          this.state.tax,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-
-                <div className="col-4">
-                  <div className="form-group">
-                    <TextField
-                      name="address"
-                      label="Business Address* (no P.O. Boxes)"
-                      margin="normal"
-                      type="text"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.address}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "address",
-                          this.state.address,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-                <div className="col-3">
-                  <div className="form-group">
-                    <TextField
-                      name="city"
-                      label="City*"
-                      type="text"
-                      margin="normal"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.city}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "city",
-                          this.state.city,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-                <div className="col-3">
-                  <div style={{ marginTop: "16px" }}>
-                    {this.state.loading && (
-                      <CustomSelect
-                        name="state"
-                        label="State Issued*"
-                        initialValue={this.state.stateId}
-                        handleChange={(e) =>
-                          this.setState({ stateId: e.target.value })
-                        }
-                      />
+            <Grid container spacing={3} className="container-fluid">
+              <Grid item xs={12}>
+                <CustomTitle value="General Information" />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  name="legalBusinessName"
+                  label="Legal Business Name*"
+                  margin="normal"
+                  type="text"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.legalBusinessName}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "legalBusinessName",
+                      this.state.legalBusinessName,
+                      "required|string"
                     )}
-                  </div>
-                  {
-                    <p style={styles.p}>
-                      {this.validator.message(
-                        "state",
-                        this.state.stateId,
-                        "required|integer"
-                      )}
-                    </p>
-                  }
-                </div>
-                <div className="col-2">
-                  <div className="form-group">
-                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
-                      <InputLabel htmlFor="formatted-text-mask-input">
-                        Zip Code*
-                      </InputLabel>
-                      <Input
-                        value={this.state.zip}
-                        onChange={this.handleChange}
-                        name="zip"
-                        id="custom-zip-input"
-                        startAdornment
-                        inputProps={{
-                          block: [5],
-                          numericOnly: true,
-                        }}
-                        inputComponent={InputCustom}
-                      />
-                    </FormControl>
+                  </p>
+                }
+              </Grid>
 
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "zip",
-                          this.state.zip,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-
-                {/* // DBA ADDRESS */}
-                <div className="col-4">
-                  <div className="form-group">
-                    <TextField
-                      name="dbaAddress"
-                      label="DBA Address*"
-                      margin="normal"
-                      type="text"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.dbaAddress}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "dbaAddress",
-                          this.state.dbaAddress,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-                <div className="col-3">
-                  <div className="form-group">
-                    <TextField
-                      name="dbaCity"
-                      label="City*"
-                      type="text"
-                      margin="normal"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.dbaCity}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "dbaCity",
-                          this.state.dbaCity,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-                <div className="col-3">
-                  <div style={{ marginTop: "16px" }}>
-                    {this.state.loading && (
-                      <CustomSelect
-                        name="dbaState"
-                        label="State Issued*"
-                        initialValue={this.state.dbaState}
-                        handleChange={(e) =>
-                          this.setState({ dbaState: e.target.value })
-                        }
-                      />
+              <Grid item xs={4}>
+                <TextField
+                  name="doBusinessName"
+                  label="Doing Business As* (DBA)"
+                  type="text"
+                  autoComplete="doingBusiness"
+                  margin="normal"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.doBusinessName}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "doingBusiness",
+                      this.state.doBusinessName,
+                      "required|string"
                     )}
-                  </div>
-                  {
-                    <p style={styles.p}>
-                      {this.validator.message(
-                        "dbaState",
-                        this.state.dbaState,
-                        "required|integer"
-                      )}
-                    </p>
-                  }
-                </div>
-                <div className="col-2">
-                  <div className="form-group">
-                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
-                      <InputLabel htmlFor="formatted-text-mask-input">
-                        Zip Code*
-                      </InputLabel>
-                      <Input
-                        value={this.state.dbaZip}
-                        onChange={this.handleChange}
-                        name="dbaZip"
-                        id="custom-zip2-input"
-                        startAdornment
-                        inputProps={{
-                          block: [5],
-                          numericOnly: true,
-                        }}
-                        inputComponent={InputCustom}
-                      />
-                    </FormControl>
+                  </p>
+                }
+              </Grid>
 
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "dbaZip",
-                          this.state.dbaZip,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
+              <Grid item xs={4}>
+                <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Federal Tax ID*
+                  </InputLabel>
+                  <Input
+                    value={this.state.tax}
+                    onChange={this.handleChange}
+                    name="tax"
+                    startAdornment
+                    inputProps={{
+                      block: [2, 7],
+                    }}
+                    inputComponent={InputCustom}
+                  />
+                </FormControl>
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "tax",
+                      this.state.tax,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
 
-                <div className="col-4">
-                  <div className="form-group">
-                    <TextField
-                      name="emailContact"
-                      label="Email Contact*"
-                      type="email"
-                      margin="normal"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.emailContact}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "emailContact",
-                          this.state.emailContact,
-                          "required|email"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-
-                <div className="col-4">
-                  {this.state.loading && (
-                    <MaterialUiPhoneNumber
-                      onlyCountries={["us", "vn"]}
-                      style={{ marginTop: "10px" }}
-                      label="Business Phone Number*"
-                      name="businessPhone"
-                      value={this.state.phoneBusiness}
-                      onChange={(phone) =>
-                        this.setState({ phoneBusiness: phone })
+              <Grid item xs={4}>
+                <TextField
+                  name="address"
+                  label="Business Address* (no P.O. Boxes)"
+                  margin="normal"
+                  type="text"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.address}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "address",
+                      this.state.address,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  name="city"
+                  label="City*"
+                  type="text"
+                  margin="normal"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.city}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "city",
+                      this.state.city,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+              <Grid item xs={3}>
+                {this.state.loading && (
+                  <div style={{ marginTop: "16px" }}>
+                    <CustomSelect
+                      name="state"
+                      label="State Issued*"
+                      initialValue={this.state.stateId}
+                      handleChange={(e) =>
+                        this.setState({ stateId: e.target.value })
                       }
                     />
-                  )}
-                </div>
-              </div>
-              <div className="row justify-content-between">
-                <div className="col-3">
-                  <div className="form-group">
-                    <TextField
-                      name="firstName"
-                      label="First Name*"
-                      type="text"
-                      margin="normal"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.firstName}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "firstName",
-                          this.state.firstName,
-                          "required|string"
-                        )}
-                      </p>
-                    }
                   </div>
-                </div>
-                <div className="col-3">
-                  <div className="form-group">
-                    <TextField
-                      name="lastName"
-                      label="Last Name*"
-                      type="text"
-                      margin="normal"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.lastName}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "lastName",
-                          this.state.lastName,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
+                )}
 
-                <div className="col-3">
-                  <div className="form-group">
-                    <TextField
-                      name="title"
-                      label="Title/Position*"
-                      type="text"
-                      margin="normal"
-                      fullWidth
-                      onChange={this.handleChange}
-                      value={this.state.title}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "title",
-                          this.state.title,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-                <div className="col-3">
-                  {this.state.loading && (
-                    <MaterialUiPhoneNumber
-                      onlyCountries={["us", "vn"]}
-                      style={{ marginTop: "10px" }}
-                      label="Contact Phone Number*"
-                      name="phoneContact"
-                      value={this.state.phoneContact}
-                      onChange={(phone) =>
-                        this.setState({ phoneContact: phone })
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "state",
+                      this.state.stateId,
+                      "required|integer"
+                    )}
+                  </p>
+                }
+              </Grid>
+              <Grid item xs={2}>
+                <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Zip Code*
+                  </InputLabel>
+                  <Input
+                    value={this.state.zip}
+                    onChange={this.handleChange}
+                    name="zip"
+                    id="custom-zip-input"
+                    startAdornment
+                    inputProps={{
+                      block: [5],
+                      numericOnly: true,
+                    }}
+                    inputComponent={InputCustom}
+                  />
+                </FormControl>
+
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "zip",
+                      this.state.zip,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+
+              {/* // DBA ADDRESS */}
+              <Grid item xs={4}>
+                <TextField
+                  name="dbaAddress"
+                  label="DBA Address*"
+                  margin="normal"
+                  type="text"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.dbaAddress}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "dbaAddress",
+                      this.state.dbaAddress,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  name="dbaCity"
+                  label="City*"
+                  type="text"
+                  margin="normal"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.dbaCity}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "dbaCity",
+                      this.state.dbaCity,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+              <Grid item xs={3}>
+                {this.state.loading && (
+                  <div style={{ marginTop: "16px" }}>
+                    <CustomSelect
+                      name="dbaState"
+                      label="State Issued*"
+                      initialValue={this.state.dbaState}
+                      handleChange={(e) =>
+                        this.setState({ dbaState: e.target.value })
                       }
                     />
-                  )}
-                </div>
-              </div>
+                  </div>
+                )}
+
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "dbaState",
+                      this.state.dbaState,
+                      "required|integer"
+                    )}
+                  </p>
+                }
+              </Grid>
+              <Grid item xs={2}>
+                <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Zip Code*
+                  </InputLabel>
+                  <Input
+                    value={this.state.dbaZip}
+                    onChange={this.handleChange}
+                    name="dbaZip"
+                    id="custom-zip2-input"
+                    startAdornment
+                    inputProps={{
+                      block: [5],
+                      numericOnly: true,
+                    }}
+                    inputComponent={InputCustom}
+                  />
+                </FormControl>
+
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "dbaZip",
+                      this.state.dbaZip,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+
+              <Grid item xs={4}>
+                <TextField
+                  name="emailContact"
+                  label="Email Contact*"
+                  type="email"
+                  margin="normal"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.emailContact}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "emailContact",
+                      this.state.emailContact,
+                      "required|email"
+                    )}
+                  </p>
+                }
+              </Grid>
+
+              <Grid item xs={4}>
+                {this.state.loading && (
+                  <MaterialUiPhoneNumber
+                    fullWidth
+                    onlyCountries={["us", "vn"]}
+                    style={{ marginTop: "16px" }}
+                    label="Business Phone Number*"
+                    name="businessPhone"
+                    value={this.state.phoneBusiness}
+                    onChange={(phone) =>
+                      this.setState({ phoneBusiness: phone })
+                    }
+                  />
+                )}
+              </Grid>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={3}>
+                <TextField
+                  name="firstName"
+                  label="First Name*"
+                  type="text"
+                  margin="normal"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.firstName}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "firstName",
+                      this.state.firstName,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  name="lastName"
+                  label="Last Name*"
+                  type="text"
+                  margin="normal"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.lastName}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "lastName",
+                      this.state.lastName,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+
+              <Grid item xs={3}>
+                <TextField
+                  name="title"
+                  label="Title/Position*"
+                  type="text"
+                  margin="normal"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.title}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "title",
+                      this.state.title,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+              <Grid item xs={3}>
+                {this.state.loading && (
+                  <MaterialUiPhoneNumber
+                    onlyCountries={["us", "vn"]}
+                    style={{ marginTop: "16px" }}
+                    label="Contact Phone Number*"
+                    name="phoneContact"
+                    value={this.state.phoneContact}
+                    onChange={(phone) => this.setState({ phoneContact: phone })}
+                  />
+                )}
+              </Grid>
 
               {/* BANK INFORMATION */}
-              <h2
-                style={{
-                  paddingTop: "15px",
-                  color: "#4251af",
-                  fontWeight: "400",
-                }}
-              >
-                Bank Information
-              </h2>
-              <div className="row ">
-                <div className="col-3">
-                  <div className="form-group">
-                    <TextField
-                      name="accountHolderName"
-                      value={this.state.accountHolderName}
-                      id="cardHolder3"
-                      label="Account Holder Name*"
-                      margin="normal"
-                      fullWidth
-                      onChange={this.handleChange}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "accountHolderName",
-                          this.state.accountHolderName,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
+              <Grid item xs={12}>
+                <CustomTitle value="Bank Information" />
+              </Grid>
 
-                <div className="col-3">
-                  <div className="form-group">
-                    <TextField
-                      name="bankName"
-                      value={this.state.bankName}
-                      id="cardHolder1"
-                      label="Bank Name*"
-                      margin="normal"
-                      fullWidth
-                      onChange={this.handleChange}
-                    />
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "bankName",
-                          this.state.bankName,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
+              <Grid item xs={3}>
+                <TextField
+                  name="accountHolderName"
+                  value={this.state.accountHolderName}
+                  id="cardHolder3"
+                  label="Account Holder Name*"
+                  margin="normal"
+                  fullWidth
+                  onChange={this.handleChange}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "accountHolderName",
+                      this.state.accountHolderName,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
 
-                <div className="col-3">
-                  <div className="form-group">
-                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
-                      <InputLabel htmlFor="formatted-text-mask-input">
-                        Routing Number* (ABA)
-                      </InputLabel>
-                      <Input
-                        value={this.state.routingNumber}
-                        onChange={this.handleChange}
-                        name="routingNumber"
-                        id="custom-routingNumber-input"
-                        inputProps={{
-                          block: [12],
-                          numericOnly: true,
-                        }}
-                        inputComponent={InputCustom}
-                        startAdornment
-                      />
-                    </FormControl>
+              <Grid item xs={3}>
+                <TextField
+                  name="bankName"
+                  value={this.state.bankName}
+                  id="cardHolder1"
+                  label="Bank Name*"
+                  margin="normal"
+                  fullWidth
+                  onChange={this.handleChange}
+                />
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "bankName",
+                      this.state.bankName,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
 
-                    {
-                      <p style={styles.p}>
-                        {this.validator.message(
-                          "routingNumber",
-                          this.state.routingNumber,
-                          "required|string"
-                        )}
-                      </p>
-                    }
-                  </div>
-                </div>
-
-                <div className="col-3">
-                  <div className="form-group">
-                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
-                      <InputLabel htmlFor="formatted-text-mask-input">
-                        Account Number* (ABA)
-                      </InputLabel>
-                      <Input
-                        value={this.state.accountNumber}
-                        onChange={this.handleChange}
-                        name="accountNumber"
-                        id="custom-accountNumber-input"
-                        startAdornment
-                        inputProps={{
-                          block: [12],
-                          numericOnly: true,
-                        }}
-                        inputComponent={InputCustom}
-                      />
-                    </FormControl>
-                  </div>
-                </div>
-                <div className="col-3" style={{ paddingTop: "10px" }}>
-                  <label style={{ paddingBottom: "10px" }}>Void Check*</label>{" "}
-                  <br />
-                  {$imagePreview}
-                  <div style={{ width: "100%", marginTop: "5px" }}>
-                    {this.state.progress ? <LinearProgress /> : null}
-                  </div>
-                  <input
-                    type="file"
-                    style={styles.imageInput}
-                    name="image"
-                    id="file"
-                    className="custom-input"
-                    onChange={(e) => this._uploadFile(e)}
+              <Grid item xs={3}>
+                <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Routing Number* (ABA)
+                  </InputLabel>
+                  <Input
+                    value={this.state.routingNumber}
+                    onChange={this.handleChange}
+                    name="routingNumber"
+                    id="custom-routingNumber-input"
+                    inputProps={{
+                      block: [12],
+                      numericOnly: true,
+                    }}
+                    inputComponent={InputCustom}
+                    startAdornment
                   />
+                </FormControl>
+
+                {
+                  <p style={styles.p}>
+                    {this.validator.message(
+                      "routingNumber",
+                      this.state.routingNumber,
+                      "required|string"
+                    )}
+                  </p>
+                }
+              </Grid>
+
+              <Grid item xs={3}>
+                <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Account Number* (ABA)
+                  </InputLabel>
+                  <Input
+                    value={this.state.accountNumber}
+                    onChange={this.handleChange}
+                    name="accountNumber"
+                    id="custom-accountNumber-input"
+                    startAdornment
+                    inputProps={{
+                      block: [12],
+                      numericOnly: true,
+                    }}
+                    inputComponent={InputCustom}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={4} style={{ paddingTop: "10px" }}>
+                <label style={{ paddingBottom: "10px" }}>Void Check*</label>{" "}
+                <br />
+                {$imagePreview}
+                <div style={{ width: "100%", marginTop: "5px" }}>
+                  {this.state.progress ? <LinearProgress /> : null}
                 </div>
-              </div>
+                <input
+                  type="file"
+                  style={styles.imageInput}
+                  name="image"
+                  id="file"
+                  className="custom-input"
+                  onChange={(e) => this._uploadFile(e)}
+                />
+              </Grid>
+
               {/* PRINCIPAL INFORMATION */}
-              <h2
-                style={{
-                  paddingTop: "15px",
-                  color: "#4251af",
-                  fontWeight: "400",
-                }}
-              >
-                Principal Information
-              </h2>
-            </div>
+              <Grid item xs={12}>
+                <CustomTitle value="Principal Information" />
+              </Grid>
+            </Grid>
             <div className="container-fluid justify-content-between">
               {this.state.loading && (
                 <EditPrincipal
@@ -825,12 +778,13 @@ export default withRouter(
 
 const styles = {
   image: {
-    width: "250px",
-    height: "200px",
+    width: "100%",
+    height: "auto",
   },
   imageInput: {
     border: "none",
     marginTop: "10px",
+    width: "100%",
   },
   p: {
     color: "red",

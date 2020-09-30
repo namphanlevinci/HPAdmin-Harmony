@@ -13,7 +13,12 @@ import { config } from "../../../../url/url";
 import IconButton from "@material-ui/core/IconButton";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { TextField, Typography, Grid } from "@material-ui/core";
+import {
+  CustomTitle,
+  CustomTextLabel,
+  CustomText,
+} from "../../../../util/CustomText";
 
 import CloseIcon from "@material-ui/icons/Close";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -29,7 +34,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import * as Yup from "yup";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Typography from "@material-ui/core/Typography";
 import "./MerchantReqProfile.css";
 import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
@@ -110,42 +114,41 @@ class MerchantReqProfile extends Component {
       e.principals !== undefined ? (
         e.principals.map((e, index) => {
           return (
-            <div className="row" key={e.principalId}>
+            <React.Fragment key={index}>
               {Number(principalLength) >= 2 ? (
-                <div className="col-12">
+                <Grid item xs={12}>
                   <h3 style={{ color: "#4251af", fontWeight: "500" }}>
                     Principal {index + 1}
                   </h3>
-                </div>
+                </Grid>
               ) : null}
-              <div className="col-4">
-                <label>Name*</label>
-                <p>{e.firstName + " " + e.lastName}</p>
-              </div>
-              <div className="col-4">
-                <label>Title/Position*</label>
-                <p>{e.title}</p>
-              </div>
-              <div className="col-4">
-                <label>Ownership* (%)</label>
-                <p>{e.ownerShip}%</p>
-              </div>
-              <div className="col-4">
-                <label>Home Phone</label>
-                {/* <p>{formatPhone(e.homePhone)}</p> */}
-                <p>{e.homePhone}</p>
-              </div>
-              <div className="col-4">
-                <label>Mobile Phone*</label>
-                {/* <p>{formatPhone(e.mobilePhone)}</p> */}
-                <p>{e.mobilePhone}</p>
-              </div>
-              <div className="col-4">
-                <label>Address*</label>
-                <p>{e.address}</p>
-              </div>
-              <div className="col-4">
-                <label>Social Security Number* (SSN)</label>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Name*" />
+                <CustomText value={e.firstName + " " + e.lastName} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Title/Position*" />
+                <CustomText value={e.title} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Ownership* (%)" />
+                <CustomText value={`${e.ownerShip}%`} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Home Phone" />
+                <CustomText value={e.homePhone} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Mobile Phone*" />
+                <CustomText value={e.mobilePhone} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Address*" />
+                <CustomText value={e.address} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Social Security Number* (SSN)" />
+
                 <NumberFormat
                   value={e.ssn}
                   displayType={"text"}
@@ -153,27 +156,29 @@ class MerchantReqProfile extends Component {
                   p
                   format="###-##-####"
                   mask="_"
-                  renderText={(value) => <p>{value}</p>}
+                  renderText={(value) => <CustomText value={value} />}
                 />
-              </div>
-              <div className="col-4">
-                <label>Date of Birth* (mm/dd/yy)</label>
-                <p>{moment(e.birthDate).format("MM/DD/YYYY")}</p>
-              </div>
-              <div className="col-4">
-                <label>Email Address*</label>
-                <p>{e.email}</p>
-              </div>
-              <div className="col-4">
-                <label>Driver License Number*</label>
-                <p>{e.driverNumber}</p>
-              </div>
-              <div className="col-4">
-                <label>State Issued*</label>
-                <p>{e?.state?.name}</p>
-              </div>
-              <div className="col-6">
-                <label>Driver License Picture*</label> <br />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />
+                <CustomText value={moment(e.birthDate).format("MM/DD/YYYY")} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Email Address*" />
+                <CustomText value={e.email} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Driver License Number*" />
+                <CustomText value={e.driverNumber} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="State Issued*" />
+                <CustomText value={e?.state?.name} />
+              </Grid>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Driver License Picture*" />
+
                 {
                   <a
                     href={`${URL}/file/${e?.fileId}?fileName=DriverLicense-${this.props.PendingProfile?.general?.doBusinessName}`}
@@ -186,9 +191,9 @@ class MerchantReqProfile extends Component {
                     />
                   </a>
                 }
-              </div>
+              </Grid>
               <hr />
-            </div>
+            </React.Fragment>
           );
         })
       ) : (
@@ -199,16 +204,18 @@ class MerchantReqProfile extends Component {
       e.business !== undefined ? (
         e.business.map((e, index) => {
           return (
-            <div className="col-6" key={e.businessId}>
-              <label>{e.question}</label> <br />
-              <Checkbox checked={e.answer === false} />
-              No
-              <span className={e.answer ? "checked-red" : ""}>
+            <Grid item xs={6} key={e.businessId}>
+              <CustomTextLabel value={e.question} />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Checkbox checked={e.answer === false} />
+                <CustomText value="No" />
+
                 <Checkbox checked={e.answer === true} />
                 {customLabel(index + 1)}
-              </span>
-              <h5>Answer: {e.answerReply} </h5>
-            </div>
+              </div>
+              <CustomText value="Answer:" />
+              <CustomText value={e.answerReply} />
+            </Grid>
           );
         })
       ) : (
@@ -253,7 +260,7 @@ class MerchantReqProfile extends Component {
           disableBreadcrumb={true}
         />
         <div className="content-body page-heading">
-          <div className="header col-md-12">
+          <div className="header col-12">
             <h3 style={{ marginBottom: "0px" }}>{"HP-" + e.merchantId}</h3>
 
             {/* // Delete */}
@@ -543,146 +550,161 @@ class MerchantReqProfile extends Component {
                     {e.handlingActivities[0]?.waUserName}
                   </span>
                 </h4>
-                <h4>
-                  Date/Time:{" "}
-                  {moment(e.handlingActivities[0]?.createDate).format(
-                    "MM/DD/YYYY - hh:mm A"
-                  )}
-                </h4>
+                <CustomText
+                  value={`Date/Time:
+                    ${moment(e.handlingActivities[0]?.createDate).format(
+                      "MM/DD/YYYY - hh:mm A"
+                    )}`}
+                />
               </>
             )}
           </div>
 
           <hr />
           <div className="content react-transition swipe-right">
-            <div className="container-fluid">
-              <h2 style={styles.h2}>General Information</h2>
-              <div className="row">
-                <div className="col-4">
-                  <label>Legal Business Name*</label>
-                  <p>{e?.general?.legalBusinessName}</p>
-                </div>
-                <div className="col-4">
-                  <label>Doing Business As* (DBA)</label>
-                  <p>{e?.general?.doBusinessName}</p>
-                </div>
-                <div className="col-4">
-                  <label>Federal Tax ID*</label>
-                  <p>{e?.taxId}</p>
-                </div>
-                <div className="col-4">
-                  <label>Business Address* (no P.O. Boxes)</label>
-                  <p>{e?.general?.address}</p>
-                </div>
-                <div className="col-3">
-                  <label>City*</label>
-                  <p>{e?.general?.city}</p>
-                </div>
-                <div className="col-3">
-                  <label>State Issued*</label>
-                  <p>{e?.state?.name}</p>
-                </div>
-                <div className="col-2">
-                  <label>Zip Code*</label>
-                  <p>{e.zip}</p>
-                </div>
-                {/* DBA ADDRESS */}
-                <div className="col-4">
-                  <label>DBA Address* </label>
-                  <p>{e?.general?.dbaAddress?.Address}</p>
-                </div>
-                <div className="col-3">
-                  <label>City*</label>
-                  <p>{e?.general?.dbaAddress?.City}</p>
-                </div>
-                <div className="col-3">
-                  <label>State Issued*</label>
-                  <p>{e?.general?.dbaAddress?.StateName}</p>
-                </div>
-                <div className="col-2">
-                  <label>Zip Code*</label>
-                  <p>{e?.general?.dbaAddress?.Zip}</p>
-                </div>
+            <Grid container spacing={3} className="container-fluid">
+              <Grid item xs={12}>
+                <CustomTitle value="General Information" />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Legal Business Name*" />
+                <CustomText value={e?.general?.legalBusinessName} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Doing Business As* (DBA)" />
+                <CustomText value={e?.general?.doBusinessName} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Federal Tax ID*" />
+                <CustomText value={e?.taxId} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Business Address* (no P.O. Boxes)" />
+                <CustomText value={e?.general?.address} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="City*" />
+                <CustomText value={e?.general?.city} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="State Issued*" />
+                <CustomText value={e?.state?.name} />
+              </Grid>
+              <Grid item xs={2}>
+                <CustomTextLabel value="Zip Code*" />
+                <CustomText value={e.zip} />
+              </Grid>
+              {/* DBA ADDRESS */}
+              <Grid item xs={4}>
+                <CustomTextLabel value="DBA Address* " />
+                <CustomText value={e?.general?.dbaAddress?.Address} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="City*" />
+                <CustomText value={e?.general?.dbaAddress?.City} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="State Issued*" />
+                <CustomText value={e?.general?.dbaAddress?.StateName} />
+              </Grid>
+              <Grid item xs={2}>
+                <CustomTextLabel value="Zip Code*" />
+                <CustomText value={e?.general?.dbaAddress?.Zip} />
+              </Grid>
 
-                <div className="col-4">
-                  <label>Business Phone Number*</label>
-                  <p>{e.phone}</p>
-                </div>
-                <div className="col-4">
-                  <label>Contact Email Address*</label>
-                  <p>{e.email}</p>
-                </div>
-              </div>
-              {/* <h2 style={styles.h2}>Representative Information</h2> */}
-              <div className="row">
-                <div className="col-4">
-                  <label>Contact Name*</label>
-                  <p>
-                    {e.general !== null
+              <Grid item xs={4}>
+                <CustomTextLabel value="Business Phone Number*" />
+                <CustomText value={e.phone} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Contact Email Address*" />
+                <CustomText value={e.email} />
+              </Grid>
+              <Grid item xs={4}></Grid>
+
+              <Grid item xs={4}>
+                <CustomTextLabel value="Contact Name*" />
+                <CustomText
+                  value={
+                    e.general !== null
                       ? e.general.firstName + " " + e.general.lastName
-                      : null}
-                  </p>
-                </div>
-                <div className="col-4">
-                  <label>Title/Position*</label>
-                  <p>{e.general !== null ? e.general.title : null}</p>
-                </div>
-                <div className="col-4">
-                  <label>Contact Phone Number*</label>
-                  <p>{e.general !== null ? e.general.phoneContact : null}</p>
-                </div>
-              </div>
-              <h2 style={styles.h2}>Business Information</h2>
-              <div className="row">{renderQuestion}</div>
-              <h2 style={styles.h2}>Bank Information</h2>
-              <div className="row">
-                <div className="col-3">
-                  <label>Account Holder Name*</label>
-                  <p>{e?.businessBank?.accountHolderName}</p>
-                </div>
-                <div className="col-3">
-                  <label>Bank Name*</label>
-                  <p>{e?.businessBank?.name}</p>
-                </div>
-                <div className="col-3">
-                  <label> Routing Number* (ABA)</label>
-                  <p>
-                    {e.businessBank !== null
-                      ? e.businessBank.routingNumber
-                      : null}
-                  </p>
-                </div>
-                <div className="col-3">
-                  <label>Account Number* (DDA)</label>
-                  <p>
-                    {e.businessBank !== null
-                      ? e.businessBank.accountNumber
-                      : null}
-                  </p>
-                </div>
-                <div className="col-4">
-                  <label>Void Check*</label>
-                  <br />
+                      : null
+                  }
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Title/Position*" />
+                <CustomText
+                  value={e.general !== null ? e.general.title : null}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Contact Phone Number*" />
+                <CustomText
+                  value={e.general !== null ? e.general.phoneContact : null}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <CustomTitle value="Business Information" />
+              </Grid>
+              {renderQuestion}
 
-                  {e.businessBank !== null ? (
-                    <a
-                      href={`${URL}/file/${
-                        e?.businessBank?.fileId
-                      }?fileName=VoidCheck-${(e?.general?.doBusinessName).trim()}`}
-                      download
-                    >
-                      <img
-                        className="pending-image"
-                        src={`${e.businessBank.imageUrl}`}
-                        alt="void check"
-                      />
-                    </a>
-                  ) : null}
-                </div>
-              </div>
-              <h2 style={styles.h2}>Principal Information</h2>
+              <Grid item xs={12}>
+                <CustomTitle value="Bank Information" />
+              </Grid>
+
+              <Grid item xs={3}>
+                <CustomTextLabel value="Account Holder Name*" />
+                <CustomText value={e?.businessBank?.accountHolderName} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="Bank Name*" />
+                <CustomText value={e?.businessBank?.name} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="Routing Number* (ABA)" />
+                <CustomText
+                  value={
+                    e.businessBank !== null
+                      ? e.businessBank.routingNumber
+                      : null
+                  }
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="Account Number* (DDA)" />
+                <CustomText
+                  value={
+                    e.businessBank !== null
+                      ? e.businessBank.accountNumber
+                      : null
+                  }
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Void Check*" />
+                {e.businessBank !== null ? (
+                  <a
+                    href={`${URL}/file/${
+                      e?.businessBank?.fileId
+                    }?fileName=VoidCheck-${(e?.general?.doBusinessName).trim()}`}
+                    download
+                  >
+                    <img
+                      className="pending-image"
+                      src={`${e.businessBank.imageUrl}`}
+                      alt="void check"
+                    />
+                  </a>
+                ) : null}
+              </Grid>
+
+              <Grid item xs={12}>
+                <CustomTitle value="Principal Information" />
+              </Grid>
+
               {renderPrincipal}
-            </div>
+            </Grid>
           </div>
         </div>
       </div>
@@ -720,24 +742,22 @@ export default withRouter(
 function customLabel(questionId) {
   switch (questionId) {
     case 1:
-      return "Yes (if yes, who was the processor)";
+      return <CustomText value="Yes (if yes, who was the processor)" />;
     case 2:
-      return "Yes (if yes, who was the processor)";
+      return <CustomText value="Yes (if yes, who was the processor)" />;
     case 3:
-      return "Yes (if yes, date filed)";
+      return <CustomText value="Yes (if yes, date filed)" />;
     case 4:
-      return "Yes (if yes, what was program and when)";
+      return <CustomText value="Yes (if yes, what was program and when)" />;
     case 5:
-      return "Yes (if yes, who was your previous company)";
+      return <CustomText value="Yes (if yes, who was your previous company)" />;
     default:
-      return "Yes";
+      return <CustomText value="Yes" />;
   }
 }
 
 const AcceptSchema = Yup.object().shape({
-  merchantID: Yup.number()
-    .min(4, "Min 4 digit")
-    .required("Required"),
+  merchantID: Yup.number().min(4, "Min 4 digit").required("Required"),
   fee: Yup.number().required("Transaction fee is required"),
   discount: Yup.number().required("Discount rate is required"),
 });
