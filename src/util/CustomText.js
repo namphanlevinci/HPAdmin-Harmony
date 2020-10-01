@@ -4,14 +4,18 @@ import { Typography } from "@material-ui/core";
 
 const CustomTitle = ({ value }) => {
   return (
-    <Typography variant="h6" gutterBottom className="content__title">
+    <Typography variant="h6" className="content__title">
       {value}
     </Typography>
   );
 };
 
-const CustomTextLabel = ({ value }) => (
-  <Typography variant="subtitle1" className="content__label">
+const CustomTextLabel = ({ value, styles }) => (
+  <Typography
+    variant="subtitle1"
+    className="content__label"
+    style={styles ? styles : null}
+  >
     {value}
   </Typography>
 );

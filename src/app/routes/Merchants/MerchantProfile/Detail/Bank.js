@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Button from "@material-ui/core/Button";
+import { Button, Grid } from "@material-ui/core";
+import {
+  CustomText,
+  CustomTextLabel,
+  CustomTitle,
+} from "../../../../../util/CustomText";
 
 import CheckPermissions from "../../../../../util/checkPermission";
 
@@ -41,51 +46,48 @@ class Bank extends Component {
       ) : null;
     return (
       <div className="react-transition swipe-up">
-        <div className="container-fluid">
-          <h2 style={styles.h2}>Bank Information</h2>
+        <Grid container spacing={3} className="container-fluid">
+          <Grid item xs={12}>
+            <CustomTitle value="Bank Information" />
+          </Grid>
 
-          <div className="row">
-            <div className="col-3">
-              <label>Account Holder Name*</label>
-              <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
-                {e?.businessBank?.accountHolderName}
-              </p>
-            </div>
-            <div className="col-3">
-              <label>Bank Name*</label>
-              <p>{e?.businessBank?.name}</p>
-            </div>
-
-            <div className="col-3">
-              <label> Routing Number* (ABA)</label>
-              <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
-                {e?.businessBank?.routingNumber}
-              </p>
-            </div>
-            <div className="col-3">
-              <label>Account Number* (DDA)</label>
-              <p style={{ maxWidth: "250px", overflowWrap: "break-word" }}>
-                {e?.businessBank?.accountNumber}
-              </p>
-            </div>
-            <div className="col-4">
-              <label>Void Check*</label>
-              <br />
-              {/* <a
-                href={`${URL}/file/${e?.businessBank?.fileId}?fileName=VoidCheck-${e?.general?.doBusinessName}`}
+          <Grid item xs={3}>
+            <CustomTextLabel value="Account Holder Name*" />
+            <CustomText value={e?.businessBank?.accountHolderName} />
+          </Grid>
+          <Grid item xs={3}>
+            <CustomTextLabel value="Bank Name*" />
+            <CustomText value={e?.businessBank?.name} />
+          </Grid>
+          <Grid item xs={3}>
+            <CustomTextLabel value="Routing Number* (ABA)" />
+            <CustomText value={e?.businessBank?.routingNumber} />
+          </Grid>
+          <Grid item xs={3}>
+            <CustomTextLabel value="Account Number* (DDA)" />
+            <CustomText value={e?.businessBank?.accountNumber} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Void Check*" />
+            {e.businessBank !== null ? (
+              <a
+                href={`${URL}/file/${
+                  e?.businessBank?.fileId
+                }?fileName=VoidCheck-${(e?.general?.doBusinessName).trim()}`}
                 download
-              > */}
-              <img
-                className="bankVoid"
-                src={`${e?.businessBank?.imageUrl}`}
-                alt="void check"
-              />
-              {/* </a> */}
-            </div>
-            <br />
-            {renderOldImg}
-          </div>
-          <div
+              >
+                <img
+                  className="pending-image"
+                  src={`${e.businessBank.imageUrl}`}
+                  alt="void check"
+                />
+              </a>
+            ) : null}
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
             className="SettingsContent general-content"
             style={{ paddingTop: "15px" }}
           >
@@ -94,8 +96,8 @@ class Bank extends Component {
                 EDIT
               </Button>
             )}
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       </div>
     );
   }

@@ -60,31 +60,31 @@ export default {
   // Salary
   tipFee: {
     percent: {
-      value: 0,
+      value: (0).toFixed(2),
       isCheck: false,
     },
     fixedAmount: {
-      value: 0,
+      value: (0).toFixed(2),
       isCheck: false,
     },
   },
   salary: {
     perHour: {
       isCheck: false,
-      value: 0,
+      value: (0).toFixed(2),
     },
     commission: {
       isCheck: false,
-      value: 0,
+      value: (0).toFixed(2),
     },
   },
   productSalary: {
     commission: {
-      value: 0,
+      value: (0).toFixed(2),
       isCheck: false,
     },
   },
-  cashPercent: 0,
+  cashPercent: (0).toFixed(2),
   // License
   driverlicense: "",
   socialSecurityNumber: "",

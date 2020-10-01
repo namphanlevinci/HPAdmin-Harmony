@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Grid, Button } from "@material-ui/core";
 
-import Button from "@material-ui/core/Button";
-import formatPhone from "../../../../../../../../util/formatPhone";
+import {
+  CustomText,
+  CustomTextLabel,
+  CustomTitle,
+} from "../../../../../../../../util/CustomText";
+
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -13,102 +18,112 @@ export class general extends Component {
   render() {
     const Staff = this.props.Staff;
     return (
-      <div className="content">
-        <div className="container-fluid">
-          <div className="header">
-            <h2>General Information</h2>
-          </div>
-          <div className="row ">
-            <div className="col-4">
-              <label>First Name*</label>
-              <p>{Staff?.firstName}</p>
-            </div>
-            <div className="col-4">
-              <label>Last Name*</label>
-              <p>{Staff?.lastName}</p>
-            </div>
-            <div className="col-4">
-              <label>Display Name*</label>
-              <p>{Staff?.displayName}</p>
-            </div>
-            <div className="col-4">
-              <label>Address</label>
-              <p>{Staff?.address}</p>
-            </div>
-            <div className="col-4">
-              <label>City</label>
-              <p>{Staff?.city}</p>
-            </div>
-            <div className="col-4">
-              <label>State</label>
-              <p>{Staff?.stateName}</p>
-            </div>
-            <div className="col-4">
-              <label>Zip Code</label>
-              <p>{Staff?.zip}</p>
-            </div>
-            <div className="col-4">
-              <label>Cell Phone</label>
-              <p>{formatPhone(Staff?.phone)}</p>
-            </div>
-            <div className="col-4">
-              <label>Contact Email</label>
-              <p>{Staff?.email}</p>
-            </div>
-            <div className="col-4">
-              <label>Create PIN*</label>
-              <p>****</p>
-            </div>
-            <div className="col-4">
-              <FormControl component="fieldset">
-                <FormGroup aria-label="position" row>
-                  <FormControlLabel
-                    value="true"
-                    checked={Staff?.isActive}
-                    control={<Checkbox color="primary" />}
-                    label="Visible on App"
-                    labelPlacement="end"
-                  />
-                </FormGroup>
-              </FormControl>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4">
-              <label>Role</label>
-              <p>{Staff?.roleName}</p>
-            </div>
-            <div className="col-4">
-              <label>Status</label>
-              <p>{Staff?.isDisabled === 0 ? "Available" : "Not Available"}</p>
-            </div>
-            <div className="col-8">
-              <label>Avatar</label>
-              <div
-                style={{
-                  backgroundImage: `url(${Staff?.imageUrl})`,
-                  width: "220px",
-                  height: "220px",
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  borderRadius: "50%",
-                }}
+      <Grid container spacing={3} className="content">
+        <Grid item xs={12}>
+          <CustomTitle value="General Information" />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="First Name*" />
+          <CustomText value={Staff?.firstName} />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="Last Name*" />
+          <CustomText value={Staff?.lastName} />
+        </Grid>
+        <Grid item xs={4}>
+          <CustomTextLabel value="Display Name*" />
+          <CustomText value={Staff?.displayName} />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="Address" />
+          <CustomText value={Staff?.address} />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="City" />
+          <CustomText value={Staff?.city} />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="State" />
+          <CustomText value={Staff?.stateName} />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="Zip Code" />
+          <CustomText value={Staff?.zip} />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="Cell Phone" />
+          <CustomText value={Staff?.phone} />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="Contact Email" />
+          <CustomText value={Staff?.email} />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="Create PIN*" />
+          <CustomText value="****" />
+        </Grid>
+
+        <Grid item xs={4}>
+          <FormControl component="fieldset">
+            <FormGroup aria-label="position" row>
+              <FormControlLabel
+                value="true"
+                checked={Staff?.isActive}
+                control={<Checkbox color="primary" />}
+                label="Visible on App"
+                labelPlacement="end"
               />
-            </div>
-          </div>
-          <div style={{ marginTop: "25px" }}>
-            <Button
-              className="btn btn-green"
-              onClick={() =>
-                this.props.history.push("/app/merchants/staff/general/edit")
-              }
-            >
-              EDIT
-            </Button>
-          </div>
-        </div>
-      </div>
+            </FormGroup>
+          </FormControl>
+        </Grid>
+        <Grid item xs={4}></Grid>
+        <Grid item xs={4}>
+          <CustomTextLabel value="Role" />
+          <CustomText value={Staff?.roleName} />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomTextLabel value="Status" />
+          <CustomText
+            value={Staff?.isDisabled === 0 ? "Available" : "Not Available"}
+          />
+        </Grid>
+        <Grid item xs={4}></Grid>
+        <Grid item xs={4}>
+          <CustomTextLabel value="Avatar" />
+          <img
+            src={Staff?.imageUrl}
+            style={{
+              width: "100%",
+              height: "auto",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              borderRadius: "50%",
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} style={{ marginTop: "25px" }}>
+          <Button
+            className="btn btn-green"
+            onClick={() =>
+              this.props.history.push("/app/merchants/staff/general/edit")
+            }
+          >
+            EDIT
+          </Button>
+        </Grid>
+      </Grid>
     );
   }
 }

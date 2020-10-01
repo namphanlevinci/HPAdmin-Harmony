@@ -30,29 +30,29 @@ export default {
   // Business Information
   businessInfo: {
     question1: {
-      isAccept: false,
+      isAccept: "false",
       desc: "",
       question:
         "Has Merchant been previously identified by Visa/Mastercard Risk Programs?",
     },
     question2: {
-      isAccept: false,
+      isAccept: "false",
       desc: "",
       question:
         "Has Merchant or any associated principal and/or owners disclosed below filed bankruptcy or been subject to any involuntary bankruptcy?",
     },
     question3: {
-      isAccept: false,
+      isAccept: "false",
       desc: "",
       question: "Will product(s) or service(s) be sold outside of US?",
     },
     question4: {
-      isAccept: false,
+      isAccept: "false",
       desc: "",
       question: "Has a processor ever terminated your Merchant account?",
     },
     question5: {
-      isAccept: false,
+      isAccept: "false",
       desc: "",
       question: "Have you ever accepted Credit/Debit cards before?",
     },

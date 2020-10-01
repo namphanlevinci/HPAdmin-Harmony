@@ -61,7 +61,7 @@ function Bank(props) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
           <label>Void Check*</label>
 
           <div style={{ width: "100%", marginTop: "10px" }}>

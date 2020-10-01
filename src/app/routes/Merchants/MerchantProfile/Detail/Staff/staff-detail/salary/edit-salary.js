@@ -44,16 +44,16 @@ class EditSalary extends Component {
     const value = event.target.checked;
     this.setState({ ...this.state, [name]: value });
     if (name === "salaryIsCheck" && value === true) {
-      this.setState({ commIsCheck: false, commValue: 0 });
+      this.setState({ commIsCheck: false, commValue: (0).toFixed(2) });
     }
     if (name === "commIsCheck" && value === true) {
-      this.setState({ salaryIsCheck: false, salaryValue: 0 });
+      this.setState({ salaryIsCheck: false, salaryValue: (0).toFixed(2) });
     }
     if (name === "tipIsCheck" && value === true) {
-      this.setState({ fixIsCheck: false, fixValue: 0 });
+      this.setState({ fixIsCheck: false, fixValue: (0).toFixed(2) });
     }
     if (name === "fixIsCheck" && value === true) {
-      this.setState({ tipIsCheck: false, tipValue: 0 });
+      this.setState({ tipIsCheck: false, tipValue: (0).toFixed(2) });
     }
   };
 

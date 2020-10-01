@@ -29,17 +29,18 @@ export default function Question(props) {
             value={question1.isAccept}
             row
             name={`businessInfo.question1.isAccept`}
-            onChange={(e) =>
-              setFieldValue("businessInfo.question1.isAccept", e.target.checked)
-            }
+            onChange={(e) => [
+              console.log("e", e.target.value),
+              setFieldValue("businessInfo.question1.isAccept", e.target.value),
+            ]}
           >
             <FormControlLabel
-              value={false}
+              value="false"
               control={<Radio color="primary" />}
               label="No"
             />
             <FormControlLabel
-              value={true}
+              value="true"
               control={<Radio color="primary" />}
               label="Yes (if yes, who was the processor)"
             />
@@ -66,16 +67,16 @@ export default function Question(props) {
             row
             name={`businessInfo.question2.isAccept`}
             onChange={(e) =>
-              setFieldValue("businessInfo.question2.isAccept", e.target.checked)
+              setFieldValue("businessInfo.question2.isAccept", e.target.value)
             }
           >
             <FormControlLabel
-              value={false}
+              value="false"
               control={<Radio color="primary" />}
               label="No"
             />
             <FormControlLabel
-              value={true}
+              value="true"
               control={<Radio color="primary" />}
               label="Yes (if yes, who was the processor)"
             />
@@ -102,16 +103,16 @@ export default function Question(props) {
             row
             name={`businessInfo.question3.isAccept`}
             onChange={(e) =>
-              setFieldValue("businessInfo.question3.isAccept", e.target.checked)
+              setFieldValue("businessInfo.question3.isAccept", e.target.value)
             }
           >
             <FormControlLabel
-              value={false}
+              value="false"
               control={<Radio color="primary" />}
               label="No"
             />
             <FormControlLabel
-              value={true}
+              value="true"
               control={<Radio color="primary" />}
               label="Yes"
             />
@@ -126,16 +127,16 @@ export default function Question(props) {
             row
             name={`businessInfo.question4.isAccept`}
             onChange={(e) =>
-              setFieldValue("businessInfo.question4.isAccept", e.target.checked)
+              setFieldValue("businessInfo.question4.isAccept", e.target.value)
             }
           >
             <FormControlLabel
-              value={false}
+              value="false"
               control={<Radio color="primary" />}
               label="No"
             />
             <FormControlLabel
-              value={true}
+              value="true"
               control={<Radio color="primary" />}
               label="Yes (if yes, what was program and when)"
             />
@@ -162,16 +163,16 @@ export default function Question(props) {
             row
             name={`businessInfo.question5.isAccept`}
             onChange={(e) =>
-              setFieldValue("businessInfo.question5.isAccept", e.target.checked)
+              setFieldValue("businessInfo.question5.isAccept", e.target.value)
             }
           >
             <FormControlLabel
-              value={false}
+              value="false"
               control={<Radio color="primary" />}
               label="No"
             />
             <FormControlLabel
-              value={true}
+              value="true"
               control={<Radio color="primary" />}
               label="Yes (if yes, date filed)"
             />

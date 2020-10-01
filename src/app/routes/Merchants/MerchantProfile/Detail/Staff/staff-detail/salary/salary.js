@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { CustomTitle } from "../../../../../../../../util/CustomText";
 
 import {
   InputAdornment,
@@ -19,7 +20,7 @@ export class salary extends Component {
 
     return (
       <div className="container Salary">
-        <h2>Salary</h2>
+        <CustomTitle value="Salary" />
         <Grid container spacing={1} style={{ paddingTop: "10px" }}>
           <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">

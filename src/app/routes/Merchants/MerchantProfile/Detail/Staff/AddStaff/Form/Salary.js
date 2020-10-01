@@ -29,7 +29,7 @@ function Salary(props) {
                 onChange={(e) => [
                   setFieldValue("salary.perHour.isCheck", e.target.checked),
                   setFieldValue("salary.commission.isCheck", !e.target.checked),
-                  setFieldValue("salary.commission.value", 0),
+                  setFieldValue("salary.commission.value", (0).toFixed(2)),
                 ]}
                 label="Salary Per Hour"
               />
@@ -57,7 +57,7 @@ function Salary(props) {
                 onChange={(e) => [
                   setFieldValue("salary.commission.isCheck", e.target.checked),
                   setFieldValue("salary.perHour.isCheck", !e.target.checked),
-                  setFieldValue("salary.perHour.value", 0),
+                  setFieldValue("salary.perHour.value", (0).toFixed(2)),
                 ]}
                 label="Salary Commission"
               />
@@ -122,7 +122,7 @@ function Salary(props) {
                     "tipFee.fixedAmount.isCheck",
                     !e.target.checked
                   ),
-                  setFieldValue("tipFee.fixedAmount.value", 0),
+                  setFieldValue("tipFee.fixedAmount.value", (0).toFixed(2)),
                 ]}
                 label="Tip Percent"
               />
@@ -150,7 +150,7 @@ function Salary(props) {
                 onChange={(e) => [
                   setFieldValue("tipFee.fixedAmount.isCheck", e.target.checked),
                   setFieldValue("tipFee.percent.isCheck", !e.target.checked),
-                  setFieldValue("tipFee.percent.value", 0),
+                  setFieldValue("tipFee.percent.value", (0).toFixed(2)),
                 ]}
                 label="Tip Fixed Amount"
               />

@@ -114,3 +114,7 @@ label {
   color: #404040;
   font-weight: 500 !important;
 }
+
+.table__light {
+  font-weight: 300 !important;
+}

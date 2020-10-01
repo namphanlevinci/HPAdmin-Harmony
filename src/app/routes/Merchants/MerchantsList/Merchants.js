@@ -11,6 +11,7 @@ import {
   IconButton,
   FormControl,
   OutlinedInput,
+  Typography,
 } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
@@ -114,22 +115,30 @@ class Merchants extends React.Component {
       {
         Header: "ID",
         id: "merchantId",
-        accessor: (row) => <p>{row?.merchantId}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantId}
+          </Typography>
+        ),
         width: 60,
       },
       {
         Header: "MID",
         id: "mid",
-        accessor: (row) => <p>{row?.merchantCode}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantCode}
+          </Typography>
+        ),
       },
       {
         Header: "DBA",
         id: "general",
         accessor: "general",
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <Typography variant="subtitle1">
             {e?.value ? e.value.doBusinessName : null}
-          </p>
+          </Typography>
         ),
       },
       {
@@ -137,33 +146,45 @@ class Merchants extends React.Component {
         Header: "Owner",
         accessor: (e) => e?.principals?.[0],
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <Typography variant="subtitle1">
             {e?.value ? e.value.firstName + " " + e.value.lastName : null}
-          </p>
+          </Typography>
         ),
       },
       {
         Header: "Email",
         id: "email",
-        accessor: (row) => <p>{row?.email}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.email}
+          </Typography>
+        ),
       },
       {
         Header: "Store Phone",
         id: "phone",
-        accessor: (row) => <p>{row?.phone}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.phone}
+          </Typography>
+        ),
       },
       {
         Header: "Contact Phone",
         id: "contactPhone",
-        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.general?.phoneContact}
+          </Typography>
+        ),
       },
       {
         Header: "Status",
         accessor: "isDisabled",
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <Typography variant="subtitle1">
             {e.value === 0 ? "Active" : "Inactive"}
-          </p>
+          </Typography>
         ),
         width: 100,
       },
