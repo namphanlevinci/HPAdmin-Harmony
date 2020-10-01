@@ -367,51 +367,7 @@
     max-width: 350px;
     background-position: center;
   }
-  /* pop up confirm */
-  .POPUP .SettingsPopup2 h3 {
-    padding: 10px;
-    color: white !important;
-  }
-  .POPUP .SettingsPopup2 {
-    padding-top: 0px !important;
-    width: 400px;
-    left: 25%;
-    right: 25%;
-    top: 30%;
-    bottom: 45%;
-  }
-  .SettingsPopup2 .SettingsInner2 {
-    background-color: #4251af;
-  }
-  .SettingsPopup2 .settingText h4 {
-    padding: 15px;
-  }
-  .SettingsPopup2 .btn {
-    margin-left: 20px;
-    display: inline-block;
-    color: #666;
-    background-color: #eee;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 12px;
-    padding: 10px 25px;
-    border-radius: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-bottom-width: 3px;
-    font-weight: 900;
-  }
-  .SettingsPopup2 .btn-red {
-    background-color: #fff;
-    border-color: rgba(0, 0, 0, 0.3);
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-    color: #4251af;
-  }
-  .SettingsPopup2 .btn-green {
-    background-color: #4251af;
-    border-color: rgba(0, 0, 0, 0.3);
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-    color: #fff;
-  }
+
   .TransactionTable thead tr th {
     color: white;
     background-color: #4251af;
@@ -544,71 +500,15 @@
     margin-top: 0.25rem;
   }
   
-  @media (min-width: 1024px) and (max-width: 1280px) {
-    .popup-inner2 {
-      padding-top: 20px;
-      left: 25%;
-      right: 25%;
-      top: 15%;
-      bottom: 30%;
-    }
-    .POPUP .setting-popup {
-      bottom: 48%;
-    }
-    .popup-inner2 label {
-      width: 210px;
-    }
-    .popup-inner2 input {
-      width: 250px;
-    }
-  }
+
   @media (min-width: 768px) and (max-width: 1023px) {
     .content-body .content .container h2 {
       padding-top: 5px;
     }
-    .popup-inner2 {
-      padding-top: 10px;
-      background-color: rgba(0, 0, 0, 0.5);
-      position: absolute;
-      left: 25%;
-      right: 25%;
-      top: 15%;
-      bottom: 33%;
-      margin: auto;
-      background: white;
-    }
-    .popup-inner2 label {
-      display: inline-block;
-      width: 159px;
-      text-align: right;
-      line-height: 28pt;
-      font-weight: 500;
-      font-size: 14px;
-    }
-    .popup-inner2 input {
-      width: 200px;
-      text-align: center;
-    }
+    
   }
-  @media (min-width: 320px) and (max-width: 480px) {
-    .popup-inner2 {
-      padding-top: 10px;
-      background-color: rgba(0, 0, 0, 0.5);
-      position: absolute;
-      left: 17%;
-      right: 17%;
-      top: 15%;
-      bottom: 33%;
-      background: white;
-    }
-    .popup-inner2 label {
-      width: 143px;
-      font-size: 13px;
-    }
-    .popup-inner2 input {
-      width: 120px;
-    }
-  }
+  
+
   
   .addMoreExtra {
     background-color: #FAFAFA;

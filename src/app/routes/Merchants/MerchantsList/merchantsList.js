@@ -10,6 +10,7 @@ import {
   OutlinedInput,
   Typography,
 } from "@material-ui/core";
+import { CustomTableHeader } from "../../../../util/CustomText";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -110,7 +111,7 @@ class MerchantsList extends React.Component {
 
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         id: "merchantId",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
@@ -120,7 +121,7 @@ class MerchantsList extends React.Component {
         width: 60,
       },
       {
-        Header: "Approved Date",
+        Header: <CustomTableHeader value="Approved Date" />,
         id: "date",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
@@ -130,7 +131,7 @@ class MerchantsList extends React.Component {
         width: 130,
       },
       {
-        Header: "MID",
+        Header: <CustomTableHeader value="MID" />,
         id: "mid",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
@@ -139,7 +140,7 @@ class MerchantsList extends React.Component {
         ),
       },
       {
-        Header: "DBA",
+        Header: <CustomTableHeader value="DBA" />,
         id: "general",
         accessor: "general",
         Cell: (e) => (
@@ -150,7 +151,7 @@ class MerchantsList extends React.Component {
       },
       {
         id: "principals",
-        Header: "Owner",
+        Header: <CustomTableHeader value="Owner" />,
         accessor: (e) => e.principals[0],
         Cell: (e) => (
           <Typography variant="subtitle1">
@@ -159,7 +160,7 @@ class MerchantsList extends React.Component {
         ),
       },
       {
-        Header: "Email",
+        Header: <CustomTableHeader value="Email" />,
         id: "email",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
@@ -168,7 +169,7 @@ class MerchantsList extends React.Component {
         ),
       },
       {
-        Header: "Store Phone",
+        Header: <CustomTableHeader value="Store Phone" />,
         id: "phone",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
@@ -177,7 +178,7 @@ class MerchantsList extends React.Component {
         ),
       },
       {
-        Header: "Contact Phone",
+        Header: <CustomTableHeader value="Contact Phone" />,
         id: "phoneContact",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
@@ -187,7 +188,7 @@ class MerchantsList extends React.Component {
       },
       {
         id: "approvedBy",
-        Header: "Approved By",
+        Header: <CustomTableHeader value="Approved By" />,
         accessor: "adminUser",
         Cell: (e) => (
           <Typography variant="subtitle1" style={{ color: "#4251af" }}>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { GET_STAFF_BY_ID } from "../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../url/url";
+import { CustomTableHeader } from "../../../../../../util/CustomText";
 
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
@@ -9,7 +10,7 @@ import RestoreSVG from "../../../../../../assets/images/restore.svg";
 
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import ReactTable from "react-table";
-import Button from "@material-ui/core/Button";
+import { Button, Typography } from "@material-ui/core";
 import axios from "axios";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -139,49 +140,67 @@ class Staff extends Component {
       {
         Header: "Staff ID",
         id: "staffId",
-        accessor: (d) => <p style={{ fontWeight: 400 }}>{`${d.staffId}`}</p>,
+        accessor: (d) => (
+          <Typography variant="subtitle1" className="table__light">
+            {`${d.staffId}`}
+          </Typography>
+        ),
         width: 80,
       },
       {
         Header: "Name",
         id: "fullName",
         accessor: (d) => (
-          <p style={{ fontWeight: 400 }}>{`${d.firstName} ${d.lastName}`}</p>
+          <Typography variant="subtitle1">
+            {`${d.firstName} ${d.lastName}`}
+          </Typography>
         ),
       },
       {
         id: "Display",
         Header: "Display Name",
         accessor: (d) => (
-          <p style={{ fontWeight: 400 }}>{`${d.displayName}`}</p>
+          <Typography variant="subtitle1" className="table__light">
+            {`${d.displayName}`}
+          </Typography>
         ),
       },
       {
         Header: "Phone",
         id: "Phone",
-        accessor: (row) => <p>{formatPhone(row?.phone)}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.phone}
+          </Typography>
+        ),
       },
       {
         Header: "Email",
         id: "email",
-        accessor: (row) => <p>{formatPhone(row?.email)}</p>,
-        width: 230,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.email}
+          </Typography>
+        ),
+        width: 220,
       },
       {
         Header: "Role",
         id: "roleName",
         accessor: (row) => (
-          <p style={{ fontWeight: 400 }}>{formatPhone(row?.roleName)}</p>
+          <Typography variant="subtitle1">{row?.roleName}</Typography>
         ),
+        width: 80,
       },
       {
         Header: "Status",
         accessor: "isDisabled",
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <Typography variant="subtitle1">
             {e.value === 1 ? "Inactive" : "Active"}
-          </p>
+          </Typography>
         ),
+        width: 80,
       },
       {
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,

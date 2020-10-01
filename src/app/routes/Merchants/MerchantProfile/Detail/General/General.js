@@ -40,7 +40,6 @@ class General extends Component {
 
   render() {
     const e = this.props.MerchantProfile;
-    console.log("ẻ", e);
     const renderGeneral = (
       <Grid container spacing={3} className="container-fluid">
         <Grid item xs={12}>

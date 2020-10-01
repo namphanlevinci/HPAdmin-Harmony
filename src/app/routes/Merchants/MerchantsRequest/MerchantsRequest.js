@@ -13,7 +13,9 @@ import {
   IconButton,
   FormControl,
   OutlinedInput,
+  Typography,
 } from "@material-ui/core";
+import { CustomTableHeader } from "../../../../util/CustomText";
 
 import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
@@ -101,7 +103,6 @@ class MerchantsRequest extends Component {
 
   keyPressed = (event) => {
     if (event.key === "Enter") {
-      console.log("press 111");
       event.preventDefault();
       this.setState({ loading: true });
       this.fetchData();
@@ -118,58 +119,78 @@ class MerchantsRequest extends Component {
 
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         id: "merchantId",
-        accessor: (row) => <p>{row?.merchantId}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantId}
+          </Typography>
+        ),
         width: 60,
       },
       {
-        Header: "Submitted Date",
+        Header: <CustomTableHeader value="Submitted Date" />,
         id: "submitDate",
         accessor: (row) => (
-          <p>{moment(row?.createdDate).format("MM/DD/YYYY")}</p>
+          <Typography variant="subtitle1" className="table__light">
+            {moment(row?.createdDate).format("MM/DD/YYYY")}
+          </Typography>
         ),
       },
       {
-        Header: "DBA",
+        Header: <CustomTableHeader value="DBA" />,
         id: "general",
         accessor: (e) => (
-          <p style={{ fontWeight: 400 }}>{e?.general?.doBusinessName}</p>
+          <Typography variant="subtitle1">
+            {e?.general?.doBusinessName}
+          </Typography>
         ),
       },
       {
         id: "principals",
-        Header: "Owner",
+        Header: <CustomTableHeader value="Owner" />,
         accessor: (e) => e?.principals?.[0],
         Cell: (e) =>
           e?.value === undefined ? null : (
-            <p style={{ fontWeight: 400 }}>
+            <Typography variant="subtitle1">
               {e?.value?.firstName + " " + e?.value?.lastName}
-            </p>
+            </Typography>
           ),
       },
       {
-        Header: "Email",
+        Header: <CustomTableHeader value="Email" />,
         id: "email",
-        accessor: (row) => <p>{row?.email}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.email}
+          </Typography>
+        ),
       },
       {
-        Header: "Store Phone",
+        Header: <CustomTableHeader value="Store Phone" />,
         id: "phone",
-        accessor: (row) => <p>{row?.phone}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.phone}
+          </Typography>
+        ),
       },
       {
-        Header: "Contact Phone",
+        Header: <CustomTableHeader value="Contact Phone" />,
         id: "phoneContact",
-        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.general?.phoneContact}
+          </Typography>
+        ),
       },
       {
-        Header: "Status",
+        Header: <CustomTableHeader value="Status" />,
         id: "status",
         accessor: (row) => (
-          <p style={{ fontWeight: "400" }}>
+          <Typography variant="subtitle1">
             {Number(row?.status) === 1 ? "Handling" : "Pending"}
-          </p>
+          </Typography>
         ),
       },
     ];

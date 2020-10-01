@@ -118,3 +118,9 @@ label {
 .table__light {
   font-weight: 300 !important;
 }
+
+.table__header {
+  color: white;
+  padding-left: 5px;
+  line-height: 1.4 !important;
+}

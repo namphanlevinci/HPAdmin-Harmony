@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
 import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
+import { Button } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import Button from "@material-ui/core/Button";
 import General from "./Detail/General/General";
 import EditGeneral from "./Detail/General/EditGeneral";
 // import Business from "./Detail/Business";
