@@ -1,5 +1,3 @@
-import * as Yup from "yup";
-
 export default {
   sameAsBusiness: false,
   // General

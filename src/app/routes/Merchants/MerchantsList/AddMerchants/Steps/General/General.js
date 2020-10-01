@@ -149,7 +149,7 @@ export default function General(props) {
         <Grid item xs={12} sm={4}>
           <MaterialUiPhoneNumber
             onlyCountries={["us", "vn"]}
-            label="Business Phone Number"
+            label="Business Phone Number*"
             value={generalInfo.businessPhone}
             name={`generalInfo.businessPhone`}
             onChange={(e) => setFieldValue("generalInfo.businessPhone", e)}
@@ -192,7 +192,7 @@ export default function General(props) {
         <Grid item xs={12} sm={4}>
           <MaterialUiPhoneNumber
             onlyCountries={["us", "vn"]}
-            label="Contact Phone Number"
+            label="Contact Phone Number*"
             value={generalInfo.contactPhone}
             name={`generalInfo.contactPhone`}
             onChange={(e) => setFieldValue("generalInfo.contactPhone", e)}

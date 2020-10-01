@@ -129,7 +129,7 @@ export default function Principal(props) {
                           fullWidth
                           options={{
                             numericOnly: true,
-                            block: [5],
+                            blocks: [5],
                           }}
                         />
                       </Grid>

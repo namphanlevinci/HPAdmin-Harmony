@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 // import moment from "moment";
+const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
 
 export default [
   // General
@@ -26,11 +27,15 @@ export default [
       email: Yup.string()
         .email("Email is not valid")
         .required("Email is required"),
-      businessPhone: Yup.string().required("Business phone number is required"),
+      businessPhone: Yup.string()
+        .matches(phoneRegExp, "Business phone number is not valid")
+        .required("Business phone number is required"),
       firstName: Yup.string().required("First Name is required"),
       lastName: Yup.string().required("Last name is required"),
       position: Yup.string().required("Position is required"),
-      contactPhone: Yup.string().required("Contact phone number is required"),
+      contactPhone: Yup.string()
+        .matches(phoneRegExp, "Contact phone number is not valid")
+        .required("Contact phone number is required"),
     }),
   }),
 
@@ -56,7 +61,9 @@ export default [
         lastName: Yup.string().required("Last name is required"),
         position: Yup.string().required("Title/Position is required"),
         ownership: Yup.string().required("Ownership is required"),
-        mobilePhone: Yup.string().required("Mobile phone is required"),
+        mobilePhone: Yup.string()
+          .matches(phoneRegExp, "Mobile phone number is not valid")
+          .required("Mobile phone is required"),
         ssn: Yup.string().required("Social security number is required"),
         dateOfBirth: Yup.string()
           .required("Date of birth is required")
