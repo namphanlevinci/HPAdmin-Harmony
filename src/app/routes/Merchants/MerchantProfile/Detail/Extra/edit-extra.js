@@ -251,8 +251,8 @@ const EditExtra = ({
                         />
                       </FormControl>
                     </Grid>
-                    <Grid item xs={4} style={{ width: "100%" }}>
-                      <FormControl>
+                    <Grid item xs={4}>
+                      <FormControl style={{ width: "100%" }}>
                         <InputLabel id="demo-simple-select-helper-label">
                           Status*
                         </InputLabel>

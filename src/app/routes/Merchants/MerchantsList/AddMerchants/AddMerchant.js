@@ -140,13 +140,10 @@ class AddMerchant extends React.Component {
   //handle upload avatar
   uploadFile = (event, imageUrl, setFieldValue) => {
     const { name } = event.target;
-
     event.stopPropagation();
     event.preventDefault();
     this.setState({ progress: true });
-
     const file = event.target.files[0];
-
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {

@@ -87,7 +87,7 @@ export default function Principal(props) {
                       </Grid>
                       <Grid item xs={12} sm={4}>
                         <CustomPhoneField
-                          label="Mobile Phone"
+                          label="Mobile Phone*"
                           fullWidth
                           name={`principalInfo.${index}.mobilePhone`}
                           onChange={(e) =>

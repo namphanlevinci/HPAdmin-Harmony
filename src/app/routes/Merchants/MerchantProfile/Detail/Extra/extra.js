@@ -27,6 +27,7 @@ import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
+import EditExtra from "./edit-extra";
 
 import "react-table/react-table.css";
 
@@ -62,8 +63,6 @@ class ExtraTab extends Component {
 
   handleImageChange = (e) => {
     e.preventDefault();
-
-    // handle preview Image
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
@@ -73,7 +72,6 @@ class ExtraTab extends Component {
       });
     };
     reader.readAsDataURL(file);
-    // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
@@ -121,6 +119,7 @@ class ExtraTab extends Component {
       imageUrl,
       fileId,
       supplyFee,
+      edit: true,
     });
   };
 
@@ -300,7 +299,7 @@ class ExtraTab extends Component {
             </div>
             <div></div>
           </div>
-          {/* <EditExtra
+          <EditExtra
             getExtra={this.props.GET_MERCHANT_EXTRA}
             edit={this.state.edit}
             data={this.state}
@@ -310,7 +309,7 @@ class ExtraTab extends Component {
             merchantId={this.props.MerchantProfile.merchantId}
             SuccessNotify={this.props.SuccessNotify}
             FailureNotify={this.props.FailureNotify}
-          /> */}
+          />
           <div className="merchant-list-container">
             <ReactTable
               data={extraList}

@@ -69,7 +69,7 @@ export default function General(props) {
         <Grid item xs={12} md={3}>
           <SelectField
             name={`generalInfo.businessAddress.state`}
-            label="State"
+            label="State*"
             data={State}
             fullWidth
           />
@@ -122,7 +122,7 @@ export default function General(props) {
         <Grid item xs={12} md={3}>
           <SelectField
             name={`generalInfo.dbaAddress.state`}
-            label="State"
+            label="State*"
             data={State}
             fullWidth
           />

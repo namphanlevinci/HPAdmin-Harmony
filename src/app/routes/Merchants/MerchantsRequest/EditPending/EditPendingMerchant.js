@@ -3,7 +3,18 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../../url/url";
 import { GET_MERCHANT_BY_ID } from "../../../../../actions/merchants/actions";
-import { CustomTitle } from "../../../../../util/CustomText";
+import { TextField, Grid } from "@material-ui/core";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+  WARNING_NOTIFICATION,
+} from "../../../../../actions/notifications/actions";
+import { Formik, Form } from "formik";
+import {
+  CustomText,
+  CustomTextLabel,
+  CustomTitle,
+} from "../../../../../util/CustomText";
 
 import EditPrincipal from "./EditPrincipal";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
@@ -14,15 +25,10 @@ import axios from "axios";
 import LinearProgress from "../../../../../util/linearProgress";
 import SimpleReactValidator from "simple-react-validator";
 import CustomSelect from "../../../../../util/getState";
-import { TextField, Grid } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../../actions/notifications/actions";
+
 import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 import update from "immutability-helper";
 
@@ -233,8 +239,52 @@ class EditPendingMerchant extends Component {
           <div className="header col-12">
             <h3>{"HP-" + e.merchantId}</h3>
           </div>
+          <CustomTitle value />
           <hr />
           <div className="content react-transition swipe-right">
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              validate={(values) => {
+                const errors = {};
+                if (!values.email) {
+                  errors.email = "Required";
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                  errors.email = "Invalid email address";
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                setTimeout(() => {
+                  alert(JSON.stringify(values, null, 2));
+                  setSubmitting(false);
+                }, 400);
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+                /* and other goodies */
+              }) => (
+                <Form onSubmit={handleSubmit}>
+                  <input
+                    type="email"
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                  />
+                  {errors.email && touched.email && errors.email}
+                </Form>
+              )}
+            </Formik>
+
             <Grid container spacing={3} className="container-fluid">
               <Grid item xs={12}>
                 <CustomTitle value="General Information" />
