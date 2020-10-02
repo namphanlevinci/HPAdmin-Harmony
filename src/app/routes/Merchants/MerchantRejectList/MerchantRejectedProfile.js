@@ -3,8 +3,12 @@ import { connect } from "react-redux";
 import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import { store } from "react-notifications-component";
 import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../actions/notifications/actions";
+
 import { config } from "../../../../url/url";
 import { Grid } from "@material-ui/core";
 import {
@@ -43,17 +47,9 @@ class MerchantRejectedProfile extends Component {
       openDelete: false,
     };
   }
-  _handleChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  }
 
   _goRevert = () => {
-    const ID = this.props.RejectedProfile.merchantId;
+    const ID = this.props.Profile.merchantId;
     axios
       .put(URL + "/merchant/restorepending/" + ID, null, {
         headers: {
@@ -62,36 +58,12 @@ class MerchantRejectedProfile extends Component {
       })
       .then(async (res) => {
         if (res.data.message === "Success") {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.SUCCESS_NOTIFICATION(res.data.message);
           this.props.history.push("/app/merchants/pending");
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: "Something went wrong, please try again.",
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.FAILURE_NOTIFICATION(
+            "Something went wrong, please try again."
+          );
         }
       });
   };
@@ -104,7 +76,7 @@ class MerchantRejectedProfile extends Component {
   };
 
   handleDeleteMerchant = () => {
-    const ID = this.props.RejectedProfile.merchantId;
+    const ID = this.props.Profile.merchantId;
     const path = "/app/merchants/rejected";
     const payload = { ID, path };
 
@@ -113,9 +85,8 @@ class MerchantRejectedProfile extends Component {
   };
 
   render() {
-    const e = this.props.RejectedProfile;
-
-    let principalLength = this.props.RejectedProfile?.principals?.length;
+    const e = this.props.Profile;
+    let principalLength = this.props.Profile?.principals?.length;
     // render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
@@ -459,7 +430,7 @@ class MerchantRejectedProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  RejectedProfile: state.ViewProfile_Rejected,
+  Profile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -469,24 +440,16 @@ const mapDispatchToProps = (dispatch) => ({
   deleteMerchant: (payload) => {
     dispatch(DELETE_MERCHANT(payload));
   },
+  SUCCESS_NOTIFICATION: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  FAILURE_NOTIFICATION: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
+  },
 });
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(MerchantRejectedProfile)
 );
-
-const styles = {
-  h2: {
-    padding: "10px 0px",
-    color: "#4251af",
-    fontWeight: "400",
-    margin: "0",
-  },
-  div: {
-    marginLeft: "40%",
-    textAlign: "left",
-    marginBottom: "10px",
-  },
-};
 
 function customLabel(questionId) {
   switch (questionId) {

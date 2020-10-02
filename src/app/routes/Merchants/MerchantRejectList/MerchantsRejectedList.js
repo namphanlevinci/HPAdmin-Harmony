@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import {
-  getAll_Rejected_Merchants,
-  ViewMerchant_Rejected_Merchants,
-} from "../../../../actions/merchants/actions";
+import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
@@ -183,7 +180,11 @@ class MerchantsRequest extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.merchantProfile(rowInfo.original.merchantId);
+            // this.merchantProfile(rowInfo.original.merchantId);
+            this.props.GET_MERCHANT_BY_ID({
+              ID: rowInfo.original.merchantId,
+              path: "/app/merchants/rejected/profile",
+            });
           }
         },
       };
@@ -250,11 +251,8 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Rejected_Merchants: () => {
-    dispatch(getAll_Rejected_Merchants());
-  },
-  ViewMerchant_Rejected_Merchants: (payload) => {
-    dispatch(ViewMerchant_Rejected_Merchants(payload));
+  GET_MERCHANT_BY_ID: (payload) => {
+    dispatch(GET_MERCHANT_BY_ID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);
