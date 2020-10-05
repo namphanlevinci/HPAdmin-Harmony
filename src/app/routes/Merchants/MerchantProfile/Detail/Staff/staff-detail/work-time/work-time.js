@@ -243,12 +243,7 @@ export class workTime extends Component {
             />
           </div>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          className="SettingsContent general-content"
-          style={{ paddingTop: "10px" }}
-        >
+        <Grid item xs={12} style={{ paddingTop: "10px" }}>
           <Button
             className="btn btn-green"
             onClick={() =>

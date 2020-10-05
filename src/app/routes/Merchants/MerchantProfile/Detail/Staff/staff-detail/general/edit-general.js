@@ -408,7 +408,7 @@ export class EditGeneral extends Component {
               />
             </div>
           </div>
-          <div className="SettingsContent general-content" style={styles.div}>
+          <div style={styles.div}>
             <Button className="btn btn-green" onClick={this.handleUpdateStaff}>
               SAVE
             </Button>

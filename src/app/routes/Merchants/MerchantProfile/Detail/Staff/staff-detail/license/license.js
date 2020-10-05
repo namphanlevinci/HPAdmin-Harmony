@@ -30,12 +30,7 @@ export class license extends Component {
           <CustomText value={Staff?.professionalLicense} />
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          className="SettingsContent general-content"
-          style={{ marginTop: "200px" }}
-        >
+        <Grid item xs={12} style={{ marginTop: "200px" }}>
           <Button
             className="btn btn-green"
             onClick={() =>
@@ -57,12 +52,3 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(license);
-
-// const styles = {
-//   h2: {
-//     paddingBottom: "10px",
-//   },
-//   input: {
-//     marginBottom: "10px",
-//   },
-// };

@@ -111,7 +111,7 @@ class PrincipalInfo extends Component {
             }
           </Grid>
         </React.Fragment>
-        <Grid item xs={12} className="SettingsContent general-content">
+        <Grid item xs={12}>
           {CheckPermissions("edit-merchant") && (
             <Button
               className="btn btn-green"
@@ -124,7 +124,7 @@ class PrincipalInfo extends Component {
           <Button
             className="btn btn-red"
             onClick={() =>
-              this.props.history.push("/app/merchants/profile/pincipal")
+              this.props.history.push("/app/merchants/profile/principal")
             }
           >
             BACK
@@ -191,12 +191,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrincipalInfo);
-
-const styles = {
-  h2: {
-    paddingBottom: "10px",
-  },
-  input: {
-    marginBottom: "10px",
-  },
-};

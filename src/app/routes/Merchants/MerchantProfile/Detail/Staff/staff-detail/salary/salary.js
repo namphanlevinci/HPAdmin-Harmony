@@ -170,10 +170,7 @@ export class salary extends Component {
             />
           </Grid>
         </Grid>
-        <div
-          className="SettingsContent general-content"
-          style={{ paddingTop: "20px" }}
-        >
+        <div style={{ paddingTop: "20px" }}>
           <Button
             className="btn btn-green"
             onClick={() =>
