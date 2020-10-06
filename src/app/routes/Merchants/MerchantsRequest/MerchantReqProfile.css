@@ -171,9 +171,8 @@ h4 {
   visibility: hidden;
 }
 
-.pending_status > div {
+.pending_status  {
   background-color: #4251af;
-  width: 15%;
   text-align: center;
 }
 .pending_status .loading-progress {
@@ -181,14 +180,20 @@ h4 {
   color: white;
 }
 
-.pending_status > div > .status_select {
+.pending_status  > .status_select {
   color: white;
   width: 130px;
   padding: 5px 10px;
+  border-bottom: none;
+}
+
+.pending_status .MuiInputBase-root {
+  border-bottom: none;
 }
 
 .pending_status {
-  padding: 10px 15px;
+  /* padding: 5px; */
+  margin-bottom: 15px;
 }
 .pending_status .MuiSelect-icon {
   color: white !important;
@@ -214,6 +219,43 @@ h4 {
 
 .accept-container h2 {
   text-align: center;
+}
+
+.principal-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-principal {
+  color: #4251af;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 5px;
+}   
+.add-principal:hover {
+ 
+  font-weight: 700;
+}
+.remove-principal {
+  cursor: pointer;
+  color: #4251af;
+}
+
+.error-message {
+  color: #f44336;
+  margin: 0;
+  font-size: 0.75rem;
+  text-align: left;
+  font-weight: 400;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+}
+
+.pending-image {
+  width: 100%;
+  height: auto;
+  max-width: 250px;
+  background-position: center;
 }
 
 @media (min-width: 1024px) and (max-width: 1280px) {

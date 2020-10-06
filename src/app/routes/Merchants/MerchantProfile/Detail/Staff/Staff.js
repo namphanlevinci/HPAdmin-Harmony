@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { GET_STAFF_BY_ID } from "../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../url/url";
-import { CustomTableHeader } from "../../../../../../util/CustomText";
+// import { CustomTableHeader } from "../../../../../../util/CustomText";
 
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
@@ -17,7 +17,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import formatPhone from "../../../../../../util/formatPhone";
 import ScaleLoader from "../../../../../../util/scaleLoader";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";

@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import {
   ViewProfile_Merchants,
   UpdateMerchant_Infor,
-  GetMerchant_byID,
   GET_MERCHANT_BY_ID,
 } from "../../../../actions/merchants/actions";
 import { ViewMerchant_Rejected_Merchants } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import { Button, Grid } from "@material-ui/core";
 import { CustomTitle } from "../../../../util/CustomText";
@@ -24,9 +22,6 @@ import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../util/getState";
 import InputCustom from "../MerchantsList/addMerchant/custom-input";
 import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
 
 import "../MerchantProfile/MerchantProfile.css";
 import "../MerchantsRequest/MerchantReqProfile.css";
@@ -98,7 +93,7 @@ class EditMerchantRejected extends Component {
   };
 
   render() {
-    const e = this.props.MerchantProfile;
+    // const e = this.props.MerchantProfile;
 
     return (
       <div className="content general-content react-transition swipe-right">

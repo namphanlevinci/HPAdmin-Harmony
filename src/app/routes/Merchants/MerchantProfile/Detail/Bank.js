@@ -109,9 +109,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Bank);
-
-const styles = {
-  h2: {
-    paddingBottom: "10px",
-  },
-};

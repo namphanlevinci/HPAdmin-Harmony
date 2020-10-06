@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
-import { store } from "react-notifications-component";
 import { Grid } from "@material-ui/core";
 import {
   TextField,
@@ -22,7 +21,6 @@ import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
-import CurrencyInput from "react-currency-masked-input";
 
 const URL = config.url.URL;
 const upFile = config.url.upFile;

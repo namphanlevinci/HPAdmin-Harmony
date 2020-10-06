@@ -74,7 +74,7 @@ class addAdmin2 extends Component {
   };
 
   render() {
-    let { imagePreviewUrl, loading } = this.state;
+    let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (

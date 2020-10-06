@@ -26,7 +26,7 @@ import moment from "moment";
 import ScaleLoader from "../../../../util/scaleLoader";
 
 import "react-table/react-table.css";
-import "./MerchantsRequest.css";
+// import "./MerchantsRequest.css";
 import "../MerchantsList/merchantsList.css";
 
 const URL = config.url.URL;

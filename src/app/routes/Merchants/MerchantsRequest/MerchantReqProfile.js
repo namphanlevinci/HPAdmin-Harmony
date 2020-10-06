@@ -35,7 +35,7 @@ import * as Yup from "yup";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import "./MerchantReqProfile.css";
-import "./MerchantsRequest.css";
+// import "./MerchantsRequest.css";
 import "bootstrap/js/src/collapse.js";
 
 const URL = config.url.URL;
@@ -518,51 +518,49 @@ class MerchantReqProfile extends Component {
           </div>
           <hr />
 
-          <div className="pending_status ">
-            <div>
-              {this.props.setPendingStatus ? (
-                <div className="loading-progress">
-                  <CircularProgress
-                    size={20}
-                    style={{
-                      color: "white",
-                    }}
-                  />
-                </div>
-              ) : (
-                <Select
-                  value={e.status}
-                  onChange={this.handleSetStatus}
-                  displayEmpty
-                  className="status_select"
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value={0}>Pending</MenuItem>
-                  <MenuItem value={1}>Handling</MenuItem>
-                </Select>
-              )}
-            </div>
-            {Number(e.handlingActivities.length) !== 0 && (
-              <>
-                <h4>
-                  By{" "}
-                  <span style={{ fontWeight: 500 }}>
-                    {e.handlingActivities[0]?.waUserName}
-                  </span>
-                </h4>
-                <CustomText
-                  value={`Date/Time:
+          <Grid item xs={3} className="pending_status">
+            {this.props.setPendingStatus ? (
+              <div className="loading-progress">
+                <CircularProgress
+                  size={20}
+                  style={{
+                    color: "white",
+                  }}
+                />
+              </div>
+            ) : (
+              <Select
+                value={e.status}
+                onChange={this.handleSetStatus}
+                displayEmpty
+                className="status_select"
+                inputProps={{ "aria-label": "Without label" }}
+              >
+                <MenuItem value={0}>Pending</MenuItem>
+                <MenuItem value={1}>Handling</MenuItem>
+              </Select>
+            )}
+          </Grid>
+          {Number(e.handlingActivities.length) !== 0 && (
+            <>
+              <h4>
+                By{" "}
+                <span style={{ fontWeight: 500 }}>
+                  {e.handlingActivities[0]?.waUserName}
+                </span>
+              </h4>
+              <CustomText
+                value={`Date/Time:
                     ${moment(e.handlingActivities[0]?.createDate).format(
                       "MM/DD/YYYY - hh:mm A"
                     )}`}
-                />
-              </>
-            )}
-          </div>
+              />
+            </>
+          )}
 
           <hr />
           <div className="content react-transition swipe-right">
-            <Grid container spacing={3} className="container-fluid">
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <CustomTitle value="General Information" />
               </Grid>
@@ -687,12 +685,12 @@ class MerchantReqProfile extends Component {
                   <a
                     href={`${URL}/file/${
                       e?.businessBank?.fileId
-                    }?fileName=VoidCheck-${(e?.general?.doBusinessName).trim()}`}
+                    }?fileName=VoidCheck-${e?.general?.doBusinessName?.trim()}`}
                     download
                   >
                     <img
                       className="pending-image"
-                      src={`${e.businessBank.imageUrl}`}
+                      src={`${e?.businessBank?.imageUrl}`}
                       alt="void check"
                     />
                   </a>

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Route, NavLink, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import { MdPerson } from "react-icons/md";
 
 import IntlMessages from "../../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../../components/ContainerHeader/index";

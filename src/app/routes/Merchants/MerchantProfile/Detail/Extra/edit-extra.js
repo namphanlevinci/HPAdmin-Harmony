@@ -1,7 +1,6 @@
 import React from "react";
 import { Formik } from "formik";
 import { config } from "../../../../../../url/url";
-import { withStyles } from "@material-ui/core/styles";
 
 import {
   TextField,
@@ -12,7 +11,6 @@ import {
   Select,
   MenuItem,
   InputAdornment,
-  DialogTitle,
 } from "@material-ui/core";
 
 import Dialog from "@material-ui/core/Dialog";
@@ -21,10 +19,7 @@ import axios from "axios";
 import Button from "@material-ui/core/Button";
 import defaultImg from "./hpadmin2.png";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
-import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
 
 import "./extra.styles.scss";
 

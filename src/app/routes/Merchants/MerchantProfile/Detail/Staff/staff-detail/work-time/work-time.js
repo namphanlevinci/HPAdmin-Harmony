@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 
 import {
-  CustomText,
   CustomTextLabel,
   CustomTitle,
 } from "../../../../../../../../util/CustomText";
