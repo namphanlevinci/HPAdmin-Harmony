@@ -13,6 +13,7 @@ const initialState = {
   Permissions: [],
   GettingPermissions: false,
   LoggedUser: "",
+  loadingAllPermissions: false,
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
@@ -57,8 +58,14 @@ const userReducer = (state = initialState, { type, payload }) => {
     case types.GET_PERMISSION_ON_LOGIN_SUCCESS:
       return { ...state, UserPermissions: payload };
 
+    case types.GET_ALL_PERMISSION:
+      return { ...state, loadingAllPermissions: true };
+
     case types.GET_ALL_PERMISSION_SUCCESS:
-      return { ...state, Permissions: payload };
+      return { ...state, Permissions: payload, loadingAllPermissions: false };
+
+    case types.GET_ALL_PERMISSION_FAILURE:
+      return { ...state, loadingAllPermissions: false };
 
     case types.UPDATE_PERMISSIONS_SUCCESS:
       return { ...state };

@@ -2,9 +2,12 @@ import React from "react";
 
 import { Typography } from "@material-ui/core";
 
-const CustomTitle = ({ value }) => {
+const CustomTitle = ({ value, className }) => {
   return (
-    <Typography variant="h6" className="content__title">
+    <Typography
+      variant="h6"
+      className={className ? `${className}  content__title` : "content__title"}
+    >
       {value}
     </Typography>
   );

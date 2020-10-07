@@ -4,9 +4,15 @@
   font-weight: 500;
 }
 
+.permission_role_name {
+  text-align: center;
+}
+
 .role_permissions > h3 {
   font-weight: 400;
   font-size: 24px;
+
+ 
 }
 .role_permissions p {
   color: #4251af;
@@ -14,9 +20,7 @@
   font-weight: 400;
 }
 
-.permission_name > h4 {
-  font-size: 18px;
-  color: #4251af;
+.permission_name > h6 {
   padding: 5px 0px;
   margin: 15px 0px;
 }
@@ -26,20 +30,18 @@
   width: 98%;
   white-space: nowrap;
 }
-.permission_name_container > p {
-  font-size: 15px;
+.permission_name_container  > h6 {
   color: black;
   font-weight: 400;
-  padding: 10px 0px 10px 15px;
+  padding: 10px 0px 6px 15px;
   margin-bottom: 0px;
 }
 
 .permission_name > .none {
   color: white;
-  height: 31px;
 }
 .permission_name_check {
-  padding: 0px 15px;
+  padding: 1px 15px;
   box-shadow: 0 0 0 1px #dddddd;
   width: 98%;
 }

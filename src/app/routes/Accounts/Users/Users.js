@@ -250,7 +250,6 @@ class Users extends Component {
 
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
-  UserList: state.getAllUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   GET_USER_REQUEST: () => {

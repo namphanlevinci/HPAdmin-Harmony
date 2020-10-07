@@ -4,13 +4,11 @@ import { connectRouter } from "connected-react-router";
 import Settings from "./Settings";
 // USER
 import userReducer from "./User/UserReducer";
-import getAllUser from "./User/getAllUser";
 // import Verify from "./User/Verify";
 // import addAdminUser from "./User/addAdmin";
 // MERCHANT ACCEPTED LIST
 import ViewProfile_Merchants from "./Merchants/ViewProfile_Merchants";
 import ViewProfile_Rejected from "./Merchants/ViewProfile_Rejected";
-
 import VIEW_SERVICE_EDIT from "./Merchants/viewService";
 
 // GET MERCHANT BY ID
@@ -44,7 +42,7 @@ export default (history) =>
   combineReducers({
     router: connectRouter(history),
     settings: Settings,
-    getAllUser,
+
     userReducer,
     ViewProfile_Merchants,
 

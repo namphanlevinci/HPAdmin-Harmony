@@ -6,15 +6,17 @@ import {
   UPDATE_PERMISSIONS,
   GET_PERMISSION_BY_ID,
 } from "../../../../actions/user/actions";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // import ReactTable from "react-table";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-// import data from "./data.json";
+import { CustomTitle } from "../../../../util/CustomText";
 import update from "immutability-helper";
 import CheckPermissions from "../../../../util/checkPermission";
+import Typography from "@material-ui/core/Typography";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -200,9 +202,15 @@ class Roles extends Component {
     const renderPermissionName = adminPermissions?.actions?.map((item) => {
       return (
         <div key={item.actionId} className="permission_name">
-          {item.title && <h4>{item.title}</h4>}
+          {item.title && (
+            <Typography variant="h6" gutterBottom>
+              {item.title}
+            </Typography>
+          )}
           <div className="permission_name_container">
-            <p>{item.name}</p>
+            <Typography variant="subtitle1" gutterBottom>
+              {item.name}
+            </Typography>
           </div>
         </div>
       );
@@ -211,7 +219,11 @@ class Roles extends Component {
     const renderAdmin = adminPermissions?.actions?.map((item) => {
       return (
         <div key={item.actionId} className="permission_name">
-          {item.title && <h4 className="none">{item.title}</h4>}
+          {item.title && (
+            <Typography variant="h6" gutterBottom className="none">
+              null
+            </Typography>
+          )}
 
           <div
             style={{ textAlign: "center" }}
@@ -231,7 +243,11 @@ class Roles extends Component {
     const renderManager = managerPermissions?.actions?.map((item) => {
       return (
         <div key={item.actionId} className="permission_name">
-          {item.title && <h4 className="none">{item.title}</h4>}
+          {item.title && (
+            <Typography variant="h6" gutterBottom className="none">
+              null
+            </Typography>
+          )}
 
           <div
             style={{ textAlign: "center" }}
@@ -251,7 +267,11 @@ class Roles extends Component {
     const renderStaffLv1 = staff1Permissions?.actions?.map((item) => {
       return (
         <div key={item.actionId} className="permission_name">
-          {item.title && <h4 className="none">{item.title}</h4>}
+          {item.title && (
+            <Typography variant="h6" gutterBottom className="none">
+              null
+            </Typography>
+          )}
 
           <div
             style={{ textAlign: "center" }}
@@ -271,7 +291,11 @@ class Roles extends Component {
     const renderStaffLv2 = staff2Permissions?.actions?.map((item) => {
       return (
         <div key={item.actionId} className="permission_name">
-          {item.title && <h4 className="none">{item.title}</h4>}
+          {item.title && (
+            <Typography variant="h6" gutterBottom className="none">
+              null
+            </Typography>
+          )}
 
           <div
             style={{ textAlign: "center" }}
@@ -313,52 +337,71 @@ class Roles extends Component {
 
             <ReactTable columns={department} data={data} minRows={1} />
           </div> */}
-          <div className="role_permissions">
-            <h3>Permissions</h3>
-            <Grid container spacing={0}>
-              <Grid item xs={6} sm={4}>
-                <p>Roles</p>
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                <p style={styles.p}>Administrator</p>
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                <p style={styles.p}>Manager</p>
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                <p style={styles.p}>Staff Level 1</p>
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                <p style={styles.p}>Staff Level 2</p>
-              </Grid>
-              <Grid item xs={6} sm={4}>
-                {renderPermissionName}
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                {renderAdmin}
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                {renderManager}
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                {renderStaffLv1}
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                {renderStaffLv2}
-              </Grid>
-            </Grid>
 
-            {CheckPermissions("edit-role") && (
-              <div style={styles.btn}>
-                <Button
-                  className="btn btn-green"
-                  onClick={this.handleUpdatePermission}
-                >
-                  SAVE
-                </Button>
-              </div>
-            )}
-          </div>
+          {this.props.isLoading ? (
+            <div style={styles.loading}>
+              <CircularProgress size={42} />
+            </div>
+          ) : (
+            <div className="role_permissions">
+              <h3>Permissions</h3>
+              <Grid container spacing={0}>
+                <Grid item xs={6} sm={4}>
+                  <CustomTitle value="Roles" />
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  <CustomTitle
+                    value="Administrator"
+                    className="permission_role_name"
+                  />
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  <CustomTitle
+                    value="Manager"
+                    className="permission_role_name"
+                  />
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  <CustomTitle
+                    value="Staff Level 1"
+                    className="permission_role_name"
+                  />
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  <CustomTitle
+                    value="Staff Level 2"
+                    className="permission_role_name"
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4}>
+                  {renderPermissionName}
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  {renderAdmin}
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  {renderManager}
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  {renderStaffLv1}
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  {renderStaffLv2}
+                </Grid>
+              </Grid>
+
+              {CheckPermissions("edit-role") && (
+                <div style={styles.btn}>
+                  <Button
+                    className="btn btn-green"
+                    onClick={this.handleUpdatePermission}
+                  >
+                    SAVE
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -368,6 +411,7 @@ class Roles extends Component {
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer?.User,
   permissions: state.userReducer.Permissions,
+  isLoading: state.userReducer?.loadingAllPermissions,
 });
 const mapDispatchToProps = (dispatch) => ({
   GET_ALL_PERMISSION: () => {
@@ -399,7 +443,10 @@ const styles = {
   role: {
     textAlign: "center !important",
   },
-  p: {
-    textAlign: "center",
+  loading: {
+    display: "flex",
+    justifyContent: "center",
+    minHeight: "500px",
+    alignItems: "center",
   },
 };

@@ -21,7 +21,6 @@ const persistConfig = {
     "Verify_User",
     "ApprovedStatic",
     "getConsumerUsers",
-    "getAllUser",
     "getLogs",
     "getAllBatch",
   ],
