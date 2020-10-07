@@ -8,7 +8,6 @@ import SelectField from "../FormFields/SelectField";
 import Time from "../../time";
 function WorkTime(props) {
   const {
-    handleChange,
     setFieldValue,
 
     initValue: {

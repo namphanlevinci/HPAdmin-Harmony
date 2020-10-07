@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
   ViewProfile_Merchants,
-  UpdateMerchant_Infor,
+  UPDATE_MERCHANT,
   GET_MERCHANT_BY_ID,
 } from "../../../../actions/merchants/actions";
 import { ViewMerchant_Rejected_Merchants } from "../../../../actions/merchants/actions";
@@ -479,7 +479,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(ViewProfile_Merchants(payload));
     },
     updateMerchant: (payload) => {
-      dispatch(UpdateMerchant_Infor(payload));
+      dispatch(UPDATE_MERCHANT(payload));
     },
     GET_MERCHANT_BY_ID: (payload) => {
       dispatch(GET_MERCHANT_BY_ID(payload));

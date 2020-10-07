@@ -101,6 +101,7 @@ export class general extends Component {
         <Grid item xs={4}>
           <CustomTextLabel value="Avatar" />
           <img
+            alt="staff"
             src={Staff?.imageUrl}
             style={{
               width: "100%",

@@ -174,7 +174,7 @@ class General extends Component {
         </Grid>
         {renderQuestion}
 
-        <Grid item xs={12} className="SettingsContent general-content">
+        <Grid item xs={12} className="general-content">
           {CheckPermissions("edit-merchant") && (
             <Button className="btn btn-green" onClick={this._toggleEdit}>
               EDIT
@@ -192,12 +192,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({});
 export default connect(mapStateToProps, mapDispatchToProps)(General);
-
-const styles = {
-  h2: {
-    paddingBottom: "10px",
-  },
-};
 
 function customLabel(questionId) {
   switch (questionId) {

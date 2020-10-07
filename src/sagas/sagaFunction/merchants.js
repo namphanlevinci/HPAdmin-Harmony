@@ -3,8 +3,8 @@ import {
   // GET_ALL_MERCHANT_API,
   UPDATE_MERCHANT_API,
   GET_MERCHANT_BY_ID_API,
-  GET_ALL_REJECTED_MERCHANT_API,
-  GET_ALL_MERCHANT_REQUEST_API,
+  // GET_ALL_REJECTED_MERCHANT_API,
+  // GET_ALL_MERCHANT_REQUEST_API,
   APPROVE_MERCHANT_API,
   REJECT_MERCHANT_API,
   DELETE_MERCHANT_API,
@@ -52,18 +52,26 @@ import * as typeNotification from "../../actions/notifications/types";
 
 // UPDATE MERCHANT INFOR (GENERAL)
 export function* UPDATE_MERCHANT_SAGA() {
-  yield takeLatest(typeMerchant.UpdateMerchant_Infor, function* (action) {
+  yield takeLatest(typeMerchant.UPDATE_MERCHANT, function* (action) {
     const data = action.payload;
     try {
-      const UpdateInfor = yield UPDATE_MERCHANT_API(data);
-      if (UpdateInfor !== null) {
+      const Result = yield UPDATE_MERCHANT_API(data);
+      if (Result !== null) {
         yield put({
-          type: typeMerchant.UpdateMerchant_Infor_Success,
-          payload: UpdateInfor,
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+
+        yield put({
+          type: typeMerchant.GET_MERCHANT_BY_ID,
+          payload: {
+            ID: data.merchantId,
+            path: "/app/merchants/profile/general",
+          },
         });
       } else {
         yield put({
-          type: typeMerchant.UpdateMerchant_Infor_Error,
+          type: typeNotification.FAILURE_NOTIFICATION,
           payload: "Something went wrong, please try again later!",
         });
       }
@@ -98,49 +106,50 @@ export function* GET_MERCHANT_BY_ID_SAGA() {
     }
   });
 }
-// GET REJECTED MERCHANTS
-export function* GET_ALL_REJECTED_MERCHANT_SAGA() {
-  yield takeLatest(typeMerchant.getAll_Rejected_Merchants, function* () {
-    try {
-      const MerchantRejected = yield GET_ALL_REJECTED_MERCHANT_API();
-      if (MerchantRejected !== null) {
-        yield put({
-          type: typeMerchant.getAll_Rejected_Merchants_Success,
-          payload: MerchantRejected,
-        });
-      } else {
-        yield put({
-          type: typeMerchant.getAll_Rejected_Merchants_Error,
-          payload: "Something went wrong, please try again later!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
-}
+// // GET REJECTED MERCHANTS
+// export function* GET_ALL_REJECTED_MERCHANT_SAGA() {
+//   yield takeLatest(typeMerchant.getAll_Rejected_Merchants, function* () {
+//     try {
+//       const MerchantRejected = yield GET_ALL_REJECTED_MERCHANT_API();
+//       if (MerchantRejected !== null) {
+//         yield put({
+//           type: typeMerchant.getAll_Rejected_Merchants_Success,
+//           payload: MerchantRejected,
+//         });
+//       } else {
+//         yield put({
+//           type: typeMerchant.getAll_Rejected_Merchants_Error,
+//           payload: "Something went wrong, please try again later!",
+//         });
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   });
+// }
 
 // GET ALL MERCHANT REQUEST
-export function* GET_ALL_MERCHANT_REQUEST_SAGA() {
-  yield takeLatest(typeMerchant.getAll_Merchant_Requests, function* () {
-    try {
-      const MerchantRequests = yield GET_ALL_MERCHANT_REQUEST_API();
-      if (MerchantRequests !== null) {
-        yield put({
-          type: typeMerchant.getAll_Merchant_Requests_Success,
-          payload: MerchantRequests,
-        });
-      } else {
-        yield put({
-          type: typeMerchant.getAll_Merchant_Requests_Error,
-          payload: "Something went wrong, please try again later!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
-}
+// export function* GET_ALL_MERCHANT_REQUEST_SAGA() {
+//   yield takeLatest(typeMerchant.getAll_Merchant_Requests, function* () {
+//     try {
+//       const MerchantRequests = yield GET_ALL_MERCHANT_REQUEST_API();
+//       if (MerchantRequests !== null) {
+//         yield put({
+//           type: typeMerchant.getAll_Merchant_Requests_Success,
+//           payload: MerchantRequests,
+//         });
+//       } else {
+//         yield put({
+//           type: typeMerchant.getAll_Merchant_Requests_Error,
+//           payload: "Something went wrong, please try again later!",
+//         });
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   });
+// }
+
 // SEND APPROVAL REQUEST
 export function* MERCHANT_APPROVAL_SAGA() {
   yield takeLatest(typeMerchant.MERCHANT_APPROVAL, function* (action) {

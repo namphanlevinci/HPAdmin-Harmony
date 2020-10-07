@@ -10,7 +10,6 @@ import {
 
 import moment from "moment";
 import CheckPermissions from "../../../../../../util/checkPermission";
-import formatPhone from "../../../../../../util/formatPhone";
 import NumberFormat from "react-number-format";
 
 import "./principal.styles.scss";

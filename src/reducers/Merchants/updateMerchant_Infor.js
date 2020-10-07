@@ -8,7 +8,7 @@ const initialState = {
 
 const updateMerchant_Infor = (state = initialState, { type, payload }) => {
   switch (type) {
-    case types.UpdateMerchant_Infor_Success:
+    case types.UPDATE_MERCHANT_SUCCESS:
       state.Data = payload;
 
       store.addNotification({
@@ -27,7 +27,7 @@ const updateMerchant_Infor = (state = initialState, { type, payload }) => {
       });
 
       return { ...state };
-    case types.UpdateMerchant_Infor_Error:
+    case types.UPDATE_MERCHANT_ERROR:
       store.addNotification({
         title: "ERROR!",
         message: "Something went wrong",

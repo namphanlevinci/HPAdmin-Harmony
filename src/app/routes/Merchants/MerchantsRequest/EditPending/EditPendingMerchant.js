@@ -16,7 +16,6 @@ import * as Yup from "yup";
 import { Typography } from "@material-ui/core";
 import defaultImage from "./hpadmin2.png";
 
-import EditPrincipal from "./EditPrincipal";
 import ContainerHeader from "../../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../../util/IntlMessages";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
@@ -26,11 +25,6 @@ import CustomPhoneField from "../../MerchantsList/AddMerchants/FormFields/Custom
 import ErrorMessage from "../../MerchantsList/AddMerchants/FormFields/ErrorMessage";
 import SelectField from "../../MerchantsList/AddMerchants/FormFields/SelectField";
 import DatePickerField from "../../MerchantsList/AddMerchants/FormFields/DatePickerField";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 
 import CancelIcon from "@material-ui/icons/Cancel";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -64,7 +58,7 @@ class EditPendingMerchant extends Component {
   uploadFile = (e, setFieldValue, name, imageUrlName) => {
     e.preventDefault();
     let file = e.target.files[0];
-    this.setState({ progress: true });
+    // this.setState({ progress: true });
 
     let formData = new FormData();
     formData.append("Filename3", file);
@@ -233,7 +227,7 @@ class EditPendingMerchant extends Component {
                     /* and other goodies */
                   }) => (
                     <Form onSubmit={handleSubmit}>
-                      <Grid container spacing={3}>
+                      <Grid container spacing={6}>
                         <Grid item xs={12}>
                           <CustomTitle value="General Information" />
                         </Grid>
@@ -587,7 +581,7 @@ class EditPendingMerchant extends Component {
                         </Grid>
                         <FieldArray name="principalInfo">
                           {(arrayHelpers) => (
-                            <div style={{ margin: "0px 10px" }}>
+                            <div style={{ margin: "0px 23px" }}>
                               {values.principalInfo &&
                               values.principalInfo.length > 0 ? (
                                 values.principalInfo.map((principal, index) => {
@@ -611,7 +605,7 @@ class EditPendingMerchant extends Component {
                                           />
                                         ) : null}
                                       </Grid>
-                                      <Grid container spacing={3}>
+                                      <Grid container spacing={6}>
                                         <Grid item xs={12} sm={4}>
                                           <InputField
                                             name={`principalInfo.${index}.firstName`}
@@ -767,7 +761,7 @@ class EditPendingMerchant extends Component {
                                           />
                                         </Grid>
                                       </Grid>
-                                      <Grid container spacing={3}>
+                                      <Grid container spacing={6}>
                                         <Grid item xs={12} sm={4}>
                                           <label>Driver License Picture*</label>
 
@@ -887,7 +881,7 @@ class EditPendingMerchant extends Component {
                           )}
                         </FieldArray>
                       </Grid>
-                      <Grid item xs={12} style={{ paddingTop: "20px" }}>
+                      <Grid item xs={12} style={{ marginTop: "30px" }}>
                         <Button
                           className="btn btn-red"
                           onClick={() =>

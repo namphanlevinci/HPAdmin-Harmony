@@ -13,7 +13,6 @@ import ViewProfile_Rejected from "./Merchants/ViewProfile_Rejected";
 
 import VIEW_SERVICE_EDIT from "./Merchants/viewService";
 
-import updateMerchant_Infor from "./Merchants/updateMerchant_Infor";
 // GET MERCHANT BY ID
 import getMerchant_byID from "./Merchants/getMerchant_byID";
 // NOTIFICATIONS
@@ -57,7 +56,6 @@ export default (history) =>
     getConsumerUsers: getAll_ConsumerUsers,
     userTransaction: getUser_Transaction,
     userActivity: getUser_Activity,
-    updateMerchant_Infor,
     getMerchant: getMerchant_byID,
 
     uQuestions: Update_Questions,
