@@ -5,9 +5,13 @@ import {
   DELETE_CONSUMER_BY_ID,
   RESTORE_CONSUMER_BY_ID,
 } from "../../../../../actions/consumer/actions";
+import {
+  CustomText,
+  CustomTextLabel,
+  CustomTitle,
+} from "../../../../../util/CustomText";
 
-import Button from "@material-ui/core/Button";
-
+import { Button, Grid } from "@material-ui/core";
 import CheckPermissions from "../../../../../util/checkPermission";
 import DisableConsumer from "./DisableConsumer.js";
 
@@ -59,40 +63,35 @@ class General extends Component {
     return (
       <div className="content ">
         <div className="react-transition swipe-right consumer__general">
-          <div className="container-fluid">
-            <h2 style={{ paddingBottom: "10px" }}>General Information</h2>
-
-            <div className="row" style={{ marginTop: "15px" }}>
-              <div className="col-sm-4 col-md-3">
-                <label style={styles.label}>First Name*</label>
-                <p style={styles.p}>{e?.firstName}</p>
-              </div>
-              <div className="col-sm-4 col-md-3">
-                <label style={styles.label}>Last Name*</label>
-                <p style={styles.p}>{e?.lastName}</p>
-              </div>
-
-              <div className="col-sm-12 col-md-6">
-                <label style={styles.label}>Contact Email*</label>
-                <p style={styles.p}>{e?.email}</p>
-              </div>
-              <div className="col-sm-4  col-md-3">
-                <label style={styles.label}>Phone Number*</label>
-                <p style={styles.p}>{e?.phone}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="SettingsContent general-content"
-          style={{ marginTop: "20px", display: "flex" }}
-        >
-          {CheckPermissions("edit-consumer") && (
-            <Button className="btn btn-green" onClick={this.EditPage}>
-              EDIT
-            </Button>
-          )}
-          {CheckPermissions("active-consumer") && ConsumerStatus}
+          <Grid container spacing={3} className="container-fluid">
+            <Grid item xs={12}>
+              <CustomTitle value="General Information" />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomTextLabel value="First Name*" />
+              <CustomText value={e?.firstName} />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Last Name*" />
+              <CustomText value={e?.lastName} />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Contact Email*" />
+              <CustomText value={e?.email} />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Phone Number*" />
+              <CustomText value={e?.phone} />
+            </Grid>
+            <Grid item xs={12} style={{ marginTop: "20px", display: "flex" }}>
+              {CheckPermissions("edit-consumer") && (
+                <Button className="btn btn-green" onClick={this.EditPage}>
+                  EDIT
+                </Button>
+              )}
+              {CheckPermissions("active-consumer") && ConsumerStatus}
+            </Grid>
+          </Grid>
         </div>
       </div>
     );
@@ -115,16 +114,3 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);
-
-const styles = {
-  p: { fontWeight: 400, color: "black" },
-  Form: {
-    marginTop: "10px",
-  },
-  btnDiv: {
-    marginTop: "10px",
-  },
-  label: {
-    fontSize: "13px",
-  },
-};

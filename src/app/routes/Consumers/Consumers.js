@@ -4,7 +4,8 @@ import { GET_CONSUMER_BY_ID } from "../../../actions/consumer/actions";
 import { store } from "react-notifications-component";
 import { config } from "../../../url/url";
 import { Helmet } from "react-helmet";
-
+import { CustomTableHeader } from "../../../util/CustomText";
+import { Typography } from "@material-ui/core";
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
@@ -49,7 +50,6 @@ class Consumers extends React.Component {
       )
       .then((res) => {
         const data = res.data.data;
-        console.log("data", data);
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,
@@ -98,10 +98,13 @@ class Consumers extends React.Component {
     const { page, pageCount, data } = this.state;
     const columns = [
       {
-        Header: "Harmony ID",
+        Header: <CustomTableHeader value="Harmony ID" />,
         id: "accountId",
-        accessor: (row) => <p>{row?.accountId}</p>,
-        width: 170,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.accountId}
+          </Typography>
+        ),
       },
       {
         Header: "Harmony ID",
@@ -110,42 +113,59 @@ class Consumers extends React.Component {
         show: false,
       },
       {
-        Header: " First Name",
+        Header: <CustomTableHeader value=" First Name" />,
         id: "firstName",
         accessor: (row) => (
-          <p style={{ fontWeight: "400" }}>{row?.firstName}</p>
+          <Typography variant="subtitle1">{row?.firstName}</Typography>
         ),
       },
       {
-        Header: "Last Name",
+        Header: <CustomTableHeader value="Last Name" />,
         id: "lastName",
-        accessor: (row) => <p style={{ fontWeight: "400" }}>{row?.lastName}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1">{row?.lastName}</Typography>
+        ),
       },
       {
-        Header: "Phone number",
+        Header: <CustomTableHeader value="Phone number" />,
         id: "phone",
-        accessor: (row) => <p>{row?.phone}</p>,
-        width: 180,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.phone}
+          </Typography>
+        ),
       },
       {
-        Header: "Email",
+        Header: <CustomTableHeader value="Email" />,
         id: "email",
-        accessor: (row) => <p>{row?.email}</p>,
-        width: 300,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.email}
+          </Typography>
+        ),
       },
       {
-        Header: "Balance",
+        Header: <CustomTableHeader value="Balance" />,
         id: "balance",
         accessor: (e) => e.credit,
-        Cell: (e) => <p>${e.value}</p>,
+        Cell: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            ${e.value}
+          </Typography>
+        ),
       },
       {
         id: "totalAmount",
-        Header: "Money spent/Daily",
+        Header: <CustomTableHeader value="Money spent/Daily" />,
         accessor: (e) => Number(e.totalAmount).toFixed(2),
         sortMethod: (a, b) => Number(a) - Number(b),
         Cell: (e) => (
-          <p className={Number(e.value) > 10000 ? "BIG" : ""}>${e.value}</p>
+          <Typography
+            variant="subtitle1"
+            className={Number(e.value) > 10000 ? "BIG" : ""}
+          >
+            ${e.value}
+          </Typography>
         ),
       },
       {

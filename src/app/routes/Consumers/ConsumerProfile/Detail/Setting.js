@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { UPDATE_CONSUMER } from "../../../../../actions/consumer/actions";
+import { CustomTitle, CustomTextLabel } from "../../../../../util/CustomText";
 
 import {
   InputAdornment,
@@ -49,20 +50,21 @@ class Setting extends Component {
     return (
       <div className="react-transition swipe-right consumer__setting">
         <div className="container-fluid">
-          <h2 style={{ margin: "25px 0px" }}>
-            Daily transactions limit (unit $)
-          </h2>
-          <p style={styles.p}>
-            The HarmonyPay system will alert any user and prevent any use
-            involved monetary transfer or transfers that are:
-          </p>
-          <p style={styles.p}>
+          <CustomTitle value="Daily transactions limit (unit $)" />
+          <CustomTextLabel
+            value=" The HarmonyPay system will alert any user and prevent any use
+            involved monetary transfer or transfers that are:"
+          />
+
+          <CustomTextLabel
+            value="
             a. More than $10,000 in total from either cash-in or cash-out.
-          </p>
+          "
+          />
 
-          <p style={styles.p}>b. Is conducted by the same person.</p>
+          <CustomTextLabel value="b. Is conducted by the same person." />
 
-          <p style={styles.p}>c. Is conducted on the same business day.</p>
+          <CustomTextLabel value="c. Is conducted on the same business day." />
 
           <div style={{ marginTop: "3px" }}>
             <FormControl>
@@ -86,15 +88,11 @@ class Setting extends Component {
               />
             </FormControl>
           </div>
-        </div>
-
-        <div
-          className="SettingsContent general-content"
-          style={{ marginTop: "20px" }}
-        >
-          <Button className="btn btn-green" onClick={this.Update}>
-            SAVE
-          </Button>
+          <div className=" general-content" style={{ marginTop: "20px" }}>
+            <Button className="btn btn-green" onClick={this.Update}>
+              SAVE
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -112,12 +110,3 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Setting);
-
-const styles = {
-  p: {
-    fontWeight: "400",
-    fontSize: "16px",
-    color: "#707070",
-    lineHeight: "8px",
-  },
-};
