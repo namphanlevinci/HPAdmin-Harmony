@@ -22,13 +22,7 @@
 
 const prod = {
   url: {
-<<<<<<< HEAD
     URL: "https://admin.harmonypayment.com/api",
-=======
-    // URL: "https://admin.stage.harmonypayment.com/api",
-    // upFile: "https://admin.stage.harmonypayment.com/api/file?category=service",
-    URL: "https://admin.stage.harmonypayment.com/api",
->>>>>>> staging
     upFile: "https://admin.harmonypayment.com/api/file?category=product",
   },
 };
