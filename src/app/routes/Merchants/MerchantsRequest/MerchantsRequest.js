@@ -8,6 +8,14 @@ import { connect } from "react-redux";
 import { store } from "react-notifications-component";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
+import {
+  InputAdornment,
+  IconButton,
+  FormControl,
+  OutlinedInput,
+  Typography,
+} from "@material-ui/core";
+import { CustomTableHeader } from "../../../../util/CustomText";
 
 import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
@@ -18,7 +26,7 @@ import moment from "moment";
 import ScaleLoader from "../../../../util/scaleLoader";
 
 import "react-table/react-table.css";
-import "./MerchantsRequest.css";
+// import "./MerchantsRequest.css";
 import "../MerchantsList/merchantsList.css";
 
 const URL = config.url.URL;
@@ -111,58 +119,78 @@ class MerchantsRequest extends Component {
 
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         id: "merchantId",
-        accessor: (row) => <p>{row?.merchantId}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantId}
+          </Typography>
+        ),
         width: 60,
       },
       {
-        Header: "Submitted Date",
+        Header: <CustomTableHeader value="Submitted Date" />,
         id: "submitDate",
         accessor: (row) => (
-          <p>{moment(row?.createdDate).format("MM/DD/YYYY")}</p>
+          <Typography variant="subtitle1" className="table__light">
+            {moment(row?.createdDate).format("MM/DD/YYYY")}
+          </Typography>
         ),
       },
       {
-        Header: "DBA",
+        Header: <CustomTableHeader value="DBA" />,
         id: "general",
         accessor: (e) => (
-          <p style={{ fontWeight: 400 }}>{e?.general?.doBusinessName}</p>
+          <Typography variant="subtitle1">
+            {e?.general?.doBusinessName}
+          </Typography>
         ),
       },
       {
         id: "principals",
-        Header: "Owner",
+        Header: <CustomTableHeader value="Owner" />,
         accessor: (e) => e?.principals?.[0],
         Cell: (e) =>
           e?.value === undefined ? null : (
-            <p style={{ fontWeight: 400 }}>
+            <Typography variant="subtitle1">
               {e?.value?.firstName + " " + e?.value?.lastName}
-            </p>
+            </Typography>
           ),
       },
       {
-        Header: "Email",
+        Header: <CustomTableHeader value="Email" />,
         id: "email",
-        accessor: (row) => <p>{row?.email}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.email}
+          </Typography>
+        ),
       },
       {
-        Header: "Store Phone",
+        Header: <CustomTableHeader value="Store Phone" />,
         id: "phone",
-        accessor: (row) => <p>{row?.phone}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.phone}
+          </Typography>
+        ),
       },
       {
-        Header: "Contact Phone",
+        Header: <CustomTableHeader value="Contact Phone" />,
         id: "phoneContact",
-        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.general?.phoneContact}
+          </Typography>
+        ),
       },
       {
-        Header: "Status",
+        Header: <CustomTableHeader value="Status" />,
         id: "status",
         accessor: (row) => (
-          <p style={{ fontWeight: "400" }}>
+          <Typography variant="subtitle1">
             {Number(row?.status) === 1 ? "Handling" : "Pending"}
-          </p>
+          </Typography>
         ),
       },
     ];
@@ -187,19 +215,27 @@ class MerchantsRequest extends Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._SearchMerchants}
-                  onKeyPress={this.keyPressed}
-                />
-              </form>
-            </div>
+            <FormControl>
+              <OutlinedInput
+                inputProps={{
+                  style: {
+                    padding: 14,
+                  },
+                }}
+                placeholder="Search.."
+                value={this.state.search}
+                onChange={this._SearchMerchants}
+                onKeyPress={this.keyPressed}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton edge="end">
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={0}
+              />
+            </FormControl>
           </div>
           <ScaleLoader isLoading={this.state.isLoading} />
 

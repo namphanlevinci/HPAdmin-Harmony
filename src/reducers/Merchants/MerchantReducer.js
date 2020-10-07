@@ -2,11 +2,12 @@ import * as types from "../../actions/merchants/types";
 
 const initialState = {
   MerchantData: "",
-  setPendingStatus: "",
+  setPendingStatus: false,
   PrincipalData: "",
   ServiceData: "",
-  ExtraData: "",
+  ExtraData: [],
   StaffData: "",
+  AddStaff: false,
 };
 
 const MerchantReducer = (state = initialState, { type, payload }) => {
@@ -17,8 +18,14 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
     case types.GET_MERCHANT_BY_ID_SUCCESS:
       state.MerchantData = payload;
       return { ...state };
+    case types.SET_PENDING_STATUS:
+      state.setPendingStatus = true;
+      return { ...state };
     case types.SET_PENDING_STATUS_SUCCESS:
-      state.setPendingStatus = payload;
+      state.setPendingStatus = false;
+      return { ...state };
+    case types.SET_PENDING_STATUS_FAILURE:
+      state.setPendingStatus = false;
       return { ...state };
     case types.VIEW_PRINCIPAL:
       state.PrincipalData = payload;
@@ -31,6 +38,13 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
       return { ...state };
     case types.GET_STAFF_BY_ID_SUCCESS:
       state.StaffData = payload;
+      return { ...state };
+
+    case types.ADD_STAFF:
+      state.AddStaff = payload;
+      return { ...state };
+    case types.MERCHANT_APPROVAL_SUCCESS:
+      state = payload;
       return { ...state };
     default:
       return state;

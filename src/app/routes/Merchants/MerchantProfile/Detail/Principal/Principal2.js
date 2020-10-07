@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { VIEW_PRINCIPAL } from "../../../../../../actions/merchants/actions";
+import { Grid, Button } from "@material-ui/core";
+import {
+  CustomText,
+  CustomTextLabel,
+  CustomTitle,
+} from "../../../../../../util/CustomText";
+
 import moment from "moment";
-import Button from "@material-ui/core/Button";
 import CheckPermissions from "../../../../../../util/checkPermission";
-import formatPhone from "../../../../../../util/formatPhone";
 import NumberFormat from "react-number-format";
 
 import "./principal.styles.scss";
@@ -25,76 +30,88 @@ class PrincipalInfo extends Component {
     const e = this.props.principalData;
 
     return (
-      <div className="react-transition swipe-up principal-container container-fuild">
-        <h2 style={styles.h2}>Principal Information</h2>
-        <div className="row" key={e?.principalId}>
-          <div className="col-4">
-            <label>Name*</label>
-            <p>{e?.firstName + " " + e?.lastName}</p>
-          </div>
-          <div className="col-4">
-            <label>Title/Position*</label>
-            <p>{e?.title}</p>
-          </div>
-          <div className="col-4">
-            <label>Ownership* (%)</label>
-            <p>{e?.ownerShip}%</p>
-          </div>
-          <div className="col-4">
-            <label>Home Phone</label>
-            <p>{formatPhone(e?.homePhone)}</p>
-          </div>
-          <div className="col-4">
-            <label>Mobile Phone*</label>
-            <p>{formatPhone(e?.mobilePhone)}</p>
-          </div>
-          <div className="col-4">
-            <label>Address*</label>
-            <p>{e?.address}</p>
-          </div>
-          <div className="col-4">
-            <label>Social Security Number* (SSN)</label>
+      <Grid
+        container
+        spacing={3}
+        className="react-transition swipe-up principal-container container-fluid"
+      >
+        <Grid item xs={12}>
+          <CustomTitle value="Principal Information" />
+        </Grid>
+        <React.Fragment key={e?.principalId}>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Name*" />
+            <CustomText value={e.firstName + " " + e.lastName} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Title/Position*" />
+            <CustomText value={e.title} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Ownership* (%)" />
+            <CustomText value={`${e.ownerShip}%`} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Home Phone" />
+            <CustomText value={e.homePhone} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Mobile Phone*" />
+            <CustomText value={e.mobilePhone} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Address*" />
+            <CustomText value={e.address} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Social Security Number* (SSN)" />
+
             <NumberFormat
-              value={e?.ssn}
+              value={e.ssn}
               displayType={"text"}
               thousandSeparator={true}
               p
-              format="***-**-####"
+              format="###-##-####"
               mask="_"
-              renderText={(value) => <p>{value}</p>}
+              renderText={(value) => <CustomText value={value} />}
             />
-          </div>
-          <div className="col-4">
-            <label>Date of Birth* (mm/dd/yyyy)*</label>
-            <p>{moment(e?.birthDate).format("MM/DD/YYYY")}</p>
-          </div>
-          <div className="col-4">
-            <label>Email Address*</label>
-            <p>{e?.email}</p>
-          </div>
-          <div className="col-4">
-            <label>Driver License Number*</label>
-            <p>{e?.driverNumber}</p>
-          </div>
-          <div className="col-4">
-            <label>State Issued*</label>
-            <p>{e?.state !== undefined ? e?.state?.name : null}</p>
-          </div>
-          <div className="col-6">
-            <label>Driver License Picture*</label> <br />
-            <img
-              style={{
-                width: "250px",
-                height: "200px",
-                marginBottom: "40px",
-              }}
-              src={`${e?.imageUrl}`}
-              alt="void check"
-            />
-          </div>
-        </div>
-        <span className="SettingsContent general-content">
-          {CheckPermissions(14) && (
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />
+            <CustomText value={moment(e.birthDate).format("MM/DD/YYYY")} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Email Address*" />
+            <CustomText value={e.email} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Driver License Number*" />
+            <CustomText value={e.driverNumber} />
+          </Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="State Issued*" />
+            <CustomText value={e?.state?.name} />
+          </Grid>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={4}>
+            <CustomTextLabel value="Driver License Picture*" />
+
+            {
+              <a
+                href={`${URL}/file/${e?.fileId}?fileName=DriverLicense-${this.props.PendingProfile?.general?.doBusinessName}`}
+                download
+              >
+                <img
+                  className="pending-image"
+                  src={`${e?.imageUrl}`}
+                  alt="driver license"
+                />
+              </a>
+            }
+          </Grid>
+        </React.Fragment>
+        <Grid item xs={12}>
+          {CheckPermissions("edit-merchant") && (
             <Button
               className="btn btn-green"
               onClick={() => this.editPrincipal(e)}
@@ -106,52 +123,54 @@ class PrincipalInfo extends Component {
           <Button
             className="btn btn-red"
             onClick={() =>
-              this.props.history.push("/app/merchants/profile/pincipal")
+              this.props.history.push("/app/merchants/profile/principal")
             }
           >
             BACK
           </Button>
-        </span>
+        </Grid>
         {e?.arrayOldData !== undefined
           ? e?.arrayOldData.map((e, index) => {
               return (
-                <div className="row" key={index}>
+                <React.Fragment key={index}>
                   <hr />
-                  <div className="col-4">
-                    <label>Home Phone</label>
-                    <p>{formatPhone(e?.homePhone)}</p>
-                  </div>
-                  <div className="col-4">
-                    <label>Mobile Phone*</label>
-                    <p>{formatPhone(e?.mobilePhone)}</p>
-                  </div>
-                  <div className="col-4">
-                    <label>Address*</label>
-                    <p>{e?.address}</p>
-                  </div>
-                  <div className="col-4">
-                    <label>State Issued*</label>
-                    <p>{e?.stateName}</p>
-                  </div>
-                  <div className="col-4">
-                    <label>Driver License Number*</label>
-                    <p>{e?.driverNumber}</p>
-                  </div>{" "}
+                  <Grid item xs={4}>
+                    <CustomTextLabel value="Home Phone" />
+                    <CustomText value={e.homePhone} />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <CustomTextLabel value="Mobile Phone*" />
+                    <CustomText value={e.mobilePhone} />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <CustomTextLabel value="Address*" />
+                    <CustomText value={e.address} />
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <CustomTextLabel value="State Issued*" />
+                    <CustomText value={e?.stateName} />
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <CustomTextLabel value="Driver License Number*" />
+                    <CustomText value={e.driverNumber} />
+                  </Grid>
                   {e?.ImageUrl !== null ? (
-                    <div className="col-6">
-                      <label>Driver License Picture*</label> <br />
+                    <Grid item xs={6}>
+                      <CustomTextLabel value="Driver License Picture*" />
                       <img
                         className="bankVoid"
                         src={`${e?.ImageUrl}`}
                         alt="driver license"
                       />
-                    </div>
+                    </Grid>
                   ) : null}
-                </div>
+                </React.Fragment>
               );
             })
           : null}
-      </div>
+      </Grid>
     );
   }
 }
@@ -171,12 +190,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrincipalInfo);
-
-const styles = {
-  h2: {
-    paddingBottom: "10px",
-  },
-  input: {
-    marginBottom: "10px",
-  },
-};

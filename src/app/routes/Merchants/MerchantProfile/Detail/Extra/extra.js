@@ -7,6 +7,10 @@ import {
   RESTORE_MERCHANT_EXTRA,
 } from "../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../url/url";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../../actions/notifications/actions";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -16,7 +20,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import axios from "axios";
-import EditExtra from "./edit-extra";
 import defaultImage from "./hpadmin2.png";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -24,10 +27,10 @@ import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
+import EditExtra from "./edit-extra";
 
 import "react-table/react-table.css";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 class ExtraTab extends Component {
   constructor(props) {
@@ -60,8 +63,6 @@ class ExtraTab extends Component {
 
   handleImageChange = (e) => {
     e.preventDefault();
-
-    // handle preview Image
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
@@ -71,7 +72,6 @@ class ExtraTab extends Component {
       });
     };
     reader.readAsDataURL(file);
-    // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
@@ -84,19 +84,6 @@ class ExtraTab extends Component {
       })
       .catch((err) => {
         console.log(err);
-      });
-  };
-
-  getExtra = () => {
-    const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/extra/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ data: res.data.data, loading: false });
       });
   };
 
@@ -132,6 +119,7 @@ class ExtraTab extends Component {
       imageUrl,
       fileId,
       supplyFee,
+      edit: true,
     });
   };
 
@@ -146,6 +134,7 @@ class ExtraTab extends Component {
     const payload = { ID, extraId };
     this.props.RESTORE_MERCHANT_EXTRA(payload);
   };
+
   render() {
     // Search
     let extraList = this.props.ExtraData;
@@ -271,9 +260,9 @@ class ExtraTab extends Component {
             );
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(27) && actionsBtn}
+              {CheckPermissions("active-extra") && actionsBtn}
 
-              {CheckPermissions(28) && (
+              {CheckPermissions("edit-extra") && (
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
@@ -311,13 +300,15 @@ class ExtraTab extends Component {
             <div></div>
           </div>
           <EditExtra
-            getExtra={this.getExtra}
+            getExtra={this.props.GET_MERCHANT_EXTRA}
             edit={this.state.edit}
             data={this.state}
             handleClose={this.handleClose}
             handleImageChange={this.handleImageChange}
             token={this.props.userLogin.token}
             merchantId={this.props.MerchantProfile.merchantId}
+            SuccessNotify={this.props.SuccessNotify}
+            FailureNotify={this.props.FailureNotify}
           />
           <div className="merchant-list-container">
             <ReactTable
@@ -411,6 +402,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   RESTORE_MERCHANT_EXTRA: (payload) => {
     dispatch(RESTORE_MERCHANT_EXTRA(payload));
+  },
+  SuccessNotify: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  FailureNotify: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);

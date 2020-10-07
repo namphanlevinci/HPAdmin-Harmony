@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../url/url";
+import { CustomTitle } from "../../../../../util/CustomText";
 
 import Button from "@material-ui/core/Button";
 import moment from "moment";
@@ -33,12 +34,8 @@ class Acti extends Component {
 
   handleResetClick = () => {
     this.setState({
-      from: moment()
-        .startOf("month")
-        .format("YYYY-MM-DD"),
-      to: moment()
-        .endOf("month")
-        .format("YYYY-MM-DD"),
+      from: moment().startOf("month").format("YYYY-MM-DD"),
+      to: moment().endOf("month").format("YYYY-MM-DD"),
     });
     this.fetchData();
   };
@@ -56,12 +53,8 @@ class Acti extends Component {
     this.setState(
       {
         ID: ID,
-        from: moment()
-          .startOf("month")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .endOf("month")
-          .format("YYYY-MM-DD"),
+        from: moment().startOf("month").format("YYYY-MM-DD"),
+        to: moment().endOf("month").format("YYYY-MM-DD"),
       },
       () => this.setState({ loadingDate: true })
     );
@@ -110,10 +103,7 @@ class Acti extends Component {
         id: "createDate",
         Header: "Date/time",
         accessor: (e) => {
-          return moment
-            .utc(e.createDate)
-            .local()
-            .format("MM/DD/YYYY HH:mm A");
+          return moment.utc(e.createDate).local().format("MM/DD/YYYY HH:mm A");
         },
       },
       {
@@ -134,7 +124,7 @@ class Acti extends Component {
                 textAlign: "center",
               }}
             >
-              <h2>Activities Logs</h2>
+              <CustomTitle value="Activities Logs" />
               <div>
                 <Button className="btn btn-red" onClick={this.handleResetClick}>
                   Reset

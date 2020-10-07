@@ -214,7 +214,7 @@ class Users extends Component {
               </form>
             </div>
 
-            {CheckPermissions(48) && (
+            {CheckPermissions("add-new-user") && (
               <Button
                 className="btn btn-green"
                 onClick={this.addAdmin}

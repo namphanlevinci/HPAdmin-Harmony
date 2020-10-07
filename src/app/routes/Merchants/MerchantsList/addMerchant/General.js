@@ -126,7 +126,7 @@ const General = ({
         <div className="col-2">
           <div className="form-group">
             <FormControl style={{ width: "100%", marginTop: "16px" }}>
-              <InputLabel htmlFor="formatted-text-mask-input">
+              <InputLabel shrink htmlFor="formatted-text-mask-input">
                 Zip Code*
               </InputLabel>
               <Input
@@ -208,7 +208,7 @@ const General = ({
         <div className="col-2">
           <div className="form-group">
             <FormControl style={{ width: "100%", marginTop: "16px" }}>
-              <InputLabel htmlFor="formatted-text-mask-input">
+              <InputLabel shrink htmlFor="formatted-text-mask-input">
                 Zip Code*
               </InputLabel>
               <Input
@@ -246,6 +246,7 @@ const General = ({
         <div className="col-4">
           <div>
             <MaterialUiPhoneNumber
+              onlyCountries={["us", "vn"]}
               label="Business Phone Number"
               name="businessPhone"
               value={value.businessPhone}
@@ -312,6 +313,7 @@ const General = ({
           <div className="col-4">
             <div>
               <MaterialUiPhoneNumber
+                onlyCountries={["us", "vn"]}
                 label="Contact Phone Number*"
                 name="contactPhone"
                 value={value.contactPhone}

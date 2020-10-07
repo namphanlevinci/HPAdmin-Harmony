@@ -53,16 +53,16 @@ export const ViewMerchant_Rejected_Merchants = (payload) => ({
 });
 
 // Edit Merchant Information (General)
-export const UpdateMerchant_Infor = (payload) => ({
-  type: types.UpdateMerchant_Infor,
+export const UPDATE_MERCHANT = (payload) => ({
+  type: types.UPDATE_MERCHANT,
   payload: payload,
 });
-export const UpdateMerchant_Infor_Success = (payload) => ({
-  type: types.UpdateMerchant_Infor_Success,
+export const UPDATE_MERCHANT_SUCCESS = (payload) => ({
+  type: types.UPDATE_MERCHANT_SUCCESS,
   payload: payload,
 });
-export const UpdateMerchant_Infor_Error = (payload) => ({
-  type: types.UpdateMerchant_Infor_Error,
+export const UPDATE_MERCHANT_ERROR = (payload) => ({
+  type: types.UPDATE_MERCHANT_ERROR,
   payload: payload,
 });
 // Get merchant infor by ID
@@ -159,6 +159,21 @@ export const GET_STAFF_BY_ID_FAILURE = (payload) => ({
 // Update STAFF
 export const UPDATE_STAFF = (payload) => ({
   type: types.UPDATE_STAFF,
+  payload,
+});
+
+export const ADD_STAFF = (payload) => ({
+  type: types.ADD_STAFF,
+  payload,
+});
+
+export const ADD_STAFF_SUCCESS = (payload) => ({
+  type: types.ADD_STAFF_SUCCESS,
+  payload,
+});
+
+export const ADD_STAFF_FAILURE = (payload) => ({
+  type: types.ADD_STAFF_FAILURE,
   payload,
 });
 

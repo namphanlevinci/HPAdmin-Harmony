@@ -1,40 +1,5 @@
-.MReq {
-  font-family: 'Roboto', sans-serif;
-  text-align: center;
-  background-color: #fff;
-}
-.MReq span {
-  font-weight: 600;
-  margin-right: 40px;
-}
-.MReq div:nth-child(2n + 2) {
-  background-color: #fff;
-}
 
-.popup-content  {
-  padding: 0px 0px 15px 0px !important;
-  border: none !important;
-}
 
-.close {
-  cursor: pointer;
-  text-align: center;
-  color: white !important;
-  margin-right: 5px;
-  font-size: 42px;
-}
-
-.inputPadding {
-  margin-top: 10px !important;
-}
-label {
-  color: #909090;
-  color: rgba(0, 0, 0, 0.54);
-  padding: 0;
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.00938em;
-}
 .pending-image {
   width: 100%;
   height: auto;

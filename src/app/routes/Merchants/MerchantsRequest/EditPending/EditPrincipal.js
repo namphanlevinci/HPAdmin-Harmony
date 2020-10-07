@@ -6,28 +6,27 @@ import {
 } from "@material-ui/pickers";
 import { config } from "../../../../../url/url";
 import { GET_MERCHANT_BY_ID } from "../../../../../actions/merchants/actions";
-
+import { CustomTitle } from "../../../../../util/CustomText";
+import { TextField, Grid } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import moment from "moment";
 import axios from "axios";
 import * as Yup from "yup";
 import ErrorMessage from "../errorMessage";
 import CustomSelect from "../../../../../util/getState";
-import TextField from "@material-ui/core/TextField";
+
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
-
+import CircularProgress from "@material-ui/core/CircularProgress";
 import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
 import LinearProgress from "../../../../../util/linearProgress";
-import formatPhone from "../../../../../util/formatPhone";
 
 import "../MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
@@ -71,6 +70,8 @@ const EditPrincipal = ({
   SuccessNotification,
   FailureNotification,
   WarningNotification,
+  handleSubmit,
+  handleSubmitFail,
 }) => {
   const getMerchantById = (ID) => {
     const payload = { ID, path: "/app/merchants/pending/profile" };
@@ -78,8 +79,8 @@ const EditPrincipal = ({
   };
 
   const editMerchant = (principalInfo) => {
+    handleSubmit();
     let PrincipalInfo = principalInfo.PrincipalInfo;
-
     const isValid = checkValid();
     const body = {
       generalInfo: {
@@ -92,12 +93,12 @@ const EditPrincipal = ({
           state: initValue?.stateId,
           zip: initValue?.zip,
         },
-        businessPhone: formatPhone(initValue?.phoneBusiness),
+        businessPhone: initValue?.phoneBusiness,
         email: initValue?.emailContact,
         firstName: initValue?.firstName,
         lastName: initValue?.lastName,
         position: initValue?.title,
-        contactPhone: formatPhone(initValue?.phoneContact),
+        contactPhone: initValue?.phoneContact,
         businessHourEnd: "11:00 PM",
         businessHourStart: "10:00 AM",
         dbaAddress: {
@@ -137,6 +138,7 @@ const EditPrincipal = ({
               getMerchantById(`${initValue?.ID}`);
             }, 1000);
           } else {
+            handleSubmitFail();
             FailureNotification(res.data.message);
           }
         })
@@ -144,6 +146,7 @@ const EditPrincipal = ({
           console.log(error);
         });
     } else {
+      handleSubmitFail();
       WarningNotification("Please Enter Required Information");
     }
   };
@@ -155,7 +158,13 @@ const EditPrincipal = ({
         initialValues={{ PrincipalInfo: principals }}
         onSubmit={(values) => editMerchant(values)}
       >
-        {({ values, setFieldValue, submitForm, handleChange }) => (
+        {({
+          values,
+          setFieldValue,
+          submitForm,
+          handleChange,
+          isSubmitting,
+        }) => (
           <Form>
             <FieldArray
               name="PrincipalInfo"
@@ -185,23 +194,11 @@ const EditPrincipal = ({
                         const driverNumber = PrincipalInfo?.driverNumber;
                         const stateId = PrincipalInfo?.stateId;
                         return (
-                          <div key={index} className="row ">
-                            <div className="col-12">
-                              <h3
-                                style={{
-                                  color: "#4251af",
-                                  fontWeight: "400",
-                                  float: "left",
-                                  marginTop: "10px",
-                                }}
-                              >
-                                Principal {index + 1}
-                              </h3>
-                            </div>
-                            <div
-                              className="col-4"
-                              style={{ textAlign: "left" }}
-                            >
+                          <Grid container spacing={3} key={index}>
+                            <Grid item xs={12}>
+                              <CustomTitle value={`Principal ${index + 1}`} />
+                            </Grid>
+                            <Grid item xs={4} style={{ textAlign: "left" }}>
                               <TextField
                                 name={`PrincipalInfo.${index}.firstName`}
                                 defaultValue={firstName}
@@ -215,11 +212,8 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.firstName`}
                               />
-                            </div>
-                            <div
-                              className="col-4"
-                              style={{ textAlign: "left" }}
-                            >
+                            </Grid>
+                            <Grid item xs={4} style={{ textAlign: "left" }}>
                               <TextField
                                 name={`PrincipalInfo.${index}.lastName`}
                                 defaultValue={lastName}
@@ -232,11 +226,8 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.lastName`}
                               />
-                            </div>
-                            <div
-                              className="col-4"
-                              style={{ textAlign: "left" }}
-                            >
+                            </Grid>
+                            <Grid item xs={4} style={{ textAlign: "left" }}>
                               <TextField
                                 name={`PrincipalInfo.${index}.title`}
                                 defaultValue={title}
@@ -249,8 +240,8 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.title`}
                               />
-                            </div>
-                            <div className="col-4">
+                            </Grid>
+                            <Grid item xs={4}>
                               <FormControl
                                 style={{ width: "100%", marginTop: "16px" }}
                               >
@@ -277,9 +268,9 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.ownerShip`}
                               />
-                            </div>
+                            </Grid>
 
-                            <div className="col-4">
+                            <Grid item xs={4}>
                               <TextField
                                 name={`PrincipalInfo.${index}.address`}
                                 defaultValue={address}
@@ -292,9 +283,9 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.address`}
                               />
-                            </div>
+                            </Grid>
 
-                            <div className="col-4">
+                            <Grid item xs={4}>
                               <FormControl
                                 style={{ width: "100%", marginTop: "16px" }}
                               >
@@ -318,10 +309,11 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.ssn`}
                               />
-                            </div>
+                            </Grid>
 
-                            <div className="col-4" style={styles.div}>
+                            <Grid item xs={4} style={styles.div}>
                               <MaterialUiPhoneNumber
+                                onlyCountries={["us", "vn"]}
                                 label="Home Phone"
                                 fullWidth
                                 name={`PrincipalInfo.${index}.homePhone`}
@@ -337,9 +329,10 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.homePhone`}
                               />
-                            </div>
-                            <div className="col-4" style={styles.div}>
+                            </Grid>
+                            <Grid item xs={4} style={styles.div}>
                               <MaterialUiPhoneNumber
+                                onlyCountries={["us", "vn"]}
                                 label="Mobile Phone*"
                                 fullWidth
                                 name={`PrincipalInfo.${index}.mobilePhone`}
@@ -354,8 +347,8 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.mobilePhone`}
                               />
-                            </div>
-                            <div className="col-4">
+                            </Grid>
+                            <Grid item xs={4}>
                               <TextField
                                 name={`PrincipalInfo.${index}.email`}
                                 defaultValue={email}
@@ -369,12 +362,9 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.email`}
                               />
-                            </div>
+                            </Grid>
 
-                            <div
-                              className="col-4"
-                              style={{ marginTop: "12px" }}
-                            >
+                            <Grid item xs={4} style={{ marginTop: "12px" }}>
                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid container justify="flex-start">
                                   <KeyboardDatePicker
@@ -396,8 +386,8 @@ const EditPrincipal = ({
                                   />
                                 </Grid>
                               </MuiPickersUtilsProvider>
-                            </div>
-                            <div className="col-4" style={styles.div}>
+                            </Grid>
+                            <Grid item xs={4} style={styles.div}>
                               <FormControl style={{ width: "100%" }}>
                                 <InputLabel htmlFor="formatted-text-mask-input">
                                   Driver License Number*
@@ -421,8 +411,8 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.driverNumber`}
                               />
-                            </div>
-                            <div className="col-4" style={styles.div}>
+                            </Grid>
+                            <Grid item xs={4} style={styles.div}>
                               <CustomSelect
                                 name="stateId"
                                 label="State Issued*"
@@ -437,10 +427,11 @@ const EditPrincipal = ({
                               <ErrorMessage
                                 name={`PrincipalInfo.${index}.stateId`}
                               />
-                            </div>
+                            </Grid>
 
-                            <div
-                              className="col-3"
+                            <Grid
+                              item
+                              xs={4}
                               style={{ paddingTop: "10px", textAlign: "left" }}
                             >
                               <label style={{ paddingBottom: "10px" }}>
@@ -449,7 +440,7 @@ const EditPrincipal = ({
                               <br />
                               <img
                                 className="pending-image"
-                                style={{ width: "200px" }}
+                                style={{ width: "100%" }}
                                 src={PrincipalInfo?.imageUrl}
                                 alt="void"
                               />
@@ -463,7 +454,6 @@ const EditPrincipal = ({
                                 style={styles.imageInput}
                                 className="custom-input"
                                 name={`PrincipalInfo.${index}.fileId`}
-                                // id="file"
                                 onChange={(e, name) => [
                                   getData(
                                     e,
@@ -472,9 +462,9 @@ const EditPrincipal = ({
                                   ),
                                 ]}
                               />
-                            </div>
+                            </Grid>
                             <hr />
-                          </div>
+                          </Grid>
                         );
                       })
                     : // <p
@@ -494,7 +484,18 @@ const EditPrincipal = ({
                     >
                       BACK
                     </Button>
-                    <Button type="submit" className="btn btn-green">
+                    <Button
+                      type="submit"
+                      className="btn btn-green"
+                      disabled={initValue.isSubmitting}
+                    >
+                      {initValue.isSubmitting && (
+                        <CircularProgress
+                          style={{ color: "white", marginRight: "8px" }}
+                          size={15}
+                          thickness={4}
+                        />
+                      )}
                       SAVE
                     </Button>
                   </div>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../url/url";
+import { CustomTitle } from "../../../../../util/CustomText";
 
 import Button from "@material-ui/core/Button";
 import moment from "moment";
@@ -34,12 +35,8 @@ class Transactions extends Component {
   }
   handleResetClick = () => {
     this.setState({
-      from: moment()
-        .startOf("month")
-        .format("YYYY-MM-DD"),
-      to: moment()
-        .endOf("month")
-        .format("YYYY-MM-DD"),
+      from: moment().startOf("month").format("YYYY-MM-DD"),
+      to: moment().endOf("month").format("YYYY-MM-DD"),
       timeRange: "All",
     });
   };
@@ -64,12 +61,8 @@ class Transactions extends Component {
     this.setState(
       {
         ID: ID,
-        from: moment()
-          .startOf("month")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .endOf("month")
-          .format("YYYY-MM-DD"),
+        from: moment().startOf("month").format("YYYY-MM-DD"),
+        to: moment().endOf("month").format("YYYY-MM-DD"),
         timeRange: "All",
       },
       () => this.setState({ loadingDate: true })
@@ -121,10 +114,7 @@ class Transactions extends Component {
         Header: "Date/time",
         width: 200,
         accessor: (e) => {
-          return moment
-            .utc(e.createDate)
-            .local()
-            .format("MM/DD/YYYY HH:mm A");
+          return moment.utc(e.createDate).local().format("MM/DD/YYYY HH:mm A");
         },
       },
       {
@@ -190,7 +180,7 @@ class Transactions extends Component {
                 textAlign: "center",
               }}
             >
-              <h2>Transactions Management</h2>
+              <CustomTitle value="Transactions Management" />
               <div>
                 <Button className="btn btn-red" onClick={this.handleResetClick}>
                   Reset

@@ -207,6 +207,7 @@ class Header extends React.Component {
       User: [],
       hasMore: true,
       Notify: [],
+      loadMore: false,
     };
   }
 

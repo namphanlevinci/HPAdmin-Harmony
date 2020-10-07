@@ -1,21 +1,31 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  SearchMerchants,
   ViewProfile_Merchants,
   GET_MERCHANT_BY_ID,
 } from "../../../../actions/merchants/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
 
+import {
+  InputAdornment,
+  IconButton,
+  FormControl,
+  OutlinedInput,
+  Typography,
+} from "@material-ui/core";
+import { CustomTableHeader } from "../../../../util/CustomText";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
+
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
+
 import "react-table/react-table.css";
 import "./merchantsList.css";
 import "../MerchantsRequest/MerchantReqProfile.css";
@@ -105,58 +115,78 @@ class Merchants extends React.Component {
     const { page, pageCount, data, pageSize } = this.state;
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         id: "merchantId",
-        accessor: (row) => <p>{row?.merchantId}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantId}
+          </Typography>
+        ),
         width: 60,
       },
       {
-        Header: "MID",
+        Header: <CustomTableHeader value="MID" />,
         id: "mid",
-        accessor: (row) => <p>{row?.merchantCode}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantCode}
+          </Typography>
+        ),
       },
       {
-        Header: "DBA",
+        Header: <CustomTableHeader value="DBA" />,
         id: "general",
         accessor: "general",
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <Typography variant="subtitle1">
             {e?.value ? e.value.doBusinessName : null}
-          </p>
+          </Typography>
         ),
       },
       {
         id: "principals",
-        Header: "Owner",
+        Header: <CustomTableHeader value="Owner" />,
         accessor: (e) => e?.principals?.[0],
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <Typography variant="subtitle1">
             {e?.value ? e.value.firstName + " " + e.value.lastName : null}
-          </p>
+          </Typography>
         ),
       },
       {
-        Header: "Email",
+        Header: <CustomTableHeader value="Email" />,
         id: "email",
-        accessor: (row) => <p>{row?.email}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.email}
+          </Typography>
+        ),
       },
       {
-        Header: "Store Phone",
+        Header: <CustomTableHeader value="Store Phone" />,
         id: "phone",
-        accessor: (row) => <p>{row?.phone}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.phone}
+          </Typography>
+        ),
       },
       {
-        Header: "Contact Phone",
+        Header: <CustomTableHeader value="Contact Phone" />,
         id: "contactPhone",
-        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.general?.phoneContact}
+          </Typography>
+        ),
       },
       {
-        Header: "Status",
+        Header: <CustomTableHeader value="Status" />,
         accessor: "isDisabled",
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <Typography variant="subtitle1">
             {e.value === 0 ? "Active" : "Inactive"}
-          </p>
+          </Typography>
         ),
         width: 100,
       },
@@ -181,27 +211,37 @@ class Merchants extends React.Component {
         />
         <div className="MerList page-heading " style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* SEARCH */}
-            <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
+            <div>
+              <FormControl variant="outlined">
+                <OutlinedInput
+                  inputProps={{
+                    style: {
+                      padding: 14,
+                    },
+                  }}
                   placeholder="Search.."
                   value={this.state.search}
                   onChange={this._SearchMerchants}
                   onKeyPress={this.keyPressed}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton edge="end">
+                        <SearchIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={0}
                 />
-              </form>
+              </FormControl>
             </div>
+
             <div>
-              {CheckPermissions(12) && (
+              {CheckPermissions("add-new-merchant") && (
                 <Button
                   style={{
                     backgroundColor: "#4251af",
                     color: "white",
-                    marginTop: "0px",
+                    marginTop: "10px",
                   }}
                   className="btn btn-red"
                   onClick={this.addMerchant}
@@ -241,9 +281,6 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  SearchMerchants: (payload) => {
-    dispatch(SearchMerchants(payload));
-  },
   ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
   },

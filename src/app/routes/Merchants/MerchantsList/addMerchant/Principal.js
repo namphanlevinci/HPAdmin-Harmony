@@ -110,32 +110,35 @@ class Principal extends Component {
           <Formik
             enableReinitialize={true}
             validationSchema={validationSchema}
-            initialValues={{
-              principalInfo: [
-                {
-                  firstName: "",
-                  lastName: "",
-                  position: "",
-                  ownership: "",
-                  homePhone: "",
-                  mobilePhone: "",
-                  addressPrincipal: {
-                    address: "",
-                    city: "",
-                    state: "",
-                    zip: "",
+            initialValues={
+              // this.props.Info.principalInfo
+              {
+                principalInfo: [
+                  {
+                    firstName: "",
+                    lastName: "",
+                    position: "",
+                    ownership: "",
+                    homePhone: "",
+                    mobilePhone: "",
+                    addressPrincipal: {
+                      address: "",
+                      city: "",
+                      state: "",
+                      zip: "",
+                    },
+                    yearAtThisAddress: 0,
+                    ssn: "",
+                    dateOfBirth: null,
+                    email: "",
+                    driverLicense: "",
+                    stateIssued: "",
+                    fileId: "",
+                    progress: false,
                   },
-                  yearAtThisAddress: 0,
-                  ssn: "",
-                  dateOfBirth: null,
-                  email: "",
-                  driverLicense: "",
-                  stateIssued: "",
-                  fileId: "",
-                  progress: false,
-                },
-              ],
-            }}
+                ],
+              }
+            }
             onSubmit={(values, { setSubmitting }) => {
               this.props.handleNext();
               this.props.setDataPrincipal(values?.principalInfo);
@@ -158,7 +161,7 @@ class Principal extends Component {
                             principal.addressPrincipal?.state;
                           const driverLicenseState = principal?.stateIssued;
                           const principalBirthday = principal?.dateOfBirth;
-
+                          // const firstName = principal?.firstName;
                           return (
                             <div key={index}>
                               <div className="row align-items-center  add-merchant-div">
@@ -262,6 +265,7 @@ class Principal extends Component {
                                 </div>
                                 <div className="col-4">
                                   <MaterialUiPhoneNumber
+                                    onlyCountries={["us", "vn"]}
                                     label="Home Phone"
                                     fullWidth
                                     name={`principalInfo.${index}.mobilePhone`}
@@ -276,6 +280,7 @@ class Principal extends Component {
                                 </div>
                                 <div className="col-4">
                                   <MaterialUiPhoneNumber
+                                    onlyCountries={["us", "vn"]}
                                     fullWidth
                                     label="Mobile Phone*"
                                     name={`principalInfo.${index}.mobilePhone`}

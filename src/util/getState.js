@@ -8,7 +8,7 @@ function CustomSelect(props) {
   const { label, handleChange, initialValue, name } = props;
   return (
     <FormControl style={{ width: "100%" }}>
-      <InputLabel>{label}</InputLabel>
+      {label && <InputLabel>{label}</InputLabel>}
       <Select name={name} value={initialValue} onChange={handleChange}>
         <MenuItem value={1}> New York</MenuItem>
         <MenuItem value={2}> Florida</MenuItem>

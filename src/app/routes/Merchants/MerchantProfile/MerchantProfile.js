@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
 import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
+import { Button } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import Button from "@material-ui/core/Button";
 import General from "./Detail/General/General";
 import EditGeneral from "./Detail/General/EditGeneral";
 // import Business from "./Detail/Business";
@@ -30,7 +30,7 @@ import ProductDetail from "./Detail/Product/productDetail";
 import ProductEdit from "./Detail/Product/productEdit";
 // Staff
 import Staff from "./Detail/Staff/Staff";
-import AddStaff from "./Detail/Staff/add-staff/add-staff";
+import AddStaff2 from "./Detail/Staff/AddStaff/index.js";
 // import StaffGeneral from "./Detail/Staff/staff-detail/staff-info";
 // Extra Tab
 import ExtraTab from "./Detail/Extra/extra";
@@ -86,14 +86,16 @@ class merchantProfile extends Component {
             <div className="header col-md-12">
               <h3>ID: {e?.merchantId}</h3>
               <span style={{ display: "flex" }}>
-                <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
-                  className="btn btn-green"
-                  onClick={() => this.setState({ openDelete: true })}
-                >
-                  DELETE
-                </Button>
-                {CheckPermissions(13) && (
+                {CheckPermissions("delete-merchant") && (
+                  <Button
+                    style={{ color: "#4251af", backgroundColor: "white" }}
+                    className="btn btn-green"
+                    onClick={() => this.setState({ openDelete: true })}
+                  >
+                    DELETE
+                  </Button>
+                )}
+                {CheckPermissions("export-settlement") && (
                   <span style={{ marginRight: "20px" }}>
                     <ExportSettlement
                       MerchantId={e?.merchantId}
@@ -255,10 +257,11 @@ class merchantProfile extends Component {
                           path="/app/merchants/profile/extra"
                           component={ExtraTab}
                         />
+
                         <PrivateRoute
                           permissionID={15}
                           path="/app/merchants/profile/staff/add"
-                          component={AddStaff}
+                          component={AddStaff2}
                         />
                         <Route
                           path="/app/merchants/profile/staff"

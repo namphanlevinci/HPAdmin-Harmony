@@ -36,6 +36,10 @@
     h2 {
       letter-spacing: 0.1em;
     }
+
+    label {
+      color: #4251af;
+    }
   }
 
   padding-bottom: 10px;
@@ -50,14 +54,22 @@
   }
   form {
     width: 100%;
+
+
+
+
+    .error-text {
+      color: red;
+    }
   }
   .title {
     text-align: center;
     padding: 10px;
     color: white;
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 1px;
+    
   }
 
   h5 {
@@ -69,12 +81,7 @@
     letter-spacing: 0.1em;
   }
 
-  .input-feedback {
-    padding-top: 5px;
-    color: red;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-  }
+  
 }
 
 .category-button {
@@ -92,6 +99,10 @@
       font-weight: 600;
     }
   }
+}
+
+.edit-category {
+  width: 250px
 }
 
 

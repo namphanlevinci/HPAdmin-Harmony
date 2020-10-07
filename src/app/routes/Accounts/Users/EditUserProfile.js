@@ -19,7 +19,7 @@ import { FaPen } from "react-icons/fa";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import Button from "@material-ui/core/Button";
+import { Button, Grid } from "@material-ui/core";
 import moment from "moment";
 import axios from "axios";
 
@@ -230,11 +230,13 @@ class EditUserProfile extends Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
           />
-          <div
-            className="row justify-content-md-center admin_profile page-heading"
+          <Grid
+            container
+            spacing={3}
+            className="justify-content-md-center admin_profile page-heading"
             style={{ minHeight: "500px" }}
           >
-            <div className="col-3 text-center">
+            <Grid item xs={3} className="text-center">
               {$imagePreview}
               <div style={{ paddingTop: "10px" }}>
                 <input
@@ -276,8 +278,8 @@ class EditUserProfile extends Component {
                   </div>
                 </NavLink>
               </div>
-            </div>
-            <div className="col-9" style={{ paddingLeft: "55px" }}>
+            </Grid>
+            <Grid item xs={9} style={{ paddingLeft: "55px" }}>
               <div className="row">
                 <div className="col-4">
                   <h1>{e.firstName + " " + e.lastName}</h1>
@@ -323,8 +325,8 @@ class EditUserProfile extends Component {
                   </Route>
                 </Switch>
               )}
-            </div>
-          </div>
+            </Grid>
+          </Grid>
         </div>
       </Router>
     );

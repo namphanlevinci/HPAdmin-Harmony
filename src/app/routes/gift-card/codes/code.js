@@ -24,6 +24,7 @@ import moment from "moment";
 import Select from "react-select";
 import CodeLog from "../generation/code-log/code-log";
 import ScaleLoader from "../../../../util/scaleLoader";
+import CheckPermissions from "../../../../util/checkPermission";
 
 import "../generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -374,33 +375,40 @@ class Codes extends Component {
               deleteGeneration={this._Delete}
               text={"Template"}
             />
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              {/* <h2 style={styles.h2}></h2> */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                }}
-              >
-                <label style={styles.h4}>Export to:</label>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <h2 style={styles.h2}></h2>
+              {CheckPermissions("export-gift-card-code") && (
                 <div
                   style={{
-                    width: "100px",
-                    zIndex: "9999",
-                    marginRight: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "10px",
                   }}
                 >
-                  <Select
-                    value={this.state.typeExport}
-                    options={typeExport}
-                    onChange={(e) => this.setState({ typeExport: e })}
-                  />
+                  <label style={styles.h4}>Export to:</label>
+                  <div
+                    style={{
+                      width: "100px",
+                      zIndex: "9999",
+                      marginRight: "10px",
+                    }}
+                  >
+                    <Select
+                      value={this.state.typeExport}
+                      options={typeExport}
+                      onChange={(e) => this.setState({ typeExport: e })}
+                    />
+                  </div>
+                  <Button style={styles.btn} onClick={this.getExport}>
+                    Export
+                  </Button>
                 </div>
-                <Button style={styles.btn} onClick={this.getExport}>
-                  Export
-                </Button>
-              </div>
+              )}
             </div>
             <ScaleLoader isLoading={this.state.isLoading} />
 

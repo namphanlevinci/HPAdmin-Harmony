@@ -1,16 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { UPDATE_CONSUMER } from "../../../../../actions/consumer/actions";
-
+import { CustomTitle } from "../../../../../util/CustomText";
+import { Button, Grid, TextField } from "@material-ui/core";
+import MaterialUiPhoneNumber from "material-ui-phone-number";
 import SimpleReactValidator from "simple-react-validator";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-
-import "../../../Merchants/MerchantProfile/MerchantProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
-import "../../../Merchants/MerchantProfile/Detail/Detail.css";
-import "./Consumer.css";
 
 class EditGeneral extends Component {
   constructor(props) {
@@ -68,96 +62,88 @@ class EditGeneral extends Component {
   render() {
     const renderGeneral = (
       <div className="react-transition swipe-right consumer__general">
-        <div className="container-fluid">
-          <h2>General Information</h2>
-          <div className="row" style={{ marginTop: "15px" }}>
-            <div className="col-sm-4 col-md-4">
-              <TextField
-                type="text"
-                label="First Name*"
-                name="firstName"
-                value={this.state.firstName}
-                onChange={this._handleChange}
-                fullWidth={true}
-              />
+        <Grid container spacing={4} className="container-fluid">
+          <Grid item xs={12}>
+            <CustomTitle value="General Information" />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              type="text"
+              label="First Name*"
+              name="firstName"
+              value={this.state.firstName}
+              onChange={this._handleChange}
+              fullWidth={true}
+            />
 
-              {
-                <p className="required">
-                  {this.validator.message(
-                    "firstName",
-                    this.state.firstName,
-                    "required"
-                  )}
-                </p>
-              }
-            </div>
-            <div className="col-sm-4 col-md-4">
-              <TextField
-                label="Last Name*"
-                type="text"
-                name="lastName"
-                value={this.state.lastName}
-                onChange={this._handleChange}
-                fullWidth={true}
-              />
+            {
+              <p className="required">
+                {this.validator.message(
+                  "firstName",
+                  this.state.firstName,
+                  "required"
+                )}
+              </p>
+            }
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              label="Last Name*"
+              type="text"
+              name="lastName"
+              value={this.state.lastName}
+              onChange={this._handleChange}
+              fullWidth={true}
+            />
 
-              {
-                <p className="required">
-                  {this.validator.message(
-                    "lastName",
-                    this.state.lastName,
-                    "required"
-                  )}
-                </p>
-              }
-            </div>
-
-            <div className="col-sm-12 col-md-4">
-              <div>
-                <TextField
-                  label="Contact Email*"
-                  type="email"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this._handleChange}
-                  fullWidth={true}
-                />
-                {
-                  <p className="required">
-                    {this.validator.message(
-                      "email",
-                      this.state.email,
-                      "required|email"
-                    )}
-                  </p>
-                }
-              </div>
-            </div>
-            <div className="col-sm-4 col-md-3" style={{ paddingTop: "10px" }}>
-              <label style={{ fontSize: "13px" }}>Phone Number*</label>
-              <div>
-                <input
-                  type="text"
-                  name="phone"
-                  value={this.state.phone}
-                  onChange={this._handleChange}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="SettingsContent general-content"
-          style={{ marginTop: "20px" }}
-        >
-          <Button className="btn btn-green" onClick={this.submitUpdate}>
-            SAVE
-          </Button>
-          <Button className="btn btn-red" onClick={this._goBack}>
-            CANCEL
-          </Button>
-        </div>
+            {
+              <p className="required">
+                {this.validator.message(
+                  "lastName",
+                  this.state.lastName,
+                  "required"
+                )}
+              </p>
+            }
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              label="Contact Email*"
+              type="email"
+              name="email"
+              value={this.state.email}
+              onChange={this._handleChange}
+              fullWidth={true}
+            />
+            {
+              <p className="required">
+                {this.validator.message(
+                  "email",
+                  this.state.email,
+                  "required|email"
+                )}
+              </p>
+            }
+          </Grid>
+          <Grid item xs={4}>
+            <MaterialUiPhoneNumber
+              onlyCountries={["us", "vn"]}
+              placeholder="Phone Number"
+              label="Business Phone*"
+              name="phone"
+              value={this.state.phone}
+              onChange={(phone) => this.setState({ phone })}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button className="btn btn-green" onClick={this.submitUpdate}>
+              SAVE
+            </Button>
+            <Button className="btn btn-red" onClick={this._goBack}>
+              CANCEL
+            </Button>
+          </Grid>
+        </Grid>
       </div>
     );
 

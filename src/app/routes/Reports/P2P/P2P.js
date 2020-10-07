@@ -36,12 +36,8 @@ class P2P extends React.Component {
 
   handleResetClick = () => {
     this.setState({
-      from: moment()
-        .startOf("month")
-        .format("YYYY-MM-DD"),
-      to: moment()
-        .endOf("month")
-        .format("YYYY-MM-DD"),
+      from: moment().startOf("month").format("YYYY-MM-DD"),
+      to: moment().endOf("month").format("YYYY-MM-DD"),
       amount: "",
       amountFrom: -1,
       amountTo: -1,
@@ -59,12 +55,8 @@ class P2P extends React.Component {
 
   componentDidMount() {
     this.setState({
-      from: moment()
-        .startOf("month")
-        .format("YYYY-MM-DD"),
-      to: moment()
-        .endOf("month")
-        .format("YYYY-MM-DD"),
+      from: moment().startOf("month").format("YYYY-MM-DD"),
+      to: moment().endOf("month").format("YYYY-MM-DD"),
     });
   }
 
@@ -82,53 +74,32 @@ class P2P extends React.Component {
     const value = e.target.value;
     if (value === "today") {
       this.setState({
-        from: moment()
-          .startOf("day")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .startOf("day")
-          .format("YYYY-MM-DD"),
+        from: moment().startOf("day").format("YYYY-MM-DD"),
+        to: moment().startOf("day").format("YYYY-MM-DD"),
       });
     }
     if (value === "yesterday") {
       this.setState({
-        from: moment()
-          .subtract(1, "day")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .subtract(1, "day")
-          .format("YYYY-MM-DD"),
+        from: moment().subtract(1, "day").format("YYYY-MM-DD"),
+        to: moment().subtract(1, "day").format("YYYY-MM-DD"),
       });
     }
     if (value === "thisWeek") {
       this.setState({
-        from: moment()
-          .startOf("week")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .endOf("week")
-          .format("YYYY-MM-DD"),
+        from: moment().startOf("week").format("YYYY-MM-DD"),
+        to: moment().endOf("week").format("YYYY-MM-DD"),
       });
     }
     if (value === "lastWeek") {
       this.setState({
-        from: moment()
-          .subtract(1, "week")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .subtract(1, "week")
-          .endOf("week")
-          .format("YYYY-MM-DD"),
+        from: moment().subtract(1, "week").format("YYYY-MM-DD"),
+        to: moment().subtract(1, "week").endOf("week").format("YYYY-MM-DD"),
       });
     }
     if (value === "thisMonth") {
       this.setState({
-        from: moment()
-          .startOf("month")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .endOf("month")
-          .format("YYYY-MM-DD"),
+        from: moment().startOf("month").format("YYYY-MM-DD"),
+        to: moment().endOf("month").format("YYYY-MM-DD"),
       });
     }
     if (value === "lastMonth") {
@@ -137,10 +108,7 @@ class P2P extends React.Component {
           .subtract(1, "month")
           .startOf("month")
           .format("YYYY-MM-DD"),
-        to: moment()
-          .subtract(1, "month")
-          .endOf("month")
-          .format("YYYY-MM-DD"),
+        to: moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
       });
     }
     await this.setState({
@@ -217,10 +185,7 @@ class P2P extends React.Component {
         id: "createDate",
         Header: "Date/time",
         accessor: (e) => {
-          return moment
-            .utc(e.createdDate)
-            .local()
-            .format("MM/DD/YYYY HH:mm A");
+          return moment.utc(e.createdDate).local().format("MM/DD/YYYY hh:mm A");
         },
       },
       {

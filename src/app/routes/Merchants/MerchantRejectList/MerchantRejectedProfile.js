@@ -3,9 +3,19 @@ import { connect } from "react-redux";
 import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
 import { Checkbox } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import { store } from "react-notifications-component";
 import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../actions/notifications/actions";
+
 import { config } from "../../../../url/url";
+import { Grid } from "@material-ui/core";
+import {
+  CustomTitle,
+  CustomTextLabel,
+  CustomText,
+} from "../../../../util/CustomText";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -37,17 +47,9 @@ class MerchantRejectedProfile extends Component {
       openDelete: false,
     };
   }
-  _handleChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  }
 
   _goRevert = () => {
-    const ID = this.props.RejectedProfile.merchantId;
+    const ID = this.props.Profile.merchantId;
     axios
       .put(URL + "/merchant/restorepending/" + ID, null, {
         headers: {
@@ -56,36 +58,12 @@ class MerchantRejectedProfile extends Component {
       })
       .then(async (res) => {
         if (res.data.message === "Success") {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.SUCCESS_NOTIFICATION(res.data.message);
           this.props.history.push("/app/merchants/pending");
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: "Something went wrong, please try again.",
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.FAILURE_NOTIFICATION(
+            "Something went wrong, please try again."
+          );
         }
       });
   };
@@ -96,19 +74,9 @@ class MerchantRejectedProfile extends Component {
   _goBack = () => {
     this.props.history.push("/app/merchants/rejected");
   };
-  _togglePopupAccept = () => {
-    this.setState({
-      showPopupAccept: !this.state.showPopupAccept,
-    });
-  };
-  _togglePopupReject = () => {
-    this.setState({
-      showPopupReject: !this.state.showPopupReject,
-    });
-  };
 
   handleDeleteMerchant = () => {
-    const ID = this.props.RejectedProfile.merchantId;
+    const ID = this.props.Profile.merchantId;
     const path = "/app/merchants/rejected";
     const payload = { ID, path };
 
@@ -117,86 +85,93 @@ class MerchantRejectedProfile extends Component {
   };
 
   render() {
-    const e = this.props.RejectedProfile;
-
-    let principalLength = this.props.RejectedProfile?.principals?.length;
+    const e = this.props.Profile;
+    let principalLength = this.props.Profile?.principals?.length;
     // render Principal
     const renderPrincipal =
       e.principals !== undefined ? (
         e.principals.map((e, index) => {
           return (
-            <div className="row" key={e.principalId}>
+            <React.Fragment key={index}>
               {Number(principalLength) >= 2 ? (
-                <div className="col-12">
+                <Grid item xs={12}>
                   <h3 style={{ color: "#4251af", fontWeight: "500" }}>
                     Principal {index + 1}
                   </h3>
-                </div>
+                </Grid>
               ) : null}
-              <div className="col-4">
-                <label>Name*</label>
-                <p>{e.firstName + " " + e.lastName}</p>
-              </div>
-              <div className="col-4">
-                <label>Title/Position*</label>
-                <p>{e.title}</p>
-              </div>
-              <div className="col-4">
-                <label>Ownership* (%)</label>
-                <p>{e.ownerShip}%</p>
-              </div>
-              <div className="col-4">
-                <label>Home Phone</label>
-                <p>{e.homePhone}</p>
-              </div>
-              <div className="col-4">
-                <label>Mobile Phone*</label>
-                <p>{e.mobilePhone}</p>
-              </div>
-              <div className="col-4">
-                <label>Address*</label>
-                <p>{e.address}</p>
-              </div>
-              <div className="col-4">
-                <label>Social Security Number* (SSN)</label>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Name*" />
+                <CustomText value={e.firstName + " " + e.lastName} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Title/Position*" />
+                <CustomText value={e.title} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Ownership* (%)" />
+                <CustomText value={`${e.ownerShip}%`} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Home Phone" />
+                <CustomText value={e.homePhone} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Mobile Phone*" />
+                <CustomText value={e.mobilePhone} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Address*" />
+                <CustomText value={e.address} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Social Security Number* (SSN)" />
+
                 <NumberFormat
                   value={e.ssn}
                   displayType={"text"}
                   thousandSeparator={true}
                   p
-                  format="***-**-####"
+                  format="###-##-####"
                   mask="_"
-                  renderText={(value) => <p>{value}</p>}
+                  renderText={(value) => <CustomText value={value} />}
                 />
-              </div>
-              <div className="col-4">
-                <label>Date of Birth* (mm/dd/yy)</label>
-                <p>{moment(e.birthDate).format("MM/DD/YYYY")}</p>
-              </div>
-              <div className="col-4">
-                <label>Email Address*</label>
-                <p>{e.email}</p>
-              </div>
-              <div className="col-4">
-                <label>Driver License Number*</label>
-                <p>{e.driverNumber}</p>
-              </div>
-              <div className="col-4">
-                <label>State Issued*</label>
-                <p>{e.state !== undefined ? e.state.name : null}</p>
-              </div>
-              <div className="col-6">
-                <label>Driver License Picture*</label> <br />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />
+                <CustomText value={moment(e.birthDate).format("MM/DD/YYYY")} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Email Address*" />
+                <CustomText value={e.email} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Driver License Number*" />
+                <CustomText value={e.driverNumber} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="State Issued*" />
+                <CustomText value={e?.state?.name} />
+              </Grid>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Driver License Picture*" />
+
                 {
-                  <img
-                    style={{ width: "250px", height: "200px" }}
-                    src={`${e.imageUrl}`}
-                    alt="void check"
-                  />
+                  <a
+                    href={`${URL}/file/${e?.fileId}?fileName=DriverLicense-${this.props.PendingProfile?.general?.doBusinessName}`}
+                    download
+                  >
+                    <img
+                      className="pending-image"
+                      src={`${e?.imageUrl}`}
+                      alt="driver license"
+                    />
+                  </a>
                 }
-              </div>
+              </Grid>
               <hr />
-            </div>
+            </React.Fragment>
           );
         })
       ) : (
@@ -205,15 +180,20 @@ class MerchantRejectedProfile extends Component {
     // render questions
     const renderQuestion =
       e.business !== undefined ? (
-        e.business.map((e) => {
+        e.business.map((e, index) => {
           return (
-            <div className="col-6" key={e.businessId}>
-              <label>{e.question}</label>
-              <br />
-              <Checkbox checked={e.answer === false} />
-              No <Checkbox checked={e.answer === true} /> Yes
-              <h5>Answer: {e.answerReply} </h5>
-            </div>
+            <Grid item xs={6} key={e.businessId}>
+              <CustomTextLabel value={e.question} />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Checkbox checked={e.answer === false} />
+                <CustomText value="No" />
+
+                <Checkbox checked={e.answer === true} />
+                {customLabel(index + 1)}
+              </div>
+              <CustomText value="Answer:" />
+              <CustomText value={e.answerReply} />
+            </Grid>
           );
         })
       ) : (
@@ -227,18 +207,20 @@ class MerchantRejectedProfile extends Component {
           title={<IntlMessages id="sidebar.dashboard.requestDetail" />}
           disableBreadcrumb={true}
         />
-        <div className="content-body page-heading">
-          <div className="header col-12">
+        <Grid container spacing={3} className="content-body page-heading">
+          <Grid item xs={12} className="header">
             <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2>
             <span>
-              <Button
-                style={{ color: "#4251af", backgroundColor: "white" }}
-                className="btn btn-green"
-                onClick={() => this.setState({ openDelete: true })}
-              >
-                DELETE
-              </Button>
-              {CheckPermissions(9) && (
+              {CheckPermissions("delete-merchant-in-rejected-request") && (
+                <Button
+                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  className="btn btn-green"
+                  onClick={() => this.setState({ openDelete: true })}
+                >
+                  DELETE
+                </Button>
+              )}
+              {CheckPermissions("edit-merchant-in-rejected-request") && (
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
@@ -247,7 +229,7 @@ class MerchantRejectedProfile extends Component {
                   EDIT
                 </Button>
               )}
-              {CheckPermissions(10) && (
+              {CheckPermissions("revert-merchant-in-rejected-request") && (
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
@@ -256,7 +238,6 @@ class MerchantRejectedProfile extends Component {
                   REVERT
                 </Button>
               )}
-
               <Button
                 style={{ color: "#4251af", backgroundColor: "white" }}
                 className="btn btn-green"
@@ -265,7 +246,7 @@ class MerchantRejectedProfile extends Component {
                 BACK
               </Button>
             </span>
-          </div>
+          </Grid>
           <hr />
 
           <Dialog open={this.state.openDelete}>
@@ -295,7 +276,7 @@ class MerchantRejectedProfile extends Component {
             </DialogActions>
           </Dialog>
 
-          <div className="request-status">
+          <Grid item xs={12} className="request-status">
             <div className="title" style={{ color: "white" }}>
               REJECTED
             </div>
@@ -305,131 +286,151 @@ class MerchantRejectedProfile extends Component {
                 {e?.adminUser?.first_name + " " + e?.adminUser?.last_name}
               </span>
             </h4>
-            <h4 style={{ color: "black" }}>
-              Date/Time:{" "}
-              {moment
+
+            <CustomText
+              value={`  Date/Time:
+              ${moment
                 .utc(e?.adminUser?.created_date)
                 .local()
-                .format("MM/DD/YYYY - hh:mm A")}
-            </h4>
-            <h4 style={{ fontWeight: 600, color: "black" }}>Reason:</h4>
-            <p>{e?.reason}</p>
-          </div>
+                .format("MM/DD/YYYY - hh:mm A")}`}
+            />
+            <CustomText value="Reason:" />
+            <CustomTextLabel value={e?.reason} />
+          </Grid>
           <hr />
           <div className="content">
-            <h2 style={styles.h2}>General Information</h2>
-            <div className="row justify-content-between">
-              <div className="col-4">
-                <label>Legal Business Name*</label>
-                <p>{e?.general?.legalBusinessName}</p>
-              </div>
-              <div className="col-4">
-                <label>Doing Business As* (DBA)</label>
-                <p>{e?.general?.doBusinessName}</p>
-              </div>
-              <div className="col-4">
-                <label>Federal Tax ID*</label>
-                <p>{e?.general?.tax}</p>
-              </div>
-              <div className="col-4">
-                <label>Business Address* (no P.O. Boxes)</label>
-                <p>{e?.address}</p>
-              </div>
-              <div className="col-3">
-                <label>City*</label>
-                <p>{e?.city}</p>
-              </div>
-              <div className="col-3">
-                <label>State Issued*</label>
-                <p>{e?.state?.name}</p>
-              </div>
-              <div className="col-2">
-                <label>Zip Code*</label>
-                <p>{e?.general?.zip}</p>
-              </div>
-
+            <Grid container spacing={3} className="container-fluid">
+              <Grid item xs={12}>
+                <CustomTitle value="General Information" />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Legal Business Name*" />
+                <CustomText value={e?.general?.legalBusinessName} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Doing Business As* (DBA)" />
+                <CustomText value={e?.general?.doBusinessName} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Federal Tax ID*" />
+                <CustomText value={e?.taxId} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Business Address* (no P.O. Boxes)" />
+                <CustomText value={e?.general?.address} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="City*" />
+                <CustomText value={e?.general?.city} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="State Issued*" />
+                <CustomText value={e?.state?.name} />
+              </Grid>
+              <Grid item xs={2}>
+                <CustomTextLabel value="Zip Code*" />
+                <CustomText value={e.zip} />
+              </Grid>
               {/* DBA ADDRESS */}
-              <div className="col-4">
-                <label>DBA Address* </label>
-                <p>{e?.general?.dbaAddress?.Address}</p>
-              </div>
-              <div className="col-3">
-                <label>City*</label>
-                <p>{e?.general?.dbaAddress?.City}</p>
-              </div>
-              <div className="col-3">
-                <label>State Issued*</label>
-                <p>{e?.general?.dbaAddress?.StateName}</p>
-              </div>
-              <div className="col-2">
-                <label>Zip Code*</label>
-                <p>{e?.general?.dbaAddress?.Zip}</p>
-              </div>
+              <Grid item xs={4}>
+                <CustomTextLabel value="DBA Address* " />
+                <CustomText value={e?.general?.dbaAddress?.Address} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="City*" />
+                <CustomText value={e?.general?.dbaAddress?.City} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="State Issued*" />
+                <CustomText value={e?.general?.dbaAddress?.StateName} />
+              </Grid>
+              <Grid item xs={2}>
+                <CustomTextLabel value="Zip Code*" />
+                <CustomText value={e?.general?.dbaAddress?.Zip} />
+              </Grid>
 
-              <div className="col-4">
-                <label>Business Phone Number*</label>
-                <p>{e?.general?.phoneBusiness}</p>
-              </div>
-              <div className="col-4">
-                <label>Contact Email Address*</label>
-                <p>{e?.general?.emailContact}</p>
-              </div>
-            </div>
-            {/* <h2 style={styles.h2}>Representative Information</h2> */}
-            <div className="row">
-              <div className="col-4">
-                <label>Contact Name*</label>
-                <p>{e?.general?.firstName + " " + e?.general?.lastName}</p>
-              </div>
-              <div className="col-4">
-                <label>Title/Position*</label>
-                <p>{e?.general?.title}</p>
-              </div>
-              <div className="col-4">
-                <label>Contact Phone Number*</label>
-                <p>{e?.general?.phoneContact}</p>
-              </div>
-            </div>
-            <h2 style={styles.h2}>Business Information</h2>
-            <div className="row">{renderQuestion}</div>
-            <h2 style={styles.h2}>Bank Information</h2>
-            <div className="row">
-              <div className="col-3">
-                <label>Account Holder Name*</label>
-                <p>{e?.businessBank?.accountHolderName}</p>
-              </div>
-              <div className="col-3">
-                <label>Bank Name*</label>
-                <p>{e?.businessBank?.name}</p>
-              </div>
-              <div className="col-3">
-                <label> Routing Number* (ABA)</label>
-                <p>{e?.businessBank?.routingNumber}</p>
-              </div>
-              <div className="col-3">
-                <label>Account Number* (DDA)</label>
-                <p>{e?.businessBank?.accountNumber}</p>
-              </div>
-              <div className="col-4">
-                <label>Void Check*</label> <br />
-                <img
-                  style={{ width: "250px" }}
-                  src={`${e?.businessBank?.imageUrl}`}
-                  alt="void check"
+              <Grid item xs={4}>
+                <CustomTextLabel value="Business Phone Number*" />
+                <CustomText value={e.phone} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Contact Email Address*" />
+                <CustomText value={e.email} />
+              </Grid>
+              <Grid item xs={4}></Grid>
+
+              <Grid item xs={4}>
+                <CustomTextLabel value="Contact Name*" />
+                <CustomText
+                  value={e?.general?.firstName + " " + e?.general?.lastName}
                 />
-              </div>
-            </div>
-            <h2 style={styles.h2}>Principal Information</h2>
-            {renderPrincipal}
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Title/Position*" />
+                <CustomText value={e?.general?.title} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Contact Phone Number*" />
+                <CustomText value={e?.general?.phoneContact} />
+              </Grid>
+              <Grid item xs={12}>
+                <CustomTitle value="Business Information" />
+              </Grid>
+              {renderQuestion}
+
+              <Grid item xs={12}>
+                <CustomTitle value="Bank Information" />
+              </Grid>
+
+              <Grid item xs={3}>
+                <CustomTextLabel value="Account Holder Name*" />
+                <CustomText value={e?.businessBank?.accountHolderName} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="Bank Name*" />
+                <CustomText value={e?.businessBank?.name} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="Routing Number* (ABA)" />
+                <CustomText value={e?.businessBank?.routingNumber} />
+              </Grid>
+              <Grid item xs={3}>
+                <CustomTextLabel value="Account Number* (DDA)" />
+                <CustomText value={e?.businessBank?.accountNumber} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Void Check*" />
+                {e.businessBank !== null ? (
+                  <a
+                    href={`${URL}/file/${
+                      e?.businessBank?.fileId
+                    }?fileName=VoidCheck-${(e?.general?.doBusinessName).trim()}`}
+                    download
+                  >
+                    <img
+                      className="pending-image"
+                      src={`${e.businessBank.imageUrl}`}
+                      alt="void check"
+                    />
+                  </a>
+                ) : null}
+              </Grid>
+
+              <Grid item xs={12}>
+                <CustomTitle value="Principal Information" />
+              </Grid>
+
+              {renderPrincipal}
+            </Grid>
           </div>
-        </div>
+        </Grid>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  RejectedProfile: state.ViewProfile_Rejected,
+  Profile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -439,21 +440,30 @@ const mapDispatchToProps = (dispatch) => ({
   deleteMerchant: (payload) => {
     dispatch(DELETE_MERCHANT(payload));
   },
+  SUCCESS_NOTIFICATION: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  FAILURE_NOTIFICATION: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
+  },
 });
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(MerchantRejectedProfile)
 );
 
-const styles = {
-  h2: {
-    padding: "10px 0px",
-    color: "#4251af",
-    fontWeight: "400",
-    margin: "0",
-  },
-  div: {
-    marginLeft: "40%",
-    textAlign: "left",
-    marginBottom: "10px",
-  },
-};
+function customLabel(questionId) {
+  switch (questionId) {
+    case 1:
+      return <CustomText value="Yes (if yes, who was the processor)" />;
+    case 2:
+      return <CustomText value="Yes (if yes, who was the processor)" />;
+    case 3:
+      return <CustomText value="Yes (if yes, date filed)" />;
+    case 4:
+      return <CustomText value="Yes (if yes, what was program and when)" />;
+    case 5:
+      return <CustomText value="Yes (if yes, who was your previous company)" />;
+    default:
+      return <CustomText value="Yes" />;
+  }
+}

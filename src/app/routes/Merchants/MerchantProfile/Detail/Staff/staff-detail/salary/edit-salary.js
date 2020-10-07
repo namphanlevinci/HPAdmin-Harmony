@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions";
 
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
-import CurrencyInput from "react-currency-masked-input";
-import Grid from "@material-ui/core/Grid";
+import CustomCurrencyInput from "../../../../../../../../util/CustomCurrencyInput";
+
+import {
+  InputAdornment,
+  Grid,
+  Checkbox,
+  Button,
+  Input,
+} from "@material-ui/core";
 
 class EditSalary extends Component {
   constructor(props) {
@@ -39,16 +44,16 @@ class EditSalary extends Component {
     const value = event.target.checked;
     this.setState({ ...this.state, [name]: value });
     if (name === "salaryIsCheck" && value === true) {
-      this.setState({ commIsCheck: false, commValue: 0 });
+      this.setState({ commIsCheck: false, commValue: (0).toFixed(2) });
     }
     if (name === "commIsCheck" && value === true) {
-      this.setState({ salaryIsCheck: false, salaryValue: 0 });
+      this.setState({ salaryIsCheck: false, salaryValue: (0).toFixed(2) });
     }
     if (name === "tipIsCheck" && value === true) {
-      this.setState({ fixIsCheck: false, fixValue: 0 });
+      this.setState({ fixIsCheck: false, fixValue: (0).toFixed(2) });
     }
     if (name === "fixIsCheck" && value === true) {
-      this.setState({ tipIsCheck: false, tipValue: 0 });
+      this.setState({ tipIsCheck: false, tipValue: (0).toFixed(2) });
     }
   };
 
@@ -169,7 +174,6 @@ class EditSalary extends Component {
                     <Checkbox
                       name="salaryIsCheck"
                       checked={salaryIsCheck}
-                      // disabled={commIsCheck ? true : false}
                       onChange={this.handleCheckBox("salaryIsCheck")}
                       inputProps={{
                         "aria-label": "primary checkbox",
@@ -177,25 +181,25 @@ class EditSalary extends Component {
                     />
                     <label>Salary Per Hour</label>
                   </div>
-                  <div className="input-box">
-                    <CurrencyInput
-                      name="salaryValue"
-                      type="tel"
-                      separator="."
-                      value={salaryValue}
-                      disabled={commIsCheck ? true : false}
-                      onChange={this.handleCurrency}
-                    />
-
-                    <span className="unit">$</span>
-                  </div>
+                  <Input
+                    name="salaryValue"
+                    type="tel"
+                    separator="."
+                    style={styles.input}
+                    value={salaryValue}
+                    disabled={commIsCheck ? true : false}
+                    onChange={this.handleCurrency}
+                    inputComponent={CustomCurrencyInput}
+                    startAdornment={
+                      <InputAdornment position="start">$</InputAdornment>
+                    }
+                  />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
                   <div className="checkbox">
                     <Checkbox
                       name="commIsCheck"
                       checked={commIsCheck}
-                      // disabled={salaryIsCheck ? true : false}
                       onChange={this.handleCheckBox("commIsCheck")}
                       inputProps={{
                         "aria-label": "primary checkbox",
@@ -203,18 +207,20 @@ class EditSalary extends Component {
                     />
                     <label>Salary Commission</label>
                   </div>
-                  <div className="input-box">
-                    <CurrencyInput
-                      name="commValue"
-                      type="number"
-                      separator="."
-                      value={commValue}
-                      disabled={salaryIsCheck ? true : false}
-                      onChange={this.handleCurrency}
-                    />
 
-                    <span className="unit">%</span>
-                  </div>
+                  <Input
+                    name="commValue"
+                    type="tel"
+                    separator="."
+                    value={commValue}
+                    style={styles.input}
+                    disabled={salaryIsCheck ? true : false}
+                    onChange={this.handleCurrency}
+                    inputComponent={CustomCurrencyInput}
+                    startAdornment={
+                      <InputAdornment position="start">%</InputAdornment>
+                    }
+                  />
                 </Grid>
 
                 <Grid item md={6} sm={12} xs={12}>
@@ -230,17 +236,20 @@ class EditSalary extends Component {
                     />
                     <label>Product Commission</label>
                   </div>
-                  <div className="input-box">
-                    <CurrencyInput
-                      type="number"
-                      name="prodCommValue"
-                      value={prodCommValue}
-                      separator="."
-                      disabled={prodCommIsCheck ? false : true}
-                      onChange={this.handleCurrency}
-                    />
-                    <span className="unit">%</span>
-                  </div>
+
+                  <Input
+                    type="tel"
+                    name="prodCommValue"
+                    value={prodCommValue}
+                    separator="."
+                    style={styles.input}
+                    disabled={prodCommIsCheck ? false : true}
+                    onChange={this.handleCurrency}
+                    inputComponent={CustomCurrencyInput}
+                    startAdornment={
+                      <InputAdornment position="start">%</InputAdornment>
+                    }
+                  />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}></Grid>
 
@@ -249,7 +258,6 @@ class EditSalary extends Component {
                     <Checkbox
                       name="tipIsCheck"
                       checked={tipIsCheck}
-                      // disabled={fixIsCheck ? true : false}
                       onChange={this.handleCheckBox("tipIsCheck")}
                       inputProps={{
                         "aria-label": "primary checkbox",
@@ -257,24 +265,26 @@ class EditSalary extends Component {
                     />
                     <label>Tip Percent</label>
                   </div>
-                  <div className="input-box">
-                    <CurrencyInput
-                      type="number"
-                      name="tipValue"
-                      value={tipValue}
-                      separator="."
-                      disabled={fixIsCheck ? true : false}
-                      onChange={this.handleCurrency}
-                    />
-                    <span className="unit">%</span>
-                  </div>
+
+                  <Input
+                    type="tel"
+                    name="tipValue"
+                    value={tipValue}
+                    style={styles.input}
+                    separator="."
+                    disabled={fixIsCheck ? true : false}
+                    onChange={this.handleCurrency}
+                    inputComponent={CustomCurrencyInput}
+                    startAdornment={
+                      <InputAdornment position="start">%</InputAdornment>
+                    }
+                  />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
                   <div className="checkbox">
                     <Checkbox
                       name="fixIsCheck"
                       checked={fixIsCheck}
-                      // disabled={tipIsCheck ? true : false}
                       onChange={this.handleCheckBox("fixIsCheck")}
                       inputProps={{
                         "aria-label": "primary checkbox",
@@ -282,18 +292,20 @@ class EditSalary extends Component {
                     />
                     <label>Tip Fixed Amount</label>
                   </div>
-                  <div className="input-box">
-                    <CurrencyInput
-                      name="fixValue"
-                      type="tel"
-                      separator="."
-                      value={fixValue}
-                      disabled={tipIsCheck ? true : false}
-                      onChange={this.handleCurrency}
-                    />
 
-                    <span className="unit">$</span>
-                  </div>
+                  <Input
+                    style={styles.input}
+                    name="fixValue"
+                    type="tel"
+                    separator="."
+                    value={fixValue}
+                    disabled={tipIsCheck ? true : false}
+                    onChange={this.handleCurrency}
+                    inputComponent={CustomCurrencyInput}
+                    startAdornment={
+                      <InputAdornment position="start">$</InputAdornment>
+                    }
+                  />
                 </Grid>
 
                 <Grid item md={6} sm={12} xs={12}>
@@ -301,26 +313,27 @@ class EditSalary extends Component {
                     <Checkbox checked />
                     <label>Payout with Cash </label>
                   </div>
-                  <div>
-                    <div className="input-box">
-                      <CurrencyInput
-                        name="cashPercent"
-                        value={cashPercent}
-                        onChange={this.handleCurrency}
-                        min="0"
-                        max="100"
-                        type="number"
-                        separator="."
-                      />
-                      <span className="unit">%</span>
-                    </div>
-                  </div>
+
+                  <Input
+                    style={styles.input}
+                    name="cashPercent"
+                    value={cashPercent}
+                    onChange={this.handleCurrency}
+                    min="0"
+                    max="100"
+                    type="tel"
+                    separator="."
+                    inputComponent={CustomCurrencyInput}
+                    startAdornment={
+                      <InputAdornment position="start">%</InputAdornment>
+                    }
+                  />
                 </Grid>
               </Grid>
             </React.Fragment>
           )}
 
-          <div className="SettingsContent general-content" style={styles.div}>
+          <div style={styles.div}>
             <Button className="btn btn-green" onClick={this.handleUpdateStaff}>
               SAVE
             </Button>
@@ -356,7 +369,8 @@ const styles = {
     paddingTop: "20px",
   },
   input: {
-    width: "50%",
+    width: "90%",
+    float: "right",
   },
   icon: {
     cursor: "pointer",

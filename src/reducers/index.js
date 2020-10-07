@@ -8,20 +8,11 @@ import getAllUser from "./User/getAllUser";
 // import Verify from "./User/Verify";
 // import addAdminUser from "./User/addAdmin";
 // MERCHANT ACCEPTED LIST
-import SearchMerchants from "./Merchants/SearchMerchants";
 import ViewProfile_Merchants from "./Merchants/ViewProfile_Merchants";
 import ViewProfile_Rejected from "./Merchants/ViewProfile_Rejected";
-// MERCHANT PENDING LIST
-import MerchantRequests_List from "./Merchants/MerchantsPending_List";
-import ViewMerchant_Request from "./Merchants/ViewMerchant_Pending";
-// VIEW MERCHANT SERVICE
+
 import VIEW_SERVICE_EDIT from "./Merchants/viewService";
-import VIEW_STAFF_DETAIL from "./Merchants/view_staff_detail";
-// SEND APPROVAL & REJECT REQUEST
-import Approval from "./Merchants/Approval";
-import Reject from "./Merchants/Reject";
-// EDIT MERCHANT INFOR (GENERAL)
-import updateMerchant_Infor from "./Merchants/updateMerchant_Infor";
+
 // GET MERCHANT BY ID
 import getMerchant_byID from "./Merchants/getMerchant_byID";
 // NOTIFICATIONS
@@ -33,7 +24,8 @@ import getAll_Questions from "./Business/getAll_Questions";
 import getAll_Transactions from "./Transactions/getTransactions";
 import getAll_ConsumerUsers from "./Business/getAll_ConsumerUsers";
 import Update_Questions from "./Business/update_Questions";
-// CONSUMER & TRANSACTIONS & BATCHS
+
+// CONSUMER & TRANSACTIONS & BATCH
 import getUser_Transaction from "./Transactions/getUser_Transactions";
 import getUser_Activity from "./Transactions/getUser_Activity";
 import getAllBatch from "./Transactions/getBatch";
@@ -55,9 +47,7 @@ export default (history) =>
     getAllUser,
     userReducer,
     ViewProfile_Merchants,
-    SearchMerchants,
-    MerchantRequests_List,
-    ViewMerchant_Request,
+
     ViewProfile_Rejected,
     NotificationReducer,
     getLogs: getAll_Logs,
@@ -66,10 +56,8 @@ export default (history) =>
     getConsumerUsers: getAll_ConsumerUsers,
     userTransaction: getUser_Transaction,
     userActivity: getUser_Activity,
-    updateMerchant_Infor,
     getMerchant: getMerchant_byID,
-    Approval,
-    Reject,
+
     uQuestions: Update_Questions,
     ApprovedStatic: Approved_Static,
     // addAdminUser,
@@ -78,8 +66,8 @@ export default (history) =>
     BatchDetail: getBatchDetail,
 
     serviceProps: VIEW_SERVICE_EDIT,
+
     GiftCardReducer,
-    staffDetail: VIEW_STAFF_DETAIL,
     MerchantReducer,
     ConsumerReducer,
   });

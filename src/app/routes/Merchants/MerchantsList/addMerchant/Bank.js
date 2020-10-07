@@ -96,7 +96,7 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
 
             <FormControl style={{ width: "100%", marginTop: "16px" }}>
               <InputLabel htmlFor="formatted-text-mask-input">
-                Account Number* (ABA)
+                Account Number* (DDA)
               </InputLabel>
               <Input
                 value={value.accountNumber}

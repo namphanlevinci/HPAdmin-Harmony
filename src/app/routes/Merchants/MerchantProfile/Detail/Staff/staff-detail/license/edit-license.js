@@ -117,10 +117,7 @@ export class EditLicense extends Component {
               </div>
             )}
 
-            <div
-              className="SettingsContent general-content"
-              style={{ paddingTop: "200px" }}
-            >
+            <div style={{ paddingTop: "200px" }}>
               <Button
                 className="btn btn-green"
                 onClick={this.handleUpdateStaff}

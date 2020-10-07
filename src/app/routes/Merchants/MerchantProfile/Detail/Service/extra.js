@@ -29,7 +29,6 @@ const colourStyles = {
     backgroundColor: "transparent",
   }),
   placeholder: (styles) => ({ ...styles }),
-  // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
 };
 
 const Extra = ({

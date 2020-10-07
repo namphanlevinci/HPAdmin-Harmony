@@ -2,8 +2,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
 import { Formik } from "formik";
-import { store } from "react-notifications-component";
 import { config } from "../../../../../../url/url";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../../actions/notifications/actions";
+
+import {
+  Select,
+  TextField,
+  InputLabel,
+  FormControl,
+  Grid,
+  FormHelperText,
+} from "@material-ui/core";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import ReactTable from "react-table";
 import axios from "axios";
@@ -13,7 +26,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Select from "react-select";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -21,6 +33,8 @@ import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
+
+import EditCategory from "./edit-category";
 
 import "react-table/react-table.css";
 import "./category.styles.scss";
@@ -42,6 +56,7 @@ class Category extends Component {
       cateDialog: false,
       // Category ID để update
       categoryId: "",
+      edit: false,
     };
   }
 
@@ -62,20 +77,13 @@ class Category extends Component {
     this.getCategory();
   }
 
-  _SearchMerchants = async (e) => {
-    await this.setState({ search: e.target.value });
+  handleToggleEdit = () => {
+    this.setState({ edit: !this.state.edit });
   };
 
   handleEdit = (e) => {
     this.props.VIEW_SERVICE(e);
-    this.props.history.push("/app/merchants/profile/category/edit");
-  };
-
-  handleSetState = (data) => {
-    this.setState({
-      categoryId: data.categoryType,
-      name: data.name,
-    });
+    this.setState({ edit: true });
   };
 
   handleArchive = (ID) => {
@@ -204,9 +212,9 @@ class Category extends Component {
             );
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(19) && actionsBtn}
+              {CheckPermissions("active-category") && actionsBtn}
 
-              {CheckPermissions(20) && (
+              {CheckPermissions("edit-category") && (
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
@@ -223,10 +231,6 @@ class Category extends Component {
       },
     ];
 
-    const categorySelect = [
-      { value: "Product", label: "Product" },
-      { value: "Service", label: "Service" },
-    ];
     return (
       <div className="react-transition swipe-up category-container">
         <div style={{ padding: "10px" }}>
@@ -245,8 +249,7 @@ class Category extends Component {
             </div>
             <div>
               {/* NEW ADD FORM */}
-
-              {CheckPermissions(18) && (
+              {CheckPermissions("add-new-category") && (
                 <Button
                   className="btn add-category"
                   style={{ marginTop: "0px" }}
@@ -256,11 +259,7 @@ class Category extends Component {
                 </Button>
               )}
 
-              <Dialog
-                open={this.state.cateDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
+              <Dialog open={this.state.cateDialog}>
                 <DialogContent>
                   <div className="category">
                     <div className="category-title-container">
@@ -272,10 +271,10 @@ class Category extends Component {
                         validate={(values) => {
                           const errors = {};
                           if (!values.categoryType) {
-                            errors.categoryType = "Required";
+                            errors.categoryType = "Category type is required";
                           }
                           if (!values.name) {
-                            errors.name = "Required";
+                            errors.name = "Category name is required";
                           }
                           return errors;
                         }}
@@ -301,39 +300,13 @@ class Category extends Component {
                               let message = res.data.message;
                               if (res.data.codeNumber === 200) {
                                 this.setState({ cateDialog: false });
-                                store.addNotification({
-                                  title: "SUCCESS!",
-                                  message: `${message}`,
-                                  type: "success",
-                                  insert: "top",
-                                  container: "top-right",
-                                  animationIn: ["animated", "fadeIn"],
-                                  animationOut: ["animated", "fadeOut"],
-                                  dismiss: {
-                                    duration: 5000,
-                                    onScreen: true,
-                                  },
-                                  width: 250,
-                                });
+                                this.props.successNotify(message);
 
                                 setTimeout(() => {
                                   this.getCategory();
                                 }, 800);
                               } else {
-                                store.addNotification({
-                                  title: "ERROR!",
-                                  message: `${message}`,
-                                  type: "success",
-                                  insert: "top",
-                                  container: "top-right",
-                                  animationIn: ["animated", "fadeIn"],
-                                  animationOut: ["animated", "fadeOut"],
-                                  dismiss: {
-                                    duration: 5000,
-                                    onScreen: true,
-                                  },
-                                  width: 250,
-                                });
+                                this.props.failureNotify(message);
                               }
                             });
                         }}
@@ -349,73 +322,78 @@ class Category extends Component {
                           setFieldValue,
                         }) => (
                           <form onSubmit={handleSubmit}>
-                            <h5>Category Type*</h5>
-
-                            <div className="select-category">
-                              <Select
-                                options={categorySelect}
-                                className={
-                                  errors.categoryType && touched.categoryType
-                                    ? "text-input error"
-                                    : "text-input"
-                                }
-                                onChange={(selectedOption) => {
-                                  // console.log({ value: selectedOption.value });
-                                  setFieldValue(
-                                    "categoryType",
-                                    selectedOption.value
-                                  );
-                                }}
-                              />
-                            </div>
-                            {errors.categoryType && touched.categoryType && (
-                              <div className="input-feedback">
-                                {errors.categoryType}
+                            <Grid container>
+                              <Grid item xs={12}>
+                                <FormControl style={{ width: "50%" }}>
+                                  <InputLabel
+                                    className={
+                                      errors.categoryType &&
+                                      touched.categoryType
+                                        ? "error-text"
+                                        : ""
+                                    }
+                                  >
+                                    Category Type*
+                                  </InputLabel>
+                                  <Select
+                                    onChange={(e) => {
+                                      setFieldValue(
+                                        "categoryType",
+                                        e.target.value
+                                      );
+                                    }}
+                                    error={
+                                      errors.categoryType &&
+                                      touched.categoryType
+                                    }
+                                  >
+                                    <MenuItem value="Product">Product</MenuItem>
+                                    <MenuItem value="Service">Service</MenuItem>
+                                  </Select>
+                                  {errors.categoryType &&
+                                  touched.categoryType ? (
+                                    <FormHelperText className="error-text">
+                                      {errors.categoryType}
+                                    </FormHelperText>
+                                  ) : null}
+                                </FormControl>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <TextField
+                                  type="text"
+                                  name="name"
+                                  margin="normal"
+                                  label="Category Name*"
+                                  fullWidth
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.name}
+                                  error={errors.name && Boolean(touched.name)}
+                                  helperText={
+                                    errors.name && touched.name
+                                      ? errors.name
+                                      : ""
+                                  }
+                                />
+                              </Grid>
+                              <div className="category-button">
+                                <Button
+                                  className="btn btn-green"
+                                  type="submit"
+                                  disabled={isSubmitting}
+                                >
+                                  SAVE
+                                </Button>
+                                <Button
+                                  className="btn btn-red"
+                                  onClick={() =>
+                                    this.setState({ cateDialog: false })
+                                  }
+                                >
+                                  CANCEL
+                                </Button>
                               </div>
-                            )}
-
-                            <h5>Category Name*</h5>
-                            <input
-                              style={{
-                                padding: "10px",
-                                height: "50px",
-                                width: "100%",
-                              }}
-                              type="text"
-                              name="name"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.name}
-                              className={
-                                errors.name && touched.name
-                                  ? "text-input error"
-                                  : "text-input"
-                              }
-                            />
-                            {errors.name && touched.name && (
-                              <div className="input-feedback">
-                                {errors.name}
-                              </div>
-                            )}
-                            <div className="category-button">
-                              <Button
-                                style={{ marginTop: "20px" }}
-                                className="btn btn-green"
-                                type="submit"
-                                disabled={isSubmitting}
-                              >
-                                SAVE
-                              </Button>
-                              <Button
-                                style={{ marginTop: "20px" }}
-                                className="btn btn-red"
-                                onClick={() =>
-                                  this.setState({ cateDialog: false })
-                                }
-                              >
-                                CANCEL
-                              </Button>
-                            </div>
+                            </Grid>
                           </form>
                         )}
                       </Formik>
@@ -499,6 +477,17 @@ class Category extends Component {
                 </Button>
               </DialogActions>
             </Dialog>
+
+            {/* // EDIT CAGETORY  */}
+            <Dialog open={this.state.edit} maxWidth="sm" fullWidth>
+              <DialogTitle>{"Edit Category"}</DialogTitle>
+              <DialogContent>
+                <EditCategory
+                  toggleEdit={this.handleToggleEdit}
+                  getCategory={this.getCategory}
+                />
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
@@ -513,6 +502,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   VIEW_SERVICE: (payload) => {
     dispatch(VIEW_SERVICE(payload));
+  },
+  successNotify: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  failureNotify: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Category);

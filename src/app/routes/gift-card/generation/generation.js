@@ -191,7 +191,7 @@ class Generation extends Component {
                   />
                 </Tooltip>
               )} */}
-              {CheckPermissions(38) && (
+              {CheckPermissions("edit-gift-card") && (
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "10px" }}>
                     <img
@@ -233,7 +233,7 @@ class Generation extends Component {
                 onKeyPress={this.keyPressed}
               />
             </form>
-            {CheckPermissions(36) && (
+            {CheckPermissions("add-new-gift-card") && (
               <Button
                 className="btn btn-green"
                 onClick={() =>

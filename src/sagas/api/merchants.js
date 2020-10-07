@@ -606,3 +606,32 @@ export function* UPDATE_STAFF_API(payload) {
     });
   return kq;
 }
+
+// Add Staff
+export function* ADD_STAFF_API(payload) {
+  const getInfoLogin = (state) => state.userReducer.User;
+  const infoLogin = yield select(getInfoLogin);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + infoLogin.token,
+    },
+  };
+
+  console.log("PAYLOAD API", payload);
+
+  const kq = yield axios
+    .post(
+      URL + `/staff`,
+      {
+        ...payload,
+      },
+      config
+    )
+    .then((result) => {
+      return result.data.message;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return kq;
+}

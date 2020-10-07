@@ -104,3 +104,23 @@ label {
 
 
 
+.content__title {
+  color: #4251af;
+}
+.content__label {
+  color: #707070;
+}
+.content__text {
+  color: #404040;
+  font-weight: 500 !important;
+}
+
+.table__light {
+  font-weight: 300 !important;
+}
+
+.table__header {
+  color: white;
+  padding-left: 5px;
+  line-height: 1.4 !important;
+}

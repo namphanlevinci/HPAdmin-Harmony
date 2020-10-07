@@ -1,5 +1,5 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
+import { TextField, Grid } from "@material-ui/core";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 
 import "react-phone-number-input/style.css";
@@ -9,22 +9,21 @@ const General = ({
   handlePhone,
   data: { phone, email, address, birthDate, password, loading },
 }) => {
-  console.log("handlePhone", handlePhone);
-  console.log("handleChange", handleChange);
   return (
     <div>
       <h2 style={styles.h2}>Contact Information</h2>
 
-      <div className="row">
-        <div className="col-3">
+      <Grid container spacing={3}>
+        <Grid item xs={3}>
           <MaterialUiPhoneNumber
+            onlyCountries={["us", "vn"]}
             label="Phone"
             value={phone}
             onChange={handlePhone}
             fullWidth
           />
-        </div>
-        <div className="col-4">
+        </Grid>
+        <Grid item xs={4}>
           <TextField
             label="Address"
             type="text"
@@ -33,17 +32,18 @@ const General = ({
             onChange={handleChange}
             fullWidth
           />
-        </div>
-        <div className="col-5">
+        </Grid>
+        <Grid item xs={5}>
           <TextField
             label="Email"
+            fullWidth
             type="text"
             name="email"
             value={email}
             onChange={handleChange}
           />
-        </div>
-      </div>
+        </Grid>
+      </Grid>
 
       <h2 style={styles.h2}>Basic Information</h2>
 

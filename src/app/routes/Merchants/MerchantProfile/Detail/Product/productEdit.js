@@ -1,21 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
-import { store } from "react-notifications-component";
+import { Grid } from "@material-ui/core";
+import {
+  TextField,
+  InputAdornment,
+  FormControl,
+  InputLabel,
+} from "@material-ui/core";
+import { Formik } from "formik";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../../actions/notifications/actions";
 
+import FormHelperText from "@material-ui/core/FormHelperText";
+import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
-import Select from "react-select";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
-import CurrencyInput from "react-currency-masked-input";
-
-import "react-table/react-table.css";
-import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
-import "../../../MerchantsList/merchantsList.css";
-import "../Detail.css";
-import "../Service/service.style.scss";
 
 const URL = config.url.URL;
 const upFile = config.url.upFile;
@@ -56,34 +61,34 @@ class EditProduct extends Component {
         this.setState({ category: res.data.data });
       });
     const product = this.props.SERVICE;
-    if (product !== null) {
-      this.setState({
-        categoryId: product.categoryId,
-        description: product.description,
-        price: product.price,
-        tax: product.tax,
-        discount: product.discount,
-        fileId: product.fileId,
-        name: product.name,
-        isDisabled: product.isDisabled,
-        quantity: product.quantity,
-        maxThreshold: product.maxThreshold,
-        minThreshold: product.minThreshold,
-        sku: product.sku,
-        imageUrl: product.imageUrl,
-        productId: product.productId,
-        loading: true,
-      });
-    }
+    const merchantId = this.props.MerchantProfile.merchantId;
+
+    this.setState({
+      categoryId: product?.categoryId,
+      description: product?.description,
+      price: product?.price,
+      tax: product?.tax,
+      discount: product?.discount,
+      fileId: product?.fileId,
+      name: product?.name,
+      isDisabled: product?.isDisabled,
+      quantity: product?.quantity,
+      maxThreshold: product?.maxThreshold,
+      minThreshold: product?.minThreshold,
+      sku: product?.sku,
+      imageUrl: product?.imageUrl,
+      productId: product?.productId,
+      merchantId,
+      loading: true,
+    });
   }
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  handleImage = (e) => {
+  handleImage = (e, setFieldValue) => {
     e.preventDefault();
-
     // handle preview Image
     let reader = new FileReader();
     let file = e.target.files[0];
@@ -103,7 +108,8 @@ class EditProduct extends Component {
     axios
       .post(upFile, formData, config)
       .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
+        // this.setState({ fileId: res.data.data.fileId });
+        setFieldValue("fileId", res.data.data.fileId);
       })
       .catch((err) => {
         console.log(err);
@@ -113,93 +119,13 @@ class EditProduct extends Component {
     this.props.history.push("/app/merchants/profile/product");
   };
 
-  updateProduct = () => {
-    const {
-      categoryId,
-      description,
-      price,
-      tax,
-      discount,
-      fileId,
-      name,
-      isDisabled,
-      quantity,
-      maxThreshold,
-      minThreshold,
-      sku,
-      imageUrl,
-      productId,
-    } = this.state;
-    const merchantId = this.props.MerchantProfile.merchantId;
-
-    axios
-      .put(
-        URL + "/product/" + productId,
-        {
-          categoryId,
-          description,
-          price,
-          tax,
-          discount,
-          fileId,
-          name,
-          isDisabled,
-          quantity,
-          maxThreshold,
-          minThreshold,
-          sku,
-          imageUrl,
-          merchantId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        let message = res.data.message;
-        if (res.data.codeNumber === 200) {
-          store.addNotification({
-            title: "SUCCESS!",
-            message: `${message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-          setTimeout(() => {
-            this.props.history.push("/app/merchants/profile/product");
-          }, 800);
-        } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${message}`,
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
-        }
-      });
-  };
-
   render() {
-    const product = this.props.SERVICE;
-    // const { category } = this.state;
-
+    const { category } = this.state;
+    const mapCategory2 = category
+      .filter((e) => e.categoryType !== "Service")
+      .map((e) => {
+        return <MenuItem value={e.categoryId}>{e.name}</MenuItem>;
+      });
     //~ preview image
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
@@ -207,7 +133,7 @@ class EditProduct extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "250px", height: "250px" }}
+          style={{ width: "100%", height: "auto" }}
           alt="void"
         />
       );
@@ -215,182 +141,383 @@ class EditProduct extends Component {
       $imagePreview = (
         <img
           src={this.state.imageUrl === "" ? ServiceImg : this.state.imageUrl}
-          style={{ width: "250px", height: "250px" }}
+          style={{ width: "100%", height: "auto" }}
           alt="void"
         />
       );
     }
-    const serviceStatus = [
-      { value: "0", label: "Active" },
-      { value: "1", label: "Inactive" },
-    ];
 
     return (
       <div className="react-transition swipe-up service-container">
-        <h2 style={{ color: "#4251af" }}>Edit Product</h2>
-        <div className="container Service" style={{ paddingLeft: "0px" }}>
-          <div className="row">
-            <div className="col-4">
-              <label>Image*</label>
-              <br />
-              {$imagePreview}
-              <div style={{ width: "85%" }}>
-                <input
-                  name="price"
-                  type="file"
-                  className="custom-input"
-                  onChange={this.handleImage}
-                  style={{
-                    marginTop: "20px",
-                  }}
-                />
-              </div>
-            </div>
-            <div className="col-8">
-              <div className="row">
-                <div className="col-4">
-                  <label>Product*</label>
-                  <br />
-                  <input
-                    name="name"
-                    type="text"
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="col-4">
-                  <label>SKU Number*</label>
-                  <br />
-                  <input
-                    name="sku"
-                    type="text"
-                    value={this.state.sku}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="col-4">
-                  <label>Category*</label>
-                  <br />
+        <h2 style={{ color: "#4251af", paddingBottom: "30px" }}>
+          Edit Product
+        </h2>
 
-                  {this.state.loading && (
-                    <Select
-                      // styles={colourStyles}
-                      options={this.state.category
-                        .filter((e) => e.categoryType === "Product")
-                        .map((e) => {
-                          return {
-                            id: e.categoryId,
-                            value: e.categoryId,
-                            label: e.name,
-                          };
-                        })}
-                      defaultValue={{
-                        value: this.state.categoryId,
-                        label: product.categoryName,
+        {this.state.loading && (
+          <Formik
+            initialValues={this.state}
+            validate={(values) => {
+              const errors = {};
+              if (!values?.name) {
+                errors.name = "Required";
+              }
+              if (!values?.sku) {
+                errors.sku = "Please enter SKU number";
+              }
+              if (!values?.categoryId) {
+                errors.categoryId = "Please choose a category";
+              }
+              if (!values?.quantity) {
+                errors.quantity = "Please enter quantity";
+              }
+              if (!values?.maxThreshold) {
+                errors.maxThreshold = "Please enter max threshold";
+              }
+              if (!values?.minThreshold) {
+                errors.minThreshold = "Please enter min threshold";
+              }
+              if (!values?.price) {
+                errors.price = "Please enter price";
+              }
+              return errors;
+            }}
+            onSubmit={(
+              values,
+              { setSubmitting, setFieldError },
+              setFieldValue
+            ) => {
+              const {
+                categoryId,
+                description,
+                price,
+                tax,
+                discount,
+                name,
+                isDisabled,
+                quantity,
+                maxThreshold,
+                minThreshold,
+                sku,
+                productId,
+                merchantId,
+              } = values;
+
+              let fileId = this.state.fileId;
+
+              axios
+                .put(
+                  URL + "/product/" + productId,
+                  {
+                    categoryId,
+                    description,
+                    price,
+                    tax,
+                    discount,
+                    fileId,
+                    name,
+                    isDisabled,
+                    quantity,
+                    maxThreshold,
+                    minThreshold,
+                    sku,
+
+                    merchantId,
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${this.props.userLogin.token}`,
+                    },
+                  }
+                )
+                .then((res) => {
+                  let message = res.data.message;
+                  if (message === "The SKU is exist.") {
+                    setFieldError("sku", "SKU number already exits");
+                    setSubmitting(false);
+                  } else if (Number(res.data.codeNumber) === 200) {
+                    this.props.successNotify(message);
+                    setTimeout(() => {
+                      this.props.history.push("/app/merchants/profile/product");
+                    }, 800);
+                  } else {
+                    this.props.failureNotify(message);
+                  }
+                });
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+              setFieldValue,
+              /* and other goodies */
+            }) => (
+              <form onSubmit={handleSubmit} noValidate>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={6}>
+                    <FormControl
+                      style={{ width: "50%" }}
+                      error={errors.categoryId && touched.categoryId}
+                    >
+                      <InputLabel>Category*</InputLabel>
+                      <Select
+                        defaultValue={values.categoryId}
+                        value={values.categoryId}
+                        displayEmpty
+                        onChange={(e) => {
+                          setFieldValue("categoryId", e.target.value);
+                        }}
+                      >
+                        {mapCategory2}
+                      </Select>
+                      {errors.categoryId && touched.categoryId && (
+                        <FormHelperText>Required</FormHelperText>
+                      )}
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <TextField
+                      name="sku"
+                      type="text"
+                      fullWidth
+                      label="SKU Number*"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values?.sku}
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
                       }}
-                      onChange={(selectedOption) => {
-                        this.setState({ categoryId: selectedOption.value });
-                      }}
-                      placeholder="- Select -"
-                      loadingMessage={() => "Fetching Service"}
-                      noOptionsMessage={() => "Service appears here!"}
+                      error={touched.sku && Boolean(errors.sku)}
+                      helperText={touched.sku ? errors.sku : ""}
+                      InputLabelProps={{ shrink: true }}
                     />
-                  )}
-                </div>
-                <div className="col-4">
-                  <label>Items In Stock*</label>
-                  <div className="input-box">
-                    <input
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <TextField
                       name="quantity"
                       type="number"
-                      value={this.state.quantity}
-                      onChange={this.handleChange}
+                      label=" Items In Stock*"
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
+                        width: "100%",
+                        textAlign: "end",
+                      }}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values?.quantity}
+                      error={touched.quantity && Boolean(errors.quantity)}
+                      helperText={touched.quantity ? errors.quantity : ""}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">Item</InputAdornment>
+                        ),
+                      }}
                     />
-                    <span className="unit">Item</span>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <label>Low Threshold*</label>
-                  <div className="input-box">
-                    <input
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      name="name"
+                      type="text"
+                      label="Product Name*"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values?.name}
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
+                        width: "100%",
+                      }}
+                      // variant="outlined"
+                      error={errors.name && touched.name}
+                      helperText={touched.name ? errors.name : ""}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <TextField
                       name="minThreshold"
                       type="number"
-                      value={this.state.minThreshold}
-                      onChange={this.handleChange}
+                      label="Low Threshold*"
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
+                        width: "100%",
+                        textAlign: "end",
+                      }}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values?.minThreshold}
+                      error={
+                        touched.minThreshold && Boolean(errors.minThreshold)
+                      }
+                      helperText={
+                        touched.minThreshold ? errors.minThreshold : ""
+                      }
+                      className={
+                        errors.minThreshold && touched.minThreshold
+                          ? "text-input error"
+                          : "text-input"
+                      }
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">Item</InputAdornment>
+                        ),
+                      }}
                     />
-                    <span className="unit">Item</span>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <label>High Threshold*</label>
-                  <div className="input-box">
-                    <input
+                  </Grid>
+
+                  <Grid item xs={12} md={3}>
+                    <TextField
                       name="maxThreshold"
                       type="number"
-                      value={this.state.maxThreshold}
-                      onChange={this.handleChange}
+                      label="  High Threshold*"
+                      style={{
+                        borderBottomColor: "#dddddd",
+                        borderBottomWidth: 1,
+                        width: "100%",
+                        textAlign: "end",
+                      }}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values?.maxThreshold}
+                      error={
+                        touched.maxThreshold && Boolean(errors.maxThreshold)
+                      }
+                      helperText={
+                        touched.maxThreshold ? errors.maxThreshold : ""
+                      }
+                      className={
+                        errors.maxThreshold && touched.maxThreshold
+                          ? "text-input error"
+                          : "text-input"
+                      }
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">Item</InputAdornment>
+                        ),
+                      }}
                     />
-                    <span className="unit">Item</span>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <label>Price* </label>
-                  <br />
-                  <div className="input-box">
-                    <CurrencyInput
+                  </Grid>
+
+                  <Grid item xs={12} md={6}>
+                    <label
+                      style={{
+                        color: "#4054B2",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Description
+                    </label>
+                    <br />
+                    <textarea
+                      style={styles.textarea}
+                      name="description"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values?.description}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} md={3}>
+                    <TextField
+                      onChange={(e, masked) => setFieldValue("price", masked)}
+                      error={touched.price && Boolean(errors.price)}
+                      helperText={touched.price ? errors.price : ""}
+                      onBlur={handleBlur}
+                      value={values?.price}
                       name="price"
-                      type="tel"
-                      value={this.state.price}
-                      onChange={(e, masked) => this.setState({ price: masked })}
-                    />
-                    <span className="unit">$</span>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <label>Status*</label>
-                  <br />
-
-                  {this.state.loading && (
-                    <Select
-                      options={serviceStatus}
-                      defaultValue={{
-                        value: this.state.isDisabled,
-                        label:
-                          this.state.isDisabled === 0 ? "Active" : "Inactive",
-                      }}
-                      onChange={(e) => {
-                        this.setState({ isDisabled: e.value });
+                      label="Price*"
+                      id="custom-price-input"
+                      className={
+                        errors.price && touched.price
+                          ? "text-input error"
+                          : "text-input"
+                      }
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">$</InputAdornment>
+                        ),
+                        inputComponent: CustomCurrencyInput,
                       }}
                     />
-                  )}
-                </div>
-                <div className="col-12">
-                  <label>Description</label>
-                  <br />
-                  <textarea
-                    style={{ width: "100%", height: "60px", padding: "5px" }}
-                    onChange={this.handleChange}
-                    name="description"
-                    value={this.state.description}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+                  </Grid>
 
-          <div style={{ marginTop: "15px" }}>
-            <Button
-              className="btn btn-green"
-              style={{ backgroundColor: "#4251af", color: "white" }}
-              onClick={this.updateProduct}
-            >
-              SAVE
-            </Button>
-            <Button className="btn btn-red" onClick={this.goBack}>
-              BACK
-            </Button>
-          </div>
-        </div>
+                  <Grid item xs={12} md={3}>
+                    <FormControl style={{ width: "100%" }}>
+                      <InputLabel>Status*</InputLabel>
+                      <Select
+                        onChange={(e) => {
+                          setFieldValue("isDisabled", e.target.value);
+                        }}
+                        name="isDisabled"
+                        value={values?.isDisabled}
+                        displayEmpty
+                      >
+                        <MenuItem value={0}>Active</MenuItem>
+                        <MenuItem value={1}>Inactive</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <label
+                      style={{
+                        marginBottom: "15px",
+                        color: "#4054B2",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Image
+                    </label>
+                    <br />
+                    <div
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      {$imagePreview}
+                      <br />
+                      <div style={{ marginTop: "10px" }}>
+                        <input
+                          type="file"
+                          className="custom-input"
+                          onChange={(e) => this.handleImage(e, setFieldValue)}
+                        />
+                      </div>
+                    </div>
+
+                    <Button
+                      className="btn btn-green"
+                      type="submit"
+                      disabled={isSubmitting}
+                      style={{
+                        marginTop: 25,
+                        backgroundColor: "#4054B2",
+                        color: "white",
+                      }}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      style={{ marginTop: 25 }}
+                      className="btn btn-red"
+                      onClick={() => this.props.history.goBack()}
+                    >
+                      Cancel
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            )}
+          </Formik>
+        )}
       </div>
     );
   }
@@ -400,4 +527,38 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   SERVICE: state.serviceProps,
 });
-export default connect(mapStateToProps)(EditProduct);
+
+const mapDispatchToProps = (dispatch) => ({
+  successNotify: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  failureNotify: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProduct);
+
+const styles = {
+  textarea: {
+    width: "100%",
+    height: "70px",
+    borderWidth: 1.2,
+    borderColor: "#dddddd",
+    borderStyle: "solid",
+    borderRadius: 5,
+    padding: "10px",
+    marginTop: 8,
+  },
+  inputPrice: {
+    width: "100px !important",
+    borderBottom: "none",
+    fontWeight: 400,
+    margin: "80px 0px",
+    paddingLeft: "20px",
+  },
+  p: {
+    marginBottom: 0,
+    fontSize: "15px",
+  },
+};

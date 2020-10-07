@@ -111,7 +111,7 @@ class SidenavContent extends Component {
             </NavLink>
           </li> */}
           {/*REQUEST MANAGEMENT */}
-          {CheckPermissions(2) ? (
+          {CheckPermissions("view-request-management") ? (
             <li className="menu collapse-box">
               <Button>
                 <i className="zmdi zmdi-account-add zmdi-hc-fw" />
@@ -120,7 +120,7 @@ class SidenavContent extends Component {
                 </span>
               </Button>
               <ul className="sub-menu">
-                {CheckPermissions(3) && (
+                {CheckPermissions("view-pending-request") && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -132,7 +132,7 @@ class SidenavContent extends Component {
                     </NavLink>
                   </li>
                 )}
-                {CheckPermissions(7) && (
+                {CheckPermissions("view-approved-request") && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -144,7 +144,7 @@ class SidenavContent extends Component {
                     </NavLink>
                   </li>
                 )}
-                {CheckPermissions(8) && (
+                {CheckPermissions("view-rejected-request") && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -161,7 +161,7 @@ class SidenavContent extends Component {
           ) : null}
 
           {/* MERCHANT  */}
-          {CheckPermissions(11) && (
+          {CheckPermissions("view-merchant-list") && (
             <li className="menu no-arrow">
               <NavLink to="/app/merchants/list">
                 <i className="zmdi zmdi-account zmdi-hc-fw" />
@@ -174,7 +174,7 @@ class SidenavContent extends Component {
 
           {/* CONSUMERS */}
 
-          {CheckPermissions(31) && (
+          {CheckPermissions("view-consumer-list") && (
             <li className="menu no-arrow">
               <NavLink to="/app/consumers/list">
                 <i className="zmdi zmdi-accounts-alt  zmdi-hc-fw" />
@@ -187,7 +187,7 @@ class SidenavContent extends Component {
 
           {/* GIFT CART */}
 
-          {CheckPermissions(34) && (
+          {CheckPermissions("view-gift-card") && (
             <li className="menu collapse-box">
               <Button>
                 <i className="zmdi  zmdi-card-giftcard zmdi-hc-fw" />
@@ -196,7 +196,7 @@ class SidenavContent extends Component {
                 </span>
               </Button>
               <ul className="sub-menu">
-                {CheckPermissions(35) && (
+                {CheckPermissions("view-generation") && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -209,7 +209,7 @@ class SidenavContent extends Component {
                   </li>
                 )}
 
-                {CheckPermissions(40) && (
+                {CheckPermissions("view-codes") && (
                   <li>
                     <NavLink className="prepend-icon" to="/app/giftcard/codes">
                       <span className="nav-text">
@@ -219,7 +219,7 @@ class SidenavContent extends Component {
                   </li>
                 )}
 
-                {CheckPermissions(41) && (
+                {CheckPermissions("view-template") && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -237,7 +237,7 @@ class SidenavContent extends Component {
 
           {/* PRICING PLAN */}
 
-          {CheckPermissions(45) && (
+          {CheckPermissions("view-pricing-plan") && (
             <li className="menu no-arrow">
               <NavLink to="/app/pricing">
                 <i className="zmdi zmdi-money-box zmdi-hc-fw" />
@@ -249,7 +249,7 @@ class SidenavContent extends Component {
           )}
 
           {/* ACCOUNTS */}
-          {CheckPermissions(46) && (
+          {CheckPermissions("view-accounts") && (
             <li className="menu collapse-box">
               <Button>
                 <i className="zmdi zmdi-account-box zmdi-hc-fw" />
@@ -259,7 +259,7 @@ class SidenavContent extends Component {
               </Button>
 
               <ul className="sub-menu">
-                {CheckPermissions(47) && (
+                {CheckPermissions("view-user") && (
                   <li>
                     <NavLink className="prepend-icon" to="/app/accounts/admin">
                       <span className="nav-text">
@@ -269,7 +269,7 @@ class SidenavContent extends Component {
                   </li>
                 )}
 
-                {CheckPermissions(51) && (
+                {CheckPermissions("view-role") && (
                   <li>
                     <NavLink className="prepend-icon" to="/app/accounts/roles">
                       <span className="nav-text">
@@ -279,7 +279,7 @@ class SidenavContent extends Component {
                   </li>
                 )}
 
-                {CheckPermissions(53) && (
+                {CheckPermissions("view-log") && (
                   <li>
                     <NavLink className="prepend-icon" to="/app/accounts/logs">
                       <span className="nav-text">
@@ -294,7 +294,7 @@ class SidenavContent extends Component {
 
           {/* REPORTS */}
 
-          {CheckPermissions(54) && (
+          {CheckPermissions("view-reports") && (
             <li className="menu collapse-box">
               <Button>
                 <i className="zmdi zmdi-file-text zmdi-hc-fw" />
@@ -314,7 +314,7 @@ class SidenavContent extends Component {
                 </NavLink>
               </li> */}
 
-                {CheckPermissions(55) && (
+                {CheckPermissions("view-transactions") && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -326,7 +326,7 @@ class SidenavContent extends Component {
                     </NavLink>
                   </li>
                 )}
-                {CheckPermissions(56) && (
+                {CheckPermissions("view-gift-card-transactions") && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -338,7 +338,7 @@ class SidenavContent extends Component {
                     </NavLink>
                   </li>
                 )}
-                {CheckPermissions(57) && (
+                {CheckPermissions("view-merchant-batch-settlement") && (
                   <li>
                     <NavLink className="prepend-icon" to="/app/reports/batchs">
                       <span className="nav-text">

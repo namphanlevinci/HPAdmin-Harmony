@@ -5,33 +5,8 @@
 .MerStaffList h2 {
   font-weight: 800;
 }
-.popup-inner2 {
-  padding-top: 25px;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  left: 30%;
-  right: 30%;
-  top: 15%;
-  bottom: 35%;
-  margin: auto;
-  background: white;
-}
-/* settings pop up */
-.POPUP .setting-popup {
-  bottom: 50%;
-}
-.popup-inner2 label {
-  display: inline-block;
-  width: 274px;
-  text-align: right;
-  line-height: 28pt;
-  font-weight: 400;
-  font-size: 17px;
-}
-.popup-inner2 input {
-  width: 250px;
-  text-align: center;
-}
+
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -58,6 +33,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: inline;
 }
 .profile-nav ul {
+  padding-left: 10px;
   display: flex;
   background-color: #4251af;
 }
@@ -71,14 +47,12 @@ ul.detail-tab li a {
   opacity: 0.5;
   font-weight: 300;
   display: block;
-  padding: 10px 20px;
+  padding: 10px 20px 5px 20px;
   background: #4251af;
   color: white;
   font-size: 19px;
   border: none;
   margin-right: 5px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
 }
 ul.detail-tab .active {
   opacity: 1;
@@ -92,6 +66,9 @@ ul.detail-tab .active {
   font-weight: 300;
 }
 
+.detail-content {
+  margin-top: 30px;
+}
 
 @media screen and (max-width: 1440px) {
   .profile-nav ul {

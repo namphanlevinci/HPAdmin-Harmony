@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { Formik } from "formik";
 import { UPDATE_MERCHANT_SERVICE } from "../../../../../../actions/merchants/actions";
 
+import { Button } from "@material-ui/core";
+
 import Extra from "./extra";
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { config } from "../../../../../../url/url";
 import * as Yup from "yup";
@@ -84,6 +85,7 @@ class EditService extends Component {
       );
     }
   }
+
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
@@ -191,9 +193,7 @@ class EditService extends Component {
         ? Yup.object().shape({
             extras: Yup.array().of(
               Yup.object().shape({
-                name: Yup.string()
-                  .min(3, "too short")
-                  .required("Required"),
+                name: Yup.string().min(3, "too short").required("Required"),
                 duration: Yup.string().required("Required"),
                 price: Yup.string().required("Required"),
                 isDisabled: Yup.string().required("Required"),

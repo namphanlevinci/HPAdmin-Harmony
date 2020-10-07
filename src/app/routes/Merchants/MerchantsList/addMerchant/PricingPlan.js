@@ -7,7 +7,6 @@ import FormControl from "@material-ui/core/FormControl";
 import "./addMerchant.css";
 
 const PricingPlan = ({ value, handleChangePricingPlan }) => {
-  console.log("value", value);
   return (
     <div>
       <p className="txtPricingPlan">Package & Pricing</p>

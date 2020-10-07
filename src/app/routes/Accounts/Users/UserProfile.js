@@ -6,6 +6,7 @@ import {
   DISABLE_USER,
   ENABLE_USER,
 } from "../../../../actions/user/actions";
+import { Grid } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -88,8 +89,8 @@ class UserProfile extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
         />
-        <div className="row admin_profile page-heading">
-          <div className="col-3 text-center">
+        <Grid container spacing={3} className=" admin_profile page-heading">
+          <Grid item xs={3}>
             {e?.imageUrl !== null ? (
               <img src={e?.imageUrl} alt="avatar" className="admin-avatar" />
             ) : (
@@ -99,15 +100,15 @@ class UserProfile extends Component {
                 className="admin-avatar"
               />
             )}
-          </div>
-          <div className="col-9" style={{ paddingLeft: "55px" }}>
-            <div className="row">
-              <div className="col-4">
+          </Grid>
+          <Grid item xs={9} style={{ paddingLeft: "55px" }}>
+            <Grid container spacing={3}>
+              <Grid item xs={4}>
                 <h1>{e?.firstName + " " + e?.lastName}</h1>
                 <h4>{e?.roleName}</h4>
                 <hr />
-              </div>
-              <div className="col-8 admin-header-div">
+              </Grid>
+              <Grid item xs={8} className="admin-header-div">
                 <Button
                   className="btn btn-green"
                   style={styles.button}
@@ -115,9 +116,9 @@ class UserProfile extends Component {
                 >
                   BACK
                 </Button>
-                {CheckPermissions(49) && userStatus}
+                {CheckPermissions("active-user") && userStatus}
 
-                {CheckPermissions(50) && (
+                {CheckPermissions("edit-user") && (
                   <Button
                     className="btn btn-red"
                     style={styles.button}
@@ -126,8 +127,8 @@ class UserProfile extends Component {
                     EDIT
                   </Button>
                 )}
-              </div>
-            </div>
+              </Grid>
+            </Grid>
 
             <h2>Contact Information</h2>
             <div className="row">
@@ -153,8 +154,8 @@ class UserProfile extends Component {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       </div>
     );
   }

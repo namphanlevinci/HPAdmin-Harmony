@@ -1,11 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  SearchMerchants,
-  ViewProfile_Merchants,
-} from "../../../../actions/merchants/actions";
+import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import {
+  InputAdornment,
+  IconButton,
+  FormControl,
+  OutlinedInput,
+  Typography,
+} from "@material-ui/core";
+import { CustomTableHeader } from "../../../../util/CustomText";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -65,6 +70,7 @@ class MerchantsList extends React.Component {
       )
       .then((res) => {
         const data = res.data.data;
+
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,
@@ -105,65 +111,89 @@ class MerchantsList extends React.Component {
 
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         id: "merchantId",
-        accessor: (row) => <p>{row?.merchantId}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantId}
+          </Typography>
+        ),
         width: 60,
       },
       {
-        Header: "Approved Date",
+        Header: <CustomTableHeader value="Approved Date" />,
         id: "date",
         accessor: (row) => (
-          <p>{moment(row.approvedDate).format("MM/DD/YYYY")}</p>
+          <Typography variant="subtitle1" className="table__light">
+            {moment(row.approvedDate).format("MM/DD/YYYY")}
+          </Typography>
         ),
         width: 130,
       },
       {
-        Header: "MID",
+        Header: <CustomTableHeader value="MID" />,
         id: "mid",
-        accessor: (row) => <p>{row?.merchantCode}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantCode}
+          </Typography>
+        ),
       },
       {
-        Header: "DBA",
+        Header: <CustomTableHeader value="DBA" />,
         id: "general",
         accessor: "general",
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>{e?.value?.doBusinessName}</p>
+          <Typography variant="subtitle1">
+            {e?.value?.doBusinessName}
+          </Typography>
         ),
       },
       {
         id: "principals",
-        Header: "Owner",
+        Header: <CustomTableHeader value="Owner" />,
         accessor: (e) => e.principals[0],
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <Typography variant="subtitle1">
             {e?.value?.firstName + " " + e?.value?.lastName}
-          </p>
+          </Typography>
         ),
       },
       {
-        Header: "Email",
+        Header: <CustomTableHeader value="Email" />,
         id: "email",
-        accessor: (row) => <p>{row?.email}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.email}
+          </Typography>
+        ),
       },
       {
-        Header: "Store Phone",
+        Header: <CustomTableHeader value="Store Phone" />,
         id: "phone",
-        accessor: (row) => <p>{row?.phone}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.phone}
+          </Typography>
+        ),
       },
       {
-        Header: "Contact Phone",
+        Header: <CustomTableHeader value="Contact Phone" />,
         id: "phoneContact",
-        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.general?.phoneContact}
+          </Typography>
+        ),
       },
       {
         id: "approvedBy",
-        Header: "Approved By",
+        Header: <CustomTableHeader value="Approved By" />,
         accessor: "adminUser",
         Cell: (e) => (
-          <p style={{ color: "#4251af", fontWeight: 400 }}>
+          <Typography variant="subtitle1" style={{ color: "#4251af" }}>
             {e?.value?.first_name + " " + e?.value?.last_name}
-          </p>
+          </Typography>
         ),
       },
     ];
@@ -190,20 +220,27 @@ class MerchantsList extends React.Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* SEARCH */}
-            <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._SearchMerchants}
-                  onKeyPress={this.keyPressed}
-                />
-              </form>
-            </div>
+            <FormControl>
+              <OutlinedInput
+                inputProps={{
+                  style: {
+                    padding: 14,
+                  },
+                }}
+                placeholder="Search.."
+                value={this.state.search}
+                onChange={this._SearchMerchants}
+                onKeyPress={this.keyPressed}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton edge="end">
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={0}
+              />
+            </FormControl>
           </div>
 
           <div className="merchant-list-container">
@@ -234,9 +271,6 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  SearchMerchants: (payload) => {
-    dispatch(SearchMerchants(payload));
-  },
   ViewProfile_Merchants: (payload) => {
     dispatch(ViewProfile_Merchants(payload));
   },

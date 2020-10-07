@@ -1,5 +1,5 @@
 import React from "react";
-import "./MerchantsRequest.css";
+// import "./MerchantsRequest.css";
 
 const pendingInput = ({
   label,

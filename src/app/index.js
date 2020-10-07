@@ -9,6 +9,8 @@ import {
   HORIZONTAL_NAVIGATION,
 } from "../constants/ActionTypes";
 import { isIOS, isMobile } from "react-device-detect";
+import { USER_LOGOUT } from "../actions/user/actions";
+
 // import { AnimatedRoute } from "react-router-transition";
 
 import asyncComponent from "../util/asyncComponent";
@@ -43,8 +45,10 @@ class App extends React.Component {
   onIdle = (e) => {
     // REMOVE USER AFTER 30' IDLE
     console.log("BYE");
-    localStorage.removeItem("User_login");
-    this.props.history.push("/signin");
+    const user = JSON.parse(localStorage.getItem("User_login"));
+    const ID = user.userAdmin.waUserId;
+    this.props.USER_LOGOUT(ID);
+
     // console.log("last active", this.idleTimer.getLastActiveTime());
   };
   render() {
@@ -162,4 +166,11 @@ const mapStateToProps = ({ settings }) => {
   const { drawerType, navigationStyle, horizontalNavPosition } = settings;
   return { drawerType, navigationStyle, horizontalNavPosition };
 };
-export default withRouter(connect(mapStateToProps)(App));
+
+const mapDispatchToProps = (dispatch) => ({
+  USER_LOGOUT: (ID) => {
+    dispatch(USER_LOGOUT(ID));
+  },
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

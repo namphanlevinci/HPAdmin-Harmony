@@ -424,10 +424,7 @@ export class EditWorkTime extends Component {
             </React.Fragment>
           )}
 
-          <div
-            className="SettingsContent general-content"
-            style={{ paddingTop: "10px" }}
-          >
+          <div style={{ paddingTop: "10px" }}>
             <Button className="btn btn-green" onClick={this.handleUpdateStaff}>
               SAVE
             </Button>

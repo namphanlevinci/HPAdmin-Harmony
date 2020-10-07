@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { CustomTitle } from "../../../../../../../../util/CustomText";
 
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import {
+  InputAdornment,
+  TextField,
+  Grid,
+  Checkbox,
+  Button,
+} from "@material-ui/core";
 
 export class salary extends Component {
   render() {
@@ -15,7 +20,7 @@ export class salary extends Component {
 
     return (
       <div className="container Salary">
-        <h2>Salary</h2>
+        <CustomTitle value="Salary" />
         <Grid container spacing={1} style={{ paddingTop: "10px" }}>
           <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">
@@ -28,14 +33,17 @@ export class salary extends Component {
               />
               <label>Salary Per Hour</label>
             </div>
-            <div className="input-box">
-              <input
-                type="text"
-                value={Number(salaries?.perHour?.value)?.toFixed(2)}
-                disabled
-              />
-              <span className="unit">$</span>
-            </div>
+            <TextField
+              type="text"
+              style={styles.input}
+              value={Number(salaries?.perHour?.value)?.toFixed(2)}
+              disabled
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
+              }}
+            />
           </Grid>
           <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">
@@ -48,15 +56,22 @@ export class salary extends Component {
               />
               <label>Salary Commission</label>
             </div>
-            <div className="input-box">
-              <input type="text" value={salaries?.commission?.value} disabled />
-              <span className="unit">$</span>
-            </div>
+
+            <TextField
+              type="text"
+              style={styles.input}
+              value={salaries?.commission?.value}
+              disabled
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">%</InputAdornment>
+                ),
+              }}
+            />
           </Grid>
           <br />
 
           {/* PRODUCT SALARY  */}
-
           <Grid item md={6} sm={12} xs={12}>
             <div className="checkbox">
               <Checkbox
@@ -69,10 +84,18 @@ export class salary extends Component {
               />
               <label>Product Commission</label>
             </div>
-            <div className="input-box">
-              <input type="text" value={productSalaries?.commission?.value} />
-              <span className="unit">%</span>
-            </div>
+
+            <TextField
+              type="text"
+              style={styles.input}
+              value={productSalaries?.commission?.value}
+              disabled
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">%</InputAdornment>
+                ),
+              }}
+            />
           </Grid>
 
           <Grid item md={6} sm={12} xs={12}></Grid>
@@ -88,10 +111,18 @@ export class salary extends Component {
               />
               <label>Tip Percent</label>
             </div>
-            <div className="input-box">
-              <input type="text" value={tipFees?.percent?.value} disabled />
-              <span className="unit">%</span>
-            </div>
+
+            <TextField
+              type="text"
+              style={styles.input}
+              value={tipFees?.percent?.value}
+              disabled
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">%</InputAdornment>
+                ),
+              }}
+            />
           </Grid>
 
           <Grid item md={6} sm={12} xs={12}>
@@ -105,14 +136,18 @@ export class salary extends Component {
               />
               <label>Tip Fixed Amount</label>
             </div>
-            <div className="input-box">
-              <input
-                type="text"
-                value={Number(tipFees?.fixedAmount?.value)?.toFixed(2)}
-                disabled
-              />
-              <span className="unit">$</span>
-            </div>
+
+            <TextField
+              type="text"
+              style={styles.input}
+              value={Number(tipFees?.fixedAmount?.value)?.toFixed(2)}
+              disabled
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
+              }}
+            />
           </Grid>
 
           {/* PAYOUT BY CASH */}
@@ -122,25 +157,20 @@ export class salary extends Component {
               <label>Payout with Cash </label>
             </div>
 
-            <div>
-              <div className="input-box">
-                <input
-                  name="cashPercent"
-                  type="tel"
-                  value={cashPercent}
-                  min="0"
-                  max="100"
-                  disabled
-                />
-                <span className="unit">%</span>
-              </div>
-            </div>
+            <TextField
+              type="text"
+              style={styles.input}
+              value={cashPercent}
+              disabled
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">%</InputAdornment>
+                ),
+              }}
+            />
           </Grid>
         </Grid>
-        <div
-          className="SettingsContent general-content"
-          style={{ paddingTop: "20px" }}
-        >
+        <div style={{ paddingTop: "20px" }}>
           <Button
             className="btn btn-green"
             onClick={() =>
@@ -162,3 +192,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(salary);
+
+const styles = {
+  input: {
+    width: "90%",
+    float: "right",
+  },
+};

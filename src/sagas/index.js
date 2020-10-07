@@ -20,8 +20,8 @@ import {
   // GET_ALL_MERCHANT_SAGA,
   UPDATE_MERCHANT_SAGA,
   GET_MERCHANT_BY_ID_SAGA,
-  GET_ALL_REJECTED_MERCHANT_SAGA,
-  GET_ALL_MERCHANT_REQUEST_SAGA,
+  // GET_ALL_REJECTED_MERCHANT_SAGA,
+  // GET_ALL_MERCHANT_REQUEST_SAGA,
   MERCHANT_APPROVAL_SAGA,
   MERCHANT_REJECT_SAGA,
   DELETE_MERCHANT_SAGA,
@@ -37,6 +37,7 @@ import {
   RESTORE_MERCHANT_EXTRA_SAGA,
   GET_STAFF_BY_ID_SAGA,
   UPDATE_STAFF_SAGA,
+  ADD_STAFF_SAGA,
 } from "../sagas/sagaFunction/merchants";
 
 import { GET_ALL_LOG_SAGA } from "../sagas/sagaFunction/logs";
@@ -72,11 +73,11 @@ import {
 export default function* rootSaga() {
   yield fork(USER_LOGIN_SAGA);
   // yield fork(GET_ALL_MERCHANT_SAGA);
-  yield fork(GET_ALL_MERCHANT_REQUEST_SAGA);
+  // yield fork(GET_ALL_MERCHANT_REQUEST_SAGA);
   yield fork(GET_ALL_USER_SAGA);
   // yield fork(GET_ALL_NOTIFICATION_SAGA);
   yield fork(GET_ALL_LOG_SAGA);
-  yield fork(GET_ALL_REJECTED_MERCHANT_SAGA);
+  // yield fork(GET_ALL_REJECTED_MERCHANT_SAGA);
   yield fork(GET_ALL_QUESTION_SAGA);
   yield fork(GET_ALL_TRANSACTION_SAGA);
   // yield fork(GET_ALL_USER_SAGA);
@@ -125,4 +126,5 @@ export default function* rootSaga() {
   yield fork(RESTORE_MERCHANT_EXTRA_SAGA);
   yield fork(GET_STAFF_BY_ID_SAGA);
   yield fork(UPDATE_STAFF_SAGA);
+  yield fork(ADD_STAFF_SAGA);
 }

@@ -257,7 +257,7 @@ class Generation extends Component {
         Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
-              {CheckPermissions(43) &&
+              {CheckPermissions("active-template") &&
                 (Number(row?.original?.isDisabled) === 0 ? (
                   <Tooltip title="Archive">
                     <img
@@ -285,7 +285,7 @@ class Generation extends Component {
                     />
                   </Tooltip>
                 ))}
-              {CheckPermissions(44) && (
+              {CheckPermissions("edit-template") && (
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "15px" }}>
                     <img
@@ -327,7 +327,7 @@ class Generation extends Component {
               />
             </form>
 
-            {CheckPermissions(42) && (
+            {CheckPermissions("add-new-template") && (
               <Button
                 className="btn btn-green"
                 onClick={() =>

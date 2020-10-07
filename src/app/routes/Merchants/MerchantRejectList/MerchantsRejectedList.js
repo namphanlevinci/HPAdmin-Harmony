@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import {
-  getAll_Rejected_Merchants,
-  ViewMerchant_Rejected_Merchants,
-} from "../../../../actions/merchants/actions";
+import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import {
+  InputAdornment,
+  IconButton,
+  FormControl,
+  OutlinedInput,
+  Typography,
+} from "@material-ui/core";
+import { CustomTableHeader } from "../../../../util/CustomText";
 
 import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -98,56 +103,76 @@ class MerchantsRequest extends Component {
   render() {
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         id: "id",
-        accessor: (row) => <p>{row?.merchantId}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantId}
+          </Typography>
+        ),
         width: 60,
       },
       {
-        Header: "Rejected Date",
+        Header: <CustomTableHeader value="Rejected Date" />,
         id: "date",
         accessor: (row) => (
-          <p>{moment(row?.approvedDate).format("MM/DD/YYYY")}</p>
+          <Typography variant="subtitle1" className="table__light">
+            {moment(row?.approvedDate).format("MM/DD/YYYY")}
+          </Typography>
         ),
       },
       {
-        Header: "DBA",
+        Header: <CustomTableHeader value="DBA" />,
         id: "general",
-        accessor: (e) => <p style={{ fontWeight: 400 }}>{e?.businessName}</p>,
+        accessor: (e) => (
+          <Typography variant="subtitle1">{e?.businessName}</Typography>
+        ),
       },
       {
         id: "principals",
-        Header: "Owner",
+        Header: <CustomTableHeader value="Owner" />,
         accessor: (e) => e.principals?.[0],
         Cell: (e) => (
-          <p style={{ fontWeight: 400 }}>
+          <Typography variant="subtitle1">
             {e?.value?.firstName + " " + e?.value?.lastName}
-          </p>
+          </Typography>
         ),
       },
       {
-        Header: "Email",
+        Header: <CustomTableHeader value="Email" />,
         id: "email",
-        accessor: (row) => <p>{row?.email}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.email}
+          </Typography>
+        ),
       },
       {
-        Header: "Store Phone",
+        Header: <CustomTableHeader value="Store Phone" />,
         id: "phone",
-        accessor: (row) => <p>{row?.phone}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.phone}
+          </Typography>
+        ),
       },
       {
-        Header: "Contact Phone",
+        Header: <CustomTableHeader value="Contact Phone" />,
         id: "phoneContact",
-        accessor: (row) => <p>{row?.general?.phoneContact}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.general?.phoneContact}
+          </Typography>
+        ),
       },
       {
         id: "RejectedBy",
-        Header: "Rejected By",
+        Header: <CustomTableHeader value="Rejected By" />,
         accessor: "adminUser",
         Cell: (e) => (
-          <p style={{ color: "#4251af", fontWeight: 400 }}>
+          <Typography variant="subtitle1" style={{ color: "#4251af" }}>
             {e?.value?.first_name + " " + e?.value?.last_name}
-          </p>
+          </Typography>
         ),
       },
     ];
@@ -155,7 +180,11 @@ class MerchantsRequest extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.merchantProfile(rowInfo.original.merchantId);
+            // this.merchantProfile(rowInfo.original.merchantId);
+            this.props.GET_MERCHANT_BY_ID({
+              ID: rowInfo.original.merchantId,
+              path: "/app/merchants/rejected/profile",
+            });
           }
         },
       };
@@ -174,19 +203,27 @@ class MerchantsRequest extends Component {
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
-            <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._SearchMerchants}
-                  onKeyPress={this.keyPressed}
-                />
-              </form>
-            </div>
+            <FormControl>
+              <OutlinedInput
+                inputProps={{
+                  style: {
+                    padding: 14,
+                  },
+                }}
+                placeholder="Search.."
+                value={this.state.search}
+                onChange={this._SearchMerchants}
+                onKeyPress={this.keyPressed}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton edge="end">
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={0}
+              />
+            </FormControl>
           </div>
           <div className="merchant-list-container">
             <ReactTable
@@ -214,11 +251,8 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Rejected_Merchants: () => {
-    dispatch(getAll_Rejected_Merchants());
-  },
-  ViewMerchant_Rejected_Merchants: (payload) => {
-    dispatch(ViewMerchant_Rejected_Merchants(payload));
+  GET_MERCHANT_BY_ID: (payload) => {
+    dispatch(GET_MERCHANT_BY_ID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);

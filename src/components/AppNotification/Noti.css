@@ -1,12 +1,16 @@
 
 .media .media-body .content {
-  font-size: 12px;
+  font-size: 13px;
   margin-bottom: 5px;
-  font-weight: 500;
-  color: black;
+  /* font-weight: 400; */
+  /* color: black; */
 }
 .media .media-body .meta-date {
   text-align: left;
   font-size: 11px;
   margin-left: 5%;
+}
+
+.media .delete-btn:hover {
+  background: #e0e0e0;
 }

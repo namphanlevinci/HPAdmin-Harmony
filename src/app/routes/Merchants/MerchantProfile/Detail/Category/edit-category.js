@@ -2,7 +2,19 @@ import React, { Component } from "react";
 import { Formik } from "formik";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import { NotificationManager } from "react-notifications";
+import {
+  Select,
+  TextField,
+  InputLabel,
+  FormControl,
+  Grid,
+  FormHelperText,
+  MenuItem,
+} from "@material-ui/core";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../../actions/notifications/actions";
 import axios from "axios";
 import "../Detail.css";
 import "../../MerchantProfile.css";
@@ -10,6 +22,8 @@ import "../../../MerchantsRequest/MerchantReqProfile.css";
 import "../../../MerchantsRequest/MerchantsRequest.css";
 import "../../../MerchantsList/merchantsList.css";
 import { config } from "../../../../../../url/url";
+
+import "./category.styles.scss";
 
 const URL = config.url.URL;
 
@@ -21,144 +35,132 @@ class EditCategory extends Component {
   render() {
     const category = this.props.SERVICE;
     return (
-      <div className="Disable-Popup container Service">
-        <div className="row">
-          <div className="col-6 mx-auto">
-            <h2 className="title">Edit Category</h2>
-            <div>
-              <Formik
-                initialValues={{
-                  categoryType: category.categoryType,
-                  name: category.name,
-                }}
-                validate={(values) => {
-                  const errors = {};
-                  if (!values.categoryType) {
-                    errors.categoryType = "Please choose a Type";
-                  }
-                  if (!values.name) {
-                    errors.name = "Please enter category name";
-                  }
-                  return errors;
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                  const { categoryType, name } = values;
-                  const merchantId = category.merchantId;
-                  const ID = category.categoryId;
-                  axios
-                    .put(
-                      URL + "/category/" + ID,
-                      {
-                        categoryType,
-                        name,
-                        merchantId,
-                      },
-                      {
-                        headers: {
-                          Authorization: `Bearer ${this.props.userLogin.token}`,
-                        },
-                      }
-                    )
-                    .then((res) => {
-                      let message = res.data.message;
-                      if (res.data.codeNumber === 200) {
-                        NotificationManager.success(message, null, 800);
-                        setTimeout(() => {
-                          this.props.history.push(
-                            "/app/merchants/profile/category"
-                          );
-                        }, 800);
-                      } else {
-                        NotificationManager.error(message, null, 800);
-                      }
-                    });
-                }}
-              >
-                {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  isSubmitting,
-                }) => (
-                  <form onSubmit={handleSubmit}>
-                    <label style={{ padding: "10px 0px" }}>
-                      Category Type*
-                    </label>
-                    <br />
-                    <select
-                      className={
-                        errors.categoryType && touched.categoryType
-                          ? "text-input error"
-                          : "text-input"
-                      }
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name="categoryType"
-                      value={values.categoryType}
-                    >
-                      <option value="Product">Product</option>
-                      <option value="Service">Service</option>
-                    </select>
-                    {errors.categoryType && touched.categoryType && (
-                      <div className="input-feedback">
-                        {errors.categoryType}
-                      </div>
-                    )}
-                    <br />
-                    <label style={{ padding: "10px 0px" }}>
-                      Category Name*
-                    </label>
-                    <br />
-                    <input
-                      type="text"
-                      name="name"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.name}
-                      className={
-                        errors.name && touched.name
-                          ? "text-input error"
-                          : "text-input"
-                      }
-                    />
-                    {errors.name && touched.name && (
-                      <div className="input-feedback">{errors.name}</div>
-                    )}
-                    <div className="Disable-Button">
-                      <Button
-                        style={{ marginTop: "20px", color: "#4251af" }}
-                        className="btn btn-red"
-                        onClick={() =>
-                          this.props.history.push(
-                            "/app/merchants/profile/category"
-                          )
-                        }
-                      >
-                        CANCEL
-                      </Button>
-                      <Button
-                        style={{
-                          marginTop: "20px",
-                          backgroundColor: "#4251af",
-                          color: "white",
-                        }}
-                        className="btn btn-green"
-                        type="submit"
-                        disabled={isSubmitting}
-                      >
-                        SAVE
-                      </Button>
-                    </div>
-                  </form>
-                )}
-              </Formik>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Formik
+        initialValues={{
+          categoryType: category.categoryType,
+          name: category.name,
+        }}
+        validate={(values) => {
+          const errors = {};
+          if (!values.categoryType) {
+            errors.categoryType = "Please choose a Type";
+          }
+          if (!values.name) {
+            errors.name = "Please enter category name";
+          }
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          const { categoryType, name } = values;
+          const merchantId = category.merchantId;
+          const ID = category.categoryId;
+          axios
+            .put(
+              URL + "/category/" + ID,
+              {
+                categoryType,
+                name,
+                merchantId,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.props.userLogin.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              let message = res.data.message;
+              if (res.data.codeNumber === 200) {
+                this.props.successNotify(message);
+                this.props.getCategory();
+                this.props.toggleEdit();
+              } else {
+                this.props.failureNotify(message);
+              }
+            });
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+          setFieldValue,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <Grid container className="edit-category">
+              <Grid item xs={12}>
+                <FormControl style={{ width: "50%" }}>
+                  <InputLabel
+                    className={
+                      errors.categoryType && touched.categoryType
+                        ? "error-text"
+                        : ""
+                    }
+                  >
+                    Category Type*
+                  </InputLabel>
+                  <Select
+                    onChange={(e) => {
+                      setFieldValue("categoryType", e.target.value);
+                    }}
+                    error={errors.categoryType && touched.categoryType}
+                    value={values.categoryType}
+                  >
+                    <MenuItem value="Product">Product</MenuItem>
+                    <MenuItem value="Service">Service</MenuItem>
+                  </Select>
+                  {errors.categoryType && touched.categoryType ? (
+                    <FormHelperText className="error-text">
+                      {errors.categoryType}
+                    </FormHelperText>
+                  ) : null}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="text"
+                  name="name"
+                  margin="normal"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.name}
+                  label="Category Name*"
+                  fullWidth
+                  value={values.name}
+                  error={errors.name && Boolean(touched.name)}
+                  helperText={errors.name && touched.name ? errors.name : ""}
+                />
+              </Grid>
+
+              <div className="Disable-Button">
+                <Button
+                  style={{ marginTop: "20px", color: "#4251af" }}
+                  className="btn btn-red"
+                  onClick={this.props.toggleEdit}
+                >
+                  CANCEL
+                </Button>
+                <Button
+                  style={{
+                    marginTop: "20px",
+                    backgroundColor: "#4251af",
+                    color: "white",
+                  }}
+                  className="btn btn-green"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  SAVE
+                </Button>
+              </div>
+            </Grid>
+          </form>
+        )}
+      </Formik>
     );
   }
 }
@@ -168,4 +170,14 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   SERVICE: state.serviceProps,
 });
-export default connect(mapStateToProps)(EditCategory);
+
+const mapDispatchToProps = (dispatch) => ({
+  successNotify: (payload) => {
+    dispatch(SUCCESS_NOTIFICATION(payload));
+  },
+  failureNotify: (payload) => {
+    dispatch(FAILURE_NOTIFICATION(payload));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditCategory);

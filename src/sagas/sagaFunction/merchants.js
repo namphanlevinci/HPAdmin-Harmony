@@ -3,8 +3,8 @@ import {
   // GET_ALL_MERCHANT_API,
   UPDATE_MERCHANT_API,
   GET_MERCHANT_BY_ID_API,
-  GET_ALL_REJECTED_MERCHANT_API,
-  GET_ALL_MERCHANT_REQUEST_API,
+  // GET_ALL_REJECTED_MERCHANT_API,
+  // GET_ALL_MERCHANT_REQUEST_API,
   APPROVE_MERCHANT_API,
   REJECT_MERCHANT_API,
   DELETE_MERCHANT_API,
@@ -20,6 +20,7 @@ import {
   ARCHIVE_MERCHANT_EXTRA_API,
   UPDATE_STAFF_API,
   GET_STAFF_BY_ID_API,
+  ADD_STAFF_API,
 } from "../api/merchants";
 import { history } from "../../store/index";
 import * as typeMerchant from "../../actions/merchants/types";
@@ -51,18 +52,26 @@ import * as typeNotification from "../../actions/notifications/types";
 
 // UPDATE MERCHANT INFOR (GENERAL)
 export function* UPDATE_MERCHANT_SAGA() {
-  yield takeLatest(typeMerchant.UpdateMerchant_Infor, function*(action) {
+  yield takeLatest(typeMerchant.UPDATE_MERCHANT, function* (action) {
     const data = action.payload;
     try {
-      const UpdateInfor = yield UPDATE_MERCHANT_API(data);
-      if (UpdateInfor !== null) {
+      const Result = yield UPDATE_MERCHANT_API(data);
+      if (Result !== null) {
         yield put({
-          type: typeMerchant.UpdateMerchant_Infor_Success,
-          payload: UpdateInfor,
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+
+        yield put({
+          type: typeMerchant.GET_MERCHANT_BY_ID,
+          payload: {
+            ID: data.merchantId,
+            path: "/app/merchants/profile/general",
+          },
         });
       } else {
         yield put({
-          type: typeMerchant.UpdateMerchant_Infor_Error,
+          type: typeNotification.FAILURE_NOTIFICATION,
           payload: "Something went wrong, please try again later!",
         });
       }
@@ -74,7 +83,7 @@ export function* UPDATE_MERCHANT_SAGA() {
 
 // GET MERCHANT BY ID
 export function* GET_MERCHANT_BY_ID_SAGA() {
-  yield takeLatest(typeMerchant.GET_MERCHANT_BY_ID, function*(action) {
+  yield takeLatest(typeMerchant.GET_MERCHANT_BY_ID, function* (action) {
     const { ID, path } = action.payload;
     try {
       const getMerchant = yield GET_MERCHANT_BY_ID_API(ID);
@@ -97,52 +106,53 @@ export function* GET_MERCHANT_BY_ID_SAGA() {
     }
   });
 }
-// GET REJECTED MERCHANTS
-export function* GET_ALL_REJECTED_MERCHANT_SAGA() {
-  yield takeLatest(typeMerchant.getAll_Rejected_Merchants, function*() {
-    try {
-      const MerchantRejected = yield GET_ALL_REJECTED_MERCHANT_API();
-      if (MerchantRejected !== null) {
-        yield put({
-          type: typeMerchant.getAll_Rejected_Merchants_Success,
-          payload: MerchantRejected,
-        });
-      } else {
-        yield put({
-          type: typeMerchant.getAll_Rejected_Merchants_Error,
-          payload: "Something went wrong, please try again later!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
-}
+// // GET REJECTED MERCHANTS
+// export function* GET_ALL_REJECTED_MERCHANT_SAGA() {
+//   yield takeLatest(typeMerchant.getAll_Rejected_Merchants, function* () {
+//     try {
+//       const MerchantRejected = yield GET_ALL_REJECTED_MERCHANT_API();
+//       if (MerchantRejected !== null) {
+//         yield put({
+//           type: typeMerchant.getAll_Rejected_Merchants_Success,
+//           payload: MerchantRejected,
+//         });
+//       } else {
+//         yield put({
+//           type: typeMerchant.getAll_Rejected_Merchants_Error,
+//           payload: "Something went wrong, please try again later!",
+//         });
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   });
+// }
 
 // GET ALL MERCHANT REQUEST
-export function* GET_ALL_MERCHANT_REQUEST_SAGA() {
-  yield takeLatest(typeMerchant.getAll_Merchant_Requests, function*() {
-    try {
-      const MerchantRequests = yield GET_ALL_MERCHANT_REQUEST_API();
-      if (MerchantRequests !== null) {
-        yield put({
-          type: typeMerchant.getAll_Merchant_Requests_Success,
-          payload: MerchantRequests,
-        });
-      } else {
-        yield put({
-          type: typeMerchant.getAll_Merchant_Requests_Error,
-          payload: "Something went wrong, please try again later!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
-}
+// export function* GET_ALL_MERCHANT_REQUEST_SAGA() {
+//   yield takeLatest(typeMerchant.getAll_Merchant_Requests, function* () {
+//     try {
+//       const MerchantRequests = yield GET_ALL_MERCHANT_REQUEST_API();
+//       if (MerchantRequests !== null) {
+//         yield put({
+//           type: typeMerchant.getAll_Merchant_Requests_Success,
+//           payload: MerchantRequests,
+//         });
+//       } else {
+//         yield put({
+//           type: typeMerchant.getAll_Merchant_Requests_Error,
+//           payload: "Something went wrong, please try again later!",
+//         });
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   });
+// }
+
 // SEND APPROVAL REQUEST
 export function* MERCHANT_APPROVAL_SAGA() {
-  yield takeLatest(typeMerchant.MERCHANT_APPROVAL, function*(action) {
+  yield takeLatest(typeMerchant.MERCHANT_APPROVAL, function* (action) {
     try {
       const data = action.payload;
       const result = yield APPROVE_MERCHANT_API(data);
@@ -170,7 +180,7 @@ export function* MERCHANT_APPROVAL_SAGA() {
 
 // SEND REJECT REQUEST
 export function* MERCHANT_REJECT_SAGA() {
-  yield takeLatest(typeMerchant.MERCHANT_REJECT, function*(action) {
+  yield takeLatest(typeMerchant.MERCHANT_REJECT, function* (action) {
     try {
       const data = action.payload;
       const result = yield REJECT_MERCHANT_API(data);
@@ -198,18 +208,18 @@ export function* MERCHANT_REJECT_SAGA() {
 
 // DELETE MERCHANT
 export function* DELETE_MERCHANT_SAGA() {
-  yield takeLatest(typeMerchant.DELETE_MERCHANT, function*(action) {
-    const { ID, path } = action.payload;
-    console.log("action.payload", action.payload);
+  yield takeLatest(typeMerchant.DELETE_MERCHANT, function* (action) {
+    const { ID } = action.payload;
     try {
       const result = yield DELETE_MERCHANT_API(ID);
       if (result !== null) {
+        history.push(action.payload.path);
+
         yield put({
           type: typeMerchant.DELETE_MERCHANT_SUCCESS,
           payload: result,
         });
 
-        history.push(path);
         yield put({
           type: typeNotification.SUCCESS_NOTIFICATION,
           payload: "Success",
@@ -228,7 +238,7 @@ export function* DELETE_MERCHANT_SAGA() {
 
 // ARCHIVE MERCHANT
 export function* ARCHIVE_MERCHANT_SAGA() {
-  yield takeLatest(typeMerchant.ARCHIVE_MERCHANT, function*(action) {
+  yield takeLatest(typeMerchant.ARCHIVE_MERCHANT, function* (action) {
     try {
       const result = yield ARCHIVE_MERCHANT_API(action.payload);
 
@@ -255,7 +265,7 @@ export function* ARCHIVE_MERCHANT_SAGA() {
 
 // ARCHIVE MERCHANT
 export function* RESTORE_MERCHANT_SAGA() {
-  yield takeLatest(typeMerchant.RESTORE_MERCHANT, function*(action) {
+  yield takeLatest(typeMerchant.RESTORE_MERCHANT, function* (action) {
     try {
       const result = yield RESTORE_MERCHANT_API(action.payload);
       const payload = { ID: action.payload };
@@ -282,7 +292,7 @@ export function* RESTORE_MERCHANT_SAGA() {
 
 // Handle set status pending merchant
 export function* SET_PENDING_STATUS_SAGA() {
-  yield takeLatest(typeMerchant.SET_PENDING_STATUS, function*(action) {
+  yield takeLatest(typeMerchant.SET_PENDING_STATUS, function* (action) {
     try {
       const result = yield SET_PENDING_STATUS_API(action.payload);
       if (result.message === "Success") {
@@ -308,7 +318,7 @@ export function* SET_PENDING_STATUS_SAGA() {
 
 // Update merchant settings
 export function* MERCHANT_UPDATE_SETTING_SAGA() {
-  yield takeLatest(typeMerchant.MERCHANT_UPDATE_SETTING, function*(action) {
+  yield takeLatest(typeMerchant.MERCHANT_UPDATE_SETTING, function* (action) {
     try {
       const result = yield MERCHANT_UPDATE_SETTING_API(action.payload);
       if (result.message === "Success") {
@@ -335,7 +345,7 @@ export function* MERCHANT_UPDATE_SETTING_SAGA() {
 
 // Update merchant principal info
 export function* UPDATE_MERCHANT_PRINCIPAL_SAGA() {
-  yield takeLatest(typeMerchant.UPDATE_MERCHANT_PRINCIPAL, function*(action) {
+  yield takeLatest(typeMerchant.UPDATE_MERCHANT_PRINCIPAL, function* (action) {
     try {
       const result = yield UPDATE_MERCHANT_PRINCIPAL_API(action.payload);
       if (Number(result.codeNumber) === 200) {
@@ -362,7 +372,7 @@ export function* UPDATE_MERCHANT_PRINCIPAL_SAGA() {
 
 // Update merchant service
 export function* UPDATE_MERCHANT_SERVICE_SAGA() {
-  yield takeLatest(typeMerchant.UPDATE_MERCHANT_SERVICE, function*(action) {
+  yield takeLatest(typeMerchant.UPDATE_MERCHANT_SERVICE, function* (action) {
     try {
       const result = yield UPDATE_MERCHANT_SERVICE_API(action.payload);
       const payload = { ID: action.payload.merchantId };
@@ -390,7 +400,7 @@ export function* UPDATE_MERCHANT_SERVICE_SAGA() {
 
 // Update merchant bank
 export function* UPDATE_MERCHANT_BANK_SAGA() {
-  yield takeLatest(typeMerchant.UPDATE_MERCHANT_BANK, function*(action) {
+  yield takeLatest(typeMerchant.UPDATE_MERCHANT_BANK, function* (action) {
     try {
       const result = yield UPDATE_MERCHANT_BANK_API(action.payload);
       if (Number(result.codeNumber) === 200) {
@@ -417,7 +427,7 @@ export function* UPDATE_MERCHANT_BANK_SAGA() {
 
 // Get merchant extra by id
 export function* GET_MERCHANT_EXTRA_SAGA() {
-  yield takeLatest(typeMerchant.GET_MERCHANT_EXTRA, function*(action) {
+  yield takeLatest(typeMerchant.GET_MERCHANT_EXTRA, function* (action) {
     try {
       const result = yield GET_MERCHANT_EXTRA_API(action.payload);
       if (result !== null) {
@@ -434,7 +444,7 @@ export function* GET_MERCHANT_EXTRA_SAGA() {
 
 // Archive merchant extra
 export function* ARCHIVE_MERCHANT_EXTRA_SAGA() {
-  yield takeLatest(typeMerchant.ARCHIVE_MERCHANT_EXTRA, function*(action) {
+  yield takeLatest(typeMerchant.ARCHIVE_MERCHANT_EXTRA, function* (action) {
     try {
       const result = yield ARCHIVE_MERCHANT_EXTRA_API(action.payload);
       if (result !== null) {
@@ -460,7 +470,7 @@ export function* ARCHIVE_MERCHANT_EXTRA_SAGA() {
 
 // Restore merchant extra
 export function* RESTORE_MERCHANT_EXTRA_SAGA() {
-  yield takeLatest(typeMerchant.RESTORE_MERCHANT_EXTRA, function*(action) {
+  yield takeLatest(typeMerchant.RESTORE_MERCHANT_EXTRA, function* (action) {
     try {
       const result = yield RESTORE_MERCHANT_EXTRA_API(action.payload);
       if (result !== null) {
@@ -486,7 +496,7 @@ export function* RESTORE_MERCHANT_EXTRA_SAGA() {
 
 // Get staff by ID
 export function* GET_STAFF_BY_ID_SAGA() {
-  yield takeLatest(typeMerchant.GET_STAFF_BY_ID, function*(action) {
+  yield takeLatest(typeMerchant.GET_STAFF_BY_ID, function* (action) {
     try {
       const result = yield GET_STAFF_BY_ID_API(action.payload);
 
@@ -513,7 +523,7 @@ export function* GET_STAFF_BY_ID_SAGA() {
 
 // Update Staff by ID
 export function* UPDATE_STAFF_SAGA() {
-  yield takeLatest(typeMerchant.UPDATE_STAFF, function*(action) {
+  yield takeLatest(typeMerchant.UPDATE_STAFF, function* (action) {
     try {
       const result = yield UPDATE_STAFF_API(action.payload);
       const { path, staffId } = action.payload;
@@ -526,6 +536,35 @@ export function* UPDATE_STAFF_SAGA() {
         yield put({
           type: typeMerchant.GET_STAFF_BY_ID,
           payload: { ID, path, staffId },
+        });
+      } else {
+        yield put({
+          type: typeNotification.FAILURE_NOTIFICATION,
+          payload: "Something went wrong, please try again later!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+// Add Staff
+export function* ADD_STAFF_SAGA() {
+  yield takeLatest(typeMerchant.ADD_STAFF, function* (action) {
+    try {
+      const result = yield ADD_STAFF_API(action.payload);
+
+      if (result === "Success") {
+        yield put({
+          type: typeNotification.SUCCESS_NOTIFICATION,
+          payload: "Success",
+        });
+        history.push("/app/merchants/profile/staff");
+      } else if (result === "The pincode is exsits.") {
+        yield put({
+          type: typeNotification.WARNING_NOTIFICATION,
+          payload: result,
         });
       } else {
         yield put({

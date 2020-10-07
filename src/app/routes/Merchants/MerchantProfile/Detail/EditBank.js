@@ -4,14 +4,13 @@ import { config } from "../../../../../url/url";
 import { UPDATE_MERCHANT_BANK } from "../../../../../actions/merchants/actions";
 
 import LinearProgress from "../../../../../util/linearProgress";
-import SimpleReactValidator from "simple-react-validator";
-import Cleave from "cleave.js/react";
+import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
-import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
+import { Formik, Form } from "formik";
+import { CustomTitle } from "../../../../../util/CustomText";
+import { Grid, Button, TextField } from "@material-ui/core";
+import * as Yup from "yup";
 
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 
 const upFile = config.url.upFile;
@@ -20,45 +19,23 @@ class EditBank extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      fileId: "",
-      routingNumber: "",
-      accountNumber: "",
-      Token: "",
-      //~ preview image
       imagePreviewUrl: "",
       loadingProgress: false,
+      loading: false,
     };
-    this.validator = new SimpleReactValidator({
-      messages: { default: "Required" },
-    });
   }
   async componentDidMount() {
     const data = this.props.MerchantProfile.businessBank;
     this.setState({
-      name: data?.name,
-      fileId: data?.fileId,
-      routingNumber: data?.routingNumber,
-      accountNumber: data?.accountNumber,
-      accountHolderName: data?.accountHolderName,
-      newFileId: null,
+      data: data,
+      loading: true,
     });
   }
 
-  _handleChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  };
-  uploadFile = (e) => {
+  uploadFile = (e, setFieldValue) => {
     e.preventDefault();
-    // handle preview Image
     let file = e.target.files[0];
     this.setState({ loadingProgress: true });
-    // handle upload image
     let formData = new FormData();
     formData.append("Filename3", file);
     const config = {
@@ -67,7 +44,7 @@ class EditBank extends Component {
     axios
       .post(upFile, formData, config)
       .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
+        setFieldValue(`fileId`, res.data.data.fileId);
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
@@ -85,35 +62,7 @@ class EditBank extends Component {
   goBack = () => {
     this.props.history.push("/app/merchants/profile/bank");
   };
-  updateBank = () => {
-    const businessBankId = this.props.MerchantProfile.businessBank
-      .businessBankId;
-    const ID = this.props.MerchantProfile.merchantId;
-    const {
-      name,
-      fileId,
-      routingNumber,
-      accountNumber,
-      accountHolderName,
-    } = this.state;
 
-    const payload = {
-      name,
-      fileId,
-      routingNumber,
-      accountNumber,
-      accountHolderName,
-      businessBankId,
-      ID,
-    };
-
-    if (this.validator.allValid()) {
-      this.props.UPDATE_MERCHANT_BANK(payload);
-    } else {
-      this.validator.showMessages();
-      this.forceUpdate();
-    }
-  };
   render() {
     const e = this.props.MerchantProfile;
     let { imagePreviewUrl } = this.state;
@@ -131,111 +80,128 @@ class EditBank extends Component {
     return (
       <div className="react-transition swipe-up general-content">
         <div className="container-fluid">
-          <h2 style={styles.h2}>Bank Information</h2>
-          <div className="row">
-            <div className="col-3">
-              <label>Account Holder Name*</label>
-              <input
-                name="accountHolderName"
-                value={this.state.accountHolderName}
-                onChange={this._handleChange}
-                style={styles.input}
-              />
-              {
-                <p style={styles.p}>
-                  {this.validator.message(
-                    "accountHolderName",
-                    this.state.accountHolderName,
-                    "required|string"
-                  )}
-                </p>
-              }
-            </div>
-            <div className="col-3">
-              <label>Bank Name*</label>
-              <input
-                name="name"
-                value={this.state.name}
-                onChange={this._handleChange}
-                style={styles.input}
-              />
-              {
-                <p style={styles.p}>
-                  {this.validator.message(
-                    "name",
-                    this.state.name,
-                    "required|string"
-                  )}
-                </p>
-              }
-            </div>
+          {this.state.loading && (
+            <Formik
+              initialValues={this.state.data}
+              validationSchema={SignupSchema}
+              onSubmit={(values) => {
+                const ID = this.props.MerchantProfile.merchantId;
+                this.props.UPDATE_MERCHANT_BANK({ ...values, ID });
+              }}
+            >
+              {({ errors, touched, handleChange, setFieldValue, values }) => (
+                <Form>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                      <CustomTitle value="Bank Information" />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <TextField
+                        label="Account Holder Name*"
+                        name="accountHolderName"
+                        type="text"
+                        fullWidth
+                        onChange={handleChange}
+                        value={values?.accountHolderName}
+                        error={
+                          errors.accountHolderName && touched.accountHolderName
+                        }
+                        helperText={
+                          errors.accountHolderName && touched.accountHolderName
+                            ? errors.accountHolderName
+                            : ""
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <TextField
+                        label="Bank Name*"
+                        name="name"
+                        type="text"
+                        fullWidth
+                        onChange={handleChange}
+                        value={values.name}
+                        error={errors.name && touched.name}
+                        helperText={
+                          errors.name && touched.name ? errors.name : ""
+                        }
+                      />
+                    </Grid>
 
-            <div className="col-3">
-              <label> Routing Number* (ABA)</label>
-              <Cleave
-                name="routingNumber"
-                value={this.state.routingNumber}
-                onChange={this._handleChange}
-                style={styles.input}
-                options={{
-                  numericOnly: true,
-                }}
-              />
-              {
-                <p style={styles.p}>
-                  {this.validator.message(
-                    "routingNumber",
-                    this.state.routingNumber,
-                    "required"
-                  )}
-                </p>
-              }
-            </div>
-            <div className="col-3">
-              <label>Account Number* (DDA)</label>
-              <Cleave
-                name="accountNumber"
-                value={this.state.accountNumber}
-                onChange={this._handleChange}
-                style={styles.input}
-                options={{
-                  numericOnly: true,
-                }}
-              />
-              {
-                <p style={styles.p}>
-                  {this.validator.message(
-                    "accountNumber",
-                    this.state.accountNumber,
-                    "required"
-                  )}
-                </p>
-              }
-            </div>
-            <div className="col-3" style={{ paddingTop: "20px" }}>
-              <label>Void Check*</label> <br />
-              {$imagePreview}
-              <div style={{ width: "100%", marginTop: "15px" }}>
-                {this.state.loadingProgress ? <LinearProgress /> : null}
-              </div>
-              <input
-                type="file"
-                name="image"
-                id="file"
-                className="custom-input"
-                onChange={(e) => this.uploadFile(e)}
-              />
-            </div>
-          </div>
-        </div>
-        <br />
-        <div className=" ">
-          <Button className="btn btn-green" onClick={this.updateBank}>
-            SAVE
-          </Button>
-          <Button className="btn btn-red" onClick={this.goBack}>
-            CANCEL
-          </Button>
+                    <Grid item xs={3}>
+                      <TextField
+                        InputLabelProps={{ shrink: true }}
+                        label="Routing Number* (ABA)"
+                        value={values.routingNumber}
+                        onChange={handleChange}
+                        fullWidth
+                        name="routingNumber"
+                        InputProps={{
+                          inputComponent: InputCustom,
+                        }}
+                        inputProps={{
+                          numericOnly: true,
+                        }}
+                        error={errors?.routingNumber && touched?.routingNumber}
+                        helperText={
+                          errors?.routingNumber && touched?.routingNumber
+                            ? errors?.routingNumber
+                            : ""
+                        }
+                      />
+                    </Grid>
+
+                    <Grid item xs={3}>
+                      <TextField
+                        InputLabelProps={{ shrink: true }}
+                        label="Account Number* (DDA)"
+                        value={values.accountNumber}
+                        onChange={handleChange}
+                        fullWidth
+                        name="accountNumber"
+                        InputProps={{
+                          inputComponent: InputCustom,
+                        }}
+                        inputProps={{
+                          block: [5],
+                          numericOnly: true,
+                        }}
+                        error={errors?.accountNumber && touched?.accountNumber}
+                        helperText={
+                          errors?.accountNumber && touched?.accountNumber
+                            ? errors?.accountNumber
+                            : ""
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <label>Void Check*</label> <br />
+                      {$imagePreview}
+                      <div style={{ width: "100%", marginTop: "15px" }}>
+                        {this.state.loadingProgress ? <LinearProgress /> : null}
+                      </div>
+                      <input
+                        type="file"
+                        name="image"
+                        id="file"
+                        className="custom-input"
+                        onChange={(e) => this.uploadFile(e, setFieldValue)}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Grid item xs={12} style={{ paddingTop: "20px" }}>
+                    <Button className="btn btn-green" type="submit">
+                      SAVE
+                    </Button>
+                    <Button className="btn btn-red" onClick={this.goBack}>
+                      CANCEL
+                    </Button>
+                  </Grid>
+                </Form>
+              )}
+            </Formik>
+          )}
         </div>
       </div>
     );
@@ -254,15 +220,20 @@ const mapDispatchToProps = (dispatch) => ({
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditBank);
 
-const styles = {
-  h2: {
-    paddingBottom: "10px",
-  },
-  input: {
-    marginBottom: "10px",
-  },
-  p: {
-    color: "red",
-    fontSize: "18px",
-  },
-};
+const SignupSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Bank name is required"),
+  routingNumber: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Routing number is required"),
+  accountNumber: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Account number is required"),
+  accountHolderName: Yup.string()
+    .min(2, "Too Short!")
+    .required("Account holder name is required"),
+});
