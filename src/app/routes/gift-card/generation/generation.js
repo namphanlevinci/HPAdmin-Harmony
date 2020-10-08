@@ -4,15 +4,15 @@ import {
   GET_GIFT_CARD,
   VIEW_DETAIL,
 } from "../../../../actions/gift-card/actions";
-// import { GoTrashcan } from "react-icons/go";
-// import { store } from "react-notifications-component";
+
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import { CustomTableHeader } from "../../../../util/CustomText";
+import { Typography, Button } from "@material-ui/core";
 
 import EditSVG from "../../../../assets/images/edit.svg";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import moment from "moment";
@@ -133,50 +133,86 @@ class Generation extends Component {
   render() {
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         accessor: "giftCardGeneralId",
-        Cell: (e) => <p>{`${e.value}`}</p>,
+        Cell: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {`${e.value}`}
+          </Typography>
+        ),
         width: 50,
       },
       {
-        Header: "Name",
+        Header: <CustomTableHeader value="Name" />,
         accessor: "name",
-        Cell: (e) => <p className="giftcard-name">{e.value}</p>,
-      },
-      {
-        id: "Value",
-        Header: "Value",
-        // width: 100,
-        accessor: (row) => `${row.amount}`,
         Cell: (e) => (
-          <p style={{ textAlign: "start", fontWeight: 400 }}>$ {e.value}</p>
+          <Typography variant="subtitle1" className="table__light">
+            {e.value}
+          </Typography>
         ),
       },
       {
-        Header: "Template",
-        accessor: "giftCardTemplateName",
-        Cell: (e) => <p className="giftcard-template">{e.value}</p>,
+        id: "Value",
+        Header: <CustomTableHeader value="Value" />,
+        accessor: (row) => `${row.amount}`,
+        Cell: (e) => <Typography variant="subtitle1">$ {e.value}</Typography>,
       },
       {
-        Header: "Date Created",
+        Header: <CustomTableHeader value="Template" />,
+        accessor: "giftCardTemplateName",
+        Cell: (e) => (
+          <Typography variant="subtitle1" className="giftcard-template">
+            {e.value}
+          </Typography>
+        ),
+      },
+      {
+        Header: <CustomTableHeader value="Date Created" />,
         accessor: "createdDate",
-        Cell: (e) => <p>{moment(e.value).format("MM/DD/YYYY")}</p>,
+        Cell: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {moment(e.value).format("MM/DD/YYYY")}
+          </Typography>
+        ),
       },
       {
         id: "Quantity",
-        Header: () => <div style={{ textAlign: "center" }}>Quantity</div>,
+        Header: () => (
+          <CustomTableHeader
+            styles={{ textAlign: "center" }}
+            value="Quantity"
+          />
+        ),
         accessor: (row) => (
-          <p style={{ textAlign: "center" }}>{row.quantity}</p>
+          <Typography
+            variant="subtitle1"
+            className="table__light"
+            style={{ textAlign: "center" }}
+          >
+            {row.quantity}
+          </Typography>
         ),
       },
       {
         id: "Unused",
-        Header: () => <div style={{ textAlign: "center" }}>Unused</div>,
-        accessor: (row) => <p style={{ textAlign: "center" }}>{row.unUsed}</p>,
+        Header: () => (
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Unused" />
+        ),
+        accessor: (row) => (
+          <Typography
+            variant="subtitle1"
+            className="table__light"
+            style={{ textAlign: "center" }}
+          >
+            {row.unUsed}
+          </Typography>
+        ),
       },
       {
         id: "Actions",
-        Header: () => <div style={{ textAlign: "center" }}>Actions</div>,
+        Header: () => (
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Actions" />
+        ),
         accessor: "Action",
         Cell: (row) => {
           return (

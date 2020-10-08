@@ -70,6 +70,15 @@ ul.detail-tab .active {
   margin-top: 30px;
 }
 
+.route-wrapper {
+  position: relative;
+}
+
+.route-wrapper > div {
+  position: absolute;
+}
+
+
 @media screen and (max-width: 1440px) {
   .profile-nav ul {
     display: inherit;

@@ -4,6 +4,8 @@ import { withRouter } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
 import SidenavContent from "./SidenavContent";
 import UserInfo from "../../components/UserInfo";
+import Fade from "@material-ui/core/Fade";
+
 import {
   COLLAPSED_DRAWER,
   FIXED_DRAWER,
@@ -63,10 +65,14 @@ class SideNav extends React.PureComponent {
           <UserInfo />
           {isLoadingPermission ? (
             <div style={styles.loading}>
-              <CircularProgress size={42} />
+              <Fade in={true}>
+                <CircularProgress size={42} />
+              </Fade>
             </div>
           ) : (
-            <SidenavContent />
+            <Fade in={true}>
+              <SidenavContent />
+            </Fade>
           )}
         </Drawer>
       </div>

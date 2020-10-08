@@ -84,12 +84,13 @@ class General extends Component {
               <CustomText value={e?.phone} />
             </Grid>
             <Grid item xs={12} style={{ marginTop: "20px", display: "flex" }}>
-              {CheckPermissions("edit-consumer") && (
+              {CheckPermissions("Edit-consumer") && (
                 <Button className="btn btn-green" onClick={this.EditPage}>
                   EDIT
                 </Button>
               )}
-              {CheckPermissions("active-consumer") && ConsumerStatus}
+              {/* active-consumer moi dung */}
+              {CheckPermissions("active-merchant") && ConsumerStatus}
             </Grid>
           </Grid>
         </div>

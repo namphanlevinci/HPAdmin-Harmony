@@ -16,8 +16,8 @@
 }
 
 .image__container {
-  height: 172px;
-  width: 350px;
+  width: 100%;
+  height: auto;
 }
 
 .template-img {
@@ -29,7 +29,7 @@
 
 .custom-input {
   cursor: pointer;
-  width: 140px !important; 
+  // width: 140px !important; 
   height: 40px;
   overflow: hidden;
 }

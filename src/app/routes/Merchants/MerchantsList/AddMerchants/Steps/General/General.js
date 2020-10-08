@@ -18,6 +18,7 @@ export default function General(props) {
     errors,
     handleBlur,
     setFieldValue,
+    setFieldError,
   } = props;
 
   return (
@@ -97,7 +98,8 @@ export default function General(props) {
                     `sameAsBusiness`,
                     e.target.checked,
                     setFieldValue,
-                    generalInfo
+                    generalInfo,
+                    setFieldError
                   )
                 }
                 label="Same as Business Address"
@@ -109,6 +111,7 @@ export default function General(props) {
           <InputField
             name={`generalInfo.dbaAddress.address`}
             label="DBA Address*"
+            onBlur={handleBlur}
             fullWidth
           />
         </Grid>
@@ -116,6 +119,7 @@ export default function General(props) {
           <InputField
             name={`generalInfo.dbaAddress.city`}
             label="City*"
+            onBlur={handleBlur}
             fullWidth
           />
         </Grid>
@@ -123,6 +127,7 @@ export default function General(props) {
           <SelectField
             name={`generalInfo.dbaAddress.state`}
             label="State*"
+            onBlur={handleBlur}
             data={State}
             fullWidth
           />
@@ -132,6 +137,7 @@ export default function General(props) {
             InputLabelProps={{ shrink: true }}
             name={`generalInfo.dbaAddress.zip`}
             label="Zip Code*"
+            onBlur={handleBlur}
             options={{
               blocks: [5],
             }}
@@ -221,6 +227,7 @@ export default function General(props) {
         "generalInfo.dbaAddress.address",
         generalInfo.businessAddress.address
       );
+
       setFieldValue(
         "generalInfo.dbaAddress.city",
         generalInfo.businessAddress.city

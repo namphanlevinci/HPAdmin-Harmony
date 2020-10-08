@@ -8,10 +8,11 @@ import { store } from "react-notifications-component";
 
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
+import { CustomTableHeader } from "../../../../util/CustomText";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import Button from "@material-ui/core/Button";
+import { Typography, Button } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -200,7 +201,7 @@ class Generation extends Component {
   render() {
     const columns = [
       {
-        Header: "Thumbnail",
+        Header: <CustomTableHeader value="Thumbnail" />,
         accessor: "imageUrl",
         Cell: (row) => (
           <div
@@ -217,29 +218,42 @@ class Generation extends Component {
         // width: 130,
       },
       {
-        Header: "Name",
+        Header: <CustomTableHeader value="Name" />,
         id: "giftCardTemplateName",
-        accessor: (row) => <p>{row?.giftCardTemplateName}</p>,
+        accessor: (row) => (
+          <Typography variant="subtitle1">
+            {row?.giftCardTemplateName}
+          </Typography>
+        ),
         // width: 180,
       },
       {
         id: "Group",
-        Header: "Group",
-        accessor: (row) => <p>{row?.giftCardType}</p>,
-      },
-      {
-        Header: () => <div style={{ textAlign: "center" }}>Status</div>,
-        accessor: "isDisabled",
-        Cell: (e) => (
-          <div style={{ textAlign: "center" }}>
-            <p style={{ fontWeight: 400 }}>
-              {e.value === 0 ? "Active" : "Inactive"}
-            </p>
-          </div>
+        Header: <CustomTableHeader value="Group" />,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.giftCardType}
+          </Typography>
         ),
       },
       {
-        Header: () => <div style={{ textAlign: "center" }}>Visible on App</div>,
+        Header: () => (
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Status" />
+        ),
+        accessor: "isDisabled",
+        Cell: (e) => (
+          <Typography variant="subtitle1" style={{ textAlign: "center" }}>
+            {e.value === 0 ? "Active" : "Inactive"}
+          </Typography>
+        ),
+      },
+      {
+        Header: () => (
+          <CustomTableHeader
+            styles={{ textAlign: "center" }}
+            value="Visible on App"
+          />
+        ),
         accessor: "isConsumer",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
@@ -252,7 +266,9 @@ class Generation extends Component {
       },
       {
         id: "Actions",
-        Header: () => <div style={{ textAlign: "center" }}>Actions</div>,
+        Header: () => (
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Actions" />
+        ),
         accessor: "Action",
         Cell: (row) => {
           return (

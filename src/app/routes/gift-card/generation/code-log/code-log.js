@@ -1,5 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
+import {
+  CustomTextLabel,
+  CustomTableHeader,
+  CustomTitle,
+  CustomText,
+} from "../../../../../util/CustomText";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import moment from "moment";
@@ -27,7 +33,7 @@ const CodeLog = ({ open, handleClose, Log, Serial }) => {
     <div>
       <Dialog open={open} onClose={handleClose} className="code-log">
         <div className="code-log-title">
-          <p>{`Logs for ${Serial} `}</p>
+          <CustomTitle value={`Logs for ${Serial} `} />
           <Button className="close__btn" onClick={handleClose}>
             Close
           </Button>
@@ -37,13 +43,13 @@ const CodeLog = ({ open, handleClose, Log, Serial }) => {
           <div className="code__log__container">
             <Grid container spacing={0}>
               <Grid item xs={3}>
-                <h4>Time</h4>
+                <CustomTextLabel value="Time" />
               </Grid>
               <Grid item xs={3}>
-                <h4>Date</h4>
+                <CustomTextLabel value="Date" />
               </Grid>
               <Grid item xs={6}>
-                <h4>Details</h4>
+                <CustomTextLabel value="Details" />
               </Grid>
             </Grid>
             {renderLog}

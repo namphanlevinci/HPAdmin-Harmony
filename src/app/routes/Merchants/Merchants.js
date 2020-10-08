@@ -2,20 +2,13 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import asyncComponent from "../../../util/asyncComponent";
 import PrivateRoute from "../../PrivateRoute";
+
 const Merchants = ({ match, location }) => {
   return (
     // <CSSTransition timeout={300} classNames="fade">
     <div className="app-wrapper">
       <Switch>
         <Redirect exact from={`${match.url}/`} to={`${match.url}/`} />
-
-        {/* <PrivateRoute
-          permissionID={12}
-          path={`${match.url}/add`}
-          component={asyncComponent(() =>
-            import("./MerchantsList/addMerchant/addMerchant")
-          )}
-        /> */}
 
         {/* ADD MERCHANT V2 */}
         <PrivateRoute

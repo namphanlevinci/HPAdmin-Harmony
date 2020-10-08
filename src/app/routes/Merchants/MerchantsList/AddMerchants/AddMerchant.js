@@ -71,7 +71,8 @@ class AddMerchant extends React.Component {
     setFieldValue,
     errors,
     touched,
-    handleBlur
+    handleBlur,
+    setFieldError
   ) => {
     switch (stepIndex) {
       case 0:
@@ -82,6 +83,7 @@ class AddMerchant extends React.Component {
             errors={errors}
             touched={touched}
             handleBlur={handleBlur}
+            setFieldError={setFieldError}
           />
         );
       case 1:
@@ -276,6 +278,7 @@ class AddMerchant extends React.Component {
                     errors,
                     touched,
                     handleBlur,
+                    setFieldError,
                   }) => (
                     <Form>
                       {this.getStepContent(
@@ -285,7 +288,8 @@ class AddMerchant extends React.Component {
                         setFieldValue,
                         errors,
                         touched,
-                        handleBlur
+                        handleBlur,
+                        setFieldError
                       )}
 
                       {this.state.activeStep === 3 ? null : (

@@ -6,14 +6,18 @@ import {
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { GET_GIFT_CARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
+import { SUCCESS_NOTIFICATION } from "../../../../actions/notifications/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
-import { store } from "react-notifications-component";
 import { DebounceInput } from "react-debounce-input";
+import {
+  CustomTextLabel,
+  CustomTableHeader,
+} from "../../../../util/CustomText";
+import { Grid, Button, Typography } from "@material-ui/core";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -138,20 +142,8 @@ class Codes extends Component {
       )
       .then((res) => {
         if (Number(res.data.codeNumber) === 400 || res.data.data === null) {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.SuccessNotify(res.data.message);
+
           this.setState({ isLoading: false });
         } else {
           setTimeout(() => {
@@ -175,43 +167,49 @@ class Codes extends Component {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
     const { page, pageCount, data } = this.state;
 
-    const typeExport = [
-      { value: "excel", label: "CSV" },
-      // { value: "pdf", label: "Pdf" },
-    ];
+    const typeExport = [{ value: "excel", label: "CSV" }];
 
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         accessor: "giftCardId",
         Cell: (e) => (
-          <div style={{ fontWeight: "400" }}>
-            <p>{e.value}</p>
-          </div>
+          <Typography variant="subtitle1" className="table__light">
+            {e.value}
+          </Typography>
         ),
         width: 70,
       },
       {
-        Header: "Serial",
+        Header: <CustomTableHeader value="Serial" />,
         accessor: "serialNumber",
-        Cell: (e) => <p style={{ fontWeight: "400" }}>{e.value}</p>,
+        Cell: (e) => <Typography variant="subtitle1">{e.value}</Typography>,
         width: 200,
       },
       {
         id: "Pincode",
-        Header: "Pin Code",
+        Header: <CustomTableHeader value="Pin Code" />,
         accessor: "pincode",
-        Cell: (e) => <p style={{ fontWeight: "400" }}>{e.value}</p>,
+        Cell: (e) => <Typography variant="subtitle1">{e.value}</Typography>,
         width: 100,
       },
       {
-        Header: "Created Date",
+        Header: <CustomTableHeader value="Created Date" />,
         accessor: "createdDate",
-        Cell: (e) => <p>{moment(e.value).format("MM/DD/YYYY")}</p>,
+        Cell: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {moment(e.value).format("MM/DD/YYYY")}
+          </Typography>
+        ),
         width: 160,
       },
       {
-        Header: () => <div style={{ textAlign: "center" }}>Physical</div>,
+        Header: (
+          <CustomTableHeader
+            styles={{ textAlign: "center" }}
+            value="Physical"
+          />
+        ),
         accessor: "isPhysical",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
@@ -224,7 +222,9 @@ class Codes extends Component {
       },
       {
         id: "Actived",
-        Header: () => <div style={{ textAlign: "center" }}>Actived</div>,
+        Header: (
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Actived" />
+        ),
         accessor: "isActive",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
@@ -237,7 +237,9 @@ class Codes extends Component {
       },
       {
         id: "Used",
-        Header: () => <div style={{ textAlign: "center" }}>Used</div>,
+        Header: (
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Used" />
+        ),
         accessor: "isUsed",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
@@ -250,7 +252,7 @@ class Codes extends Component {
       },
       {
         id: "Time",
-        Header: "Time Used",
+        Header: <CustomTableHeader value="Time Used" />,
         accessor: "usedDate",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
@@ -264,7 +266,9 @@ class Codes extends Component {
       },
       {
         id: "actions",
-        Header: () => <div style={{ textAlign: "center" }}>Actions</div>,
+        Header: (
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Actions" />
+        ),
         Cell: (row) => {
           return (
             <Tooltip title="Info" arrow>
@@ -313,8 +317,8 @@ class Codes extends Component {
           title={<IntlMessages id="sidebar.dashboard.gift-card-codes" />}
         />
         <div className="giftcard">
-          <div className="giftCard_search">
-            <div>
+          <Grid container spacing={3} className="giftCard_search">
+            <Grid item xs={12}>
               <form>
                 <SearchIcon className="button" title="Search" />
 
@@ -329,40 +333,39 @@ class Codes extends Component {
                   onChange={this.handleSearchInput}
                 />
               </form>
-            </div>
+            </Grid>
             {/* <Button className="btn btn-green" onClick={this.fetchData}>
               Search
             </Button> */}
-          </div>
-          <div className="row">
-            <div className="col-4" style={styles.div}>
-              <label style={styles.label}>Physical Card</label>
+
+            <Grid item xs={4} style={styles.div}>
+              <CustomTextLabel value="Physical Card" />
               <Select
                 value={this.state.isPhysical}
                 onChange={this.handleSelect}
                 name="isPhysical"
                 options={isPhysical}
               />
-            </div>
-            <div className="col-4" style={styles.div}>
-              <label style={styles.label}>Active</label>
+            </Grid>
+            <Grid item xs={4} style={styles.div}>
+              <CustomTextLabel value="Active" />
               <Select
                 value={this.state.isActive}
                 onChange={this.handleSelect}
                 name="isActive"
                 options={isActive}
               />
-            </div>
-            <div className="col-4" style={styles.div}>
-              <label style={styles.label}>Used</label>
+            </Grid>
+            <Grid item xs={4} style={styles.div}>
+              <CustomTextLabel value="Used" />
               <Select
                 value={this.state.isUsed}
                 onChange={this.handleSelect}
                 name="isUsed"
                 options={isUsed}
               />
-            </div>
-          </div>
+            </Grid>
+          </Grid>
           <div className="giftcard_content">
             <CodeLog
               open={this.state.open}
@@ -382,7 +385,7 @@ class Codes extends Component {
               }}
             >
               <h2 style={styles.h2}></h2>
-              {CheckPermissions("export-gift-card-code") && (
+              {CheckPermissions("export-generation") && (
                 <div
                   style={{
                     display: "flex",
@@ -446,6 +449,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getCodeLog: (ID) => {
     dispatch(GET_GIFT_CARD_CODE_LOG_BY_ID(ID));
+  },
+  SuccessNotify: (message) => {
+    dispatch(SUCCESS_NOTIFICATION(message));
   },
 });
 

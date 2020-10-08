@@ -23,8 +23,12 @@ const CustomTextLabel = ({ value, styles }) => (
   </Typography>
 );
 
-const CustomText = ({ value }) => (
-  <Typography variant="subtitle1" className="content__text">
+const CustomText = ({ value, styles }) => (
+  <Typography
+    variant="subtitle1"
+    className="content__text"
+    style={styles ? styles : null}
+  >
     {value}
   </Typography>
 );

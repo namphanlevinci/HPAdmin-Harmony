@@ -5,10 +5,16 @@ import { Formik } from "formik";
 import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
 import { store } from "react-notifications-component";
 import { config } from "../../../../url/url";
+import {
+  CustomTextLabel,
+  CustomTableHeader,
+  CustomTitle,
+  CustomText,
+} from "../../../../util/CustomText";
+import { Grid, Button } from "@material-ui/core";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import Button from "@material-ui/core/Button";
 import Select from "react-select";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -222,96 +228,98 @@ class NewTemplate extends Component {
                       </Button>
                     </div>
                   </div>
-                  <div className="information container-fluid">
-                    <h3 className="title">General Information</h3>
+                  <Grid
+                    container
+                    spacing={3}
+                    className="information container-fluid"
+                  >
+                    <Grid item xs={12}>
+                      <CustomTitle value="General Information" />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        style={{ marginTop: "16px", width: "100%" }}
+                        type="text"
+                        name="giftCardTemplateName"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        label="Template Name"
+                        value={values.giftCardTemplateName}
+                        error={
+                          errors.giftCardTemplateName &&
+                          touched.giftCardTemplateName
+                        }
+                        helperText={
+                          errors.giftCardTemplateName &&
+                          touched.giftCardTemplateName
+                            ? errors.giftCardTemplateName
+                            : ""
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <h4>Group</h4>
+                      <Select
+                        options={Group}
+                        onChange={(selectedOption) => {
+                          setFieldValue("giftCardType", selectedOption.value);
+                        }}
+                        placeholder="Select Group"
+                        value={this.state.group}
+                      />
+                      {errors.giftCardType && touched.giftCardType && (
+                        <div className="input-feedback">
+                          {errors.giftCardType}
+                        </div>
+                      )}
+                    </Grid>
+                    <Grid item xs={4}>
+                      <h4>Status</h4>
+                      <Select
+                        options={Status}
+                        onChange={(selectedOption) => {
+                          setFieldValue("isDisabled", selectedOption.value);
+                        }}
+                        placeholder="Select Status"
+                        value={this.state.isDisabled}
+                      />
+                      {errors.isDisabled && touched.isDisabled && (
+                        <div className="input-feedback">
+                          {errors.isDisabled}
+                        </div>
+                      )}
+                    </Grid>
+                    <Grid item xs={4}>
+                      <h4>Image</h4>
 
-                    <div className="row template__container">
-                      <div className="col-4">
-                        <TextField
-                          style={{ marginTop: "16px", width: "100%" }}
-                          type="text"
-                          name="giftCardTemplateName"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          label="Template Name"
-                          value={values.giftCardTemplateName}
-                        />
-                        {errors.giftCardTemplateName &&
-                          touched.giftCardTemplateName && (
-                            <div className="input-feedback">
-                              {errors.giftCardTemplateName}
-                            </div>
-                          )}
-                      </div>
+                      {this.state.isUploadImage ? (
+                        <div style={{ padding: "20px", textAlign: "center" }}>
+                          <CircularProgress size={50} />
+                        </div>
+                      ) : (
+                        <div className="image__container">{$imagePreview}</div>
+                      )}
 
-                      <div className="col-4">
-                        <h4>Group</h4>
-                        <Select
-                          options={Group}
-                          onChange={(selectedOption) => {
-                            setFieldValue("giftCardType", selectedOption.value);
-                          }}
-                          placeholder="Select Group"
-                          value={this.state.group}
-                        />
-                        {errors.giftCardType && touched.giftCardType && (
-                          <div className="input-feedback">
-                            {errors.giftCardType}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="col-4">
-                        <h4>Status</h4>
-                        <Select
-                          options={Status}
-                          onChange={(selectedOption) => {
-                            setFieldValue("isDisabled", selectedOption.value);
-                          }}
-                          placeholder="Select Status"
-                          value={this.state.isDisabled}
-                        />
-                        {errors.isDisabled && touched.isDisabled && (
-                          <div className="input-feedback">
-                            {errors.isDisabled}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="col-4" style={{ paddingTop: "10px" }}>
-                        <h4>Image</h4>
-
-                        {this.state.isUploadImage ? (
-                          <div style={{ padding: "20px", textAlign: "center" }}>
-                            <CircularProgress size={50} />
-                          </div>
-                        ) : (
-                          <div className="image__container">
-                            {$imagePreview}
-                          </div>
-                        )}
-
-                        <input
-                          type="file"
-                          className="custom-input"
-                          onChange={(e) => this._uploadFile(e)}
-                          style={{ width: "250px", border: "none" }}
-                        />
-                      </div>
-                      <div className="col-8" style={{ paddingTop: "45px" }}>
-                        <Checkbox
-                          id="isConsumer"
-                          onChange={(e) =>
-                            this.setState({ isConsumer: e.target.value })
-                          }
-                          value="1"
-                          inputProps={{ "aria-label": "primary checkbox" }}
-                          style={{ color: "#4251af" }}
-                        />
-                        Visible on Consumer App
-                      </div>
-                    </div>
-                  </div>
+                      <input
+                        type="file"
+                        className="custom-input"
+                        onChange={(e) => this._uploadFile(e)}
+                        style={{ width: "100%", border: "none" }}
+                      />
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Checkbox
+                        id="isConsumer"
+                        onChange={(e) =>
+                          this.setState({ isConsumer: e.target.value })
+                        }
+                        value="1"
+                        inputProps={{ "aria-label": "primary checkbox" }}
+                        style={{ color: "#4251af" }}
+                      />
+                      Visible on Consumer App
+                    </Grid>
+                  </Grid>
                 </form>
               </React.Fragment>
             )}

@@ -5,13 +5,23 @@ import {
   GET_GIFT_CARD_CODE_LOG_BY_ID,
 } from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
-import { store } from "react-notifications-component";
 import { config } from "../../../../url/url";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+  WARNING_NOTIFICATION,
+} from "../../../../actions/notifications/actions";
+import {
+  CustomTextLabel,
+  CustomTableHeader,
+  CustomTitle,
+  CustomText,
+} from "../../../../util/CustomText";
+import { Grid, Button, Typography } from "@material-ui/core";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import ReactTable from "react-table";
-import Button from "@material-ui/core/Button";
 import moment from "moment";
 import Checkbox from "@material-ui/core/Checkbox";
 import SearchIcon from "@material-ui/icons/Search";
@@ -69,20 +79,7 @@ class Generation_Detail extends Component {
     const giftCardGeneralId = this.props.Detail;
     const quantity = this.state.quantity;
     if (quantity === 0) {
-      store.addNotification({
-        title: "WARNING!",
-        message: "Please enter the Quantity!",
-        type: "warning",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 3500,
-          onScreen: true,
-        },
-        width: 250,
-      });
+      this.props.warningNotify("Please enter the Quantity!");
     } else {
       this.setState({ loading: true });
       axios
@@ -98,20 +95,9 @@ class Generation_Detail extends Component {
         .then((res) => {
           if (res.data.message === "Success") {
             this.setState({ quantity: 0, loading: false, search: "" });
-            store.addNotification({
-              title: "Success!",
-              message: `${res.data.message}`,
-              type: "success",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 3500,
-                onScreen: true,
-              },
-              width: 250,
-            });
+
+            this.props.successNotify(res.data.message);
+
             this.fetchData();
             this.getGiftCardById(this.state.deleteID);
           }
@@ -186,20 +172,8 @@ class Generation_Detail extends Component {
       })
       .then((res) => {
         if (res.data.message === "Success") {
-          store.addNotification({
-            title: "Success!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 2000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.successNotify(res.data.message);
+
           this.setState({ openDelete: false });
           setTimeout(() => {
             this.props.history.push("/app/giftcard/generation");
@@ -224,20 +198,8 @@ class Generation_Detail extends Component {
       )
       .then((res) => {
         if (Number(res.data.codeNumber) === 400 || res.data.data === null) {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.errorNotify(res.data.message);
+
           this.setState({ isLoading: false });
         } else {
           setTimeout(() => {
@@ -255,36 +217,45 @@ class Generation_Detail extends Component {
 
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         accessor: "giftCardId",
         Cell: (e) => (
-          <div style={{ fontWeight: "500" }}>
-            <p>{e.value}</p>
-          </div>
+          <Typography variant="subtitle1" className="table__light">
+            {e.value}
+          </Typography>
         ),
         width: 70,
       },
       {
-        Header: "Serial",
+        Header: <CustomTableHeader value="Serial" />,
         accessor: "serialNumber",
-        Cell: (e) => <p style={{ fontWeight: "400" }}>{e.value}</p>,
+        Cell: (e) => <Typography variant="subtitle1">{e.value}</Typography>,
         width: 200,
       },
       {
         id: "Pincode",
-        Header: "Pin Code",
+        Header: <CustomTableHeader value="Pin Code" />,
         accessor: "pincode",
-        Cell: (e) => <p style={{ fontWeight: "400" }}>{e.value}</p>,
+        Cell: (e) => <Typography variant="subtitle1">{e.value}</Typography>,
         width: 100,
       },
       {
-        Header: "Created Date",
+        Header: <CustomTableHeader value="Created Date" />,
         accessor: "createdDate",
-        Cell: (e) => <p>{moment(e.value).format("MM/DD/YYYY")}</p>,
+        Cell: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {moment(e.value).format("MM/DD/YYYY")}
+          </Typography>
+        ),
         width: 160,
       },
       {
-        Header: () => <div style={{ textAlign: "center" }}>Physical</div>,
+        Header: () => (
+          <CustomTableHeader
+            styles={{ textAlign: "center" }}
+            value="Physical"
+          />
+        ),
         accessor: "isPhysical",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
@@ -297,7 +268,12 @@ class Generation_Detail extends Component {
       },
       {
         id: "Activated",
-        Header: () => <div style={{ textAlign: "center" }}>Activated</div>,
+        Header: (
+          <CustomTableHeader
+            styles={{ textAlign: "center" }}
+            value="Activated"
+          />
+        ),
         accessor: "isActive",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
@@ -310,7 +286,9 @@ class Generation_Detail extends Component {
       },
       {
         id: "Used",
-        Header: () => <div style={{ textAlign: "center" }}>Used</div>,
+        Header: () => (
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Used" />
+        ),
         accessor: "isUsed",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
@@ -323,7 +301,7 @@ class Generation_Detail extends Component {
       },
       {
         id: "Time",
-        Header: "Time Used",
+        Header: <CustomTableHeader value="Time Used" />,
         accessor: "usedDate",
         Cell: (e) => (
           <div style={{ textAlign: "center" }}>
@@ -335,7 +313,9 @@ class Generation_Detail extends Component {
       },
       {
         id: "actions",
-        Header: () => <div style={{ textAlign: "center" }}>Actions</div>,
+        Header: () => (
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Actions" />
+        ),
         Cell: (row) => {
           return (
             <Tooltip title="Info" arrow>
@@ -381,118 +361,125 @@ class Generation_Detail extends Component {
               </Button> */}
             </div>
           </div>
-          <div className="information container-fluid">
-            <h3 className="title">General Information</h3>
-            <div className="row">
-              <div className="col-4">
-                <label>Gift Card Name</label>
-                <p>{Detail?.name}</p>
-              </div>
-              <div className="col-4">
-                <label>Value</label>
-                <p>$ {Detail?.amount}</p>
-              </div>
-              <div className="col-4">
-                <label>Date Created</label>
-                <p>{moment(Detail?.createdDate).format("MM/DD/YYYY")}</p>
-              </div>
-              <div className="col-4">
-                <label>Unused Gift Codes</label>
-                <p>{Detail?.unUsed}</p>
-              </div>
-              <div className="col-4">
-                <label>Gift Card Quantity*</label>
-                <p>{Detail?.quantity}</p>
-              </div>
-              <div className="col-4">
-                <label>Template</label>
-                <p style={{ color: "#4251af" }}>
-                  {Detail?.giftCardTemplateName}
-                </p>
-              </div>
+          <Grid container spacing={3} className="information container-fluid">
+            <Grid item xs={12}>
+              <CustomTitle value="General Information" />
+            </Grid>
 
-              <div className="col-12">
-                <h3 className="title">Add Gift Codes</h3>
-                <label>Quantity*</label> <br />
-                <input
-                  type="number"
-                  name="amount"
-                  className="add-codes"
-                  onChange={(e) => this.setState({ quantity: e.target.value })}
-                  style={{ width: "20%" }}
-                  value={this.state.quantity}
-                />
-                <br />
-                <Button
-                  className="btn btn-red"
-                  style={{ marginTop: "10px" }}
-                  onClick={this.handleGenerate}
-                >
-                  Generate
-                </Button>
-              </div>
-            </div>
-            <div style={{ zIndex: "9999" }}>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Gift Card Name" />
+              <CustomText value={Detail?.name} />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Value" />
+              <CustomText value={`$ ${Detail?.amount}`} />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Date Created" />
+              <CustomText
+                value={moment(Detail?.createdDate).format("MM/DD/YYYY")}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Unused Gift Codes" />
+              <CustomText value={Detail?.unUsed} />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Gift Card Quantity*" />
+              <CustomText value={Detail?.quantity} />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Template" />
+              <CustomText
+                value={Detail?.giftCardTemplateName}
+                styles={{ color: "#4251af" }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTitle value="Add Gift Codes" />
+              <CustomTextLabel value="Quantity*" />
+              <input
+                type="number"
+                name="amount"
+                className="add-codes"
+                onChange={(e) => this.setState({ quantity: e.target.value })}
+                style={{ width: "12%" }}
+                value={this.state.quantity}
+              />
+              <br />
+              <Button
+                className="btn btn-red"
+                style={{ marginTop: "10px" }}
+                onClick={this.handleGenerate}
+              >
+                Generate
+              </Button>
+            </Grid>
+
+            <Grid item xs={12} style={{ zIndex: "9999" }}>
               <ScaleLoader isLoading={this.state.isLoading} />
-            </div>
-            <div className="giftcard_content">
-              <h3 className="title">Gift Card Codes</h3>
-              <div className="giftCard_search" style={{ marginBottom: "20px" }}>
-                <form>
-                  <SearchIcon
-                    className="button"
-                    title="Search"
-                    style={{ marginTop: "4px" }}
-                  />
-                  <input
-                    type="text"
-                    className="textBox"
-                    placeholder="Search by ID, Serial, Pin Code"
-                    style={{ paddingTop: "6px" }}
-                    value={this.state.search}
-                    onChange={(e) => this.setState({ search: e.target.value })}
-                    onKeyPress={this.keyPressed}
-                  />
-                </form>
-                {CheckPermissions("export-generation") && (
+            </Grid>
+            {/* <div className="giftcard_content"> */}
+            <Grid item xs={12}>
+              <CustomTitle value="Gift Card Codes" />
+            </Grid>
+            <Grid item xs={12} className="giftCard_search">
+              <form>
+                <SearchIcon
+                  className="button"
+                  title="Search"
+                  style={{ marginTop: "4px" }}
+                />
+                <input
+                  type="text"
+                  className="textBox"
+                  placeholder="Search by ID, Serial, Pin Code"
+                  style={{ paddingTop: "6px" }}
+                  value={this.state.search}
+                  onChange={(e) => this.setState({ search: e.target.value })}
+                  onKeyPress={this.keyPressed}
+                />
+              </form>
+              {CheckPermissions("export-gift-card-code") && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <label style={styles.h4}>Export to:</label>
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center",
+                      width: "100px",
+                      zIndex: "9999",
+                      marginRight: "10px",
                     }}
                   >
-                    <label style={styles.h4}>Export to:</label>
-                    <div
-                      style={{
-                        width: "100px",
-                        zIndex: "9999",
-                        marginRight: "10px",
-                      }}
-                    >
-                      <Select
-                        value={this.state.typeExport}
-                        options={typeExport}
-                        onChange={(e) => this.setState({ typeExport: e })}
-                      />
-                    </div>
-                    <Button style={styles.btn} onClick={this.getExport}>
-                      Export
-                    </Button>
+                    <Select
+                      value={this.state.typeExport}
+                      options={typeExport}
+                      onChange={(e) => this.setState({ typeExport: e })}
+                    />
                   </div>
-                )}
-              </div>
+                  <Button style={styles.btn} onClick={this.getExport}>
+                    Export
+                  </Button>
+                </div>
+              )}
+            </Grid>
 
-              {/* <Delete
+            {/* <Delete
                 handleCloseDelete={this.handleCloseDelete}
                 open={this.state.openDelete}
                 deleteGeneration={this.Delete}
                 text={"Gift Card"}
               /> */}
-              <CodeLog
-                open={this.state.open}
-                handleClose={this.handleClose}
-                Serial={this.state.serialNumber}
-              />
+            <CodeLog
+              open={this.state.open}
+              handleClose={this.handleClose}
+              Serial={this.state.serialNumber}
+            />
+            <Grid item xs={12}>
               {this.state.loadingData && (
                 <ReactTable
                   manual
@@ -508,8 +495,8 @@ class Generation_Detail extends Component {
                   defaultPageSize={10}
                 />
               )}
-            </div>
-          </div>
+            </Grid>
+          </Grid>
         </div>
       </div>
     );
@@ -528,6 +515,15 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getCodeLog: (ID) => {
     dispatch(GET_GIFT_CARD_CODE_LOG_BY_ID(ID));
+  },
+  successNotify: (message) => {
+    dispatch(SUCCESS_NOTIFICATION(message));
+  },
+  errorNotify: (message) => {
+    dispatch(FAILURE_NOTIFICATION(message));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 

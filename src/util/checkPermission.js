@@ -4,7 +4,7 @@ function CheckPermissions(permissionName) {
   const Permission = store.getState();
   const checkPermission = Permission?.userReducer?.UserPermissions;
 
-  // console.log("checkPermission", checkPermission);
+  // console.log("checkPermission", checkPermission[0]?.actions);
   // console.log("permissionId", permissionName);
 
   const filterPermissionByPage = checkPermission?.map(
