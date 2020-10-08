@@ -52,8 +52,15 @@ const userReducer = (state = initialState, { type, payload }) => {
 
     case types.ADD_ADMIN_FAILURE:
       return { ...state };
+
+    // case types.GET_PERMISSION_BY_ID:
+    //   return { ...state, GettingPermissions: true };
+
     case types.GET_PERMISSION_BY_ID_SUCCESS:
-      return { ...state, UserPermissions: payload };
+      return { ...state, UserPermissions: payload, GettingPermissions: false };
+
+    case types.GET_PERMISSION_BY_ID_FAILURE:
+      return { ...state, GettingPermissions: false };
 
     case types.GET_PERMISSION_ON_LOGIN_SUCCESS:
       return { ...state, UserPermissions: payload };
@@ -66,6 +73,9 @@ const userReducer = (state = initialState, { type, payload }) => {
 
     case types.GET_ALL_PERMISSION_FAILURE:
       return { ...state, loadingAllPermissions: false };
+
+    case types.UPDATE_PERMISSIONS_SUCCESS:
+      return { ...state, GettingPermissions: true };
 
     case types.UPDATE_PERMISSIONS_SUCCESS:
       return { ...state };

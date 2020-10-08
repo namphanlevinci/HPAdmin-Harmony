@@ -111,8 +111,8 @@ class MerchantReqProfile extends Component {
     let principalLength = this.props.PendingProfile?.principals?.length;
     // render Principal
     const renderPrincipal =
-      e.principals !== undefined ? (
-        e.principals.map((e, index) => {
+      e?.principals !== undefined ? (
+        e?.principals.map((e, index) => {
           return (
             <React.Fragment key={index}>
               {Number(principalLength) >= 2 ? (

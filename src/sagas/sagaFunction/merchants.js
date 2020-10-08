@@ -157,15 +157,16 @@ export function* MERCHANT_APPROVAL_SAGA() {
       const data = action.payload;
       const result = yield APPROVE_MERCHANT_API(data);
       if (Number(result.codeNumber) === 200) {
-        yield put({
-          type: typeMerchant.MERCHANT_APPROVAL_SUCCESS,
-          payload: result,
-        });
+        history.push("/app/merchants/pending");
+        // yield put({
+        //   type: typeMerchant.MERCHANT_APPROVAL_SUCCESS,
+        //   payload: result,
+        // });
+
         yield put({
           type: typeNotification.SUCCESS_NOTIFICATION,
           payload: "Success",
         });
-        history.push("/app/merchants/pending");
       } else {
         yield put({
           type: typeNotification.FAILURE_NOTIFICATION,
