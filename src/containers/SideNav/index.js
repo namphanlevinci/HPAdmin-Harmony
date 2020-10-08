@@ -10,6 +10,7 @@ import {
   HORIZONTAL_NAVIGATION,
 } from "../../constants/ActionTypes";
 import { toggleCollapsedNav, updateWindowWidth } from "../../actions/Setting";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class SideNav extends React.PureComponent {
   onToggleCollapsedNav = (e) => {
@@ -24,7 +25,13 @@ class SideNav extends React.PureComponent {
   }
 
   render() {
-    const { navCollapsed, drawerType, width, navigationStyle } = this.props;
+    const {
+      navCollapsed,
+      drawerType,
+      width,
+      navigationStyle,
+      isLoadingPermission,
+    } = this.props;
     let drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "d-xl-flex"
       : drawerType.includes(COLLAPSED_DRAWER)
@@ -54,18 +61,40 @@ class SideNav extends React.PureComponent {
           }}
         >
           <UserInfo />
-          <SidenavContent />
+          {isLoadingPermission ? (
+            <div style={styles.loading}>
+              <CircularProgress size={42} />
+            </div>
+          ) : (
+            <SidenavContent />
+          )}
         </Drawer>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ settings }) => {
+const mapStateToProps = ({ settings, userReducer }) => {
   const { navCollapsed, drawerType, width, navigationStyle } = settings;
-  return { navCollapsed, drawerType, width, navigationStyle };
+  const isLoadingPermission = userReducer.GettingPermissions;
+  return {
+    navCollapsed,
+    drawerType,
+    width,
+    navigationStyle,
+    isLoadingPermission,
+  };
 };
 
 export default withRouter(
   connect(mapStateToProps, { toggleCollapsedNav, updateWindowWidth })(SideNav)
 );
+
+const styles = {
+  loading: {
+    display: "flex",
+    justifyContent: "center",
+    minHeight: "500px",
+    alignItems: "center",
+  },
+};
