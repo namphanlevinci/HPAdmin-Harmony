@@ -19,7 +19,6 @@ import {
   CustomTextLabel,
   CustomText,
 } from "../../../../util/CustomText";
-
 import CloseIcon from "@material-ui/icons/Close";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -470,7 +469,6 @@ class MerchantReqProfile extends Component {
                                 <TextField
                                   onChange={handleChange}
                                   name="fee"
-                                  type="number"
                                   helperText={touched.fee ? errors.fee : ""}
                                   error={touched.fee && Boolean(errors.fee)}
                                 />
@@ -756,6 +754,8 @@ function customLabel(questionId) {
 
 const AcceptSchema = Yup.object().shape({
   merchantID: Yup.number().min(4, "Min 4 digit").required("Required"),
-  fee: Yup.number().required("Transaction fee is required"),
+  fee: Yup.number()
+    .typeError("Transaction fee must be a number")
+    .required("Transaction fee is required"),
   discount: Yup.number().required("Discount rate is required"),
 });
