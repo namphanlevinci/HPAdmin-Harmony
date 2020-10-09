@@ -385,7 +385,8 @@ class Codes extends Component {
               }}
             >
               <h2 style={styles.h2}></h2>
-              {CheckPermissions("export-generation") && (
+
+              {CheckPermissions("export-gift-card-code ") && (
                 <div
                   style={{
                     display: "flex",

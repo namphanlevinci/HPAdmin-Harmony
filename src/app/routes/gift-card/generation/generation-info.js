@@ -440,7 +440,7 @@ class Generation_Detail extends Component {
                   onKeyPress={this.keyPressed}
                 />
               </form>
-              {CheckPermissions("export-gift-card-code") && (
+              {CheckPermissions("export-generation") && (
                 <div
                   style={{
                     display: "flex",
