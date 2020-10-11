@@ -478,7 +478,6 @@ class MerchantReqProfile extends Component {
                                 <TextField
                                   onChange={handleChange}
                                   name="discount"
-                                  type="number"
                                   helperText={
                                     touched.discount ? errors.discount : ""
                                   }
@@ -757,5 +756,7 @@ const AcceptSchema = Yup.object().shape({
   fee: Yup.number()
     .typeError("Transaction fee must be a number")
     .required("Transaction fee is required"),
-  discount: Yup.number().required("Discount rate is required"),
+  discount: Yup.number()
+    .typeError("Discount rate must be a number")
+    .required("Discount rate is required"),
 });
