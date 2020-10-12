@@ -1,11 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  CustomTextLabel,
-  CustomTableHeader,
-  CustomTitle,
-  CustomText,
-} from "../../../../../util/CustomText";
+import { CustomTextLabel, CustomTitle } from "../../../../../util/CustomText";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import moment from "moment";

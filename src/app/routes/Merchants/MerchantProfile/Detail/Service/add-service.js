@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import { Formik, Form } from "formik";
-import { store } from "react-notifications-component";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../../actions/notifications/actions";
 import { AiOutlineClose } from "react-icons/ai";
 
 import DialogContent from "@material-ui/core/DialogContent";
@@ -295,39 +298,14 @@ class AddService extends Component {
                         .then((res) => {
                           let message = res.data.message;
                           if (res.data.codeNumber === 200) {
-                            store.addNotification({
-                              title: "SUCCESS!",
-                              message: `${message}`,
-                              type: "success",
-                              insert: "top",
-                              container: "top-right",
-                              animationIn: ["animated", "fadeIn"],
-                              animationOut: ["animated", "fadeOut"],
-                              dismiss: {
-                                duration: 5000,
-                                onScreen: true,
-                              },
-                              width: 250,
-                            });
+                            this.props.SuccessNotify(message);
+
                             this.setState({ open: false, imagePreviewUrl: "" });
                             setTimeout(() => {
                               this.props.reload();
                             }, 800);
                           } else {
-                            store.addNotification({
-                              title: "ERROR!",
-                              message: `${message}`,
-                              type: "danger",
-                              insert: "top",
-                              container: "top-right",
-                              animationIn: ["animated", "fadeIn"],
-                              animationOut: ["animated", "fadeOut"],
-                              dismiss: {
-                                duration: 5000,
-                                onScreen: true,
-                              },
-                              width: 250,
-                            });
+                            this.props.FailureNotify(message);
                           }
                         });
                     }}
@@ -721,7 +699,17 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   SERVICE: state.serviceProps,
 });
-export default connect(mapStateToProps)(AddService);
+
+const mapDispatchToPros = (dispatch) => ({
+  SuccessNotify: (message) => {
+    dispatch(SUCCESS_NOTIFICATION(message));
+  },
+  FailureNotify: (message) => {
+    dispatch(FAILURE_NOTIFICATION(message));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToPros)(AddService);
 
 const styles = {
   textarea: {

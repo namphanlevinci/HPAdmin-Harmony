@@ -4,8 +4,10 @@ import {
   GET_TEMPLATE,
   VIEW_DETAIL,
 } from "../../../../actions/gift-card/actions";
-import { store } from "react-notifications-component";
-
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../actions/notifications/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
 import { CustomTableHeader } from "../../../../util/CustomText";
@@ -86,20 +88,7 @@ class Generation extends Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.FailureNotify(res.data.message);
         }
         this.setState({ loading: false });
       });
@@ -130,20 +119,7 @@ class Generation extends Component {
       })
       .then((res) => {
         if (res.data.message === "Success") {
-          store.addNotification({
-            title: "Success!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 2500,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.SuccessNotify(res.data.message);
           this.setState({
             loading: false,
             deleteID: "",
@@ -167,20 +143,8 @@ class Generation extends Component {
       })
       .then((res) => {
         if (res.data.message === "Success") {
-          store.addNotification({
-            title: "Success!",
-            message: `${res.data.message}`,
-            type: "success",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 2500,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.SuccessNotify(res.data.message);
+
           this.setState({
             loading: false,
             restoreID: "",
@@ -424,6 +388,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   VIEW_DETAIL: (payload) => {
     dispatch(VIEW_DETAIL(payload));
+  },
+  SuccessNotify: (message) => {
+    dispatch(SUCCESS_NOTIFICATION(message));
+  },
+  FailureNotify: (message) => {
+    dispatch(FAILURE_NOTIFICATION(message));
   },
 });
 

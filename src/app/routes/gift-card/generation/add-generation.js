@@ -3,9 +3,11 @@ import { connect } from "react-redux";
 import { MdAddToPhotos } from "react-icons/md";
 import { Formik } from "formik";
 import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
-import { store } from "react-notifications-component";
 import { config } from "../../../../url/url";
-
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../actions/notifications/actions";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
@@ -93,36 +95,11 @@ class AddGeneration extends Component {
                   )
                   .then((res) => {
                     if (res.data.message === "Success") {
-                      store.addNotification({
-                        title: "Success!",
-                        message: `${res.data.message}`,
-                        type: "success",
-                        insert: "top",
-                        container: "top-right",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 2500,
-                          onScreen: true,
-                        },
-                        width: 250,
-                      });
+                      this.props.SuccessNotify(res.data.message);
+
                       this.props.history.push("/app/giftcard/generation");
                     } else {
-                      store.addNotification({
-                        title: "ERROR!",
-                        message: `${res.data.message}`,
-                        type: "danger",
-                        insert: "top",
-                        container: "top-right",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 2500,
-                          onScreen: true,
-                        },
-                        width: 250,
-                      });
+                      this.props.FailureNotify(res.data.message);
                     }
                   })
                   .catch((error) => console.log(error));
@@ -246,6 +223,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   GET_TEMPLATE: () => {
     dispatch(GET_TEMPLATE());
+  },
+  SuccessNotify: (message) => {
+    dispatch(SUCCESS_NOTIFICATION(message));
+  },
+  FailureNotify: (message) => {
+    dispatch(FAILURE_NOTIFICATION(message));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(AddGeneration);

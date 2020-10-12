@@ -69,7 +69,6 @@ class Roles extends Component {
       staff2Permissions,
     } = this.state;
     const index = Number(name.actionId) - 1;
-
     if (Number(name.waRoleId) === 1) {
       const newState = update(adminPermissions, {
         actions: {

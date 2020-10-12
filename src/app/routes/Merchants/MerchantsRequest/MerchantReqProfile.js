@@ -294,7 +294,7 @@ class MerchantReqProfile extends Component {
                 BACK
               </Button>
 
-              {checkPermission(5) && (
+              {checkPermission("reject-merchant-in-pending") && (
                 <>
                   <Button
                     className="btn btn-red"
@@ -385,7 +385,7 @@ class MerchantReqProfile extends Component {
                 </>
               )}
 
-              {checkPermission(4) && (
+              {checkPermission("edit-merchant-in-pending") && (
                 <Button className="btn btn-red" onClick={this.handleEdit}>
                   EDIT
                 </Button>
@@ -393,7 +393,7 @@ class MerchantReqProfile extends Component {
 
               {/* ACCEPT BTN */}
 
-              {checkPermission(6) && (
+              {checkPermission("accept-merchant-in-pending") && (
                 <>
                   <Button
                     className="btn btn-green"

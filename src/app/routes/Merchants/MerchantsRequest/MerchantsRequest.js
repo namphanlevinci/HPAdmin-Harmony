@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import {
-  getAll_Merchant_Requests,
   ViewMerchant_Request,
   GET_MERCHANT_BY_ID,
 } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
 import {
@@ -16,6 +14,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
+import { FAILURE_NOTIFICATION } from "../../../../actions/notifications/actions";
 
 import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
@@ -72,20 +71,7 @@ class MerchantsRequest extends Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.FailureNotify(res.data.message);
         }
         this.setState({ loading: false });
       });
@@ -266,14 +252,14 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Merchant_Requests: () => {
-    dispatch(getAll_Merchant_Requests());
-  },
   ViewMerchant_Request: (payload) => {
     dispatch(ViewMerchant_Request(payload));
   },
   GET_MERCHANT_BY_ID: (payload) => {
     dispatch(GET_MERCHANT_BY_ID(payload));
+  },
+  FailureNotify: (message) => {
+    dispatch(FAILURE_NOTIFICATION(message));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);

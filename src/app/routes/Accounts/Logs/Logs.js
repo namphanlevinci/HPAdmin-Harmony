@@ -130,7 +130,6 @@ class Logs extends Component {
               <div className="col-md-3">
                 <form noValidate>
                   <TextField
-                    id="date"
                     label="From"
                     type="date"
                     // defaultValue={this.state.to}

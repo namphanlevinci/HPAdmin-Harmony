@@ -89,8 +89,6 @@ class SidenavContent extends Component {
   }
 
   render() {
-    const { isLoadingPermission } = this.props;
-
     return (
       <CustomScrollbars className="scrollbar">
         <ul className="nav-menu">
@@ -420,7 +418,6 @@ class SidenavContent extends Component {
 }
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
-  isLoadingPermission: state.userReducer.GettingPermissions,
 });
 
 const mapDispatchToProps = (dispatch) => ({

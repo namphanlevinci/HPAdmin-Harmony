@@ -6,9 +6,9 @@ import {
   VIEW_PROFILE_USER,
 } from "../../../../actions/user/actions";
 import { connect } from "react-redux";
-import { store } from "react-notifications-component";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
+import { FAILURE_NOTIFICATION } from "../../../../actions/notifications/actions";
 
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
@@ -84,20 +84,7 @@ class Users extends Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.FailureNotify(res.data.message);
         }
         this.setState({ loading: false });
       });
@@ -257,6 +244,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
   VIEW_PROFILE_USER: (payload) => {
     dispatch(VIEW_PROFILE_USER(payload));
+  },
+
+  FailureNotify: (message) => {
+    dispatch(FAILURE_NOTIFICATION(message));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

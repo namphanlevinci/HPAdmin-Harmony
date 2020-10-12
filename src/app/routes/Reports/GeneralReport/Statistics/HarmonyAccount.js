@@ -28,12 +28,8 @@ class HarmonyAccount extends Component {
     this.setState({ toDate: e.target.value });
   };
   async componentDidMount() {
-    const fromDate = moment()
-      .startOf("month")
-      .format("YYYY/MM/DD");
-    const toDate = moment()
-      .endOf("month")
-      .format("YYYY/MM/DD");
+    const fromDate = moment().startOf("month").format("YYYY/MM/DD");
+    const toDate = moment().endOf("month").format("YYYY/MM/DD");
     const Data = { fromDate, toDate };
     this.props.APPROVED_STATICS(Data);
     setTimeout(() => {
@@ -69,22 +65,14 @@ class HarmonyAccount extends Component {
       this.props.APPROVED_STATICS(Data);
       this.setState({ range: "", fromDate: fromDate, toDate: toDate });
     } else if (range === "week") {
-      const fromDate = moment()
-        .startOf("week")
-        .format("YYYY/MM/DD");
-      const toDate = moment()
-        .endOf("week")
-        .format("YYYY/MM/DD");
+      const fromDate = moment().startOf("week").format("YYYY/MM/DD");
+      const toDate = moment().endOf("week").format("YYYY/MM/DD");
       const Data = { fromDate, toDate };
       this.props.APPROVED_STATICS(Data);
       this.setState({ range: "", fromDate: fromDate, toDate: toDate });
     } else if (range === "month") {
-      const fromDate = moment()
-        .startOf("month")
-        .format("YYYY/MM/DD");
-      const toDate = moment()
-        .endOf("month")
-        .format("YYYY/MM/DD");
+      const fromDate = moment().startOf("month").format("YYYY/MM/DD");
+      const toDate = moment().endOf("month").format("YYYY/MM/DD");
       const Data = { fromDate, toDate };
       this.props.APPROVED_STATICS(Data);
       this.setState({ range: "", fromDate: fromDate, toDate: toDate });
@@ -155,7 +143,6 @@ class HarmonyAccount extends Component {
               <div className="col-md-3">
                 <form noValidate>
                   <TextField
-                    id="date"
                     label="From"
                     type="date"
                     // defaultValue={newToday}

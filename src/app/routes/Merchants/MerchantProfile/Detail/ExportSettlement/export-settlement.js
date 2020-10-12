@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { store } from "react-notifications-component";
+import {
+  SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+} from "../../../../../../actions/notifications/actions";
 import { css } from "@emotion/core";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { config } from "../../../../../../url/url";
+import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -65,20 +69,7 @@ function ExportSettlement({ MerchantId, Token }) {
       )
       .then((res) => {
         if (Number(res.data.codeNumber) === 400 || res.data.data === null) {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.SuccessNotify(res.data.message);
           setLoading(false);
           handleClose();
         } else {
@@ -188,4 +179,13 @@ function ExportSettlement({ MerchantId, Token }) {
   );
 }
 
-export default ExportSettlement;
+const mapDispatchToProps = (dispatch) => ({
+  SuccessNotify: (message) => {
+    dispatch(SUCCESS_NOTIFICATION(message));
+  },
+  FailureNotify: (message) => {
+    dispatch(FAILURE_NOTIFICATION(message));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(ExportSettlement);

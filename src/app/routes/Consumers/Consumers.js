@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { GET_CONSUMER_BY_ID } from "../../../actions/consumer/actions";
-import { store } from "react-notifications-component";
+import { FAILURE_NOTIFICATION } from "../../../actions/notifications/actions";
 import { config } from "../../../url/url";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
@@ -59,20 +59,7 @@ class Consumers extends React.Component {
             pageSize: 5,
           });
         } else {
-          store.addNotification({
-            title: "ERROR!",
-            message: `${res.data.message}`,
-            type: "warning",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 5000,
-              onScreen: true,
-            },
-            width: 250,
-          });
+          this.props.FailureNotify(res.data.message);
         }
         this.setState({ loading: false });
       });
@@ -253,6 +240,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   GET_CONSUMER_BY_ID: (payload) => {
     dispatch(GET_CONSUMER_BY_ID(payload));
+  },
+  FailureNotify: (message) => {
+    dispatch(FAILURE_NOTIFICATION(message));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Consumers);
