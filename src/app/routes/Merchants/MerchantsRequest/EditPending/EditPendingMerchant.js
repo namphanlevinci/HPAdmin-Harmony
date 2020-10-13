@@ -57,30 +57,36 @@ class EditPendingMerchant extends Component {
 
   uploadFile = (e, setFieldValue, name, imageUrlName) => {
     e.preventDefault();
-    let file = e.target.files[0];
+    let file = e?.target?.files[0];
     // this.setState({ progress: true });
 
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        let reader = new FileReader();
-        reader.onloadend = () => {
-          setFieldValue(name, res.data.data.fileId);
-          setFieldValue(imageUrlName, reader.result);
-          // this.setState({
-          //   progress: false,
-          // });
-        };
-        reader.readAsDataURL(file);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.WARNING_NOTIFICATION(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          let reader = new FileReader();
+          reader.onloadend = () => {
+            setFieldValue(name, res.data.data.fileId);
+            setFieldValue(imageUrlName, reader.result);
+            // this.setState({
+            //   progress: false,
+            // });
+          };
+          reader.readAsDataURL(file);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   handleSubmitting = () => {
@@ -564,6 +570,7 @@ class EditPendingMerchant extends Component {
                             name="image"
                             id="file"
                             className="custom-input"
+                            accept="image/gif,image/jpeg, image/png"
                             onChange={(e) =>
                               this.uploadFile(
                                 e,
@@ -805,6 +812,7 @@ class EditPendingMerchant extends Component {
                                             className="custom-input"
                                             name={`principalInfo.${index}.fileId`}
                                             id="file"
+                                            accept="image/gif,image/jpeg, image/png"
                                             onChange={(e) =>
                                               this.uploadFile(
                                                 e,

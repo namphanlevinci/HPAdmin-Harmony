@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../../../url/url";
+import { WARNING_NOTIFICATION } from "../../../../../../../../actions/notifications/actions";
 
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
@@ -126,30 +127,37 @@ export class EditGeneral extends Component {
 
   uploadFile = (e) => {
     e.preventDefault();
-    let file = e.target.files[0];
-    this.setState({ loadingProgress: true });
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          this.setState({
-            file: file,
-            imagePreviewUrl: reader.result,
-            loadingProgress: false,
-          });
-        };
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let file = e?.target?.files[0];
+
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      this.setState({ loadingProgress: true });
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          this.setState({ fileId: res.data.data.fileId });
+          let reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            this.setState({
+              file: file,
+              imagePreviewUrl: reader.result,
+              loadingProgress: false,
+            });
+          };
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   render() {
@@ -403,6 +411,7 @@ export class EditGeneral extends Component {
                 name="image"
                 id="file"
                 className="custom-input"
+                accept="image/gif,image/jpeg, image/png"
                 onChange={(e) => this.uploadFile(e)}
                 style={{ width: "40%" }}
               />
@@ -435,6 +444,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   UPDATE_STAFF: (payload) => {
     dispatch(UPDATE_STAFF(payload));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 

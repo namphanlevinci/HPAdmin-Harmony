@@ -454,6 +454,7 @@ const EditPrincipal = ({
                                 style={styles.imageInput}
                                 className="custom-input"
                                 name={`PrincipalInfo.${index}.fileId`}
+                                accept="image/gif,image/jpeg, image/png"
                                 onChange={(e, name) => [
                                   getData(
                                     e,

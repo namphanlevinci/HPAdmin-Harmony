@@ -46,33 +46,40 @@ class Principal extends Component {
   handleUploadImage = (e, setFieldValue, name) => {
     e.stopPropagation();
     e.preventDefault();
-    this.setState({ progress: true });
+
     const previewImage =
       name === "principalInfo.0.fileId"
         ? "principalInfo.0.imageUrl"
         : "principalInfo.1.imageUrl";
 
-    const file = e.target.files[0];
+    const file = e?.target?.files[0];
 
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        setFieldValue(name, res.data.data.fileId);
-        let reader = new FileReader();
-        reader.onloadend = () => {
-          setFieldValue(previewImage, reader.result);
-        };
-        reader.readAsDataURL(file);
-        this.setState({ progress: false });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      this.setState({ progress: true });
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          setFieldValue(name, res.data.data.fileId);
+          let reader = new FileReader();
+          reader.onloadend = () => {
+            setFieldValue(previewImage, reader.result);
+          };
+          reader.readAsDataURL(file);
+          this.setState({ progress: false });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   render() {
@@ -576,6 +583,7 @@ class Principal extends Component {
                                       <input
                                         type="file"
                                         className="custom-input"
+                                        accept="image/gif,image/jpeg, image/png"
                                         style={{
                                           width: "28%",
                                           marginTop: "10px",

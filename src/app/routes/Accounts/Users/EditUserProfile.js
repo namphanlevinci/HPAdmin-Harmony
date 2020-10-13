@@ -8,6 +8,8 @@ import {
   UPDATE_USER_ADMIN,
   UPDATE_USER_PASSWORD,
 } from "../../../../actions/user/actions";
+import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -101,26 +103,33 @@ class EditUserProfile extends Component {
 
     let reader = new FileReader();
 
-    const file = event.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const file = event?.target?.files[0];
+
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      reader.onloadend = () => {
+        this.setState({
+          imagePreviewUrl: reader.result,
+        });
+      };
+      reader.readAsDataURL(file);
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          this.setState({ fileId: res.data.data.fileId });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   handleDateChange = (date) => {
@@ -244,6 +253,7 @@ class EditUserProfile extends Component {
                   name="image"
                   id="file"
                   className="custom-input"
+                  accept="image/gif,image/jpeg, image/png"
                   onChange={(e) => this._uploadFile(e)}
                 />
               </div>
@@ -345,6 +355,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   UPDATE_USER_PASSWORD: (payload) => {
     dispatch(UPDATE_USER_PASSWORD(payload));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 export default withRouter(

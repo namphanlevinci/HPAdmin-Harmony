@@ -77,8 +77,6 @@ const userReducer = (state = initialState, { type, payload }) => {
     case types.UPDATE_PERMISSIONS_SUCCESS:
       return { ...state, GettingPermissions: true };
 
-    case types.UPDATE_PERMISSIONS_SUCCESS:
-      return { ...state };
     case types.UPDATE_PERMISSIONS_FAILURE:
       return { ...state };
 

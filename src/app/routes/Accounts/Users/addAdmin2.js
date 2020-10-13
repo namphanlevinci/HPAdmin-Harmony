@@ -9,7 +9,7 @@ import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
 import { ADD_ADMIN, VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 import { TextField, Grid, Button } from "@material-ui/core";
-
+import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -45,28 +45,34 @@ class addAdmin2 extends Component {
     event.preventDefault();
 
     let reader = new FileReader();
-    const file = event.target.files[0];
+    const file = event?.target?.files[0];
 
-    reader.onloadend = () => {
-      this.setState({
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      reader.onloadend = () => {
+        this.setState({
+          imagePreviewUrl: reader.result,
+        });
+      };
+      reader.readAsDataURL(file);
 
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile + "/file?category=service", formData, config)
-      .then((res) => {
-        setFieldValue("fileId", res.data.data.fileId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile + "/file?category=service", formData, config)
+        .then((res) => {
+          setFieldValue("fileId", res.data.data.fileId);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   _goBack = () => {
@@ -407,6 +413,7 @@ class addAdmin2 extends Component {
                           name="image"
                           id="file"
                           className="custom-input"
+                          accept="image/gif,image/jpeg, image/png"
                           onChange={(e) => this.uploadFile(e, setFieldValue)}
                         />
                       </div>
@@ -503,6 +510,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   addUserAdmin: (payload) => {
     dispatch(ADD_ADMIN(payload));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 export default withRouter(

@@ -269,6 +269,7 @@ const EditExtra = ({
                       <input
                         name="image"
                         className="custom-input"
+                        accept="image/gif,image/jpeg, image/png"
                         type="file"
                         onChange={handleImageChange}
                         style={{

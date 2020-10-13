@@ -5,6 +5,7 @@ import { Formik, Form } from "formik";
 import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
+  WARNING_NOTIFICATION,
 } from "../../../../../../actions/notifications/actions";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -105,29 +106,36 @@ class AddService extends Component {
   handleUploadImage = (e) => {
     e.preventDefault();
     this.setState({ imageProgress: true });
-    let file = e.target.files[0];
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
-        let reader = new FileReader();
-        reader.onloadend = () => {
-          this.setState({
-            file: file,
-            imagePreviewUrl: reader.result,
-            imageProgress: false,
-          });
-        };
-        reader.readAsDataURL(file);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let file = e?.target?.files[0];
+
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          this.setState({ fileId: res.data.data.fileId });
+          let reader = new FileReader();
+          reader.onloadend = () => {
+            this.setState({
+              file: file,
+              imagePreviewUrl: reader.result,
+              imageProgress: false,
+            });
+          };
+          reader.readAsDataURL(file);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   goBack = () => {
@@ -450,6 +458,7 @@ class AddService extends Component {
                                         name="price"
                                         type="file"
                                         className="custom-input"
+                                        accept="image/gif,image/jpeg, image/png"
                                         onChange={this.handleUploadImage}
                                       />
                                     </div>
@@ -706,6 +715,9 @@ const mapDispatchToPros = (dispatch) => ({
   },
   FailureNotify: (message) => {
     dispatch(FAILURE_NOTIFICATION(message));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 

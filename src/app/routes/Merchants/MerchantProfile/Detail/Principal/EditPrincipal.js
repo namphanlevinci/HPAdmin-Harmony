@@ -5,6 +5,8 @@ import {
   UPDATE_MERCHANT_PRINCIPAL,
   GET_MERCHANT_BY_ID,
 } from "../../../../../../actions/merchants/actions";
+import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
+
 import CustomSelect from "../../../../../../util/getState";
 import LinearProgress from "../../../../../../util/linearProgress";
 import moment from "moment";
@@ -63,31 +65,38 @@ class EditPrincipal extends Component {
   uploadFile = (e) => {
     e.preventDefault();
     // handle preview Image
-    let file = e.target.files[0];
-    this.setState({ loadingProgress: true });
-    // handle upload image
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        this.setState({ FileId: res.data.data.fileId });
-        let reader = new FileReader();
-        reader.onloadend = () => {
-          this.setState({
-            file: file,
-            imagePreviewUrl: reader.result,
-            loadingProgress: false,
-          });
-        };
-        reader.readAsDataURL(file);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let file = e?.target?.files[0];
+
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      this.setState({ loadingProgress: true });
+      // handle upload image
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          this.setState({ FileId: res.data.data.fileId });
+          let reader = new FileReader();
+          reader.onloadend = () => {
+            this.setState({
+              file: file,
+              imagePreviewUrl: reader.result,
+              loadingProgress: false,
+            });
+          };
+          reader.readAsDataURL(file);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   _goBack = () => {
     this.props.history.push("/app/merchants/profile/principal/info");
@@ -323,6 +332,7 @@ class EditPrincipal extends Component {
                 name="image"
                 id="file"
                 className="custom-input"
+                accept="image/gif,image/jpeg, image/png"
                 onChange={(e) => this.uploadFile(e)}
               />
             </div>
@@ -352,6 +362,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   GET_MERCHANT_BY_ID: (ID) => {
     dispatch(GET_MERCHANT_BY_ID(ID));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 

@@ -197,6 +197,7 @@ function General(props) {
               borderBottom: "none",
             }}
             className="custom-input"
+            accept="image/gif,image/jpeg, image/png"
             name="imagePreviewUrl"
             id="file"
             onChange={(e) => uploadFile(e, setFieldValue)}

@@ -12,6 +12,7 @@ import { Formik } from "formik";
 import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
+  WARNING_NOTIFICATION,
 } from "../../../../../../actions/notifications/actions";
 
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -91,29 +92,36 @@ class EditProduct extends Component {
     e.preventDefault();
     // handle preview Image
     let reader = new FileReader();
-    let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
-    // handle upload image
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        // this.setState({ fileId: res.data.data.fileId });
-        setFieldValue("fileId", res.data.data.fileId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let file = e?.target?.files[0];
+
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      reader.onloadend = () => {
+        this.setState({
+          file: file,
+          imagePreviewUrl: reader.result,
+        });
+      };
+      reader.readAsDataURL(file);
+      // handle upload image
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          // this.setState({ fileId: res.data.data.fileId });
+          setFieldValue("fileId", res.data.data.fileId);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   goBack = () => {
     this.props.history.push("/app/merchants/profile/product");
@@ -488,6 +496,7 @@ class EditProduct extends Component {
                         <input
                           type="file"
                           className="custom-input"
+                          accept="image/gif,image/jpeg, image/png"
                           onChange={(e) => this.handleImage(e, setFieldValue)}
                         />
                       </div>
@@ -534,6 +543,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   failureNotify: (payload) => {
     dispatch(FAILURE_NOTIFICATION(payload));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 

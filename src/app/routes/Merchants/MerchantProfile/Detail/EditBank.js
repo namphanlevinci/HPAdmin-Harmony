@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../url/url";
 import { UPDATE_MERCHANT_BANK } from "../../../../../actions/merchants/actions";
+import { WARNING_NOTIFICATION } from "../../../../../actions/notifications/actions";
 
 import LinearProgress from "../../../../../util/linearProgress";
 import InputCustom from "../../MerchantsList/addMerchant/custom-input";
@@ -35,29 +36,36 @@ class EditBank extends Component {
   uploadFile = (e, setFieldValue) => {
     e.preventDefault();
     let file = e.target.files[0];
-    this.setState({ loadingProgress: true });
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        setFieldValue(`fileId`, res.data.data.fileId);
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          this.setState({
-            file: file,
-            imagePreviewUrl: reader.result,
-            loadingProgress: false,
-          });
-        };
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      this.setState({ loadingProgress: true });
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          setFieldValue(`fileId`, res.data.data.fileId);
+          let reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            this.setState({
+              file: file,
+              imagePreviewUrl: reader.result,
+              loadingProgress: false,
+            });
+          };
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   goBack = () => {
     this.props.history.push("/app/merchants/profile/bank");
@@ -185,6 +193,7 @@ class EditBank extends Component {
                         name="image"
                         id="file"
                         className="custom-input"
+                        accept="image/gif,image/jpeg, image/png"
                         onChange={(e) => this.uploadFile(e, setFieldValue)}
                       />
                     </Grid>
@@ -216,6 +225,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   UPDATE_MERCHANT_BANK: (payload) => {
     dispatch(UPDATE_MERCHANT_BANK(payload));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditBank);

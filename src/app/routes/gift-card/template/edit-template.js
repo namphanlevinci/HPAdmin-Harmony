@@ -7,6 +7,8 @@ import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
 } from "../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
+
 import { config } from "../../../../url/url";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -94,30 +96,37 @@ class EditTemplate extends Component {
 
     // handle preview Image
     let reader = new FileReader();
-    let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-        isUploadImage: true,
-      });
-    };
-    reader.readAsDataURL(file);
-    // handle upload image
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        this.setState({ fileId: res.data.data.fileId, isUploadImage: false });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({ isUploadImage: false });
-      });
+    let file = e?.target?.files[0];
+
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      reader.onloadend = () => {
+        this.setState({
+          file: file,
+          imagePreviewUrl: reader.result,
+          isUploadImage: true,
+        });
+      };
+      reader.readAsDataURL(file);
+      // handle upload image
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          this.setState({ fileId: res.data.data.fileId, isUploadImage: false });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({ isUploadImage: false });
+        });
+    }
   };
 
   render() {
@@ -334,6 +343,7 @@ class EditTemplate extends Component {
                           <input
                             type="file"
                             className="custom-input"
+                            accept="image/gif,image/jpeg, image/png"
                             onChange={(e) => this._uploadFile(e)}
                             style={{ width: "250px", border: "none" }}
                           />
@@ -382,6 +392,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   FailureNotify: (message) => {
     dispatch(FAILURE_NOTIFICATION(message));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditTemplate);

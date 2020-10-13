@@ -143,6 +143,7 @@ const Bank = ({ value, handleChange, uploadFile, validator }) => {
                 type="file"
                 style={{ marginTop: "10px", width: "250px" }}
                 className="custom-input"
+                accept="image/gif,image/jpeg, image/png"
                 onChange={(e) => uploadFile(e)}
               />
             </div>

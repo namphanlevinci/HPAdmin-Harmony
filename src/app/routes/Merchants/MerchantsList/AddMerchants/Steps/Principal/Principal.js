@@ -228,6 +228,7 @@ export default function Principal(props) {
                             fontWeight: "normal",
                           }}
                           className="custom-input"
+                          accept="image/gif,image/jpeg, image/png"
                           name={`principalInfo.${index}.fileId`}
                           id="file"
                           onChange={(e) =>
