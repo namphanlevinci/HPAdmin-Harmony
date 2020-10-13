@@ -181,7 +181,12 @@ function General(props) {
                 : "http://image.levincitest.com/Service/avatar_20191009_023452.png"
             }
             alt="avatar"
-            style={{ borderRadius: "50%", width: "100%" }}
+            style={{
+              borderRadius: "50%",
+              width: "100%",
+              height: "auto",
+              maxHeight: "220px",
+            }}
           />
 
           <input
