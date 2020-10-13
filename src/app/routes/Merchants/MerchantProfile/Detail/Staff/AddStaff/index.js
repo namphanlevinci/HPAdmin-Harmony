@@ -93,11 +93,7 @@ class AddStaff extends Component {
     event.preventDefault();
     const file = event?.target?.files[0];
 
-    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
-      this.props.warningNotify(
-        "Image type is not supported, Please choose another image "
-      );
-    } else {
+    if (file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
       this.setState({ progressLoading: true });
 
       let formData = new FormData();
@@ -121,6 +117,10 @@ class AddStaff extends Component {
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
     }
   };
 

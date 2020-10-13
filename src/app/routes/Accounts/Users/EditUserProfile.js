@@ -105,11 +105,7 @@ class EditUserProfile extends Component {
 
     const file = event?.target?.files[0];
 
-    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
-      this.props.warningNotify(
-        "Image type is not supported, Please choose another image "
-      );
-    } else {
+    if (file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
       reader.onloadend = () => {
         this.setState({
           imagePreviewUrl: reader.result,
@@ -129,6 +125,10 @@ class EditUserProfile extends Component {
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
     }
   };
 

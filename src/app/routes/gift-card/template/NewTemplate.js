@@ -46,11 +46,7 @@ class NewTemplate extends Component {
     let reader = new FileReader();
     let file = e?.target?.files[0];
 
-    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
-      this.props.warningNotify(
-        "Image type is not supported, Please choose another image "
-      );
-    } else {
+    if (file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
       reader.onloadend = () => {
         this.setState({
           file: file,
@@ -74,6 +70,10 @@ class NewTemplate extends Component {
           console.log(err);
           this.setState({ isUploadImage: false });
         });
+    } else {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
     }
   };
 

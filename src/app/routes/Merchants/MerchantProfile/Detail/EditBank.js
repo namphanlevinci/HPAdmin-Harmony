@@ -37,11 +37,7 @@ class EditBank extends Component {
     e.preventDefault();
     let file = e.target.files[0];
 
-    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
-      this.props.warningNotify(
-        "Image type is not supported, Please choose another image "
-      );
-    } else {
+    if (file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
       this.setState({ loadingProgress: true });
       let formData = new FormData();
       formData.append("Filename3", file);
@@ -65,6 +61,10 @@ class EditBank extends Component {
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
     }
   };
   goBack = () => {
