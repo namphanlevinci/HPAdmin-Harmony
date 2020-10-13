@@ -19,7 +19,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import State from "../../../../../../../../util/InitialState";
 import Checkbox from "@material-ui/core/Checkbox";
-import ReactImageAppear from "react-image-appear";
 
 function General(props) {
   const {
@@ -173,20 +172,17 @@ function General(props) {
         </Grid>
         <Grid item xs={12} md={4}>
           <label>Image</label>
+          <br />
 
-          {imagePreviewUrl !== "" ? (
-            <ReactImageAppear
-              src={imagePreviewUrl}
-              alt="avatar"
-              className="staff_avatar"
-            />
-          ) : (
-            <img
-              src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
-              alt="avatar"
-              style={{ borderRadius: "50%", width: "100%" }}
-            />
-          )}
+          <img
+            src={
+              props.initValue.staffAvatar
+                ? props.initValue.staffAvatar
+                : "http://image.levincitest.com/Service/avatar_20191009_023452.png"
+            }
+            alt="avatar"
+            style={{ borderRadius: "50%", width: "100%" }}
+          />
 
           <input
             type="file"

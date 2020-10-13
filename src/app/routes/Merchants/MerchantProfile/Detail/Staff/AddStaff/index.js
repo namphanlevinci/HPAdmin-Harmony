@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
+  WARNING_NOTIFICATION,
 } from "../../../../../../../actions/notifications/actions";
 import { ADD_STAFF } from "../../../../../../../actions/merchants/actions";
 import { Formik, Form } from "formik";
@@ -90,31 +91,37 @@ class AddStaff extends Component {
   uploadFile = (event, setFieldValue) => {
     event.stopPropagation();
     event.preventDefault();
+    const file = event?.target?.files[0];
 
-    this.setState({ progressLoading: true });
-    const file = event.target.files[0];
+    if (!file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    } else {
+      this.setState({ progressLoading: true });
 
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        setFieldValue("fileId", res.data.data.fileId);
-        let reader = new FileReader();
-        reader.onloadend = () => {
-          this.setState({
-            imagePreviewUrl: reader.result,
-            progressLoading: false,
-          });
-        };
-        reader.readAsDataURL(file);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          let reader = new FileReader();
+          reader.onloadend = () => {
+            setFieldValue("fileId", res.data.data.fileId);
+            setFieldValue("staffAvatar", reader.result);
+            this.setState({
+              progressLoading: false,
+            });
+          };
+          reader.readAsDataURL(file);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   _submitForm = (values, actions) => {
@@ -307,6 +314,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   ADD_STAFF: (payload) => {
     dispatch(ADD_STAFF(payload));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 

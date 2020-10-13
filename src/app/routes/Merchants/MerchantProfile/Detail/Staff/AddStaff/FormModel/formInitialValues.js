@@ -3,6 +3,7 @@ export default {
   lastName: "",
   firstName: "",
   displayName: "",
+  staffAvatar: null,
   address: {
     street: "",
     city: "",
