@@ -96,7 +96,7 @@ class EditService extends Component {
     e.preventDefault();
     let file = e?.target?.files[0];
 
-    if (file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+    if (file?.name.match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       this.setState({ imageProgress: true });
       // handle upload image
       let formData = new FormData();

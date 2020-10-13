@@ -129,7 +129,7 @@ export class EditGeneral extends Component {
     e.preventDefault();
     let file = e?.target?.files[0];
 
-    if (file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+    if (file?.name.match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       this.setState({ loadingProgress: true });
       let formData = new FormData();
       formData.append("Filename3", file);

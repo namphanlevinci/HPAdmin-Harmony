@@ -67,7 +67,7 @@ class EditPrincipal extends Component {
     // handle preview Image
     let file = e?.target?.files[0];
 
-    if (file?.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+    if (file?.name.match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       this.setState({ loadingProgress: true });
       // handle upload image
       let formData = new FormData();
