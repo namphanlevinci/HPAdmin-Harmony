@@ -7,10 +7,11 @@ import {
 } from "../../../../../../actions/merchants/actions";
 import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
 
+import { Grid, Button, TextField } from "@material-ui/core";
+
 import CustomSelect from "../../../../../../util/getState";
 import LinearProgress from "../../../../../../util/linearProgress";
 import moment from "moment";
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 import Cleave from "cleave.js/react";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
@@ -140,7 +141,7 @@ class EditPrincipal extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "270px", height: "200px" }}
+          style={{ width: "100%", height: "70%" }}
           alt="service 1"
         />
       );
@@ -148,7 +149,7 @@ class EditPrincipal extends Component {
       $imagePreview = (
         <img
           src={e.imageUrl}
-          style={{ width: "270px", height: "200px" }}
+          style={{ width: "100%", height: "70%" }}
           alt="service"
         />
       );
@@ -158,193 +159,185 @@ class EditPrincipal extends Component {
       <div className="react-transition swipe-up  principal-container container-fluid">
         <h2 style={styles.h2}>Principal Information</h2>
         {this.state.loading && (
-          <div className="edit-principal">
-            <div className="row">
-              <div className="col-4">
-                <label>Name*</label>
-                <input
-                  name="name"
-                  value={e.firstName + " " + e.lastName}
-                  onChange={this._handleChange}
-                  disabled
-                  style={styles.input}
-                />
-              </div>
-              <div className="col-4">
-                <label>Title/Position*</label>
-                <input
-                  name="Title"
-                  value={e.title}
-                  onChange={this._handleChange}
-                  disabled
-                  style={styles.input}
-                />
-              </div>
-              <div className="col-4">
-                <label>Ownership* (%)</label>
-                <input
-                  name="name"
-                  value={e.ownerShip}
-                  onChange={this._handleChange}
-                  disabled
-                  style={styles.input}
-                />
-              </div>
-              <div className="col-4">
-                <label>Home Phone</label>
-                <br />
+          <Grid container spacing={3} className="edit-principal">
+            <Grid item xs={4}>
+              <TextField
+                label="Name*"
+                fullWidth
+                name="name"
+                value={e.firstName + " " + e.lastName}
+                onChange={this._handleChange}
+                disabled
+                style={styles.input}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                label="Title/Position*"
+                name="Title"
+                value={e.title}
+                onChange={this._handleChange}
+                disabled
+                style={styles.input}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                label="Ownership* (%)"
+                fullWidth
+                name="name"
+                value={e.ownerShip}
+                onChange={this._handleChange}
+                disabled
+                style={styles.input}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <MaterialUiPhoneNumber
+                label="Home Phone"
+                fullWidth
+                onlyCountries={["us", "vn"]}
+                name="HomePhone"
+                autoFormat="true"
+                value={this.state.HomePhone}
+                onChange={(e) => this.setState({ HomePhone: e })}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <MaterialUiPhoneNumber
+                fullWidth
+                label="Mobile Phone*"
+                onlyCountries={["us", "vn"]}
+                name="MobilePhone"
+                value={this.state.MobilePhone}
+                onChange={(e) => this.setState({ MobilePhone: e })}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                label="Email Address*"
+                fullWidth
+                name="email"
+                value={this.state.email}
+                onChange={this._handleChange}
+                style={styles.input}
+              />
+            </Grid>
 
-                <MaterialUiPhoneNumber
-                  onlyCountries={["us", "vn"]}
-                  name="HomePhone"
-                  autoFormat="true"
-                  value={this.state.HomePhone}
-                  onChange={(e) => this.setState({ HomePhone: e })}
-                />
-              </div>
-              <div className="col-4">
-                <label>Mobile Phone*</label>
+            <Grid item xs={4}>
+              <TextField
+                label="City*"
+                fullWidth
+                name="city"
+                value={e?.city}
+                onChange={this._handleChange}
+                style={styles.input}
+                disabled
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                label="State*"
+                fullWidth
+                name="state"
+                value={e?.state?.name}
+                onChange={this._handleChange}
+                style={styles.input}
+                disabled
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                label="Zip"
+                name="state"
+                value={e?.zip}
+                onChange={this._handleChange}
+                style={styles.input}
+                disabled
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                label="Address*"
+                fullWidth
+                name="Address"
+                value={this.state.Address}
+                onChange={this._handleChange}
+                style={styles.input}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <label>Social Security Number* (SSN)</label>
 
-                <MaterialUiPhoneNumber
-                  onlyCountries={["us", "vn"]}
-                  name="MobilePhone"
-                  value={this.state.MobilePhone}
-                  onChange={(e) => this.setState({ MobilePhone: e })}
-                />
-              </div>
-              <div className="col-4">
-                <label>Email Address*</label>
-                <input
-                  name="email"
-                  value={this.state.email}
-                  onChange={this._handleChange}
-                  style={styles.input}
-                />
-              </div>
-              {/* === */}
-              <div className="col-4">
-                <label>City*</label>
-                <input
-                  name="city"
-                  value={e?.city}
-                  onChange={this._handleChange}
-                  style={styles.input}
-                  disabled
-                />
-              </div>
-              <div className="col-4">
-                <label>State*</label>
-                <input
-                  name="state"
-                  value={e?.state?.name}
-                  onChange={this._handleChange}
-                  style={styles.input}
-                  disabled
-                />
-              </div>
-              <div className="col-4">
-                <label>Zip</label>
-                <input
-                  name="state"
-                  value={e?.zip}
-                  onChange={this._handleChange}
-                  style={styles.input}
-                  disabled
-                />
-              </div>
-              {/* === */}
-              <div className="col-4">
-                <label>Address*</label>
-                <input
-                  name="Address"
-                  value={this.state.Address}
-                  onChange={this._handleChange}
-                  style={styles.input}
-                />
-              </div>
-              <div className="col-4">
-                <label>Social Security Number* (SSN)</label>
+              <Cleave
+                name="ssn"
+                value={e.ssn}
+                onChange={this._handleChange}
+                style={styles.input}
+                options={{
+                  blocks: [3, 2, 4],
+                  delimiter: "-",
+                  numericOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                label="Date of Birth* (mm/dd/yyyy)*"
+                name="birthday"
+                value={moment(e.birthDate).format("MM/DD/YYYY")}
+                onChange={this._handleChange}
+                disabled
+                style={styles.input}
+              />
+            </Grid>
 
-                <Cleave
-                  name="ssn"
-                  value={e.ssn}
-                  onChange={this._handleChange}
-                  style={styles.input}
-                  options={{
-                    blocks: [3, 2, 4],
-                    delimiter: "-",
-                    numericOnly: true,
-                  }}
-                />
+            <Grid item xs={4}>
+              <TextField
+                label="Driver License Number*"
+                fullWidth
+                name="DriverNumber"
+                value={this.state.DriverNumber}
+                onChange={this._handleChange}
+                style={styles.input}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <label>State Issued*</label>
+              <CustomSelect
+                name="state"
+                initialValue={this.state.StateId}
+                handleChange={(e) => this.setState({ StateId: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={4}></Grid>
+            <Grid item xs={4} lg={3}>
+              <label>Driver License Picture*</label> <br />
+              {$imagePreview}
+              <div style={{ width: "100%", margin: "10px 0" }}>
+                {this.state.loadingProgress ? <LinearProgress /> : null}
               </div>
-              <div className="col-4">
-                <label>Date of Birth* (mm/dd/yyyy)*</label>
-                <input
-                  name="birthday"
-                  value={moment(e.birthDate).format("MM/DD/YYYY")}
-                  onChange={this._handleChange}
-                  disabled
-                  style={styles.input}
-                />
-              </div>
-
-              <div className="col-4">
-                <label>Driver License Number*</label>
-                <input
-                  name="DriverNumber"
-                  value={this.state.DriverNumber}
-                  onChange={this._handleChange}
-                  style={styles.input}
-                />
-              </div>
-              <div className="col-4">
-                <label>State Issued*</label>
-                {/* <Select
-                  onChange={(e) => this.setState({ StateId: e.value })}
-                  name="state"
-                  options={selectState}
-                  defaultValue={{
-                    value: this.state.StateId,
-                    label: this.state.stateName,
-                  }}
-                /> */}
-                <CustomSelect
-                  name="state"
-                  // label="State Issued*"
-                  initialValue={this.state.StateId}
-                  handleChange={(e) =>
-                    this.setState({ StateId: e.target.value })
-                  }
-                />
-              </div>
-              <div className="col-12">
-                <label>Driver License Picture*</label> <br />
-                {$imagePreview}
-                <div style={{ width: "30%", marginTop: "15px" }}>
-                  {this.state.loadingProgress ? <LinearProgress /> : null}
-                </div>
-              </div>
-            </div>
-            <div className="col-3" style={{ paddingLeft: "0px" }}>
               <input
                 type="file"
-                // style={{ width: "250px !important" }}
                 name="image"
                 id="file"
                 className="custom-input"
                 accept="image/gif,image/jpeg, image/png"
                 onChange={(e) => this.uploadFile(e)}
               />
-            </div>
-            <div style={{ paddingTop: "20px" }}>
+            </Grid>
+            <Grid item xs={12} style={{ paddingTop: "5px" }}>
               <Button className="btn btn-green" onClick={this.updatePrincipal}>
                 SAVE
               </Button>
               <Button className="btn btn-red" onClick={this._goBack}>
                 CANCEL
               </Button>
-            </div>
-          </div>
+            </Grid>
+          </Grid>
         )}
       </div>
     );

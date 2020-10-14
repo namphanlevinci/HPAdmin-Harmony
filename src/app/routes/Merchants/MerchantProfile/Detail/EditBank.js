@@ -182,7 +182,7 @@ class EditBank extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} lg={2}>
                       <label>Void Check*</label> <br />
                       {$imagePreview}
                       <div style={{ width: "100%", marginTop: "15px" }}>

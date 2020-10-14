@@ -4,21 +4,22 @@ import { Formik } from "formik";
 import { UPDATE_MERCHANT_SERVICE } from "../../../../../../actions/merchants/actions";
 import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
 
-import { Button } from "@material-ui/core";
-
+import {
+  Button,
+  Grid,
+  TextField,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@material-ui/core";
+import { CustomTitle } from "../../../../../../util/CustomText";
 import Extra from "./extra";
 import axios from "axios";
 import { config } from "../../../../../../url/url";
 import * as Yup from "yup";
-import Select from "react-select";
 import LinearProgress from "../../../../../../util/linearProgress";
 
-import "react-table/react-table.css";
-import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
-import "../../../MerchantsList/merchantsList.css";
-import "../Detail.css";
 import "./service.style.scss";
 
 const URL = config.url.URL;
@@ -168,10 +169,6 @@ class EditService extends Component {
   };
 
   render() {
-    const serviceStatus = [
-      { value: "0", label: "Active" },
-      { value: "1", label: "Inactive" },
-    ];
     const service = this.props.ServiceData;
 
     //~ preview image
@@ -181,7 +178,7 @@ class EditService extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: "220px", height: "160px" }}
+          style={{ width: "100%", height: "auto", maxHeight: "220px" }}
           alt="void"
         />
       );
@@ -189,7 +186,7 @@ class EditService extends Component {
       $imagePreview = (
         <img
           src={this.state.imageUrl}
-          style={{ width: "220px", height: "160px" }}
+          style={{ width: "100%", height: "auto", maxHeight: "220px" }}
           alt="void"
         />
       );
@@ -220,330 +217,302 @@ class EditService extends Component {
         className="react-transition swipe-up service-container"
         style={{ paddingBottom: "50px" }}
       >
-        <div className="profile-nav content-body">
-          <div className="detail-content">
-            <div className="service-container content-body">
-              <h2
+        <Grid container spacing={3} className="profile-nav content-body">
+          <Grid item xs={12}>
+            <CustomTitle
+              value="Edit Service"
+              styles={{
+                marginBottom: "65px",
+                marginTop: 2,
+                textAlign: "center",
+                letterSpacing: 0.6,
+                fontWeight: 500,
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={7}>
+            <Grid item xs={6}>
+              {this.state.loading && (
+                <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                  <InputLabel>Category*</InputLabel>
+                  <Select
+                    value={this.state.categoryId}
+                    onChange={(e) => {
+                      this.setState({ categoryId: e.target.value });
+                    }}
+                  >
+                    {this.state.category
+                      ? this.state.category
+                          .filter((e) => e.categoryType !== "Product")
+                          .map((e) => (
+                            <MenuItem key={e.categoryId} value={e.categoryId}>
+                              {e.name}
+                            </MenuItem>
+                          ))
+                      : []}
+                  </Select>
+                </FormControl>
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Service Name*"
+                fullWidth
+                margin="normal"
+                name="name"
+                type="text"
+                value={this.state.name}
+                onChange={this.handleChange}
                 style={{
+                  borderBottomColor: "#dddddd",
+                  borderBottomWidth: 1,
+                }}
+              />
+            </Grid>
+            <Grid item xs={8}>
+              <TextField
+                label="Description"
+                margin="normal"
+                fullWidth
+                name="description"
+                type="text"
+                multiline
+                variant="outlined"
+                rows={4}
+                value={this.state.description}
+                onChange={this.handleChange}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={6} lg={4}>
+              <label
+                style={{
+                  paddingTop: "10px",
                   color: "#4251af",
-                  marginBottom: "65px",
-                  marginTop: 2,
-                  textAlign: "center",
-                  letterSpacing: 0.6,
-                  fontWeight: 500,
+                  marginBottom: 8,
                 }}
               >
-                Edit Service
-              </h2>
-              <div className="container Service">
-                <div className="row">
-                  <div className="col-7">
-                    <div className="row">
-                      <div className="col-4">
-                        <label
-                          style={{
-                            textAlign: "left",
-                            color: "#4251af",
-                          }}
-                        >
-                          Category*
-                        </label>
-                        <br />
-                        <Select
-                          styles={colourStyles}
-                          options={
-                            this.state.category
-                              ? this.state.category
-                                  .filter((e) => e.categoryType !== "Product")
-                                  .map((e) => {
-                                    return {
-                                      id: e.categoryId,
-                                      value: e.categoryId,
-                                      label: e.name,
-                                    };
-                                  })
-                              : []
-                          }
-                          defaultValue={{
-                            value: this.state.categoryId,
-                            label: this.state.categoryId,
-                          }}
-                          value={this.state.category
-                            .filter(
-                              (e) =>
-                                e.categoryType !== "Product" &&
-                                e.categoryId === this.state.categoryId
-                            )
-                            .map((e) => {
-                              return {
-                                label: e.name,
-                                value: e.categoryId,
-                              };
-                            })}
-                          onChange={(selectedOption) => {
-                            this.setState({ categoryId: selectedOption.value });
-                          }}
-                          placeholder="- Select -"
-                          loadingMessage={() => "Fetching Service"}
-                          noOptionsMessage={() => "Service appears here!"}
-                        />
-                      </div>
-                      <div className="col-12" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#4251af" }}>
-                          Service Name*
-                        </label>
-                        <br />
-                        <input
-                          name="name"
-                          type="text"
-                          value={this.state.name}
-                          onChange={this.handleChange}
-                          style={{
-                            borderBottomColor: "#dddddd",
-                            borderBottomWidth: 1,
-                          }}
-                        />
-                      </div>
-                      <div className="col-12" style={{ marginTop: 40 }}>
-                        <label style={{ color: "#4251af" }}>Description</label>
-                        <br />
-                        <textarea
-                          name="description"
-                          type="text"
-                          value={this.state.description}
-                          onChange={this.handleChange}
-                          style={styles.textarea}
-                        />
-                        <label
-                          style={{
-                            paddingTop: "10px",
-                            color: "#4251af",
-                            marginBottom: 8,
-                          }}
-                        >
-                          Image
-                        </label>
-                        <br />
-
-                        <div>
-                          {$imagePreview}
-                          {this.state.imageProgress ? (
-                            <div
-                              style={{
-                                width: "35%",
-                                paddingBottom: "15px",
-                                marginTop: "15px",
-                              }}
-                            >
-                              <LinearProgress />
-                            </div>
-                          ) : null}
-
-                          <div style={{ width: "35%" }}>
-                            <input
-                              style={{ marginTop: "20px" }}
-                              name="price"
-                              type="file"
-                              className="custom-input"
-                              accept="image/gif,image/jpeg, image/png"
-                              onChange={this._handleImageChange}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-4" style={{ marginTop: 5 }}>
-                        <label style={{ color: "#4251af" }}>Duration</label>
-                        <br />
-                        <label>
-                          <span className="small-label">Minutes*</span>
-                        </label>
-                        <br />
-                        <div className="input-box">
-                          <input
-                            name="duration"
-                            type="number"
-                            value={this.state.duration}
-                            onChange={this.handleChange}
-                            placeholder="Min"
-                            style={{
-                              borderBottomColor: "#dddddd",
-                              borderBottomWidth: 1,
-                            }}
-                          />{" "}
-                          <span className="unit">Min</span>
-                        </div>
-                      </div>
-                      <div className="col-4" style={{ marginTop: "30px" }}>
-                        <label>
-                          <span className="small-label">Open Time</span>
-                        </label>
-                        <br />
-                        <div className="input-box">
-                          <input
-                            name="openTime"
-                            type="number"
-                            value={this.state.openTime}
-                            onChange={this.handleChange}
-                            placeholder="Min"
-                            style={{
-                              borderBottomColor: "#dddddd",
-                              borderBottomWidth: 1,
-                            }}
-                          />
-                          <span className="unit">Min</span>
-                        </div>
-                      </div>
-                      <div className="col-4" style={{ marginTop: "30px" }}>
-                        <label>
-                          <span className="small-label">Second Time</span>
-                        </label>
-                        <br />
-                        <div className="input-box">
-                          <input
-                            name="secondTime"
-                            type="number"
-                            value={this.state.secondTime}
-                            onChange={this.handleChange}
-                            placeholder="Min"
-                            style={{
-                              borderBottomColor: "#dddddd",
-                              borderBottomWidth: 1,
-                            }}
-                          />
-                          <span className="unit">Min</span>
-                        </div>
-                      </div>
-                      <div className="col-6" style={{ marginTop: 20 }}>
-                        <label style={{ color: "#4251af" }}>Price*</label>
-                        <br />
-                        <div className="input-box">
-                          <input
-                            name="price"
-                            // type="number"
-                            value={this.state.price}
-                            onChange={this.handleChange}
-                            placeholder="$"
-                            style={{
-                              borderBottomColor: "#dddddd",
-                              borderBottomWidth: 1,
-                              marginTop: 10,
-                            }}
-                          />
-                          <span className="unit">$</span>
-                        </div>
-                      </div>
-                      <div className="col-6" style={{ marginTop: 20 }}>
-                        <label style={{ color: "#4251af" }}>Status*</label>
-                        <br />
-                        <div style={{ marginTop: 7 }}>
-                          {this.state.loading && (
-                            <Select
-                              styles={colourStyles}
-                              options={serviceStatus}
-                              defaultValue={{
-                                value: this.state.isDisabled,
-                                label:
-                                  Number(this.state.isDisabled) === 0
-                                    ? "Active"
-                                    : "Inactive",
-                              }}
-                              onChange={(e) => {
-                                this.setState({ isDisabled: e.value });
-                              }}
-                            />
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-6" style={{ marginTop: 20 }}>
-                        <label style={{ color: "#4251af" }}>Surcharged</label>
-                        <br />
-                        <div className="input-box">
-                          <input
-                            name="supplyFee"
-                            value={this.state.supplyFee}
-                            onChange={this.handleChange}
-                            // placeholder="$"
-                            style={{
-                              borderBottomColor: "#dddddd",
-                              borderBottomWidth: 1,
-                              marginTop: 4,
-                            }}
-                          />
-                          <span className="unit">$</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-5">
-                    <Formik
-                      initialValues={{ extras: extraItem }}
-                      validationSchema={validationSchema}
-                      onSubmit={(values, { setSubmitting }) => {
-                        if (values.extras === null) {
-                          this.setState({
-                            extras: [],
-                          });
-                        } else {
-                          this.setState({
-                            extras: values.extras,
-                          });
-                        }
-
-                        this.updateService();
+                Image
+              </label>
+              <br />
+              {$imagePreview}
+              {this.state.imageProgress ? (
+                <div
+                  style={{
+                    width: "35%",
+                    paddingBottom: "15px",
+                    marginTop: "15px",
+                  }}
+                >
+                  <LinearProgress />
+                </div>
+              ) : null}
+              <input
+                style={{ marginTop: "20px" }}
+                name="price"
+                type="file"
+                className="custom-input"
+                accept="image/gif,image/jpeg, image/png"
+                onChange={this._handleImageChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <label style={{ color: "#4251af", marginTop: "10px" }}>
+                Duration
+              </label>{" "}
+              <br />
+              <TextField
+                style={styles.duration}
+                label="Minutes*"
+                name="duration"
+                type="number"
+                margin="normal"
+                value={this.state.duration}
+                onChange={this.handleChange}
+                placeholder="Min"
+                InputProps={{
+                  startAdornment: (
+                    <span
+                      style={{
+                        paddingRight: "10px",
                       }}
                     >
-                      {({
-                        values,
-                        errors,
-                        touched,
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        isSubmitting,
-                        setFieldValue,
-                        /* and other goodies */
-                      }) => (
-                        <form onSubmit={handleSubmit}>
-                          <Extra
-                            setFieldValue={setFieldValue}
-                            validationSchema={validationSchema}
-                            errors={errors}
-                            values={values}
-                            handleChange={handleChange}
-                            handleBlur={handleBlur}
-                            touched={touched}
-                            loading={this.state.loading}
-                          />
+                      Min
+                    </span>
+                  ),
+                }}
+              />
+              <TextField
+                style={styles.duration}
+                label="Open Time"
+                name="openTime"
+                type="number"
+                margin="normal"
+                value={this.state.openTime}
+                onChange={this.handleChange}
+                placeholder="Min"
+                InputProps={{
+                  startAdornment: (
+                    <span
+                      style={{
+                        paddingRight: "10px",
+                      }}
+                    >
+                      Min
+                    </span>
+                  ),
+                }}
+              />
+              <TextField
+                style={styles.duration}
+                label="Second Time"
+                name="secondTime"
+                type="number"
+                margin="normal"
+                value={this.state.secondTime}
+                onChange={this.handleChange}
+                placeholder="Min"
+                InputProps={{
+                  startAdornment: (
+                    <span
+                      style={{
+                        paddingRight: "10px",
+                      }}
+                    >
+                      Min
+                    </span>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={9}>
+              <Grid container spacing={3}>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Price*"
+                    name="price"
+                    margin="normal"
+                    fullWidth
+                    value={this.state.price}
+                    onChange={this.handleChange}
+                    placeholder="$"
+                    InputProps={{
+                      startAdornment: (
+                        <span
+                          style={{
+                            paddingRight: "10px",
+                          }}
+                        >
+                          $
+                        </span>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  {this.state.loading && (
+                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                      <InputLabel>Status</InputLabel>
+                      <Select
+                        value={this.state.isDisabled}
+                        onChange={(e) => {
+                          this.setState({ isDisabled: e.value });
+                        }}
+                      >
+                        <MenuItem value={0}>Active</MenuItem>
+                        <MenuItem value={1}>Inactive</MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Surcharged"
+                    name="supplyFee"
+                    margin="normal"
+                    fullWidth
+                    value={this.state.supplyFee}
+                    onChange={this.handleChange}
+                    InputProps={{
+                      startAdornment: (
+                        <span
+                          style={{
+                            paddingRight: "10px",
+                          }}
+                        >
+                          $
+                        </span>
+                      ),
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
 
-                          <div className="Save-fixed-bottom">
-                            <Button
-                              className="btn btn-green"
-                              type="submit"
-                              style={{
-                                backgroundColor: "#4251af",
-                                color: "white",
-                              }}
-                              disabled={isSubmitting}
-                              onClick={handleSubmit}
-                            >
-                              SAVE
-                            </Button>
-                            <Button
-                              className="btn btn-red"
-                              onClick={this.goBack}
-                            >
-                              CANCEL
-                            </Button>
-                          </div>
-                        </form>
-                      )}
-                    </Formik>
+          <Grid item xs={5}>
+            <Formik
+              initialValues={{ extras: extraItem }}
+              validationSchema={validationSchema}
+              onSubmit={(values, { setSubmitting }) => {
+                if (values.extras === null) {
+                  this.setState({
+                    extras: [],
+                  });
+                } else {
+                  this.setState({
+                    extras: values.extras,
+                  });
+                }
+
+                this.updateService();
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+                setFieldValue,
+              }) => (
+                <form onSubmit={handleSubmit}>
+                  <Extra
+                    setFieldValue={setFieldValue}
+                    validationSchema={validationSchema}
+                    errors={errors}
+                    values={values}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    touched={touched}
+                    loading={this.state.loading}
+                  />
+
+                  <div className="Save-fixed-bottom">
+                    <Button
+                      className="btn btn-green"
+                      type="submit"
+                      style={{
+                        backgroundColor: "#4251af",
+                        color: "white",
+                      }}
+                      disabled={isSubmitting}
+                      onClick={handleSubmit}
+                    >
+                      SAVE
+                    </Button>
+                    <Button className="btn btn-red" onClick={this.goBack}>
+                      CANCEL
+                    </Button>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                </form>
+              )}
+            </Formik>
+          </Grid>
+        </Grid>
       </div>
     );
   }
@@ -568,36 +537,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(EditService);
 
 const styles = {
-  textarea: {
-    width: "100%",
-    height: "70px",
-    borderWidth: 1.2,
-    borderColor: "#dddddd",
-    borderStyle: "solid",
-    borderRadius: 5,
-    padding: "10px",
-    marginTop: 8,
+  duration: {
+    marginRight: "20px",
   },
-  inputPrice: {
-    width: "100px !important",
-    borderBottom: "none",
-    fontWeight: 400,
-    margin: "80px 0px",
-    paddingLeft: "20px",
-  },
-};
-const colourStyles = {
-  control: (styles) => ({
-    ...styles,
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderRadius: 0,
-  }),
-  input: (styles) => ({
-    ...styles,
-    borderWidth: 0,
-    fontSize: 16,
-    paddingLeft: 0,
-  }),
-  placeholder: (styles) => ({ ...styles }),
 };
