@@ -17,22 +17,22 @@ export class workTime extends Component {
     return (
       <Grid container spacing={3} className="container-fluid Staff">
         <Grid item xs={12} className="header">
-          <CustomTitle value="General Information" />
+          <CustomTitle value="Working Time" />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={2} sm={4} md={2}>
           <CustomTextLabel value="Date" styles={{ color: "#4251af" }} />
         </Grid>
 
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <CustomTextLabel value="Shift Start" styles={{ color: "#4251af" }} />
         </Grid>
 
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <CustomTextLabel value="Shift End" styles={{ color: "#4251af" }} />
         </Grid>
 
-        <Grid item xs={2} style={style.col2}>
+        <Grid item xs={2} sm={4} md={2}>
           <Checkbox
             name="isCheck2"
             checked={Time?.Monday?.isCheck}
@@ -43,7 +43,7 @@ export class workTime extends Component {
           />
           <label>Monday</label>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -52,7 +52,7 @@ export class workTime extends Component {
             />
           </div>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -63,8 +63,7 @@ export class workTime extends Component {
         </Grid>
 
         {/* Tuesday */}
-
-        <Grid item xs={2} style={style.col2}>
+        <Grid item xs={2} sm={4} md={2}>
           <Checkbox
             name="isCheck3"
             checked={Time?.Tuesday?.isCheck}
@@ -75,7 +74,7 @@ export class workTime extends Component {
           />
           <label>Tuesday</label>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -84,7 +83,7 @@ export class workTime extends Component {
             />
           </div>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select ">
             <Select
               options={Time}
@@ -96,7 +95,7 @@ export class workTime extends Component {
 
         {/* Wednesday */}
 
-        <Grid item xs={2} style={style.col2}>
+        <Grid item xs={2} sm={4} md={2}>
           <Checkbox
             checked={Time?.Wednesday?.isCheck}
             value="false"
@@ -106,7 +105,7 @@ export class workTime extends Component {
           />
           <label>Wednesday</label>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -115,7 +114,7 @@ export class workTime extends Component {
             />
           </div>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -127,7 +126,7 @@ export class workTime extends Component {
 
         {/* Thursday */}
 
-        <Grid item xs={2} style={style.col2}>
+        <Grid item xs={2} sm={4} md={2}>
           <Checkbox
             checked={Time?.Thursday?.isCheck}
             inputProps={{
@@ -136,7 +135,7 @@ export class workTime extends Component {
           />
           <label>Thursday</label>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -145,7 +144,7 @@ export class workTime extends Component {
             />
           </div>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -157,7 +156,7 @@ export class workTime extends Component {
 
         {/* Friday */}
 
-        <Grid item xs={2} style={style.col2}>
+        <Grid item xs={2} sm={4} md={2}>
           <Checkbox
             name="isCheck5"
             checked={Time?.Friday?.isCheck}
@@ -167,7 +166,7 @@ export class workTime extends Component {
           />
           <label>Friday</label>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -176,7 +175,7 @@ export class workTime extends Component {
             />
           </div>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -187,7 +186,7 @@ export class workTime extends Component {
         </Grid>
 
         {/* Saturday */}
-        <Grid item xs={2} style={style.col2}>
+        <Grid item xs={2} sm={4} md={2}>
           <Checkbox
             checked={Time?.Saturday?.isCheck}
             inputProps={{
@@ -196,7 +195,7 @@ export class workTime extends Component {
           />
           <label>Saturday</label>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -205,7 +204,7 @@ export class workTime extends Component {
             />
           </div>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -215,7 +214,7 @@ export class workTime extends Component {
           </div>
         </Grid>
         {/* Sunday */}
-        <Grid item xs={2} style={style.col2}>
+        <Grid item xs={2} sm={4} md={2}>
           <Checkbox
             checked={Time?.Sunday?.isCheck}
             inputProps={{
@@ -224,7 +223,7 @@ export class workTime extends Component {
           />
           <label>Sunday</label>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}
@@ -233,7 +232,7 @@ export class workTime extends Component {
             />
           </div>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sm={4} md={5}>
           <div className="time-select">
             <Select
               options={Time}

@@ -4,15 +4,14 @@ import { config } from "../../../../../url/url";
 import { UPDATE_MERCHANT_BANK } from "../../../../../actions/merchants/actions";
 import { WARNING_NOTIFICATION } from "../../../../../actions/notifications/actions";
 
-import LinearProgress from "../../../../../util/linearProgress";
-import InputCustom from "../../MerchantsList/addMerchant/custom-input";
-
 import { Formik, Form } from "formik";
 import { CustomTitle } from "../../../../../util/CustomText";
 import { Grid, Button, TextField } from "@material-ui/core";
-import * as Yup from "yup";
 
+import * as Yup from "yup";
 import axios from "axios";
+import LinearProgress from "../../../../../util/linearProgress";
+import InputCustom from "../../MerchantsList/addMerchant/custom-input";
 
 const upFile = config.url.upFile;
 
@@ -103,7 +102,7 @@ class EditBank extends Component {
                     <Grid item xs={12}>
                       <CustomTitle value="Bank Information" />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <TextField
                         label="Account Holder Name*"
                         name="accountHolderName"
@@ -121,7 +120,7 @@ class EditBank extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <TextField
                         label="Bank Name*"
                         name="name"
@@ -136,7 +135,7 @@ class EditBank extends Component {
                       />
                     </Grid>
 
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <TextField
                         InputLabelProps={{ shrink: true }}
                         label="Routing Number* (ABA)"
@@ -159,7 +158,7 @@ class EditBank extends Component {
                       />
                     </Grid>
 
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <TextField
                         InputLabelProps={{ shrink: true }}
                         label="Account Number* (DDA)"
@@ -182,7 +181,7 @@ class EditBank extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={4} lg={2}>
+                    <Grid item xs={4} md={3}>
                       <label>Void Check*</label> <br />
                       {$imagePreview}
                       <div style={{ width: "100%", marginTop: "15px" }}>

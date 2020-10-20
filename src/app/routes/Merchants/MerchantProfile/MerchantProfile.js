@@ -2,7 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
 import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
-import { Button } from "@material-ui/core";
+
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+  Grid,
+  AppBar,
+  Toolbar,
+} from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -39,12 +50,6 @@ import ExtraTab from "./Detail/Extra/extra";
 import ExportSettlement from "./Detail/ExportSettlement/export-settlement";
 import CheckPermissions from "../../../../util/checkPermission";
 import PrivateRoute from "../../../PrivateRoute";
-// DELETE
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 
 import "../MerchantsRequest/MerchantReqProfile.css";
 import "../MerchantsRequest/MerchantsRequest.css";
@@ -84,36 +89,40 @@ class merchantProfile extends Component {
             disableBreadcrumb={true}
           />
           <div className="content-body page-heading">
-            <div className="header col-md-12">
-              <h3>ID: {e?.merchantId}</h3>
-              <span style={{ display: "flex" }}>
-                {CheckPermissions("delete-merchant") && (
+            <Grid container>
+              <Grid item xs={2}>
+                <h3>ID: {e?.merchantId}</h3>
+              </Grid>
+              <Grid item xs={10}>
+                <span style={{ display: "flex", justifyContent: "flex-end" }}>
+                  {CheckPermissions("delete-merchant") && (
+                    <Button
+                      style={{ color: "#4251af", backgroundColor: "white" }}
+                      className="btn btn-green"
+                      onClick={() => this.setState({ openDelete: true })}
+                    >
+                      DELETE
+                    </Button>
+                  )}
+                  {CheckPermissions("export-settlement") && (
+                    <span style={{ marginRight: "20px" }}>
+                      <ExportSettlement
+                        MerchantId={e?.merchantId}
+                        Token={this.props.userLogin?.token}
+                      />
+                    </span>
+                  )}
+
                   <Button
                     style={{ color: "#4251af", backgroundColor: "white" }}
                     className="btn btn-green"
-                    onClick={() => this.setState({ openDelete: true })}
+                    onClick={this._goBack}
                   >
-                    DELETE
+                    BACK
                   </Button>
-                )}
-                {CheckPermissions("export-settlement") && (
-                  <span style={{ marginRight: "20px" }}>
-                    <ExportSettlement
-                      MerchantId={e?.merchantId}
-                      Token={this.props.userLogin?.token}
-                    />
-                  </span>
-                )}
-
-                <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
-                  className="btn btn-green"
-                  onClick={this._goBack}
-                >
-                  BACK
-                </Button>
-              </span>
-            </div>
+                </span>
+              </Grid>
+            </Grid>
             <hr />
             <div className="content">
               <div className="container-fluid" style={{ padding: "10px" }}>
@@ -145,6 +154,7 @@ class merchantProfile extends Component {
                       </Button>
                     </DialogActions>
                   </Dialog>
+
                   <div className="profile-nav content-body">
                     <ul className="detail-tab">
                       <li>

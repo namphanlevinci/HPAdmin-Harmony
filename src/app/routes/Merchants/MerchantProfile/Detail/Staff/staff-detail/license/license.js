@@ -15,17 +15,17 @@ export class license extends Component {
         <Grid item xs={12}>
           <CustomTitle value="Licenses" />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <CustomTextLabel value="Driver License" />
           <CustomText value={Staff?.driverLicense} />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <CustomTextLabel value="Social Security Number" />
           <CustomText value={Staff?.ssn} />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <CustomTextLabel value="Professional License" />
           <CustomText value={Staff?.professionalLicense} />
         </Grid>

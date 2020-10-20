@@ -10,7 +10,14 @@ import {
 } from "../../../../actions/notifications/actions";
 
 import { config } from "../../../../url/url";
-import { Grid } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  CardMedia,
+} from "@material-ui/core";
 import {
   CustomTitle,
   CustomTextLabel,
@@ -20,13 +27,10 @@ import {
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 import NumberFormat from "react-number-format";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
+
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
@@ -154,7 +158,7 @@ class MerchantRejectedProfile extends Component {
                 <CustomText value={e?.state?.name} />
               </Grid>
               <Grid item xs={4}></Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <CustomTextLabel value="Driver License Picture*" />
 
                 {
@@ -162,8 +166,8 @@ class MerchantRejectedProfile extends Component {
                     href={`${URL}/file/${e?.fileId}?fileName=DriverLicense-${this.props.PendingProfile?.general?.doBusinessName}`}
                     download
                   >
-                    <img
-                      className="pending-image"
+                    <CardMedia
+                      component="img"
                       src={`${e?.imageUrl}`}
                       alt="driver license"
                     />
@@ -201,13 +205,13 @@ class MerchantRejectedProfile extends Component {
       );
 
     return (
-      <div className="container-fluid content-list react-transition swipe-right">
+      <div className="content-list react-transition swipe-right">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.requestDetail" />}
           disableBreadcrumb={true}
         />
-        <Grid container spacing={3} className="content-body page-heading">
+        <Grid container spacing={0} className="content-body page-heading">
           <Grid item xs={12} className="header">
             <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2>
             <span>
@@ -299,7 +303,7 @@ class MerchantRejectedProfile extends Component {
           </Grid>
           <hr />
           <div className="content">
-            <Grid container spacing={3} className="container-fluid">
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <CustomTitle value="General Information" />
               </Grid>
@@ -398,7 +402,7 @@ class MerchantRejectedProfile extends Component {
                 <CustomTextLabel value="Account Number* (DDA)" />
                 <CustomText value={e?.businessBank?.accountNumber} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <CustomTextLabel value="Void Check*" />
                 {e.businessBank !== null ? (
                   <a
@@ -407,8 +411,8 @@ class MerchantRejectedProfile extends Component {
                     }?fileName=VoidCheck-${(e?.general?.doBusinessName).trim()}`}
                     download
                   >
-                    <img
-                      className="pending-image"
+                    <CardMedia
+                      component="img"
                       src={`${e.businessBank.imageUrl}`}
                       alt="void check"
                     />

@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Checkbox } from "@material-ui/core";
+
 import {
   CustomText,
   CustomTextLabel,
   CustomTitle,
 } from "../../../../../../util/CustomText";
+import {
+  Button,
+  Grid,
+  FormControl,
+  Input,
+  InputAdornment,
+  Checkbox,
+} from "@material-ui/core";
 
-import Input from "@material-ui/core/Input";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormControl from "@material-ui/core/FormControl";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-
-import { Button, Grid } from "@material-ui/core";
 import CheckPermissions from "../../../../../../util/checkPermission";
 
 import "../../MerchantProfile.css";
@@ -46,62 +49,62 @@ class General extends Component {
           <CustomTitle value="General Information" />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="Legal Business Name*" />
           <CustomText value={e?.general?.legalBusinessName} />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="Doing Business As* (DBA)" />
           <CustomText value={e?.general?.doBusinessName} />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <CustomTextLabel value="Federal Tax ID*" />
           <CustomText value={e?.taxId} />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="Business Address* (no P.O. Boxes)" />
           <CustomText value={e?.general?.address} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} md={3}>
           <CustomTextLabel value="City*" />
           <CustomText value={e?.general?.city} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} md={3}>
           <CustomTextLabel value="State Issued*" />
           <CustomText value={e?.state?.name} />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={6} md={2}>
           <CustomTextLabel value="Zip Code*" />
           <CustomText value={e.zip} />
         </Grid>
         {/* DBA Address */}
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="DBA Address* " />
           <CustomText value={e?.general?.dbaAddress?.Address} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} md={3}>
           <CustomTextLabel value="City*" />
           <CustomText value={e?.general?.dbaAddress?.City} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} md={3}>
           <CustomTextLabel value="State Issued*" />
           <CustomText value={e?.general?.dbaAddress?.StateName} />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={6} md={2}>
           <CustomTextLabel value="Zip Code*" />
           <CustomText value={e?.general?.dbaAddress?.Zip} />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="Business Phone Number*" />
           <CustomText value={e.phone} />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="Contact Email Address*" />
           <CustomText value={e.email} />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <CustomTextLabel value="Password" />
 
           <FormControl>
@@ -123,17 +126,17 @@ class General extends Component {
           </FormControl>
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="Contact Name*" />
           <CustomText
             value={e?.general?.firstName + " " + e?.general?.lastName}
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="Title/Position*" />
           <CustomText value={e?.general?.title} />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <CustomTextLabel value="Contact Phone Number*" />
           <CustomText value={e?.general?.phoneContact} />
         </Grid>
@@ -144,7 +147,7 @@ class General extends Component {
       e.business !== undefined ? (
         e.business.map((e, index) => {
           return (
-            <Grid item xs={6} key={e.businessId}>
+            <Grid item xs={12} md={6} key={e.businessId}>
               <CustomTextLabel value={e.question} />
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Checkbox checked={e.answer === false} />

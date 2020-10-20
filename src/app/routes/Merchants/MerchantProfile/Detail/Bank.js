@@ -51,23 +51,23 @@ class Bank extends Component {
             <CustomTitle value="Bank Information" />
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={6} md={3}>
             <CustomTextLabel value="Account Holder Name*" />
             <CustomText value={e?.businessBank?.accountHolderName} />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6} md={3}>
             <CustomTextLabel value="Bank Name*" />
             <CustomText value={e?.businessBank?.name} />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6} md={3}>
             <CustomTextLabel value="Routing Number* (ABA)" />
             <CustomText value={e?.businessBank?.routingNumber} />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6} md={3}>
             <CustomTextLabel value="Account Number* (DDA)" />
             <CustomText value={e?.businessBank?.accountNumber} />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} md={3}>
             <CustomTextLabel value="Void Check*" />
             {e.businessBank !== null ? (
               <a

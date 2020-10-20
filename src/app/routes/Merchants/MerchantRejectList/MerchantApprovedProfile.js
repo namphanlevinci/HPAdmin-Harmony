@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
-import { Checkbox } from "@material-ui/core";
-import { Grid } from "@material-ui/core";
+import { Grid, Checkbox, Button, CardMedia } from "@material-ui/core";
 import {
   CustomTitle,
   CustomTextLabel,
@@ -12,7 +11,6 @@ import {
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-import Button from "@material-ui/core/Button";
 import NumberFormat from "react-number-format";
 
 import "bootstrap/js/src/collapse.js";
@@ -98,7 +96,7 @@ class MerchantApprovedProfile extends Component {
                 <CustomText value={e?.state?.name} />
               </Grid>
               <Grid item xs={4}></Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <CustomTextLabel value="Driver License Picture*" />
 
                 {
@@ -106,8 +104,8 @@ class MerchantApprovedProfile extends Component {
                     href={`${URL}/file/${e?.fileId}?fileName=DriverLicense-${this.props.PendingProfile?.general?.doBusinessName}`}
                     download
                   >
-                    <img
-                      className="pending-image"
+                    <CardMedia
+                      component="img"
                       src={`${e?.imageUrl}`}
                       alt="driver license"
                     />
@@ -143,17 +141,16 @@ class MerchantApprovedProfile extends Component {
       ) : (
         <label>&nbsp;- NO BUSINESS INFORMATION</label>
       );
-    // render staff
 
     const renderMerchantProfile =
       e.merchantId !== undefined ? (
-        <div className="container-fluid content-list react-transition swipe-right">
+        <div className="content-list react-transition swipe-right">
           <ContainerHeader
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
             disableBreadcrumb={true}
           />
-          <Grid container spacing={3} className="content-body page-heading">
+          <Grid container spacing={0} className="content-body page-heading">
             <Grid item xs={12} className="header">
               <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2>
               <span>
@@ -194,7 +191,7 @@ class MerchantApprovedProfile extends Component {
             </Grid>
             <hr />
             <div className="content">
-              <Grid container spacing={3} className="container-fluid">
+              <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <CustomTitle value="General Information" />
                 </Grid>
@@ -293,7 +290,7 @@ class MerchantApprovedProfile extends Component {
                   <CustomTextLabel value="Account Number* (DDA)" />
                   <CustomText value={e?.businessBank?.accountNumber} />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                   <CustomTextLabel value="Void Check*" />
                   {e.businessBank !== null ? (
                     <a
@@ -302,8 +299,8 @@ class MerchantApprovedProfile extends Component {
                       }?fileName=VoidCheck-${(e?.general?.doBusinessName).trim()}`}
                       download
                     >
-                      <img
-                        className="pending-image"
+                      <CardMedia
+                        component="img"
                         src={`${e.businessBank.imageUrl}`}
                         alt="void check"
                       />

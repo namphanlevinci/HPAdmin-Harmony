@@ -49,7 +49,7 @@ class General extends Component {
                     <Grid item xs={12}>
                       <CustomTitle value="General Information" />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                       <TextField
                         name="legalBusinessName"
                         label="Legal Business Name*"
@@ -67,7 +67,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                       <TextField
                         name="doBusinessName"
                         label="Doing Business As* (DBA)"
@@ -84,7 +84,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                       <TextField
                         InputLabelProps={{ shrink: true }}
                         label=" Federal Tax ID*"
@@ -104,7 +104,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                       <TextField
                         name="address"
                         label="Business Address* (no P.O. Boxes)"
@@ -120,7 +120,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <TextField
                         name="city"
                         label="City*"
@@ -134,7 +134,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <CustomSelect
                         name="state"
                         label="State Issued*"
@@ -144,7 +144,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={6} md={2}>
                       <TextField
                         InputLabelProps={{ shrink: true }}
                         label="Zip Code*"
@@ -165,7 +165,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                       <TextField
                         name={`dbaAddress.Address`}
                         label="DBA Address*"
@@ -185,7 +185,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <TextField
                         name={`dbaAddress.City`}
                         label="City*"
@@ -203,7 +203,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <CustomSelect
                         name={`dbaAddress.State`}
                         label="State Issued*"
@@ -213,7 +213,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={6} md={2}>
                       <TextField
                         InputLabelProps={{ shrink: true }}
                         label="Zip Code*"
@@ -238,7 +238,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={6}>
                       <TextField
                         name="emailContact"
                         label="Email Contact*"
@@ -254,7 +254,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={6}>
                       <MaterialUiPhoneNumber
                         onlyCountries={["us", "vn"]}
                         placeholder="Business Phone Number"
@@ -266,8 +266,8 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={4}></Grid>
-                    <Grid item xs={3}>
+
+                    <Grid item xs={6} md={3}>
                       <TextField
                         name="firstName"
                         label="First Name*"
@@ -283,7 +283,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <TextField
                         name="lastName"
                         label="Last Name*"
@@ -299,7 +299,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <TextField
                         name="title"
                         label="Title/Position*"
@@ -313,7 +313,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} md={3}>
                       <MaterialUiPhoneNumber
                         onlyCountries={["us", "vn"]}
                         label="Contact Phone Number*"

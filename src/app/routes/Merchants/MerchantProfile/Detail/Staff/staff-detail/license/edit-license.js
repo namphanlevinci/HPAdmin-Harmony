@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions";
 
-import Button from "@material-ui/core/Button";
-
+import { Button, Grid, TextField } from "@material-ui/core";
+import { CustomTitle } from "../../../../../../../../util/CustomText";
 export class EditLicense extends Component {
   constructor(props) {
     super(props);
@@ -84,37 +84,40 @@ export class EditLicense extends Component {
       <div>
         <div>
           <div className="container-fluid">
-            <h2>Licenses</h2>
+            <CustomTitle value="Licenses" />
             {this.state.loading && (
-              <div className="row justify-content-between">
-                <div className="col-4" style={styles.div}>
-                  <label>Driver License</label>
-                  <input
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    margin="normal"
+                    label="Driver License"
                     name="driverLicense"
                     value={this.state.driverLicense}
                     onChange={this.handleChange}
-                    maxLength="90"
+                    fullWidth
                   />
-                </div>
-                <div className="col-4" style={styles.div}>
-                  <label>Social Security Number</label>
-                  <input
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    margin="normal"
+                    label="Social Security Number"
                     name="ssn"
                     value={this.state.ssn}
                     onChange={this.handleChange}
-                    maxLength="90"
+                    fullWidth
                   />
-                </div>
-                <div className="col-4" style={styles.div}>
-                  <label>Professional License</label>
-                  <input
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    margin="normal"
+                    label="Professional License"
                     name="professionalLicense"
                     value={this.state.professionalLicense}
                     onChange={this.handleChange}
-                    maxLength="90"
+                    fullWidth
                   />
-                </div>
-              </div>
+                </Grid>
+              </Grid>
             )}
 
             <div style={{ paddingTop: "200px" }}>

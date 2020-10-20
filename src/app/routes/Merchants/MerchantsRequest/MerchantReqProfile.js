@@ -10,32 +10,37 @@ import { Checkbox } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
-import IconButton from "@material-ui/core/IconButton";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import { withStyles } from "@material-ui/core/styles";
-import { TextField, Typography, Grid } from "@material-ui/core";
+import {
+  TextField,
+  Typography,
+  Grid,
+  CardMedia,
+  IconButton,
+  Button,
+  Dialog,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import {
   CustomTitle,
   CustomTextLabel,
   CustomText,
 } from "../../../../util/CustomText";
+
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import CloseIcon from "@material-ui/icons/Close";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-import Button from "@material-ui/core/Button";
 import NumberFormat from "react-number-format";
-import Dialog from "@material-ui/core/Dialog";
 import checkPermission from "../../../../util/checkPermission";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import DialogContent from "@material-ui/core/DialogContent";
 import * as Yup from "yup";
 import CircularProgress from "@material-ui/core/CircularProgress";
+// import MyLoader from "../../../../util/ContentLoader";
 
 import "./MerchantReqProfile.css";
-// import "./MerchantsRequest.css";
-import "bootstrap/js/src/collapse.js";
 
 const URL = config.url.URL;
 
@@ -108,7 +113,7 @@ class MerchantReqProfile extends Component {
   render() {
     const e = this.props.PendingProfile;
     let principalLength = this.props.PendingProfile?.principals?.length;
-    // render Principal
+    // Render Principal
     const renderPrincipal =
       e?.principals !== undefined ? (
         e?.principals.map((e, index) => {
@@ -175,7 +180,7 @@ class MerchantReqProfile extends Component {
                 <CustomText value={e?.state?.name} />
               </Grid>
               <Grid item xs={4}></Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3} lg={3}>
                 <CustomTextLabel value="Driver License Picture*" />
 
                 {
@@ -183,8 +188,8 @@ class MerchantReqProfile extends Component {
                     href={`${URL}/file/${e?.fileId}?fileName=DriverLicense-${this.props.PendingProfile?.general?.doBusinessName}`}
                     download
                   >
-                    <img
-                      className="pending-image"
+                    <CardMedia
+                      component="img"
                       src={`${e?.imageUrl}`}
                       alt="driver license"
                     />
@@ -198,7 +203,8 @@ class MerchantReqProfile extends Component {
       ) : (
         <label>&nbsp;- NO PRINCIPALS INFORMATION</label>
       );
-    // render question
+
+    // Render question
     const renderQuestion =
       e.business !== undefined ? (
         e.business.map((e, index) => {
@@ -250,7 +256,7 @@ class MerchantReqProfile extends Component {
       );
     });
 
-    //render profile
+    // Render profile
     return (
       <div className="container-fluid content-list ">
         <ContainerHeader
@@ -658,25 +664,13 @@ class MerchantReqProfile extends Component {
               </Grid>
               <Grid item xs={3}>
                 <CustomTextLabel value="Routing Number* (ABA)" />
-                <CustomText
-                  value={
-                    e.businessBank !== null
-                      ? e.businessBank.routingNumber
-                      : null
-                  }
-                />
+                <CustomText value={e.businessBank?.routingNumber} />
               </Grid>
               <Grid item xs={3}>
                 <CustomTextLabel value="Account Number* (DDA)" />
-                <CustomText
-                  value={
-                    e.businessBank !== null
-                      ? e.businessBank.accountNumber
-                      : null
-                  }
-                />
+                <CustomText value={e.businessBank?.accountNumber} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3} lg={3}>
                 <CustomTextLabel value="Void Check*" />
                 {e.businessBank !== null ? (
                   <a
@@ -685,9 +679,9 @@ class MerchantReqProfile extends Component {
                     }?fileName=VoidCheck-${e?.general?.doBusinessName?.trim()}`}
                     download
                   >
-                    <img
-                      className="pending-image"
-                      src={`${e?.businessBank?.imageUrl}`}
+                    <CardMedia
+                      component="img"
+                      image={`${e?.businessBank?.imageUrl}`}
                       alt="void check"
                     />
                   </a>

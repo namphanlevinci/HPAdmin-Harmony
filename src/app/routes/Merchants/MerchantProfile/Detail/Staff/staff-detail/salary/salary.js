@@ -22,7 +22,7 @@ export class salary extends Component {
       <div className="container Salary">
         <CustomTitle value="Salary" />
         <Grid container spacing={1} style={{ paddingTop: "10px" }}>
-          <Grid item md={6} sm={12} xs={12}>
+          <Grid item xs={12} sm={6} md={6}>
             <div className="checkbox">
               <Checkbox
                 name="salaryIsCheck"
@@ -45,7 +45,7 @@ export class salary extends Component {
               }}
             />
           </Grid>
-          <Grid item md={6} sm={12} xs={12}>
+          <Grid item xs={12} sm={6} md={6}>
             <div className="checkbox">
               <Checkbox
                 name="commIsCheck"
@@ -72,7 +72,7 @@ export class salary extends Component {
           <br />
 
           {/* PRODUCT SALARY  */}
-          <Grid item md={6} sm={12} xs={12}>
+          <Grid item xs={12} sm={6} md={6}>
             <div className="checkbox">
               <Checkbox
                 name="prodCommIsCheck"
@@ -98,9 +98,9 @@ export class salary extends Component {
             />
           </Grid>
 
-          <Grid item md={6} sm={12} xs={12}></Grid>
+          <Grid item xs={12} sm={6} md={6}></Grid>
           {/* TIP FEE */}
-          <Grid item md={6} sm={12} xs={12}>
+          <Grid item xs={12} sm={6} md={6}>
             <div className="checkbox">
               <Checkbox
                 name="tipIsCheck"
@@ -125,7 +125,7 @@ export class salary extends Component {
             />
           </Grid>
 
-          <Grid item md={6} sm={12} xs={12}>
+          <Grid item xs={12} sm={6} md={6}>
             <div className="checkbox">
               <Checkbox
                 name="fixIsCheck"
@@ -151,7 +151,7 @@ export class salary extends Component {
           </Grid>
 
           {/* PAYOUT BY CASH */}
-          <Grid item md={6} sm={12} xs={12}>
+          <Grid item xs={12} sm={6} md={6}>
             <div className="checkbox">
               <Checkbox checked />
               <label>Payout with Cash </label>

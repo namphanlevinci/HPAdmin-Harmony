@@ -169,7 +169,7 @@ class EditSalary extends Component {
           {this.state.loading && (
             <React.Fragment>
               <Grid container spacing={1} style={{ paddingTop: "10px" }}>
-                <Grid item md={6} sm={12} xs={12}>
+                <Grid item xs={12} sm={6} md={6}>
                   <div className="checkbox">
                     <Checkbox
                       name="salaryIsCheck"
@@ -195,7 +195,7 @@ class EditSalary extends Component {
                     }
                   />
                 </Grid>
-                <Grid item md={6} sm={12} xs={12}>
+                <Grid item xs={12} sm={6} md={6}>
                   <div className="checkbox">
                     <Checkbox
                       name="commIsCheck"
@@ -223,7 +223,7 @@ class EditSalary extends Component {
                   />
                 </Grid>
 
-                <Grid item md={6} sm={12} xs={12}>
+                <Grid item xs={12} sm={6} md={6}>
                   <div className="checkbox">
                     <Checkbox
                       name="prodCommIsCheck"
@@ -251,9 +251,9 @@ class EditSalary extends Component {
                     }
                   />
                 </Grid>
-                <Grid item md={6} sm={12} xs={12}></Grid>
+                <Grid item xs={12} sm={6} md={6}></Grid>
 
-                <Grid item md={6} sm={12} xs={12}>
+                <Grid item xs={12} sm={6} md={6}>
                   <div className="checkbox">
                     <Checkbox
                       name="tipIsCheck"
@@ -280,7 +280,7 @@ class EditSalary extends Component {
                     }
                   />
                 </Grid>
-                <Grid item md={6} sm={12} xs={12}>
+                <Grid item xs={12} sm={6} md={6}>
                   <div className="checkbox">
                     <Checkbox
                       name="fixIsCheck"
@@ -308,7 +308,7 @@ class EditSalary extends Component {
                   />
                 </Grid>
 
-                <Grid item md={6} sm={12} xs={12}>
+                <Grid item xs={12} sm={6} md={6}>
                   <div className="checkbox">
                     <Checkbox checked />
                     <label>Payout with Cash </label>
