@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, CardMedia } from "@material-ui/core";
+import {
+  CustomTitle,
+  CustomTextLabel,
+  CustomText,
+} from "../../../../../../util/CustomText";
+
 import ServiceImg from "./hpadmin2.png";
 
 import axios from "axios";
@@ -48,85 +54,67 @@ class productDetail extends Component {
 
     return (
       <div className="react-transition swipe-up service-container">
-        <h2 style={{ color: "#4251af", paddingBottom: "30px" }}>
-          Product Detail
-        </h2>
+        <CustomTitle value="Product Detail" />
         <Grid container spacing={3}>
-          <Grid item xs={6}>
-            <label>Category*</label>
-            <p>{product.categoryName}</p>
+          <Grid item xs={4} md={6}>
+            <CustomTextLabel value="Category*" />
+            <CustomText value={product.categoryName} />
           </Grid>
-          <Grid item xs={3}>
-            <label>SKU Number*</label>
-            <br />
-            <p>{product.sku}</p>
+          <Grid item xs={4} md={3}>
+            <CustomTextLabel value="SKU Number*" />
+            <CustomText value={product.sku} />
           </Grid>
-          <Grid item xs={3}>
-            <label>Items In Stock*</label>
-            <div className="input-box">
-              <p style={styles.p}>{product.quantity} </p>
-              <span className="unit" style={styles.unit}>
-                Item
-              </span>
-            </div>
+          <Grid item xs={4} md={3}>
+            <CustomTextLabel value="Items In Stock*" />
+            <CustomText value={`Item  ${product.quantity}`} />
           </Grid>
 
-          <Grid item xs={6}>
-            <label>Product Name*</label>
-            <p>{product.name}</p>
+          <Grid item xs={4} md={6}>
+            <CustomTextLabel value="Product Name*" />
+            <CustomText value={product.name} />
           </Grid>
-          <Grid item xs={3}>
-            <label>Low Threshold*</label>
-            <div className="input-box">
-              <p style={styles.p}>{product.minThreshold}</p>
-              <span className="unit" style={styles.unit}>
-                Item
-              </span>
-            </div>
+          <Grid item xs={4} md={3}>
+            <CustomTextLabel value="Low Threshold*" />
+            <CustomText value={`Item ${product.minThreshold}`} />
           </Grid>
 
-          <Grid item xs={3}>
-            <label>High Threshold*</label>
-            <div className="input-box">
-              <p style={styles.p}>{product.maxThreshold}</p>
-              <span className="unit" style={styles.unit}>
-                Item
-              </span>
-            </div>
+          <Grid item xs={4} md={3}>
+            <CustomTextLabel value="High Threshold*" />
+            <CustomText value={`Item ${product.maxThreshold}`} />
           </Grid>
 
-          <Grid item xs={6}>
-            <label>Description</label>
-            <p>{product.description}</p>
+          <Grid item xs={4} md={6}>
+            <CustomTextLabel value="Description" />
+            <CustomText value={product.description} />
           </Grid>
 
-          <Grid item xs={3}>
-            <label>Price* ($)</label>
-            <br />
-            <p>$ {product.price}</p>
+          <Grid item xs={4} md={3}>
+            <CustomTextLabel value="Price* ($)" />
+            <CustomText value={`$ ${product.price}`} />
           </Grid>
-          <Grid item xs={3}>
-            <label>Status*</label>
-            <br />
-            <p>{product.isDisabled !== 1 ? "Active" : "Inactive"}</p>
+          <Grid item xs={4} md={3}>
+            <CustomTextLabel value="Status*" />
+            <CustomText
+              value={product.isDisabled !== 1 ? "Active" : "Inactive"}
+            />
           </Grid>
 
-          <Grid item xs={4}>
-            <label style={{ marginBottom: "20px" }}>Image</label>
-            <br />
-            <img
+          <Grid item xs={4} md={4}>
+            <CustomTextLabel value="Image" />
+            <CardMedia
+              component="img"
               src={product.imageUrl === "" ? ServiceImg : product.imageUrl}
               style={{ width: "100%", height: "auto" }}
               alt="void"
             />
           </Grid>
-          {/* <Grid item xs={6}>
+          {/* <Grid item md={6}>
             <label>Need To Order</label>
             <br />
             <p>{product.needToorDer}</p>
           </Grid> */}
 
-          <Grid item xs={12}>
+          <Grid item xs={12} md={12}>
             <Button
               className="btn btn-green"
               style={{
@@ -152,13 +140,3 @@ const mapStateToProps = (state) => ({
   SERVICE: state.serviceProps,
 });
 export default connect(mapStateToProps)(productDetail);
-
-const styles = {
-  unit: {
-    top: "5px",
-  },
-  p: {
-    paddingTop: "4px",
-    marginLeft: "15px",
-  },
-};

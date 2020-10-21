@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { config } from "../../../../../../url/url";
+import { withStyles } from "@material-ui/core/styles";
 
 import {
   TextField,
@@ -11,6 +12,7 @@ import {
   Select,
   MenuItem,
   InputAdornment,
+  CardMedia,
 } from "@material-ui/core";
 
 import Dialog from "@material-ui/core/Dialog";
@@ -20,7 +22,10 @@ import Button from "@material-ui/core/Button";
 import defaultImg from "./hpadmin2.png";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 import CloseIcon from "@material-ui/icons/Close";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
 
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
 import "./extra.styles.scss";
 
 const URL = config.url.URL;
@@ -52,16 +57,49 @@ const EditExtra = ({
 }) => {
   let $imagePreview = null;
   if (imagePreviewUrl) {
-    $imagePreview = <img src={imagePreviewUrl} style={styles.img} alt="void" />;
+    $imagePreview = (
+      <CardMedia component="img" src={imagePreviewUrl} alt="void" />
+    );
   } else {
     $imagePreview = (
-      <img
-        style={styles.img}
+      <CardMedia
+        component="img"
         src={imageUrl === "" ? defaultImg : imageUrl}
         alt="void"
       />
     );
   }
+
+  const styles = (theme) => ({
+    root: {
+      margin: 0,
+      padding: theme.spacing(2),
+    },
+    closeButton: {
+      position: "absolute",
+      right: theme.spacing(1),
+      top: theme.spacing(1),
+      color: "white",
+    },
+  });
+
+  const DialogTitle = withStyles(styles)((props) => {
+    const { children, classes, onClose, ...other } = props;
+    return (
+      <MuiDialogTitle disableTypography className={classes.root} {...other}>
+        <Typography variant="h6">{children}</Typography>
+        {onClose ? (
+          <IconButton
+            aria-label="close"
+            className={classes.closeButton}
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </MuiDialogTitle>
+    );
+  });
 
   const formatPrice = price?.toString()?.replace(",", "");
   const formatSupplyFee = supplyFee?.toString()?.replace(",", "");
@@ -70,14 +108,12 @@ const EditExtra = ({
       <DialogContent>
         <div className="category extra">
           <div className="extra-container">
-            <h2 className="title">Edit Extra </h2>
-            <div
-              className="close"
-              onClick={() => handleClose("edit", false)}
-              style={{ color: "white", margin: "0px 10px" }}
+            <DialogTitle
+              id="customized-dialog-title"
+              onClose={() => handleClose("edit", false)}
             >
-              <CloseIcon size={44} />
-            </div>
+              Edit Extra
+            </DialogTitle>
           </div>
 
           <div>
@@ -175,7 +211,7 @@ const EditExtra = ({
                 setFieldValue,
               }) => (
                 <form onSubmit={handleSubmit} noValidate>
-                  <Grid container spacing={3}>
+                  <Grid container spacing={3} style={{ marginTop: "5px" }}>
                     <Grid item xs={12}>
                       <TextField
                         label="Extra Name*"
@@ -263,7 +299,7 @@ const EditExtra = ({
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                       <label>Image</label>
                       {$imagePreview} <br />
                       <input
@@ -272,9 +308,6 @@ const EditExtra = ({
                         accept="image/gif,image/jpeg, image/png"
                         type="file"
                         onChange={handleImageChange}
-                        style={{
-                          marginTop: "5px",
-                        }}
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -324,10 +357,3 @@ const EditExtra = ({
 };
 
 export default EditExtra;
-
-const styles = {
-  img: {
-    width: "100%",
-    objectFit: "cover",
-  },
-};

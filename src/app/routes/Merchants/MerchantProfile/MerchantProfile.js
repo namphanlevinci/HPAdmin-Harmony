@@ -11,8 +11,6 @@ import {
   DialogTitle,
   Button,
   Grid,
-  AppBar,
-  Toolbar,
 } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
@@ -27,7 +25,6 @@ import PrincipalInfo from "./Detail/Principal/Principal2";
 import EditPrincipal from "./Detail/Principal/EditPrincipal";
 import Settings from "./Detail/Settings";
 import EditSettings from "./Detail/EditSettings";
-
 import MerchantActi from "./Detail/Activity";
 // Service
 import Service from "./Detail/Service/Service";

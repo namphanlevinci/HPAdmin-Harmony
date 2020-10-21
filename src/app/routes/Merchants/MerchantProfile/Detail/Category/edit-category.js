@@ -130,7 +130,6 @@ class EditCategory extends Component {
                   value={values.name}
                   label="Category Name*"
                   fullWidth
-                  value={values.name}
                   error={errors.name && Boolean(touched.name)}
                   helperText={errors.name && touched.name ? errors.name : ""}
                 />

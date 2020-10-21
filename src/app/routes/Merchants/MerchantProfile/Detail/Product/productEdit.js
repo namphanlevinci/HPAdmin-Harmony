@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
-import { Grid } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  Select,
+  MenuItem,
+  FormHelperText,
+  CardMedia,
+} from "@material-ui/core";
 import {
   TextField,
   InputAdornment,
@@ -14,12 +21,9 @@ import {
   FAILURE_NOTIFICATION,
   WARNING_NOTIFICATION,
 } from "../../../../../../actions/notifications/actions";
+import { CustomTitle } from "../../../../../../util/CustomText";
 
-import FormHelperText from "@material-ui/core/FormHelperText";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
 
@@ -139,7 +143,8 @@ class EditProduct extends Component {
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (
-        <img
+        <CardMedia
+          component="img"
           src={imagePreviewUrl}
           style={{ width: "100%", height: "auto" }}
           alt="void"
@@ -147,7 +152,8 @@ class EditProduct extends Component {
       );
     } else {
       $imagePreview = (
-        <img
+        <CardMedia
+          component="img"
           src={this.state.imageUrl === "" ? ServiceImg : this.state.imageUrl}
           style={{ width: "100%", height: "auto" }}
           alt="void"
@@ -157,9 +163,7 @@ class EditProduct extends Component {
 
     return (
       <div className="react-transition swipe-up service-container">
-        <h2 style={{ color: "#4251af", paddingBottom: "30px" }}>
-          Edit Product
-        </h2>
+        <CustomTitle value="Edit Product" />
 
         {this.state.loading && (
           <Formik
@@ -265,8 +269,8 @@ class EditProduct extends Component {
               /* and other goodies */
             }) => (
               <form onSubmit={handleSubmit} noValidate>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={6}>
+                <Grid container spacing={3} style={{ marginTop: "10px" }}>
+                  <Grid item xs={12} sm={4} md={6}>
                     <FormControl
                       style={{ width: "50%" }}
                       error={errors.categoryId && touched.categoryId}
@@ -287,7 +291,7 @@ class EditProduct extends Component {
                       )}
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={4} md={3}>
                     <TextField
                       name="sku"
                       type="text"
@@ -305,7 +309,7 @@ class EditProduct extends Component {
                       InputLabelProps={{ shrink: true }}
                     />
                   </Grid>
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={4} md={3}>
                     <TextField
                       name="quantity"
                       type="number"
@@ -328,7 +332,7 @@ class EditProduct extends Component {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} sm={4} md={6}>
                     <TextField
                       name="name"
                       type="text"
@@ -346,7 +350,7 @@ class EditProduct extends Component {
                       helperText={touched.name ? errors.name : ""}
                     />
                   </Grid>
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={4} md={3}>
                     <TextField
                       name="minThreshold"
                       type="number"
@@ -379,7 +383,7 @@ class EditProduct extends Component {
                     />
                   </Grid>
 
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={4} md={3}>
                     <TextField
                       name="maxThreshold"
                       type="number"
@@ -432,13 +436,14 @@ class EditProduct extends Component {
                     />
                   </Grid>
 
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <TextField
                       onChange={(e, masked) => setFieldValue("price", masked)}
                       error={touched.price && Boolean(errors.price)}
                       helperText={touched.price ? errors.price : ""}
                       onBlur={handleBlur}
                       value={values?.price}
+                      fullWidth
                       name="price"
                       label="Price*"
                       id="custom-price-input"
@@ -456,7 +461,7 @@ class EditProduct extends Component {
                     />
                   </Grid>
 
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <FormControl style={{ width: "100%" }}>
                       <InputLabel>Status*</InputLabel>
                       <Select
@@ -472,10 +477,10 @@ class EditProduct extends Component {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} md={4}>
+                  <Grid item xs={4} sm={4} md={4}>
                     <label
                       style={{
-                        marginBottom: "15px",
+                        marginBottom: "10px",
                         color: "#4054B2",
                         fontSize: "14px",
                       }}
@@ -492,22 +497,21 @@ class EditProduct extends Component {
                     >
                       {$imagePreview}
                       <br />
-                      <div style={{ marginTop: "10px" }}>
-                        <input
-                          type="file"
-                          className="custom-input"
-                          accept="image/gif,image/jpeg, image/png"
-                          onChange={(e) => this.handleImage(e, setFieldValue)}
-                        />
-                      </div>
-                    </div>
 
+                      <input
+                        type="file"
+                        className="custom-input"
+                        accept="image/gif,image/jpeg, image/png"
+                        onChange={(e) => this.handleImage(e, setFieldValue)}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
                     <Button
                       className="btn btn-green"
                       type="submit"
                       disabled={isSubmitting}
                       style={{
-                        marginTop: 25,
                         backgroundColor: "#4054B2",
                         color: "white",
                       }}
@@ -515,7 +519,6 @@ class EditProduct extends Component {
                       Save
                     </Button>
                     <Button
-                      style={{ marginTop: 25 }}
                       className="btn btn-red"
                       onClick={() => this.props.history.goBack()}
                     >

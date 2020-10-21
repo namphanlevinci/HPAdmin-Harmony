@@ -9,10 +9,13 @@ import {
   FormControl,
   InputLabel,
   Input,
+  Grid,
+  Button,
+  TextField,
 } from "@material-ui/core";
+import { CustomTitle, CustomText } from "../../../../../util/CustomText";
+
 import CustomCurrencyInput from "../../../../../util/CustomCurrencyInput";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -88,14 +91,12 @@ class EditSettings extends Component {
   render() {
     return (
       <div className="container-fluid ">
-        <h2 style={{ marginBottom: "10px" }}>Settings</h2>
+        <CustomTitle value="Settings" />
         <div className="general-content">
-          <h3 style={styles.h3}>
-            The charged percent fee of credit card transactions
-          </h3>
+          <CustomText value="The charged percent fee of credit card transactions" />
 
-          <div className="row">
-            <div className="col-4" style={styles.div}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControl>
                 <InputLabel htmlFor="formatted-text-mask-input">
                   Transactions Fee
@@ -113,9 +114,9 @@ class EditSettings extends Component {
                   inputComponent={CustomCurrencyInput}
                 />
               </FormControl>
-            </div>
+            </Grid>
 
-            <div className="col-4" style={styles.div}>
+            <Grid item xs={12} sm={6} md={4}>
               <TextField
                 label="Merchant Code"
                 type="text"
@@ -123,9 +124,9 @@ class EditSettings extends Component {
                 value={this.state.merchantCode}
                 onChange={this.handleChange}
               />
-            </div>
+            </Grid>
 
-            <div className="col-4" style={styles.div}>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControl>
                 <InputLabel htmlFor="formatted-text-mask-input">
                   Discount Rate
@@ -141,9 +142,9 @@ class EditSettings extends Component {
                   inputComponent={CustomCurrencyInput}
                 />
               </FormControl>
-            </div>
+            </Grid>
 
-            <div className="col-4" style={styles.div}>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControl>
                 <InputLabel htmlFor="formatted-text-mask-input">
                   Point Rate
@@ -159,8 +160,8 @@ class EditSettings extends Component {
                   inputComponent={CustomCurrencyInput}
                 />
               </FormControl>
-            </div>
-            <div className="col-4" style={styles.div}>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControl>
                 <InputLabel htmlFor="formatted-text-mask-input">
                   Turn Amount
@@ -175,20 +176,19 @@ class EditSettings extends Component {
                   inputComponent={CustomCurrencyInput}
                 />
               </FormControl>
-            </div>
-          </div>
-          <br />
-        </div>
-        <div className="SettingsContent general-content">
-          <Button
-            className="btn btn-green"
-            onClick={this.updateMerchantSetting}
-          >
-            SAVE
-          </Button>
-          <Button className="btn btn-red" onClick={this.goBack}>
-            CANCEL
-          </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                className="btn btn-green"
+                onClick={this.updateMerchantSetting}
+              >
+                SAVE
+              </Button>
+              <Button className="btn btn-red" onClick={this.goBack}>
+                CANCEL
+              </Button>
+            </Grid>
+          </Grid>
         </div>
       </div>
     );
@@ -210,23 +210,3 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(EditSettings);
-
-const styles = {
-  div: {
-    marginBottom: "10px",
-  },
-  p: { fontWeight: 400, color: "black" },
-  Form: {
-    padding: "25px",
-    textAlign: "center",
-  },
-  btnDiv: {
-    marginTop: "10px",
-  },
-  label: {
-    fontSize: "13px",
-  },
-  h3: {
-    padding: "15px 0px",
-  },
-};

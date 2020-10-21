@@ -23,7 +23,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 function General(props) {
   const {
     uploadFile,
-    imagePreviewUrl,
     setFieldValue,
     showPin,
     handleShowPin,

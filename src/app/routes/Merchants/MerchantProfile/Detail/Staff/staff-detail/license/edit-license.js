@@ -155,9 +155,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditLicense);
-
-const styles = {
-  div: {
-    paddingTop: "10px",
-  },
-};

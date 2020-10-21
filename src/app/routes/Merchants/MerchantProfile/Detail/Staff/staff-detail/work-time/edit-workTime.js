@@ -443,9 +443,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditWorkTime);
-
-const style = {
-  col2: {
-    paddingLeft: "5px",
-  },
-};
