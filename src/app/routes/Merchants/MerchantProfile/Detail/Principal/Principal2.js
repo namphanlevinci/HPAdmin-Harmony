@@ -65,13 +65,11 @@ class PrincipalInfo extends Component {
           </Grid>
           <Grid item xs={4}>
             <CustomTextLabel value="Social Security Number* (SSN)" />
-
             <NumberFormat
               value={e.ssn}
               displayType={"text"}
               thousandSeparator={true}
-              p
-              format="###-##-####"
+              format="***-**-####"
               mask="_"
               renderText={(value) => <CustomText value={value} />}
             />
@@ -152,12 +150,13 @@ class PrincipalInfo extends Component {
                     <CustomText value={e?.stateName} />
                   </Grid>
 
-                  <Grid item xs={4}>
+                  <Grid item xs={6}>
                     <CustomTextLabel value="Driver License Number*" />
                     <CustomText value={e.driverNumber} />
                   </Grid>
+
                   {e?.ImageUrl !== null ? (
-                    <Grid item xs={6}>
+                    <Grid item xs={4} lg={3}>
                       <CustomTextLabel value="Driver License Picture*" />
                       <img
                         className="bankVoid"

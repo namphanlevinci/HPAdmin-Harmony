@@ -259,10 +259,10 @@ class General extends Component {
                         onlyCountries={["us", "vn"]}
                         placeholder="Business Phone Number"
                         label="Business Phone*"
-                        name="businessPhone"
+                        name="phoneBusiness"
                         value={values.phoneBusiness}
                         onChange={(phone) =>
-                          setFieldValue(` phoneBusiness`, phone)
+                          setFieldValue(`phoneBusiness`, phone)
                         }
                       />
                     </Grid>
@@ -318,10 +318,10 @@ class General extends Component {
                         onlyCountries={["us", "vn"]}
                         label="Contact Phone Number*"
                         placeholder="Business Phone Number"
-                        name="businessPhone"
+                        name="phoneContact"
                         value={values.phoneContact}
                         onChange={(phone) =>
-                          setFieldValue({ phoneContact: phone })
+                          setFieldValue(`phoneContact`, phone)
                         }
                         error={errors?.phoneContact && touched?.phoneContact}
                         helperText={

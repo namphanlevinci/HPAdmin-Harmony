@@ -549,7 +549,13 @@ class EditPendingMerchant extends Component {
                             }
                           />
                         </Grid>
-                        <Grid item xs={4} style={{ paddingTop: "10px" }}>
+                        <Grid
+                          item
+                          xs={6}
+                          sm={4}
+                          lg={3}
+                          style={{ paddingTop: "10px" }}
+                        >
                           <label style={{ paddingBottom: "10px" }}>
                             Void Check*
                           </label>
@@ -769,7 +775,7 @@ class EditPendingMerchant extends Component {
                                         </Grid>
                                       </Grid>
                                       <Grid container spacing={6}>
-                                        <Grid item xs={12} sm={4}>
+                                        <Grid item xs={6} sm={4} lg={3}>
                                           <label>Driver License Picture*</label>
 
                                           <div
@@ -832,6 +838,9 @@ class EditPendingMerchant extends Component {
                                             container
                                             direction="row"
                                             alignItems="center"
+                                            style={{
+                                              marginTop: 20,
+                                            }}
                                           >
                                             <Grid item>
                                               <AddCircleIcon
@@ -849,6 +858,7 @@ class EditPendingMerchant extends Component {
                                               }
                                               style={{
                                                 marginBottom: "3px",
+                                                fontWeight: "600",
                                               }}
                                               className="add-principal"
                                             >

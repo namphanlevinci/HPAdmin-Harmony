@@ -336,26 +336,30 @@ export function* UPDATE_MERCHANT_PRINCIPAL_API(payload) {
     },
   };
   const {
-    Address,
-    FileId,
-    DriverNumber,
-    HomePhone,
-    MobilePhone,
-    StateId,
+    homePhone,
+    mobilePhone,
+    address,
+    stateId,
+    driverNumber,
+    fileId,
     email,
+    zip,
+    city,
     principalID,
   } = payload;
   const kq = yield axios
     .put(
       URL + `/merchant/principal/${principalID}`,
       {
-        Address,
-        FileId,
-        DriverNumber,
-        HomePhone,
-        MobilePhone,
-        StateId,
+        homePhone,
+        mobilePhone,
+        address,
+        stateId,
+        driverNumber,
+        fileId,
         email,
+        zip,
+        city,
       },
       config
     )

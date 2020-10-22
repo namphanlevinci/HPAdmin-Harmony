@@ -136,7 +136,7 @@ class MerchantRejectedProfile extends Component {
                   displayType={"text"}
                   thousandSeparator={true}
                   p
-                  format="###-##-####"
+                  format="***-**-####"
                   mask="_"
                   renderText={(value) => <CustomText value={value} />}
                 />

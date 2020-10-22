@@ -73,8 +73,7 @@ class MerchantApprovedProfile extends Component {
                   value={e.ssn}
                   displayType={"text"}
                   thousandSeparator={true}
-                  p
-                  format="###-##-####"
+                  format="***-**-####"
                   mask="_"
                   renderText={(value) => <CustomText value={value} />}
                 />

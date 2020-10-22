@@ -50,10 +50,11 @@ import * as typeNotification from "../../actions/notifications/types";
 //   });
 // }
 
-// UPDATE MERCHANT INFOR (GENERAL)
+// UPDATE MERCHANT INFO (GENERAL)
 export function* UPDATE_MERCHANT_SAGA() {
   yield takeLatest(typeMerchant.UPDATE_MERCHANT, function* (action) {
     const data = action.payload;
+
     try {
       const Result = yield UPDATE_MERCHANT_API(data);
       if (Result !== null) {
@@ -66,7 +67,7 @@ export function* UPDATE_MERCHANT_SAGA() {
           type: typeMerchant.GET_MERCHANT_BY_ID,
           payload: {
             ID: data.merchantId,
-            path: "/app/merchants/profile/general",
+            path: data.path ? data.path : "/app/merchants/profile/general",
           },
         });
       } else {

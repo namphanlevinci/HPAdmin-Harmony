@@ -109,15 +109,13 @@ class EditMerchantRejected extends Component {
                 validationSchema={validateSchema}
                 onSubmit={(values, { setSubmitting }) => {
                   const ID = this.props.MerchantProfile?.general?.generalId;
-                  const IDMerchant = this.props.MerchantProfile.merchantId;
-
-                  this.props.updateMerchant({ ...values, ID });
-                  setTimeout(() => {
-                    this.props.GET_MERCHANT_BY_ID({
-                      ID: IDMerchant,
-                      path: "/app/merchants/rejected/profile",
-                    });
-                  }, 1000);
+                  const merchantId = this.props.MerchantProfile.merchantId;
+                  this.props.updateMerchant({
+                    ...values,
+                    ID,
+                    merchantId,
+                    path: "/app/merchants/rejected/profile",
+                  });
                 }}
               >
                 {({
