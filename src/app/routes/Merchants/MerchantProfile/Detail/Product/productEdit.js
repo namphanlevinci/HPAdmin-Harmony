@@ -98,7 +98,7 @@ class EditProduct extends Component {
     let reader = new FileReader();
     let file = e?.target?.files[0];
 
-    if (file?.name.match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
+    if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       reader.onloadend = () => {
         this.setState({
           file: file,

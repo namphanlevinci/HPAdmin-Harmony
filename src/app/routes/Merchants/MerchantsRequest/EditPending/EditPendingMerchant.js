@@ -60,7 +60,7 @@ class EditPendingMerchant extends Component {
     let file = e?.target?.files[0];
     // this.setState({ progress: true });
 
-    if (file?.name.match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
+    if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       let formData = new FormData();
       formData.append("Filename3", file);
       const config = {

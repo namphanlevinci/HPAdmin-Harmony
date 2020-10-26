@@ -105,7 +105,7 @@ class EditUserProfile extends Component {
 
     const file = event?.target?.files[0];
 
-    if (file?.name.match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
+    if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       reader.onloadend = () => {
         this.setState({
           imagePreviewUrl: reader.result,

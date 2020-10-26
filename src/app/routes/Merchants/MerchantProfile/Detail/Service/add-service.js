@@ -108,7 +108,7 @@ class AddService extends Component {
     this.setState({ imageProgress: true });
     let file = e?.target?.files[0];
 
-    if (file?.name.match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
+    if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       let formData = new FormData();
       formData.append("Filename3", file);
       const config = {

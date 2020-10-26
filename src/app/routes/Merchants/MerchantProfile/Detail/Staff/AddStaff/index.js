@@ -93,7 +93,7 @@ class AddStaff extends Component {
     event.preventDefault();
     const file = event?.target?.files[0];
 
-    if (file?.name.match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
+    if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       this.setState({ progressLoading: true });
 
       let formData = new FormData();
