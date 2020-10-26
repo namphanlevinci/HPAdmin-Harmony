@@ -6,7 +6,6 @@ import {
   GET_MERCHANT_BY_ID,
 } from "../../../../../../actions/merchants/actions";
 import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
-
 import { Grid, Button, TextField } from "@material-ui/core";
 import {
   CustomText,
@@ -15,6 +14,7 @@ import {
 } from "../../../../../../util/CustomText";
 import { Formik } from "formik";
 
+import InputCustom from "../../../MerchantsList/addMerchant/custom-input";
 import CustomSelect from "../../../../../../util/getState";
 import LinearProgress from "../../../../../../util/linearProgress";
 import moment from "moment";
@@ -267,6 +267,7 @@ class EditPrincipal extends Component {
                   </Grid>
                   <Grid item xs={2}>
                     <TextField
+                      InputLabelProps={{ shrink: true }}
                       fullWidth
                       label="Zip"
                       name="zip"
@@ -276,6 +277,13 @@ class EditPrincipal extends Component {
                       style={styles.input}
                       error={errors.zip && touched.zip}
                       helperText={errors.zip && touched.zip ? errors.zip : ""}
+                      InputProps={{
+                        inputComponent: InputCustom,
+                      }}
+                      inputProps={{
+                        block: [5],
+                        numericOnly: true,
+                      }}
                     />
                   </Grid>
 

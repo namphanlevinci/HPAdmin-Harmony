@@ -125,7 +125,7 @@ class MerchantsList extends React.Component {
         id: "date",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
-            {moment(row.approvedDate).format("MM/DD/YYYY")}
+            {moment(row?.adminUser?.created_date).format("MM/DD/YYYY")}
           </Typography>
         ),
         width: 130,

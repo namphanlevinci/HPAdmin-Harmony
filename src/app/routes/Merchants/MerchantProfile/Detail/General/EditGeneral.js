@@ -238,7 +238,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={6} md={5}>
                       <TextField
                         name="emailContact"
                         label="Email Contact*"
@@ -254,11 +254,11 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={6} md={5}>
                       <MaterialUiPhoneNumber
                         onlyCountries={["us", "vn"]}
                         placeholder="Business Phone Number"
-                        label="Business Phone*"
+                        label="Business Phone Number*"
                         name="phoneBusiness"
                         value={values.phoneBusiness}
                         onChange={(phone) =>
