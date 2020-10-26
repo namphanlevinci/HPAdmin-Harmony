@@ -18,7 +18,7 @@
 // export const upFileUrl =
 //   "https://admin.harmonypayment.com/api/file?category=product";
 
-// Bruh
+// Bruh2
 
 const prod = {
   url: {
