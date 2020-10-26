@@ -4,6 +4,9 @@ import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions"
 
 import { Button, Grid, TextField } from "@material-ui/core";
 import { CustomTitle } from "../../../../../../../../util/CustomText";
+
+import InputCustom from "../../../../../MerchantsList/addMerchant/custom-input";
+
 export class EditLicense extends Component {
   constructor(props) {
     super(props);
@@ -95,16 +98,28 @@ export class EditLicense extends Component {
                     value={this.state.driverLicense}
                     onChange={this.handleChange}
                     fullWidth
+                    inputProps={{
+                      maxLength: 20,
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     margin="normal"
                     label="Social Security Number"
                     name="ssn"
                     value={this.state.ssn}
                     onChange={this.handleChange}
                     fullWidth
+                    InputProps={{
+                      inputComponent: InputCustom,
+                    }}
+                    inputProps={{
+                      block: [3, 2, 4],
+                      delimiter: "-",
+                      numericOnly: true,
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -115,6 +130,9 @@ export class EditLicense extends Component {
                     value={this.state.professionalLicense}
                     onChange={this.handleChange}
                     fullWidth
+                    inputProps={{
+                      maxLength: 20,
+                    }}
                   />
                 </Grid>
               </Grid>

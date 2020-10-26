@@ -156,7 +156,7 @@ class PrincipalInfo extends Component {
                   </Grid>
 
                   {e?.ImageUrl !== null ? (
-                    <Grid item xs={4} lg={3}>
+                    <Grid item xs={3} lg={3}>
                       <CustomTextLabel value="Driver License Picture*" />
                       <img
                         className="bankVoid"

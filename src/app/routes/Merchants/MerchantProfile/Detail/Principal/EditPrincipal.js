@@ -39,7 +39,6 @@ class EditPrincipal extends Component {
   }
 
   async componentDidMount() {
-    const data = this.props.principalData;
     await this.setState({
       loading: true,
     });
@@ -290,7 +289,7 @@ class EditPrincipal extends Component {
                       thousandSeparator={true}
                       format="***-**-####"
                       mask="_"
-                      renderText={(value) => <p>{value}</p>}
+                      renderText={(value) => <CustomText value={value} />}
                     />
                   </Grid>
                   <Grid item xs={4}>

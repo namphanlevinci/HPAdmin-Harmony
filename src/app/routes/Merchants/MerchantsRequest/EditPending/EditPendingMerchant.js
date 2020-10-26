@@ -968,12 +968,16 @@ const styles = {
 
 const validationSchema = Yup.object().shape({
   generalInfo: Yup.object().shape({
-    legalBusinessName: Yup.string().required("Business name is required"),
-    doBusinessName: Yup.string().required("Doing Business name is required"),
-    tax: Yup.string().required("Tax number is required"),
-    address: Yup.string().required("Address is required"),
-    city: Yup.string().required("City is required"),
-    zip: Yup.string().required("Zip is required"),
+    legalBusinessName: Yup.string()
+      .required("Business name is required")
+      .nullable(),
+    doBusinessName: Yup.string()
+      .required("Doing Business name is required")
+      .nullable(),
+    tax: Yup.string().required("Tax number is required").nullable(),
+    address: Yup.string().required("Address is required").nullable(),
+    city: Yup.string().required("City is required").nullable(),
+    zip: Yup.string().required("Zip is required").nullable(),
     dbaAddress: Yup.object().shape({
       Address: Yup.string().required("Address is required"),
       City: Yup.string().required("City is required"),
@@ -981,12 +985,15 @@ const validationSchema = Yup.object().shape({
     }),
     emailContact: Yup.string()
       .email("Email is not valid")
-      .required("Email is required"),
+      .required("Email is required")
+      .nullable(),
     phoneBusiness: Yup.string().required("Business phone number is required"),
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last name is required"),
-    title: Yup.string().required("Title/Position is required"),
-    phoneContact: Yup.string().required("Contact phone number is required"),
+    firstName: Yup.string().required("First Name is required").nullable(),
+    lastName: Yup.string().required("Last name is required").nullable(),
+    title: Yup.string().required("Title/Position is required").nullable(),
+    phoneContact: Yup.string()
+      .required("Contact phone number is required")
+      .nullable(),
   }),
   bankInfo: Yup.object().shape({
     name: Yup.string().required("Bank name is required"),

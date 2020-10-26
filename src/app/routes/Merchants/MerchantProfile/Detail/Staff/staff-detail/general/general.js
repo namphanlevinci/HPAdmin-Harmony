@@ -98,10 +98,9 @@ export class general extends Component {
           />
         </Grid>
         <Grid item xs={4}></Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3} lg={3}>
           <CustomTextLabel value="Avatar" />
           <img
-            alt="staff"
             src={Staff?.imageUrl}
             style={{
               width: "100%",
@@ -111,6 +110,7 @@ export class general extends Component {
               backgroundRepeat: "no-repeat",
               borderRadius: "50%",
             }}
+            alt="staff_avatar"
           />
         </Grid>
 

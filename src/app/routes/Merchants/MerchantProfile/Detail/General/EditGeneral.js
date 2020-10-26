@@ -264,6 +264,12 @@ class General extends Component {
                         onChange={(phone) =>
                           setFieldValue(`phoneBusiness`, phone)
                         }
+                        error={errors?.phoneBusiness && touched?.phoneBusiness}
+                        helperText={
+                          errors?.phoneBusiness && touched?.phoneBusiness
+                            ? errors?.phoneBusiness
+                            : ""
+                        }
                       />
                     </Grid>
 
@@ -368,6 +374,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);
 
+const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
 const validationSchema = Yup.object().shape({
   legalBusinessName: Yup.string().required("Business name is required"),
   doBusinessName: Yup.string().required("Doing Business name is required"),
@@ -383,9 +390,13 @@ const validationSchema = Yup.object().shape({
   emailContact: Yup.string()
     .email("Email is not valid")
     .required("Email is required"),
-  phoneBusiness: Yup.string().required("Business phone number is required"),
+  phoneBusiness: Yup.string()
+    .matches(phoneRegExp, "Invalid phone number")
+    .required("Business phone is required"),
   firstName: Yup.string().required("First Name is required"),
   lastName: Yup.string().required("Last name is required"),
   title: Yup.string().required("Title/Position is required"),
-  phoneContact: Yup.string().required("Contact phone number is required"),
+  phoneContact: Yup.string()
+    .matches(phoneRegExp, "Invalid phone number")
+    .required("Phone is required"),
 });

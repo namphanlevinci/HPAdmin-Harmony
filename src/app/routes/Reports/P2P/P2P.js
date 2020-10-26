@@ -155,9 +155,8 @@ class P2P extends React.Component {
             pageSize: 5,
           });
         } else {
-          this.setState({ data: [] });
+          this.setState({ data: [], loading: false });
         }
-        this.setState({ loading: false });
       });
   };
 
@@ -185,7 +184,7 @@ class P2P extends React.Component {
         id: "createDate",
         Header: "Date/time",
         accessor: (e) => {
-          return moment.utc(e.createdDate).local().format("MM/DD/YYYY hh:mm A");
+          return moment.utc(e.createDate).local().format("MM/DD/YYYY hh:mm A");
         },
       },
       {
