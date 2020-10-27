@@ -21,7 +21,7 @@ import { FaPen } from "react-icons/fa";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, Avatar } from "@material-ui/core";
 import moment from "moment";
 import axios from "axios";
 
@@ -217,14 +217,14 @@ class EditUserProfile extends Component {
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (
-        <img src={imagePreviewUrl} alt="avatar" className="admin-avatar" />
+        <Avatar src={imagePreviewUrl} alt="avatar" className="admin-avatar" />
       );
     } else {
       $imagePreview =
         e.imageUrl !== null ? (
-          <img src={e.imageUrl} alt="avatar" className="admin-avatar" />
+          <Avatar src={e.imageUrl} alt="avatar" className="admin-avatar" />
         ) : (
-          <img
+          <Avatar
             src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
             alt="avatar"
             className="admin-avatar"
@@ -242,7 +242,7 @@ class EditUserProfile extends Component {
           <Grid
             container
             spacing={3}
-            className="justify-content-md-center admin_profile page-heading"
+            className="admin_profile page-heading"
             style={{ minHeight: "500px" }}
           >
             <Grid item xs={3} className="text-center">

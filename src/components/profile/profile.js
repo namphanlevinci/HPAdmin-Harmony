@@ -15,7 +15,7 @@ import {
 } from "react-router-dom";
 import { GiCheckedShield } from "react-icons/gi";
 import { FaPen } from "react-icons/fa";
-import { Grid } from "@material-ui/core";
+import { Grid, Avatar } from "@material-ui/core";
 
 import IntlMessages from "../../util/IntlMessages";
 import ContainerHeader from "../../components/ContainerHeader/index";
@@ -235,17 +235,17 @@ class proFile extends Component {
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (
-        <img src={imagePreviewUrl} alt="avatar" className="admin-avatar" />
+        <Avatar src={imagePreviewUrl} alt="avatar" style={styles.avatar} />
       );
     } else {
       $imagePreview =
         e?.imageUrl !== null ? (
-          <img src={e.imageUrl} alt="avatar" className="admin-avatar" />
+          <Avatar src={e.imageUrl} alt="avatar" style={styles.avatar} />
         ) : (
-          <img
+          <Avatar
             src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
             alt="avatar"
-            className="admin-avatar"
+            style={styles.avatar}
           />
         );
     }
@@ -262,7 +262,8 @@ class proFile extends Component {
           />
           <Grid
             container
-            className="row justify-content-md-center admin_profile page-heading"
+            spacing={3}
+            className="admin_profile page-heading"
             style={{ minHeight: "500px", paddingTop: "50px" }}
           >
             <Grid item xs={3}>
@@ -292,7 +293,6 @@ class proFile extends Component {
                   </div>
                 </NavLink>
 
-                {/* <br /> */}
                 <NavLink
                   to="/app/profile/password"
                   activeStyle={{
@@ -309,13 +309,13 @@ class proFile extends Component {
                 </NavLink>
               </div>
             </Grid>
-            <div className="col-9" style={{ paddingLeft: "30px" }}>
-              <div className="row">
-                <div className="col-4">
+            <Grid item xs={9} style={{ paddingLeft: "30px" }}>
+              <Grid container>
+                <Grid item xs={4}>
                   <h1>{e?.firstName + " " + e.lastName}</h1>
                   <h4>{e?.roleName}</h4>
-                </div>
-                <div className="col-8 admin-header-div">
+                </Grid>
+                <Grid item xs={8} className="col-8 admin-header-div">
                   <Button
                     className="btn btn-green"
                     style={styles.button}
@@ -332,8 +332,8 @@ class proFile extends Component {
                   >
                     SAVE
                   </Button>
-                </div>
-              </div>
+                </Grid>
+              </Grid>
 
               <hr />
               {this.state.loading && (
@@ -355,7 +355,7 @@ class proFile extends Component {
                   </Route>
                 </Switch>
               )}
-            </div>
+            </Grid>
           </Grid>
         </div>
       </Router>
@@ -407,5 +407,10 @@ const styles = {
     display: "flex",
     alignItems: "center",
     paddingBottom: "7px",
+  },
+  avatar: {
+    width: "100%",
+    height: "25vh",
+    borderRadius: "50%",
   },
 };

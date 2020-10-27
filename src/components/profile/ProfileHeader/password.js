@@ -15,7 +15,6 @@ function Password({
   handleChange,
   handleShowPassword,
 }) {
-  console.log("password", password);
   return (
     <div style={styles.div}>
       {/* <h2 style={styles.h2}>Current Password</h2>

@@ -6,13 +6,17 @@ import {
   DISABLE_USER,
   ENABLE_USER,
 } from "../../../../actions/user/actions";
-import { Grid } from "@material-ui/core";
-
+import { Grid, Avatar } from "@material-ui/core";
+import { config } from "../../../../url/url";
+import {
+  CustomTitle,
+  CustomText,
+  CustomTextLabel,
+} from "../../../../util/CustomText";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
-import { config } from "../../../../url/url";
 import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 
@@ -45,7 +49,6 @@ class UserProfile extends Component {
       .get(URL + "/adminuser/" + ID, config)
       .then((res) => {
         this.props.VIEW_PROFILE_USER(res.data.data);
-        // this.forceUpdate();
         this.props.history.push("/app/accounts/admin/profile");
       })
       .catch((err) => {
@@ -89,23 +92,26 @@ class UserProfile extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
         />
-        <Grid container spacing={3} className=" admin_profile page-heading">
+        <Grid container spacing={3} className="admin_profile page-heading">
           <Grid item xs={3}>
             {e?.imageUrl !== null ? (
-              <img src={e?.imageUrl} alt="avatar" className="admin-avatar" />
+              <Avatar src={e?.imageUrl} alt="avatar" style={styles.avatar} />
             ) : (
-              <img
+              <Avatar
                 src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
                 alt="avatar"
-                className="admin-avatar"
+                style={styles.avatar}
               />
             )}
           </Grid>
           <Grid item xs={9} style={{ paddingLeft: "55px" }}>
             <Grid container spacing={3}>
               <Grid item xs={4}>
-                <h1>{e?.firstName + " " + e?.lastName}</h1>
-                <h4>{e?.roleName}</h4>
+                <CustomTitle
+                  value={e?.firstName + " " + e?.lastName}
+                  styles={{ color: "black", fontSize: "26px" }}
+                />
+                <CustomTitle value={e?.roleName} />
                 <hr />
               </Grid>
               <Grid item xs={8} className="admin-header-div">
@@ -128,24 +134,26 @@ class UserProfile extends Component {
                   </Button>
                 )}
               </Grid>
+              <Grid item xs={12}>
+                <CustomTitle value="Contact Information" />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Phone:" />
+                <CustomText value={e?.phone} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Address:" />
+                <CustomText value={e?.address} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Email:" />
+                <CustomText value={e?.email} />
+              </Grid>
+              <Grid item xs={12}>
+                <CustomTitle value="Basic Information" />
+              </Grid>
             </Grid>
 
-            <h2>Contact Information</h2>
-            <div className="row">
-              <div className="col-3">
-                <label>Phone:</label>
-                <p style={styles.p}>{e?.phone}</p>
-              </div>
-              <div className="col-4">
-                <label>Address:</label>
-                <p style={styles.p}>{e?.address}</p>
-              </div>
-              <div className="col-5">
-                <label>Email:</label>
-                <p style={styles.p}>{e?.email}</p>
-              </div>
-            </div>
-            <h2>Basic Information</h2>
             <div className="row">
               <div className="col-12">
                 <label>Date of Birth:</label>
@@ -196,5 +204,10 @@ const styles = {
   button: {
     padding: "3px 20px",
     height: "40px",
+  },
+  avatar: {
+    width: "100%",
+    height: "25vh",
+    borderRadius: "50%",
   },
 };

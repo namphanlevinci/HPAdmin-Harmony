@@ -1,5 +1,5 @@
 .UserProfile {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 .UserSearchBox {
   display: flex;
@@ -22,8 +22,7 @@
 
 .admin-avatar {
   width: 100%;
-  height: auto;
-  max-width: 720px;
+  height: 25vh;
   background-position: center;
 }
 .admin_profile h1 {
@@ -32,17 +31,17 @@
   color: #252525;
   letter-spacing: 30;
 }
-.admin_profile  h4 {
+.admin_profile h4 {
   font-weight: 400;
   font-size: 20px;
   color: #4251af;
 }
 
-.admin_profile  h2 {
+.admin_profile h2 {
   font-weight: 400;
   font-size: 18px;
   color: #4251af;
-  padding: 25px 0px
+  padding: 25px 0px;
 }
 
 .admin_profile label {
@@ -53,11 +52,8 @@
   color: red;
 }
 .admin_profile button:hover {
-
   background: #4251af;
-
 }
-
 
 .admin_profile table {
   font-family: arial, sans-serif;
@@ -74,8 +70,8 @@ th {
   padding: 6px 0px;
 }
 
- input {
-  width: 100% ;
+input {
+  width: 100%;
   font-weight: 400;
   color: #000000;
   border: none;
@@ -84,18 +80,14 @@ th {
   font-size: 16px;
 }
 
- input:focus {
+input:focus {
   outline: none;
   border-color: #4251af;
 }
 
 .react-tel-input {
-  margin-top: 0 !important
+  margin-top: 0 !important;
 }
-
-
-
-
 
 .admin_profile .Birthday::placeholder {
   text-align: center;
@@ -110,7 +102,6 @@ th {
   justify-content: flex-end;
   max-height: 50px;
 }
-
 
 .admin-header-div button.btn {
   /* display: inline-block; */
@@ -146,7 +137,7 @@ th {
 }
 
 .admin-header-div button.btn.btn-green:hover {
-  background-color:  white;
+  background-color: white;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -162,22 +153,21 @@ th {
   color: #4251af;
 }
 
-.admin-header-div  button.btn.btn-red {
+.admin-header-div button.btn.btn-red {
   /* background-color: #fff; */
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: white;
-  background-color: #4251af; 
-
+  background-color: #4251af;
 }
 
-.admin-header-div  button.btn.btn-red:hover {
-  background-color:  #4251af; 
+.admin-header-div button.btn.btn-red:hover {
+  background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
-.admin-header-div  button.btn.btn-red:active {
-  background-color: #4251af; 
+.admin-header-div button.btn.btn-red:active {
+  background-color: #4251af;
   border-color: rgba(0, 0, 0, 0.9);
 }
 
@@ -186,7 +176,6 @@ th {
   /* width: 100px; */
   height: 34px;
   overflow: hidden;
-  
 }
 
 .custom-input:before {
@@ -194,21 +183,18 @@ th {
   height: 32px;
   font-size: 16px;
   line-height: 32px;
-  content: 'Upload';
+  content: "Upload";
   font-weight: 400;
   display: inline-block;
   background: white;
   border: 1px solid #cccccc;
   padding: 0 10px;
   text-align: center;
-
-
 }
 
 .custom-input::-webkit-file-upload-button {
   visibility: hidden;
 }
-
 
 .spinning {
   position: fixed;
@@ -216,7 +202,7 @@ th {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-} 
+}
 
 .UserProfile .nav-btn {
   text-align: start;
@@ -241,16 +227,13 @@ th {
 }
 
 .user_table .ReactTable .rt-thead .rt-tr {
-  background: #4251af
+  background: #4251af;
 }
 .user_table .ReactTable .rt-tbody .rt-td p {
   font-weight: 400;
 }
 
-
-
-
-@media (min-width: 1281px) {
+/* @media (min-width: 1281px) {
   .admin-avatar {
     width: 244px;
     height: 244px;
@@ -262,4 +245,4 @@ th {
     width: 222px;
     height: 222px;
   }
-}
+} */
