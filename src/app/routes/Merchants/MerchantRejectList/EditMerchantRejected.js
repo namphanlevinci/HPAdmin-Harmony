@@ -100,6 +100,7 @@ class EditMerchantRejected extends Component {
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.editRejectedMerchant" />}
+          disableBreadcrumb={true}
         />
         <div className="content-body reject-info page-heading">
           {this.state.loading && (
@@ -227,7 +228,7 @@ class EditMerchantRejected extends Component {
                           }
                         />
                       </Grid>
-                      <Grid item xs={3} style={{ marginTop: "13px" }}>
+                      <Grid item xs={3} style={{ marginTop: "9px" }}>
                         <CustomSelect
                           name="state"
                           margin="normal"
@@ -302,7 +303,7 @@ class EditMerchantRejected extends Component {
                         />
                       </Grid>
 
-                      <Grid item xs={3} style={{ marginTop: "13px" }}>
+                      <Grid item xs={3} style={{ marginTop: "9px" }}>
                         <CustomSelect
                           name={`dbaAddress.State`}
                           margin="normal"

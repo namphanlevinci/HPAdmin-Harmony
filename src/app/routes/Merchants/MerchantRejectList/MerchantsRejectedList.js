@@ -117,7 +117,7 @@ class MerchantsRequest extends Component {
         id: "date",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
-            {moment(row?.approvedDate).format("MM/DD/YYYY")}
+            {moment(row?.adminUser?.created_date).format("MM/DD/YYYY")}
           </Typography>
         ),
       },
@@ -180,7 +180,6 @@ class MerchantsRequest extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            // this.merchantProfile(rowInfo.original.merchantId);
             this.props.GET_MERCHANT_BY_ID({
               ID: rowInfo.original.merchantId,
               path: "/app/merchants/rejected/profile",
