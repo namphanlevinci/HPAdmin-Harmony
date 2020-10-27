@@ -121,9 +121,9 @@ h4 {
   font-weight: 300;
   color: #000000;
   border: none;
-  /* border-bottom: 2px solid #dcdcdc; */
   margin: 0px;
   font-size: 16px;
+  padding-bottom: 2px;
 }
 
 .content-list .content-body input:focus {
@@ -171,7 +171,7 @@ h4 {
   visibility: hidden;
 }
 
-.pending_status  {
+.pending_status {
   max-width: 160px !important;
   background-color: #4251af;
   text-align: center;
@@ -182,7 +182,7 @@ h4 {
   color: white;
 }
 
-.pending_status  > .status_select {
+.pending_status > .status_select {
   color: white;
   width: 130px;
 
@@ -195,7 +195,6 @@ h4 {
 }
 
 .pending_status {
-  
   margin-bottom: 15px;
 }
 .pending_status .MuiSelect-icon {
@@ -234,9 +233,8 @@ h4 {
   cursor: pointer;
   font-weight: 500;
   margin-right: 5px;
-}   
+}
 .add-principal:hover {
- 
   font-weight: 700;
 }
 .remove-principal {

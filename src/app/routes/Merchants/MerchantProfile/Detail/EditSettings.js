@@ -95,7 +95,7 @@ class EditSettings extends Component {
         <div className="general-content">
           <CustomText value="The charged percent fee of credit card transactions" />
 
-          <Grid container spacing={3}>
+          <Grid container spacing={3} style={{ paddingTop: "10px" }}>
             <Grid item xs={12} sm={6} md={4}>
               <FormControl>
                 <InputLabel htmlFor="formatted-text-mask-input">

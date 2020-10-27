@@ -247,7 +247,7 @@ class Settings extends Component {
           <CustomTitle value="Settings" />
           <CustomText value="The charged percent fee of credit card transactions" />
 
-          <Grid container spacing={3}>
+          <Grid container spacing={3} style={{ paddingTop: "10px" }}>
             <Grid item xs={6} md={4}>
               <TextField
                 label="Transactions Fee"
@@ -303,6 +303,10 @@ class Settings extends Component {
               <TextField label="Turn Amount" disabled value={data.turnAmount} />
             </Grid>
             <Grid item xs={12}>
+              {/* <Grid container spacing={3}>
+                  <Grid item auto></Grid>
+                </Grid> */}
+
               {CheckPermissions("edit-setting") && (
                 <Button className="btn btn-green" onClick={this._gotoEdit}>
                   EDIT
@@ -310,6 +314,14 @@ class Settings extends Component {
               )}
 
               {CheckPermissions("active-merchant") && MerchantStatus}
+
+              {/* <Button className="btn btn-green" onClick={this._gotoEdit}>
+                DOWNLOAD TEMPLATE
+              </Button>
+
+              <Button className="btn btn-green" onClick={this._gotoEdit}>
+                ADD TEMPLATE
+              </Button> */}
             </Grid>
           </Grid>
           <br />
