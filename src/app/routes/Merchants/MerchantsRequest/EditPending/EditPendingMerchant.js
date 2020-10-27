@@ -358,14 +358,14 @@ class EditPendingMerchant extends Component {
                           {this.state.loading && (
                             <div>
                               <CustomSelect
-                                name={`generalInfo.dbaAddress?.State`}
+                                name={`generalInfo.dbaAddress.State`}
                                 label="State Issued*"
                                 initialValue={
                                   values?.generalInfo?.dbaAddress?.State
                                 }
                                 handleChange={(e) =>
                                   setFieldValue(
-                                    `generalInfo.dbaAddress?.State`,
+                                    `generalInfo.dbaAddress.State`,
                                     e.target.value
                                   )
                                 }
