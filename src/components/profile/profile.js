@@ -235,14 +235,14 @@ class proFile extends Component {
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (
-        <Avatar src={imagePreviewUrl} alt="avatar" style={styles.avatar} />
+        <img src={imagePreviewUrl} alt="avatar" style={styles.avatar} />
       );
     } else {
       $imagePreview =
         e?.imageUrl !== null ? (
-          <Avatar src={e.imageUrl} alt="avatar" style={styles.avatar} />
+          <img src={e.imageUrl} alt="avatar" style={styles.avatar} />
         ) : (
-          <Avatar
+          <img
             src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
             alt="avatar"
             style={styles.avatar}
@@ -266,9 +266,9 @@ class proFile extends Component {
             className="admin_profile page-heading"
             style={{ minHeight: "500px", paddingTop: "50px" }}
           >
-            <Grid item xs={3}>
+            <Grid item xs={3} className="text-center">
               {$imagePreview}
-              <div style={{ paddingTop: "10px" }}>
+              <div style={{ paddingTop: "20px" }}>
                 <input
                   type="file"
                   name="image"
@@ -409,8 +409,9 @@ const styles = {
     paddingBottom: "7px",
   },
   avatar: {
-    width: "100%",
-    height: "25vh",
+    width: "255px",
+    height: "255px",
+    textAlign: "center",
     borderRadius: "50%",
   },
 };

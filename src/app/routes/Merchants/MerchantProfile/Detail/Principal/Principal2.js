@@ -154,7 +154,6 @@ class PrincipalInfo extends Component {
                     <CustomTextLabel value="Driver License Number*" />
                     <CustomText value={e.driverNumber} />
                   </Grid>
-
                   {e?.ImageUrl !== null ? (
                     <Grid item xs={3} lg={3}>
                       <CustomTextLabel value="Driver License Picture*" />

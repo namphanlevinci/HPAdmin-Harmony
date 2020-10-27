@@ -93,11 +93,11 @@ class UserProfile extends Component {
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
         />
         <Grid container spacing={3} className="admin_profile page-heading">
-          <Grid item xs={3}>
+          <Grid item xs={3} className="text-center">
             {e?.imageUrl !== null ? (
-              <Avatar src={e?.imageUrl} alt="avatar" style={styles.avatar} />
+              <img src={e?.imageUrl} alt="avatar" style={styles.avatar} />
             ) : (
-              <Avatar
+              <img
                 src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
                 alt="avatar"
                 style={styles.avatar}
@@ -206,8 +206,9 @@ const styles = {
     height: "40px",
   },
   avatar: {
-    width: "100%",
-    height: "25vh",
+    width: "255px",
+    height: "255px",
+    textAlign: "center",
     borderRadius: "50%",
   },
 };

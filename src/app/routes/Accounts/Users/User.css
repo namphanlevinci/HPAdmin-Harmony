@@ -224,7 +224,7 @@ input:focus {
 
 .user_table .tr {
   margin-top: 10px;
-  margin-left: 8px;
+  margin-left: 8px !important;
 }
 
 .user_table .ReactTable .rt-thead .rt-tr {
