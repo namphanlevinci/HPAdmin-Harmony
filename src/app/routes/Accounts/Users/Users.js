@@ -9,9 +9,9 @@ import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
 import { FAILURE_NOTIFICATION } from "../../../../actions/notifications/actions";
-
+import { CustomTableHeader } from "../../../../util/CustomText";
 import ReactTable from "react-table";
-import Button from "@material-ui/core/Button";
+import { Button, Typography } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
@@ -111,11 +111,14 @@ class Users extends Component {
 
     const columns = [
       {
-        Header: "ID",
+        Header: <CustomTableHeader value="ID" />,
         id: "id",
         accessor: (row) => (
           <div className="tr">
-            <p>{`${row.waUserId}`}</p>
+            <Typography
+              variant="subtitle1"
+              className="table__light"
+            >{`${row.waUserId}`}</Typography>
           </div>
         ),
         width: 70,
@@ -132,37 +135,49 @@ class Users extends Component {
       },
       {
         id: "Name",
-        Header: "Full name",
+        Header: <CustomTableHeader value="Full name" />,
         accessor: (row) => (
           <div className="tr">
-            <p>{`${row.firstName} ${row.lastName}`}</p>
+            <Typography
+              variant="subtitle1"
+              className="table__light"
+            >{`${row.firstName} ${row.lastName}`}</Typography>
           </div>
         ),
       },
       {
         id: "email",
-        Header: "Email",
+        Header: <CustomTableHeader value="Email" />,
         accessor: (row) => (
           <div className="tr">
-            <p>{`${row.email}`}</p>
+            <Typography
+              variant="subtitle1"
+              className="table__light"
+            >{`${row.email}`}</Typography>
           </div>
         ),
       },
       {
         id: "phoneNumber",
-        Header: "Phone number",
+        Header: <CustomTableHeader value="Phone number" />,
         accessor: (row) => (
           <div className="tr">
-            <p>{`${row.phone}`}</p>
+            <Typography
+              variant="subtitle1"
+              className="table__light"
+            >{`${row.phone}`}</Typography>
           </div>
         ),
       },
       {
         id: "Role",
-        Header: "Role",
+        Header: <CustomTableHeader value="Role" />,
         accessor: (row) => (
           <div className="tr">
-            <p>{`${row.roleName}`}</p>
+            <Typography
+              variant="subtitle1"
+              className="table__light"
+            >{`${row.roleName}`}</Typography>
           </div>
         ),
       },

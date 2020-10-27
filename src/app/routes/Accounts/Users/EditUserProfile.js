@@ -217,17 +217,17 @@ class EditUserProfile extends Component {
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (
-        <Avatar src={imagePreviewUrl} alt="avatar" className="admin-avatar" />
+        <Avatar src={imagePreviewUrl} alt="avatar" style={styles.avatar} />
       );
     } else {
       $imagePreview =
         e.imageUrl !== null ? (
-          <Avatar src={e.imageUrl} alt="avatar" className="admin-avatar" />
+          <Avatar src={e.imageUrl} alt="avatar" style={styles.avatar} />
         ) : (
           <Avatar
             src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
             alt="avatar"
-            className="admin-avatar"
+            style={styles.avatar}
           />
         );
     }
@@ -389,5 +389,10 @@ const styles = {
     display: "flex",
     alignItems: "center",
     padding: "10px 0px",
+  },
+  avatar: {
+    width: "100%",
+    height: "25vh",
+    borderRadius: "50%",
   },
 };
