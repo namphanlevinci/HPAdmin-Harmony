@@ -6,6 +6,7 @@ import {
   RESTORE_MERCHANT,
 } from "../../../../../actions/merchants/actions";
 import { withStyles } from "@material-ui/core/styles";
+import { WARNING_NOTIFICATION } from "../../../../../actions/notifications/actions";
 
 import {
   TextField,
@@ -21,10 +22,16 @@ import {
   CustomTextLabel,
 } from "../../../../../util/CustomText";
 
+import {
+  DownloadMerchantTemplateById,
+  AddMerchantTemplateById,
+} from "../../../../../actions/merchants/actions";
+
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckPermissions from "../../../../../util/checkPermission";
+import CustomProgress from "../../../../../util/CustomProgress";
 
 import "../MerchantProfile.css";
 import "../../MerchantsRequest/MerchantReqProfile.css";
@@ -43,7 +50,7 @@ class Settings extends Component {
   _gotoEdit = () => {
     this.props.history.push("/app/merchants/profile/settings/edit");
   };
-  async componentDidMount() {
+  componentDidMount() {
     const data = this.props.MerchantProfile;
 
     this.setState({
@@ -57,6 +64,22 @@ class Settings extends Component {
 
   handleOpenActive = () => {
     this.setState({ openActive: !this.state.openActive });
+  };
+
+  handleDownloadTemplate = async () => {
+    await this.props.downloadTemplate();
+  };
+
+  handleAddTemplate = async (e) => {
+    e.preventDefault();
+    let file = await e.target.files[0];
+    if (file?.name.toLowerCase().match(/\.(xlsx)$/)) {
+      this.props.addTemplate({ file, merchantId: this.state.ID });
+    } else {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    }
   };
 
   render() {
@@ -243,6 +266,8 @@ class Settings extends Component {
 
     return (
       <React.Fragment>
+        {this.props.AddMerchantTemplate.loading && <CustomProgress />}
+        {this.props.Template.loading && <CustomProgress />}
         <div className="container-fluid">
           <CustomTitle value="Settings" />
           <CustomText value="The charged percent fee of credit card transactions" />
@@ -315,13 +340,25 @@ class Settings extends Component {
 
               {CheckPermissions("active-merchant") && MerchantStatus}
 
-              {/* <Button className="btn btn-green" onClick={this._gotoEdit}>
+              <Button
+                className="btn btn-green"
+                onClick={this.handleDownloadTemplate}
+              >
                 DOWNLOAD TEMPLATE
               </Button>
 
-              <Button className="btn btn-green" onClick={this._gotoEdit}>
-                ADD TEMPLATE
-              </Button> */}
+              <div id="upload_button">
+                <label>
+                  <input
+                    type="file"
+                    accept=".xlsx"
+                    onChange={(e) => this.handleAddTemplate(e)}
+                  />
+                  <span style={{ margin: "0px" }} class="btn btn-green">
+                    ADD TEMPLATE
+                  </span>
+                </label>
+              </div>
             </Grid>
           </Grid>
           <br />
@@ -334,15 +371,24 @@ class Settings extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.MerchantReducer.MerchantData,
   userLogin: state.userReducer.User,
+  Template: state.downloadTemplate,
+  AddMerchantTemplate: state.addTemplate,
 });
-const mapDispatchToProps = (dispatch) => {
-  return {
-    ARCHIVE_MERCHANT: (payload) => {
-      dispatch(ARCHIVE_MERCHANT(payload));
-    },
-    RESTORE_MERCHANT: (ID) => {
-      dispatch(RESTORE_MERCHANT(ID));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  ARCHIVE_MERCHANT: (payload) => {
+    dispatch(ARCHIVE_MERCHANT(payload));
+  },
+  RESTORE_MERCHANT: (ID) => {
+    dispatch(RESTORE_MERCHANT(ID));
+  },
+  downloadTemplate: () => {
+    dispatch(DownloadMerchantTemplateById());
+  },
+  addTemplate: (payload) => {
+    dispatch(AddMerchantTemplateById(payload));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
+  },
+});
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

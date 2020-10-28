@@ -34,7 +34,11 @@ import Approved_Static from "./Reports/Approved";
 
 // Gift Card
 import GiftCardReducer from "./gift-card/gift-card.reducer";
-import MerchantReducer from "./Merchants/MerchantReducer";
+import {
+  downloadMerchantTemplateReducer,
+  MerchantReducer,
+  addMerchantTemplateReducer,
+} from "./Merchants/MerchantReducer";
 // Consumer
 import ConsumerReducer from "./Consumer/index";
 
@@ -68,4 +72,8 @@ export default (history) =>
     GiftCardReducer,
     MerchantReducer,
     ConsumerReducer,
+
+    // Merchant
+    downloadTemplate: downloadMerchantTemplateReducer,
+    addTemplate: addMerchantTemplateReducer,
   });

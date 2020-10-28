@@ -1,13 +1,12 @@
 import { applyMiddleware, compose, createStore } from "redux";
-import reducers from "../reducers/index";
 import { createBrowserHistory } from "history";
 import { routerMiddleware } from "connected-react-router";
+import { persistStore, persistReducer } from "redux-persist";
+
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "../sagas/index";
-import logger from "redux-logger";
-
-// redux-persist
-import { persistStore, persistReducer } from "redux-persist";
+import thunk from "redux-thunk";
+import reducers from "../reducers/index";
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
@@ -34,13 +33,12 @@ const sagaMiddleware = createSagaMiddleware();
 
 const persistedReducer = persistReducer(persistConfig, reducers(history));
 
-const middlewares = [sagaMiddleware, routeMiddleware];
+const middlewares = [sagaMiddleware, routeMiddleware, thunk];
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 let enhancers = [applyMiddleware(...middlewares)];
 
 if (process.env.NODE_ENV === "development") {
-  middlewares.push(logger);
   enhancers.push(
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );

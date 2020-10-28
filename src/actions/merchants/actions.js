@@ -1,4 +1,19 @@
 import * as types from "./types";
+import {
+  MERCHANT_ADD_TEMPLATE_REQUEST,
+  MERCHANT_ADD_TEMPLATE_SUCCESS,
+  MERCHANT_ADD_TEMPLATE_FAIL,
+  MERCHANT_DOWNLOAD_TEMPLATE_REQUEST,
+  MERCHANT_DOWNLOAD_TEMPLATE_SUCCESS,
+  MERCHANT_DOWNLOAD_TEMPLATE_FAIL,
+} from "../../constants/merchantConstants";
+
+import { FAILURE_NOTIFICATION } from "../../constants/notificationConstants";
+
+import axios from "axios";
+import { config } from "../../url/url";
+
+const URL = config.url.URL;
 
 export const SearchMerchants = (payload) => ({
   type: types.SearchMerchants,
@@ -301,3 +316,99 @@ export const UPDATE_MERCHANT_EXTRA = (payload) => ({
   type: types.UPDATE_MERCHANT_EXTRA,
   payload: payload,
 });
+
+// export const AddMerchantTemplateById = (id) => async (dispatch) => {
+//   try {
+//     dispatch({ type: MERCHANT_ADD_TEMPLATE_REQUEST });
+//     const { data } = await axios.put(`/api/customer/import/${merchantId}`);
+//   } catch (error) {}
+// };
+
+export const DownloadMerchantTemplateById = () => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: MERCHANT_DOWNLOAD_TEMPLATE_REQUEST });
+
+    const {
+      userReducer: {
+        User: { token },
+      },
+    } = getState();
+
+    const { data } = await axios.get(`${URL}/customer/import/template`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    dispatch({
+      type: MERCHANT_DOWNLOAD_TEMPLATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: MERCHANT_DOWNLOAD_TEMPLATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const AddMerchantTemplateById = ({ merchantId, file }) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: MERCHANT_ADD_TEMPLATE_REQUEST });
+
+    const {
+      userReducer: {
+        User: { token },
+      },
+    } = getState();
+
+    let formData = new FormData();
+    formData.append("customer-template", file);
+
+    const { data } = await axios.put(
+      `${URL}/customer/import/${merchantId}`,
+      formData,
+      {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: MERCHANT_ADD_TEMPLATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: MERCHANT_ADD_TEMPLATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

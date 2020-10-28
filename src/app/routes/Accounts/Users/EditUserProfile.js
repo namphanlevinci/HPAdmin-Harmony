@@ -21,7 +21,7 @@ import { FaPen } from "react-icons/fa";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import { Button, Grid, Avatar } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import moment from "moment";
 import axios from "axios";
 

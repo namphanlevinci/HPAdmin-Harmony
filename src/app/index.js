@@ -27,6 +27,7 @@ import Business from "./routes/Business/Business";
 import Consumers from "./routes/Consumers/index";
 import Reports from "./routes/Reports/Reports";
 import GiftCard from "./routes/gift-card/index";
+
 class App extends React.Component {
   constructor(props) {
     super(props);

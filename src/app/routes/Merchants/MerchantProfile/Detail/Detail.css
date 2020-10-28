@@ -413,3 +413,11 @@ label {
 .MuiInput-underline:before {
   border-bottom : 1px solid #dcdcdc !important;
 }
+
+
+#upload_button {
+  display: inline-block;
+}
+#upload_button input[type=file] {
+  display:none;
+}

@@ -6,7 +6,7 @@ import {
   DISABLE_USER,
   ENABLE_USER,
 } from "../../../../actions/user/actions";
-import { Grid, Avatar } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { config } from "../../../../url/url";
 import {
   CustomTitle,
