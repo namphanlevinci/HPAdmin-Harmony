@@ -34,8 +34,7 @@ import CheckPermissions from "../../../../../util/checkPermission";
 import CustomProgress from "../../../../../util/CustomProgress";
 
 import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
+import "../../PendingList/MerchantReqProfile.css";
 import "./Detail.css";
 
 class Settings extends Component {

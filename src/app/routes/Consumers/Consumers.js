@@ -12,7 +12,7 @@ import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
 
-import "../Merchants/MerchantsList/merchantsList.css";
+import "../Merchants/Merchants.css";
 import "./ConsumerProfile/Detail/Consumer.css";
 import "react-table/react-table.css";
 import "../Reports/Transactions/Transactions.css";

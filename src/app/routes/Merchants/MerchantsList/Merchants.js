@@ -26,9 +26,8 @@ import axios from "axios";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
 
-import "react-table/react-table.css";
-import "./merchantsList.css";
-import "../MerchantsRequest/MerchantReqProfile.css";
+import "../Merchants.css";
+import "../PendingList/MerchantReqProfile.css";
 
 const URL = config.url.URL;
 

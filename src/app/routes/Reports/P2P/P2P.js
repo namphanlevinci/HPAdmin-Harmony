@@ -16,7 +16,7 @@ import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
-import "../../Merchants/MerchantsList/merchantsList.css";
+import "../../Merchants/Merchants.css";
 
 const URL = config.url.URL;
 

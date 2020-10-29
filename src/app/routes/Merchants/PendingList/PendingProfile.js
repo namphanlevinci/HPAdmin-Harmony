@@ -38,7 +38,6 @@ import checkPermission from "../../../../util/checkPermission";
 import DialogContent from "@material-ui/core/DialogContent";
 import * as Yup from "yup";
 import CircularProgress from "@material-ui/core/CircularProgress";
-// import MyLoader from "../../../../util/ContentLoader";
 
 import "./MerchantReqProfile.css";
 
@@ -58,14 +57,6 @@ class MerchantReqProfile extends Component {
       openDelete: false,
       pendingStatus: true,
     };
-  }
-  handleChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
   }
 
   goBack = () => {

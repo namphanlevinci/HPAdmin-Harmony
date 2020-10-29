@@ -5,12 +5,10 @@ import PrivateRoute from "../../PrivateRoute";
 
 const Merchants = ({ match, location }) => {
   return (
-    // <CSSTransition timeout={300} classNames="fade">
     <div className="app-wrapper">
       <Switch>
         <Redirect exact from={`${match.url}/`} to={`${match.url}/`} />
 
-        {/* ADD MERCHANT V2 */}
         <PrivateRoute
           permissionID={12}
           path={`${match.url}/add`}
@@ -45,7 +43,7 @@ const Merchants = ({ match, location }) => {
         <Route
           path={`${match.url}/approved/profile`}
           component={asyncComponent(() =>
-            import("./MerchantRejectList/MerchantApprovedProfile")
+            import("./ApprovedList/MerchantApprovedProfile")
           )}
         />
 
@@ -53,7 +51,7 @@ const Merchants = ({ match, location }) => {
           permissionID={7}
           path={`${match.url}/approved`}
           component={asyncComponent(() =>
-            import("./MerchantsList/merchantsList")
+            import("./ApprovedList/ApprovedList")
           )}
         />
 
@@ -61,42 +59,38 @@ const Merchants = ({ match, location }) => {
           permissionID={4}
           path={`${match.url}/pending/profile/edit`}
           component={asyncComponent(() =>
-            import("./MerchantsRequest/EditPending/EditPendingMerchant")
+            import("./PendingList/EditPendingProfile")
           )}
         />
         <Route
           path={`${match.url}/pending/profile`}
           component={asyncComponent(() =>
-            import("./MerchantsRequest/MerchantReqProfile")
+            import("./PendingList/PendingProfile")
           )}
         />
         <PrivateRoute
           permissionID={3}
           path={`${match.url}/pending`}
-          component={asyncComponent(() =>
-            import("./MerchantsRequest/MerchantsRequest")
-          )}
+          component={asyncComponent(() => import("./PendingList/PendingList"))}
         />
 
         <PrivateRoute
           permissionID={9}
           path={`${match.url}/rejected/profile/edit`}
           component={asyncComponent(() =>
-            import("./MerchantRejectList/EditMerchantRejected")
+            import("./RejectList/EditMerchantRejected")
           )}
         />
         <Route
           path={`${match.url}/rejected/profile`}
           component={asyncComponent(() =>
-            import("./MerchantRejectList/MerchantRejectedProfile")
+            import("./RejectList/MerchantRejectedProfile")
           )}
         />
         <PrivateRoute
           permissionID={8}
           path={`${match.url}/rejected`}
-          component={asyncComponent(() =>
-            import("./MerchantRejectList/MerchantsRejectedList")
-          )}
+          component={asyncComponent(() => import("./RejectList/RejectedList"))}
         />
         <Route
           path={`${match.url}/staff`}
@@ -106,7 +100,6 @@ const Merchants = ({ match, location }) => {
         />
       </Switch>
     </div>
-    // </CSSTransition>
   );
 };
 

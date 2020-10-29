@@ -20,12 +20,11 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import SimpleReactValidator from "simple-react-validator";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../util/getState";
-import InputCustom from "../MerchantsList/addMerchant/custom-input";
+import InputCustom from "../../../../util/CustomInput";
 import TextField from "@material-ui/core/TextField";
 
 import "../MerchantProfile/MerchantProfile.css";
-import "../MerchantsRequest/MerchantReqProfile.css";
-import "../MerchantsRequest/MerchantsRequest.css";
+import "../PendingList/MerchantReqProfile.css";
 import "./EditMerchant.css";
 import "../MerchantProfile/Detail/Detail.css";
 

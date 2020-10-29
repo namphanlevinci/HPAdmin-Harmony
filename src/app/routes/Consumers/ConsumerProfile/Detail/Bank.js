@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { ViewProfile_Merchants } from "../../../../../actions/merchants/actions";
 
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
+import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
 class Bank extends Component {
   constructor(props) {

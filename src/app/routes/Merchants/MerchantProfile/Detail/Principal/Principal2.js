@@ -13,9 +13,8 @@ import CheckPermissions from "../../../../../../util/checkPermission";
 import NumberFormat from "react-number-format";
 
 import "./principal.styles.scss";
-import "../../MerchantProfile?.css";
-import "../../../MerchantsRequest/MerchantReqProfile?.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
+import "../../MerchantProfile.css";
+import "../../../PendingList/MerchantReqProfile.css";
 class PrincipalInfo extends Component {
   constructor(props) {
     super(props);

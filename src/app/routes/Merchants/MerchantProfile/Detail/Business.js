@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Checkbox } from "@material-ui/core";
 import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
+import "../../PendingList/MerchantReqProfile.css";
 
 class Business extends Component {
   constructor(props) {

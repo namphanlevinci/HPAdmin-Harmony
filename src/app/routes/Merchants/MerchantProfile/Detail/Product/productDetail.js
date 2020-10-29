@@ -12,11 +12,9 @@ import ServiceImg from "./hpadmin2.png";
 
 import axios from "axios";
 
-import "react-table/react-table.css";
 import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
-import "../../../MerchantsList/merchantsList.css";
+import "../../../PendingList/MerchantReqProfile.css";
+import "../../../Merchants.css";
 import "../Detail.css";
 import "../Service/service.style.scss";
 

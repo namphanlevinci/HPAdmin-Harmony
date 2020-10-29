@@ -18,9 +18,8 @@ import {
 import axios from "axios";
 import "../Detail.css";
 import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
-import "../../../MerchantsList/merchantsList.css";
+import "../../../PendingList/MerchantReqProfile.css";
+import "../../../Merchants.css";
 import { config } from "../../../../../../url/url";
 
 import "./category.styles.scss";

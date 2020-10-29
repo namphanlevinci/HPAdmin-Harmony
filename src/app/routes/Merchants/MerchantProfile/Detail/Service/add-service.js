@@ -25,11 +25,9 @@ import Slide from "@material-ui/core/Slide";
 import LinearProgress from "../../../../../../util/linearProgress";
 import CurrencyInput from "react-currency-masked-input";
 
-import "react-table/react-table.css";
 import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
-import "../../../MerchantsList/merchantsList.css";
+import "../../../PendingList/MerchantReqProfile.css";
+import "../../../Merchants.css";
 import "../Detail.css";
 
 const colourStyles = {

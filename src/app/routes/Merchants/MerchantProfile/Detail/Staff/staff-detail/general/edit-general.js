@@ -16,7 +16,7 @@ import {
 import { Formik, Form } from "formik";
 import { CustomTitle } from "../../../../../../../../util/CustomText";
 
-import InputCustom from "../../../../../MerchantsList/addMerchant/custom-input";
+import InputCustom from "../../../../../../../../util/CustomInput";
 import * as Yup from "yup";
 import Select from "react-select";
 import selectState from "../../../../../../../../util/selectState";

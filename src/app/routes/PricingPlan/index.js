@@ -10,8 +10,8 @@ import ReactTable from "react-table";
 import axios from "axios";
 
 import "react-table/react-table.css";
-import "../Merchants/MerchantsList/merchantsList.css";
-import "../Merchants/MerchantsRequest/MerchantReqProfile.css";
+import "../Merchants/Merchants.css";
+import "../Merchants/PendingList/MerchantReqProfile.css";
 
 const URL = config.url.URL;
 

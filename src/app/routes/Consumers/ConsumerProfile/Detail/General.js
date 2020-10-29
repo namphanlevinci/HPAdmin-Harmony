@@ -16,8 +16,7 @@ import CheckPermissions from "../../../../../util/checkPermission";
 import DisableConsumer from "./DisableConsumer.js";
 
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
+import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
 
 class General extends Component {

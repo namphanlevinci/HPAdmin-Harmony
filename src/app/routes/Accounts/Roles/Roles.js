@@ -8,7 +8,6 @@ import {
 } from "../../../../actions/user/actions";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-// import ReactTable from "react-table";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -22,7 +21,7 @@ import Grid from "@material-ui/core/Grid";
 
 import "./Roles.scss";
 import "react-table/react-table.css";
-import "../../Merchants/MerchantsList/merchantsList.css";
+import "../../Merchants/Merchants.css";
 
 class Roles extends Component {
   constructor(props) {

@@ -48,8 +48,7 @@ import ExportSettlement from "./Detail/ExportSettlement/export-settlement";
 import CheckPermissions from "../../../../util/checkPermission";
 import PrivateRoute from "../../../PrivateRoute";
 
-import "../MerchantsRequest/MerchantReqProfile.css";
-import "../MerchantsRequest/MerchantsRequest.css";
+import "../PendingList/MerchantReqProfile.css";
 import "./MerchantProfile.css";
 import "bootstrap/js/src/collapse.js";
 

@@ -18,8 +18,7 @@ import { CustomTitle, CustomText } from "../../../../../util/CustomText";
 import CustomCurrencyInput from "../../../../../util/CustomCurrencyInput";
 
 import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
+import "../../PendingList/MerchantReqProfile.css";
 import "./Detail.css";
 
 class EditSettings extends Component {

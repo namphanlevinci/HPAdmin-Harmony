@@ -1,0 +1,47 @@
+.ReactTable .rt-thead .rt-th.-sort-asc,
+.ReactTable .rt-thead .rt-td.-sort-asc {
+  box-shadow: inset 0 3px 0 0 red !important;
+}
+.ReactTable .rt-thead .rt-th.-sort-desc,
+.ReactTable .rt-thead .rt-td.-sort-desc {
+  box-shadow: inset 0 -3px 0 0 red !important;
+}
+.ReactTable .rt-resizable-header-content {
+  font-weight: 400;
+  font-size: 16px;
+  padding: 10px 10px 10px 5px;
+  color: #fff;
+}
+/* .ReactTable .rt-thead .rt-tr {
+  text-align: start !important;
+} */
+.merchant .ReactTable .rt-tbody .rt-td {
+  color: #212121;
+  font-weight: 400;
+  font-size: 15px;
+  cursor: pointer;
+  padding-left: 13px;
+}
+
+
+.ReactTable .rt-tbody .rt-td p {
+  font-size: 15px;
+  margin-bottom: 0px !important;
+  font-weight: 300;
+}
+
+.ReactTable .rt-tr-group:nth-child(2n+1) {
+  background-color: #fafafa;
+}
+
+
+.ReactTable .-pagination .-btn:not([disabled]):hover {
+  background: #4251af !important;
+  color: white;
+  font-weight: 500;
+}
+.ReactTable .rt-thead .rt-th,
+.ReactTable .rt-thead .rt-td {
+  padding: 0px;
+  background: #4251af;
+}

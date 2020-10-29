@@ -20,7 +20,6 @@ import ScaleLoader from "../../../../../../util/scaleLoader";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import "react-table/react-table.css";
 import "../Detail.css";
 
 const URL = config.url.URL;

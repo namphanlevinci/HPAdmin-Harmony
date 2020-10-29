@@ -17,8 +17,7 @@ import ReactTable from "react-table";
 import moment from "moment";
 
 import "../Transactions/Transactions.css";
-import "../../Merchants/MerchantsList/merchantsList.css";
-import "../../Merchants/MerchantsList/merchantsList.css";
+import "../../Merchants/Merchants.css";
 import "react-table/react-table.css";
 import "./Batch.css";
 
@@ -106,12 +105,7 @@ class Transactions extends React.Component {
             Header: "",
             id: "dateTime",
             accessor: (e) => (
-              <p>
-                {moment
-                  .utc(e.settlementDate)
-                  .local()
-                  .format("LLL")}
-              </p>
+              <p>{moment.utc(e.settlementDate).local().format("LLL")}</p>
             ),
             width: 200,
           },

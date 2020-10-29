@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
+import React from "react";
 import { connect } from "react-redux";
+import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
 import {
@@ -12,24 +12,45 @@ import {
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 
-import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
+import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
 import moment from "moment";
 
+import "../Merchants.css";
 import "react-table/react-table.css";
-import "../MerchantsRequest/MerchantsRequest.css";
-import "../MerchantsList/merchantsList.css";
+
 const URL = config.url.URL;
-class MerchantsRequest extends Component {
+
+class MerchantsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       search: "",
+      loading: true,
+      // Pages
+      page: 0,
+      pageCount: 0,
+      data: [],
     };
   }
+
+  merchantProfile = (ID) => {
+    axios
+      .get(URL + "/merchant/" + ID, {
+        headers: {
+          Authorization: `Bearer ${this.props.userLogin.token}`,
+        },
+      })
+      .then((res) => {
+        if (Number(res.data.codeNumber) === 200) {
+          this.props.ViewProfile_Merchants(res.data.data);
+          this.props.history.push("/app/merchants/approved/profile");
+        }
+      });
+  };
 
   fetchData = async (state) => {
     let page = state?.page ? state?.page : 0;
@@ -38,7 +59,7 @@ class MerchantsRequest extends Component {
     await axios
       .get(
         URL +
-          `/merchant/reject?key=${this.state.search}&page=${
+          `/merchant/search?key=${this.state.search}&page=${
             page === 0 ? 1 : page + 1
           }&row=${pageSize}`,
         {
@@ -49,6 +70,7 @@ class MerchantsRequest extends Component {
       )
       .then((res) => {
         const data = res.data.data;
+
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,
@@ -75,23 +97,6 @@ class MerchantsRequest extends Component {
   _SearchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
-
-  //goto merchant profile
-  merchantProfile = (ID) => {
-    axios
-      .get(URL + "/merchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 200) {
-          this.props.ViewMerchant_Rejected_Merchants(res.data.data);
-          this.props.history.push("/app/merchants/rejected/profile");
-        }
-      });
-  };
-
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -101,10 +106,13 @@ class MerchantsRequest extends Component {
   };
 
   render() {
+    // approved merchant list
+    const { page, pageCount, data } = this.state;
+
     const columns = [
       {
         Header: <CustomTableHeader value="ID" />,
-        id: "id",
+        id: "merchantId",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
             {row?.merchantId}
@@ -113,25 +121,38 @@ class MerchantsRequest extends Component {
         width: 60,
       },
       {
-        Header: <CustomTableHeader value="Rejected Date" />,
+        Header: <CustomTableHeader value="Approved Date" />,
         id: "date",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
             {moment(row?.adminUser?.created_date).format("MM/DD/YYYY")}
           </Typography>
         ),
+        width: 130,
+      },
+      {
+        Header: <CustomTableHeader value="MID" />,
+        id: "mid",
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            {row?.merchantCode}
+          </Typography>
+        ),
       },
       {
         Header: <CustomTableHeader value="DBA" />,
         id: "general",
-        accessor: (e) => (
-          <Typography variant="subtitle1">{e?.businessName}</Typography>
+        accessor: "general",
+        Cell: (e) => (
+          <Typography variant="subtitle1">
+            {e?.value?.doBusinessName}
+          </Typography>
         ),
       },
       {
         id: "principals",
         Header: <CustomTableHeader value="Owner" />,
-        accessor: (e) => e.principals?.[0],
+        accessor: (e) => e.principals[0],
         Cell: (e) => (
           <Typography variant="subtitle1">
             {e?.value?.firstName + " " + e?.value?.lastName}
@@ -166,8 +187,8 @@ class MerchantsRequest extends Component {
         ),
       },
       {
-        id: "RejectedBy",
-        Header: <CustomTableHeader value="Rejected By" />,
+        id: "approvedBy",
+        Header: <CustomTableHeader value="Approved By" />,
         accessor: "adminUser",
         Cell: (e) => (
           <Typography variant="subtitle1" style={{ color: "#4251af" }}>
@@ -176,32 +197,29 @@ class MerchantsRequest extends Component {
         ),
       },
     ];
+
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.props.GET_MERCHANT_BY_ID({
-              ID: rowInfo.original.merchantId,
-              path: "/app/merchants/rejected/profile",
-            });
+            this.merchantProfile(rowInfo.original.merchantId);
           }
         },
       };
     };
-    const { page, pageCount, data } = this.state;
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Rejected Request | Harmony Admin</title>
+          <title>Approved Request | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.rejectedRequest" />}
+          title={<IntlMessages id="sidebar.dashboard.approvedRequest" />}
           disableBreadcrumb={true}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* SEARCH */}
             <FormControl>
               <OutlinedInput
                 inputProps={{
@@ -224,12 +242,15 @@ class MerchantsRequest extends Component {
               />
             </FormControl>
           </div>
+
           <div className="merchant-list-container">
             <ReactTable
               manual
+              sortable={false}
               page={page}
               pages={pageCount}
               data={data}
+              // You should also control this...
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={20}
@@ -250,8 +271,8 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  GET_MERCHANT_BY_ID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+  ViewProfile_Merchants: (payload) => {
+    dispatch(ViewProfile_Merchants(payload));
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);
+export default connect(mapStateToProps, mapDispatchToProps)(MerchantsList);

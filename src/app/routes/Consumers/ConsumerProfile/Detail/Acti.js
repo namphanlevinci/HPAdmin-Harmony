@@ -14,10 +14,9 @@ import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
+import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
-import "../../../Merchants/MerchantsList/merchantsList.css";
+import "../../../Merchants/Merchants.css";
 
 const URL = config.url.URL;
 

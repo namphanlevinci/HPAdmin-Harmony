@@ -5,7 +5,7 @@ import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions"
 import { Button, Grid, TextField } from "@material-ui/core";
 import { CustomTitle } from "../../../../../../../../util/CustomText";
 
-import InputCustom from "../../../../../MerchantsList/addMerchant/custom-input";
+import InputCustom from "../../../../../../../../util/CustomInput";
 
 export class EditLicense extends Component {
   constructor(props) {

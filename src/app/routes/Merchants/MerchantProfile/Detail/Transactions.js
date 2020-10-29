@@ -10,8 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import "../../../Accounts/Logs/Logs.css";
 import "react-day-picker/lib/style.css";
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
+import "../../../Merchants/PendingList/MerchantReqProfile.css";
 class Transactions extends Component {
   constructor(props) {
     super(props);
@@ -78,15 +77,9 @@ class Transactions extends Component {
     let renderConsumerName = this.state.data;
     if (this.state.from) {
       renderTable = renderTable.filter((datez) => {
-        let date = moment(datez.createdDate)
-          .subtract(10, "days")
-          .calendar();
-        let from = moment(modifiers.start)
-          .subtract(10, "days")
-          .calendar();
-        let to = moment(modifiers.end)
-          .subtract(10, "days")
-          .calendar();
+        let date = moment(datez.createdDate).subtract(10, "days").calendar();
+        let from = moment(modifiers.start).subtract(10, "days").calendar();
+        let to = moment(modifiers.end).subtract(10, "days").calendar();
 
         let date2 = moment(date).format("X");
         let from2 = moment(from).format("X");
@@ -127,12 +120,7 @@ class Transactions extends Component {
     const renderContent = renderTable.map((e) => {
       return (
         <tr key={e.customerMerchantTransactionId}>
-          <td>
-            {moment
-              .utc(e.createdDate)
-              .local()
-              .format("MM/DD/YYYY")}
-          </td>
+          <td>{moment.utc(e.createdDate).local().format("MM/DD/YYYY")}</td>
           <td>{e.customerMerchantTransactionId}</td>
           <td>
             {e.customer !== null

@@ -1,44 +1,41 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { config } from "../../../../../url/url";
-import { GET_MERCHANT_BY_ID } from "../../../../../actions/merchants/actions";
+import { config } from "../../../../url/url";
+import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { TextField, Grid } from "@material-ui/core";
 import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
   WARNING_NOTIFICATION,
-} from "../../../../../actions/notifications/actions";
-import Button from "@material-ui/core/Button";
+} from "../../../../actions/notifications/actions";
 import { Formik, Form, FieldArray } from "formik";
-import { CustomTitle } from "../../../../../util/CustomText";
+import { CustomTitle } from "../../../../util/CustomText";
 import * as Yup from "yup";
 import { Typography } from "@material-ui/core";
+
+import Button from "@material-ui/core/Button";
 import defaultImage from "./hpadmin2.png";
-
-import ContainerHeader from "../../../../../components/ContainerHeader/index";
-import IntlMessages from "../../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
+import IntlMessages from "../../../../util/IntlMessages";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
-import InputField from "../../MerchantsList/AddMerchants/FormFields/InputField";
-import CustomNumberField from "../../MerchantsList/AddMerchants/FormFields/CustomNumberField";
-import CustomPhoneField from "../../MerchantsList/AddMerchants/FormFields/CustomPhoneField";
-import ErrorMessage from "../../MerchantsList/AddMerchants/FormFields/ErrorMessage";
-import SelectField from "../../MerchantsList/AddMerchants/FormFields/SelectField";
-import DatePickerField from "../../MerchantsList/AddMerchants/FormFields/DatePickerField";
-
+import InputField from "../MerchantsList/AddMerchants/FormFields/InputField";
+import CustomNumberField from "../MerchantsList/AddMerchants/FormFields/CustomNumberField";
+import CustomPhoneField from "../MerchantsList/AddMerchants/FormFields/CustomPhoneField";
+import ErrorMessage from "../MerchantsList/AddMerchants/FormFields/ErrorMessage";
+import SelectField from "../MerchantsList/AddMerchants/FormFields/SelectField";
+import DatePickerField from "../MerchantsList/AddMerchants/FormFields/DatePickerField";
 import CancelIcon from "@material-ui/icons/Cancel";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-
-import State from "../../../../../util/InitialState";
+import State from "../../../../util/InitialState";
 import moment from "moment";
 import axios from "axios";
-import LinearProgress from "../../../../../util/linearProgress";
-import CustomSelect from "../../../../../util/getState";
-
-import InputCustom from "../../MerchantsList/addMerchant/custom-input";
+import LinearProgress from "../../../../util/linearProgress";
+import CustomSelect from "../../../../util/getState";
+import InputCustom from "../../../../util/CustomInput";
 import update from "immutability-helper";
 
-import "../MerchantReqProfile.css";
+import "./MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
 
 const upFile = config.url.upFile;
@@ -207,7 +204,7 @@ class EditPendingMerchant extends Component {
                         if ((res.status = 200)) {
                           this.props.SUCCESS_NOTIFICATION(res.data.message);
                           setTimeout(() => {
-                            this.props.GET_MERCHANT_BY_ID({
+                            this.props.getMerchantByID({
                               ID: this.state.ID,
                               path: "/app/merchants/pending/profile",
                             });
@@ -934,7 +931,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_MERCHANT_BY_ID: (payload) => {
+  getMerchantByID: (payload) => {
     dispatch(GET_MERCHANT_BY_ID(payload));
   },
   SUCCESS_NOTIFICATION: (payload) => {

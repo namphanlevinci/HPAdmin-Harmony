@@ -29,8 +29,6 @@ import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import EditExtra from "./edit-extra";
 
-import "react-table/react-table.css";
-
 const upFile = config.url.upFile;
 class ExtraTab extends Component {
   constructor(props) {

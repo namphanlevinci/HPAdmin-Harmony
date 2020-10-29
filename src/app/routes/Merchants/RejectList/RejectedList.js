@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import {
-  ViewMerchant_Request,
-  GET_MERCHANT_BY_ID,
-} from "../../../../actions/merchants/actions";
+import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
+import { Helmet } from "react-helmet";
 import {
   InputAdornment,
   IconButton,
@@ -14,33 +11,22 @@ import {
   Typography,
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
-import { FAILURE_NOTIFICATION } from "../../../../actions/notifications/actions";
 
-import axios from "axios";
-import SearchIcon from "@material-ui/icons/Search";
+import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import ReactTable from "react-table";
+import SearchIcon from "@material-ui/icons/Search";
+import axios from "axios";
 import moment from "moment";
-import ScaleLoader from "../../../../util/scaleLoader";
 
 import "react-table/react-table.css";
-// import "./MerchantsRequest.css";
-import "../MerchantsList/merchantsList.css";
-
+import "../Merchants.css";
 const URL = config.url.URL;
-
-class MerchantsRequest extends Component {
+class PendingList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       search: "",
-      loading: true,
-      page: 0,
-      pageCount: 0,
-      data: [],
-      pageLoading: false,
-      isLoading: false,
     };
   }
 
@@ -51,7 +37,7 @@ class MerchantsRequest extends Component {
     await axios
       .get(
         URL +
-          `/merchant/pending?key=${this.state.search}&page=${
+          `/merchant/reject?key=${this.state.search}&page=${
             page === 0 ? 1 : page + 1
           }&row=${pageSize}`,
         {
@@ -71,7 +57,9 @@ class MerchantsRequest extends Component {
             pageSize: 5,
           });
         } else {
-          this.props.FailureNotify(res.data.message);
+          this.setState({
+            data: [],
+          });
         }
         this.setState({ loading: false });
       });
@@ -87,6 +75,22 @@ class MerchantsRequest extends Component {
     await this.setState({ search: e.target.value });
   };
 
+  //goto merchant profile
+  merchantProfile = (ID) => {
+    axios
+      .get(URL + "/merchant/" + ID, {
+        headers: {
+          Authorization: `Bearer ${this.props.userLogin.token}`,
+        },
+      })
+      .then((res) => {
+        if (Number(res.data.codeNumber) === 200) {
+          this.props.ViewMerchant_Rejected_Merchants(res.data.data);
+          this.props.history.push("/app/merchants/rejected/profile");
+        }
+      });
+  };
+
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -95,18 +99,11 @@ class MerchantsRequest extends Component {
     }
   };
 
-  goToPendingPage = (ID) => {
-    const path = "/app/merchants/pending/profile";
-    const payload = { ID, path };
-    this.props.GET_MERCHANT_BY_ID(payload);
-  };
   render() {
-    const { page, pageCount, data, pageSize } = this.state;
-
     const columns = [
       {
         Header: <CustomTableHeader value="ID" />,
-        id: "merchantId",
+        id: "id",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
             {row?.merchantId}
@@ -115,11 +112,11 @@ class MerchantsRequest extends Component {
         width: 60,
       },
       {
-        Header: <CustomTableHeader value="Submitted Date" />,
-        id: "submitDate",
+        Header: <CustomTableHeader value="Rejected Date" />,
+        id: "date",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
-            {moment(row?.createdDate).format("MM/DD/YYYY")}
+            {moment(row?.adminUser?.created_date).format("MM/DD/YYYY")}
           </Typography>
         ),
       },
@@ -127,21 +124,18 @@ class MerchantsRequest extends Component {
         Header: <CustomTableHeader value="DBA" />,
         id: "general",
         accessor: (e) => (
-          <Typography variant="subtitle1">
-            {e?.general?.doBusinessName}
-          </Typography>
+          <Typography variant="subtitle1">{e?.businessName}</Typography>
         ),
       },
       {
         id: "principals",
         Header: <CustomTableHeader value="Owner" />,
-        accessor: (e) => e?.principals?.[0],
-        Cell: (e) =>
-          e?.value === undefined ? null : (
-            <Typography variant="subtitle1">
-              {e?.value?.firstName + " " + e?.value?.lastName}
-            </Typography>
-          ),
+        accessor: (e) => e.principals?.[0],
+        Cell: (e) => (
+          <Typography variant="subtitle1">
+            {e?.value?.firstName + " " + e?.value?.lastName}
+          </Typography>
+        ),
       },
       {
         Header: <CustomTableHeader value="Email" />,
@@ -171,11 +165,12 @@ class MerchantsRequest extends Component {
         ),
       },
       {
-        Header: <CustomTableHeader value="Status" />,
-        id: "status",
-        accessor: (row) => (
-          <Typography variant="subtitle1">
-            {Number(row?.status) === 1 ? "Handling" : "Pending"}
+        id: "RejectedBy",
+        Header: <CustomTableHeader value="Rejected By" />,
+        accessor: "adminUser",
+        Cell: (e) => (
+          <Typography variant="subtitle1" style={{ color: "#4251af" }}>
+            {e?.value?.first_name + " " + e?.value?.last_name}
           </Typography>
         ),
       },
@@ -184,23 +179,28 @@ class MerchantsRequest extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.goToPendingPage(rowInfo.original.merchantId);
+            this.props.GET_MERCHANT_BY_ID({
+              ID: rowInfo.original.merchantId,
+              path: "/app/merchants/rejected/profile",
+            });
           }
         },
       };
     };
+    const { page, pageCount, data } = this.state;
     return (
-      <div className="container-fluid  react-transition swipe-right">
+      <div className="container-fluid react-transition swipe-right">
         <Helmet>
-          <title>Pending Request | Harmony Admin </title>
+          <title>Rejected Request | Harmony Admin</title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.pendingRequest" />}
+          title={<IntlMessages id="sidebar.dashboard.rejectedRequest" />}
           disableBreadcrumb={true}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {/* SEARCH */}
             <FormControl>
               <OutlinedInput
                 inputProps={{
@@ -223,16 +223,12 @@ class MerchantsRequest extends Component {
               />
             </FormControl>
           </div>
-          <ScaleLoader isLoading={this.state.isLoading} />
-
           <div className="merchant-list-container">
             <ReactTable
               manual
-              sortable={false}
               page={page}
               pages={pageCount}
               data={data}
-              row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={20}
@@ -248,18 +244,13 @@ class MerchantsRequest extends Component {
     );
   }
 }
+
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewMerchant_Request: (payload) => {
-    dispatch(ViewMerchant_Request(payload));
-  },
   GET_MERCHANT_BY_ID: (payload) => {
     dispatch(GET_MERCHANT_BY_ID(payload));
   },
-  FailureNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
-  },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(MerchantsRequest);
+export default connect(mapStateToProps, mapDispatchToProps)(PendingList);

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
+import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
-import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import { config } from "../../../../url/url";
 import {
   InputAdornment,
   IconButton,
@@ -11,46 +11,34 @@ import {
   Typography,
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
+import { FAILURE_NOTIFICATION } from "../../../../actions/notifications/actions";
 
+import axios from "axios";
+import SearchIcon from "@material-ui/icons/Search";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
-import axios from "axios";
 import moment from "moment";
+import ScaleLoader from "../../../../util/scaleLoader";
 
+import "../Merchants.css";
 import "react-table/react-table.css";
-import "./merchantsList.css";
 
 const URL = config.url.URL;
 
-class MerchantsList extends React.Component {
+class PendingList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       search: "",
       loading: true,
-      // Pages
       page: 0,
       pageCount: 0,
       data: [],
+      pageLoading: false,
+      isLoading: false,
     };
   }
-
-  merchantProfile = (ID) => {
-    axios
-      .get(URL + "/merchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 200) {
-          this.props.ViewProfile_Merchants(res.data.data);
-          this.props.history.push("/app/merchants/approved/profile");
-        }
-      });
-  };
 
   fetchData = async (state) => {
     let page = state?.page ? state?.page : 0;
@@ -59,7 +47,7 @@ class MerchantsList extends React.Component {
     await axios
       .get(
         URL +
-          `/merchant/search?key=${this.state.search}&page=${
+          `/merchant/pending?key=${this.state.search}&page=${
             page === 0 ? 1 : page + 1
           }&row=${pageSize}`,
         {
@@ -70,7 +58,6 @@ class MerchantsList extends React.Component {
       )
       .then((res) => {
         const data = res.data.data;
-
         if (Number(res.data.codeNumber) === 200) {
           this.setState({
             page,
@@ -80,9 +67,7 @@ class MerchantsList extends React.Component {
             pageSize: 5,
           });
         } else {
-          this.setState({
-            data: [],
-          });
+          this.props.failNotify(res.data.message);
         }
         this.setState({ loading: false });
       });
@@ -94,9 +79,10 @@ class MerchantsList extends React.Component {
     });
   };
 
-  _SearchMerchants = async (e) => {
+  searchMerchant = async (e) => {
     await this.setState({ search: e.target.value });
   };
+
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -105,9 +91,12 @@ class MerchantsList extends React.Component {
     }
   };
 
+  goToPendingPage = (ID) => {
+    const path = "/app/merchants/pending/profile";
+    this.props.getMerchantByID({ ID, path });
+  };
   render() {
-    // approved merchant list
-    const { page, pageCount, data } = this.state;
+    const { page, pageCount, data, pageSize } = this.state;
 
     const columns = [
       {
@@ -121,43 +110,33 @@ class MerchantsList extends React.Component {
         width: 60,
       },
       {
-        Header: <CustomTableHeader value="Approved Date" />,
-        id: "date",
+        Header: <CustomTableHeader value="Submitted Date" />,
+        id: "submitDate",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
-            {moment(row?.adminUser?.created_date).format("MM/DD/YYYY")}
-          </Typography>
-        ),
-        width: 130,
-      },
-      {
-        Header: <CustomTableHeader value="MID" />,
-        id: "mid",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {row?.merchantCode}
+            {moment(row?.createdDate).format("MM/DD/YYYY")}
           </Typography>
         ),
       },
       {
         Header: <CustomTableHeader value="DBA" />,
         id: "general",
-        accessor: "general",
-        Cell: (e) => (
+        accessor: (e) => (
           <Typography variant="subtitle1">
-            {e?.value?.doBusinessName}
+            {e?.general?.doBusinessName}
           </Typography>
         ),
       },
       {
         id: "principals",
         Header: <CustomTableHeader value="Owner" />,
-        accessor: (e) => e.principals[0],
-        Cell: (e) => (
-          <Typography variant="subtitle1">
-            {e?.value?.firstName + " " + e?.value?.lastName}
-          </Typography>
-        ),
+        accessor: (e) => e?.principals?.[0],
+        Cell: (e) =>
+          e?.value === undefined ? null : (
+            <Typography variant="subtitle1">
+              {e?.value?.firstName + " " + e?.value?.lastName}
+            </Typography>
+          ),
       },
       {
         Header: <CustomTableHeader value="Email" />,
@@ -187,35 +166,32 @@ class MerchantsList extends React.Component {
         ),
       },
       {
-        id: "approvedBy",
-        Header: <CustomTableHeader value="Approved By" />,
-        accessor: "adminUser",
-        Cell: (e) => (
-          <Typography variant="subtitle1" style={{ color: "#4251af" }}>
-            {e?.value?.first_name + " " + e?.value?.last_name}
+        Header: <CustomTableHeader value="Status" />,
+        id: "status",
+        accessor: (row) => (
+          <Typography variant="subtitle1">
+            {Number(row?.status) === 1 ? "Handling" : "Pending"}
           </Typography>
         ),
       },
     ];
-
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.merchantProfile(rowInfo.original.merchantId);
+            this.goToPendingPage(rowInfo.original.merchantId);
           }
         },
       };
     };
-
     return (
-      <div className="container-fluid react-transition swipe-right">
+      <div className="container-fluid  react-transition swipe-right">
         <Helmet>
-          <title>Approved Request | Harmony Admin</title>
+          <title>Pending Request | Harmony Admin </title>
         </Helmet>
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.approvedRequest" />}
+          title={<IntlMessages id="sidebar.dashboard.pendingRequest" />}
           disableBreadcrumb={true}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
@@ -229,7 +205,7 @@ class MerchantsList extends React.Component {
                 }}
                 placeholder="Search.."
                 value={this.state.search}
-                onChange={this._SearchMerchants}
+                onChange={this.searchMerchant}
                 onKeyPress={this.keyPressed}
                 endAdornment={
                   <InputAdornment position="end">
@@ -242,6 +218,7 @@ class MerchantsList extends React.Component {
               />
             </FormControl>
           </div>
+          <ScaleLoader isLoading={this.state.isLoading} />
 
           <div className="merchant-list-container">
             <ReactTable
@@ -250,7 +227,7 @@ class MerchantsList extends React.Component {
               page={page}
               pages={pageCount}
               data={data}
-              // You should also control this...
+              row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchData(state)}
               defaultPageSize={20}
@@ -266,13 +243,15 @@ class MerchantsList extends React.Component {
     );
   }
 }
-
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
+  getMerchantByID: (payload) => {
+    dispatch(GET_MERCHANT_BY_ID(payload));
+  },
+  failNotify: (message) => {
+    dispatch(FAILURE_NOTIFICATION(message));
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(MerchantsList);
+export default connect(mapStateToProps, mapDispatchToProps)(PendingList);

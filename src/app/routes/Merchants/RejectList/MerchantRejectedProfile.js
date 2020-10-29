@@ -35,8 +35,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 import "bootstrap/js/src/collapse.js";
-import "../MerchantsRequest/MerchantReqProfile.css";
-import "../MerchantsRequest/MerchantsRequest.css";
+import "../PendingList/MerchantReqProfile.css";
 
 const URL = config.url.URL;
 class MerchantRejectedProfile extends Component {

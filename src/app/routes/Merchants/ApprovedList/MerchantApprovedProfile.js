@@ -14,8 +14,7 @@ import moment from "moment";
 import NumberFormat from "react-number-format";
 
 import "bootstrap/js/src/collapse.js";
-import "../MerchantsRequest/MerchantReqProfile.css";
-import "../MerchantsRequest/MerchantsRequest.css";
+import "../PendingList/MerchantReqProfile.css";
 class MerchantApprovedProfile extends Component {
   constructor(props) {
     super(props);

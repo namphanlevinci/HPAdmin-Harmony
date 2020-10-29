@@ -36,7 +36,6 @@ import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined"
 
 import EditCategory from "./edit-category";
 
-import "react-table/react-table.css";
 import "./category.styles.scss";
 
 const URL = config.url.URL;

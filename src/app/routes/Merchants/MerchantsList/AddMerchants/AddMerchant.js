@@ -177,13 +177,13 @@ class AddMerchant extends React.Component {
       .then((res) => {
         console.log("res", res);
         if ((res.status = 200)) {
-          this.props.SuccessNotification(res.data.message);
+          this.props.successNotification(res.data.message);
 
           setTimeout(() => {
             this.navigateToMerchantList();
           }, 1500);
         } else {
-          this.props.FailureNotification(res.data.message);
+          this.props.failureNotification(res.data.message);
         }
         this.setState({ isSubmitting: false });
       })
@@ -351,10 +351,10 @@ class AddMerchant extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  SuccessNotification: (payload) => {
+  successNotification: (payload) => {
     dispatch(SUCCESS_NOTIFICATION(payload));
   },
-  FailureNotification: (payload) => {
+  failureNotification: (payload) => {
     dispatch(FAILURE_NOTIFICATION(payload));
   },
 });

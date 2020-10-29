@@ -20,8 +20,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import CheckPermissions from "../../../../../../util/checkPermission";
 
 import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
+import "../../../PendingList/MerchantReqProfile.css";
 import "../Detail.css";
 class General extends Component {
   constructor(props) {

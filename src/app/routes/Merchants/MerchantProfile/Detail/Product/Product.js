@@ -19,7 +19,6 @@ import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 
-import "react-table/react-table.css";
 
 const URL = config.url.URL;
 class Product extends Component {

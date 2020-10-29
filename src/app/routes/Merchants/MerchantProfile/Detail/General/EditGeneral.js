@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import { CustomTitle } from "../../../../../../util/CustomText";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../../../util/getState";
-import InputCustom from "../../../MerchantsList/addMerchant/custom-input";
+import InputCustom from "../../../../../../util/CustomInput";
 
 class General extends Component {
   constructor(props) {

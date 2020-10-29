@@ -15,8 +15,7 @@ import EditWorkTime from "./work-time/edit-workTime";
 import EditSalary from "./salary/edit-salary";
 import EditLicense from "./license/edit-license";
 
-import "../../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../../MerchantsRequest/MerchantsRequest.css";
+import "../../../../PendingList/MerchantReqProfile.css";
 import "../../../MerchantProfile.css";
 
 import "bootstrap/js/src/collapse.js";

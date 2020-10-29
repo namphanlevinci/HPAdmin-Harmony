@@ -16,7 +16,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 
-import "../../Merchants/MerchantsList/merchantsList.css";
+import "../../Merchants/Merchants.css";
 import "./User.css";
 import "react-table/react-table.css";
 

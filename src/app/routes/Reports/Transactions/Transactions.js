@@ -16,7 +16,7 @@ import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 
 import "./Transactions.css";
 import "react-table/react-table.css";
-import "../../Merchants/MerchantsList/merchantsList.css";
+import "../../Merchants/Merchants.css";
 
 const URL = config.url.URL;
 
@@ -36,12 +36,8 @@ class Transactions extends React.Component {
 
   handleResetClick = async () => {
     await this.setState({
-      from: moment()
-        .startOf("month")
-        .format("YYYY-MM-DD"),
-      to: moment()
-        .endOf("month")
-        .format("YYYY-MM-DD"),
+      from: moment().startOf("month").format("YYYY-MM-DD"),
+      to: moment().endOf("month").format("YYYY-MM-DD"),
       amount: "",
       amountFrom: -1,
       amountTo: -1,
@@ -61,12 +57,8 @@ class Transactions extends React.Component {
 
   componentDidMount() {
     this.setState({
-      from: moment()
-        .startOf("month")
-        .format("YYYY-MM-DD"),
-      to: moment()
-        .endOf("month")
-        .format("YYYY-MM-DD"),
+      from: moment().startOf("month").format("YYYY-MM-DD"),
+      to: moment().endOf("month").format("YYYY-MM-DD"),
     });
   }
 
@@ -88,53 +80,32 @@ class Transactions extends React.Component {
     const value = e.target.value;
     if (value === "today") {
       this.setState({
-        from: moment()
-          .startOf("day")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .startOf("day")
-          .format("YYYY-MM-DD"),
+        from: moment().startOf("day").format("YYYY-MM-DD"),
+        to: moment().startOf("day").format("YYYY-MM-DD"),
       });
     }
     if (value === "yesterday") {
       this.setState({
-        from: moment()
-          .subtract(1, "day")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .subtract(1, "day")
-          .format("YYYY-MM-DD"),
+        from: moment().subtract(1, "day").format("YYYY-MM-DD"),
+        to: moment().subtract(1, "day").format("YYYY-MM-DD"),
       });
     }
     if (value === "thisWeek") {
       this.setState({
-        from: moment()
-          .startOf("week")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .endOf("week")
-          .format("YYYY-MM-DD"),
+        from: moment().startOf("week").format("YYYY-MM-DD"),
+        to: moment().endOf("week").format("YYYY-MM-DD"),
       });
     }
     if (value === "lastWeek") {
       this.setState({
-        from: moment()
-          .subtract(1, "week")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .subtract(1, "week")
-          .endOf("week")
-          .format("YYYY-MM-DD"),
+        from: moment().subtract(1, "week").format("YYYY-MM-DD"),
+        to: moment().subtract(1, "week").endOf("week").format("YYYY-MM-DD"),
       });
     }
     if (value === "thisMonth") {
       this.setState({
-        from: moment()
-          .startOf("month")
-          .format("YYYY-MM-DD"),
-        to: moment()
-          .endOf("month")
-          .format("YYYY-MM-DD"),
+        from: moment().startOf("month").format("YYYY-MM-DD"),
+        to: moment().endOf("month").format("YYYY-MM-DD"),
       });
     }
     if (value === "lastMonth") {
@@ -143,10 +114,7 @@ class Transactions extends React.Component {
           .subtract(1, "month")
           .startOf("month")
           .format("YYYY-MM-DD"),
-        to: moment()
-          .subtract(1, "month")
-          .endOf("month")
-          .format("YYYY-MM-DD"),
+        to: moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
       });
     }
     await this.setState({
@@ -233,10 +201,7 @@ class Transactions extends React.Component {
         Header: "Date/time",
         // maxWidth: 200,
         accessor: (e) => {
-          return moment
-            .utc(e.createDate)
-            .local()
-            .format("MM/DD/YYYY HH:mm A");
+          return moment.utc(e.createDate).local().format("MM/DD/YYYY HH:mm A");
         },
       },
       {

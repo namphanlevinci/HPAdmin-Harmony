@@ -10,8 +10,7 @@ import {
 import CheckPermissions from "../../../../../util/checkPermission";
 
 import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
+import "../../PendingList/MerchantReqProfile.css";
 
 class Bank extends Component {
   constructor(props) {

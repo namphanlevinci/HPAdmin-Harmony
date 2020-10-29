@@ -11,7 +11,7 @@ import { Grid, Button, TextField } from "@material-ui/core";
 import * as Yup from "yup";
 import axios from "axios";
 import LinearProgress from "../../../../../util/linearProgress";
-import InputCustom from "../../MerchantsList/addMerchant/custom-input";
+import InputCustom from "../../../../../util/CustomInput";
 
 const upFile = config.url.upFile;
 

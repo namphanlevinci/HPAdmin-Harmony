@@ -6,12 +6,9 @@ import moment from "moment";
 import ReactTable from "react-table";
 import axios from "axios";
 
-import "react-table/react-table.css";
-
 import "../MerchantProfile.css";
-import "../../MerchantsRequest/MerchantReqProfile.css";
-import "../../MerchantsRequest/MerchantsRequest.css";
-import "../../MerchantsList/merchantsList.css";
+import "../../PendingList/MerchantReqProfile.css";
+import "../../Merchants.css";
 import "./Detail.css";
 
 const URL = config.url.URL;
@@ -44,10 +41,7 @@ class MerchantActi extends Component {
         id: "createDate",
         Header: "Date/Time",
         accessor: (e) => {
-          return moment
-            .utc(e.createDate)
-            .local()
-            .format("MM/DD/YYYY hh:mm A");
+          return moment.utc(e.createDate).local().format("MM/DD/YYYY hh:mm A");
         },
       },
       {

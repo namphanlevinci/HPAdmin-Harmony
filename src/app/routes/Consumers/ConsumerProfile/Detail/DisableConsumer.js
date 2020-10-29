@@ -5,8 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import "../../../Merchants/MerchantProfile/MerchantProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantReqProfile.css";
-import "../../../Merchants/MerchantsRequest/MerchantsRequest.css";
+import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
 
 export default function DisableConsumer({

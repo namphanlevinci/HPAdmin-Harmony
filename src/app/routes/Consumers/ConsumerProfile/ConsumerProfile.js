@@ -18,8 +18,7 @@ import CheckPermissions from "../../../../util/checkPermission";
 import Setting from "./Detail/Setting";
 
 import "../../Merchants/MerchantProfile/MerchantProfile.css";
-import "../../Merchants/MerchantsRequest/MerchantReqProfile.css";
-import "../../Merchants/MerchantsRequest/MerchantsRequest.css";
+import "../../Merchants/PendingList/MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
 import "./Detail/Consumer.css";
 

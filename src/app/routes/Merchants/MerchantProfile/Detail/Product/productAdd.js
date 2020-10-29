@@ -29,11 +29,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 
-import "react-table/react-table.css";
 import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
-import "../../../MerchantsList/merchantsList.css";
+import "../../../PendingList/MerchantReqProfile.css";
+import "../../../Merchants.css";
 import "../Detail.css";
 import "../Service/service.style.scss";
 

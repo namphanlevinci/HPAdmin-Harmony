@@ -14,8 +14,8 @@ import ReactTable from "react-table";
 import CreditCardIcon from "../../../../util/CreditCardIcon";
 
 import "../Transactions/Transactions.css";
-import "../../Merchants/MerchantsList/merchantsList.css";
-import "../../Merchants/MerchantRejectList/EditMerchant.css";
+import "../../Merchants/Merchants.css";
+import "../../Merchants/RejectList/EditMerchant.css";
 import "react-table/react-table.css";
 import "./Batch.css";
 
@@ -49,10 +49,7 @@ class Transactions extends React.Component {
         accessor: (e) => (
           <div className="batch__detail">
             <p style={{ fontWeight: 400 }}>
-              {moment
-                .utc(e.createdDate)
-                .local()
-                .format("LLL")}
+              {moment.utc(e.createdDate).local().format("LLL")}
             </p>
           </div>
         ),

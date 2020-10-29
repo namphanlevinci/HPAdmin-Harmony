@@ -14,7 +14,7 @@ import {
 } from "../../../../../../util/CustomText";
 import { Formik } from "formik";
 
-import InputCustom from "../../../MerchantsList/addMerchant/custom-input";
+import InputCustom from "../../../../../../util/CustomInput";
 import CustomSelect from "../../../../../../util/getState";
 import LinearProgress from "../../../../../../util/linearProgress";
 import moment from "moment";
@@ -25,8 +25,7 @@ import NumberFormat from "react-number-format";
 
 import "./principal.styles.scss";
 import "../../MerchantProfile.css";
-import "../../../MerchantsRequest/MerchantReqProfile.css";
-import "../../../MerchantsRequest/MerchantsRequest.css";
+import "../../../PendingList/MerchantReqProfile.css";
 
 const upFile = config.url.upFile;
 
