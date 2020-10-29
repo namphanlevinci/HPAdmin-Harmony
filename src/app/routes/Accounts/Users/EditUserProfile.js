@@ -29,7 +29,7 @@ import General from "./General";
 import Password from "./Password";
 
 import "./User.css";
-import "../../Merchants/MerchantProfile/Detail/Detail.css";
+import "../../Merchants/MerchantList/Profile/Detail.css";
 
 const upFile = config.url.upFile;
 

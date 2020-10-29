@@ -15,7 +15,7 @@ import { Button, Grid } from "@material-ui/core";
 import CheckPermissions from "../../../../../util/checkPermission";
 import DisableConsumer from "./DisableConsumer.js";
 
-import "../../../Merchants/MerchantProfile/MerchantProfile.css";
+import "../../../Merchants/MerchantList/MerchantProfile.css";
 import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
 

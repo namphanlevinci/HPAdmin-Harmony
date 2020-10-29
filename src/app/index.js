@@ -26,7 +26,7 @@ import Business from "./routes/Business/Business";
 // import Dashboard from "./routes/dashboard/dashboard";
 import Consumers from "./routes/Consumers/index";
 import Reports from "./routes/Reports/Reports";
-import GiftCard from "./routes/gift-card/index";
+import GiftCard from "./routes/GiftCard/index";
 
 class App extends React.Component {
   constructor(props) {

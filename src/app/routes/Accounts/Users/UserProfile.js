@@ -21,7 +21,7 @@ import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 
 import "./User.css";
-import "../../Merchants/MerchantProfile/Detail/Detail.css";
+import "../../Merchants/MerchantList/Profile/Detail.css";
 
 const URL = config.url.URL;
 class UserProfile extends Component {

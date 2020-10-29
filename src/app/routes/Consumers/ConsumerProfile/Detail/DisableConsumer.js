@@ -4,7 +4,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-import "../../../Merchants/MerchantProfile/MerchantProfile.css";
+import "../../../Merchants/MerchantList/MerchantProfile.css";
 import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
 

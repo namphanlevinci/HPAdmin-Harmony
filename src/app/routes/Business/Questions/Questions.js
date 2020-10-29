@@ -22,8 +22,8 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 import "./Questions.css";
-import "../../Merchants/MerchantProfile/MerchantProfile.css";
-// import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import "../../Merchants/MerchantList/MerchantProfile.css";
+
 class Questions extends Component {
   constructor(props) {
     super(props);

@@ -17,7 +17,7 @@ import Bank from "./Detail/Bank";
 import CheckPermissions from "../../../../util/checkPermission";
 import Setting from "./Detail/Setting";
 
-import "../../Merchants/MerchantProfile/MerchantProfile.css";
+import "../../Merchants/MerchantList/MerchantProfile.css";
 import "../../Merchants/PendingList/MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
 import "./Detail/Consumer.css";
@@ -39,7 +39,7 @@ class ConsumerProfile extends Component {
       <div className="container-fluid content-list">
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
+          title={<IntlMessages id="sidebar.dashboard.MerchantList/Profile" />}
         />
         <div className="content-body page-heading general-content">
           <div className="header col-12">

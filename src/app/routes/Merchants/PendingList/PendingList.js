@@ -23,7 +23,6 @@ import ScaleLoader from "../../../../util/scaleLoader";
 
 import "../Merchants.css";
 import "react-table/react-table.css";
-
 const URL = config.url.URL;
 
 class PendingList extends Component {

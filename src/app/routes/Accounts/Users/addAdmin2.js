@@ -26,7 +26,7 @@ import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 
-import "../../Merchants/MerchantProfile/Detail/Detail.css";
+import "../../Merchants/MerchantList/Profile/Detail.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "./User.css";
 

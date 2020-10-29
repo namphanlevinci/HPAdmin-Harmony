@@ -23,10 +23,10 @@ import CustomSelect from "../../../../util/getState";
 import InputCustom from "../../../../util/CustomInput";
 import TextField from "@material-ui/core/TextField";
 
-import "../MerchantProfile/MerchantProfile.css";
+import "../MerchantList/MerchantProfile.css";
 import "../PendingList/MerchantReqProfile.css";
 import "./EditMerchant.css";
-import "../MerchantProfile/Detail/Detail.css";
+import "../MerchantList/Profile/Detail.css";
 
 class EditMerchantRejected extends Component {
   constructor(props) {

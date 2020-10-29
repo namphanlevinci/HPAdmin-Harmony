@@ -12,7 +12,8 @@ import axios from "axios";
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
 import "react-datepicker/dist/react-datepicker.css";
-import "../../../Merchants/MerchantProfile/MerchantProfile.css";
+
+import "../../../Merchants/MerchantList/MerchantProfile.css";
 import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
 import "../../../Merchants/Merchants.css";

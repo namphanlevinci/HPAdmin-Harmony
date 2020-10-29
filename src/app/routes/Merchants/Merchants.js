@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+
 import asyncComponent from "../../../util/asyncComponent";
 import PrivateRoute from "../../PrivateRoute";
 
@@ -13,20 +14,20 @@ const Merchants = ({ match, location }) => {
           permissionID={12}
           path={`${match.url}/add`}
           component={asyncComponent(() =>
-            import("./MerchantsList/AddMerchants/AddMerchant")
+            import("./MerchantList/AddMerchants/AddMerchant")
           )}
         />
 
         <PrivateRoute
           permissionID={11}
           path={`${match.url}/list`}
-          component={asyncComponent(() => import("./MerchantsList/Merchants"))}
+          component={asyncComponent(() => import("./MerchantList/Merchants"))}
         />
 
         <Route
           path={`${match.url}/profile/product/add`}
           component={asyncComponent(() =>
-            import("./MerchantProfile/Detail/Product/productAdd")
+            import("./MerchantList/Profile/Product/productAdd")
           )}
           location={location}
           match={match}
@@ -35,7 +36,7 @@ const Merchants = ({ match, location }) => {
         <Route
           path={`${match.url}/profile`}
           component={asyncComponent(() =>
-            import("./MerchantProfile/MerchantProfile")
+            import("./MerchantList/MerchantProfile")
           )}
           location={location}
           match={match}
@@ -95,7 +96,7 @@ const Merchants = ({ match, location }) => {
         <Route
           path={`${match.url}/staff`}
           component={asyncComponent(() =>
-            import("./MerchantProfile/Detail/Staff/staff-detail/staff-info")
+            import("./MerchantList/Profile/Staff/Profile/Staff")
           )}
         />
       </Switch>

@@ -6,11 +6,10 @@ import Button from "@material-ui/core/Button";
 import "../GeneralReport.css";
 import TextField from "@material-ui/core/TextField";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
 import moment from "moment";
 import { APPROVED_STATICS } from "../../../../../actions/static/actions";
 import _ from "lodash";
-// import { CSVLink } from "react-csv";
+import "react-table/react-table.css";
 class DownloadReport extends Component {
   constructor(props) {
     super(props);
@@ -28,12 +27,8 @@ class DownloadReport extends Component {
     this.setState({ toDate: e.target.value });
   };
   async componentDidMount() {
-    const fromDate = moment()
-      .startOf("month")
-      .format("YYYY/MM/DD");
-    const toDate = moment()
-      .endOf("month")
-      .format("YYYY/MM/DD");
+    const fromDate = moment().startOf("month").format("YYYY/MM/DD");
+    const toDate = moment().endOf("month").format("YYYY/MM/DD");
     const Data = { fromDate, toDate };
     this.props.APPROVED_STATICS(Data);
     setTimeout(() => {
@@ -69,22 +64,14 @@ class DownloadReport extends Component {
       this.props.APPROVED_STATICS(Data);
       this.setState({ range: "", fromDate: fromDate, toDate: toDate });
     } else if (range === "week") {
-      const fromDate = moment()
-        .startOf("week")
-        .format("YYYY/MM/DD");
-      const toDate = moment()
-        .endOf("week")
-        .format("YYYY/MM/DD");
+      const fromDate = moment().startOf("week").format("YYYY/MM/DD");
+      const toDate = moment().endOf("week").format("YYYY/MM/DD");
       const Data = { fromDate, toDate };
       this.props.APPROVED_STATICS(Data);
       this.setState({ range: "", fromDate: fromDate, toDate: toDate });
     } else if (range === "month") {
-      const fromDate = moment()
-        .startOf("month")
-        .format("YYYY/MM/DD");
-      const toDate = moment()
-        .endOf("month")
-        .format("YYYY/MM/DD");
+      const fromDate = moment().startOf("month").format("YYYY/MM/DD");
+      const toDate = moment().endOf("month").format("YYYY/MM/DD");
       const Data = { fromDate, toDate };
       this.props.APPROVED_STATICS(Data);
       this.setState({ range: "", fromDate: fromDate, toDate: toDate });
