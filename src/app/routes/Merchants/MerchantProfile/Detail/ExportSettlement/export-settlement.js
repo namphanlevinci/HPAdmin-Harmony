@@ -118,7 +118,6 @@ function ExportSettlement({ MerchantId, Token }) {
                   variant="inline"
                   format="MM/dd/yyyy"
                   margin="normal"
-                  id="date-picker-inline"
                   label="From Date"
                   value={selectFrom}
                   onChange={handleFromDateChange}
@@ -132,7 +131,6 @@ function ExportSettlement({ MerchantId, Token }) {
                   variant="inline"
                   format="MM/dd/yyyy"
                   margin="normal"
-                  id="date-picker-inline"
                   label="To Date"
                   value={selectTo}
                   onChange={handleToDateChange}

@@ -225,7 +225,8 @@ class Settings extends Component {
                   <DialogContent
                     style={{
                       paddingTop: 70,
-                      width: "50vw",
+
+                      width: "510px",
                       textAlign: "center",
                     }}
                   >
@@ -241,7 +242,7 @@ class Settings extends Component {
                         </Grid>
                       </Grid>
                       <div
-                        style={{ paddingTop: 20 }}
+                        style={{ padding: "10px 0px" }}
                         className="general-content"
                       >
                         <Button type="submit" className="btn btn-green">
@@ -354,7 +355,7 @@ class Settings extends Component {
                     accept=".xlsx"
                     onChange={(e) => this.handleAddTemplate(e)}
                   />
-                  <span style={{ margin: "0px" }} class="btn btn-green">
+                  <span style={{ margin: "0px" }} className="btn btn-green">
                     ADD TEMPLATE
                   </span>
                 </label>
