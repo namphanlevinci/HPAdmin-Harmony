@@ -4,8 +4,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-// import PulseLoader from "react-spinners/PulseLoader";
-
 function CustomProgress({ size }) {
   return (
     <div>
@@ -20,7 +18,6 @@ function CustomProgress({ size }) {
       >
         <DialogContent>
           <DialogContentText>
-            {/* <PulseLoader size={size ? size : "19"} margin={6} color={"#4251af"} /> */}
             <CircularProgress style={{ color: "#4251af", zIndex: "9999" }} />
           </DialogContentText>
         </DialogContent>

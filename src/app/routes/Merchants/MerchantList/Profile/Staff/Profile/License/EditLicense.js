@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions";
+import { updateStaffByID } from "../../../../../../../../actions/merchantActions";
 
 import { Button, Grid, TextField } from "@material-ui/core";
 import { CustomTitle } from "../../../../../../../../util/CustomText";
@@ -39,9 +39,9 @@ export class EditLicense extends Component {
   handleUpdateStaff = () => {
     const state = this.state;
     const data = this.props.Staff;
-    const staffId = this.props.Staff.staffId;
-    const MerchantId = this.props.MerchantData.merchantId;
-    const body = {
+    const StaffID = this.props.Staff.staffId;
+    const MerchantID = this.props.MerchantData.merchantId;
+    const payload = {
       firstName: data.firstName,
       lastName: data.lastName,
       displayName: data.displayName,
@@ -69,17 +69,12 @@ export class EditLicense extends Component {
       Roles: {
         NameRole: data.roleName,
       },
-      MerchantId,
-    };
-
-    const payload = {
-      body,
-      staffId,
-      MerchantId,
+      MerchantID,
+      StaffID,
       path: "/app/merchants/staff/license",
     };
 
-    this.props.UPDATE_STAFF(payload);
+    this.props.updateStaffByID(payload);
   };
 
   render() {
@@ -162,13 +157,13 @@ export class EditLicense extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.MerchantReducer.StaffData,
+  Staff: state.staffById.data,
   MerchantData: state.MerchantReducer.MerchantData,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  UPDATE_STAFF: (payload) => {
-    dispatch(UPDATE_STAFF(payload));
+  updateStaffByID: (payload) => {
+    dispatch(updateStaffByID(payload));
   },
 });
 

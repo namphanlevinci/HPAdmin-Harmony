@@ -44,9 +44,6 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
     case types.GET_MERCHANT_EXTRA_SUCCESS:
       state.ExtraData = payload;
       return { ...state };
-    case types.GET_STAFF_BY_ID_SUCCESS:
-      state.StaffData = payload;
-      return { ...state };
 
     case types.ADD_STAFF:
       state.AddStaff = payload;

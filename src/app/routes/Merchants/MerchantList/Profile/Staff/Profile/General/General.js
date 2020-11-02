@@ -130,9 +130,7 @@ export class General extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.MerchantReducer.StaffData,
+  Staff: state.staffById.data,
 });
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(General);
+export default connect(mapStateToProps)(General);

@@ -258,9 +258,7 @@ class WorkTime extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.MerchantReducer.StaffData,
+  Staff: state.staffById.data,
 });
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(WorkTime);
+export default connect(mapStateToProps)(WorkTime);

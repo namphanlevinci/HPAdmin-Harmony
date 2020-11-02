@@ -35,8 +35,6 @@ import {
   GET_MERCHANT_EXTRA_SAGA,
   ARCHIVE_MERCHANT_EXTRA_SAGA,
   RESTORE_MERCHANT_EXTRA_SAGA,
-  GET_STAFF_BY_ID_SAGA,
-  UPDATE_STAFF_SAGA,
   ADD_STAFF_SAGA,
 } from "../sagas/sagaFunction/merchants";
 
@@ -124,7 +122,5 @@ export default function* rootSaga() {
   yield fork(GET_MERCHANT_EXTRA_SAGA);
   yield fork(ARCHIVE_MERCHANT_EXTRA_SAGA);
   yield fork(RESTORE_MERCHANT_EXTRA_SAGA);
-  yield fork(GET_STAFF_BY_ID_SAGA);
-  yield fork(UPDATE_STAFF_SAGA);
   yield fork(ADD_STAFF_SAGA);
 }

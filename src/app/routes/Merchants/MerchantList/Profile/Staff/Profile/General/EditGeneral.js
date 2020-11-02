@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions";
 import { config } from "../../../../../../../../url/url";
 import { WARNING_NOTIFICATION } from "../../../../../../../../actions/notifications/actions";
 import {
@@ -15,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import { CustomTitle } from "../../../../../../../../util/CustomText";
-
+import { updateStaffByID } from "../../../../../../../../actions/merchantActions";
 import InputCustom from "../../../../../../../../util/CustomInput";
 import * as Yup from "yup";
 import Select from "react-select";
@@ -145,10 +144,10 @@ export class EditGeneral extends Component {
             onSubmit={(values, { setSubmitting }) => {
               const state = this.state;
               const data = this.props.Staff;
-              const staffId = this.props.Staff.staffId;
-              const MerchantId = this.props.MerchantData.merchantId;
+              const StaffID = this.props.Staff.staffId;
+              const MerchantID = this.props.MerchantData.merchantId;
 
-              const body = {
+              const payload = {
                 ...values,
                 cashPercent: data?.cashPercent,
 
@@ -158,9 +157,7 @@ export class EditGeneral extends Component {
                   state: values.stateId,
                   zip: values.zip,
                 },
-
                 confirmPin: state.values,
-
                 isDisabled: Number(values.isDisabled),
                 driverLicense: data.driverLicense,
                 socialSecurityNumber: data.socialSecurityNumber,
@@ -172,16 +169,12 @@ export class EditGeneral extends Component {
                 Roles: {
                   NameRole: values.roleName,
                 },
-                MerchantId,
-              };
-              const payload = {
-                body,
-                staffId,
-                MerchantId,
+                MerchantID,
+                StaffID,
                 path: "/app/merchants/staff/general",
               };
 
-              this.props.UPDATE_STAFF(payload);
+              this.props.updateStaffByID(payload);
             }}
           >
             {({
@@ -452,16 +445,16 @@ export class EditGeneral extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.MerchantReducer.StaffData,
+  Staff: state.staffById.data,
   MerchantData: state.MerchantReducer.MerchantData,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  UPDATE_STAFF: (payload) => {
-    dispatch(UPDATE_STAFF(payload));
-  },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
+  },
+  updateStaffByID: (payload) => {
+    dispatch(updateStaffByID(payload));
   },
 });
 

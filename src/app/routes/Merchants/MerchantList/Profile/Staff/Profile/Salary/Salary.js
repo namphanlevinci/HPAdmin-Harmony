@@ -13,6 +13,7 @@ import {
 class Salary extends Component {
   render() {
     const Salary = this.props.Staff;
+    console.log("SALARRY", Salary);
     const salaries = Salary?.salaries;
     const tipFees = Salary?.tipFees;
     const productSalaries = Salary?.productSalaries;
@@ -22,22 +23,52 @@ class Salary extends Component {
       <div className="container Salary">
         <CustomTitle value="Salary" />
         <Grid container spacing={1} style={{ paddingTop: "10px" }}>
-          <Grid item xs={12} sm={6} md={6}>
-            <div className="checkbox">
-              <Checkbox
-                name="salaryIsCheck"
-                checked={salaries?.perHour?.isCheck}
-                inputProps={{
-                  "aria-label": "primary checkbox",
+          <Grid container>
+            <Grid item xs={12} sm={6} md={4}>
+              <div className="checkbox">
+                <Checkbox
+                  name="salaryIsCheck"
+                  checked={salaries?.perHour?.isCheck}
+                  inputProps={{
+                    "aria-label": "primary checkbox",
+                  }}
+                />
+                <label>Salary Per Hour</label>
+              </div>
+              <TextField
+                type="text"
+                style={styles.input}
+                value={Number(salaries?.perHour?.value)?.toFixed(2)}
+                disabled
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
                 }}
-              />
-              <label>Salary Per Hour</label>
-            </div>
+              />{" "}
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={12} sm={6} md={6}>
+              <div className="checkbox">
+                <Checkbox
+                  name="commIsCheck"
+                  checked={salaries?.commission?.isCheck}
+                  inputProps={{
+                    "aria-label": "primary checkbox",
+                  }}
+                />
+                <label>Salary By Incomes</label>
+              </div>
+            </Grid>
+          </Grid>
+          <Grid item xs={4}>
             <TextField
               type="text"
               style={styles.input}
-              value={Number(salaries?.perHour?.value)?.toFixed(2)}
+              value={salaries?.commission?.from}
               disabled
+              label="From"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">$</InputAdornment>
@@ -45,23 +76,27 @@ class Salary extends Component {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <div className="checkbox">
-              <Checkbox
-                name="commIsCheck"
-                checked={salaries?.commission?.isCheck}
-                inputProps={{
-                  "aria-label": "primary checkbox",
-                }}
-              />
-              <label>Salary Commission</label>
-            </div>
-
+          <Grid item xs={4}>
             <TextField
               type="text"
               style={styles.input}
-              value={salaries?.commission?.value}
+              value={salaries?.commission?.to}
               disabled
+              label="To"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              type="text"
+              style={styles.input}
+              value={salaries?.commission?.commission}
+              disabled
+              label="Salary Percent"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">%</InputAdornment>
@@ -70,37 +105,42 @@ class Salary extends Component {
             />
           </Grid>
           <br />
-
+          <Grid item xs={12}>
+            <CustomTitle value="Product Salary" styles={styles.title} />
+          </Grid>
           {/* PRODUCT SALARY  */}
-          <Grid item xs={12} sm={6} md={6}>
-            <div className="checkbox">
-              <Checkbox
-                name="prodCommIsCheck"
-                checked={productSalaries?.commission?.isCheck}
-                value="true"
-                inputProps={{
-                  "aria-label": "primary checkbox",
+          <Grid container>
+            <Grid item xs={12} sm={6} md={4}>
+              <div className="checkbox">
+                <Checkbox
+                  name="prodCommIsCheck"
+                  checked={productSalaries?.commission?.isCheck}
+                  value="true"
+                  inputProps={{
+                    "aria-label": "primary checkbox",
+                  }}
+                />
+                <label>Product Commission</label>
+              </div>
+
+              <TextField
+                type="text"
+                style={styles.input}
+                value={productSalaries?.commission?.value}
+                disabled
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">%</InputAdornment>
+                  ),
                 }}
               />
-              <label>Product Commission</label>
-            </div>
-
-            <TextField
-              type="text"
-              style={styles.input}
-              value={productSalaries?.commission?.value}
-              disabled
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">%</InputAdornment>
-                ),
-              }}
-            />
+            </Grid>
           </Grid>
-
-          <Grid item xs={12} sm={6} md={6}></Grid>
+          <Grid item xs={12}>
+            <CustomTitle value="Tip Fee" styles={styles.title} />
+          </Grid>
           {/* TIP FEE */}
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6} md={4}>
             <div className="checkbox">
               <Checkbox
                 name="tipIsCheck"
@@ -125,7 +165,7 @@ class Salary extends Component {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6} md={4}>
             <div className="checkbox">
               <Checkbox
                 name="fixIsCheck"
@@ -150,8 +190,11 @@ class Salary extends Component {
             />
           </Grid>
 
+          <Grid item xs={12}>
+            <CustomTitle value="Payout by Cash" styles={styles.title} />
+          </Grid>
           {/* PAYOUT BY CASH */}
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6} md={4}>
             <div className="checkbox">
               <Checkbox checked />
               <label>Payout with Cash </label>
@@ -186,16 +229,17 @@ class Salary extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.MerchantReducer.StaffData,
+  Staff: state.staffById.data,
 });
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Salary);
+export default connect(mapStateToProps)(Salary);
 
 const styles = {
   input: {
     width: "90%",
     float: "right",
+  },
+  title: {
+    margin: "20px 0px 10px 0px",
   },
 };

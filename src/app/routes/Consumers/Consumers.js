@@ -1,16 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
 import { GET_CONSUMER_BY_ID } from "../../../actions/consumer/actions";
-import { FAILURE_NOTIFICATION } from "../../../actions/notifications/actions";
 import { config } from "../../../url/url";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
 import { Typography } from "@material-ui/core";
+import { fetchApiByPage } from "../../../actions/FetchApiActions";
+
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
-import axios from "axios";
 
 import "../Merchants/Merchants.css";
 import "./ConsumerProfile/Detail/Consumer.css";
@@ -32,45 +32,24 @@ class Consumers extends React.Component {
     };
   }
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/user/?key=${this.state.search}&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.props.FailureNotify(res.data.message);
-        }
-        this.setState({ loading: false });
-      });
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
+
+    const url = `${URL}/user/?key=${this.state.search}&page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}`;
+
+    this.props.fetchApiByPage(url);
   };
+
   changePage = (pageIndex) => {
     this.setState({
       page: pageIndex,
     });
   };
 
-  _SearchMerchants = async (e) => {
+  searchMerchant = async (e) => {
     await this.setState({ search: e.target.value });
   };
 
@@ -82,7 +61,9 @@ class Consumers extends React.Component {
   };
 
   render() {
-    const { page, pageCount, data } = this.state;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
+
     const columns = [
       {
         Header: <CustomTableHeader value="Harmony ID" />,
@@ -203,7 +184,7 @@ class Consumers extends React.Component {
                     className="textBox"
                     placeholder="Search.."
                     value={this.state.search}
-                    onChange={this._SearchMerchants}
+                    onChange={this.searchMerchant}
                     onKeyPress={this.keyPressed}
                   />
                 </form>
@@ -216,12 +197,13 @@ class Consumers extends React.Component {
                 page={page}
                 pages={pageCount}
                 data={data}
+                row={pageSize}
                 onPageChange={(pageIndex) => this.changePage(pageIndex)}
-                onFetchData={(state) => this.fetchData(state)}
+                onFetchData={(state) => this.fetchApi(state)}
                 defaultPageSize={20}
                 minRows={1}
                 noDataText="NO DATA!"
-                loading={this.state.loading}
+                loading={loading}
                 columns={columns}
                 getTdProps={onRowClick}
               />
@@ -236,13 +218,15 @@ class Consumers extends React.Component {
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   ConsumerList: state.getConsumerUsers,
+  apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
   GET_CONSUMER_BY_ID: (payload) => {
     dispatch(GET_CONSUMER_BY_ID(payload));
   },
-  FailureNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
+
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Consumers);

@@ -11,12 +11,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
+import { fetchApiByPage } from "../../../../actions/FetchApiActions";
 
 import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import SearchIcon from "@material-ui/icons/Search";
-import axios from "axios";
 import moment from "moment";
 
 import "react-table/react-table.css";
@@ -30,39 +30,15 @@ class PendingList extends Component {
     };
   }
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/merchant/reject?key=${this.state.search}&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.setState({
-            data: [],
-          });
-        }
-        this.setState({ loading: false });
-      });
+
+    const url = `${URL}/merchant/reject?key=${this.state.search}&page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -71,31 +47,14 @@ class PendingList extends Component {
     });
   };
 
-  _SearchMerchants = async (e) => {
+  searchMerchant = async (e) => {
     await this.setState({ search: e.target.value });
-  };
-
-  //goto merchant profile
-  merchantProfile = (ID) => {
-    axios
-      .get(URL + "/merchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 200) {
-          this.props.ViewMerchant_Rejected_Merchants(res.data.data);
-          this.props.history.push("/app/merchants/rejected/profile");
-        }
-      });
   };
 
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.setState({ loading: true });
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
@@ -179,7 +138,7 @@ class PendingList extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.props.GET_MERCHANT_BY_ID({
+            this.props.getMerchantByID({
               ID: rowInfo.original.merchantId,
               path: "/app/merchants/rejected/profile",
             });
@@ -187,7 +146,9 @@ class PendingList extends Component {
         },
       };
     };
-    const { page, pageCount, data } = this.state;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -210,7 +171,7 @@ class PendingList extends Component {
                 }}
                 placeholder="Search.."
                 value={this.state.search}
-                onChange={this._SearchMerchants}
+                onChange={this.searchMerchant}
                 onKeyPress={this.keyPressed}
                 endAdornment={
                   <InputAdornment position="end">
@@ -229,12 +190,13 @@ class PendingList extends Component {
               page={page}
               pages={pageCount}
               data={data}
+              row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               defaultPageSize={20}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
               getTdProps={onRowClick}
             />
@@ -246,11 +208,14 @@ class PendingList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
+  apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  GET_MERCHANT_BY_ID: (payload) => {
+  getMerchantByID: (payload) => {
     dispatch(GET_MERCHANT_BY_ID(payload));
+  },
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PendingList);

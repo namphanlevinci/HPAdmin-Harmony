@@ -156,21 +156,6 @@ export const VIEW_STAFF = (payload) => ({
   payload,
 });
 
-// Get Staff by ID
-export const GET_STAFF_BY_ID = (payload) => ({
-  type: types.GET_STAFF_BY_ID,
-  payload,
-});
-
-export const GET_STAFF_BY_ID_SUCCESS = (payload) => ({
-  type: types.GET_STAFF_BY_ID_SUCCESS,
-  payload,
-});
-
-export const GET_STAFF_BY_ID_FAILURE = (payload) => ({
-  type: types.GET_STAFF_BY_ID_FAILURE,
-  payload,
-});
 // Update STAFF
 export const UPDATE_STAFF = (payload) => ({
   type: types.UPDATE_STAFF,

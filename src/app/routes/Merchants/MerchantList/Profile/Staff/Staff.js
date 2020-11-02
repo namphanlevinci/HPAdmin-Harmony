@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { GET_STAFF_BY_ID } from "../../../../../../actions/merchants/actions";
-import { config } from "../../../../../../url/url";
 import { Button, Typography } from "@material-ui/core";
-
+import {
+  archiveStaffById,
+  restoreStaffById,
+  getStaff,
+  getStaffByID,
+} from "../../../../../../actions/merchantActions";
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import ReactTable from "react-table";
-import axios from "axios";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -20,9 +22,10 @@ import ScaleLoader from "../../../../../../util/scaleLoader";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 
+import CustomProgress from "../../../../../../util/CustomProgress";
+
 import "../Detail.css";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 
 class Staff extends Component {
   constructor(props) {
@@ -39,71 +42,39 @@ class Staff extends Component {
   }
 
   componentDidMount() {
-    this.getStaff();
+    this.props.getStaff(this.props.MerchantProfile.merchantId);
   }
-
-  getStaff = () => {
-    const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/staff/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        const data = res.data.data;
-        this.setState({ staff: data, loading: false });
-      });
-  };
 
   handleArchive = (ID) => {
     const MerchantID = this.props.MerchantProfile.merchantId;
-    axios
-      .put(URL + "/staff/archive/" + ID + "?merchantId=" + MerchantID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {});
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.getStaff();
-    }, 1500);
+    this.props.archiveStaffById(ID, MerchantID);
   };
 
   handleRestore = (ID) => {
     const MerchantID = this.props.MerchantProfile.merchantId;
-    axios
-      .put(URL + "/staff/restore/" + ID + "?merchantId=" + MerchantID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {});
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.getStaff();
-    }, 1500);
+    this.props.restoreStaffById(ID, MerchantID);
   };
 
-  _SearchMerchants = async (e) => {
+  searchMerchant = async (e) => {
     await this.setState({ search: e.target.value });
   };
 
   viewStaff = async (data) => {
-    const staffId = data?.staffId;
-    const ID = this.props.MerchantProfile.merchantId;
+    const StaffId = data?.staffId;
+    const MerchantId = this.props.MerchantProfile.merchantId;
     const path = "/app/merchants/staff/general";
-    const payload = { staffId, ID, path };
-    this.setState({ isLoading: true });
-    await this.props.GET_STAFF_BY_ID(payload);
+
+    await this.props.getStaffByID(StaffId, MerchantId, path);
   };
 
   render() {
-    let e = this.state.staff;
-    if (e) {
+    let { loading, data } = this.props.staff;
+    const { loading: loadingArchive } = this.props.archiveStaff;
+    const { loading: loadingRestore } = this.props.restoreStaff;
+    const { loading: loadingStaff } = this.props.staffById;
+    if (data) {
       if (this.state.search) {
-        e = e.filter((e) => {
+        data = data.filter((e) => {
           if (e !== null) {
             return (
               e.email
@@ -122,6 +93,25 @@ class Staff extends Component {
       } else {
       }
     }
+
+    const onRowClick = (state, rowInfo, column, instance) => {
+      console.log("rowInfo", rowInfo);
+
+      // console.log("bruh", rowInfo?.row?.actions);
+      return {
+        onClick: (e) => {
+          if (rowInfo !== undefined) {
+            const StaffId = rowInfo?.original?.staffId;
+
+            const MerchantID = this.props.MerchantProfile.merchantId;
+            const path = "/app/merchants/staff/general";
+
+            this.setState({ isLoading: true });
+            this.props.getStaffByID(StaffId, MerchantID, path);
+          }
+        },
+      };
+    };
 
     const columns = [
       {
@@ -256,9 +246,10 @@ class Staff extends Component {
     ];
     return (
       <div className="content general-content react-transition swipe-up Staff">
+        {loadingArchive && <CustomProgress />}
+        {loadingRestore && <CustomProgress />}
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* SEARCH */}
             <div className="search">
               <form>
                 {/* <input title="Search" value="" className="button" readOnly /> */}
@@ -267,7 +258,7 @@ class Staff extends Component {
                   className="textBox"
                   placeholder="Search.."
                   value={this.state.search}
-                  onChange={this._SearchMerchants}
+                  onChange={this.searchMerchant}
                 />
               </form>
             </div>
@@ -285,15 +276,16 @@ class Staff extends Component {
               )}
             </div>
           </div>
-          <ScaleLoader isLoading={this.state.isLoading} />
+          <ScaleLoader isLoading={loadingStaff} />
           <div className="merchant-list-container">
             <ReactTable
-              data={e}
+              data={data}
               columns={columns}
               defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
+              getTdProps={onRowClick}
             />
 
             {/* ARCHIVE */}
@@ -367,12 +359,24 @@ class Staff extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  staff: state.staff,
+  restoreStaff: state.restoreStaff,
+  archiveStaff: state.archiveStaff,
+  staffById: state.staffById,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_STAFF_BY_ID: (payload) => {
-    dispatch(GET_STAFF_BY_ID(payload));
+  archiveStaffById: (ID, MerchantID) => {
+    dispatch(archiveStaffById(ID, MerchantID));
+  },
+  restoreStaffById: (ID, MerchantID) => {
+    dispatch(restoreStaffById(ID, MerchantID));
+  },
+  getStaff: (MerchantID) => {
+    dispatch(getStaff(MerchantID));
+  },
+  getStaffByID: (StaffID, MerchantId, path) => {
+    dispatch(getStaffByID(StaffID, MerchantId, path));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Staff);

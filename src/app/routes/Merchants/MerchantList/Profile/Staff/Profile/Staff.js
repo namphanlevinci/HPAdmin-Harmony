@@ -167,7 +167,7 @@ class staffGeneral extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.MerchantReducer.StaffData,
+  Staff: state.staffById.data,
   userLogin: state.userReducer.User,
   MerchantProfile: state.ViewProfile_Merchants,
 });

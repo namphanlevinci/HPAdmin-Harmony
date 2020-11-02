@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { UPDATE_STAFF } from "../../../../../../../../actions/merchants/actions";
 import { connect } from "react-redux";
 import { Button, Grid, Checkbox } from "@material-ui/core";
 import {
   CustomTextLabel,
   CustomTitle,
 } from "../../../../../../../../util/CustomText";
+import { updateStaffByID } from "../../../../../../../../actions/merchantActions";
 
 import Time from "../../time";
 import Select from "react-select";
@@ -62,9 +62,10 @@ export class EditWorkTime extends Component {
   handleUpdateStaff = () => {
     const state = this.state;
     const data = this.props.Staff;
-    const staffId = this.props.Staff.staffId;
-    const MerchantId = this.props.MerchantData.merchantId;
-    const body = {
+
+    const StaffID = this.props.Staff.staffId;
+    const MerchantID = this.props.MerchantData.merchantId;
+    const payload = {
       firstName: data.firstName,
       lastName: data.lastName,
       displayName: data.displayName,
@@ -91,7 +92,6 @@ export class EditWorkTime extends Component {
       Roles: {
         NameRole: data.roleName,
       },
-      MerchantId,
 
       workingTime: {
         Monday: {
@@ -130,15 +130,12 @@ export class EditWorkTime extends Component {
           isCheck: state.isCheck8,
         },
       },
+      path: "/app/merchants/staff/time",
+      MerchantID,
+      StaffID,
     };
 
-    const payload = {
-      body,
-      staffId,
-      MerchantId,
-      path: "/app/merchants/staff/time",
-    };
-    this.props.UPDATE_STAFF(payload);
+    this.props.updateStaffByID(payload);
   };
 
   render() {
@@ -432,13 +429,13 @@ export class EditWorkTime extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Staff: state.MerchantReducer.StaffData,
+  Staff: state.staffById.data,
   MerchantData: state.MerchantReducer.MerchantData,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  UPDATE_STAFF: (payload) => {
-    dispatch(UPDATE_STAFF(payload));
+  updateStaffByID: (payload) => {
+    dispatch(updateStaffByID(payload));
   },
 });
 

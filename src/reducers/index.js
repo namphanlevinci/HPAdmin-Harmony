@@ -41,7 +41,16 @@ import {
 } from "./Merchants/MerchantReducer";
 // Consumer
 import ConsumerReducer from "./Consumer/index";
-
+// Fetch api
+import { fetchApiReducer } from "./fetchApiReducer";
+// Staff
+import {
+  restoreStaffReducer,
+  archiveStaffReducer,
+  getStaffReducer,
+  getStaffByIdReducer,
+  updateStaffByIdReducer,
+} from "./merchantReducer";
 export default (history) =>
   combineReducers({
     router: connectRouter(history),
@@ -76,4 +85,12 @@ export default (history) =>
     // Merchant
     downloadTemplate: downloadMerchantTemplateReducer,
     addTemplate: addMerchantTemplateReducer,
+    fetchApi: fetchApiReducer,
+
+    // Staff
+    restoreStaff: restoreStaffReducer,
+    archiveStaff: archiveStaffReducer,
+    staff: getStaffReducer,
+    staffById: getStaffByIdReducer,
+    updateStaffById: updateStaffByIdReducer,
   });

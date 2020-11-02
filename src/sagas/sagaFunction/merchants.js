@@ -18,37 +18,11 @@ import {
   GET_MERCHANT_EXTRA_API,
   RESTORE_MERCHANT_EXTRA_API,
   ARCHIVE_MERCHANT_EXTRA_API,
-  UPDATE_STAFF_API,
-  GET_STAFF_BY_ID_API,
   ADD_STAFF_API,
 } from "../api/merchants";
 import { history } from "../../store/index";
 import * as typeMerchant from "../../actions/merchants/types";
 import * as typeNotification from "../../actions/notifications/types";
-
-// GET ALL MERCHANTS
-// export function* GET_ALL_MERCHANT_SAGA() {
-//   yield takeLatest(typeMerchant.getAll_Merchants, function*(action) {
-//     const page = action.payload;
-//     try {
-//       const MerchantsList = yield GET_ALL_MERCHANT_API(page);
-//       // console.log(MerchantsList)
-//       if (MerchantsList !== null) {
-//         yield put({
-//           type: typeMerchant.getAll_Merchants_Success,
-//           payload: MerchantsList,
-//         });
-//       } else {
-//         yield put({
-//           type: typeMerchant.getAll_Merchants_Error,
-//           payload: "Something went wrong, please try again later!",
-//         });
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   });
-// }
 
 // UPDATE MERCHANT INFO (GENERAL)
 export function* UPDATE_MERCHANT_SAGA() {
@@ -483,61 +457,6 @@ export function* RESTORE_MERCHANT_EXTRA_SAGA() {
         yield put({
           type: typeMerchant.GET_MERCHANT_EXTRA,
           payload: action.payload.ID,
-        });
-      } else {
-        yield put({
-          type: typeNotification.FAILURE_NOTIFICATION,
-          payload: "Something went wrong, please try again later!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
-}
-
-// Get staff by ID
-export function* GET_STAFF_BY_ID_SAGA() {
-  yield takeLatest(typeMerchant.GET_STAFF_BY_ID, function* (action) {
-    try {
-      const result = yield GET_STAFF_BY_ID_API(action.payload);
-
-      const { path } = action.payload;
-      if (result !== null) {
-        yield put({
-          type: typeMerchant.GET_STAFF_BY_ID_SUCCESS,
-          payload: result,
-        });
-        if (path) {
-          history.push(path);
-        }
-      } else {
-        yield put({
-          type: typeMerchant.GET_STAFF_BY_ID_FAILURE,
-          payload: "Something went wrong, please try again later!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
-}
-
-// Update Staff by ID
-export function* UPDATE_STAFF_SAGA() {
-  yield takeLatest(typeMerchant.UPDATE_STAFF, function* (action) {
-    try {
-      const result = yield UPDATE_STAFF_API(action.payload);
-      const { path, staffId } = action.payload;
-      const ID = action.payload.MerchantId;
-      if (result === "Success") {
-        yield put({
-          type: typeNotification.SUCCESS_NOTIFICATION,
-          payload: "Success",
-        });
-        yield put({
-          type: typeMerchant.GET_STAFF_BY_ID,
-          payload: { ID, path, staffId },
         });
       } else {
         yield put({

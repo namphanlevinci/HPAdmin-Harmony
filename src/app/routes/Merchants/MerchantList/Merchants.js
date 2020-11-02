@@ -1,9 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  ViewProfile_Merchants,
-  GET_MERCHANT_BY_ID,
-} from "../../../../actions/merchants/actions";
+import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
 
@@ -15,6 +12,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
+import { fetchApiByPage } from "../../../../actions/FetchApiActions";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -22,8 +20,6 @@ import ReactTable from "react-table";
 
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
-import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
 
 import "../Merchants.css";
@@ -36,13 +32,6 @@ class Merchants extends React.Component {
     super(props);
     this.state = {
       search: "",
-      loading: true,
-      // Pages
-      page: 0,
-      pageCount: 0,
-      data: [],
-      pageLoading: false,
-      isLoading: false,
     };
   }
 
@@ -50,38 +39,15 @@ class Merchants extends React.Component {
     this.setState({ pageLoading: true });
   }
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-    this.setState({ loading: true });
 
-    await axios
-      .get(
-        URL +
-          `/merchant/search?key=${this.state.search}&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.setState({ data: [] });
-        }
-        this.setState({ loading: false });
-      });
+    const url = `${URL}/merchant/search?key=${this.state.search}&page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -94,9 +60,8 @@ class Merchants extends React.Component {
     this.props.history.push("/app/merchants/add");
   };
   MerchantProfilePage = (ID) => {
-    this.setState({ loading: true });
     const payload = { ID, path: "/app/merchants/profile/general" };
-    this.props.GET_MERCHANT_BY_ID(payload);
+    this.props.getMerchantByID(payload);
   };
 
   keyPressed = (event) => {
@@ -107,11 +72,13 @@ class Merchants extends React.Component {
     }
   };
 
-  _SearchMerchants = async (e) => {
+  searchMerchant = async (e) => {
     await this.setState({ search: e.target.value });
   };
   render() {
-    const { page, pageCount, data, pageSize } = this.state;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
+
     const columns = [
       {
         Header: <CustomTableHeader value="ID" />,
@@ -221,7 +188,7 @@ class Merchants extends React.Component {
                   }}
                   placeholder="Search.."
                   value={this.state.search}
-                  onChange={this._SearchMerchants}
+                  onChange={this.searchMerchant}
                   onKeyPress={this.keyPressed}
                   endAdornment={
                     <InputAdornment position="end">
@@ -251,7 +218,6 @@ class Merchants extends React.Component {
               )}
             </div>
           </div>
-          <ScaleLoader isLoading={this.state.isLoading} />
           <div className="merchant-list-container">
             <ReactTable
               manual
@@ -260,13 +226,12 @@ class Merchants extends React.Component {
               pages={pageCount}
               data={data}
               row={pageSize}
-              // You should also control this...
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               defaultPageSize={20}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
               getTdProps={onRowClick}
             />
@@ -278,14 +243,14 @@ class Merchants extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
+  apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
+  getMerchantByID: (payload) => {
+    dispatch(GET_MERCHANT_BY_ID(payload));
   },
-  GET_MERCHANT_BY_ID: (ID) => {
-    dispatch(GET_MERCHANT_BY_ID(ID));
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Merchants);
