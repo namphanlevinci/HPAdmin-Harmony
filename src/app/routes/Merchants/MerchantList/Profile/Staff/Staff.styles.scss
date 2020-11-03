@@ -115,12 +115,11 @@ button.btn.btn-red {
 }
 .input-box { 
   position: relative;
-  // margin-left: 40px; 
+  
 }
   
 .input-box input {
    display: block; 
-   /* border: 1px solid #d7d6d6; */
    background: #fff;
    padding: 10px 10px 0px 30px ; 
    text-align: right;
@@ -140,4 +139,18 @@ button.btn.btn-red {
   border-radius: 50%;
   height: 250px;
   width: 250px;
+}
+
+.salary_padding {
+  padding-top: 15px;
+}
+
+.salary_margin {
+  margin: 0px 20px;
+}
+.delete_icon {
+  color: red;
+  margin-top: 13px ;
+  cursor: pointer;
+  font-size: 24px !important
 }

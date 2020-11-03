@@ -76,7 +76,13 @@ export default {
     },
     commission: {
       isCheck: false,
-      value: (0).toFixed(2),
+      value: [
+        {
+          from: 0,
+          to: 1000,
+          commission: 0,
+        },
+      ],
     },
   },
   productSalary: {

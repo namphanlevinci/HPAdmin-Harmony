@@ -14,8 +14,32 @@ export default [
         return pinConfirm === this.parent.pin;
       }),
   }),
+
+  // Working Time
+  Yup.object().shape({}),
+
+  // Salary
   // Yup.object().shape({
-  //   lastName: Yup.string().required("Business name is required"),
+  //   salary: Yup.object().shape({
+  //     commission: Yup.object().shape({
+  //       value: Yup.array().of(
+  //         Yup.object().shape({
+  //           isCheck: Yup.boolean(),
+  //           from: Yup.string().when("isCheck", {
+  //             is: (isCheck) => true,
+  //             then: Yup.string().required("Required"),
+  //           }),
+  //           to: Yup.string().when("isCheck", {
+  //             is: (isCheck) => true,
+  //             then: Yup.string().required("Required"),
+  //           }),
+  //           commission: Yup.string().when("isCheck", {
+  //             is: (isCheck) => true,
+  //             then: Yup.string().required("Required"),
+  //           }),
+  //         })
+  //       ),
+  //     }),
+  //   }),
   // }),
-  // Yup.object().shape({}),
 ];

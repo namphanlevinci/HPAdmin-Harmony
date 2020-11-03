@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
-import { fetchApiByPage } from "../../../../actions/FetchApiActions";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 
 import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";

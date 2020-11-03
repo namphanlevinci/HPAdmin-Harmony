@@ -14,6 +14,7 @@ import Salary from "./Salary/Salary";
 import EditSalary from "./Salary/EditSalary";
 import License from "./License/License";
 import EditLicense from "./License/EditLicense";
+import CustomProgress from "../../../../../../../util/CustomProgress";
 
 import "../../../../PendingList/MerchantReqProfile.css";
 import "../../../MerchantProfile.css";
@@ -36,8 +37,10 @@ class staffGeneral extends Component {
 
   render() {
     const Staff = this.props.Staff;
+    const { loading: loadingUpdate } = this.props.updateStaff;
     return (
       <div>
+        {loadingUpdate && <CustomProgress />}
         <div className="container-fluid content-list">
           <ContainerHeader
             match={this.props.match}
@@ -170,6 +173,7 @@ const mapStateToProps = (state) => ({
   Staff: state.staffById.data,
   userLogin: state.userReducer.User,
   MerchantProfile: state.ViewProfile_Merchants,
+  updateStaff: state.updateStaffById,
 });
 
 export default connect(mapStateToProps)(staffGeneral);

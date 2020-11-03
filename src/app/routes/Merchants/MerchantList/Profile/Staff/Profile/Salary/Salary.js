@@ -49,7 +49,7 @@ class Salary extends Component {
             </Grid>
           </Grid>
           <Grid container>
-            <Grid item xs={12} sm={6} md={6}>
+            <Grid item xs={12} sm={6} md={6} style={{ paddingTop: 10 }}>
               <div className="checkbox">
                 <Checkbox
                   name="commIsCheck"
@@ -62,48 +62,58 @@ class Salary extends Component {
               </div>
             </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <TextField
-              type="text"
-              style={styles.input}
-              value={salaries?.commission?.from}
-              disabled
-              label="From"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">$</InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              type="text"
-              style={styles.input}
-              value={salaries?.commission?.to}
-              disabled
-              label="To"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">$</InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              type="text"
-              style={styles.input}
-              value={salaries?.commission?.commission}
-              disabled
-              label="Salary Percent"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">%</InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
+
+          {salaries?.commission?.value.map((item, index) => (
+            <Grid
+              container
+              spacing={3}
+              className={index !== 0 && "salary_padding"}
+            >
+              <Grid item xs={4}>
+                <TextField
+                  type="text"
+                  style={styles.input}
+                  value={item?.from}
+                  disabled
+                  label="From"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">$</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  type="text"
+                  style={styles.input}
+                  value={item?.to}
+                  disabled
+                  label="To"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">$</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  type="text"
+                  style={styles.input}
+                  value={item?.commission}
+                  disabled
+                  label="Salary Percent"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">%</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+            </Grid>
+          ))}
+
           <br />
           <Grid item xs={12}>
             <CustomTitle value="Product Salary" styles={styles.title} />
@@ -157,6 +167,7 @@ class Salary extends Component {
               style={styles.input}
               value={tipFees?.percent?.value}
               disabled
+              label="Percent"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">%</InputAdornment>
@@ -179,6 +190,7 @@ class Salary extends Component {
 
             <TextField
               type="text"
+              label="Amount"
               style={styles.input}
               value={Number(tipFees?.fixedAmount?.value)?.toFixed(2)}
               disabled
@@ -195,13 +207,9 @@ class Salary extends Component {
           </Grid>
           {/* PAYOUT BY CASH */}
           <Grid item xs={12} sm={6} md={4}>
-            <div className="checkbox">
-              <Checkbox checked />
-              <label>Payout with Cash </label>
-            </div>
-
             <TextField
               type="text"
+              label="Percent"
               style={styles.input}
               value={cashPercent}
               disabled

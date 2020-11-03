@@ -94,24 +94,21 @@ class Staff extends Component {
       }
     }
 
-    const onRowClick = (state, rowInfo, column, instance) => {
-      console.log("rowInfo", rowInfo);
+    // const onRowClick = (state, rowInfo, column, instance) => {
+    //   return {
+    //     onClick: (e) => {
+    //       if (rowInfo !== undefined) {
+    //         const StaffId = rowInfo?.original?.staffId;
 
-      // console.log("bruh", rowInfo?.row?.actions);
-      return {
-        onClick: (e) => {
-          if (rowInfo !== undefined) {
-            const StaffId = rowInfo?.original?.staffId;
+    //         const MerchantID = this.props.MerchantProfile.merchantId;
+    //         const path = "/app/merchants/staff/general";
 
-            const MerchantID = this.props.MerchantProfile.merchantId;
-            const path = "/app/merchants/staff/general";
-
-            this.setState({ isLoading: true });
-            this.props.getStaffByID(StaffId, MerchantID, path);
-          }
-        },
-      };
-    };
+    //         this.setState({ isLoading: true });
+    //         this.props.getStaffByID(StaffId, MerchantID, path);
+    //       }
+    //     },
+    //   };
+    // };
 
     const columns = [
       {
@@ -285,7 +282,7 @@ class Staff extends Component {
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
-              getTdProps={onRowClick}
+              // getTdProps={onRowClick}
             />
 
             {/* ARCHIVE */}

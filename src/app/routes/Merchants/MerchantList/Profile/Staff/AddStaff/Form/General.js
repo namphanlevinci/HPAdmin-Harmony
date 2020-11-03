@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import {
   InputAdornment,
   IconButton,
@@ -7,6 +7,7 @@ import {
   MenuItem,
   InputLabel,
 } from "@material-ui/core";
+import { CustomTitle } from "../../../../../../../../util/CustomText";
 
 import InputField from "../FormFields/InputField";
 import SelectField from "../FormFields/SelectField";
@@ -32,9 +33,11 @@ function General(props) {
   } = props;
   return (
     <div>
-      <Typography variant="h5" gutterBottom>
-        General Information
-      </Typography>
+      <CustomTitle
+        value=" General Information"
+        styles={{ padding: "15px 0px" }}
+      />
+
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
           <InputField name="firstName" label="First Name*" fullWidth />

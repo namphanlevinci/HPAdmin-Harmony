@@ -5,7 +5,7 @@ import { config } from "../../../url/url";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
 import { Typography } from "@material-ui/core";
-import { fetchApiByPage } from "../../../actions/FetchApiActions";
+import { fetchApiByPage } from "../../../actions/fetchApiActions";
 
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";

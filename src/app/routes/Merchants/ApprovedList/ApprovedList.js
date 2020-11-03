@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
-import { fetchApiByPage } from "../../../../actions/FetchApiActions";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 
 import IntlMessages from "../../../../util/IntlMessages";

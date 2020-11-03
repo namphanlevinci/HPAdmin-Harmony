@@ -1,5 +1,7 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { CustomTitle } from "../../../../../../../../util/CustomText";
+import { Grid } from "@material-ui/core";
+
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -25,9 +27,7 @@ function WorkTime(props) {
 
   return (
     <div>
-      <Typography variant="h5" gutterBottom>
-        Work Time
-      </Typography>
+      <CustomTitle value="Work Time" styles={{ padding: "15px 0px" }} />
       <Grid container spacing={3}>
         <Grid item xs={12} md={2}>
           Date
