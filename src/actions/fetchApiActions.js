@@ -2,7 +2,7 @@ import {
   FETCH_API_REQUEST,
   FETCH_API_SUCCESS,
   FETCH_API_FAILURE,
-} from "../constants/fetchApiConstanst";
+} from "../constants/fetchApiConstants";
 import { FAILURE_NOTIFICATION } from "../constants/notificationConstants";
 import axios from "axios";
 

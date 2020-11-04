@@ -13,7 +13,6 @@ import {
 class Salary extends Component {
   render() {
     const Salary = this.props.Staff;
-    console.log("SALARRY", Salary);
     const salaries = Salary?.salaries;
     const tipFees = Salary?.tipFees;
     const productSalaries = Salary?.productSalaries;

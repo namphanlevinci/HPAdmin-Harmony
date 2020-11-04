@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+
 import {
-  GET_CONSUMER_BY_ID,
-  DELETE_CONSUMER_BY_ID,
-  RESTORE_CONSUMER_BY_ID,
-} from "../../../../../actions/consumer/actions";
+  restoreConsumerById,
+  archiveConsumerById,
+} from "../../../../../actions/consumerActions";
+
 import {
   CustomText,
   CustomTextLabel,
@@ -38,22 +39,28 @@ class General extends Component {
   };
 
   render() {
-    const e = this.props.ConsumerProfile;
-    const ID = this.props.ConsumerProfile.userId;
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      userId,
+      isDisabled,
+    } = this.props.ConsumerProfile;
 
     const ConsumerStatus =
-      e.isDisabled !== 1 ? (
+      isDisabled !== 1 ? (
         <DisableConsumer
           open={this.state.open}
           handleToggle={this.handleDialog}
-          ConsumerID={this.props.ConsumerProfile.userId}
-          deleteConsumer={this.props.DELETE_CONSUMER_BY_ID}
+          ConsumerID={userId}
+          deleteConsumer={this.props.archiveConsumerById}
         />
       ) : (
         <Button
           type="submit"
           className="btn btn-green"
-          onClick={() => this.props.RESTORE_CONSUMER_BY_ID(ID)}
+          onClick={() => this.props.restoreConsumerById(userId)}
         >
           ENABLE
         </Button>
@@ -68,19 +75,19 @@ class General extends Component {
             </Grid>
             <Grid item xs={4}>
               <CustomTextLabel value="First Name*" />
-              <CustomText value={e?.firstName} />
+              <CustomText value={firstName} />
             </Grid>
             <Grid item xs={4}>
               <CustomTextLabel value="Last Name*" />
-              <CustomText value={e?.lastName} />
+              <CustomText value={lastName} />
             </Grid>
             <Grid item xs={4}>
               <CustomTextLabel value="Contact Email*" />
-              <CustomText value={e?.email} />
+              <CustomText value={email} />
             </Grid>
             <Grid item xs={4}>
               <CustomTextLabel value="Phone Number*" />
-              <CustomText value={e?.phone} />
+              <CustomText value={phone} />
             </Grid>
             <Grid item xs={12} style={{ marginTop: "20px", display: "flex" }}>
               {CheckPermissions("edit-consumer") && (
@@ -88,7 +95,7 @@ class General extends Component {
                   EDIT
                 </Button>
               )}
-              {/* active-consumer moi dung */}
+
               {CheckPermissions("active-consumer") && ConsumerStatus}
             </Grid>
           </Grid>
@@ -99,18 +106,16 @@ class General extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ConsumerProfile: state.ConsumerReducer.Consumer,
-  userLogin: state.userReducer.User,
+  ConsumerProfile: state.consumerById.data,
+  archiveConsumer: state.archiveConsumer,
+  restoreConsumer: state.restoreConsumer,
 });
 const mapDispatchToProps = (dispatch) => ({
-  GET_CONSUMER_BY_ID: (payload) => {
-    dispatch(GET_CONSUMER_BY_ID(payload));
+  archiveConsumerById: (ID, reason) => {
+    dispatch(archiveConsumerById(ID, reason));
   },
-  DELETE_CONSUMER_BY_ID: (payload, id) => {
-    dispatch(DELETE_CONSUMER_BY_ID(payload, id));
-  },
-  RESTORE_CONSUMER_BY_ID: (payload, id) => {
-    dispatch(RESTORE_CONSUMER_BY_ID(payload, id));
+  restoreConsumerById: (ID) => {
+    dispatch(restoreConsumerById(ID));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);

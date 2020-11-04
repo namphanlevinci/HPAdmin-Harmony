@@ -36,8 +36,9 @@ export default function DisableConsumer({
             }}
             onSubmit={(values, { setSubmitting }) => {
               const reason = values.rejectReason;
-              const payload = { ID: ConsumerID, reason };
-              deleteConsumer(payload);
+              const ID = ConsumerID;
+              deleteConsumer(ID, reason);
+              handleToggle();
             }}
           >
             {({ values, isSubmitting }) => (
