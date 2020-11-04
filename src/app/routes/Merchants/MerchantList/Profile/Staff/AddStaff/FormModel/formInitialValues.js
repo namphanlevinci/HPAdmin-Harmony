@@ -15,7 +15,7 @@ export default {
   pin: "",
   confirmPin: "",
   roles: {
-    nameRole: "",
+    nameRole: "admin",
   },
   isActive: true,
   isDisabled: 0,

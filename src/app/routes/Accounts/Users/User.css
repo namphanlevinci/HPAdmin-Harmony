@@ -234,16 +234,10 @@ input:focus {
   font-weight: 400;
 }
 
-/* @media (min-width: 1281px) {
-  .admin-avatar {
-    width: 244px;
-    height: 244px;
-  }
+.avatar_last {
+  height: 200px;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-@media (min-width: 1024px) {
-  .admin-avatar {
-    width: 222px;
-    height: 222px;
-  }
-} */

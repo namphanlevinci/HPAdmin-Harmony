@@ -20,6 +20,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import State from "../../../../../../../../util/InitialState";
 import Checkbox from "@material-ui/core/Checkbox";
+import DefaultAvatar from "../../../../avatar.png";
+import Avatar from "@material-ui/core/Avatar";
 
 function General(props) {
   const {
@@ -29,8 +31,9 @@ function General(props) {
     handleShowPin,
     handleConfirmPin,
     showConfirmPin,
-    initValue: { isActive },
+    initValue: { isActive, roles, isDisabled },
   } = props;
+
   return (
     <div>
       <CustomTitle
@@ -138,6 +141,7 @@ function General(props) {
         <Grid item xs={12} md={4}>
           <SelectField
             name={`roles.nameRole`}
+            value={roles.nameRole}
             label="Role"
             data={role}
             fullWidth
@@ -147,7 +151,8 @@ function General(props) {
           <FormControl fullWidth>
             <InputLabel>Status</InputLabel>
             <Select
-              // name="isDisabled"
+              name="isDisabled"
+              value={isDisabled}
               fullWidth
               onChange={(e) => {
                 setFieldValue("isDisabled", e.target.value);
@@ -176,19 +181,14 @@ function General(props) {
           <label>Image</label>
           <br />
 
-          <img
+          <Avatar
             src={
               props.initValue.staffAvatar
                 ? props.initValue.staffAvatar
-                : "http://image.levincitest.com/Service/avatar_20191009_023452.png"
+                : DefaultAvatar
             }
             alt="avatar"
-            style={{
-              borderRadius: "50%",
-              width: "100%",
-              height: "auto",
-              maxHeight: "220px",
-            }}
+            className="avatar_last"
           />
 
           <input

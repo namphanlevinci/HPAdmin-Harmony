@@ -56,7 +56,7 @@ class Consumers extends React.Component {
   keyPressed = async (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
@@ -224,7 +224,6 @@ const mapDispatchToProps = (dispatch) => ({
   GET_CONSUMER_BY_ID: (payload) => {
     dispatch(GET_CONSUMER_BY_ID(payload));
   },
-
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
   },

@@ -7,6 +7,7 @@ import { Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
+import { Select, Avatar } from "@material-ui/core";
 import { ADD_ADMIN, VIEW_PROFILE_USER } from "../../../../actions/user/actions";
 import { TextField, Grid, Button } from "@material-ui/core";
 import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
@@ -14,7 +15,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import CustomStateSelect from "../../../../util/CustomStateSelect";
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
@@ -25,6 +25,7 @@ import "date-fns";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
+import DefaultAvatar from "./avatar.png";
 
 import "../../Merchants/MerchantList/Profile/Detail.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -84,18 +85,20 @@ class addAdmin2 extends Component {
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (
-        <img
+        <Avatar
           src={imagePreviewUrl}
           alt="avatar"
-          style={{ width: "100%", height: "auto" }}
+          // style={{ width: "220px", height: "220px" }}
+          className="avatar_last"
         />
       );
     } else {
       $imagePreview = (
-        <img
-          src="http://image.levincitest.com/Service/avatar_20191009_023452.png"
+        <Avatar
+          src={DefaultAvatar}
           alt="avatar"
-          style={{ width: "100%", height: "auto" }}
+          className="avatar_last"
+          // style={{ width: "220px", height: "220px" }}
         />
       );
     }

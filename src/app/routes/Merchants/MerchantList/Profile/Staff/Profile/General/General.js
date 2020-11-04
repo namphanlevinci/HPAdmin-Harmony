@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Avatar } from "@material-ui/core";
 
 import {
   CustomText,
@@ -100,16 +100,9 @@ export class General extends Component {
         <Grid item xs={4}></Grid>
         <Grid item xs={3} lg={3}>
           <CustomTextLabel value="Avatar" />
-          <img
+          <Avatar
             src={Staff?.imageUrl}
-            style={{
-              width: "100%",
-              height: "auto",
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              borderRadius: "50%",
-            }}
+            className="avatar_last"
             alt="staff_avatar"
           />
         </Grid>

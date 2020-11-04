@@ -8,17 +8,20 @@ import {
   FormGroup,
   FormControl,
   Grid,
-  CardMedia,
   TextField,
   InputAdornment,
+  Avatar,
+  Select,
+  MenuItem,
+  InputLabel,
 } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import { CustomTitle } from "../../../../../../../../util/CustomText";
 import { updateStaffByID } from "../../../../../../../../actions/merchantActions";
+
 import InputCustom from "../../../../../../../../util/CustomInput";
 import * as Yup from "yup";
-import Select from "react-select";
-import selectState from "../../../../../../../../util/selectState";
+import CustomStateSelect from "../../../../../../../../util/CustomStateSelect";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import LinearProgress from "../../../../../../../../util/linearProgress";
@@ -105,33 +108,13 @@ export class EditGeneral extends Component {
   };
 
   render() {
-    const status = [
-      { label: "Available", value: "0" },
-      { label: "Disable", value: "1" },
-    ];
-
-    const roles = [
-      { label: "Admin", value: "1" },
-      { label: "Staff", value: "3" },
-    ];
-
     let { imagePreviewUrl, loading, showP } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = (
-        <CardMedia
-          src={imagePreviewUrl}
-          component="img"
-          style={{ borderRadius: "50%" }}
-        />
-      );
+      $imagePreview = <Avatar src={imagePreviewUrl} className="avatar_last" />;
     } else {
       $imagePreview = (
-        <CardMedia
-          component="img"
-          src={this.state?.imageUrl}
-          style={{ borderRadius: "50%" }}
-        />
+        <Avatar className="avatar_last" src={this.state?.imageUrl} />
       );
     }
 
@@ -261,6 +244,7 @@ export class EditGeneral extends Component {
                       inputProps={{
                         maxLength: 50,
                       }}
+                      style={{ paddingTop: "5px" }}
                     />
                   </Grid>
                   <Grid item xs={6} md={4}>
@@ -274,17 +258,17 @@ export class EditGeneral extends Component {
                       inputProps={{
                         maxLength: 50,
                       }}
+                      style={{ paddingTop: "5px" }}
                     />
                   </Grid>
                   <Grid item xs={6} md={4}>
-                    <label>State</label>
-                    <Select
-                      defaultValue={{
-                        label: values.stateName,
-                        value: values.stateId,
-                      }}
-                      options={selectState}
-                      onChange={(e) => setFieldValue(`stateId`, e.value)}
+                    <CustomStateSelect
+                      label="State"
+                      name="stateId"
+                      initialValue={values.stateId}
+                      handleChange={(state) =>
+                        setFieldValue("stateId", state.target.value)
+                      }
                     />
                   </Grid>
                   <Grid item xs={6} md={4}>
@@ -379,28 +363,38 @@ export class EditGeneral extends Component {
                     </FormControl>
                   </Grid>
 
-                  <Grid item xs={6} md={4}>
-                    <label>Role</label>
-                    <Select
-                      defaultValue={{
-                        label: values.roleName,
-                        value: values.roles,
-                      }}
-                      options={roles}
-                      onChange={(e) => setFieldValue(`roles`, e.label)}
-                    />
-                  </Grid>
-                  <Grid item xs={6} md={4}>
-                    <label>Status</label>
-                    <Select
-                      defaultValue={{
-                        label:
-                          values.isDisabled === 0 ? "Available" : "Disable",
-                        value: values.isDisabled,
-                      }}
-                      options={status}
-                      onChange={(e) => setFieldValue(`isDisabled`, e.value)}
-                    />
+                  <Grid item xs={12}>
+                    <Grid container spacing={3}>
+                      <Grid item xs={6} md={4}>
+                        <FormControl style={{ width: "100%" }}>
+                          <InputLabel>Role</InputLabel>
+                          <Select
+                            fullWidth
+                            value={values.roleName}
+                            onChange={(e) =>
+                              setFieldValue(`roleName`, e.target.value)
+                            }
+                          >
+                            <MenuItem value="Admin">Admin</MenuItem>
+                            <MenuItem value="Staff">Staff</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <FormControl style={{ width: "100%" }}>
+                          <InputLabel>Status</InputLabel>
+                          <Select
+                            value={values.isDisabled}
+                            onChange={(e) =>
+                              setFieldValue(`isDisabled`, e.target.value)
+                            }
+                          >
+                            <MenuItem value={0}>Available</MenuItem>
+                            <MenuItem value={1}>Disabled</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                    </Grid>
                   </Grid>
                   <Grid item xs={12} md={12}>
                     <Grid item xs={3} lg={3}>

@@ -8,10 +8,11 @@ import {
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
-import { FAILURE_NOTIFICATION } from "../../../../actions/notifications/actions";
 import { CustomTableHeader } from "../../../../util/CustomText";
-import ReactTable from "react-table";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { Button, Typography } from "@material-ui/core";
+
+import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
@@ -57,37 +58,15 @@ class Users extends Component {
       });
   };
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/adminuser?key=${this.state.search}&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.props.FailureNotify(res.data.message);
-        }
-        this.setState({ loading: false });
-      });
+
+    const url = `${URL}/adminuser?key=${this.state.search}&page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -98,8 +77,7 @@ class Users extends Component {
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.setState({ loading: true });
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
@@ -107,7 +85,8 @@ class Users extends Component {
     this.props.history.push("/app/accounts/admin/add");
   };
   render() {
-    const { page, pageCount, data, pageSize } = this.state;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
       {
@@ -235,11 +214,11 @@ class Users extends Component {
               data={data}
               row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
               getTdProps={onRowClick}
             />
@@ -252,6 +231,7 @@ class Users extends Component {
 
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
+  apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
   GET_USER_REQUEST: () => {
@@ -261,8 +241,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(VIEW_PROFILE_USER(payload));
   },
 
-  FailureNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

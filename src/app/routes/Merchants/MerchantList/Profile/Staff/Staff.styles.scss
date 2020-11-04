@@ -1,8 +1,5 @@
 
 .Staff .ReactTable .rt-tbody .rt-td {
-  // padding-left: 15px;
-  // align-items: center;
-  // display: flex;
   padding: 10px 10px 10px 10px ;
 }
 
@@ -153,4 +150,12 @@ button.btn.btn-red {
   margin-top: 13px ;
   cursor: pointer;
   font-size: 24px !important
+}
+
+.avatar_last {
+  height: 200px;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
