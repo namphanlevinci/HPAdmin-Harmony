@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { motion } from "framer-motion";
 
 import {
   restoreConsumerById,
@@ -57,50 +58,59 @@ class General extends Component {
           deleteConsumer={this.props.archiveConsumerById}
         />
       ) : (
-        <Button
-          type="submit"
-          className="btn btn-green"
-          onClick={() => this.props.restoreConsumerById(userId)}
-        >
-          ENABLE
-        </Button>
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <Button
+            type="submit"
+            className="btn btn-green"
+            onClick={() => this.props.restoreConsumerById(userId)}
+          >
+            ENABLE
+          </Button>
+        </motion.div>
       );
 
     return (
-      <div className="content ">
-        <div className="react-transition swipe-right consumer__general">
-          <Grid container spacing={3} className="container-fluid">
-            <Grid item xs={12}>
-              <CustomTitle value="General Information" />
-            </Grid>
-            <Grid item xs={4}>
-              <CustomTextLabel value="First Name*" />
-              <CustomText value={firstName} />
-            </Grid>
-            <Grid item xs={4}>
-              <CustomTextLabel value="Last Name*" />
-              <CustomText value={lastName} />
-            </Grid>
-            <Grid item xs={4}>
-              <CustomTextLabel value="Contact Email*" />
-              <CustomText value={email} />
-            </Grid>
-            <Grid item xs={4}>
-              <CustomTextLabel value="Phone Number*" />
-              <CustomText value={phone} />
-            </Grid>
-            <Grid item xs={12} style={{ marginTop: "20px", display: "flex" }}>
-              {CheckPermissions("edit-consumer") && (
-                <Button className="btn btn-green" onClick={this.EditPage}>
-                  EDIT
-                </Button>
-              )}
+      <motion.div
+        initial="out"
+        animate="in"
+        exit="out"
+        variants={this.props.pageTransition}
+      >
+        <div className="content">
+          <div className="consumer__general">
+            <Grid container spacing={3} className="container-fluid">
+              <Grid item xs={12}>
+                <CustomTitle value="General Information" />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="First Name*" />
+                <CustomText value={firstName} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Last Name*" />
+                <CustomText value={lastName} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Contact Email*" />
+                <CustomText value={email} />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextLabel value="Phone Number*" />
+                <CustomText value={phone} />
+              </Grid>
+              <Grid item xs={12} style={{ marginTop: "20px", display: "flex" }}>
+                {CheckPermissions("edit-consumer") && (
+                  <Button className="btn btn-green" onClick={this.EditPage}>
+                    EDIT
+                  </Button>
+                )}
 
-              {CheckPermissions("active-consumer") && ConsumerStatus}
+                {CheckPermissions("active-consumer") && ConsumerStatus}
+              </Grid>
             </Grid>
-          </Grid>
+          </div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 }

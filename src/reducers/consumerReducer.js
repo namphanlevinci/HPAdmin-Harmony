@@ -80,8 +80,35 @@ const restoreConsumerByIdReducer = (
   }
 };
 
+const updateConsumerByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.UPDATE_CONSUMER_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.UPDATE_CONSUMER_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+
+    case types.UPDATE_CONSUMER_FAILURE:
+      return {
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
 export {
   getConsumerByIdReducer,
   restoreConsumerByIdReducer,
   archiveConsumerByIdReducer,
+  updateConsumerByIdReducer,
 };

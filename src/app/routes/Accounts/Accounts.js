@@ -10,9 +10,8 @@ const Accounts = ({ match }) => (
     <Switch>
       <Route
         path={`${match.url}/admin/add`}
-        component={asyncComponent(() => import("./Users/addAdmin2"))}
+        component={asyncComponent(() => import("./Users/AddUser"))}
       />
-
       <Route
         path={`${match.url}/admin/profile/edit`}
         component={asyncComponent(() => import("./Users/EditUserProfile"))}
@@ -27,18 +26,12 @@ const Accounts = ({ match }) => (
       />
       <Route
         path={`${match.url}/roles`}
-        // onClick={() => this.props.GET_ALL_PERMISSION()}
         component={asyncComponent(() => import("./Roles/Roles"))}
       />
       <Route
         path={`${match.url}/logs`}
         component={asyncComponent(() => import("./Logs/Logs"))}
       />
-
-      {/* <Route
-        path={`${match.url}/add-Admin`}
-        component={asyncComponent(() => import("./Users/addAdmin"))}
-      /> */}
     </Switch>
   </div>
 );

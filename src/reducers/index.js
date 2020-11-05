@@ -56,7 +56,16 @@ import {
   getConsumerByIdReducer,
   restoreConsumerByIdReducer,
   archiveConsumerByIdReducer,
+  updateConsumerByIdReducer,
 } from "./consumerReducer";
+// User
+import {
+  getUserByIdReducer,
+  restoreUserReducer,
+  archiveUserReducer,
+  changeUserPasswordByIdReducer,
+  updateUserByIdReducer,
+} from "./userReducer";
 export default (history) =>
   combineReducers({
     router: connectRouter(history),
@@ -104,4 +113,12 @@ export default (history) =>
     consumerById: getConsumerByIdReducer,
     archiveConsumer: archiveConsumerByIdReducer,
     restoreConsumer: restoreConsumerByIdReducer,
+    updateConsumerById: updateConsumerByIdReducer,
+
+    // User
+    userById: getUserByIdReducer,
+    archiveUser: archiveUserReducer,
+    restoreUser: restoreUserReducer,
+    changeUserPassword: changeUserPasswordByIdReducer,
+    updateUser: updateUserByIdReducer,
   });

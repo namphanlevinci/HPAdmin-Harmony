@@ -2,21 +2,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../url/url";
+
 import {
-  VIEW_PROFILE_USER,
-  UPDATE_USER_ADMIN,
-  UPDATE_USER_PASSWORD,
-} from "../../actions/user/actions";
+  updateUserById,
+  changeUserPasswordById,
+} from "../../actions/userActions";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
 } from "react-router-dom";
-import { GiCheckedShield } from "react-icons/gi";
-import { FaPen } from "react-icons/fa";
 import { Grid } from "@material-ui/core";
 
+import SecurityIcon from "@material-ui/icons/Security";
+import CreateIcon from "@material-ui/icons/Create";
 import IntlMessages from "../../util/IntlMessages";
 import ContainerHeader from "../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
@@ -130,45 +130,31 @@ class proFile extends Component {
   updateAdmin = () => {
     const ID = this.props.CurrentUser?.waUserId;
     const {
-      firstName,
-      lastName,
-      email,
-      birthDate,
-      address,
-      city,
-      zip,
-      phone,
-      stateId,
-      fileId,
-      waRoleId,
       isPass,
       newPassword,
       currentPassword,
       isCurrentUserPage,
     } = this.state;
+    const path = "/app/profile/general";
 
-    let body = isPass
-      ? { oldPassword: currentPassword, newPassword, ID, isCurrentUserPage }
-      : {
-          firstName,
-          lastName,
-          email,
-          birthDate,
-          address,
-          city,
-          zip,
-          waRoleId,
-          phone,
-          stateId,
-          fileId,
+    let payload = isPass
+      ? {
+          oldPassword: currentPassword,
+          newPassword,
           ID,
           isCurrentUserPage,
+          path,
+        }
+      : {
+          ...this.state,
+          path,
+          ID,
         };
 
     if (isPass) {
-      this.props.UPDATE_USER_PASSWORD(body);
+      this.props.changeUserPasswordById(payload);
     } else {
-      this.props.UPDATE_USER_ADMIN(body);
+      this.props.updateUserById(payload);
     }
   };
 
@@ -288,7 +274,7 @@ class proFile extends Component {
                   onClick={() => this.setState({ isPass: false })}
                 >
                   <div style={styles.navIcon}>
-                    <FaPen size={19} />
+                    <CreateIcon size={19} />
                     <span style={{ paddingLeft: "10px" }}>Profile</span>
                   </div>
                 </NavLink>
@@ -303,7 +289,7 @@ class proFile extends Component {
                   onClick={() => this.setState({ isPass: true })}
                 >
                   <div style={styles.navIcon}>
-                    <GiCheckedShield size={20} />
+                    <SecurityIcon size={20} />
                     <span style={{ paddingLeft: "10px" }}>Change password</span>
                   </div>
                 </NavLink>
@@ -368,14 +354,11 @@ const mapStateToProps = (state) => ({
   CurrentUser: state.userReducer.LoggedUser,
 });
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_PROFILE_USER: (payload) => {
-    dispatch(VIEW_PROFILE_USER(payload));
+  updateUserById: (payload) => {
+    dispatch(updateUserById(payload));
   },
-  UPDATE_USER_ADMIN: (payload) => {
-    dispatch(UPDATE_USER_ADMIN(payload));
-  },
-  UPDATE_USER_PASSWORD: (payload) => {
-    dispatch(UPDATE_USER_PASSWORD(payload));
+  changeUserPasswordById: (payload) => {
+    dispatch(changeUserPasswordById(payload));
   },
 });
 

@@ -315,7 +315,7 @@ class Template extends Component {
                   this.props.history.push("/app/giftcard/template/add")
                 }
               >
-                New Template
+                NEW TEMPLATE
               </Button>
             )}
           </div>

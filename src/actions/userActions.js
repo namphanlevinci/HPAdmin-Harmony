@@ -1,8 +1,7 @@
-import * as types from "../constants/consumerConstants";
-
+import * as types from "../constants/userConstants";
 import {
-  FAILURE_NOTIFICATION,
   SUCCESS_NOTIFICATION,
+  FAILURE_NOTIFICATION,
 } from "../constants/notificationConstants";
 
 import axios from "axios";
@@ -11,24 +10,24 @@ import { history } from "../store/index";
 
 const URL = config.url.URL;
 
-export const getConsumerByID = (ID, path) => async (dispatch, getState) => {
+export const getUserByID = (ID, path) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: types.GET_CONSUMER_BY_ID_REQUEST,
+      type: types.GET_USER_BY_ID_REQUEST,
     });
 
     const {
       userReducer: { User },
     } = await getState();
 
-    const { data } = await axios.get(`${URL}/user/${ID}`, {
+    const { data } = await axios.get(`${URL}/adminuser/${ID}`, {
       headers: {
         Authorization: `Bearer ${User?.token}`,
       },
     });
 
     dispatch({
-      type: types.GET_CONSUMER_BY_ID_SUCCESS,
+      type: types.GET_USER_BY_ID_SUCCESS,
       payload: data.data,
     });
 
@@ -45,7 +44,7 @@ export const getConsumerByID = (ID, path) => async (dispatch, getState) => {
     });
 
     dispatch({
-      type: types.GET_CONSUMER_BY_ID_FAILURE,
+      type: types.GET_USER_BY_ID_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -54,77 +53,24 @@ export const getConsumerByID = (ID, path) => async (dispatch, getState) => {
   }
 };
 
-export const archiveConsumerById = (ID, reason) => async (
-  dispatch,
-  getState
-) => {
+export const archiveUserById = (ID) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: types.ARCHIVE_CONSUMER_BY_ID_REQUEST,
+      type: types.ARCHIVE_USER_BY_ID_REQUEST,
     });
 
     const {
       userReducer: { User },
     } = await getState();
 
-    const { data } = await axios.put(
-      `${URL}/user/delete/${ID}`,
-      { reason },
-      {
-        headers: {
-          Authorization: `Bearer ${User?.token}`,
-        },
-      }
-    );
-
-    dispatch({
-      type: types.ARCHIVE_CONSUMER_BY_ID_SUCCESS,
-      payload: data,
-    });
-
-    dispatch({
-      type: SUCCESS_NOTIFICATION,
-      payload: data?.message,
-    });
-
-    dispatch(getConsumerByID(ID));
-  } catch (error) {
-    dispatch({
-      type: FAILURE_NOTIFICATION,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-
-    dispatch({
-      type: types.ARCHIVE_CONSUMER_BY_ID_FAILURE,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
-
-export const restoreConsumerById = (ID) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: types.RESTORE_CONSUMER_BY_ID_REQUEST,
-    });
-
-    const {
-      userReducer: { User },
-    } = await getState();
-
-    const { data } = await axios.put(`${URL}/user/restore/${ID}`, null, {
+    const { data } = await axios.delete(`${URL}/adminuser/${ID}`, {
       headers: {
         Authorization: `Bearer ${User?.token}`,
       },
     });
 
     dispatch({
-      type: types.RESTORE_CONSUMER_BY_ID_SUCCESS,
+      type: types.ARCHIVE_USER_BY_ID_SUCCESS,
       payload: data,
     });
 
@@ -133,7 +79,7 @@ export const restoreConsumerById = (ID) => async (dispatch, getState) => {
       payload: data?.message,
     });
 
-    dispatch(getConsumerByID(ID));
+    dispatch(getUserByID(ID));
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
@@ -144,7 +90,7 @@ export const restoreConsumerById = (ID) => async (dispatch, getState) => {
     });
 
     dispatch({
-      type: types.ARCHIVE_CONSUMER_BY_ID_FAILURE,
+      type: types.ARCHIVE_USER_BY_ID_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -153,52 +99,33 @@ export const restoreConsumerById = (ID) => async (dispatch, getState) => {
   }
 };
 
-export const updateConsumerByID = (payload) => async (dispatch, getState) => {
+export const restoreUserById = (ID) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: types.UPDATE_CONSUMER_REQUEST,
+      type: types.RESTORE_USER_BY_ID_REQUEST,
     });
-    const {
-      path,
-      ID,
-      email,
-      firstName,
-      lastName,
-      limitAmount,
-      phone,
-    } = payload;
 
     const {
       userReducer: { User },
     } = await getState();
 
-    const { data } = await axios.put(
-      `${URL}/user/update/${ID}`,
-      {
-        email,
-        firstName,
-        lastName,
-        limitAmount,
-        phone,
+    const { data } = await axios.put(`${URL}/adminuser/enable/${ID}`, null, {
+      headers: {
+        Authorization: `Bearer ${User?.token}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${User?.token}`,
-        },
-      }
-    );
+    });
 
     dispatch({
-      type: types.UPDATE_CONSUMER_SUCCESS,
-      payload: data.data,
+      type: types.RESTORE_USER_BY_ID_SUCCESS,
+      payload: data,
     });
 
     dispatch({
       type: SUCCESS_NOTIFICATION,
-      payload: data.message,
+      payload: data?.message,
     });
 
-    dispatch(getConsumerByID(ID, path));
+    dispatch(getUserByID(ID));
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
@@ -209,7 +136,121 @@ export const updateConsumerByID = (payload) => async (dispatch, getState) => {
     });
 
     dispatch({
-      type: types.UPDATE_CONSUMER_FAILURE,
+      type: types.RESTORE_USER_BY_ID_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const updateUserById = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.UPDATE_USER_ADMIN_REQUEST,
+    });
+
+    const {
+      userReducer: { User },
+    } = await getState();
+
+    const { ID, isCurrentUserPage, path } = payload;
+
+    const { data } = await axios.put(
+      `${URL}/adminuser/${ID}`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${User?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.UPDATE_USER_ADMIN_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    if (isCurrentUserPage) {
+      dispatch(getUserByID(ID, path));
+    } else {
+      const path = "/app/accounts/admin/profile";
+      dispatch(getUserByID(ID, path));
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.UPDATE_USER_ADMIN_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const changeUserPasswordById = (payload) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.UPDATE_USER_PASSWORD_REQUEST,
+    });
+
+    const {
+      userReducer: { User },
+    } = await getState();
+
+    const { ID } = payload;
+
+    const { data } = await axios.put(
+      `${URL}/adminUser/changepassword/${ID}`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${User?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.UPDATE_USER_PASSWORD_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    const path = "/app/accounts/admin/profile";
+
+    dispatch(getUserByID(ID, path));
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.UPDATE_USER_PASSWORD_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

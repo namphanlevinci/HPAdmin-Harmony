@@ -1,30 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import {
-  VIEW_PROFILE_USER,
-  DISABLE_USER,
-  ENABLE_USER,
-} from "../../../../actions/user/actions";
+
 import { Grid } from "@material-ui/core";
-import { config } from "../../../../url/url";
 import {
   CustomTitle,
   CustomText,
   CustomTextLabel,
 } from "../../../../util/CustomText";
+import {
+  getUserByID,
+  restoreUserById,
+  archiveUserById,
+} from "../../../../actions/userActions";
+
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
-import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 
 import "./User.css";
 import "../../Merchants/MerchantList/Profile/Detail.css";
 
-const URL = config.url.URL;
-class UserProfile extends Component {
+class userProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,39 +34,22 @@ class UserProfile extends Component {
     const Token = localStorage.getItem("User_login");
     this.setState({ Token: Token });
   }
-  _Edit = () => {
+  editUser = () => {
     this.props.history.push("/app/accounts/admin/profile/edit/general");
   };
 
-  getUserByID = () => {
-    const ID = this.props.UserProfile.waUserId;
-    let token = JSON.parse(this.state.Token);
-    const config = {
-      headers: { Authorization: "bearer " + token.token },
-    };
-    axios
-      .get(URL + "/adminuser/" + ID, config)
-      .then((res) => {
-        this.props.VIEW_PROFILE_USER(res.data.data);
-        this.props.history.push("/app/accounts/admin/profile");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   disableUser = () => {
-    const ID = this.props.UserProfile.waUserId;
-    this.props.DISABLE_USER(ID);
+    const ID = this.props.userProfile.waUserId;
+    this.props.archiveUserById(ID);
   };
 
   enableUser = () => {
-    const ID = this.props.UserProfile.waUserId;
-    this.props.ENABLE_USER(ID);
+    const ID = this.props.userProfile.waUserId;
+    this.props.restoreUserById(ID);
   };
 
   render() {
-    const e = this.props.UserProfile;
+    const e = this.props.userProfile;
     const userStatus =
       e?.isDisabled === 0 ? (
         <Button
@@ -87,7 +69,7 @@ class UserProfile extends Component {
         </Button>
       );
     return (
-      <div className="container-fluid UserProfile">
+      <div className="container-fluid userProfile">
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
@@ -128,7 +110,7 @@ class UserProfile extends Component {
                   <Button
                     className="btn btn-red"
                     style={styles.button}
-                    onClick={this._Edit}
+                    onClick={this.editUser}
                   >
                     EDIT
                   </Button>
@@ -170,22 +152,22 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.userReducer.ViewUser,
+  userProfile: state.userById.data,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_PROFILE_USER: (payload) => {
-    dispatch(VIEW_PROFILE_USER(payload));
+  getUserByID: (ID, path) => {
+    dispatch(getUserByID(ID, path));
   },
-  DISABLE_USER: (payload) => {
-    dispatch(DISABLE_USER(payload));
+  restoreUserById: (ID) => {
+    dispatch(restoreUserById(ID));
   },
-  ENABLE_USER: (payload) => {
-    dispatch(ENABLE_USER(payload));
+  archiveUserById: (ID) => {
+    dispatch(archiveUserById(ID));
   },
 });
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(UserProfile)
+  connect(mapStateToProps, mapDispatchToProps)(userProfile)
 );
 
 const styles = {

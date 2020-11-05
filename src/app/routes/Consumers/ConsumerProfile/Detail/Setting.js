@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { UPDATE_CONSUMER } from "../../../../../actions/consumer/actions";
 import { CustomTitle, CustomTextLabel } from "../../../../../util/CustomText";
+import { motion } from "framer-motion";
+import { updateConsumerByID } from "../../../../../actions/consumerActions";
 
 import {
   InputAdornment,
@@ -41,60 +42,70 @@ class Setting extends Component {
   }
 
   Update = () => {
-    this.props.UPDATE_CONSUMER(this.state, this.state.ID);
+    const payload = { ...this.state, path: "/app/consumers/profile/setting" };
+    this.props.updateConsumerByID(payload);
   };
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/consumers/profile/general");
   };
   render() {
     return (
-      <div className="react-transition swipe-right consumer__setting">
-        <div className="container-fluid">
-          <CustomTitle value="Daily transactions limit (unit $)" />
-          <CustomTextLabel
-            value=" The HarmonyPay system will alert any user and prevent any use
+      <motion.div
+        initial="out"
+        animate="in"
+        exit="out"
+        variants={this.props.pageTransition}
+      >
+        <div className="consumer__setting">
+          <div className="container-fluid">
+            <CustomTitle value="Daily transactions limit (unit $)" />
+            <CustomTextLabel
+              value=" The HarmonyPay system will alert any user and prevent any use
             involved monetary transfer or transfers that are:"
-          />
+            />
 
-          <CustomTextLabel
-            value="
+            <CustomTextLabel
+              value="
             a. More than $10,000 in total from either cash-in or cash-out.
           "
-          />
+            />
 
-          <CustomTextLabel value="b. Is conducted by the same person." />
+            <CustomTextLabel value="b. Is conducted by the same person." />
 
-          <CustomTextLabel value="c. Is conducted on the same business day." />
+            <CustomTextLabel value="c. Is conducted on the same business day." />
 
-          <div style={{ marginTop: "3px" }}>
-            <FormControl>
-              <InputLabel
-                htmlFor="formatted-text-mask-input"
-                style={{ color: "#4251af" }}
-              >
-                Limit
-              </InputLabel>
-              <Input
-                onChange={(e, masked) => this.setState({ limitAmount: masked })}
-                value={this.state.limitAmount}
-                name="price"
-                id="custom-price-input"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <p style={{ marginBottom: "5px" }}>$</p>
-                  </InputAdornment>
-                }
-                inputComponent={CustomCurrencyInput}
-              />
-            </FormControl>
-          </div>
-          <div className=" general-content" style={{ marginTop: "20px" }}>
-            <Button className="btn btn-green" onClick={this.Update}>
-              SAVE
-            </Button>
+            <div style={{ marginTop: "3px" }}>
+              <FormControl>
+                <InputLabel
+                  htmlFor="formatted-text-mask-input"
+                  style={{ color: "#4251af" }}
+                >
+                  Limit
+                </InputLabel>
+                <Input
+                  onChange={(e, masked) =>
+                    this.setState({ limitAmount: masked })
+                  }
+                  value={this.state.limitAmount}
+                  name="price"
+                  id="custom-price-input"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <p style={{ marginBottom: "5px" }}>$</p>
+                    </InputAdornment>
+                  }
+                  inputComponent={CustomCurrencyInput}
+                />
+              </FormControl>
+            </div>
+            <div className=" general-content" style={{ marginTop: "20px" }}>
+              <Button className="btn btn-green" onClick={this.Update}>
+                SAVE
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 }
@@ -105,8 +116,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  UPDATE_CONSUMER: (payload, id) => {
-    dispatch(UPDATE_CONSUMER(payload, id));
+  updateConsumerByID: (payload) => {
+    dispatch(updateConsumerByID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Setting);

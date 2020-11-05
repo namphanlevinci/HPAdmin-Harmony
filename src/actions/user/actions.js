@@ -148,10 +148,10 @@ export const UPDATE_USER_ADMIN_FAILURE = (payload) => ({
 });
 
 // Change user password
-export const UPDATE_USER_PASSWORD = (payload) => ({
-  type: types.UPDATE_USER_PASSWORD,
-  payload: payload,
-});
+// export const UPDATE_USER_PASSWORD = (payload) => ({
+//   type: types.UPDATE_USER_PASSWORD,
+//   payload: payload,
+// });
 
 // Get current user login
 export const GET_CURRENT_USER = (payload) => ({
@@ -167,12 +167,12 @@ export const GET_CURRENT_USER_FAILURE = (payload) => ({
   payload: payload,
 });
 
-// Enable & Disable user
-export const DISABLE_USER = (payload) => ({
-  type: types.DISABLE_USER,
-  payload: payload,
-});
-export const ENABLE_USER = (payload) => ({
-  type: types.ENABLE_USER,
-  payload: payload,
-});
+// // Enable & Disable user
+// export const DISABLE_USER = (payload) => ({
+//   type: types.DISABLE_USER,
+//   payload: payload,
+// });
+// export const ENABLE_USER = (payload) => ({
+//   type: types.ENABLE_USER,
+//   payload: payload,
+// });

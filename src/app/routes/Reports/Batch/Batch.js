@@ -105,7 +105,12 @@ class Transactions extends React.Component {
             Header: "",
             id: "dateTime",
             accessor: (e) => (
-              <p>{moment.utc(e.settlementDate).local().format("LLL")}</p>
+              <p>
+                {moment
+                  .utc(e.settlementDate)
+                  .local()
+                  .format("MM/DD/YYYY hh:mm A")}
+              </p>
             ),
             width: 200,
           },

@@ -275,7 +275,7 @@ class Generation extends Component {
                   this.props.history.push("/app/giftcard/generation/add")
                 }
               >
-                New Gift Card
+                NEW GIFT CARD
               </Button>
             )}
           </div>
