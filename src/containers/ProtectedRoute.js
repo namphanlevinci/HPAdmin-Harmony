@@ -5,8 +5,8 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props => {
-        if (JSON.parse(localStorage.getItem("User_login"))) {
+      render={(props) => {
+        if (JSON.parse(localStorage.getItem("user"))) {
           return <Component {...props} />;
         } else
           return (
@@ -14,8 +14,8 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
               to={{
                 pathname: "/signin",
                 state: {
-                  from: props.location
-                }
+                  from: props.location,
+                },
               }}
             />
           );

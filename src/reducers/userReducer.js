@@ -128,10 +128,98 @@ const changeUserPasswordByIdReducer = (
   }
 };
 
+const userLoginReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.USER_LOGIN_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.USER_LOGIN_SUCCESS:
+      return {
+        loading: false,
+        user: payload,
+      };
+    case types.USER_LOGIN_FAILURE:
+      return {
+        loading: false,
+      };
+    case types.USER_LOGOUT:
+      return {
+        user: {},
+      };
+    default:
+      return state;
+  }
+};
+
+const verifyUserReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.VERIFY_USER_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.VERIFY_USER_SUCCESS:
+      localStorage.setItem("user", JSON.stringify(payload));
+
+      return {
+        loading: false,
+        user: payload,
+      };
+    case types.VERIFY_USER_FAILURE:
+      return {
+        loading: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
+const userPermissionReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_PERMISSION_BY_ID_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.GET_PERMISSION_BY_ID_SUCCESS:
+      return {
+        loading: false,
+        permissions: payload,
+      };
+    case types.GET_PERMISSION_BY_ID_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export {
   updateUserByIdReducer,
   changeUserPasswordByIdReducer,
   getUserByIdReducer,
   archiveUserReducer,
   restoreUserReducer,
+  userLoginReducer,
+  verifyUserReducer,
+  userPermissionReducer,
 };

@@ -18,12 +18,12 @@ export const getConsumerByID = (ID, path) => async (dispatch, getState) => {
     });
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
 
     const { data } = await axios.get(`${URL}/user/${ID}`, {
       headers: {
-        Authorization: `Bearer ${User?.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     });
 
@@ -64,7 +64,7 @@ export const archiveConsumerById = (ID, reason) => async (
     });
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
 
     const { data } = await axios.put(
@@ -72,7 +72,7 @@ export const archiveConsumerById = (ID, reason) => async (
       { reason },
       {
         headers: {
-          Authorization: `Bearer ${User?.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       }
     );
@@ -114,12 +114,12 @@ export const restoreConsumerById = (ID) => async (dispatch, getState) => {
     });
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
 
     const { data } = await axios.put(`${URL}/user/restore/${ID}`, null, {
       headers: {
-        Authorization: `Bearer ${User?.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     });
 
@@ -169,7 +169,7 @@ export const updateConsumerByID = (payload) => async (dispatch, getState) => {
     } = payload;
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
 
     const { data } = await axios.put(
@@ -183,7 +183,7 @@ export const updateConsumerByID = (payload) => async (dispatch, getState) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${User?.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       }
     );

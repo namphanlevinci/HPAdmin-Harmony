@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
+import { getMerchantByID } from "../../../../actions/merchantActions";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
@@ -63,7 +63,7 @@ class PendingList extends Component {
 
   goToPendingPage = (ID) => {
     const path = "/app/merchants/pending/profile";
-    this.props.getMerchantByID({ ID, path });
+    this.props.getMerchantByID(ID, path);
   };
   render() {
     const { page } = this.state;
@@ -218,8 +218,8 @@ const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getMerchantByID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+  getMerchantByID: (ID, path) => {
+    dispatch(getMerchantByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

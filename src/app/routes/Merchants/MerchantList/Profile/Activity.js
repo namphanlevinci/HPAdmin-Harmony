@@ -23,7 +23,7 @@ class MerchantActi extends Component {
 
   async componentDidMount() {
     let ID = this.props.MerchantProfile.merchantId;
-    const Token = localStorage.getItem("User_login");
+    const Token = localStorage.getItem("user");
     await this.setState({ Token: Token });
     const token = JSON.parse(this.state.Token);
     axios

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { VIEW_PRINCIPAL } from "../../../../../../actions/merchants/actions";
+import { viewPrincipal } from "../../../../../../actions/merchantActions";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -14,7 +14,7 @@ class PrincipalList extends Component {
   }
 
   viewPrincipalInfo = (data) => {
-    this.props.VIEW_PRINCIPAL(data);
+    this.props.viewPrincipal(data);
     this.props.history.push("/app/merchants/profile/principal/info");
   };
 
@@ -41,16 +41,13 @@ class PrincipalList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    VIEW_PRINCIPAL: (payload) => {
-      dispatch(VIEW_PRINCIPAL(payload));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  viewPrincipal: (payload) => {
+    dispatch(viewPrincipal(payload));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrincipalList);

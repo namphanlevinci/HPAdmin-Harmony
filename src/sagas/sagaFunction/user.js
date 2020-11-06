@@ -21,34 +21,9 @@ import {
 } from "../api/user";
 import { takeLatest, put } from "redux-saga/effects";
 
-// USER ADMIN LOGIN
-export function* USER_LOGIN_SAGA() {
-  yield takeLatest(typeUser.USER_LOGIN_REQUEST, function*(action) {
-    try {
-      const { email, password } = action.payload;
-      const check = yield USER_LOGIN_API({ email, password });
-      if (check.data !== null) {
-        yield put({
-          type: typeUser.USER_LOGIN_SUCCESS,
-          payload: check.data,
-        });
-        history.push("/verify");
-      }
-      if (check.data === null) {
-        yield put({
-          type: typeNotification.FAILURE_NOTIFICATION,
-          payload: check.message,
-        });
-      }
-    } catch (error) {
-      yield put({ type: typeUser.USER_LOGIN_FAILURE, payload: error });
-    }
-  });
-}
-
 // USER VERIFY
 export function* USER_VERIFY_SAGA() {
-  yield takeLatest(typeUser.VERIFY_USER, function*(action) {
+  yield takeLatest(typeUser.VERIFY_USER, function* (action) {
     try {
       const { serial, code, token, roleID } = action.payload;
 
@@ -73,7 +48,7 @@ export function* USER_VERIFY_SAGA() {
 
 // GET ALL USER
 export function* GET_ALL_USER_SAGA() {
-  yield takeLatest(typeUser.GET_USER_REQUEST, function*() {
+  yield takeLatest(typeUser.GET_USER_REQUEST, function* () {
     try {
       const UserList = yield GET_ALL_USER_API();
       if (UserList.data !== null) {
@@ -92,7 +67,7 @@ export function* GET_ALL_USER_SAGA() {
 
 // ADD ADMIN USER
 export function* ADD_USER_SAGA() {
-  yield takeLatest(typeUser.ADD_ADMIN, function*(action) {
+  yield takeLatest(typeUser.ADD_ADMIN, function* (action) {
     try {
       const check = yield ADD_USER_API(action.payload);
       if (check.data !== null) {
@@ -121,7 +96,7 @@ export function* ADD_USER_SAGA() {
 
 // GET USER BY ID
 export function* GET_USER_BY_ID_SAGA() {
-  yield takeLatest(typeUser.GET_USER_BY_ID, function*(action) {
+  yield takeLatest(typeUser.GET_USER_BY_ID, function* (action) {
     try {
       const check = yield GET_USER_BY_ID_API(action.payload);
       if (check.data !== null) {
@@ -144,7 +119,7 @@ export function* GET_USER_BY_ID_SAGA() {
 
 // Get current login user
 export function* GET_CURRENT_USER_SAGA() {
-  yield takeLatest(typeUser.GET_CURRENT_USER, function*(action) {
+  yield takeLatest(typeUser.GET_CURRENT_USER, function* (action) {
     try {
       const check = yield GET_CURRENT_USER_API(action.payload);
       if (check.data !== null) {
@@ -166,7 +141,7 @@ export function* GET_CURRENT_USER_SAGA() {
 }
 
 export function* GET_PERMISSION_BY_ROLE_ID_SAGA() {
-  yield takeLatest(typeUser.GET_PERMISSION_BY_ID, function*({ payload }) {
+  yield takeLatest(typeUser.GET_PERMISSION_BY_ID, function* ({ payload }) {
     try {
       const check = yield GET_PERMISSION_BY_ROLE_ID_API(payload);
       if (check.data !== null) {
@@ -191,7 +166,7 @@ export function* GET_PERMISSION_BY_ROLE_ID_SAGA() {
 }
 
 export function* GET_PERMISSION_ON_LOGIN_SAGA() {
-  yield takeLatest(typeUser.GET_PERMISSION_ON_LOGIN, function*({ payload }) {
+  yield takeLatest(typeUser.GET_PERMISSION_ON_LOGIN, function* ({ payload }) {
     try {
       const check = yield GET_PERMISSION_ON_LOGIN_API(payload);
       if (check.data !== null) {
@@ -218,7 +193,10 @@ export function* GET_PERMISSION_ON_LOGIN_SAGA() {
 }
 
 export function* GET_ALL_PERMISSION_SAGA() {
-  yield takeLatest(typeUser.GET_ALL_PERMISSION, function*({ action, payload }) {
+  yield takeLatest(typeUser.GET_ALL_PERMISSION, function* ({
+    action,
+    payload,
+  }) {
     try {
       const check = yield GET_ALL_PERMISSION_API(payload);
       if (check.data !== null) {
@@ -243,7 +221,7 @@ export function* GET_ALL_PERMISSION_SAGA() {
 }
 
 export function* UPDATE_PERMISSION_SAGA() {
-  yield takeLatest(typeUser.UPDATE_PERMISSIONS, function*(action) {
+  yield takeLatest(typeUser.UPDATE_PERMISSIONS, function* (action) {
     try {
       const check = yield UPDATE_PERMISSION_API(action.payload);
       if (check.data !== null) {
@@ -283,7 +261,7 @@ export function* UPDATE_PERMISSION_SAGA() {
 
 // Update user
 export function* UPDATE_USER_SAGA() {
-  yield takeLatest(typeUser.UPDATE_USER_ADMIN, function*(action) {
+  yield takeLatest(typeUser.UPDATE_USER_ADMIN, function* (action) {
     try {
       const check = yield UPDATE_USER_API(action.payload);
       const ID = action.payload.ID;
@@ -329,7 +307,7 @@ export function* UPDATE_USER_SAGA() {
 
 // Change user password
 export function* CHANGE_USER_PASSWORD_SAGA() {
-  yield takeLatest(typeUser.UPDATE_USER_PASSWORD, function*(action) {
+  yield takeLatest(typeUser.UPDATE_USER_PASSWORD, function* (action) {
     try {
       const check = yield CHANGE_USER_PASSWORD_API(action.payload);
       const ID = action.payload.ID;
@@ -372,7 +350,7 @@ export function* CHANGE_USER_PASSWORD_SAGA() {
 
 // Logout
 export function* USER_LOGOUT_SAGA() {
-  yield takeLatest(typeUser.USER_LOGOUT, function*(action) {
+  yield takeLatest(typeUser.USER_LOGOUT, function* (action) {
     try {
       const check = yield USER_LOGOUT_API(action.payload);
       if (check.data !== null) {
@@ -395,7 +373,7 @@ export function* USER_LOGOUT_SAGA() {
 
 // Disable user
 export function* DISABLE_USER_SAGA() {
-  yield takeLatest(typeUser.DISABLE_USER, function*({ payload }) {
+  yield takeLatest(typeUser.DISABLE_USER, function* ({ payload }) {
     try {
       const check = yield DISABLE_USER_API(payload);
       if (check.data !== null) {
@@ -425,7 +403,7 @@ export function* DISABLE_USER_SAGA() {
 
 // Restore user
 export function* ENABLE_USER_SAGA() {
-  yield takeLatest(typeUser.ENABLE_USER, function*({ payload }) {
+  yield takeLatest(typeUser.ENABLE_USER, function* ({ payload }) {
     try {
       const check = yield ENABLE_USER_API(payload);
       if (check.data !== null) {

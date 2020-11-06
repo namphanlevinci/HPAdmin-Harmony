@@ -693,10 +693,8 @@ class MerchantReqProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  PendingProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  PendingProfile: state.merchant.merchant,
   setPendingStatus: state.MerchantReducer.setPendingStatus,
-  checkPermission: state.userReducer.checkPermission,
 });
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -1,13 +1,16 @@
 import { store } from "../store";
 
 function CheckPermissions(permissionName) {
-  const Permission = store.getState();
-  const checkPermission = Permission?.userReducer?.UserPermissions;
+  const {
+    userPermissions: { permissions },
+  } = store.getState();
+
+  // const checkPermission = Permission?.userReducer?.UserPermissions;
 
   // console.log("checkPermission", checkPermission[0]?.actions);
   // console.log("permissionId", permissionName);
 
-  const filterPermissionByPage = checkPermission?.map(
+  const filterPermissionByPage = permissions?.map(
     (filteredObj) => filteredObj.actions
   );
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { VIEW_PRINCIPAL } from "../../../../../../actions/merchants/actions";
+import { viewPrincipal } from "../../../../../../actions/merchantActions";
 import { Grid, Button } from "@material-ui/core";
 import {
   CustomText,
@@ -15,13 +16,13 @@ import NumberFormat from "react-number-format";
 import "./principal.styles.scss";
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
-class PrincipalInfo extends Component {
+class PrincipalProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   editPrincipal = (data) => {
-    this.props.VIEW_PRINCIPAL(data);
+    this.props.viewPrincipal(data);
     this.props.history.push("/app/merchants/profile/principal/edit");
   };
 
@@ -173,17 +174,13 @@ class PrincipalInfo extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  principalData: state.MerchantReducer.PrincipalData,
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state?.userReducer.User,
+  principalData: state.updateMerchantPrincipal.principal,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    VIEW_PRINCIPAL: (payload) => {
-      dispatch(VIEW_PRINCIPAL(payload));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  viewPrincipal: (payload) => {
+    dispatch(viewPrincipal(payload));
+  },
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrincipalInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(PrincipalProfile);

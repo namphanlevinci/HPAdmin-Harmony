@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { getMerchantByID } from "../../../../actions/merchantActions";
 
 import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -138,10 +139,9 @@ class PendingList extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.props.getMerchantByID({
-              ID: rowInfo.original.merchantId,
-              path: "/app/merchants/rejected/profile",
-            });
+            const ID = rowInfo.original.merchantId;
+            const path = "/app/merchants/rejected/profile";
+            this.props.getMerchantByID(ID, path);
           }
         },
       };
@@ -211,8 +211,8 @@ const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getMerchantByID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+  getMerchantByID: (ID, path) => {
+    dispatch(getMerchantByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

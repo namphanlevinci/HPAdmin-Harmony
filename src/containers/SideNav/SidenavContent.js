@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { GET_PERMISSION_BY_ID } from "../../actions/user/actions";
 import Button from "@material-ui/core/Button";
 import IntlMessages from "../../util/IntlMessages";
 import CustomScrollbars from "../../util/CustomScrollbars";
@@ -420,11 +419,4 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  GET_PERMISSION_BY_ID: (payload) => {
-    dispatch(GET_PERMISSION_BY_ID(payload));
-  },
-});
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SidenavContent)
-);
+export default withRouter(connect(mapStateToProps)(SidenavContent));

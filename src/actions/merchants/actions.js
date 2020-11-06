@@ -131,10 +131,10 @@ export const UPDATE_MERCHANT_PRINCIPAL = (payload) => ({
   payload: payload,
 });
 
-export const UPDATE_MERCHANT_PRINCIPAL_SUCCESS = (payload) => ({
-  type: types.UPDATE_MERCHANT_PRINCIPAL_SUCCESS,
-  payload: payload,
-});
+// export const UPDATE_MERCHANT_PRINCIPAL_SUCCESS = (payload) => ({
+//   type: types.UPDATE_MERCHANT_PRINCIPAL_SUCCESS,
+//   payload: payload,
+// });
 
 // VIEW  & UPDATE SERVICE
 export const VIEW_SERVICE = (payload) => ({

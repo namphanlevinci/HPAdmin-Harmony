@@ -18,12 +18,12 @@ const initialState = {
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case types.USER_LOGIN_SUCCESS:
-      const { verifyCodeId, waRoleId } = payload;
-      return { ...state, UserRoleID: waRoleId, VERIFY_NUMBER: verifyCodeId };
+    // case types.USER_LOGIN_SUCCESS:
+    //   const { verifyCodeId, waRoleId } = payload;
+    //   return { ...state, UserRoleID: waRoleId, VERIFY_NUMBER: verifyCodeId };
 
-    case types.USER_LOGOUT:
-      return { ...state };
+    // case types.USER_LOGOUT:
+    //   return { ...state };
 
     case types.VERIFY_USER:
       return { ...state, GettingPermissions: true };
@@ -56,14 +56,14 @@ const userReducer = (state = initialState, { type, payload }) => {
     // case types.GET_PERMISSION_BY_ID:
     //   return { ...state, GettingPermissions: true };
 
-    case types.GET_PERMISSION_BY_ID_SUCCESS:
-      return { ...state, UserPermissions: payload, GettingPermissions: false };
+    // case types.GET_PERMISSION_BY_ID_SUCCESS:
+    //   return { ...state, UserPermissions: payload, GettingPermissions: false };
 
-    case types.GET_PERMISSION_BY_ID_FAILURE:
-      return { ...state, GettingPermissions: false };
+    // case types.GET_PERMISSION_BY_ID_FAILURE:
+    //   return { ...state, GettingPermissions: false };
 
-    case types.GET_PERMISSION_ON_LOGIN_SUCCESS:
-      return { ...state, UserPermissions: payload };
+    // case types.GET_PERMISSION_ON_LOGIN_SUCCESS:
+    //   return { ...state, UserPermissions: payload };
 
     case types.GET_ALL_PERMISSION:
       return { ...state, loadingAllPermissions: true };

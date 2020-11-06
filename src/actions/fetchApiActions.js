@@ -13,12 +13,11 @@ export const fetchApiByPage = (url) => async (dispatch, getState) => {
     });
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
-
     const { data } = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${User?.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     });
 

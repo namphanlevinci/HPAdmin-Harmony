@@ -321,29 +321,29 @@ export function* MERCHANT_UPDATE_SETTING_SAGA() {
 
 // Update merchant principal info
 export function* UPDATE_MERCHANT_PRINCIPAL_SAGA() {
-  yield takeLatest(typeMerchant.UPDATE_MERCHANT_PRINCIPAL, function* (action) {
-    try {
-      const result = yield UPDATE_MERCHANT_PRINCIPAL_API(action.payload);
-      if (Number(result.codeNumber) === 200) {
-        yield put({
-          type: typeMerchant.GET_MERCHANT_BY_ID,
-          payload: action.payload,
-        });
-        yield put({
-          type: typeNotification.SUCCESS_NOTIFICATION,
-          payload: "Success",
-        });
-        history.push("/app/merchants/profile/principal");
-      } else {
-        yield put({
-          type: typeNotification.FAILURE_NOTIFICATION,
-          payload: "Something went wrong, please try again later!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  // yield takeLatest(typeMerchant.UPDATE_MERCHANT_PRINCIPAL, function* (action) {
+  //   try {
+  //     const result = yield UPDATE_MERCHANT_PRINCIPAL_API(action.payload);
+  //     if (Number(result.codeNumber) === 200) {
+  //       yield put({
+  //         type: typeMerchant.GET_MERCHANT_BY_ID,
+  //         payload: action.payload,
+  //       });
+  //       yield put({
+  //         type: typeNotification.SUCCESS_NOTIFICATION,
+  //         payload: "Success",
+  //       });
+  //       history.push("/app/merchants/profile/principal");
+  //     } else {
+  //       yield put({
+  //         type: typeNotification.FAILURE_NOTIFICATION,
+  //         payload: "Something went wrong, please try again later!",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // });
 }
 
 // Update merchant service

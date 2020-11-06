@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
 
@@ -13,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { getMerchantByID } from "../../../../actions/merchantActions";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -60,8 +60,8 @@ class Merchants extends React.Component {
     this.props.history.push("/app/merchants/add");
   };
   MerchantProfilePage = (ID) => {
-    const payload = { ID, path: "/app/merchants/profile/general" };
-    this.props.getMerchantByID(payload);
+    const path = "/app/merchants/profile/general";
+    this.props.getMerchantByID(ID, path);
   };
 
   keyPressed = (event) => {
@@ -246,8 +246,8 @@ const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getMerchantByID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+  getMerchantByID: (ID, path) => {
+    dispatch(getMerchantByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

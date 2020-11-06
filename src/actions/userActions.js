@@ -17,12 +17,14 @@ export const getUserByID = (ID, path) => async (dispatch, getState) => {
     });
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
+
+    const currentUserId = user.userAdmin.waUserId;
 
     const { data } = await axios.get(`${URL}/adminuser/${ID}`, {
       headers: {
-        Authorization: `Bearer ${User?.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     });
 
@@ -30,6 +32,14 @@ export const getUserByID = (ID, path) => async (dispatch, getState) => {
       type: types.GET_USER_BY_ID_SUCCESS,
       payload: data.data,
     });
+
+    if (Number(ID) === Number(currentUserId)) {
+      const token = user?.token;
+      dispatch({
+        type: types.VERIFY_USER_SUCCESS,
+        payload: { userAdmin: data.data, token },
+      });
+    }
 
     if (path) {
       history.push(path);
@@ -60,12 +70,12 @@ export const archiveUserById = (ID) => async (dispatch, getState) => {
     });
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
 
     const { data } = await axios.delete(`${URL}/adminuser/${ID}`, {
       headers: {
-        Authorization: `Bearer ${User?.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     });
 
@@ -106,12 +116,12 @@ export const restoreUserById = (ID) => async (dispatch, getState) => {
     });
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
 
     const { data } = await axios.put(`${URL}/adminuser/enable/${ID}`, null, {
       headers: {
-        Authorization: `Bearer ${User?.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     });
 
@@ -152,7 +162,7 @@ export const updateUserById = (payload) => async (dispatch, getState) => {
     });
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
 
     const { ID, isCurrentUserPage, path } = payload;
@@ -162,7 +172,7 @@ export const updateUserById = (payload) => async (dispatch, getState) => {
       { ...payload },
       {
         headers: {
-          Authorization: `Bearer ${User?.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       }
     );
@@ -212,7 +222,7 @@ export const changeUserPasswordById = (payload) => async (
     });
 
     const {
-      userReducer: { User },
+      verifyUser: { user },
     } = await getState();
 
     const { ID } = payload;
@@ -222,7 +232,7 @@ export const changeUserPasswordById = (payload) => async (
       { ...payload },
       {
         headers: {
-          Authorization: `Bearer ${User?.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       }
     );
@@ -251,6 +261,144 @@ export const changeUserPasswordById = (payload) => async (
 
     dispatch({
       type: types.UPDATE_USER_PASSWORD_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const userLogin = (email, password, path) => async (dispatch) => {
+  try {
+    dispatch({
+      type: types.USER_LOGIN_REQUEST,
+    });
+
+    const { data } = await axios.post(`${URL}/adminuser/login`, {
+      email,
+      password,
+    });
+
+    if (Number(data.codeNumber) !== 400) {
+      dispatch({
+        type: types.USER_LOGIN_SUCCESS,
+        payload: data.data,
+      });
+
+      history.push(path);
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data.message,
+      });
+
+      dispatch({
+        type: types.USER_LOGIN_FAILURE,
+        payload: data.message,
+      });
+    }
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+export const verifyUser = (code, token) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.VERIFY_USER_REQUEST,
+    });
+    const { user } = getState();
+
+    const {
+      user: { verifyCodeId },
+    } = user;
+
+    const { data } = await axios.post(
+      `${URL}/adminuser/verifycode/${verifyCodeId}`,
+      {
+        code,
+        token,
+      }
+    );
+
+    if (Number(data.codeNumber) !== 400) {
+      dispatch({
+        type: types.VERIFY_USER_SUCCESS,
+        payload: data.data,
+      });
+
+      const path = "/app/merchants/list";
+      dispatch(getUserPermissionByID(path));
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data.message,
+      });
+
+      dispatch({
+        type: types.VERIFY_USER_FAILURE,
+        payload: data.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+    dispatch({
+      type: types.VERIFY_USER_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getUserPermissionByID = (path) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.GET_PERMISSION_BY_ID_REQUEST,
+    });
+
+    console.log(path);
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(
+      `${URL}/permission/getByRole/${user.userAdmin.waRoleId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.GET_PERMISSION_BY_ID_SUCCESS,
+      payload: data.data,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.GET_PERMISSION_BY_ID_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

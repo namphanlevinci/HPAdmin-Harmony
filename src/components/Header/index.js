@@ -14,11 +14,9 @@ import {
   ViewMerchant_Request,
 } from "../../actions/merchants/actions";
 import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
-import { GET_CURRENT_USER } from "../../actions/user/actions";
 
 import firebase from "../../firebase";
-// import SearchBox from 'components/SearchBox';
-// import MailNotification from '../MailNotification/index';
+
 import AppNotification from "../AppNotification/index";
 import CardHeader from "../../components/dashboard/Common/CardHeader/index";
 import IntlMessages from "../../util/IntlMessages";
@@ -26,22 +24,19 @@ import AppBar from "@material-ui/core/AppBar";
 import Avatar from "@material-ui/core/Avatar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-// import LanguageSwitcher from 'components/LanguageSwitcher/index';
 import Menu from "../../components/TopNav/Menu";
 import UserInfoPopup from "../../components/UserInfo/UserInfoPopup";
 import axios from "axios";
 import Logo from "../../assets/images/harmonylogo.png";
 
-// import playMessageAudio from "../../util/sound";
 import { config } from "../../url/url";
 const URL = config.url.URL;
 
 class Header extends React.Component {
   async componentDidMount() {
-    const User = localStorage.getItem("User_login");
+    const User = localStorage.getItem("user");
     await this.setState({ User: JSON.parse(User) });
     const ID = this.state.User?.userAdmin?.waUserId;
-    await this.props.GET_CURRENT_USER(ID);
 
     await this.loadNotify();
     const messaging = firebase.messaging();
@@ -62,7 +57,7 @@ class Header extends React.Component {
   loadNotify = (next) => {
     const loadPage = next ? next : 1;
     try {
-      const User = localStorage.getItem("User_login");
+      const User = localStorage.getItem("user");
       let token = JSON.parse(User);
       const UserToken = token.token;
       axios
@@ -509,9 +504,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   switchLanguage: (payload) => {
     dispatch(switchLanguage(payload));
-  },
-  GET_CURRENT_USER: (ID) => {
-    dispatch(GET_CURRENT_USER(ID));
   },
 });
 

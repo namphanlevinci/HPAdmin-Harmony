@@ -189,11 +189,9 @@ class General extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
 });
-const mapDispatchToProps = (dispatch) => ({});
-export default connect(mapStateToProps, mapDispatchToProps)(General);
+export default connect(mapStateToProps)(General);
 
 function customLabel(questionId) {
   switch (questionId) {

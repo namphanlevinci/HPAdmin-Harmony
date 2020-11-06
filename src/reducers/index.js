@@ -43,13 +43,25 @@ import {
 import ConsumerReducer from "./Consumer/index";
 // Fetch api
 import { fetchApiReducer } from "./fetchApiReducer";
-// Staff
+// Merchant & Staff
 import {
   restoreStaffReducer,
   archiveStaffReducer,
   getStaffReducer,
   getStaffByIdReducer,
   updateStaffByIdReducer,
+  getMerchantByIdReducer,
+  updateMerchantByIdReducer,
+  revertMerchantByIdReducer,
+  deleteMerchantByIdReducer,
+  updateMerchantGeneralByIdReducer,
+  updateMerchantBankByIdReducer,
+  updateMerchantPrincipalByIdReducer,
+  getMerchantCategoryByIdReducer,
+  updateMerchantCategoryByIdReducer,
+  addMerchantCategoryByIdReducer,
+  restoreMerchantCategoryByIdReducer,
+  archiveMerchantCategoryByIdReducer,
 } from "./merchantReducer";
 // Consumer
 import {
@@ -65,7 +77,11 @@ import {
   archiveUserReducer,
   changeUserPasswordByIdReducer,
   updateUserByIdReducer,
+  verifyUserReducer,
+  userLoginReducer,
+  userPermissionReducer,
 } from "./userReducer";
+
 export default (history) =>
   combineReducers({
     router: connectRouter(history),
@@ -101,6 +117,18 @@ export default (history) =>
     downloadTemplate: downloadMerchantTemplateReducer,
     addTemplate: addMerchantTemplateReducer,
     fetchApi: fetchApiReducer,
+    merchant: getMerchantByIdReducer,
+    updateMerchant: updateMerchantByIdReducer,
+    revertMerchant: revertMerchantByIdReducer,
+    deleteMerchant: deleteMerchantByIdReducer,
+    updateMerchantGeneral: updateMerchantGeneralByIdReducer,
+    updateMerchantBank: updateMerchantBankByIdReducer,
+    updateMerchantPrincipal: updateMerchantPrincipalByIdReducer,
+    category: getMerchantCategoryByIdReducer,
+    updateCategory: updateMerchantCategoryByIdReducer,
+    addCategory: addMerchantCategoryByIdReducer,
+    archiveCategory: archiveMerchantCategoryByIdReducer,
+    restoreCategory: restoreMerchantCategoryByIdReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,
@@ -121,4 +149,7 @@ export default (history) =>
     restoreUser: restoreUserReducer,
     changeUserPassword: changeUserPasswordByIdReducer,
     updateUser: updateUserByIdReducer,
+    user: userLoginReducer,
+    verifyUser: verifyUserReducer,
+    userPermissions: userPermissionReducer,
   });

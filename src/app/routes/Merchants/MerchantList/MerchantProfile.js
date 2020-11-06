@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
-import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
+import { deleteMerchantById } from "../../../../actions/merchantActions";
 
 import {
   Dialog,
@@ -20,8 +20,8 @@ import EditGeneral from "./Profile/General/EditGeneral";
 // import Business from "./Profile/Business";
 import Bank from "./Profile/Bank/Bank";
 import EditBank from "./Profile/Bank/EditBank";
-import PrincipalList from "./Profile/Principal/principal-list";
-import PrincipalInfo from "./Profile/Principal/Principal2";
+import PrincipalList from "./Profile/Principal/PrincipalList";
+import PrincipalProfile from "./Profile/Principal/PrincipalProfile";
 import EditPrincipal from "./Profile/Principal/EditPrincipal";
 import Settings from "./Profile/Settings/Settings";
 import EditSettings from "./Profile/Settings/EditSettings";
@@ -31,7 +31,7 @@ import Service from "./Profile/Service/Service";
 import EditService from "./Profile/Service/EditService";
 // import AddService from "./Profile/Service/addService";
 // Category
-import EditCategory from "./Profile/Category/edit-category";
+import EditCategory from "./Profile/Category/EditCategory";
 import Category from "./Profile/Category/Category";
 // Product
 import Product from "./Profile/Product/Product";
@@ -60,16 +60,14 @@ class merchantProfile extends Component {
     };
   }
 
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/merchants/list");
   };
 
   handleDeleteMerchant = () => {
     const ID = this.props.MerchantProfile.merchantId;
     const path = "/app/merchants/list";
-    const payload = { ID, path };
-
-    this.props.deleteMerchant(payload);
+    this.props.deleteMerchantById(ID, path);
     this.setState({ openDelete: false });
   };
 
@@ -104,7 +102,7 @@ class merchantProfile extends Component {
                     <span style={{ marginRight: "20px" }}>
                       <ExportSettlement
                         MerchantId={e?.merchantId}
-                        Token={this.props.userLogin?.token}
+                        Token={this.props.userLogin}
                       />
                     </span>
                   )}
@@ -112,7 +110,7 @@ class merchantProfile extends Component {
                   <Button
                     style={{ color: "#4251af", backgroundColor: "white" }}
                     className="btn btn-green"
-                    onClick={this._goBack}
+                    onClick={this.goBack}
                   >
                     BACK
                   </Button>
@@ -222,7 +220,7 @@ class merchantProfile extends Component {
                         />
                         <Route
                           path="/app/merchants/profile/principal/info"
-                          component={PrincipalInfo}
+                          component={PrincipalProfile}
                         />
                         <Route
                           path="/app/merchants/profile/principal/edit"
@@ -300,13 +298,13 @@ class merchantProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
+  userLogin: state.verifyUser.user.token,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteMerchant: (payload) => {
-    dispatch(DELETE_MERCHANT(payload));
+  deleteMerchantById: (ID, path) => {
+    dispatch(deleteMerchantById(ID, path));
   },
 });
 

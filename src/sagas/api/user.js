@@ -4,20 +4,20 @@ import { config } from "../../url/url";
 
 const URL = config.url.URL;
 
-export function* USER_LOGIN_API({ email, password }) {
-  const kq = yield axios
-    .post(URL + "/adminuser/login", {
-      email,
-      password,
-    })
-    .then((result) => {
-      return result.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  return kq;
-}
+// export function* USER_LOGIN_API({ email, password }) {
+//   const kq = yield axios
+//     .post(URL + "/adminuser/login", {
+//       email,
+//       password,
+//     })
+//     .then((result) => {
+//       return result.data;
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+//   return kq;
+// }
 
 // VERIFY USER
 export function* USER_VERIFY_API({ serial, code, token }) {

@@ -26,14 +26,9 @@ import "../../Merchants/MerchantList/Profile/Detail.css";
 class userProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      Token: "",
-    };
+    this.state = {};
   }
-  componentDidMount() {
-    const Token = localStorage.getItem("User_login");
-    this.setState({ Token: Token });
-  }
+
   editUser = () => {
     this.props.history.push("/app/accounts/admin/profile/edit/general");
   };

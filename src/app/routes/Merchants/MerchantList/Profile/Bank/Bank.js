@@ -23,26 +23,7 @@ class Bank extends Component {
 
   render() {
     const e = this.props.MerchantProfile;
-    // const renderOldImg =
-    //   e !== null ? (
-    //     e?.businessBank?.imageUrlOldFiles !== null ? (
-    //       <div className="col-12" style={{ paddingTop: "10px" }}>
-    //         <label>Old Void Check*</label>
-    //         <br />
-    //         {e.businessBank?.imageUrlOldFiles.map((e, index) => {
-    //           return (
-    //             <img
-    //               key={index}
-    //               className="bankVoid"
-    //               src={`${e}`}
-    //               alt="void check"
-    //               style={{ padding: "10px" }}
-    //             />
-    //           );
-    //         })}
-    //       </div>
-    //     ) : null
-    //   ) : null;
+
     return (
       <div className="react-transition swipe-up">
         <Grid container spacing={3} className="container-fluid">
@@ -103,8 +84,7 @@ class Bank extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
 });
 
 export default connect(mapStateToProps)(Bank);

@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  ViewProfile_Merchants,
-  UPDATE_MERCHANT,
-  GET_MERCHANT_BY_ID,
-} from "../../../../../../actions/merchants/actions";
+import { updateMerchantGeneralById } from "../../../../../../actions/merchantActions";
+
 import { Formik, Form } from "formik";
 import { Grid, Button, TextField } from "@material-ui/core";
 import * as Yup from "yup";
@@ -20,13 +17,12 @@ class General extends Component {
       loading: false,
     };
   }
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/merchants/profile/general");
   };
 
   componentDidMount() {
     const data = this.props.MerchantProfile.general;
-
     this.setState({ data: data, loading: true });
   }
 
@@ -40,7 +36,9 @@ class General extends Component {
               validationSchema={validationSchema}
               onSubmit={(values) => {
                 const ID = this.props.MerchantProfile.general.generalId;
-                this.props.updateMerchant({ ...values, ID });
+                const path = "/app/merchants/profile/general";
+                const payload = { ...values, ID, path };
+                this.props.updateMerchantGeneralById(payload);
               }}
             >
               {({ errors, touched, handleChange, values, setFieldValue }) => (
@@ -118,6 +116,7 @@ class General extends Component {
                             ? errors?.address
                             : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
                     <Grid item xs={6} md={3}>
@@ -132,6 +131,7 @@ class General extends Component {
                         helperText={
                           errors?.city && touched?.city ? errors?.city : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
                     <Grid item xs={6} md={3}>
@@ -163,6 +163,7 @@ class General extends Component {
                         helperText={
                           errors?.zip && touched?.zip ? errors?.zip : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
                     <Grid item xs={6} md={4}>
@@ -183,6 +184,7 @@ class General extends Component {
                             ? errors?.dbaAddress?.Address
                             : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
                     <Grid item xs={6} md={3}>
@@ -201,6 +203,7 @@ class General extends Component {
                             ? errors?.dbaAddress?.City
                             : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
                     <Grid item xs={6} md={3}>
@@ -236,6 +239,7 @@ class General extends Component {
                             ? errors?.dbaAddress?.Zip
                             : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
                     <Grid item xs={6} md={5}>
@@ -341,7 +345,7 @@ class General extends Component {
                       <Button className="btn btn-green" type="submit">
                         SAVE
                       </Button>
-                      <Button className="btn btn-red" onClick={this._goBack}>
+                      <Button className="btn btn-red" onClick={this.goBack}>
                         CANCEL
                       </Button>
                     </Grid>
@@ -357,22 +361,20 @@ class General extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
-  getMerchant: state.getMerchant,
+  MerchantProfile: state.merchant.merchant,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
-  },
-  updateMerchant: (payload) => {
-    dispatch(UPDATE_MERCHANT(payload));
-  },
-  GET_MERCHANT_BY_ID: (ID) => {
-    dispatch(GET_MERCHANT_BY_ID(ID));
+  updateMerchantGeneralById: (payload) => {
+    dispatch(updateMerchantGeneralById(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);
+
+const styles = {
+  TextField: {
+    paddingTop: "6px",
+  },
+};
 
 const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
 const validationSchema = Yup.object().shape({

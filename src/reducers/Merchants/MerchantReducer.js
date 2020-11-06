@@ -23,9 +23,9 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
     case types.DELETE_MERCHANT_SUCCESS:
       state = payload;
       return { ...state };
-    case types.GET_MERCHANT_BY_ID_SUCCESS:
-      state.MerchantData = payload;
-      return { ...state };
+    // case types.GET_MERCHANT_BY_ID_SUCCESS:
+    //   state.MerchantData = payload;
+    //   return { ...state };
     case types.SET_PENDING_STATUS:
       state.setPendingStatus = true;
       return { ...state };
@@ -35,8 +35,8 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
     case types.SET_PENDING_STATUS_FAILURE:
       state.setPendingStatus = false;
       return { ...state };
-    case types.VIEW_PRINCIPAL:
-      state.PrincipalData = payload;
+      // case types.VIEW_PRINCIPAL:
+      //   state.PrincipalData = payload;
       return { ...state };
     case types.VIEW_SERVICE:
       state.ServiceData = payload;

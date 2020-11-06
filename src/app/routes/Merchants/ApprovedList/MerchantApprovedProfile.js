@@ -322,8 +322,7 @@ class MerchantApprovedProfile extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
 });
 
 export default withRouter(connect(mapStateToProps)(MerchantApprovedProfile));

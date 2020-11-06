@@ -350,8 +350,7 @@ class proFile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.User,
-  CurrentUser: state.userReducer.LoggedUser,
+  CurrentUser: state.verifyUser.user.userAdmin,
 });
 const mapDispatchToProps = (dispatch) => ({
   updateUserById: (payload) => {
