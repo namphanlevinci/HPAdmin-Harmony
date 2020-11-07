@@ -68,7 +68,7 @@ class EditCategory extends Component {
           setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
-            <Grid container className="edit-category">
+            <Grid container className="edit-category" style={{ width: "100%" }}>
               <Grid item xs={12}>
                 <FormControl style={{ width: "50%" }}>
                   <InputLabel

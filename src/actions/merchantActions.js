@@ -954,3 +954,277 @@ export const restoreCategoryById = (categoryID, MerchantID) => async (
     });
   }
 };
+
+export const getServiceByID = (MerchantID, path) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.GET_MERCHANT_SERVICE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(
+      `${URL}/service/getbymerchant/${MerchantID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.GET_MERCHANT_SERVICE_SUCCESS,
+      payload: data.data,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.GET_MERCHANT_SERVICE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const addMerchantServiceById = (payload) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.ADD_MERCHANT_SERVICE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { merchantId } = payload;
+
+    const { data } = await axios.post(
+      `${URL}/service`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.ADD_MERCHANT_SERVICE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    dispatch(getServiceByID(merchantId));
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.ADD_MERCHANT_SERVICE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const viewService = (payload) => async (dispatch) => {
+  dispatch({
+    type: types.VIEW_MERCHANT_SERVICE,
+    payload: payload,
+  });
+};
+
+export const updateMerchantServiceById = (payload) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.UPDATE_MERCHANT_SERVICE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { merchantId, serviceId, path } = payload;
+
+    console.log("updateMerchantServiceById", payload);
+
+    const { data } = await axios.put(
+      `${URL}/service/${serviceId}`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.UPDATE_MERCHANT_SERVICE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    dispatch(getServiceByID(merchantId, path));
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.UPDATE_MERCHANT_CATEGORY_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const restoreServiceById = (serviceID, MerchantID) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.RESTORE_MERCHANT_SERVICE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.put(
+      `${URL}/service/restore/${serviceID}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.RESTORE_MERCHANT_SERVICE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    dispatch(getServiceByID(MerchantID));
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.RESTORE_MERCHANT_SERVICE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const archiveServiceById = (serviceID, MerchantID) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.ARCHIVE_MERCHANT_SERVICE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.put(
+      `${URL}/service/archive/${serviceID}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.ARCHIVE_MERCHANT_SERVICE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    dispatch(getServiceByID(MerchantID));
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.ARCHIVE_MERCHANT_SERVICE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

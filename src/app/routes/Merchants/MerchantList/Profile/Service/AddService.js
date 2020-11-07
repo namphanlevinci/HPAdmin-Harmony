@@ -7,6 +7,12 @@ import {
   FAILURE_NOTIFICATION,
   WARNING_NOTIFICATION,
 } from "../../../../../../actions/notifications/actions";
+
+import {
+  getCategoryByID,
+  addMerchantServiceById,
+} from "../../../../../../actions/merchantActions";
+
 import { AiOutlineClose } from "react-icons/ai";
 
 import DialogContent from "@material-ui/core/DialogContent";
@@ -85,15 +91,7 @@ class AddService extends Component {
 
   componentDidMount() {
     const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/category/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ category: res.data.data });
-      });
+    this.props.getCategoryByID(ID);
   }
 
   handleChange = (e) => {
@@ -207,7 +205,7 @@ class AddService extends Component {
         />
       );
     }
-
+    let { categoryList: category, loading } = this.props.categoryList;
     return (
       <div>
         <Button
@@ -252,8 +250,8 @@ class AddService extends Component {
                       name: "",
                       description: "",
                       duration: "",
-                      openTime: "",
-                      secondTime: "",
+                      openTime: 0,
+                      secondTime: 0,
                       price: 0,
                       categoryId: "",
                       isDisabled: 0,
@@ -262,58 +260,18 @@ class AddService extends Component {
                     }}
                     validationSchema={validationSchema}
                     onSubmit={(values, { setSubmitting }) => {
-                      const {
-                        categoryId,
-                        name,
-                        description,
-                        duration,
-                        openTime,
-                        secondTime,
-                        price,
-                        extras,
-                        isDisabled,
-                        supplyFee,
-                      } = values;
                       const { discount, fileId } = this.state;
                       const merchantId = this.props.MerchantProfile.merchantId;
 
-                      axios
-                        .post(
-                          URL + "/service",
-                          {
-                            categoryId,
-                            name,
-                            duration,
-                            description,
-                            openTime: openTime ? openTime : 0,
-                            secondTime: secondTime ? secondTime : 0,
-                            price,
-                            discount,
-                            isDisabled,
-                            fileId,
-                            extras,
-                            merchantId,
-                            supplyFee,
-                          },
-                          {
-                            headers: {
-                              Authorization: `Bearer ${this.props.userLogin.token}`,
-                            },
-                          }
-                        )
-                        .then((res) => {
-                          let message = res.data.message;
-                          if (res.data.codeNumber === 200) {
-                            this.props.SuccessNotify(message);
+                      const payload = {
+                        ...values,
+                        discount,
+                        fileId,
+                        merchantId,
+                      };
+                      this.props.addMerchantServiceById(payload);
 
-                            this.setState({ open: false, imagePreviewUrl: "" });
-                            setTimeout(() => {
-                              this.props.reload();
-                            }, 800);
-                          } else {
-                            this.props.FailureNotify(message);
-                          }
-                        });
+                      this.setState({ open: false, imagePreviewUrl: "" });
                     }}
                   >
                     {({
@@ -347,8 +305,8 @@ class AddService extends Component {
                                     <Select
                                       styles={colourStyles}
                                       options={
-                                        this.state.category
-                                          ? this.state.category
+                                        category
+                                          ? category
                                               .filter(
                                                 (e) =>
                                                   e.categoryType !== "Product"
@@ -702,20 +660,21 @@ class AddService extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
+  MerchantProfile: state.merchant.merchant,
   userLogin: state.userReducer.User,
   SERVICE: state.serviceProps,
+  categoryList: state.category,
 });
 
 const mapDispatchToPros = (dispatch) => ({
-  SuccessNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
-  },
-  FailureNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
-  },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
+  },
+  getCategoryByID: (MerchantId) => {
+    dispatch(getCategoryByID(MerchantId));
+  },
+  addMerchantServiceById: (payload) => {
+    dispatch(addMerchantServiceById(payload));
   },
 });
 

@@ -62,6 +62,11 @@ import {
   addMerchantCategoryByIdReducer,
   restoreMerchantCategoryByIdReducer,
   archiveMerchantCategoryByIdReducer,
+  getMerchantServiceByIdReducer,
+  addMerchantServiceByIdReducer,
+  updateMerchantServiceByIdReducer,
+  archiveMerchantServiceByIdReducer,
+  restoreMerchantServiceByIdReducer,
 } from "./merchantReducer";
 // Consumer
 import {
@@ -129,6 +134,11 @@ export default (history) =>
     addCategory: addMerchantCategoryByIdReducer,
     archiveCategory: archiveMerchantCategoryByIdReducer,
     restoreCategory: restoreMerchantCategoryByIdReducer,
+    service: getMerchantServiceByIdReducer,
+    addService: addMerchantServiceByIdReducer,
+    updateService: updateMerchantServiceByIdReducer,
+    archiveService: archiveMerchantServiceByIdReducer,
+    restoreService: restoreMerchantServiceByIdReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,

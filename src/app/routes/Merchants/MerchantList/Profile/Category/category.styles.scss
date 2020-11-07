@@ -55,9 +55,6 @@
   form {
     width: 100%;
 
-
-
-
     .error-text {
       color: red;
     }
@@ -69,7 +66,6 @@
     font-size: 24px;
     font-weight: 400;
     letter-spacing: 1px;
-    
   }
 
   h5 {
@@ -80,8 +76,6 @@
     font-size: 14px;
     letter-spacing: 0.1em;
   }
-
-  
 }
 
 .category-button {
@@ -102,19 +96,18 @@
 }
 
 .edit-category {
-  width: 250px
+  width: 250px;
 }
-
-
 
 .category__container .ReactTable .rt-thead .rt-tr {
   background-color: #ebebeb;
 }
 
-.category__container .ReactTable .rt-thead .rt-th, .ReactTable .rt-thead .rt-td {
+.category__container .ReactTable .rt-thead .rt-th,
+.ReactTable .rt-thead .rt-td {
   background-color: #ebebeb;
 }
 
 .category__container .ReactTable .rt-resizable-header-content {
-   color: #000;
+  color: #000;
 }

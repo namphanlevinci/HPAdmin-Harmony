@@ -22,7 +22,6 @@ import {
 import MenuItem from "@material-ui/core/MenuItem";
 
 import ReactTable from "react-table";
-import axios from "axios";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -325,7 +324,10 @@ class Category extends Component {
                                   }
                                 />
                               </Grid>
-                              <div className="category-button">
+                              <div
+                                className="category-button"
+                                style={{ paddingTop: "10px" }}
+                              >
                                 <Button
                                   className="btn btn-green"
                                   type="submit"
