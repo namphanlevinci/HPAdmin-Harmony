@@ -42,6 +42,8 @@ export const addGiftCardGeneral = (giftCardGeneralId, quantity) => async (
       type: SUCCESS_NOTIFICATION,
       payload: data?.message,
     });
+
+    dispatch(getGiftCardGeneral(giftCardGeneralId));
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
@@ -61,7 +63,10 @@ export const addGiftCardGeneral = (giftCardGeneralId, quantity) => async (
   }
 };
 
-export const getGiftCardGeneral = (ID, path) => async (dispatch, getState) => {
+export const getGiftCardGeneral = (giftCardGeneralId, path) => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({
       type: types.GET_GIFT_CARD_GENERAL_BY_ID_REQUEST,
@@ -71,11 +76,14 @@ export const getGiftCardGeneral = (ID, path) => async (dispatch, getState) => {
       verifyUser: { user },
     } = await getState();
 
-    const { data } = await axios.get(`${URL}/giftcardgeneral/${ID}`, {
-      headers: {
-        Authorization: `Bearer ${user?.token}`,
-      },
-    });
+    const { data } = await axios.get(
+      `${URL}/giftcardgeneral/${giftCardGeneralId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
 
     dispatch({
       type: types.GET_GIFT_CARD_GENERAL_BY_ID_SUCCESS,
@@ -96,6 +104,90 @@ export const getGiftCardGeneral = (ID, path) => async (dispatch, getState) => {
 
     dispatch({
       type: types.GET_GIFT_CARD_GENERAL_BY_ID_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const exportGiftCardGeneral = (url) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.EXPORT_GIFT_CARD_GENERAL_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    dispatch({
+      type: types.EXPORT_GIFT_CARD_GENERAL_SUCCESS,
+      payload: data,
+    });
+
+    window.open(data.data.path);
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.EXPORT_GIFT_CARD_GENERAL_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getCodeLog = (CodeId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.GET_CODE_LOG_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(`${URL}/giftcardlog/${CodeId}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    dispatch({
+      type: types.GET_CODE_LOG_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.GET_CODE_LOG_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

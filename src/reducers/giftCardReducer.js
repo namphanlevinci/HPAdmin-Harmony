@@ -50,4 +50,62 @@ const getGiftCardGeneralByIdReducer = (
   }
 };
 
-export { addGiftCardGeneralReducer, getGiftCardGeneralByIdReducer };
+const exportGiftCardGeneralReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.EXPORT_GIFT_CARD_GENERAL_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.EXPORT_GIFT_CARD_GENERAL_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.EXPORT_GIFT_CARD_GENERAL_FAILURE:
+      return {
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const getCodeLogReducer = (
+  state = {
+    loading: false,
+    log: [],
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_CODE_LOG_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.GET_CODE_LOG_SUCCESS:
+      return {
+        loading: false,
+        log: payload,
+      };
+    case types.GET_CODE_LOG_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+export {
+  addGiftCardGeneralReducer,
+  getGiftCardGeneralByIdReducer,
+  exportGiftCardGeneralReducer,
+  getCodeLogReducer,
+};

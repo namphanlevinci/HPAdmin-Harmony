@@ -29,11 +29,11 @@ const persistConfig = {
 
 const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
-const sagaMiddleware = createSagaMiddleware();
+// const sagaMiddleware = createSagaMiddleware();
 
 const persistedReducer = persistReducer(persistConfig, reducers(history));
 
-const middlewares = [sagaMiddleware, routeMiddleware, thunk];
+const middlewares = [routeMiddleware, thunk];
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 let enhancers = [applyMiddleware(...middlewares)];
@@ -64,6 +64,6 @@ const store = createStore(
 );
 let persistor = persistStore(store);
 
-sagaMiddleware.run(rootSaga);
+// sagaMiddleware.run(rootSaga);
 
 export { history, store, persistor };

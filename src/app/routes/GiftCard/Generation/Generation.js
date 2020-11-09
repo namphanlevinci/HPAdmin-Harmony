@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  GET_GIFT_CARD,
-  VIEW_DETAIL,
-} from "../../../../actions/gift-card/actions";
-
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { Typography, Button } from "@material-ui/core";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { getGiftCardGeneral } from "../../../../actions/giftCardActions";
+
 import EditSVG from "../../../../assets/images/edit.svg";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -68,9 +64,9 @@ class Generation extends Component {
     }
   };
 
-  viewGeneration = (ID) => {
+  viewGeneration = (giftCardGeneralId) => {
     const path = "/app/giftcard/generation/detail";
-    this.props.getGiftCardGeneral(ID, path);
+    this.props.getGiftCardGeneral(giftCardGeneralId, path);
   };
 
   render() {
@@ -242,14 +238,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_DETAIL: (payload) => {
-    dispatch(VIEW_DETAIL(payload));
-  },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
   },
-  getGiftCardGeneral: (ID, path) => {
-    dispatch(getGiftCardGeneral(ID, path));
+  getGiftCardGeneral: (giftCardGeneralId, path) => {
+    dispatch(getGiftCardGeneral(giftCardGeneralId, path));
   },
 });
 

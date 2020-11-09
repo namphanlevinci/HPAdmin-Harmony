@@ -95,6 +95,8 @@ import {
 import {
   addGiftCardGeneralReducer,
   getGiftCardGeneralByIdReducer,
+  exportGiftCardGeneralReducer,
+  getCodeLogReducer,
 } from "./giftCardReducer";
 
 export default (history) =>
@@ -182,4 +184,6 @@ export default (history) =>
     // Gift Card
     addGiftCardGeneral: addGiftCardGeneralReducer,
     getGiftCardGeneral: getGiftCardGeneralByIdReducer,
+    exportGiftCardGeneral: exportGiftCardGeneralReducer,
+    codeLog: getCodeLogReducer,
   });
