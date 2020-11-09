@@ -590,6 +590,351 @@ const restoreMerchantServiceByIdReducer = (
   }
 };
 
+const getMerchantProductByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_MERCHANT_PRODUCT_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.GET_MERCHANT_PRODUCT_SUCCESS:
+      return {
+        loading: false,
+        productList: payload,
+      };
+    case types.GET_MERCHANT_PRODUCT_FAILURE:
+      return {
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const addMerchantProductByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ADD_MERCHANT_PRODUCT_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.ADD_MERCHANT_PRODUCT_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ADD_MERCHANT_PRODUCT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const updateMerchantProductByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.VIEW_MERCHANT_PRODUCT:
+      return {
+        ...state,
+        updateProduct: payload,
+      };
+    case types.UPDATE_MERCHANT_PRODUCT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.UPDATE_MERCHANT_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: payload,
+      };
+    case types.UPDATE_MERCHANT_PRODUCT_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const archiveMerchantProductByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ARCHIVE_MERCHANT_PRODUCT_FAILURE:
+      return {
+        loading: true,
+      };
+    case types.ARCHIVE_MERCHANT_PRODUCT_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ARCHIVE_MERCHANT_PRODUCT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const restoreMerchantProductByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.RESTORE_MERCHANT_PRODUCT_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.RESTORE_MERCHANT_PRODUCT_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.RESTORE_MERCHANT_PRODUCT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const getMerchantExtraByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_MERCHANT_EXTRA_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.GET_MERCHANT_EXTRA_SUCCESS:
+      return {
+        loading: false,
+        extraList: payload,
+      };
+    case types.GET_MERCHANT_EXTRA_FAILURE:
+      return {
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const updateMerchantExtraByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.UPDATE_MERCHANT_EXTRA_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.UPDATE_MERCHANT_EXTRA_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: payload,
+      };
+    case types.UPDATE_MERCHANT_EXTRA_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const archiveMerchantExtraByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ARCHIVE_MERCHANT_EXTRA_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.ARCHIVE_MERCHANT_EXTRA_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ARCHIVE_MERCHANT_EXTRA_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const restoreMerchantExtraByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.RESTORE_MERCHANT_EXTRA_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.RESTORE_MERCHANT_EXTRA_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.RESTORE_MERCHANT_EXTRA_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const archiveMerchantByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ARCHIVE_MERCHANT_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.ARCHIVE_MERCHANT_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ARCHIVE_MERCHANT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const restoreMerchantByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.RESTORE_MERCHANT_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.RESTORE_MERCHANT_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.RESTORE_MERCHANT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const updateMerchantSettingByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.UPDATE_MERCHANT_SETTING_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.UPDATE_MERCHANT_SETTING_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.UPDATE_MERCHANT_SETTING_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const addMerchantStaffByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ADD_STAFF_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.ADD_STAFF_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ADD_STAFF_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
 export {
   restoreStaffReducer,
   archiveStaffReducer,
@@ -613,4 +958,17 @@ export {
   updateMerchantServiceByIdReducer,
   restoreMerchantServiceByIdReducer,
   archiveMerchantServiceByIdReducer,
+  getMerchantProductByIdReducer,
+  addMerchantProductByIdReducer,
+  updateMerchantProductByIdReducer,
+  archiveMerchantProductByIdReducer,
+  restoreMerchantProductByIdReducer,
+  getMerchantExtraByIdReducer,
+  restoreMerchantExtraByIdReducer,
+  archiveMerchantExtraByIdReducer,
+  updateMerchantExtraByIdReducer,
+  restoreMerchantByIdReducer,
+  archiveMerchantByIdReducer,
+  updateMerchantSettingByIdReducer,
+  addMerchantStaffByIdReducer,
 };

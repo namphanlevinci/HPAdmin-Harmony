@@ -29,20 +29,18 @@ import MerchantActi from "./Profile/Activity";
 // Service
 import Service from "./Profile/Service/Service";
 import EditService from "./Profile/Service/EditService";
-// import AddService from "./Profile/Service/addService";
 // Category
 import EditCategory from "./Profile/Category/EditCategory";
 import Category from "./Profile/Category/Category";
 // Product
 import Product from "./Profile/Product/Product";
-import ProductDetail from "./Profile/Product/productDetail";
-import ProductEdit from "./Profile/Product/productEdit";
+import ProductDetail from "./Profile/Product/ProductDetail";
+import ProductEdit from "./Profile/Product/ProductEdit";
 // Staff
 import Staff from "./Profile/Staff/Staff";
 import AddStaff2 from "./Profile/Staff/AddStaff/index.js";
-// import StaffGeneral from "./Profile/Staff/staff-Profile/staff-info";
 // Extra Tab
-import ExtraTab from "./Profile/Extra/extra";
+import ExtraTab from "./Profile/Extra/Extra";
 // REPORT SETTLEMENT
 import ExportSettlement from "./Profile/ExportSettlement/export-settlement";
 import CheckPermissions from "../../../../util/checkPermission";
@@ -251,7 +249,7 @@ class merchantProfile extends Component {
                           component={ProductEdit}
                         />
                         <Route
-                          path="/app/merchants/profile/product/Profile"
+                          path="/app/merchants/profile/product/profile"
                           component={ProductDetail}
                         />
                         <Route

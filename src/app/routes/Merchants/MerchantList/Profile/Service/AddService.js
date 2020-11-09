@@ -662,7 +662,6 @@ class AddService extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   userLogin: state.userReducer.User,
-  SERVICE: state.serviceProps,
   categoryList: state.category,
 });
 

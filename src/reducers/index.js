@@ -4,15 +4,9 @@ import { connectRouter } from "connected-react-router";
 import Settings from "./Settings";
 // USER
 import userReducer from "./User/UserReducer";
-// import Verify from "./User/Verify";
-// import addAdminUser from "./User/addAdmin";
-// MERCHANT ACCEPTED LIST
-import ViewProfile_Merchants from "./Merchants/ViewProfile_Merchants";
-import ViewProfile_Rejected from "./Merchants/ViewProfile_Rejected";
-import VIEW_SERVICE_EDIT from "./Merchants/viewService";
 
-// GET MERCHANT BY ID
-import getMerchant_byID from "./Merchants/getMerchant_byID";
+import ViewProfile_Merchants from "./Merchants/ViewProfile_Merchants";
+
 // NOTIFICATIONS
 import NotificationReducer from "./Notifications/";
 // LOGS
@@ -67,7 +61,18 @@ import {
   updateMerchantServiceByIdReducer,
   archiveMerchantServiceByIdReducer,
   restoreMerchantServiceByIdReducer,
+  getMerchantProductByIdReducer,
+  addMerchantProductByIdReducer,
+  updateMerchantProductByIdReducer,
+  archiveMerchantProductByIdReducer,
+  restoreMerchantProductByIdReducer,
+  getMerchantExtraByIdReducer,
+  archiveMerchantByIdReducer,
+  restoreMerchantByIdReducer,
+  updateMerchantSettingByIdReducer,
+  addMerchantStaffByIdReducer,
 } from "./merchantReducer";
+
 // Consumer
 import {
   getConsumerByIdReducer,
@@ -86,6 +91,11 @@ import {
   userLoginReducer,
   userPermissionReducer,
 } from "./userReducer";
+// Gift Card
+import {
+  addGiftCardGeneralReducer,
+  getGiftCardGeneralByIdReducer,
+} from "./giftCardReducer";
 
 export default (history) =>
   combineReducers({
@@ -95,7 +105,6 @@ export default (history) =>
     userReducer,
     ViewProfile_Merchants,
 
-    ViewProfile_Rejected,
     NotificationReducer,
     getLogs: getAll_Logs,
     getQuestions: getAll_Questions,
@@ -103,7 +112,6 @@ export default (history) =>
     getConsumerUsers: getAll_ConsumerUsers,
     userTransaction: getUser_Transaction,
     userActivity: getUser_Activity,
-    getMerchant: getMerchant_byID,
 
     uQuestions: Update_Questions,
     ApprovedStatic: Approved_Static,
@@ -111,8 +119,6 @@ export default (history) =>
     getAllBatch,
     GetP2P: getAllP2P_Transactions,
     BatchDetail: getBatchDetail,
-
-    serviceProps: VIEW_SERVICE_EDIT,
 
     GiftCardReducer,
     MerchantReducer,
@@ -139,6 +145,15 @@ export default (history) =>
     updateService: updateMerchantServiceByIdReducer,
     archiveService: archiveMerchantServiceByIdReducer,
     restoreService: restoreMerchantServiceByIdReducer,
+    product: getMerchantProductByIdReducer,
+    addProduct: addMerchantProductByIdReducer,
+    updateProduct: updateMerchantProductByIdReducer,
+    archiveProduct: archiveMerchantProductByIdReducer,
+    restoreProduct: restoreMerchantProductByIdReducer,
+    extra: getMerchantExtraByIdReducer,
+    archiveMerchant: archiveMerchantByIdReducer,
+    restoreMerchant: restoreMerchantByIdReducer,
+    updateMerchantSetting: updateMerchantSettingByIdReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,
@@ -146,6 +161,7 @@ export default (history) =>
     staff: getStaffReducer,
     staffById: getStaffByIdReducer,
     updateStaffById: updateStaffByIdReducer,
+    addStaff: addMerchantStaffByIdReducer,
 
     // Consumer
     consumerById: getConsumerByIdReducer,
@@ -162,4 +178,8 @@ export default (history) =>
     user: userLoginReducer,
     verifyUser: verifyUserReducer,
     userPermissions: userPermissionReducer,
+
+    // Gift Card
+    addGiftCardGeneral: addGiftCardGeneralReducer,
+    getGiftCardGeneral: getGiftCardGeneralByIdReducer,
   });

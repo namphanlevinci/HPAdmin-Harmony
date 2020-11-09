@@ -471,30 +471,30 @@ export function* RESTORE_MERCHANT_EXTRA_SAGA() {
 }
 
 // Add Staff
-export function* ADD_STAFF_SAGA() {
-  yield takeLatest(typeMerchant.ADD_STAFF, function* (action) {
-    try {
-      const result = yield ADD_STAFF_API(action.payload);
+// export function* ADD_STAFF_SAGA() {
+//   yield takeLatest(typeMerchant.ADD_STAFF, function* (action) {
+//     try {
+//       const result = yield ADD_STAFF_API(action.payload);
 
-      if (result === "Success") {
-        yield put({
-          type: typeNotification.SUCCESS_NOTIFICATION,
-          payload: "Success",
-        });
-        history.push("/app/merchants/profile/staff");
-      } else if (result === "The pincode is exsits.") {
-        yield put({
-          type: typeNotification.WARNING_NOTIFICATION,
-          payload: result,
-        });
-      } else {
-        yield put({
-          type: typeNotification.FAILURE_NOTIFICATION,
-          payload: "Something went wrong, please try again later!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
-}
+//       if (result === "Success") {
+//         yield put({
+//           type: typeNotification.SUCCESS_NOTIFICATION,
+//           payload: "Success",
+//         });
+//         history.push("/app/merchants/profile/staff");
+//       } else if (result === "The pincode is exsits.") {
+//         yield put({
+//           type: typeNotification.WARNING_NOTIFICATION,
+//           payload: result,
+//         });
+//       } else {
+//         yield put({
+//           type: typeNotification.FAILURE_NOTIFICATION,
+//           payload: "Something went wrong, please try again later!",
+//         });
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   });
+// }

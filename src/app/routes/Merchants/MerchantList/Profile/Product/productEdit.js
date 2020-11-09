@@ -17,6 +17,11 @@ import {
 } from "@material-ui/core";
 import { Formik } from "formik";
 import {
+  getCategoryByID,
+  updateMerchantProductById,
+} from "../../../../../../actions/merchantActions";
+
+import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
   WARNING_NOTIFICATION,
@@ -55,18 +60,10 @@ class EditProduct extends Component {
     };
   }
   componentDidMount() {
-    const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/category/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ category: res.data.data });
-      });
-    const product = this.props.SERVICE;
     const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.getCategoryByID(merchantId);
+
+    const { updateProduct: product } = this.props.product;
 
     this.setState({
       categoryId: product?.categoryId,
@@ -87,14 +84,9 @@ class EditProduct extends Component {
       loading: true,
     });
   }
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
 
-  handleImage = (e, setFieldValue) => {
+  uploadImage = (e, setFieldValue) => {
     e.preventDefault();
-    // handle preview Image
     let reader = new FileReader();
     let file = e?.target?.files[0];
 
@@ -132,13 +124,14 @@ class EditProduct extends Component {
   };
 
   render() {
-    const { category } = this.state;
+    const { categoryList: category } = this.props.category;
+
     const mapCategory2 = category
       .filter((e) => e.categoryType !== "Service")
       .map((e) => {
         return <MenuItem value={e.categoryId}>{e.name}</MenuItem>;
       });
-    //~ preview image
+
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
@@ -198,63 +191,11 @@ class EditProduct extends Component {
               { setSubmitting, setFieldError },
               setFieldValue
             ) => {
-              const {
-                categoryId,
-                description,
-                price,
-                tax,
-                discount,
-                name,
-                isDisabled,
-                quantity,
-                maxThreshold,
-                minThreshold,
-                sku,
-                productId,
-                merchantId,
-              } = values;
-
               let fileId = this.state.fileId;
+              const path = "/app/merchants/profile/product";
+              const payload = { ...values, fileId, path };
 
-              axios
-                .put(
-                  URL + "/product/" + productId,
-                  {
-                    categoryId,
-                    description,
-                    price,
-                    tax,
-                    discount,
-                    fileId,
-                    name,
-                    isDisabled,
-                    quantity,
-                    maxThreshold,
-                    minThreshold,
-                    sku,
-
-                    merchantId,
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${this.props.userLogin.token}`,
-                    },
-                  }
-                )
-                .then((res) => {
-                  let message = res.data.message;
-                  if (message === "The SKU is exist.") {
-                    setFieldError("sku", "SKU number already exits");
-                    setSubmitting(false);
-                  } else if (Number(res.data.codeNumber) === 200) {
-                    this.props.successNotify(message);
-                    setTimeout(() => {
-                      this.props.history.push("/app/merchants/profile/product");
-                    }, 800);
-                  } else {
-                    this.props.failureNotify(message);
-                  }
-                });
+              this.props.updateMerchantProductById(payload);
             }}
           >
             {({
@@ -502,7 +443,7 @@ class EditProduct extends Component {
                         type="file"
                         className="custom-input"
                         accept="image/gif,image/jpeg, image/png"
-                        onChange={(e) => this.handleImage(e, setFieldValue)}
+                        onChange={(e) => this.uploadImage(e, setFieldValue)}
                       />
                     </div>
                   </Grid>
@@ -535,9 +476,10 @@ class EditProduct extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
+  MerchantProfile: state.merchant.merchant,
   userLogin: state.userReducer.User,
-  SERVICE: state.serviceProps,
+  product: state.updateProduct,
+  category: state.category,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -549,6 +491,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
+  },
+  updateMerchantProductById: (payload) => {
+    dispatch(updateMerchantProductById(payload));
+  },
+  getCategoryByID: (merchantId) => {
+    dispatch(getCategoryByID(merchantId));
   },
 });
 

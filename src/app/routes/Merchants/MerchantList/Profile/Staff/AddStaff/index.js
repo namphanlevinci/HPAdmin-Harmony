@@ -8,6 +8,7 @@ import {
 import { ADD_STAFF } from "../../../../../../../actions/merchants/actions";
 import { Formik, Form } from "formik";
 import { config } from "../../../../../../../url/url";
+import { AddMerchantStaffById } from "../../../../../../../actions/merchantActions";
 
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -58,7 +59,7 @@ class AddStaff extends Component {
       case 0:
         return (
           <General
-            uploadFile={this.uploadFile}
+            uploadImage={this.uploadImage}
             imagePreviewUrl={this.state.imagePreviewUrl}
             showPin={this.state.showPin}
             handleShowPin={this.handleShowPin}
@@ -88,7 +89,7 @@ class AddStaff extends Component {
   };
 
   //handle upload avatar
-  uploadFile = (event, setFieldValue) => {
+  uploadImage = (event, setFieldValue) => {
     event.stopPropagation();
     event.preventDefault();
     const file = event?.target?.files[0];
@@ -127,31 +128,10 @@ class AddStaff extends Component {
   _submitForm = (values, actions) => {
     const merchantId = this.props.MerchantProfile.merchantId;
     const { activeStep } = this.state;
+    const path = "/app/merchants/profile/staff";
+    const payload = { ...values, merchantId, path };
 
-    axios
-      .post(
-        URL + "/staff",
-        {
-          ...values,
-          merchantId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 204) {
-          this.props.FailureNotification(res.data.message);
-          this.setState({ activeStep: 0 });
-        }
-        if (Number(res.data.codeNumber) === 200) {
-          this.props.SuccessNotification(res.data.message);
-
-          this.props.history.push("/app/merchants/profile/staff");
-        }
-      });
+    this.props.AddMerchantStaffById(payload);
 
     actions.setSubmitting(false);
 
@@ -301,7 +281,7 @@ class AddStaff extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
+  MerchantProfile: state.merchant.merchant,
   userLogin: state.userReducer.User,
 });
 
@@ -312,8 +292,8 @@ const mapDispatchToProps = (dispatch) => ({
   FailureNotification: (payload) => {
     dispatch(FAILURE_NOTIFICATION(payload));
   },
-  ADD_STAFF: (payload) => {
-    dispatch(ADD_STAFF(payload));
+  AddMerchantStaffById: (payload) => {
+    dispatch(AddMerchantStaffById(payload));
   },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));

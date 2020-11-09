@@ -31,8 +31,7 @@ import "./extra.styles.scss";
 const URL = config.url.URL;
 
 const EditExtra = ({
-  SuccessNotify,
-  FailureNotify,
+  updateExtra,
   handleImageChange,
   getExtra,
   merchantId,
@@ -149,55 +148,9 @@ const EditExtra = ({
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
-                const {
-                  description,
-                  discount,
-                  extraId,
-                  duration,
-                  price,
-                  isDisabled,
-                  name,
-                  quantity,
-                  tax,
-                  merchantId,
-                  supplyFee,
-                } = values;
-                axios
-                  .put(
-                    URL + "/extra/" + extraId,
-                    {
-                      description,
-                      discount,
-                      merchantId,
-                      duration,
-                      price,
-                      isDisabled,
-                      name,
-                      quantity,
-                      tax,
-                      fileId,
-                      supplyFee,
-                    },
-                    {
-                      headers: {
-                        Authorization: `Bearer ${token}`,
-                      },
-                    }
-                  )
-                  .then((res) => {
-                    console.log("res", res.data);
-                    if (res.data.codeNumber === 200) {
-                      SuccessNotify(res.data.message);
-                      handleClose("loading", true);
-                      handleClose("edit", false);
-
-                      setTimeout(() => {
-                        getExtra(merchantId);
-                      }, 1000);
-                    } else {
-                      FailureNotify(res.data.message);
-                    }
-                  });
+                updateExtra(values);
+                handleClose("loading", true);
+                handleClose("edit", false);
               }}
             >
               {({

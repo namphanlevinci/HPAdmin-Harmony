@@ -10,34 +10,18 @@ import {
 
 import ServiceImg from "./hpadmin2.png";
 
-import axios from "axios";
-
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
 import "../../../Merchants.css";
 import "../Detail.css";
 import "../Service/service.style.scss";
 
-const URL = config.url.URL;
-
-class productDetail extends Component {
+class ProductDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       category: [],
     };
-  }
-  componentDidMount() {
-    const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/category/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ category: res.data.data });
-      });
   }
 
   goBack = () => {
@@ -48,7 +32,7 @@ class productDetail extends Component {
     this.props.history.push("/app/merchants/profile/product/edit");
   };
   render() {
-    const product = this.props.SERVICE;
+    const { updateProduct: product } = this.props.product;
 
     return (
       <div className="react-transition swipe-up service-container">
@@ -106,11 +90,6 @@ class productDetail extends Component {
               alt="void"
             />
           </Grid>
-          {/* <Grid item md={6}>
-            <label>Need To Order</label>
-            <br />
-            <p>{product.needToorDer}</p>
-          </Grid> */}
 
           <Grid item xs={12} md={12}>
             <Button
@@ -133,8 +112,7 @@ class productDetail extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
-  SERVICE: state.serviceProps,
+  product: state.updateProduct,
 });
-export default connect(mapStateToProps)(productDetail);
+
+export default connect(mapStateToProps)(ProductDetail);

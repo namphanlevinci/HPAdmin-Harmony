@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ViewProfile_Merchants } from "../../../../../actions/merchants/actions";
 import { motion } from "framer-motion";
 
 import "../../../Merchants/MerchantList/MerchantProfile.css";
@@ -66,11 +65,7 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
-  },
-});
+const mapDispatchToProps = (dispatch) => ({});
 export default connect(mapStateToProps, mapDispatchToProps)(Bank);
 
 const styles = {

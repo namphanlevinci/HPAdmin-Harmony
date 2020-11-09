@@ -11,6 +11,7 @@ import {
   FAILURE_NOTIFICATION,
   WARNING_NOTIFICATION,
 } from "../../../../actions/notifications/actions";
+import { addGiftCardGeneral } from "../../../../actions/giftCardActions";
 import {
   CustomTextLabel,
   CustomTableHeader,
@@ -18,6 +19,7 @@ import {
   CustomText,
 } from "../../../../util/CustomText";
 import { Grid, Button, Typography } from "@material-ui/core";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -55,11 +57,11 @@ class Generation_Detail extends Component {
     };
   }
 
-  componentDidMount() {
-    const ID = this.props.Detail;
-    this.setState({ deleteID: ID, loadingData: true });
-    this.getGiftCardById(ID);
-  }
+  // componentDidMount() {
+  //   const ID = this.props.Detail;
+  //   this.setState({ deleteID: ID, loadingData: true });
+  //   this.getGiftCardById(ID);
+  // }
 
   // logs
   handleLogs = (Data) => {
@@ -71,39 +73,22 @@ class Generation_Detail extends Component {
     this.setState({ open: false });
   };
 
-  getGiftCardById(ID) {
-    this.props.getGenerationCode(ID);
-  }
-
   handleGenerate = () => {
     const giftCardGeneralId = this.props.Detail;
     const quantity = this.state.quantity;
+
     if (quantity === 0) {
       this.props.warningNotify("Please enter the Quantity!");
     } else {
-      this.setState({ loading: true });
-      axios
-        .post(
-          URL + "/giftcardgeneral/general",
-          { giftCardGeneralId, quantity },
-          {
-            headers: {
-              Authorization: `Bearer ${this.props.userLogin.token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.data.message === "Success") {
-            this.setState({ quantity: 0, loading: false, search: "" });
-
-            this.props.successNotify(res.data.message);
-
-            this.fetchData();
-            this.getGiftCardById(this.state.deleteID);
-          }
-        })
-        .catch((error) => console.log(error));
+      this.props.addGiftCardGeneral(giftCardGeneralId, quantity);
     }
+
+    // this.setState({ quantity: 0, loading: false, search: "" });
+
+    // this.props.successNotify(res.data.message);
+
+    // this.fetchData();
+    // this.getGiftCardById(this.state.deleteID);
   };
 
   // Delete
@@ -111,41 +96,16 @@ class Generation_Detail extends Component {
     this.setState({ openDelete: false });
   };
 
-  fetchData = async (state) => {
-    const ID = this.props.Detail;
-    const page = state?.page ? state?.page : 0;
-    const pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/giftcard/getByGeneral/${ID}?keySearch=${this.state.search}&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.setState({
-            data: [],
-          });
-        }
+  fetchApi = async (state) => {
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
+    const { giftCardGeneralId } = this.props.giftCardGeneral;
 
-        this.setState({ loading: false });
-      });
+    const url = `${URL}/giftcard/getByGeneral/${giftCardGeneralId}?keySearch=${
+      this.state.search
+    }&page=${page === 0 ? 1 : page + 1}&row=${pageSize}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -212,9 +172,9 @@ class Generation_Detail extends Component {
 
   render() {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
-    const Detail = this.props.GenerationByID;
-    const { page, pageCount, data } = this.state;
-
+    const Detail = this.props.giftCardGeneral;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
     const columns = [
       {
         Header: <CustomTableHeader value="ID" />,
@@ -331,10 +291,7 @@ class Generation_Detail extends Component {
         },
       },
     ];
-    const typeExport = [
-      { value: "excel", label: "CSV" },
-      // { value: "pdf", label: "Pdf" },
-    ];
+    const typeExport = [{ value: "excel", label: "CSV" }];
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -353,12 +310,6 @@ class Generation_Detail extends Component {
               >
                 BACK
               </Button>
-              {/* <Button
-                className="btn btn-red"
-                onClick={() => this.setState({ openDelete: true })}
-              >
-                DELETE
-              </Button> */}
             </div>
           </div>
           <Grid container spacing={3} className="information container-fluid">
@@ -419,7 +370,6 @@ class Generation_Detail extends Component {
             <Grid item xs={12} style={{ zIndex: "9999" }}>
               <ScaleLoader isLoading={this.state.isLoading} />
             </Grid>
-            {/* <div className="giftcard_content"> */}
             <Grid item xs={12}>
               <CustomTitle value="Gift Card Codes" />
             </Grid>
@@ -468,33 +418,26 @@ class Generation_Detail extends Component {
               )}
             </Grid>
 
-            {/* <Delete
-                handleCloseDelete={this.handleCloseDelete}
-                open={this.state.openDelete}
-                deleteGeneration={this.Delete}
-                text={"Gift Card"}
-              /> */}
             <CodeLog
               open={this.state.open}
               handleClose={this.handleClose}
               Serial={this.state.serialNumber}
             />
             <Grid item xs={12}>
-              {this.state.loadingData && (
-                <ReactTable
-                  manual
-                  page={page}
-                  pages={pageCount}
-                  data={data}
-                  onPageChange={(pageIndex) => this.changePage(pageIndex)}
-                  onFetchData={(state) => this.fetchData(state)}
-                  minRows={1}
-                  noDataText="NO DATA!"
-                  loading={this.state.loading}
-                  columns={columns}
-                  defaultPageSize={10}
-                />
-              )}
+              <ReactTable
+                manual
+                page={page}
+                pages={pageCount}
+                data={data}
+                row={pageSize}
+                onPageChange={(pageIndex) => this.changePage(pageIndex)}
+                onFetchData={(state) => this.fetchApi(state)}
+                minRows={1}
+                noDataText="NO DATA!"
+                loading={loading}
+                columns={columns}
+                defaultPageSize={10}
+              />
             </Grid>
           </Grid>
         </div>
@@ -507,6 +450,8 @@ const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
   Detail: state.GiftCardReducer.detail,
   GenerationByID: state.GiftCardReducer.GenerationByID,
+  apiData: state.fetchApi,
+  giftCardGeneral: state.getGiftCardGeneral.data,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -524,6 +469,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
+  },
+  addGiftCardGeneral: (giftCardGeneralId, quantity) => {
+    dispatch(addGiftCardGeneral(giftCardGeneralId, quantity));
+  },
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
 });
 
