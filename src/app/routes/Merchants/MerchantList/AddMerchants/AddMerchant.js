@@ -173,7 +173,7 @@ class AddMerchant extends React.Component {
     const { activeStep } = this.state;
 
     axios
-      .post(URL + "/merchant", { ...values })
+      .post(URL + "/merchant?api-version=1.1", { ...values })
       .then((res) => {
         console.log("res", res);
         if ((res.status = 200)) {

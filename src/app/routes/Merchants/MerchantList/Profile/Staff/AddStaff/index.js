@@ -130,7 +130,7 @@ class AddStaff extends Component {
 
     axios
       .post(
-        URL + "/staff",
+        URL + "/staff?api-version=1.1",
         {
           ...values,
           merchantId,

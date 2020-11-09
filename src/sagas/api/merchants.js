@@ -533,7 +533,7 @@ export function* ADD_STAFF_API(payload) {
 
   const kq = yield axios
     .post(
-      URL + `/staff`,
+      URL + `/staff?api-version=1.1`,
       {
         ...payload,
       },
