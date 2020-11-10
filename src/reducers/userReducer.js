@@ -213,6 +213,63 @@ const userPermissionReducer = (
   }
 };
 
+const allPermissionReducer = (
+  state = {
+    loading: false,
+    allPermissions: [],
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_ALL_PERMISSION_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.GET_ALL_PERMISSION_SUCCESS:
+      return {
+        loading: false,
+        allPermissions: payload,
+      };
+    case types.GET_ALL_PERMISSION_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
+const updatePermissionReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.UPDATE_PERMISSION_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.UPDATE_PERMISSION_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.UPDATE_PERMISSION_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export {
   updateUserByIdReducer,
   changeUserPasswordByIdReducer,
@@ -222,4 +279,6 @@ export {
   userLoginReducer,
   verifyUserReducer,
   userPermissionReducer,
+  allPermissionReducer,
+  updatePermissionReducer,
 };

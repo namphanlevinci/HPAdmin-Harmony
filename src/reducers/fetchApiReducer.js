@@ -20,7 +20,7 @@ const fetchApiReducer = (state = initialState, { type, payload }) => {
     case FETCH_API_SUCCESS:
       return {
         loading: false,
-        data: payload.data,
+        data: payload.data ? payload.data : [],
         pageCount: payload.pages,
         pageSize: 5,
       };

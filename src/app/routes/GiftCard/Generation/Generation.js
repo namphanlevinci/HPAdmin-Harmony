@@ -14,7 +14,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import moment from "moment";
 import Tooltip from "@material-ui/core/Tooltip";
-import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 
 import "./generation.styles.scss";

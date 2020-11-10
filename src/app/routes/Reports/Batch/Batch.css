@@ -108,6 +108,6 @@
   background: #4251af
 }
 
-.batch-container .batch__detail p {
+.batch-container .batch__detail  {
   line-height: 44px;
 }

@@ -440,29 +440,12 @@ class Generation_Detail extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-  GenerationByID: state.GiftCardReducer.GenerationByID,
   apiData: state.fetchApi,
   giftCardGeneral: state.getGiftCardGeneral.data,
   exportGeneral: state.exportGiftCardGeneral,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getGenerationCode: (ID) => {
-    dispatch(GET_GIFT_CARD_BY_ID(ID));
-  },
-  getCodeLog: (ID) => {
-    dispatch(GET_GIFT_CARD_CODE_LOG_BY_ID(ID));
-  },
-  successNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
-  },
-  errorNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
-  },
-  warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
-  },
   addGiftCardGeneral: (giftCardGeneralId, quantity) => {
     dispatch(addGiftCardGeneral(giftCardGeneralId, quantity));
   },

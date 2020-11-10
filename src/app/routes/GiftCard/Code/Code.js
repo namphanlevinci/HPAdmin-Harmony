@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  GET_TEMPLATE,
-  VIEW_DETAIL,
-} from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
-import { GET_GIFT_CARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
 import { SUCCESS_NOTIFICATION } from "../../../../actions/notifications/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
@@ -15,6 +10,11 @@ import {
   CustomTableHeader,
 } from "../../../../util/CustomText";
 import { Grid, Button, Typography, Tooltip, Checkbox } from "@material-ui/core";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import {
+  getCodeLog,
+  exportGiftCardGeneral,
+} from "../../../../actions/giftCardActions";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -55,50 +55,28 @@ class Codes extends Component {
   }
 
   // logs
-  handleLogs = (Data) => {
-    this.setState({ open: true, serialNumber: Data?.serialNumber });
-    this.props.getCodeLog(Data?.giftCardId);
+  handleLogs = (e) => {
+    this.setState({ open: true, serialNumber: e?.serialNumber });
+    this.props.getCodeLog(e?.giftCardId);
   };
 
   handleClose = () => {
     this.setState({ open: false });
   };
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/giftcard/search?keySearch=${this.state.search}&isActive=${
-            this.state.isActive.value
-          }&isPhysical=${this.state.isPhysical.value}&isUsed=${
-            this.state.isUsed.value
-          }&page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-          });
-        } else {
-          this.setState({
-            data: [],
-            loading: false,
-          });
-        }
-      });
+    const url = `${URL}/giftcard/search?keySearch=${
+      this.state.search
+    }&isActive=${this.state.isActive.value}&isPhysical=${
+      this.state.isPhysical.value
+    }&isUsed=${this.state.isUsed.value}&page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -116,39 +94,18 @@ class Codes extends Component {
   handEnter = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
   handleSearchInput = async (e) => {
     this.setState({ search: e.target.value });
-    await this.fetchData();
+    await this.fetchApi();
   };
 
   getExport = (e) => {
-    this.setState({ isLoading: true });
-    axios
-      .get(
-        URL +
-          `/giftcard/search/export/${this.state.typeExport.value}?keySearch=&isActive=${this.state.isActive.value}&isPhysical=${this.state.isPhysical.value}&isUsed=${this.state.isUsed.value}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 400 || res.data.data === null) {
-          this.props.SuccessNotify(res.data.message);
-
-          this.setState({ isLoading: false });
-        } else {
-          setTimeout(() => {
-            window.open(res.data.data.path);
-            this.setState({ isLoading: false });
-          }, 1000);
-        }
-      });
+    const url = `${URL}/giftcard/search/export/${this.state.typeExport.value}?keySearch=&isActive=${this.state.isActive.value}&isPhysical=${this.state.isPhysical.value}&isUsed=${this.state.isUsed.value}`;
+    this.props.exportGiftCardGeneral(url);
   };
 
   handleSelect = (value, name) => {
@@ -156,13 +113,14 @@ class Codes extends Component {
       {
         [name.name]: value,
       },
-      () => this.fetchData()
+      () => this.fetchApi()
     );
   };
 
   render() {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
-    const { page, pageCount, data } = this.state;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const typeExport = [{ value: "excel", label: "CSV" }];
 
@@ -304,6 +262,7 @@ class Codes extends Component {
       { value: 1, label: "True" },
       { value: -1, label: "Select" },
     ];
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -331,9 +290,6 @@ class Codes extends Component {
                 />
               </form>
             </Grid>
-            {/* <Button className="btn btn-green" onClick={this.fetchData}>
-              Search
-            </Button> */}
 
             <Grid item xs={4} style={styles.div}>
               <CustomTextLabel value="Physical Card" />
@@ -418,12 +374,13 @@ class Codes extends Component {
               page={page}
               pages={pageCount}
               data={data}
+              row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onfetchApi={(state) => this.fetchApi(state)}
               defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
             />
           </div>
@@ -434,22 +391,20 @@ class Codes extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardReducer.template,
-  userLogin: state.userReducer.User,
+  apiData: state.fetchApi,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_TEMPLATE: () => {
-    dispatch(GET_TEMPLATE());
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
-  VIEW_DETAIL: (payload) => {
-    dispatch(VIEW_DETAIL(payload));
+
+  getCodeLog: (CodeId) => {
+    dispatch(getCodeLog(CodeId));
   },
-  getCodeLog: (ID) => {
-    dispatch(GET_GIFT_CARD_CODE_LOG_BY_ID(ID));
-  },
-  SuccessNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
+
+  exportGiftCardGeneral: (url) => {
+    dispatch(exportGiftCardGeneral(url));
   },
 });
 

@@ -406,3 +406,93 @@ export const getUserPermissionByID = (path) => async (dispatch, getState) => {
     });
   }
 };
+
+export const getAllPermission = (path) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.GET_ALL_PERMISSION_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(`${URL}/permission`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    dispatch({
+      type: types.GET_ALL_PERMISSION_SUCCESS,
+      payload: data.data,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.GET_ALL_PERMISSION_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const updatePermissions = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.UPDATE_PERMISSION_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.put(`${URL}/permission`, [...payload], {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    dispatch({
+      type: types.UPDATE_PERMISSION_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    dispatch(getAllPermission());
+    dispatch(getUserPermissionByID());
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.UPDATE_PERMISSION_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

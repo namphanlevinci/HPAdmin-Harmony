@@ -103,9 +103,121 @@ const getCodeLogReducer = (
   }
 };
 
+const updateTemplateReducer = (
+  state = {
+    loading: false,
+    template: "",
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.VIEW_TEMPLATE:
+      return {
+        ...state,
+        template: payload,
+      };
+    case types.UPDATE_TEMPLATE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.UPDATE_TEMPLATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.UPDATE_TEMPLATE_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const archiveTemplateReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ARCHIVE_TEMPLATE_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.ARCHIVE_TEMPLATE_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ARCHIVE_TEMPLATE_FAILURE:
+      return {
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const restoreTemplateReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.RESTORE_TEMPLATE_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.RESTORE_TEMPLATE_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.RESTORE_TEMPLATE_FAILURE:
+      return {
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const addTemplateReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ADD_TEMPLATE_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.ADD_TEMPLATE_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ADD_TEMPLATE_FAILURE:
+      return {
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
 export {
   addGiftCardGeneralReducer,
   getGiftCardGeneralByIdReducer,
   exportGiftCardGeneralReducer,
   getCodeLogReducer,
+  updateTemplateReducer,
+  archiveTemplateReducer,
+  restoreTemplateReducer,
+  addTemplateReducer,
 };

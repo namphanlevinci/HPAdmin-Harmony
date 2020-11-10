@@ -195,3 +195,232 @@ export const getCodeLog = (CodeId) => async (dispatch, getState) => {
     });
   }
 };
+
+export const viewTemplate = (payload) => async (dispatch) => {
+  dispatch({
+    type: types.VIEW_TEMPLATE,
+    payload: payload,
+  });
+};
+
+export const updateTemplateByID = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.UPDATE_TEMPLATE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { ID, path } = payload;
+
+    const { data } = await axios.put(
+      `${URL}/giftcardtemplate/${ID}`,
+      {
+        ...payload,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.UPDATE_TEMPLATE_SUCCESS,
+      payload: data.data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data.message,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.UPDATE_TEMPLATE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const archiveTemplateByID = (templateId, path) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.UPDATE_TEMPLATE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.put(
+      `${URL}/giftcardtemplate/disabled/${templateId}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.UPDATE_TEMPLATE_SUCCESS,
+      payload: data.data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data.message,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.UPDATE_TEMPLATE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const restoreTemplateByID = (templateId, path) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.RESTORE_TEMPLATE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.put(
+      `${URL}/giftcardtemplate/restore/${templateId}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.RESTORE_TEMPLATE_SUCCESS,
+      payload: data.data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data.message,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.RESTORE_TEMPLATE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const addTemplateByID = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.ADD_TEMPLATE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { path } = payload;
+
+    const { data } = await axios.post(
+      `${URL}/giftcardtemplate`,
+      {
+        ...payload,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.ADD_TEMPLATE_SUCCESS,
+      payload: data.data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data.message,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.ADD_TEMPLATE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

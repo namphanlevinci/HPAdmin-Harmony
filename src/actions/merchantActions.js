@@ -247,7 +247,7 @@ export const updateStaffByID = (payload) => async (dispatch, getState) => {
     } = await getState();
 
     const { data } = await axios.put(
-      `${URL}/staff/${StaffID}`,
+      `${URL}/staff?api-version=1.1/${StaffID}`,
       {
         firstName,
         lastName,
@@ -1984,7 +1984,7 @@ export const AddMerchantStaffById = (payload) => async (dispatch, getState) => {
     const { merchantId, path } = payload;
 
     const { data } = await axios.post(
-      `${URL}/staff`,
+      `${URL}/staff?api-version=1.1`,
       { ...payload },
       {
         headers: {

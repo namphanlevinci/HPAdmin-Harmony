@@ -90,6 +90,8 @@ import {
   verifyUserReducer,
   userLoginReducer,
   userPermissionReducer,
+  allPermissionReducer,
+  updatePermissionReducer,
 } from "./userReducer";
 // Gift Card
 import {
@@ -97,7 +99,14 @@ import {
   getGiftCardGeneralByIdReducer,
   exportGiftCardGeneralReducer,
   getCodeLogReducer,
+  updateTemplateReducer,
+  archiveTemplateReducer,
+  restoreTemplateReducer,
+  addTemplateReducer,
 } from "./giftCardReducer";
+
+// Report
+import { viewReportMerchantReducer } from "./reportReducer";
 
 export default (history) =>
   combineReducers({
@@ -180,10 +189,19 @@ export default (history) =>
     user: userLoginReducer,
     verifyUser: verifyUserReducer,
     userPermissions: userPermissionReducer,
+    allPermissions: allPermissionReducer,
+    updatePermissions: updatePermissionReducer,
 
     // Gift Card
     addGiftCardGeneral: addGiftCardGeneralReducer,
     getGiftCardGeneral: getGiftCardGeneralByIdReducer,
     exportGiftCardGeneral: exportGiftCardGeneralReducer,
     codeLog: getCodeLogReducer,
+    updateTemplate: updateTemplateReducer,
+    archiveTemplate: archiveTemplateReducer,
+    restoreTemplate: restoreTemplateReducer,
+    addTemplate: addTemplateReducer,
+
+    // Report
+    reportMerchant: viewReportMerchantReducer,
   });

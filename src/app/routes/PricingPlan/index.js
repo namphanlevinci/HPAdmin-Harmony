@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { config } from "../../../url/url";
 import { Helmet } from "react-helmet";
+import { CustomTableHeader } from "../../../util/CustomText";
+import { Typography } from "@material-ui/core";
 
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import IntlMessages from "../../../util/IntlMessages";
 import SearchIcon from "@material-ui/icons/Search";
-// import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import axios from "axios";
 
@@ -39,30 +40,48 @@ class Pricing extends Component {
     const columns = [
       {
         id: "id",
-        Header: "ID",
-        accessor: (e) => <p>#{e?.packageId}</p>,
+        Header: <CustomTableHeader value="ID" />,
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            #{e?.packageId}
+          </Typography>
+        ),
         width: 100,
       },
       {
         id: "name",
-        Header: "Title",
-        accessor: (e) => <p>{`Pricing package ${e?.packageId}`}</p>,
+        Header: <CustomTableHeader value="Title" />,
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {`Pricing package ${e?.packageId}`}
+          </Typography>
+        ),
       },
       {
-        Header: "Subtitle",
+        Header: <CustomTableHeader value="Subtitle" />,
         accessor: "packageName",
-        Cell: (props) => <p>{props.value}</p>,
+        Cell: (props) => (
+          <Typography variant="subtitle1" className="table__light">
+            {props.value}
+          </Typography>
+        ),
       },
       {
         id: "price",
-        Header: "Pricing",
-        accessor: (e) => <p>$ {e.pricing}</p>,
+        Header: <CustomTableHeader value="Pricing" />,
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            $ {e.pricing}
+          </Typography>
+        ),
       },
       {
         id: "status",
-        Header: "Status", // Custom header components!
+        Header: <CustomTableHeader value="Status" />,
         accessor: (e) => (
-          <pre>{e?.isDisabled === 0 ? "Active" : "Disable"}</pre>
+          <Typography variant="subtitle1" className="table__light">
+            {e?.isDisabled === 0 ? "Active" : "Disable"}
+          </Typography>
         ),
       },
     ];

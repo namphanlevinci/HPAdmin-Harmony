@@ -217,7 +217,6 @@ const mapDispatchToProps = (dispatch) => ({
   getUserByID: (ID, path) => {
     dispatch(getUserByID(ID, path));
   },
-
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
   },

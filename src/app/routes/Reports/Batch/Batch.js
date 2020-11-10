@@ -1,12 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  getBatch,
-  getBatchDetail,
-} from "../../../../actions/transactions/actions";
-import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
+import { getReportMerchantId } from "../../../../actions/reportActions";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { CustomTableHeader } from "../../../../util/CustomText";
+import { Typography } from "@material-ui/core";
 
-import axios from "axios";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
 
@@ -35,39 +33,16 @@ class Transactions extends React.Component {
     await this.setState({ search: e.target.value });
   };
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     const { search } = this.state;
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
 
-    await axios
-      .get(
-        URL +
-          `/settlement?key=${search}&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.setState({ data: [] });
-        }
-        this.setState({ loading: false });
-      });
+    const url = `${URL}/settlement?key=${search}&page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -80,7 +55,7 @@ class Transactions extends React.Component {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
@@ -89,8 +64,9 @@ class Transactions extends React.Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.props.fetchBatchDetail(rowInfo?.original?.settlementId);
-            this.props.passMerchantID(rowInfo?.original);
+            const url = `${URL}/settlement/${rowInfo?.original?.settlementId}`;
+            this.props.fetchApiByPage(url);
+            this.props.getReportMerchantId(rowInfo?.original);
             this.props.history.push("/app/reports/batchs/detail");
           }
         },
@@ -99,18 +75,18 @@ class Transactions extends React.Component {
 
     const columns = [
       {
-        Header: "Date/Time",
+        Header: <CustomTableHeader value="Date/Time" />,
         columns: [
           {
             Header: "",
             id: "dateTime",
             accessor: (e) => (
-              <p>
+              <Typography variant="subtitle1" className="table__light">
                 {moment
                   .utc(e.settlementDate)
                   .local()
                   .format("MM/DD/YYYY hh:mm A")}
-              </p>
+              </Typography>
             ),
             width: 200,
           },
@@ -118,25 +94,27 @@ class Transactions extends React.Component {
       },
       {
         id: "Customer",
-        Header: "Merchant DBA",
+        Header: <CustomTableHeader value="Merchant DBA" />,
         columns: [
           {
             Header: "",
             id: "DBA",
             accessor: (e) => (
-              <p style={{ fontWeight: 400 }}>{e.doBusinessName}</p>
+              <Typography variant="subtitle1">{e.doBusinessName}</Typography>
             ),
             width: 130,
           },
         ],
       },
       {
-        Header: "Merchant ID",
+        Header: <CustomTableHeader value="Merchant ID" />,
         columns: [
           {
             Header: "",
             id: "merchantId",
-            accessor: (e) => <p style={{ fontWeight: 400 }}>{e.merchantId}</p>,
+            accessor: (e) => (
+              <Typography variant="subtitle1">{e.merchantId}</Typography>
+            ),
           },
         ],
       },
@@ -153,24 +131,40 @@ class Transactions extends React.Component {
 
         columns: [
           {
-            Header: "HarmonyPay",
+            Header: <CustomTableHeader value="HarmonyPay" />,
             id: "paymentByHarmony",
-            accessor: (e) => <p>${e.paymentByHarmony}</p>,
+            accessor: (e) => (
+              <Typography variant="subtitle1" className="table__light">
+                ${e.paymentByHarmony}
+              </Typography>
+            ),
           },
           {
-            Header: "Credit Card",
+            Header: <CustomTableHeader value="Credit Card" />,
             id: "paymentByCreditCard",
-            accessor: (e) => <p>${e.paymentByCreditCard}</p>,
+            accessor: (e) => (
+              <Typography variant="subtitle1" className="table__light">
+                ${e.paymentByCreditCard}
+              </Typography>
+            ),
           },
           {
-            Header: "Cash",
+            Header: <CustomTableHeader value="Cash" />,
             id: "paymentByCash",
-            accessor: (e) => <p>${e.paymentByCash}</p>,
+            accessor: (e) => (
+              <Typography variant="subtitle1" className="table__light">
+                ${e.paymentByCash}
+              </Typography>
+            ),
           },
           {
-            Header: "Other",
+            Header: <CustomTableHeader value="Other" />,
             id: "otherPayment",
-            accessor: (e) => <p>${e.otherPayment}</p>,
+            accessor: (e) => (
+              <Typography variant="subtitle1" className="table__light">
+                ${e.otherPayment}
+              </Typography>
+            ),
           },
         ],
       },
@@ -180,13 +174,17 @@ class Transactions extends React.Component {
           {
             Header: "",
             id: "total",
-            accessor: (e) => <p style={{ fontWeight: 400 }}>${e.total}</p>,
+            accessor: (e) => (
+              <Typography variant="subtitle1">${e.total}</Typography>
+            ),
           },
         ],
       },
     ];
 
-    const { page, pageCount, data, pageSize } = this.state;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
+
     return (
       <div className="container-fluid react-transition swipe-right Batchs">
         <Helmet>
@@ -223,11 +221,11 @@ class Transactions extends React.Component {
               data={data}
               row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               defaultPageSize={20}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
               getTdProps={onRowClick}
             />
@@ -239,18 +237,14 @@ class Transactions extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-  Batch: state.getAllBatch,
+  apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getBatch: () => {
-    dispatch(getBatch());
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
-  fetchBatchDetail: (payload) => {
-    dispatch(getBatchDetail(payload));
-  },
-  passMerchantID: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
+  getReportMerchantId: (id) => {
+    dispatch(getReportMerchantId(id));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

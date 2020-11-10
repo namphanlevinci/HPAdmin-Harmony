@@ -2,12 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MdAddToPhotos } from "react-icons/md";
 import { Formik } from "formik";
-import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
+import { addTemplateByID } from "../../../../actions/giftCardActions";
+
 import { config } from "../../../../url/url";
 import { CustomTitle } from "../../../../util/CustomText";
 import { Grid, Button } from "@material-ui/core";
@@ -39,7 +35,7 @@ class NewTemplate extends Component {
     };
   }
 
-  _uploadFile = (e) => {
+  updateImage = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -132,34 +128,17 @@ class NewTemplate extends Component {
               return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              const { giftCardTemplateName, giftCardType, isDisabled } = values;
               const { fileId, isConsumer } = this.state;
-              // resetForm();
-              axios
-                .post(
-                  URL + "/giftcardtemplate",
-                  {
-                    giftCardTemplateName,
-                    giftCardType,
-                    isConsumer,
-                    fileId,
-                    isDisabled: Number(isDisabled),
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${this.props.userLogin.token}`,
-                    },
-                  }
-                )
-                .then((res) => {
-                  if (res.data.message === "Success") {
-                    this.props.SuccessNotify(res.data.message);
-                    this.props.history.push("/app/giftcard/template");
-                  } else {
-                    this.props.FailureNotify(res.data.message);
-                  }
-                })
-                .catch((error) => console.log(error));
+              const { isDisabled } = values;
+              const path = "/app/giftcard/template";
+              const payload = {
+                ...values,
+                isDisabled: Number(isDisabled),
+                fileId,
+                isConsumer,
+                path,
+              };
+              this.props.addTemplateByID(payload);
             }}
           >
             {({
@@ -283,7 +262,7 @@ class NewTemplate extends Component {
                         type="file"
                         className="custom-input"
                         accept="image/gif,image/jpeg, image/png"
-                        onChange={(e) => this._uploadFile(e)}
+                        onChange={(e) => this.updateImage(e)}
                         style={{ width: "100%", border: "none" }}
                       />
                     </Grid>
@@ -316,17 +295,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_TEMPLATE: () => {
-    dispatch(GET_TEMPLATE());
-  },
-  SuccessNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
-  },
-  FailureNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
-  },
-  warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
+  addTemplateByID: (payload) => {
+    dispatch(addTemplateByID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(NewTemplate);

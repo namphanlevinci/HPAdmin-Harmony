@@ -1,11 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getP2P_Transactions } from "../../../../actions/transactions/actions";
 import { DebounceInput } from "react-debounce-input";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 
-import axios from "axios";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
@@ -46,11 +45,11 @@ class P2P extends React.Component {
   };
   fromDate = async (e) => {
     await this.setState({ from: e.target.value, range: "all" });
-    await this.fetchData();
+    await this.fetchApi();
   };
   toDate = async (e) => {
     await this.setState({ to: e.target.value, range: "all" });
-    await this.fetchData();
+    await this.fetchApi();
   };
 
   componentDidMount() {
@@ -68,7 +67,7 @@ class P2P extends React.Component {
     this.setState({
       [name]: value,
     });
-    this.fetchData();
+    this.fetchApi();
   };
   timeRange = async (e) => {
     const value = e.target.value;
@@ -114,10 +113,10 @@ class P2P extends React.Component {
     await this.setState({
       range: value,
     });
-    await this.fetchData();
+    await this.fetchApi();
   };
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     const {
       from,
       to,
@@ -129,35 +128,14 @@ class P2P extends React.Component {
     } = this.state;
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/p2pgiftcard/transaction?page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
-            amount ? amount : amountFrom
-          }&amountTo=${amount ? amount : amountTo}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.setState({ data: [], loading: false });
-        }
-      });
+
+    const url = `${URL}/p2pgiftcard/transaction?page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
+      amount ? amount : amountFrom
+    }&amountTo=${amount ? amount : amountTo}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -169,15 +147,15 @@ class P2P extends React.Component {
   render() {
     const {
       page,
-      pageCount,
-      data,
-      pageSize,
+
       from,
       to,
       amountTo,
       amountFrom,
       amount,
     } = this.state;
+
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
       {
@@ -355,11 +333,11 @@ class P2P extends React.Component {
               data={data}
               row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               defaultPageSize={20}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
             />
           </div>
@@ -370,13 +348,11 @@ class P2P extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-  TransactionList: state.getTransactions,
-  P2PList: state.GetP2P,
+  apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getP2P_Transactions: () => {
-    dispatch(getP2P_Transactions());
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(P2P);

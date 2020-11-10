@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAll_Transactions } from "../../../../actions/transactions/actions";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { DebounceInput } from "react-debounce-input";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
@@ -11,7 +11,6 @@ import moment from "moment";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
-import axios from "axios";
 import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 
 import "./Transactions.css";
@@ -44,15 +43,15 @@ class Transactions extends React.Component {
       range: "thisMonth",
       search: "",
     });
-    this.fetchData();
+    this.fetchApi();
   };
   fromDate = async (e) => {
     await this.setState({ from: e.target.value, range: "all" });
-    await this.fetchData();
+    await this.fetchApi();
   };
   toDate = async (e) => {
     await this.setState({ to: e.target.value, range: "all" });
-    await this.fetchData();
+    await this.fetchApi();
   };
 
   componentDidMount() {
@@ -69,7 +68,7 @@ class Transactions extends React.Component {
   handEnter = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
@@ -120,7 +119,7 @@ class Transactions extends React.Component {
     await this.setState({
       range: value,
     });
-    await this.fetchData();
+    await this.fetchApi();
   };
 
   handleChange = async (event) => {
@@ -130,9 +129,10 @@ class Transactions extends React.Component {
     await this.setState({
       [name]: value,
     });
-    this.fetchData();
+    this.fetchApi();
   };
-  fetchData = async (state) => {
+
+  fetchApi = async (state) => {
     const {
       from,
       to,
@@ -144,36 +144,14 @@ class Transactions extends React.Component {
     } = this.state;
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/paymentTransaction/search?page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
-            amount ? amount : amountFrom
-          }&amountTo=${amount ? amount : amountTo}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.setState({ data: [] });
-        }
-        this.setState({ loading: false });
-      });
+
+    const url = `${URL}/paymentTransaction/search?page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
+      amount ? amount : amountFrom
+    }&amountTo=${amount ? amount : amountTo}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -183,17 +161,8 @@ class Transactions extends React.Component {
   };
 
   render() {
-    const {
-      page,
-      pageCount,
-      data,
-      pageSize,
-      from,
-      to,
-      amountTo,
-      amountFrom,
-      amount,
-    } = this.state;
+    const { page, from, to, amountTo, amountFrom, amount } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
       {
@@ -261,6 +230,7 @@ class Transactions extends React.Component {
         ),
       },
     ];
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -385,11 +355,11 @@ class Transactions extends React.Component {
               data={data}
               row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               defaultPageSize={20}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
             />
           </div>
@@ -400,12 +370,11 @@ class Transactions extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-  TransactionList: state.getTransactions,
+  apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getAll_Transactions: () => {
-    dispatch(getAll_Transactions());
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

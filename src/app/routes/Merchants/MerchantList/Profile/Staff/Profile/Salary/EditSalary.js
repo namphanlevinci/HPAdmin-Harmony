@@ -280,7 +280,7 @@ class EditSalary extends Component {
                                           masked
                                         )
                                       }
-                                      label="Salary Percent"
+                                      label="Salary percented (%)"
                                       style={styles.textField}
                                       InputProps={{
                                         startAdornment: (
