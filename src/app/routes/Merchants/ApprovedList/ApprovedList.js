@@ -113,10 +113,9 @@ class MerchantsList extends React.Component {
       {
         id: "principals",
         Header: <CustomTableHeader value="Owner" />,
-        accessor: (e) => e.principals[0],
-        Cell: (e) => (
+        accessor: (row) => (
           <Typography variant="subtitle1">
-            {e?.value?.firstName + " " + e?.value?.lastName}
+            {row?.principals[0]?.firstName + " " + row?.principals[0]?.lastName}
           </Typography>
         ),
       },

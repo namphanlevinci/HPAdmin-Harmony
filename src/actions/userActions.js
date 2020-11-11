@@ -496,3 +496,41 @@ export const updatePermissions = (payload) => async (dispatch, getState) => {
     });
   }
 };
+
+export const getAllUser = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.GET_ALL_USER_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+    const { data } = await axios.get(`${URL}/adminuser?page=0`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    dispatch({
+      type: types.GET_ALL_USER_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.GET_ALL_USER_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

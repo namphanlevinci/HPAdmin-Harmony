@@ -3,36 +3,63 @@ import { connect } from "react-redux";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import {
+  CustomTitle,
+  CustomTextLabel,
+  CustomText,
+} from "../../../../util/CustomText";
+import { getAllUser } from "../../../../actions/userActions";
 
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import "bootstrap/js/src/collapse.js";
+import DateFnsUtils from "@date-io/date-fns";
+import { Button, Grid, MenuItem, Select, InputLabel } from "@material-ui/core";
 import moment from "moment";
-import "moment/locale/it";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-
+import Pagination from "@material-ui/lab/Pagination";
 import IntlMessages from "../../../../util/IntlMessages";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+
 import "./Logs.css";
 import "react-datepicker/dist/react-datepicker.css";
-
+import "moment/locale/it";
+import "bootstrap/js/src/collapse.js";
 const URL = config.url.URL;
 
 class Logs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      User: "",
+      user: 5,
       search_user: "",
+      page: 1,
+      adminId: 0,
+      timeStart: moment().startOf("month").format("YYYY-MM-DD"),
+      timeEnd: moment().endOf("month").format("YYYY-MM-DD"),
     };
   }
 
   handleResetClick = () => {
-    this.setState({ search_user: "", from: undefined, to: undefined });
+    this.setState({
+      search: "",
+      timeStart: moment().startOf("month").format("YYYY-MM-DD"),
+      timeEnd: moment().endOf("month").format("YYYY-MM-DD"),
+    });
   };
-  componentDidMount = async () => {
-    const url = `${URL}/merchantapprovallog`;
+  componentDidMount() {
+    this.fetchApi();
+    this.props.getAllUser();
+  }
+
+  fetchApi = async () => {
+    const { page, adminId, timeStart, timeEnd } = this.state;
+    const url = `${URL}/merchantapprovallog?userId=${adminId}&page=${page}&row=20&timeStart=${timeStart}&timeEnd=${timeEnd}`;
     await this.props.fetchApiByPage(url);
   };
+
   // getUnique(arr, comp) {
   //   const unique = arr
   //     .map((e) => e[comp])
@@ -41,43 +68,33 @@ class Logs extends Component {
   //     .map((e) => arr[e]);
   //   return unique;
   // }
-  _onChangeSearchUser = async (e) => {
+
+  handleChange = (e, page) => {
+    console.log("handleChange", page);
+  };
+
+  handleDateChange = async (e, name) => {
+    console.log(e);
+    const value = moment(e).format("MM/DD/YYYY");
     await this.setState({
-      search_user: e?.target.value,
+      [name]: value,
+    });
+    await this.fetchApi();
+  };
+
+  handleReset = () => {
+    this.setState({
+      adminId: 0,
+      timeStart: moment().startOf("month").format("YYYY-MM-DD"),
+      timeEnd: moment().endOf("month").format("YYYY-MM-DD"),
     });
   };
-  fromDate = (e) => {
-    this.setState({ from: e?.target.value });
-  };
-  toDate = (e) => {
-    this.setState({ to: e?.target.value });
-  };
+
   render() {
     const valuez = { start: this.state.from, end: this.state.to };
 
-    let UserList = this.props.LogList;
-
     const { data, loading, pageSize, pageCount } = this.props.apiData;
 
-    if (this.state.from) {
-      data = data.filter((datez) => {
-        let date = moment(datez.createdDate).format("MM/DD/YYYY");
-        let from = moment(valuez.start).format("MM/DD/YYYY");
-        let to = moment(valuez.end).format("MM/DD/YYYY");
-
-        const date2 = new Date(date);
-        const from2 = new Date(from);
-        const to2 = new Date(to);
-        return date2 >= from2 && date2 <= to2;
-      });
-    }
-
-    if (this.state.search_user) {
-      data = data.filter((e) => {
-        let name = e?.adminUser.firstName + " " + e?.adminUser.lastName;
-        return name === this.state.search_user;
-      });
-    }
     // let user = this.getUnique(UserList, "adminUserId");
     // const renderUser = user.map((e) => {
     //   const name = e?.adminUser.firstName + " " + e?.adminUser.lastName;
@@ -88,40 +105,46 @@ class Logs extends Component {
     //     </option>
     //   );
     // });
-    const renderDataList = data?.map((e) => {
-      const time = moment
-        .utc(e?.createdDate)
-        .local()
-        .format("MM/DD/YYYY HH:mm A");
+    const logList = data?.map((e) => {
+      const day = moment.utc(e?.createdDate).local().format("MM/DD/YYYY");
+      const time = moment.utc(e?.createdDate).local().format("hh:mm A");
+      const status =
+        e?.isRejected === 1
+          ? "Rejected"
+          : e?.isApproved === 1
+          ? "Approved"
+          : "Handling";
+      const rejectReason = e?.reasonReject;
+      const user = `${e?.adminUser?.firstName} ${e?.adminUser?.lastName}`;
+      const merchantEmail = e?.merchant?.email;
       return (
-        <tr key={e?.approvalLogId}>
-          <td className="inside-table" style={{ width: "13%" }}>
-            {time}
-          </td>
-          <td>
-            <ul>
-              <li>
-                <div className="first"></div>
-              </li>
-            </ul>
-          </td>
-          <td className="box">
-            <h3>
-              <span className="arrow-left"></span>Approve merchant request
-            </h3>
-            {e?.isApproved === 1 ? "Yes" : "No"}
-          </td>
-          <td className="box">
-            <h3>merchant request from:</h3> {e?.merchant?.email}
-          </td>
-          <td className="box">
-            <h3>User</h3> {e?.adminUser.firstName + " " + e?.adminUser.lastName}
-          </td>
-        </tr>
+        <Grid container spacing={6} key={e?.approvalLogId}>
+          <Grid item xs={3} style={{ margin: "auto" }} className="first">
+            <CustomText value={`${day} ${time}`} />
+          </Grid>
+          <Grid item xs={3}>
+            <CustomText value="Merchant Request Status" />
+
+            <CustomTextLabel value={`${status} `} />
+
+            {rejectReason && (
+              <CustomTextLabel value={`Reason: ${rejectReason}`} />
+            )}
+          </Grid>
+          <Grid item xs={3} className="">
+            <CustomText value="Merchant Request From" />
+            <CustomTextLabel value={`  ${merchantEmail}`} />
+          </Grid>
+          <Grid item xs={3} className="">
+            <CustomText value="User" />
+            <CustomTextLabel value={user} />
+          </Grid>
+        </Grid>
       );
     });
+
     return (
-      <div className="container-fluid react-transition swipe-right">
+      <div className="react-transition swipe-right">
         <Helmet>
           <title>Log | Harmony Admin</title>
         </Helmet>
@@ -129,76 +152,76 @@ class Logs extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Logs" />}
         />
-        <div className="LogContainer page-heading">
-          <h2>Filter</h2>
+        <Grid container spacing={0} className="page-heading">
+          <Grid item xs={12}>
+            <CustomTitle value="Filter" />
+          </Grid>
 
-          <div className="container">
-            <div className="row">
-              <div className="col-md-3">
-                <form noValidate>
-                  <TextField
-                    label="From"
-                    type="date"
-                    // defaultValue={this.state.to}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={this.fromDate}
-                  />
-                </form>
-              </div>
-              <div className="col-md-3">
-                <form noValidate>
-                  <TextField
-                    id="date"
-                    label="To"
-                    type="date"
-                    // defaultValue={this.state.to}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={this.toDate}
-                  />
-                </form>
-              </div>
-              <div className="col-md-6">
-                <select
-                  value={this.state.search_user}
-                  onChange={this._onChangeSearchUser}
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid item xs={4}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                label="From"
+                name="timeStart"
+                value={this.state.timeStart}
+                onChange={(e) => this.handleDateChange(e, "timeStart")}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+                autoOk={true}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                label="To"
+                value={this.state.timeEnd}
+                name="timeEnd"
+                onChange={(e) => this.handleDateChange(e, "timeEnd")}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+                autoOk={true}
+              />
+            </Grid>
+            <Grid item xs={2} style={{ marginTop: "16px" }}>
+              <FormControl style={{ width: "80%" }}>
+                <InputLabel>User</InputLabel>
+                <Select
+                  value={this.state.user}
+                  // onChange={handleChange}
+
+                  inputProps={{ "aria-label": "Without label" }}
                 >
-                  <option value="">User </option>
-                  {/* {renderUser} */}
-                </select>
-                <Button
-                  className="btn btn-green"
-                  onClick={this.handleResetClick}
-                >
-                  Reset
-                </Button>
-              </div>
-            </div>
-          </div>
-          <hr style={{ borderBottom: "1px solid #4251af" }}></hr>
-          <div>
-            <h2>
-              Server Time <i className="fa fa-hourglass" />
-            </h2>
-            <div className="LogContainerBody">
-              <table style={{ width: "95%" }}>
-                <thead>
-                  <tr>
-                    <th style={{ width: "10%" }}></th>
-                    <th style={{ width: "10%" }}></th>
-                    <th style={{ width: "30%" }}></th>
-                    <th style={{ width: "25%" }}></th>
-                    <th style={{ width: "20%" }}></th>
-                  </tr>
-                </thead>
-                <tbody>{renderDataList}</tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+                  <MenuItem value={5}>All User</MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={2} className="reset_btn">
+              <Button className="btn btn-green" onClick={this.handleReset}>
+                RESET
+              </Button>
+            </Grid>
+          </MuiPickersUtilsProvider>
+
+          <Grid item xs={12} style={{ padding: "20px 0px" }}>
+            <CustomTitle value={`Server Time`} />
+          </Grid>
+
+          <Grid item xs={12} className="LogContainerBody">
+            {logList}
+          </Grid>
+        </Grid>
       </div>
     );
   }
@@ -206,10 +229,14 @@ class Logs extends Component {
 
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  adminUser: state.adminUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
+  },
+  getAllUser: (url) => {
+    dispatch(getAllUser(url));
   },
 });
 

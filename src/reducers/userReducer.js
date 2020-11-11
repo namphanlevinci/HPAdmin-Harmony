@@ -270,6 +270,34 @@ const updatePermissionReducer = (
   }
 };
 
+const allUserReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_ALL_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.GET_ALL_USER_SUCCESS:
+      return {
+        loading: false,
+        userList: payload,
+      };
+    case types.GET_ALL_USER_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export {
   updateUserByIdReducer,
   changeUserPasswordByIdReducer,
@@ -281,4 +309,5 @@ export {
   userPermissionReducer,
   allPermissionReducer,
   updatePermissionReducer,
+  allUserReducer,
 };

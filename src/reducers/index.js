@@ -92,6 +92,7 @@ import {
   userPermissionReducer,
   allPermissionReducer,
   updatePermissionReducer,
+  allUserReducer,
 } from "./userReducer";
 // Gift Card
 import {
@@ -204,4 +205,5 @@ export default (history) =>
 
     // Report
     reportMerchant: viewReportMerchantReducer,
+    adminUser: allUserReducer,
   });
