@@ -68,7 +68,7 @@ class Merchants extends React.Component {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
