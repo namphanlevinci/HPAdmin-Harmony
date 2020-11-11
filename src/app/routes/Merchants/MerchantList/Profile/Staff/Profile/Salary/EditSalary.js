@@ -280,7 +280,7 @@ class EditSalary extends Component {
                                           masked
                                         )
                                       }
-                                      label="Salary Percent"
+                                      label="Salary percented (%)"
                                       style={styles.textField}
                                       InputProps={{
                                         startAdornment: (
@@ -317,7 +317,7 @@ class EditSalary extends Component {
                                           letterSpacing: 0.3,
                                         }}
                                         onClick={() =>
-                                          arrayHelpers.insert(1, "")
+                                          arrayHelpers.insert(index + 1, "")
                                         }
                                       >
                                         + Add more
@@ -341,7 +341,7 @@ class EditSalary extends Component {
                                 }}
                                 onClick={() => arrayHelpers.push("")}
                               >
-                                + Add more
+                                + Add more 2
                               </p>
                             </Grid>
                           )}

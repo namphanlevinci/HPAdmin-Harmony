@@ -103,7 +103,7 @@ class Salary extends Component {
                   style={styles.input}
                   value={item?.commission}
                   disabled
-                  label="Salary Percent"
+                  label="Salary percented (%)"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">%</InputAdornment>
