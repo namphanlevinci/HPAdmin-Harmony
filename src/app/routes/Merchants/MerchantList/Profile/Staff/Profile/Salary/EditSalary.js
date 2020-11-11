@@ -318,7 +318,7 @@ class EditSalary extends Component {
                                             letterSpacing: 0.3,
                                           }}
                                           onClick={() =>
-                                            arrayHelpers.insert(1, "")
+                                            arrayHelpers.insert(index + 1, "")
                                           }
                                         >
                                           + Add more

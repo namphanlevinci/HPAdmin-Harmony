@@ -40,7 +40,7 @@ import ProductEdit from "./Profile/Product/ProductEdit";
 import Staff from "./Profile/Staff/Staff";
 import AddStaff2 from "./Profile/Staff/AddStaff/index.js";
 // Extra Tab
-import ExtraTab from "./Profile/Extra/Extra.js";
+import ExtraTab from "./Profile/Extra/Extra";
 // REPORT SETTLEMENT
 import ExportSettlement from "./Profile/ExportSettlement/export-settlement";
 import CheckPermissions from "../../../../util/checkPermission";

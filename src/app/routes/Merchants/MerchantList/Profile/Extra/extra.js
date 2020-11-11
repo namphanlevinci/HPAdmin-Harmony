@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  VIEW_SERVICE,
-  GET_MERCHANT_EXTRA,
-  ARCHIVE_MERCHANT_EXTRA,
-  RESTORE_MERCHANT_EXTRA,
-} from "../../../../../../actions/merchants/actions";
+
 import {
   getExtraByID,
   archiveExtraById,

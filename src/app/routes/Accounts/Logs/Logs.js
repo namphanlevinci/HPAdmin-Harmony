@@ -60,21 +60,18 @@ class Logs extends Component {
     await this.props.fetchApiByPage(url);
   };
 
-  // getUnique(arr, comp) {
-  //   const unique = arr
-  //     .map((e) => e[comp])
-  //     .map((e, i, final) => final.indexOf(e) === i && i)
-  //     .filter((e) => arr[e])
-  //     .map((e) => arr[e]);
-  //   return unique;
-  // }
-
   handleChange = (e, page) => {
     console.log("handleChange", page);
   };
 
+  handleSelect = async (e) => {
+    await this.setState({
+      adminId: e.target.value,
+    });
+    await this.fetchApi();
+  };
+
   handleDateChange = async (e, name) => {
-    console.log(e);
     const value = moment(e).format("MM/DD/YYYY");
     await this.setState({
       [name]: value,
@@ -82,29 +79,27 @@ class Logs extends Component {
     await this.fetchApi();
   };
 
-  handleReset = () => {
-    this.setState({
+  handleReset = async () => {
+    await this.setState({
       adminId: 0,
       timeStart: moment().startOf("month").format("YYYY-MM-DD"),
       timeEnd: moment().endOf("month").format("YYYY-MM-DD"),
     });
+    await this.fetchApi();
   };
 
   render() {
-    const valuez = { start: this.state.from, end: this.state.to };
-
     const { data, loading, pageSize, pageCount } = this.props.apiData;
+    const { loading: loadingUser, userList } = this.props.adminUser;
 
-    // let user = this.getUnique(UserList, "adminUserId");
-    // const renderUser = user.map((e) => {
-    //   const name = e?.adminUser.firstName + " " + e?.adminUser.lastName;
-    //   const id = e?.adminUser.waUserId;
-    //   return (
-    //     <option key={id} value={name}>
-    //       {name}
-    //     </option>
-    //   );
-    // });
+    const renderUser = userList.map((e) => {
+      return (
+        <MenuItem key={e?.waUserId} value={`${e?.waUserId}`}>
+          {`${e?.firstName} ${e?.lastName}`}
+        </MenuItem>
+      );
+    });
+
     const logList = data?.map((e) => {
       const day = moment.utc(e?.createdDate).local().format("MM/DD/YYYY");
       const time = moment.utc(e?.createdDate).local().format("hh:mm A");
@@ -193,16 +188,9 @@ class Logs extends Component {
             <Grid item xs={2} style={{ marginTop: "16px" }}>
               <FormControl style={{ width: "80%" }}>
                 <InputLabel>User</InputLabel>
-                <Select
-                  value={this.state.user}
-                  // onChange={handleChange}
-
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value={5}>All User</MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                <Select value={this.state.adminId} onChange={this.handleSelect}>
+                  <MenuItem value={0}>All User</MenuItem>
+                  {renderUser}
                 </Select>
               </FormControl>
             </Grid>
