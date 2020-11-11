@@ -157,7 +157,7 @@ class Merchants extends React.Component {
         width: 100,
       },
     ];
-    const onRowClick = (state, rowInfo, column, instance) => {
+    const onRowClick = (state, rowInfo) => {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
