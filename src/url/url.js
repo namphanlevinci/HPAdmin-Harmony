@@ -18,14 +18,10 @@
 // export const upFileUrl =
 //   "https://admin.harmonypayment.com/api/file?category=product";
 
-// Bruh2
-
 const prod = {
   url: {
-    // URL: "https://admin.stage.harmonypayment.com/api",
-    // upFile: "https://admin.stage.harmonypayment.com/api/file?category=service",
-    URL: "https://admin.stage.harmonypayment.com/api",
-    upFile: "https://admin.stage.harmonypayment.com/api/file?category=product",
+    URL: "https://admin.harmonypayment.com/api",
+    upFile: "https://admin.harmonypayment.com/api/file?category=product",
   },
 };
 
@@ -33,9 +29,6 @@ const dev = {
   url: {
     URL: "https://dev.harmonypayment.com/api",
     upFile: "https://dev.harmonypayment.com/api/file?category=service",
-
-    // URL: "https://admin.stage.harmonypayment.com/api",
-    // upFile: "https://admin.stage.harmonypayment.com/apifile?category=service",
   },
 };
 
