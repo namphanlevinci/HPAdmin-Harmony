@@ -108,8 +108,6 @@ class VerifyUser extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer,
-  VerifyUser: state.VerifyUser,
   verify: state.verifyUser,
 });
 const mapDispatchToProps = (dispatch) => ({

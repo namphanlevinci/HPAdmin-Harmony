@@ -3,12 +3,10 @@ import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import { Formik } from "formik";
 import { BsGridFill } from "react-icons/bs";
-
 import {
   getCategoryByID,
   addMerchantProductById,
 } from "../../../../../../actions/merchantActions";
-
 import {
   Grid,
   TextField,
@@ -24,7 +22,6 @@ import axios from "axios";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import IntlMessages from "../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../components/ContainerHeader/index";
-
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
@@ -500,7 +497,6 @@ class AddProduct extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
-  userLogin: state.userReducer.User,
   category: state.category,
   addProduct: state.addProduct,
 });

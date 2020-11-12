@@ -18,7 +18,6 @@ import {
   CustomText,
   CustomTextLabel,
 } from "../../../../../../util/CustomText";
-
 import {
   DownloadMerchantTemplateById,
   AddMerchantTemplateById,
@@ -45,12 +44,11 @@ class Settings extends Component {
       open: false,
     };
   }
-  _gotoEdit = () => {
+  goToEditPage = () => {
     this.props.history.push("/app/merchants/profile/settings/edit");
   };
   componentDidMount() {
     const data = this.props.MerchantProfile;
-
     this.setState({
       ID: data.merchantId,
     });
@@ -331,7 +329,7 @@ class Settings extends Component {
                 </Grid> */}
 
               {CheckPermissions("edit-setting") && (
-                <Button className="btn btn-green" onClick={this._gotoEdit}>
+                <Button className="btn btn-green" onClick={this.goToEditPage}>
                   EDIT
                 </Button>
               )}

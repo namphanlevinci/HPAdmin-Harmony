@@ -1,4 +1,4 @@
-import * as types from "../../actions/merchants/types";
+import * as types from "../../trash/merchants/types";
 import {
   MERCHANT_DOWNLOAD_TEMPLATE_REQUEST,
   MERCHANT_DOWNLOAD_TEMPLATE_SUCCESS,
@@ -20,9 +20,9 @@ const initialState = {
 
 const MerchantReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case types.DELETE_MERCHANT_SUCCESS:
-      state = payload;
-      return { ...state };
+    // case types.DELETE_MERCHANT_SUCCESS:
+    //   state = payload;
+    //   return { ...state };
     // case types.GET_MERCHANT_BY_ID_SUCCESS:
     //   state.MerchantData = payload;
     //   return { ...state };
@@ -56,62 +56,4 @@ const MerchantReducer = (state = initialState, { type, payload }) => {
   }
 };
 
-const downloadMerchantTemplateReducer = (
-  state = { loading: false },
-  { type, payload }
-) => {
-  switch (type) {
-    case MERCHANT_DOWNLOAD_TEMPLATE_REQUEST:
-      return {
-        loading: true,
-        template: {},
-      };
-    case MERCHANT_DOWNLOAD_TEMPLATE_SUCCESS:
-      window.open(payload.data);
-
-      return {
-        loading: false,
-        template: payload,
-      };
-
-    case MERCHANT_DOWNLOAD_TEMPLATE_FAIL:
-      return {
-        loading: false,
-        error: payload,
-      };
-    default:
-      return state;
-  }
-};
-
-const addMerchantTemplateReducer = (
-  state = { loading: false },
-  { type, payload }
-) => {
-  switch (type) {
-    case MERCHANT_ADD_TEMPLATE_REQUEST:
-      return {
-        loading: true,
-        template: {},
-      };
-    case MERCHANT_ADD_TEMPLATE_SUCCESS:
-      return {
-        loading: false,
-        template: payload,
-      };
-
-    case MERCHANT_ADD_TEMPLATE_FAIL:
-      return {
-        loading: false,
-        error: payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export {
-  MerchantReducer,
-  downloadMerchantTemplateReducer,
-  addMerchantTemplateReducer,
-};
+export { MerchantReducer };

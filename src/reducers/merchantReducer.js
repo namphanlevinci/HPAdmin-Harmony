@@ -545,7 +545,7 @@ const archiveMerchantServiceByIdReducer = (
   { type, payload }
 ) => {
   switch (type) {
-    case types.ARCHIVE_MERCHANT_SERVICE_FAILURE:
+    case types.ARCHIVE_MERCHANT_SERVICE_REQUEST:
       return {
         loading: true,
       };
@@ -681,7 +681,7 @@ const archiveMerchantProductByIdReducer = (
   { type, payload }
 ) => {
   switch (type) {
-    case types.ARCHIVE_MERCHANT_PRODUCT_FAILURE:
+    case types.ARCHIVE_MERCHANT_PRODUCT_REQUEST:
       return {
         loading: true,
       };
@@ -935,6 +935,190 @@ const addMerchantStaffByIdReducer = (
   }
 };
 
+const getMerchantActivityByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_MERCHANT_ACTIVITY_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.GET_MERCHANT_ACTIVITY_SUCCESS:
+      return {
+        loading: false,
+        activityList: payload,
+      };
+    case types.GET_MERCHANT_ACTIVITY_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const addMerchantReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ADD_MERCHANT_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.ADD_MERCHANT_SUCCESS:
+      return {
+        loading: false,
+        activityList: payload,
+      };
+    case types.ADD_MERCHANT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const merchantPendingStatusReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.SET_PENDING_STATUS_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.SET_PENDING_STATUS_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.SET_PENDING_STATUS_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const downloadMerchantTemplateReducer = (
+  state = { loading: false },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.MERCHANT_DOWNLOAD_TEMPLATE_REQUEST:
+      return {
+        loading: true,
+        template: {},
+      };
+    case types.MERCHANT_DOWNLOAD_TEMPLATE_SUCCESS:
+      window.open(payload.data);
+
+      return {
+        loading: false,
+        template: payload,
+      };
+
+    case types.MERCHANT_DOWNLOAD_TEMPLATE_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const addMerchantTemplateReducer = (
+  state = { loading: false },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.MERCHANT_ADD_TEMPLATE_REQUEST:
+      return {
+        loading: true,
+        template: {},
+      };
+    case types.MERCHANT_ADD_TEMPLATE_SUCCESS:
+      return {
+        loading: false,
+        template: payload,
+      };
+
+    case types.MERCHANT_ADD_TEMPLATE_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const approveMerchantReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.APPROVE_MERCHANT_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.APPROVE_MERCHANT_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.APPROVE_MERCHANT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const rejectMerchantReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.REJECT_MERCHANT_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.REJECT_MERCHANT_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.REJECT_MERCHANT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
 export {
   restoreStaffReducer,
   archiveStaffReducer,
@@ -971,4 +1155,11 @@ export {
   archiveMerchantByIdReducer,
   updateMerchantSettingByIdReducer,
   addMerchantStaffByIdReducer,
+  getMerchantActivityByIdReducer,
+  addMerchantReducer,
+  merchantPendingStatusReducer,
+  downloadMerchantTemplateReducer,
+  addMerchantTemplateReducer,
+  approveMerchantReducer,
+  rejectMerchantReducer,
 };

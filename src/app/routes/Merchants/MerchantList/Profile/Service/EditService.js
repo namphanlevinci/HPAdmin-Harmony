@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { Formik } from "formik";
-import { UPDATE_MERCHANT_SERVICE } from "../../../../../../actions/merchants/actions";
 import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
 import {
   getServiceByID,
@@ -17,7 +16,7 @@ import {
   InputLabel,
 } from "@material-ui/core";
 import { CustomTitle } from "../../../../../../util/CustomText";
-import Extra from "./extra";
+import Extra from "./Extra";
 import axios from "axios";
 import { config } from "../../../../../../url/url";
 import * as Yup from "yup";

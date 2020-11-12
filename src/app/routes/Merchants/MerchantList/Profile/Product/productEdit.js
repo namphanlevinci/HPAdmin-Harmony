@@ -478,18 +478,11 @@ class EditProduct extends Component {
 }
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
-  userLogin: state.userReducer.User,
   product: state.updateProduct,
   category: state.category,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  successNotify: (payload) => {
-    dispatch(SUCCESS_NOTIFICATION(payload));
-  },
-  failureNotify: (payload) => {
-    dispatch(FAILURE_NOTIFICATION(payload));
-  },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
   },

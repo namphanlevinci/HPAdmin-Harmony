@@ -211,6 +211,57 @@ const addTemplateReducer = (
   }
 };
 
+const templateReducer = (
+  state = {
+    loading: false,
+    templateList: [],
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_ALL_TEMPLATE_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.GET_ALL_TEMPLATE_SUCCESS:
+      return {
+        loading: false,
+        templateList: payload,
+      };
+    case types.GET_ALL_TEMPLATE_FAILURE:
+      return {
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const addGenerationReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ADD_GENERATION_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.ADD_GENERATION_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ADD_GENERATION_FAILURE:
+      return {
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
 export {
   addGiftCardGeneralReducer,
   getGiftCardGeneralByIdReducer,
@@ -220,4 +271,6 @@ export {
   archiveTemplateReducer,
   restoreTemplateReducer,
   addTemplateReducer,
+  templateReducer,
+  addGenerationReducer,
 };

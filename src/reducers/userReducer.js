@@ -9,6 +9,7 @@ const getUserByIdReducer = (
   switch (type) {
     case types.GET_USER_BY_ID_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case types.GET_USER_BY_ID_SUCCESS:
@@ -19,6 +20,7 @@ const getUserByIdReducer = (
 
     case types.GET_USER_BY_ID_FAILURE:
       return {
+        ...state,
         loading: false,
       };
     default:
@@ -85,6 +87,7 @@ const updateUserByIdReducer = (
   switch (type) {
     case types.UPDATE_USER_ADMIN_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case types.UPDATE_USER_ADMIN_SUCCESS:
@@ -95,6 +98,7 @@ const updateUserByIdReducer = (
 
     case types.UPDATE_USER_ADMIN_FAILURE:
       return {
+        ...state,
         loading: false,
       };
     default:
@@ -148,7 +152,7 @@ const userLoginReducer = (
       return {
         loading: false,
       };
-    case types.USER_LOGOUT:
+    case types.USER_LOGOUT_SUCCESS:
       return {
         user: {},
       };
@@ -273,6 +277,7 @@ const updatePermissionReducer = (
 const allUserReducer = (
   state = {
     loading: false,
+    userList: [],
   },
   { type, payload }
 ) => {

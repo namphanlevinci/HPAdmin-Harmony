@@ -41,11 +41,9 @@ class Generation extends Component {
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-
     const url = `${URL}/giftcardgeneral?keySearch=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
-
     this.props.fetchApiByPage(url);
   };
 

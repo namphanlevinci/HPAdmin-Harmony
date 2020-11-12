@@ -5,34 +5,10 @@ import Settings from "./Settings";
 // USER
 import userReducer from "./User/UserReducer";
 
-import ViewProfile_Merchants from "./Merchants/ViewProfile_Merchants";
-
 // NOTIFICATIONS
-import NotificationReducer from "./Notifications/";
-// LOGS
-import getAll_Logs from "./Logs/getAll_Logs";
-// BUSINESS
-import getAll_Questions from "./Business/getAll_Questions";
-import getAll_Transactions from "./Transactions/getTransactions";
-import getAll_ConsumerUsers from "./Business/getAll_ConsumerUsers";
-import Update_Questions from "./Business/update_Questions";
+import NotificationReducer from "./notificationReducer";
 
-// CONSUMER & TRANSACTIONS & BATCH
-import getUser_Transaction from "./Transactions/getUser_Transactions";
-import getUser_Activity from "./Transactions/getUser_Activity";
-import getAllBatch from "./Transactions/getBatch";
-import getAllP2P_Transactions from "./Transactions/getP2P";
-import getBatchDetail from "./Transactions/getBatchDetail";
-// REPORT STATICS
-import Approved_Static from "./Reports/Approved";
-
-// Gift Card
-import GiftCardReducer from "./gift-card/gift-card.reducer";
-import {
-  downloadMerchantTemplateReducer,
-  MerchantReducer,
-  addMerchantTemplateReducer,
-} from "./Merchants/MerchantReducer";
+import {} from "./Merchants/MerchantReducer";
 // Consumer
 import ConsumerReducer from "./Consumer/index";
 // Fetch api
@@ -71,6 +47,11 @@ import {
   restoreMerchantByIdReducer,
   updateMerchantSettingByIdReducer,
   addMerchantStaffByIdReducer,
+  getMerchantActivityByIdReducer,
+  addMerchantReducer,
+  merchantPendingStatusReducer,
+  downloadMerchantTemplateReducer,
+  addMerchantTemplateReducer,
 } from "./merchantReducer";
 
 // Consumer
@@ -104,6 +85,8 @@ import {
   archiveTemplateReducer,
   restoreTemplateReducer,
   addTemplateReducer,
+  templateReducer,
+  addGenerationReducer,
 } from "./giftCardReducer";
 
 // Report
@@ -115,26 +98,11 @@ export default (history) =>
     settings: Settings,
 
     userReducer,
-    ViewProfile_Merchants,
 
-    NotificationReducer,
-    getLogs: getAll_Logs,
-    getQuestions: getAll_Questions,
-    getTransactions: getAll_Transactions,
-    getConsumerUsers: getAll_ConsumerUsers,
-    userTransaction: getUser_Transaction,
-    userActivity: getUser_Activity,
-
-    uQuestions: Update_Questions,
-    ApprovedStatic: Approved_Static,
-    // addAdminUser,
-    getAllBatch,
-    GetP2P: getAllP2P_Transactions,
-    BatchDetail: getBatchDetail,
-
-    GiftCardReducer,
-    MerchantReducer,
     ConsumerReducer,
+
+    // Notification
+    notification: NotificationReducer,
 
     // Merchant
     downloadTemplate: downloadMerchantTemplateReducer,
@@ -166,6 +134,9 @@ export default (history) =>
     archiveMerchant: archiveMerchantByIdReducer,
     restoreMerchant: restoreMerchantByIdReducer,
     updateMerchantSetting: updateMerchantSettingByIdReducer,
+    activity: getMerchantActivityByIdReducer,
+    addMerchant: addMerchantReducer,
+    pendingStatus: merchantPendingStatusReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,
@@ -202,6 +173,8 @@ export default (history) =>
     archiveTemplate: archiveTemplateReducer,
     restoreTemplate: restoreTemplateReducer,
     addTemplate: addTemplateReducer,
+    template: templateReducer,
+    addGeneration: addGenerationReducer,
 
     // Report
     reportMerchant: viewReportMerchantReducer,

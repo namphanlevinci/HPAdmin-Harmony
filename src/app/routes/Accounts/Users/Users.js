@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-
 import { getUserByID } from "../../../../actions/userActions";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
@@ -10,6 +7,8 @@ import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { Button, Typography } from "@material-ui/core";
 
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchIcon from "@material-ui/icons/Search";
 import CheckPermissions from "../../../../util/checkPermission";
@@ -210,7 +209,6 @@ class Users extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({

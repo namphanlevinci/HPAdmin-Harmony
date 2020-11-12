@@ -137,7 +137,6 @@ class EditGeneral extends Component {
 
 const mapStateToProps = (state) => ({
   ConsumerProfile: state.consumerById.data,
-  userLogin: state.userReducer.User,
   updateConsumer: state.updateConsumerById,
 });
 

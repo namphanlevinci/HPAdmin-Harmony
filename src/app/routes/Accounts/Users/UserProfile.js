@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-
 import { Grid } from "@material-ui/core";
 import {
   CustomTitle,
@@ -9,7 +8,6 @@ import {
   CustomTextLabel,
 } from "../../../../util/CustomText";
 import {
-  getUserByID,
   restoreUserById,
   archiveUserById,
 } from "../../../../actions/userActions";
@@ -151,9 +149,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getUserByID: (ID, path) => {
-    dispatch(getUserByID(ID, path));
-  },
   restoreUserById: (ID) => {
     dispatch(restoreUserById(ID));
   },

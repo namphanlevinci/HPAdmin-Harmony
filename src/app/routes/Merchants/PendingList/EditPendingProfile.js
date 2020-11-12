@@ -6,7 +6,6 @@ import { getMerchantByID } from "../../../../actions/merchantActions";
 import { TextField, Grid } from "@material-ui/core";
 import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
 import { updateMerchantPendingByID } from "../../../../actions/merchantActions";
-
 import { Formik, Form, FieldArray } from "formik";
 import { CustomTitle } from "../../../../util/CustomText";
 import * as Yup from "yup";
@@ -67,9 +66,6 @@ class EditPendingMerchant extends Component {
           reader.onloadend = () => {
             setFieldValue(name, res.data.data.fileId);
             setFieldValue(imageUrlName, reader.result);
-            // this.setState({
-            //   progress: false,
-            // });
           };
           reader.readAsDataURL(file);
         })
@@ -903,7 +899,6 @@ class EditPendingMerchant extends Component {
 
 const mapStateToProps = (state) => ({
   Profile: state.merchant.merchant,
-  userLogin: state.userReducer.User,
   RejectStatus: state.Reject,
 });
 
@@ -914,7 +909,6 @@ const mapDispatchToProps = (dispatch) => ({
   updateMerchantPendingByID: (payload) => {
     dispatch(updateMerchantPendingByID(payload));
   },
-
   WARNING_NOTIFICATION: (payload) => {
     dispatch(WARNING_NOTIFICATION(payload));
   },

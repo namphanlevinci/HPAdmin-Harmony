@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../../url/url";
+import { getMerchantActivityById } from "../../../../../actions/merchantActions";
+import { CustomTableHeader } from "../../../../.../../../util/CustomText";
+import { Typography, CircularProgress } from "@material-ui/core";
 
 import moment from "moment";
 import ReactTable from "react-table";
-import axios from "axios";
 
 import "../MerchantProfile.css";
 import "../../PendingList/MerchantReqProfile.css";
 import "../../Merchants.css";
 import "./Detail.css";
+import "react-table/react-table.css";
 
-const URL = config.url.URL;
 class MerchantActi extends Component {
   constructor(props) {
     super(props);
@@ -22,46 +23,52 @@ class MerchantActi extends Component {
   }
 
   async componentDidMount() {
-    let ID = this.props.MerchantProfile.merchantId;
-    const Token = localStorage.getItem("user");
-    await this.setState({ Token: Token });
-    const token = JSON.parse(this.state.Token);
-    axios
-      .get(URL + "/merchantactivity/" + ID, {
-        headers: { Authorization: `Bearer ${token.token}` },
-      })
-      .then(async (res) => {
-        await this.setState({ data: res.data.data });
-      });
+    let merchantId = this.props.MerchantProfile.merchantId;
+    this.props.getMerchantActivityById(merchantId);
   }
 
   render() {
     const columns = [
       {
         id: "createDate",
-        Header: "Date/Time",
-        accessor: (e) => {
-          return moment.utc(e.createDate).local().format("MM/DD/YYYY hh:mm A");
-        },
+        Header: <CustomTableHeader value="Date/Time" />,
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {moment.utc(e.createDate).local().format("MM/DD/YYYY hh:mm A")}
+          </Typography>
+        ),
       },
       {
-        Header: "Activity",
-        accessor: "action",
+        Header: <CustomTableHeader value="Activity" />,
+        id: "actions",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e.action}
+          </Typography>
+        ),
       },
     ];
+
+    const { loading, activityList } = this.props.activity;
 
     return (
       <div className="content general-content react-transition swipe-right">
         <div>
-          <div className="TransactionTable ActivityTable">
-            <ReactTable
-              data={this.state.data}
-              columns={columns}
-              defaultPageSize={10}
-              minRows={1}
-              noDataText="NO DATA!"
-            />
-          </div>
+          {loading ? (
+            <div style={{ textAlign: "center" }}>
+              <CircularProgress />
+            </div>
+          ) : (
+            <div className="TransactionTable ActivityTable">
+              <ReactTable
+                data={activityList}
+                columns={columns}
+                defaultPageSize={10}
+                minRows={1}
+                noDataText="NO DATA!"
+              />
+            </div>
+          )}
         </div>
       </div>
     );
@@ -69,7 +76,12 @@ class MerchantActi extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
+  activity: state.activity,
 });
-export default connect(mapStateToProps)(MerchantActi);
+
+const mapDispatchToProps = (dispatch) => ({
+  getMerchantActivityById: (merchantId) =>
+    dispatch(getMerchantActivityById(merchantId)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(MerchantActi);

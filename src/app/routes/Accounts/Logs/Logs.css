@@ -1,23 +1,32 @@
+.btn {
+  display: inline-block;
+  color: #666;
+  background-color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
+  margin-top: 20px;
+}
 
 .reset_btn {
   margin: auto;
   text-align: center;
 }
 
-
-/* .LogContainer .LogContainerBody  {
-  width: 50%;
-  padding: 15px;
-  background: #fff;
-} */
-
- .first {
+.first {
   height: 100%;
   border-right: 1px solid #4251af;
   position: relative;
   padding-top: 60px;
 }
- .first::after {
+.first::after {
   content: "";
   position: absolute;
   bottom: 31px;
@@ -28,3 +37,7 @@
   background-color: #4251af;
 }
 
+.log_pagination {
+  margin-top: 20px;
+  float: right;
+}

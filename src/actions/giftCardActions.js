@@ -424,3 +424,90 @@ export const addTemplateByID = (payload) => async (dispatch, getState) => {
     });
   }
 };
+
+export const getAllTemplate = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.GET_ALL_TEMPLATE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(`${URL}/giftcardtemplate`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    dispatch({
+      type: types.GET_ALL_TEMPLATE_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: types.GET_ALL_TEMPLATE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const addGeneration = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.ADD_GENERATION_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { path } = payload;
+
+    const { data } = await axios.post(
+      `${URL}/giftcardgeneral`,
+      {
+        ...payload,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.ADD_GENERATION_SUCCESS,
+      payload: data.data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data.message,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: types.ADD_GENERATION_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.ADD_TEMPLATE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

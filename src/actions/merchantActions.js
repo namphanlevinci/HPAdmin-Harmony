@@ -2021,3 +2021,248 @@ export const AddMerchantStaffById = (payload) => async (dispatch, getState) => {
     });
   }
 };
+
+export const getMerchantActivityById = (merchantID) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: types.GET_MERCHANT_ACTIVITY_REQUEST });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(`${URL}/merchantactivity/${merchantID}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    dispatch({
+      type: types.GET_MERCHANT_ACTIVITY_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: types.GET_MERCHANT_ACTIVITY_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const addMerchant = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: types.ADD_MERCHANT_REQUEST });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { path } = payload;
+
+    const { data } = await axios.post(
+      `${URL}/merchant?api-version=1.1`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    dispatch({
+      type: types.ADD_MERCHANT_SUCCESS,
+      payload: data,
+    });
+
+    history.push(path);
+  } catch (error) {
+    dispatch({
+      type: types.ADD_MERCHANT_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const setPendingStatus = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: types.SET_PENDING_STATUS_REQUEST });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { merchantId, Status } = payload;
+
+    const { data } = await axios.put(
+      `${URL}/merchant/updateStatus/${merchantId}`,
+      { Status },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.SET_PENDING_STATUS_SUCCESS,
+      payload: data.data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    dispatch(getMerchantByID(merchantId));
+  } catch (error) {
+    dispatch({
+      type: types.SET_PENDING_STATUS_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const approveMerchantById = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.APPROVE_MERCHANT_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { merchantId, path } = payload;
+
+    const { data } = await axios.put(
+      `${URL}/merchant/approve/${merchantId}`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.APPROVE_MERCHANT_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.APPROVE_MERCHANT_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const rejectMerchantById = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.REJECT_MERCHANT_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { merchantId, path } = payload;
+
+    const { data } = await axios.put(
+      `${URL}/merchant/reject/${merchantId}`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.REJECT_MERCHANT_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.REJECT_MERCHANT_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

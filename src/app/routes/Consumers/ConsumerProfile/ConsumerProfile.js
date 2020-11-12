@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
-import {
-  getUser_Transaction,
-  getUser_Activity,
-} from "../../../../actions/transactions/actions";
 import { AnimatePresence } from "framer-motion";
 
 import IntlMessages from "../../../../util/IntlMessages";
@@ -169,19 +165,6 @@ class ConsumerProfile extends Component {
 }
 const mapStateToProps = (state) => ({
   ConsumerProfile: state.consumerById.data,
-  userLogin: state.userReducer.User,
 });
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getTransactions: (id) => {
-      dispatch(getUser_Transaction(id));
-    },
-    getActivity: (id) => {
-      dispatch(getUser_Activity(id));
-    },
-  };
-};
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ConsumerProfile)
-);
+export default withRouter(connect(mapStateToProps)(ConsumerProfile));

@@ -21,7 +21,7 @@ class MerchantApprovedProfile extends Component {
     this.state = {};
   }
 
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/merchants/approved");
   };
   render() {
@@ -155,7 +155,7 @@ class MerchantApprovedProfile extends Component {
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
-                  onClick={this._goBack}
+                  onClick={this.goBack}
                 >
                   BACK
                 </Button>
@@ -175,7 +175,7 @@ class MerchantApprovedProfile extends Component {
               <h4>
                 By{" "}
                 <span style={{ fontWeight: 600 }}>
-                  {e.adminUser.first_name + " " + e.adminUser.last_name}
+                  {`${e.adminUser.first_name} ${e.adminUser.last_name}`}
                 </span>
               </h4>
 
@@ -309,7 +309,6 @@ class MerchantApprovedProfile extends Component {
                 <Grid item xs={12}>
                   <CustomTitle value="Principal Information" />
                 </Grid>
-
                 {renderPrincipal}
               </Grid>
             </div>

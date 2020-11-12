@@ -32,6 +32,7 @@ import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined"
 import EditExtra from "./EditExtra";
 
 const upFile = config.url.upFile;
+
 class ExtraTab extends Component {
   constructor(props) {
     super(props);
@@ -304,7 +305,6 @@ class ExtraTab extends Component {
             data={this.state}
             handleClose={this.handleClose}
             uploadImage={this.uploadImage}
-            token={this.props.userLogin.token}
             merchantId={this.props.MerchantProfile.merchantId}
             updateExtra={this.props.updateMerchantExtraById}
           />
@@ -385,8 +385,6 @@ class ExtraTab extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
-  userLogin: state.userReducer.User,
-  ExtraData: state.MerchantReducer.ExtraData,
   extra: state.extra,
 });
 const mapDispatchToProps = (dispatch) => ({

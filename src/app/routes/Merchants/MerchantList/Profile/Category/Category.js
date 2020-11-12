@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Formik } from "formik";
-import { config } from "../../../../../../url/url";
-
 import {
   getCategoryByID,
   viewCategory,
@@ -10,7 +8,6 @@ import {
   restoreCategoryById,
   archiveCategoryById,
 } from "../../../../../../actions/merchantActions";
-
 import {
   Select,
   TextField,
@@ -19,8 +16,8 @@ import {
   Grid,
   FormHelperText,
 } from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
 
+import MenuItem from "@material-ui/core/MenuItem";
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -30,17 +27,13 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
-
 import EditCategory from "./EditCategory";
 
 import "./category.styles.scss";
-
-const URL = config.url.URL;
 
 class Category extends Component {
   constructor(props) {
@@ -448,7 +441,6 @@ class Category extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
-  userLogin: state.userReducer.User,
   categoryList: state.category,
 });
 const mapDispatchToProps = (dispatch) => ({

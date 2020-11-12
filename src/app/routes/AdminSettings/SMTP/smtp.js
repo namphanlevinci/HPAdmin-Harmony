@@ -10,6 +10,8 @@ import Axios from "axios";
 import { config } from "../../../../url/url";
 const URL = config.url.URL;
 
+// ON HOLD
+
 class SMTP extends Component {
   constructor(props) {
     super(props);

@@ -2,31 +2,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import { Formik, Form } from "formik";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../../../actions/notifications/actions";
-
+import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
 import {
   getCategoryByID,
   addMerchantServiceById,
 } from "../../../../../../actions/merchantActions";
-
 import { AiOutlineClose } from "react-icons/ai";
 
 import DialogContent from "@material-ui/core/DialogContent";
-// import { TextField, Grid } from "@material-ui/core";
-
 import ServiceImg from "../Product/hpadmin2.png";
-import Extra from "./extra";
+import Extra from "./Extra";
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import * as Yup from "yup";
-
 import Dialog from "@material-ui/core/Dialog";
-
 import Slide from "@material-ui/core/Slide";
 import LinearProgress from "../../../../../../util/linearProgress";
 import CurrencyInput from "react-currency-masked-input";
@@ -56,7 +46,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class AddService extends Component {
@@ -205,7 +194,7 @@ class AddService extends Component {
         />
       );
     }
-    let { categoryList: category, loading } = this.props.categoryList;
+    let { categoryList: category } = this.props.categoryList;
     return (
       <div>
         <Button
@@ -661,7 +650,6 @@ class AddService extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
-  userLogin: state.userReducer.User,
   categoryList: state.category,
 });
 

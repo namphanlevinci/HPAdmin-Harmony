@@ -1,16 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  GET_GIFT_CARD_BY_ID,
-  GET_GIFT_CARD_CODE_LOG_BY_ID,
-} from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { config } from "../../../../url/url";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
+
 import { addGiftCardGeneral } from "../../../../actions/giftCardActions";
 import {
   CustomTextLabel,
@@ -34,7 +26,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import SearchIcon from "@material-ui/icons/Search";
 import CodeLog from "./CodeLog/CodeLog";
 import Tooltip from "@material-ui/core/Tooltip";
-import axios from "axios";
 import Select from "react-select";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";

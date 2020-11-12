@@ -289,10 +289,7 @@ class NewTemplate extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  Template: state.GiftCardReducer.template,
-  userLogin: state.userReducer.User,
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
   addTemplateByID: (payload) => {

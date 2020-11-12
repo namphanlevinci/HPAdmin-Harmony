@@ -3,8 +3,6 @@ import { createBrowserHistory } from "history";
 import { routerMiddleware } from "connected-react-router";
 import { persistStore, persistReducer } from "redux-persist";
 
-import createSagaMiddleware from "redux-saga";
-import rootSaga from "../sagas/index";
 import thunk from "redux-thunk";
 import reducers from "../reducers/index";
 import storage from "redux-persist/lib/storage";
@@ -12,24 +10,11 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "primary",
   storage,
-  blacklist: [
-    "MerchantRequests_List",
-    "MerchantsList",
-    "Reject",
-    "User",
-    "Verify_User",
-    "ApprovedStatic",
-    "getConsumerUsers",
-    "getLogs",
-    "getAllBatch",
-  ],
+  blacklist: [],
 };
-
-// import signalRMiddleware from "./signalRmiddleware"
 
 const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
-// const sagaMiddleware = createSagaMiddleware();
 
 const persistedReducer = persistReducer(persistConfig, reducers(history));
 
@@ -63,7 +48,5 @@ const store = createStore(
   // composeEnhancers(applyMiddleware(...middlewares))
 );
 let persistor = persistStore(store);
-
-// sagaMiddleware.run(rootSaga);
 
 export { history, store, persistor };

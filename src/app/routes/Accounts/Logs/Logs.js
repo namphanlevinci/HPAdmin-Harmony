@@ -13,14 +13,20 @@ import {
   CustomText,
 } from "../../../../util/CustomText";
 import { getAllUser } from "../../../../actions/userActions";
+import {
+  Button,
+  Grid,
+  MenuItem,
+  Select,
+  InputLabel,
+  CircularProgress,
+} from "@material-ui/core";
 
 import DateFnsUtils from "@date-io/date-fns";
-import { Button, Grid, MenuItem, Select, InputLabel } from "@material-ui/core";
 import moment from "moment";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Pagination from "@material-ui/lab/Pagination";
 import IntlMessages from "../../../../util/IntlMessages";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 
 import "./Logs.css";
@@ -60,8 +66,9 @@ class Logs extends Component {
     await this.props.fetchApiByPage(url);
   };
 
-  handleChange = (e, page) => {
-    console.log("handleChange", page);
+  handlePageChange = async (e, page) => {
+    await this.setState({ page });
+    await this.fetchApi();
   };
 
   handleSelect = async (e) => {
@@ -89,10 +96,10 @@ class Logs extends Component {
   };
 
   render() {
-    const { data, loading, pageSize, pageCount } = this.props.apiData;
-    const { loading: loadingUser, userList } = this.props.adminUser;
+    const { data, loading, pageCount } = this.props.apiData;
+    const { userList } = this.props.adminUser;
 
-    const renderUser = userList.map((e) => {
+    const renderUser = userList?.map((e) => {
       return (
         <MenuItem key={e?.waUserId} value={`${e?.waUserId}`}>
           {`${e?.firstName} ${e?.lastName}`}
@@ -100,7 +107,7 @@ class Logs extends Component {
       );
     });
 
-    const logList = data?.map((e) => {
+    const logList = data?.map((e, index) => {
       const day = moment.utc(e?.createdDate).local().format("MM/DD/YYYY");
       const time = moment.utc(e?.createdDate).local().format("hh:mm A");
       const status =
@@ -113,7 +120,7 @@ class Logs extends Component {
       const user = `${e?.adminUser?.firstName} ${e?.adminUser?.lastName}`;
       const merchantEmail = e?.merchant?.email;
       return (
-        <Grid container spacing={6} key={e?.approvalLogId}>
+        <Grid container spacing={6} key={index}>
           <Grid item xs={3} style={{ margin: "auto" }} className="first">
             <CustomText value={`${day} ${time}`} />
           </Grid>
@@ -196,7 +203,7 @@ class Logs extends Component {
             </Grid>
 
             <Grid item xs={2} className="reset_btn">
-              <Button className="btn btn-green" onClick={this.handleReset}>
+              <Button className="btn btn-red" onClick={this.handleReset}>
                 RESET
               </Button>
             </Grid>
@@ -206,9 +213,24 @@ class Logs extends Component {
             <CustomTitle value={`Server Time`} />
           </Grid>
 
-          <Grid item xs={12} className="LogContainerBody">
-            {logList}
-          </Grid>
+          {loading ? (
+            <Grid item xs={12} style={{ textAlign: "center" }}>
+              <CircularProgress />
+            </Grid>
+          ) : (
+            <>
+              <Grid item xs={12} className="LogContainerBody">
+                {logList}
+              </Grid>
+              <Grid item xs={12}>
+                <Pagination
+                  count={pageCount}
+                  className="log_pagination"
+                  onChange={this.handlePageChange}
+                />
+              </Grid>
+            </>
+          )}
         </Grid>
       </div>
     );

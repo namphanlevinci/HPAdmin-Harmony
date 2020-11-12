@@ -9,11 +9,10 @@ import {
   HORIZONTAL_NAVIGATION,
   INSIDE_THE_HEADER,
 } from "../../constants/ActionTypes";
-import {
-  ViewProfile_Merchants,
-  ViewMerchant_Request,
-} from "../../actions/merchants/actions";
+import { ViewMerchant_Request } from "../../actions/merchants/actions";
 import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
+import { getMerchantByID } from "../../actions/merchantActions";
+import { getUserByID } from "../../actions/userActions";
 
 import firebase from "../../firebase";
 
@@ -36,7 +35,6 @@ class Header extends React.Component {
   async componentDidMount() {
     const User = localStorage.getItem("user");
     await this.setState({ User: JSON.parse(User) });
-    const ID = this.state.User?.userAdmin?.waUserId;
 
     await this.loadNotify();
     const messaging = firebase.messaging();
@@ -57,18 +55,15 @@ class Header extends React.Component {
   loadNotify = (next) => {
     const loadPage = next ? next : 1;
     try {
-      const User = localStorage.getItem("user");
-      let token = JSON.parse(User);
-      const UserToken = token.token;
+      let data = this.state.User;
       axios
         .get(URL + `/notification?page=${loadPage}&row=10`, {
-          headers: { Authorization: `Bearer ${UserToken}` },
+          headers: { Authorization: `Bearer ${data.token}` },
         })
         .then((res) => {
           const data = res.data.data;
           if (data?.length !== 0 && data !== undefined) {
             this.setState({
-              // Notify: this.state.Notify.concat(Array.from(data)),
               Notify: [...this.state.Notify, ...data],
             });
           } else {
@@ -81,43 +76,19 @@ class Header extends React.Component {
   };
 
   gotoList = async (e) => {
-    let data = this.state.User;
-    const UserToken = data.token;
     if (e.type === "payment") {
-      await axios
-        .get(URL + "/merchant/" + e.senderId, {
-          headers: { Authorization: `Bearer ${UserToken}` },
-        })
-        .then(async (res) => {
-          if (res.data.data !== null) {
-            if (
-              res.data.data.isApproved === 0 &&
-              res.data.data.isRejected === 0
-            ) {
-              await this.setState({ appNotification: false });
-              await this.props.ViewMerchant_Request(res.data.data);
-              await this.props.history.push("/app/merchants/pending/profile");
-              this.handleDelete(e);
-            } else {
-              this.handleDelete(e);
-            }
-          } else {
-            this.handleDelete(e);
-          }
-        });
+      const path = "/app/merchants/pending/profile";
+      this.props.getMerchantByID(e.senderId, path);
+      this.handleDelete(e);
+      this.setState({ appNotification: false });
     } else {
-      axios
-        .get(URL + "/user/" + e.senderId, {
-          headers: { Authorization: `Bearer ${UserToken}` },
-        })
-        .then(async (res) => {
-          await this.props.ViewProfile_Merchants(res.data.data);
-          await this.setState({ appNotification: false });
-          await this.props.history.push("/app/consumers/profile/general");
-          this.handleDelete(e);
-        });
+      const path = "/app/consumers/profile/general";
+      this.props.getUserByID(e.senderId, path);
+      this.setState({ appNotification: false });
+      this.handleDelete(e);
     }
   };
+
   handleDelete = (e) => {
     let data = this.state.User;
     const UserToken = data.token;
@@ -496,14 +467,18 @@ const mapDispatchToProps = (dispatch) => ({
   ViewMerchant_Request: (payload) => {
     dispatch(ViewMerchant_Request(payload));
   },
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
-  },
+
   toggleCollapsedNav: (payload) => {
     dispatch(toggleCollapsedNav(payload));
   },
   switchLanguage: (payload) => {
     dispatch(switchLanguage(payload));
+  },
+  getMerchantByID: (merchantID, path) => {
+    dispatch(getMerchantByID(merchantID, path));
+  },
+  getUserByID: (Id, path) => {
+    dispatch(getUserByID(Id, path));
   },
 });
 

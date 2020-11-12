@@ -147,7 +147,6 @@ class staffGeneral extends Component {
 
 const mapStateToProps = (state) => ({
   Staff: state.staffById.data,
-  userLogin: state.userReducer.User,
   updateStaff: state.updateStaffById,
 });
 

@@ -220,7 +220,6 @@ class Consumers extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   ConsumerList: state.getConsumerUsers,
   apiData: state.fetchApi,
   consumerById: state.consumerById,

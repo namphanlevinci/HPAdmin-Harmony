@@ -20,10 +20,9 @@ export default function Principal(props) {
 
   return (
     <div>
-      <FieldArray
-        name="principalInfo"
-        render={(arrayHelpers) => (
-          <div>
+      <FieldArray name="principalInfo">
+        {(arrayHelpers) => (
+          <>
             {values.principalInfo && values.principalInfo.length > 0 ? (
               values.principalInfo.map((principal, index) => {
                 return (
@@ -244,7 +243,12 @@ export default function Principal(props) {
 
                     <div>
                       {values.principalInfo.length >= 2 ? null : (
-                        <Grid container direction="row" alignItems="center">
+                        <Grid
+                          container
+                          direction="row"
+                          alignItems="center"
+                          style={{ paddingTop: "20px" }}
+                        >
                           <Grid item>
                             <AddCircleIcon
                               onClick={() => arrayHelpers.insert(1, "")}
@@ -272,9 +276,9 @@ export default function Principal(props) {
                 ADD
               </button>
             )}
-          </div>
+          </>
         )}
-      />
+      </FieldArray>
       <div
         style={{
           marginTop: "15px",

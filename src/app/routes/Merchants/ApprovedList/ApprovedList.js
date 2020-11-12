@@ -29,19 +29,15 @@ class MerchantsList extends React.Component {
     this.state = {
       search: "",
       loading: true,
-      // Pages
-      data: [],
     };
   }
 
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-
     const url = `${URL}/merchant/search?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
-
     this.props.fetchApiByPage(url);
   };
 
@@ -51,9 +47,10 @@ class MerchantsList extends React.Component {
     });
   };
 
-  _SearchMerchants = async (e) => {
+  searchMerchants = async (e) => {
     await this.setState({ search: e.target.value });
   };
+
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -158,7 +155,7 @@ class MerchantsList extends React.Component {
       },
     ];
 
-    const onRowClick = (state, rowInfo, column, instance) => {
+    const onRowClick = (state, rowInfo) => {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
@@ -189,7 +186,7 @@ class MerchantsList extends React.Component {
                 }}
                 placeholder="Search.."
                 value={this.state.search}
-                onChange={this._SearchMerchants}
+                onChange={this.searchMerchants}
                 onKeyPress={this.keyPressed}
                 endAdornment={
                   <InputAdornment position="end">

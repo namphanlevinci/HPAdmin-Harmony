@@ -415,8 +415,6 @@ class SidenavContent extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-});
+const mapStateToProps = (state) => ({});
 
 export default withRouter(connect(mapStateToProps)(SidenavContent));

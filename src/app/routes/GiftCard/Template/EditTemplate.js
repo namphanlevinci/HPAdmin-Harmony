@@ -335,7 +335,6 @@ class EditTemplate extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   Detail: state.updateTemplate.template,
 });
 
@@ -343,7 +342,6 @@ const mapDispatchToProps = (dispatch) => ({
   updateTemplateByID: (payload) => {
     dispatch(updateTemplateByID(payload));
   },
-
   archiveTemplateByID: (templateId, path) => {
     dispatch(archiveTemplateByID(templateId, path));
   },

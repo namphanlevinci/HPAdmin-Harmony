@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
 import { Select, Avatar } from "@material-ui/core";
-import { ADD_ADMIN, VIEW_PROFILE_USER } from "../../../../actions/user/actions";
+import { ADD_ADMIN } from "../../../../actions/user/actions";
 import { TextField, Grid, Button } from "@material-ui/core";
 import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -503,14 +503,8 @@ class addAdmin2 extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  UserProfile: state.userReducer.ViewUser,
-  AddUser: state.userReducer.AddUser,
-});
+const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_PROFILE_USER: (payload) => {
-    dispatch(VIEW_PROFILE_USER(payload));
-  },
   addUserAdmin: (payload) => {
     dispatch(ADD_ADMIN(payload));
   },

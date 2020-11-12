@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
 import {
   revertMerchantById,
   deleteMerchantById,
 } from "../../../../actions/merchantActions";
-
 import { Checkbox } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
-
 import { config } from "../../../../url/url";
 import {
   Grid,
@@ -30,7 +26,6 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import CheckPermissions from "../../../../util/checkPermission";
 import NumberFormat from "react-number-format";
-
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
@@ -417,7 +412,6 @@ class MerchantRejectedProfile extends Component {
 
 const mapStateToProps = (state) => ({
   Profile: state.merchant.merchant,
-  userLogin: state.userReducer.User,
 });
 const mapDispatchToProps = (dispatch) => ({
   revertMerchantById: (ID, path) => {

@@ -4,7 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IntlMessages from "../../util/IntlMessages";
 import { connect } from "react-redux";
-import { USER_LOGOUT } from "../../actions/user/actions";
+import { userLogout } from "../../actions/userActions";
 import { withRouter } from "react-router-dom";
 import AvatarIcon from "./avatar.png";
 
@@ -24,13 +24,15 @@ class UserInfo extends React.Component {
 
   onLogout = () => {
     const ID = this.props.CurrentUser.waUserId;
-    this.props.USER_LOGOUT(ID);
+    this.props.userLogout(ID);
   };
+
   // _gotoSetting = () => {
   //   this.setState({ open: false });
   //   this.props.history.push("/app/settings");
   // };
-  _gotoProfile = () => {
+
+  goToProfile = () => {
     this.setState({ open: false });
     this.props.history.push("/app/profile/general");
   };
@@ -65,7 +67,7 @@ class UserInfo extends React.Component {
             },
           }}
         >
-          <MenuItem onClick={this._gotoProfile}>
+          <MenuItem onClick={this.goToProfile}>
             <i className="zmdi zmdi-account zmdi-hc-fw mr-2" />
             <IntlMessages id="popup.profile" />
           </MenuItem>
@@ -86,8 +88,8 @@ const mapStateToProps = (state) => ({
   CurrentUser: state.verifyUser.user.userAdmin,
 });
 const mapDispatchToProps = (dispatch) => ({
-  USER_LOGOUT: (ID) => {
-    dispatch(USER_LOGOUT(ID));
+  userLogout: () => {
+    dispatch(userLogout());
   },
 });
 export default withRouter(

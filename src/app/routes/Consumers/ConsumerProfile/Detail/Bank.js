@@ -62,11 +62,9 @@ class Bank extends Component {
 
 const mapStateToProps = (state) => ({
   ConsumerProfile: state.ConsumerReducer.Consumer,
-  userLogin: state.userReducer.User,
 });
 
-const mapDispatchToProps = (dispatch) => ({});
-export default connect(mapStateToProps, mapDispatchToProps)(Bank);
+export default connect(mapStateToProps)(Bank);
 
 const styles = {
   p: { fontWeight: 400, color: "black" },

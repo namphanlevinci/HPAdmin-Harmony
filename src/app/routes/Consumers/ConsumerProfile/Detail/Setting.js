@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import { CustomTitle, CustomTextLabel } from "../../../../../util/CustomText";
 import { motion } from "framer-motion";
 import { updateConsumerByID } from "../../../../../actions/consumerActions";
-
 import {
   InputAdornment,
   FormControl,
   InputLabel,
   Input,
 } from "@material-ui/core";
+
 import CustomCurrencyInput from "../../../../../util/CustomCurrencyInput";
 import Button from "@material-ui/core/Button";
 
@@ -112,7 +112,6 @@ class Setting extends Component {
 
 const mapStateToProps = (state) => ({
   ConsumerProfile: state.ConsumerReducer.Consumer,
-  userLogin: state.userReducer.User,
 });
 
 const mapDispatchToProps = (dispatch) => ({

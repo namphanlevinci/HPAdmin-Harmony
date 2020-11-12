@@ -365,8 +365,6 @@ export const getUserPermissionByID = (path) => async (dispatch, getState) => {
       type: types.GET_PERMISSION_BY_ID_REQUEST,
     });
 
-    console.log(path);
-
     const {
       verifyUser: { user },
     } = await getState();
@@ -527,6 +525,45 @@ export const getAllUser = (payload) => async (dispatch, getState) => {
 
     dispatch({
       type: types.GET_ALL_USER_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const userLogout = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.USER_LOGOUT_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const userId = user.userAdmin.waUserId;
+
+    const { data } = await axios.put(`${URL}/adminUser/logout/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    dispatch({
+      type: types.USER_LOGIN_SUCCESS,
+      payload: data.data,
+    });
+
+    localStorage.removeItem("user");
+
+    history.push("/");
+  } catch (error) {
+    localStorage.removeItem("user");
+    history.push("/");
+    dispatch({
+      type: types.USER_LOGIN_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

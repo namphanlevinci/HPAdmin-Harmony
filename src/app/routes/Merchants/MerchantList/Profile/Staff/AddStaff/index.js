@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../../../../actions/notifications/actions";
-import { ADD_STAFF } from "../../../../../../../actions/merchants/actions";
+import { WARNING_NOTIFICATION } from "../../../../../../../actions/notifications/actions";
 import { Formik, Form } from "formik";
 import { config } from "../../../../../../../url/url";
 import { AddMerchantStaffById } from "../../../../../../../actions/merchantActions";
@@ -16,18 +11,15 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
 import General from "./Form/General";
 import WorkTime from "./Form/WorkTime";
 import Salary from "./Form/Salary";
 import License from "./Form/License";
-
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
 
 import "../Staff.styles.scss";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class AddStaff extends Component {
@@ -282,16 +274,9 @@ class AddStaff extends Component {
 }
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
-  userLogin: state.userReducer.User,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  SuccessNotification: (payload) => {
-    dispatch(SUCCESS_NOTIFICATION(payload));
-  },
-  FailureNotification: (payload) => {
-    dispatch(FAILURE_NOTIFICATION(payload));
-  },
   AddMerchantStaffById: (payload) => {
     dispatch(AddMerchantStaffById(payload));
   },

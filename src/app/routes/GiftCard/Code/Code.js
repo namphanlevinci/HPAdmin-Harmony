@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { GoInfo } from "react-icons/go";
-import { SUCCESS_NOTIFICATION } from "../../../../actions/notifications/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
 import { DebounceInput } from "react-debounce-input";
@@ -21,7 +20,6 @@ import IntlMessages from "../../../../util/IntlMessages";
 import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import Delete from "../DeleteGeneration";
-import axios from "axios";
 import moment from "moment";
 import Select from "react-select";
 import CodeLog from "../Generation/CodeLog/CodeLog";
@@ -108,13 +106,11 @@ class Codes extends Component {
     this.props.exportGiftCardGeneral(url);
   };
 
-  handleSelect = (value, name) => {
-    this.setState(
-      {
-        [name.name]: value,
-      },
-      () => this.fetchApi()
-    );
+  handleSelect = async (value, name) => {
+    await this.setState({
+      [name.name]: value,
+    });
+    await this.fetchApi();
   };
 
   render() {
@@ -376,7 +372,7 @@ class Codes extends Component {
               data={data}
               row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onfetchApi={(state) => this.fetchApi(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
