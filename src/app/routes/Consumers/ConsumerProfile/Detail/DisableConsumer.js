@@ -1,12 +1,48 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
+import { Dialog, Typography, Button, TextField } from "@material-ui/core";
+import { Formik, Form } from "formik";
+import { withStyles } from "@material-ui/core/styles";
+import { CustomText } from "../../../../../util/CustomText";
+
 import DialogContent from "@material-ui/core/DialogContent";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
 import "../../../Merchants/MerchantList/MerchantProfile.css";
 import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
+
+const styles = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
+
+const DialogTitle = withStyles(styles)((props) => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          className={classes.closeButton}
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
 
 export default function DisableConsumer({
   open,
@@ -15,14 +51,14 @@ export default function DisableConsumer({
   deleteConsumer,
 }) {
   return (
-    <div>
+    <>
       <Button className="btn btn-red" onClick={handleToggle}>
         ARCHIVE
       </Button>
       <Dialog
         open={open}
         onClose={handleToggle}
-        className="consumer_btn_container"
+        className="merchant_btn_container"
       >
         <DialogContent style={{ maxWidth: "600px" }}>
           <Formik
@@ -36,79 +72,59 @@ export default function DisableConsumer({
             }}
             onSubmit={(values, { setSubmitting }) => {
               const reason = values.rejectReason;
-              const payload = { ID: ConsumerID, reason };
-              deleteConsumer(payload);
+              const ID = ConsumerID;
+              deleteConsumer(ID, reason);
+              handleToggle();
             }}
           >
-            {({ values, isSubmitting }) => (
+            {({ values, isSubmitting, handleChange, errors, touched }) => (
               <div className="rejectInput">
-                <p className="close" onClick={handleToggle}>
-                  &times;
-                </p>
-                <div className="disable__title">
-                  <p
-                    style={{
-                      fontSize: "22px",
-                      textAlign: "center",
-                      color: "white",
-                      fontWeight: "400",
-                    }}
-                  >
-                    Warning!
-                  </p>
-                </div>
-                <Form style={styles.Form}>
-                  <h2 style={{ color: "black" }}>
-                    Are you sure you want to Archive this Consumer?
-                  </h2>
-                  <Field
-                    style={{ padding: "10px" }}
-                    type="textarea"
-                    name="rejectReason"
-                    component="textarea"
-                    placeholder="Please enter your reason."
-                  />
-                  <ErrorMessage
-                    name="rejectReason"
-                    component="div"
-                    style={{
-                      color: "red",
-                      fontWeight: "400",
-                      fontSize: "17px",
-                    }}
-                  />
-                  <div style={styles.btnDiv} className="general-content">
-                    <Button type="submit" className="btn btn-green">
-                      CONFIRM
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="btn btn-red"
-                      onClick={handleToggle}
+                <DialogTitle className="setting_title" onClose={handleToggle}>
+                  Warning!
+                </DialogTitle>
+                <DialogContent style={{ marginTop: "50px" }}>
+                  <Form style={styles.Form}>
+                    <CustomText value=" Are you sure you want to Archive this Consumer?" />
+
+                    <TextField
+                      name="rejectReason"
+                      variant="outlined"
+                      placeholder="Please enter your reason"
+                      fullWidth
+                      multiline
+                      rows={4}
+                      inputProps={{ maxLength: 100 }}
+                      onChange={handleChange}
+                      helperText={
+                        touched.rejectReason ? errors.rejectReason : ""
+                      }
+                      error={
+                        touched.rejectReason && Boolean(errors.rejectReason)
+                      }
+                    />
+
+                    <div
+                      style={{ paddingTop: "15px" }}
+                      className="general-content"
                     >
-                      CANCEL
-                    </Button>
-                  </div>
-                </Form>
+                      <Button type="submit" className="btn btn-green">
+                        CONFIRM
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="btn btn-red"
+                        onClick={handleToggle}
+                      >
+                        CANCEL
+                      </Button>
+                    </div>
+                  </Form>
+                </DialogContent>
               </div>
             )}
           </Formik>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }
-
-const styles = {
-  p: { fontWeight: 400, color: "black" },
-  Form: {
-    padding: "25px",
-    textAlign: "center",
-  },
-  btnDiv: {
-    marginTop: "10px",
-  },
-  label: {
-    fontSize: "13px",
-  },
-};

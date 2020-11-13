@@ -2,26 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
-
 import {
-  VIEW_PROFILE_USER,
-  UPDATE_USER_ADMIN,
-  UPDATE_USER_PASSWORD,
-} from "../../../../actions/user/actions";
-import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
-
+  updateUserById,
+  changeUserPasswordById,
+} from "../../../../actions/userActions";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
 } from "react-router-dom";
-import { GiCheckedShield } from "react-icons/gi";
-import { FaPen } from "react-icons/fa";
+import { Button, Grid } from "@material-ui/core";
 
+import SecurityIcon from "@material-ui/icons/Security";
+import CreateIcon from "@material-ui/icons/Create";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import { Button, Grid } from "@material-ui/core";
 import moment from "moment";
 import axios from "axios";
 
@@ -97,7 +93,7 @@ class EditUserProfile extends Component {
     this.setState({ phone: value });
   };
 
-  _uploadFile = (event) => {
+  uploadImage = (event) => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -138,47 +134,22 @@ class EditUserProfile extends Component {
 
   updateAdmin = () => {
     const ID = this.props.UserProfile.waUserId;
-    const {
-      firstName,
-      lastName,
-      email,
-      birthDate,
-      address,
-      city,
-      zip,
-      phone,
-      stateId,
-      fileId,
-      waRoleId,
-      currentPassword,
-      newPassword,
-      isPass,
-    } = this.state;
-    let body = isPass
+    const { isPass, currentPassword, newPassword } = this.state;
+    let payload = isPass
       ? { oldPassword: currentPassword, newPassword, ID }
       : {
-          firstName,
-          lastName,
-          email,
-          birthDate,
-          address,
-          city,
-          zip,
-          waRoleId,
-          phone,
-          stateId,
-          fileId,
+          ...this.state,
           ID,
         };
 
     if (isPass) {
-      this.props.UPDATE_USER_PASSWORD(body);
+      this.props.changeUserPasswordById(payload);
     } else {
-      this.props.UPDATE_USER_ADMIN(body);
+      this.props.updateUserById(payload);
     }
   };
 
-  _updateSettings = () => {
+  updateSettings = () => {
     this.setState({ error: "", confirmError: "" });
 
     if (this.state.isPass) {
@@ -203,7 +174,7 @@ class EditUserProfile extends Component {
       this.updateAdmin();
     }
   };
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/accounts/admin/profile");
   };
 
@@ -254,7 +225,7 @@ class EditUserProfile extends Component {
                   id="file"
                   className="custom-input"
                   accept="image/gif,image/jpeg, image/png"
-                  onChange={(e) => this._uploadFile(e)}
+                  onChange={(e) => this.uploadImage(e)}
                 />
               </div>
               <div className="nav-btn">
@@ -268,7 +239,7 @@ class EditUserProfile extends Component {
                   onClick={() => this.setState({ isPass: false })}
                 >
                   <div style={styles.navIcon}>
-                    <FaPen size={19} />
+                    <CreateIcon size={19} />
                     <span style={{ paddingLeft: "10px" }}>Profile</span>
                   </div>
                 </NavLink>
@@ -283,7 +254,7 @@ class EditUserProfile extends Component {
                   onClick={() => this.setState({ isPass: true })}
                 >
                   <div style={styles.navIcon}>
-                    <GiCheckedShield size={20} />
+                    <SecurityIcon size={20} />
                     <span style={{ paddingLeft: "10px" }}>Change password</span>
                   </div>
                 </NavLink>
@@ -308,7 +279,7 @@ class EditUserProfile extends Component {
                   <Button
                     className="btn btn-red"
                     style={styles.button}
-                    onClick={this._updateSettings}
+                    onClick={this.updateSettings}
                   >
                     SAVE
                   </Button>
@@ -344,20 +315,14 @@ class EditUserProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.userReducer.ViewUser,
+  UserProfile: state.userById.data,
 });
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_PROFILE_USER: (payload) => {
-    dispatch(VIEW_PROFILE_USER(payload));
+  updateUserById: (payload) => {
+    dispatch(updateUserById(payload));
   },
-  UPDATE_USER_ADMIN: (payload) => {
-    dispatch(UPDATE_USER_ADMIN(payload));
-  },
-  UPDATE_USER_PASSWORD: (payload) => {
-    dispatch(UPDATE_USER_PASSWORD(payload));
-  },
-  warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
+  changeUserPasswordById: (payload) => {
+    dispatch(changeUserPasswordById(payload));
   },
 });
 export default withRouter(

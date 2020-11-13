@@ -4,11 +4,9 @@ import { config } from "../../../../../../url/url";
 import { Formik } from "formik";
 import { BsGridFill } from "react-icons/bs";
 import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../../../actions/notifications/actions";
-
+  getCategoryByID,
+  addMerchantProductById,
+} from "../../../../../../actions/merchantActions";
 import {
   Grid,
   TextField,
@@ -24,7 +22,6 @@ import axios from "axios";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import IntlMessages from "../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../components/ContainerHeader/index";
-
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
@@ -35,7 +32,6 @@ import "../../../Merchants.css";
 import "../Detail.css";
 import "../Service/service.style.scss";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class AddProduct extends Component {
@@ -65,24 +61,11 @@ class AddProduct extends Component {
   }
 
   componentDidMount() {
-    const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/category/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ category: res.data.data });
-      });
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.getCategoryByID(merchantId);
   }
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  _handleImageChange = (e) => {
+  uploadImage = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -123,11 +106,13 @@ class AddProduct extends Component {
   };
 
   render() {
-    const { category } = this.state;
+    const { categoryList: category } = this.props.category;
+
+    const { loading } = this.props.addProduct;
 
     const mapCategory2 = category
-      .filter((e) => e.categoryType !== "Service")
-      .map((e) => {
+      ?.filter((e) => e?.categoryType !== "Service")
+      ?.map((e) => {
         return <MenuItem value={e.categoryId}>{e.name}</MenuItem>;
       });
 
@@ -215,70 +200,11 @@ class AddProduct extends Component {
               return errors;
             }}
             onSubmit={(values, { setSubmitting, setFieldError }) => {
-              const {
-                categoryId,
-                description,
-                price,
-                tax,
-                discount,
-                name,
-                isDisabled,
-                quantity,
-                maxThreshold,
-                minThreshold,
-                sku,
-              } = values;
               let fileId = this.state.fileId;
-              axios
-                .get(URL + "/product/checksku?sku=" + sku, {
-                  headers: {
-                    Authorization: `Bearer ${this.props.userLogin.token}`,
-                  },
-                })
-                .then((res) => {
-                  if (Number(res.data.codeNumber) === 404) {
-                    setFieldError("sku", "SKU NUMBER ALREADY EXITS");
-                    setSubmitting(false);
-                  } else if (Number(res.data.codeNumber) === 200) {
-                    axios
-                      .post(
-                        URL + "/product",
-                        {
-                          categoryId,
-                          description,
-                          price,
-                          tax,
-                          discount,
-                          fileId,
-                          name,
-                          isDisabled,
-                          quantity,
-                          maxThreshold,
-                          minThreshold,
-                          sku,
-                        },
-                        {
-                          headers: {
-                            Authorization: `Bearer ${this.props.userLogin.token}`,
-                          },
-                        }
-                      )
-                      .then((res) => {
-                        let message = res.data.message;
-
-                        if (Number(res.data.codeNumber) === 200) {
-                          this.props.successNotify(message);
-                          setTimeout(() => {
-                            this.props.history.push(
-                              "/app/merchants/profile/product"
-                            );
-                          }, 800);
-                        } else {
-                          this.props.failureNotify(message);
-                        }
-                      });
-                  }
-                });
+              const merchantId = this.props.MerchantProfile.merchantId;
+              const path = "/app/merchants/profile/product";
+              const payload = { ...values, merchantId, fileId, path };
+              this.props.addMerchantProductById(payload);
             }}
           >
             {({
@@ -533,7 +459,7 @@ class AddProduct extends Component {
                           type="file"
                           className="custom-input"
                           accept="image/gif,image/jpeg, image/png"
-                          onChange={this._handleImageChange}
+                          onChange={this.uploadImage}
                         />
                       </div>
                     </div>
@@ -541,7 +467,7 @@ class AddProduct extends Component {
                     <Button
                       className="btn btn-green"
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={loading}
                       style={{
                         marginTop: 25,
                         backgroundColor: "#4054B2",
@@ -569,20 +495,17 @@ class AddProduct extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
-  SERVICE: state.serviceProps,
+  MerchantProfile: state.merchant.merchant,
+  category: state.category,
+  addProduct: state.addProduct,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  successNotify: (payload) => {
-    dispatch(SUCCESS_NOTIFICATION(payload));
+  addMerchantProductById: (payload) => {
+    dispatch(addMerchantProductById(payload));
   },
-  failureNotify: (payload) => {
-    dispatch(FAILURE_NOTIFICATION(payload));
-  },
-  warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
+  getCategoryByID: (merchantId) => {
+    dispatch(getCategoryByID(merchantId));
   },
 });
 

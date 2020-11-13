@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Formik, Form } from "formik";
-import {
-  ARCHIVE_MERCHANT,
-  RESTORE_MERCHANT,
-} from "../../../../../../actions/merchants/actions";
+
 import { withStyles } from "@material-ui/core/styles";
 import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
 
@@ -21,11 +18,12 @@ import {
   CustomText,
   CustomTextLabel,
 } from "../../../../../../util/CustomText";
-
 import {
   DownloadMerchantTemplateById,
   AddMerchantTemplateById,
-} from "../../../../../../actions/merchants/actions";
+  restoreMerchantById,
+  archiveMerchantById,
+} from "../../../../../../actions/merchantActions";
 
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
@@ -46,12 +44,11 @@ class Settings extends Component {
       open: false,
     };
   }
-  _gotoEdit = () => {
+  goToEditPage = () => {
     this.props.history.push("/app/merchants/profile/settings/edit");
   };
   componentDidMount() {
     const data = this.props.MerchantProfile;
-
     this.setState({
       ID: data.merchantId,
     });
@@ -135,10 +132,9 @@ class Settings extends Component {
                   return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                  this.props.ARCHIVE_MERCHANT({
-                    ID: this.state.ID,
-                    reason: values.archiveReason,
-                  });
+                  const merchantId = this.state.ID;
+                  const reason = values.archiveReason;
+                  this.props.archiveMerchantById(merchantId, reason);
                 }}
               >
                 {({ values, isSubmitting, handleChange, errors, touched }) => (
@@ -208,8 +204,8 @@ class Settings extends Component {
               initialValues={{ archiveReason: "" }}
               onSubmit={(values, { setSubmitting }) => {
                 this.setState({ openActive: false });
-                const { ID } = this.state;
-                this.props.RESTORE_MERCHANT(ID);
+
+                this.props.restoreMerchantById(this.state.ID);
               }}
             >
               {({ values, isSubmitting, handleChange, errors, touched }) => (
@@ -333,7 +329,7 @@ class Settings extends Component {
                 </Grid> */}
 
               {CheckPermissions("edit-setting") && (
-                <Button className="btn btn-green" onClick={this._gotoEdit}>
+                <Button className="btn btn-green" onClick={this.goToEditPage}>
                   EDIT
                 </Button>
               )}
@@ -369,17 +365,16 @@ class Settings extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
   Template: state.downloadTemplate,
   AddMerchantTemplate: state.addTemplate,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ARCHIVE_MERCHANT: (payload) => {
-    dispatch(ARCHIVE_MERCHANT(payload));
+  archiveMerchantById: (merchantId, reason) => {
+    dispatch(archiveMerchantById(merchantId, reason));
   },
-  RESTORE_MERCHANT: (ID) => {
-    dispatch(RESTORE_MERCHANT(ID));
+  restoreMerchantById: (merchantId) => {
+    dispatch(restoreMerchantById(merchantId));
   },
   downloadTemplate: () => {
     dispatch(DownloadMerchantTemplateById());

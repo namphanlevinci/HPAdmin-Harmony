@@ -8,6 +8,8 @@ import { config } from "../../../../url/url";
 
 import "../Setting.css";
 
+// ON HOLD
+
 const URL = config.url.URL;
 const upFile = config.url.upFile;
 class General extends Component {

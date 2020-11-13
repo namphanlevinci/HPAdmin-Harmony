@@ -1,0 +1,1 @@
+export const REPORT_MERCHANT_ID = "REPORT_MERCHANT_ID";

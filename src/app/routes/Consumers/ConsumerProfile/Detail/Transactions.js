@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../url/url";
 import { CustomTitle } from "../../../../../util/CustomText";
+import { fetchApiByPage } from "../../../../../actions/fetchApiActions";
 
 import Button from "@material-ui/core/Button";
 import moment from "moment";
 import ReactTable from "react-table";
 import DateInput from "./date-input";
-import axios from "axios";
 
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
@@ -69,34 +69,16 @@ class Transactions extends Component {
     );
   }
 
-  fetchData = async (state) => {
-    const page = state?.page ? state?.page : 0;
-    const pageSize = state?.pageSize ? state?.pageSize : 20;
+  fetchApi = async (state) => {
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
     const { ID, from, to, timeRange } = this.state;
 
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/paymenttransaction/${ID}?page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}&quickFilter=${timeRange}&from=${from}&to=${to}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false,
-          pageSize: 5,
-        });
-      });
+    const url = `${URL}/paymenttransaction/${ID}?page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}&quickFilter=${timeRange}&from=${from}&to=${to}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -142,7 +124,7 @@ class Transactions extends Component {
       {
         id: "cardtype",
         Header: "Card type",
-        accessor: (e) => e?.paymentData.card_type,
+        accessor: (e) => e?.paymentData?.card_type,
       },
       {
         id: "amount",
@@ -167,7 +149,8 @@ class Transactions extends Component {
       },
     ];
 
-    const { page, pageCount, data, pageSize } = this.state;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     return (
       <div className="content ConsumerTransactions react-transition swipe-right general-content">
@@ -239,13 +222,6 @@ class Transactions extends Component {
               </div>
             </div>
             <div className="TransactionTable">
-              {/* <ReactTable
-                data={renderTable}
-                columns={columns}
-                defaultPageSize={5}
-                minRows={1}
-                noDataText="NO DATA!"
-              /> */}
               {this.state.loadingDate && (
                 <ReactTable
                   manual
@@ -253,13 +229,12 @@ class Transactions extends Component {
                   pages={pageCount}
                   data={data}
                   row={pageSize}
-                  // You should also control this...
                   onPageChange={(pageIndex) => this.changePage(pageIndex)}
-                  onFetchData={(state) => this.fetchData(state)}
+                  onFetchData={(state) => this.fetchApi(state)}
                   defaultPageSize={20}
                   minRows={1}
                   noDataText="NO DATA!"
-                  loading={this.state.loading}
+                  loading={loading}
                   columns={columns}
                 />
               )}
@@ -272,9 +247,14 @@ class Transactions extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ConsumerProfile: state.ConsumerReducer.Consumer,
-  userLogin: state.userReducer.User,
-  TransactionsList: state.userTransaction,
+  ConsumerProfile: state.consumerById.data,
+  apiData: state.fetchApi,
 });
 
-export default connect(mapStateToProps)(Transactions);
+const mapDispatchToProps = (dispatch) => ({
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

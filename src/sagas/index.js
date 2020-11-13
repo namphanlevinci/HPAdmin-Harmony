@@ -35,7 +35,7 @@ import {
   GET_MERCHANT_EXTRA_SAGA,
   ARCHIVE_MERCHANT_EXTRA_SAGA,
   RESTORE_MERCHANT_EXTRA_SAGA,
-  ADD_STAFF_SAGA,
+  // ADD_STAFF_SAGA,
 } from "../sagas/sagaFunction/merchants";
 
 import { GET_ALL_LOG_SAGA } from "../sagas/sagaFunction/logs";
@@ -69,7 +69,7 @@ import {
 } from "./sagaFunction/Consumer";
 
 export default function* rootSaga() {
-  yield fork(USER_LOGIN_SAGA);
+  // yield fork(USER_LOGIN_SAGA);
   // yield fork(GET_ALL_MERCHANT_SAGA);
   // yield fork(GET_ALL_MERCHANT_REQUEST_SAGA);
   yield fork(GET_ALL_USER_SAGA);
@@ -85,7 +85,7 @@ export default function* rootSaga() {
   yield fork(GET_MERCHANT_BY_ID_SAGA);
   yield fork(MERCHANT_APPROVAL_SAGA);
   yield fork(MERCHANT_REJECT_SAGA);
-  yield fork(USER_VERIFY_SAGA);
+  // yield fork(USER_VERIFY_SAGA);
   yield fork(UPDATE_QUESTION_SAGA);
   yield fork(GET_APPROVED_SAGA);
   yield fork(ADD_USER_SAGA);
@@ -122,5 +122,5 @@ export default function* rootSaga() {
   yield fork(GET_MERCHANT_EXTRA_SAGA);
   yield fork(ARCHIVE_MERCHANT_EXTRA_SAGA);
   yield fork(RESTORE_MERCHANT_EXTRA_SAGA);
-  yield fork(ADD_STAFF_SAGA);
+  // yield fork(ADD_STAFF_SAGA);
 }

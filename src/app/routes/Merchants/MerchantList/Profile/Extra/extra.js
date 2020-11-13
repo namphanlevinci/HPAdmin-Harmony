@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  VIEW_SERVICE,
-  GET_MERCHANT_EXTRA,
-  ARCHIVE_MERCHANT_EXTRA,
-  RESTORE_MERCHANT_EXTRA,
-} from "../../../../../../actions/merchants/actions";
+  getExtraByID,
+  archiveExtraById,
+  restoreExtraById,
+  updateMerchantExtraById,
+} from "../../../../../../actions/merchantActions";
+
 import { config } from "../../../../../../url/url";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../../../actions/notifications/actions";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -27,9 +24,10 @@ import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
-import EditExtra from "./edit-extra";
+import EditExtra from "./EditExtra";
 
 const upFile = config.url.upFile;
+
 class ExtraTab extends Component {
   constructor(props) {
     super(props);
@@ -59,7 +57,7 @@ class ExtraTab extends Component {
     };
   }
 
-  handleImageChange = (e) => {
+  uploadImage = (e) => {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
@@ -86,8 +84,8 @@ class ExtraTab extends Component {
   };
 
   componentDidMount() {
-    const ID = this.props.MerchantProfile.merchantId;
-    this.props.GET_MERCHANT_EXTRA(ID);
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.getExtraByID(merchantId);
   }
 
   handleClose = (name, value) => {
@@ -122,20 +120,19 @@ class ExtraTab extends Component {
   };
 
   handleArchive = (extraId) => {
-    const ID = this.props.MerchantProfile.merchantId;
-    const payload = { ID, extraId };
-    this.props.ARCHIVE_MERCHANT_EXTRA(payload);
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.archiveExtraById(extraId, merchantId);
   };
 
   handleRestore = (extraId) => {
-    const ID = this.props.MerchantProfile.merchantId;
-    const payload = { ID, extraId };
-    this.props.RESTORE_MERCHANT_EXTRA(payload);
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.restoreExtraById(extraId, merchantId);
   };
 
   render() {
+    let { extraList, loading } = this.props.extra;
+
     // Search
-    let extraList = this.props.ExtraData;
     if (extraList) {
       if (this.state.search) {
         extraList = extraList.filter((e) => {
@@ -298,15 +295,13 @@ class ExtraTab extends Component {
             <div></div>
           </div>
           <EditExtra
-            getExtra={this.props.GET_MERCHANT_EXTRA}
+            getExtra={this.props.getExtraByID}
             edit={this.state.edit}
             data={this.state}
             handleClose={this.handleClose}
-            handleImageChange={this.handleImageChange}
-            token={this.props.userLogin.token}
+            uploadImage={this.uploadImage}
             merchantId={this.props.MerchantProfile.merchantId}
-            SuccessNotify={this.props.SuccessNotify}
-            FailureNotify={this.props.FailureNotify}
+            updateExtra={this.props.updateMerchantExtraById}
           />
           <div className="merchant-list-container">
             <ReactTable
@@ -315,7 +310,7 @@ class ExtraTab extends Component {
               defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
-              // loading={this.state.loading}
+              loading={loading}
             />
 
             {/* ARCHIVE */}
@@ -384,28 +379,21 @@ class ExtraTab extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
-  ExtraData: state.MerchantReducer.ExtraData,
+  MerchantProfile: state.merchant.merchant,
+  extra: state.extra,
 });
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_SERVICE: (payload) => {
-    dispatch(VIEW_SERVICE(payload));
+  getExtraByID: (merchantId) => {
+    dispatch(getExtraByID(merchantId));
   },
-  GET_MERCHANT_EXTRA: (ID) => {
-    dispatch(GET_MERCHANT_EXTRA(ID));
+  archiveExtraById: (extraId, merchantId) => {
+    dispatch(archiveExtraById(extraId, merchantId));
   },
-  ARCHIVE_MERCHANT_EXTRA: (payload) => {
-    dispatch(ARCHIVE_MERCHANT_EXTRA(payload));
+  restoreExtraById: (extraId, merchantId) => {
+    dispatch(restoreExtraById(extraId, merchantId));
   },
-  RESTORE_MERCHANT_EXTRA: (payload) => {
-    dispatch(RESTORE_MERCHANT_EXTRA(payload));
-  },
-  SuccessNotify: (payload) => {
-    dispatch(SUCCESS_NOTIFICATION(payload));
-  },
-  FailureNotify: (payload) => {
-    dispatch(FAILURE_NOTIFICATION(payload));
+  updateMerchantExtraById: (payload) => {
+    dispatch(updateMerchantExtraById(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);

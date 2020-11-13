@@ -1,6 +1,5 @@
 import React from "react";
 import { Formik } from "formik";
-import { config } from "../../../../../../url/url";
 import { withStyles } from "@material-ui/core/styles";
 
 import {
@@ -17,7 +16,6 @@ import {
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import axios from "axios";
 import Button from "@material-ui/core/Button";
 import defaultImg from "./hpadmin2.png";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
@@ -28,11 +26,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import "./extra.styles.scss";
 
-const URL = config.url.URL;
-
 const EditExtra = ({
-  SuccessNotify,
-  FailureNotify,
+  updateExtra,
   handleImageChange,
   getExtra,
   merchantId,
@@ -149,55 +144,9 @@ const EditExtra = ({
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
-                const {
-                  description,
-                  discount,
-                  extraId,
-                  duration,
-                  price,
-                  isDisabled,
-                  name,
-                  quantity,
-                  tax,
-                  merchantId,
-                  supplyFee,
-                } = values;
-                axios
-                  .put(
-                    URL + "/extra/" + extraId,
-                    {
-                      description,
-                      discount,
-                      merchantId,
-                      duration,
-                      price,
-                      isDisabled,
-                      name,
-                      quantity,
-                      tax,
-                      fileId,
-                      supplyFee,
-                    },
-                    {
-                      headers: {
-                        Authorization: `Bearer ${token}`,
-                      },
-                    }
-                  )
-                  .then((res) => {
-                    console.log("res", res.data);
-                    if (res.data.codeNumber === 200) {
-                      SuccessNotify(res.data.message);
-                      handleClose("loading", true);
-                      handleClose("edit", false);
-
-                      setTimeout(() => {
-                        getExtra(merchantId);
-                      }, 1000);
-                    } else {
-                      FailureNotify(res.data.message);
-                    }
-                  });
+                updateExtra(values);
+                handleClose("loading", true);
+                handleClose("edit", false);
               }}
             >
               {({

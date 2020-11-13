@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ViewProfile_Merchants } from "../../../../actions/merchants/actions";
+import {
+  revertMerchantById,
+  deleteMerchantById,
+} from "../../../../actions/merchantActions";
 import { Checkbox } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import { DELETE_MERCHANT } from "../../../../actions/merchants/actions";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
-
 import { config } from "../../../../url/url";
 import {
   Grid,
@@ -27,10 +24,8 @@ import {
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 import NumberFormat from "react-number-format";
-
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
@@ -51,39 +46,22 @@ class MerchantRejectedProfile extends Component {
     };
   }
 
-  _goRevert = () => {
+  revertMerchant = () => {
     const ID = this.props.Profile.merchantId;
-    axios
-      .put(URL + "/merchant/restorepending/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then(async (res) => {
-        if (res.data.message === "Success") {
-          this.props.SUCCESS_NOTIFICATION(res.data.message);
-          this.props.history.push("/app/merchants/pending");
-        } else {
-          this.props.FAILURE_NOTIFICATION(
-            "Something went wrong, please try again."
-          );
-        }
-      });
+    const path = "/app/merchants/pending";
+    this.props.revertMerchantById(ID, path);
   };
-  _Edit = (merchantInfo) => {
-    this.props.ViewProfile_Merchants(merchantInfo);
+  goToEditPage = () => {
     this.props.history.push("/app/merchants/rejected/profile/edit");
   };
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/merchants/rejected");
   };
 
   handleDeleteMerchant = () => {
     const ID = this.props.Profile.merchantId;
     const path = "/app/merchants/rejected";
-    const payload = { ID, path };
-
-    this.props.deleteMerchant(payload);
+    this.props.deleteMerchantById(ID, path);
     this.setState({ openDelete: false });
   };
 
@@ -227,7 +205,7 @@ class MerchantRejectedProfile extends Component {
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
-                  onClick={() => this._Edit(e)}
+                  onClick={() => this.goToEditPage(e)}
                 >
                   EDIT
                 </Button>
@@ -236,7 +214,7 @@ class MerchantRejectedProfile extends Component {
                 <Button
                   style={{ color: "#4251af", backgroundColor: "white" }}
                   className="btn btn-green"
-                  onClick={this._goRevert}
+                  onClick={this.revertMerchant}
                 >
                   REVERT
                 </Button>
@@ -244,7 +222,7 @@ class MerchantRejectedProfile extends Component {
               <Button
                 style={{ color: "#4251af", backgroundColor: "white" }}
                 className="btn btn-green"
-                onClick={this._goBack}
+                onClick={this.goBack}
               >
                 BACK
               </Button>
@@ -433,21 +411,14 @@ class MerchantRejectedProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Profile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  Profile: state.merchant.merchant,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
+  revertMerchantById: (ID, path) => {
+    dispatch(revertMerchantById(ID, path));
   },
-  deleteMerchant: (payload) => {
-    dispatch(DELETE_MERCHANT(payload));
-  },
-  SUCCESS_NOTIFICATION: (payload) => {
-    dispatch(SUCCESS_NOTIFICATION(payload));
-  },
-  FAILURE_NOTIFICATION: (payload) => {
-    dispatch(FAILURE_NOTIFICATION(payload));
+  deleteMerchantById: (ID, path) => {
+    dispatch(deleteMerchantById(ID, path));
   },
 });
 export default withRouter(

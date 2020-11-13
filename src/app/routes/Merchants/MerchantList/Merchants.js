@@ -1,24 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
-
-import {
-  InputAdornment,
-  IconButton,
-  FormControl,
-  OutlinedInput,
-  Typography,
-} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { getMerchantByID } from "../../../../actions/merchantActions";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-
-import SearchIcon from "@material-ui/icons/Search";
+import SearchComponent from "../../../../util/searchComponent";
 import Button from "@material-ui/core/Button";
 import CheckPermissions from "../../../../util/checkPermission";
 
@@ -60,8 +52,8 @@ class Merchants extends React.Component {
     this.props.history.push("/app/merchants/add");
   };
   MerchantProfilePage = (ID) => {
-    const payload = { ID, path: "/app/merchants/profile/general" };
-    this.props.getMerchantByID(payload);
+    const path = "/app/merchants/profile/general";
+    this.props.getMerchantByID(ID, path);
   };
 
   keyPressed = (event) => {
@@ -179,27 +171,11 @@ class Merchants extends React.Component {
         <div className="MerList page-heading " style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
-              <FormControl variant="outlined">
-                <OutlinedInput
-                  inputProps={{
-                    style: {
-                      padding: 14,
-                    },
-                  }}
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this.searchMerchant}
-                  onKeyPress={this.keyPressed}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton edge="end">
-                        <SearchIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={0}
-                />
-              </FormControl>
+              <SearchComponent
+                value={this.state.search}
+                onChange={this.searchMerchant}
+                onKeyPress={this.keyPressed}
+              />
             </div>
 
             <div>
@@ -246,8 +222,8 @@ const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getMerchantByID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+  getMerchantByID: (ID, path) => {
+    dispatch(getMerchantByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

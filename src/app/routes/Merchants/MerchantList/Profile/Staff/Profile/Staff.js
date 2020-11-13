@@ -98,13 +98,7 @@ class staffGeneral extends Component {
                       <Switch>
                         <Route
                           path="/app/merchants/staff/general/edit"
-                          render={(props) => (
-                            <EditGeneral
-                              {...props}
-                              token={this.props.userLogin.token}
-                              merchantID={this.props.MerchantProfile.merchantId}
-                            />
-                          )}
+                          render={(props) => <EditGeneral {...props} />}
                         />
 
                         <Route
@@ -114,13 +108,7 @@ class staffGeneral extends Component {
 
                         <Route
                           path="/app/merchants/staff/time/edit"
-                          render={(props) => (
-                            <EditWorkTime
-                              {...props}
-                              token={this.props.userLogin.token}
-                              merchantID={this.props.MerchantProfile.merchantId}
-                            />
-                          )}
+                          render={(props) => <EditWorkTime {...props} />}
                         />
                         <Route
                           path="/app/merchants/staff/time"
@@ -129,13 +117,7 @@ class staffGeneral extends Component {
 
                         <Route
                           path="/app/merchants/staff/salary/edit"
-                          render={(props) => (
-                            <EditSalary
-                              {...props}
-                              token={this.props.userLogin.token}
-                              merchantID={this.props.MerchantProfile.merchantId}
-                            />
-                          )}
+                          render={(props) => <EditSalary {...props} />}
                         />
                         <Route
                           path="/app/merchants/staff/salary"
@@ -144,13 +126,7 @@ class staffGeneral extends Component {
 
                         <Route
                           path="/app/merchants/staff/license/edit"
-                          render={(props) => (
-                            <EditLicense
-                              {...props}
-                              token={this.props.userLogin.token}
-                              merchantID={this.props.MerchantProfile.merchantId}
-                            />
-                          )}
+                          render={(props) => <EditLicense {...props} />}
                         />
                         <Route
                           path="/app/merchants/staff/license"
@@ -171,8 +147,6 @@ class staffGeneral extends Component {
 
 const mapStateToProps = (state) => ({
   Staff: state.staffById.data,
-  userLogin: state.userReducer.User,
-  MerchantProfile: state.ViewProfile_Merchants,
   updateStaff: state.updateStaffById,
 });
 

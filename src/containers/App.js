@@ -12,7 +12,7 @@ import AppLocale from "../lngProvider";
 import MainApp from "../app/index";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-import Verify_User from "./Verify_User";
+import VerifyUser from "./VerifyUser";
 import RTL from "../util/RTL";
 import ReactNotification from "react-notifications-component";
 // transitions
@@ -57,7 +57,7 @@ class App extends Component {
                   />
                   <Route path="/signin" component={SignIn} />
                   <Route path="/signup" component={SignUp} />
-                  <Route path="/verify" component={Verify_User} />
+                  <Route path="/verify" component={VerifyUser} />
                 </Switch>
               </div>
             </RTL>

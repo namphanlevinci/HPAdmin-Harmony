@@ -1,147 +1,32 @@
-.container-fluid {
-  font-family: 'Roboto', sans-serif;
-}
-.LogContainer {
-  background-color: #fff;
-}
-.LogContainer h3 {
-  padding-top: 10px;
-}
-.LogContainer input {
-  /* width: 250px;
-  border: none;
-  font-size: 18px;
-  height: 30px;
-  margin-left: 15px; */
-}
-.LogContainer input::placeholder {
-  font-size: 16px;
-}
-.LogContainer input:focus {
-  outline: none;
-}
-.LogContainer select {
-  height: 30px;
-  width: 250px;
-  margin-left: 35px;
-  margin-top: 18px;
-  width: 250px;
-  border: none;
-  border-bottom: 1px solid #4251af;
-  font-size: 18px;
-}
-.LogContainer select:focus {
-  outline: none;
-}
-.LogContainer button {
-  font-size: 16px;
-  padding: 10px 20px;
-  color: #fff;
-  margin-left: 35px;
-  border: none;
-  background-color: #4251af;
-  font-weight: 500;
-}
-.LogContainer h2 {
-  padding-left: 10px;
-  padding-top: 10px;
-  color: #4251af;
-}
-.LogContainer button:hover {
-  color: white;
-  background-color: #4251af;
-}
-.LogContainer select {
-  color: #737373;
-  font-size: 16px;
-  font-weight: 400;
-}
-.LogContainer table {
-  border-collapse: collapse;
-  border-collapse: separate;
-  border-spacing: 0 3px;
-}
-/* .LogContainer table td {
-    padding: 5px;
-} */
-.LogContainer table .inside-table {
-  border-right: hidden;
-}
-.LogContainer table tr td:last-child {
-  border-right: 1px solid #737373;
-}
-.LogContainer table tr td:nth-child(3) {
-  border-left: 1px solid #737373;
-  padding: 5px;
-}
-.box {
-  border-bottom: 1px outset #737373;
-  border-top: 1px outset #737373;
+.btn {
+  display: inline-block;
+  color: #666;
+  background-color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom-width: 3px;
+  font-weight: 900;
+  margin-top: 20px;
 }
 
-.LogContainer table .arrow-left {
-  margin-left: 10px;
-  width: 0;
-  height: 0;
-  border-top: 16px solid transparent;
-  border-bottom: 16px solid transparent; /* 40px height (20+20) */
-  border-right: 10px solid #4251af;
-  position: absolute;
-  top: 24px;
-  left: -20px;
-}
-.LogContainerBody {
-  max-height: 520px;
-  overflow: auto;
-}
-/* TEST DAYPICKER  */
-.Selectable
-  .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
-  background-color: #f0f8ff !important;
-  color: #4a90e2;
-}
-.Selectable .DayPicker-Day {
-  border-radius: 0 !important;
-}
-.Selectable .DayPicker-Day--start {
-  border-top-left-radius: 50% !important;
-  border-bottom-left-radius: 50% !important;
-}
-.Selectable .DayPicker-Day--end {
-  border-top-right-radius: 50% !important;
-  border-bottom-right-radius: 50% !important;
-}
-.LogContainer .link {
-  background-color: #4251af;
-  color: white;
-  width: 80px;
-  height: 40px;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.LogContainer .LogContainerBody ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-.LogContainer .LogContainerBody ul li div {
-  width: 50%;
-  float: left;
-  padding: 15px;
+.reset_btn {
+  margin: auto;
   text-align: center;
-  background: #fff;
 }
 
-.LogContainer .LogContainerBody ul li .first {
+.first {
   height: 100%;
   border-right: 1px solid #4251af;
   position: relative;
   padding-top: 60px;
 }
-
-.LogContainer .LogContainerBody ul li .first::after {
+.first::after {
   content: "";
   position: absolute;
   bottom: 31px;
@@ -150,4 +35,9 @@
   height: 15px;
   border-radius: 50%;
   background-color: #4251af;
+}
+
+.log_pagination {
+  margin-top: 20px;
+  float: right;
 }

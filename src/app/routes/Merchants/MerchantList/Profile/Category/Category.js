@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
 import { Formik } from "formik";
-import { config } from "../../../../../../url/url";
 import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../../../actions/notifications/actions";
-
+  getCategoryByID,
+  viewCategory,
+  addMerchantCategoryById,
+  restoreCategoryById,
+  archiveCategoryById,
+} from "../../../../../../actions/merchantActions";
 import {
   Select,
   TextField,
@@ -16,10 +16,9 @@ import {
   Grid,
   FormHelperText,
 } from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
 
+import MenuItem from "@material-ui/core/MenuItem";
 import ReactTable from "react-table";
-import axios from "axios";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -28,17 +27,13 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
-
-import EditCategory from "./edit-category";
+import EditCategory from "./EditCategory";
 
 import "./category.styles.scss";
-
-const URL = config.url.URL;
 
 class Category extends Component {
   constructor(props) {
@@ -61,15 +56,7 @@ class Category extends Component {
 
   getCategory = () => {
     const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/category/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ data: res.data.data, loading: false });
-      });
+    this.props.getCategoryByID(ID);
   };
 
   componentDidMount() {
@@ -81,45 +68,25 @@ class Category extends Component {
   };
 
   handleEdit = (e) => {
-    this.props.VIEW_SERVICE(e);
+    this.props.viewCategory(e);
     this.setState({ edit: true });
   };
 
-  handleArchive = (ID) => {
-    axios
-      .put(URL + "/category/archive/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-    this.setState({ isOpenReject: false, loading: true });
-    setTimeout(() => {
-      this.getCategory();
-    }, 1500);
+  handleArchive = (categoryID) => {
+    const merchantID = this.props.MerchantProfile.merchantId;
+    this.props.archiveCategoryById(categoryID, merchantID);
   };
 
-  handleRestore = (ID) => {
-    axios
-      .put(URL + "/category/restore/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {});
-    this.setState({ isOpenReject: false, loading: true });
-    setTimeout(() => {
-      this.getCategory();
-    }, 1500);
+  handleRestore = (categoryID) => {
+    const merchantID = this.props.MerchantProfile.merchantId;
+    this.props.restoreCategoryById(categoryID, merchantID);
   };
   render() {
-    let cagetoryList = this.state.data;
-    if (cagetoryList) {
+    let { categoryList, loading } = this.props.categoryList;
+
+    if (categoryList) {
       if (this.state.search) {
-        cagetoryList = cagetoryList.filter((e) => {
+        categoryList = categoryList.filter((e) => {
           if (e !== null) {
             return (
               e.name
@@ -278,36 +245,11 @@ class Category extends Component {
                           return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
-                          const { categoryType, name } = values;
                           const merchantId = this.props.MerchantProfile
                             .merchantId;
-                          axios
-                            .post(
-                              URL + "/category",
-                              {
-                                categoryType,
-                                name,
-                                merchantId,
-                              },
-                              {
-                                headers: {
-                                  Authorization: `Bearer ${this.props.userLogin.token}`,
-                                },
-                              }
-                            )
-                            .then((res) => {
-                              let message = res.data.message;
-                              if (res.data.codeNumber === 200) {
-                                this.setState({ cateDialog: false });
-                                this.props.successNotify(message);
-
-                                setTimeout(() => {
-                                  this.getCategory();
-                                }, 800);
-                              } else {
-                                this.props.failureNotify(message);
-                              }
-                            });
+                          const payload = { ...values, merchantId };
+                          this.props.addMerchantCategoryById(payload);
+                          this.setState({ cateDialog: false });
                         }}
                       >
                         {({
@@ -375,7 +317,10 @@ class Category extends Component {
                                   }
                                 />
                               </Grid>
-                              <div className="category-button">
+                              <div
+                                className="category-button"
+                                style={{ paddingTop: "10px" }}
+                              >
                                 <Button
                                   className="btn btn-green"
                                   type="submit"
@@ -404,12 +349,12 @@ class Category extends Component {
           </div>
           <div className="merchant-list-container category__container">
             <ReactTable
-              data={cagetoryList}
+              data={categoryList}
               columns={columns}
               defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
             />
 
             {/* ARCHIVE */}
@@ -477,7 +422,7 @@ class Category extends Component {
               </DialogActions>
             </Dialog>
 
-            {/* // EDIT CAGETORY  */}
+            {/* // EDIT CATEGORY  */}
             <Dialog open={this.state.edit} maxWidth="sm" fullWidth>
               <DialogTitle>{"Edit Category"}</DialogTitle>
               <DialogContent>
@@ -495,18 +440,24 @@ class Category extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
+  categoryList: state.category,
 });
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_SERVICE: (payload) => {
-    dispatch(VIEW_SERVICE(payload));
+  viewCategory: (payload) => {
+    dispatch(viewCategory(payload));
   },
-  successNotify: (payload) => {
-    dispatch(SUCCESS_NOTIFICATION(payload));
+  addMerchantCategoryById: (payload) => {
+    dispatch(addMerchantCategoryById(payload));
   },
-  failureNotify: (payload) => {
-    dispatch(FAILURE_NOTIFICATION(payload));
+  getCategoryByID: (MerchantId) => {
+    dispatch(getCategoryByID(MerchantId));
+  },
+  restoreCategoryById: (categoryID, MerchantID) => {
+    dispatch(restoreCategoryById(categoryID, MerchantID));
+  },
+  archiveCategoryById: (categoryID, MerchantID) => {
+    dispatch(archiveCategoryById(categoryID, MerchantID));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Category);

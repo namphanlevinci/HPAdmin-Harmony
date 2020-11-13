@@ -46,7 +46,7 @@ class App extends React.Component {
   onIdle = (e) => {
     // REMOVE USER AFTER 30' IDLE
     console.log("BYE");
-    const user = JSON.parse(localStorage.getItem("User_login"));
+    const user = JSON.parse(localStorage.getItem("user"));
     const ID = user.userAdmin.waUserId;
     this.props.USER_LOGOUT(ID);
 

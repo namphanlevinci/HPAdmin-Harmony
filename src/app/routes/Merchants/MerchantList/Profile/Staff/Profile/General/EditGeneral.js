@@ -440,7 +440,7 @@ export class EditGeneral extends Component {
 
 const mapStateToProps = (state) => ({
   Staff: state.staffById.data,
-  MerchantData: state.MerchantReducer.MerchantData,
+  MerchantData: state.merchant.merchant,
 });
 
 const mapDispatchToProps = (dispatch) => ({

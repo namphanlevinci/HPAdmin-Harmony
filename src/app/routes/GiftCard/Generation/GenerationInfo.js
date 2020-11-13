@@ -1,36 +1,36 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  GET_GIFT_CARD_BY_ID,
-  GET_GIFT_CARD_CODE_LOG_BY_ID,
-} from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
 import { config } from "../../../../url/url";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
+import { addGiftCardGeneral } from "../../../../actions/giftCardActions";
 import {
   CustomTextLabel,
   CustomTableHeader,
   CustomTitle,
   CustomText,
 } from "../../../../util/CustomText";
-import { Grid, Button, Typography } from "@material-ui/core";
+import { Grid, Button, Typography, TextField } from "@material-ui/core";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import {
+  getGiftCardGeneral,
+  exportGiftCardGeneral,
+  getCodeLog,
+} from "../../../../actions/giftCardActions";
 
+import SearchComponent from "../../../../util/searchComponent";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import ReactTable from "react-table";
 import moment from "moment";
 import Checkbox from "@material-ui/core/Checkbox";
-import SearchIcon from "@material-ui/icons/Search";
 import CodeLog from "./CodeLog/CodeLog";
 import Tooltip from "@material-ui/core/Tooltip";
-import axios from "axios";
-import Select from "react-select";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
+import InputCustom from "../../../../util/CustomInput";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -42,7 +42,7 @@ class Generation_Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 0,
+      quantity: "",
       search: "",
       open: false,
       serialNumber: "",
@@ -50,102 +50,59 @@ class Generation_Detail extends Component {
       deleteID: "",
       openDelete: false,
       loadingData: false,
-      typeExport: { value: "excel", label: "CSV" },
+      typeExport: "excel",
       isLoading: false,
+
+      //
+      quantityError: false,
+      errorMessage: "",
     };
   }
 
-  componentDidMount() {
-    const ID = this.props.Detail;
-    this.setState({ deleteID: ID, loadingData: true });
-    this.getGiftCardById(ID);
-  }
-
-  // logs
-  handleLogs = (Data) => {
-    this.setState({ open: true, serialNumber: Data?.serialNumber });
-    this.props.getCodeLog(Data?.giftCardId);
+  handleLogs = (e) => {
+    this.setState({ open: true, serialNumber: e?.serialNumber });
+    this.props.getCodeLog(e?.giftCardId);
   };
 
   handleClose = () => {
     this.setState({ open: false });
   };
 
-  getGiftCardById(ID) {
-    this.props.getGenerationCode(ID);
-  }
-
   handleGenerate = () => {
-    const giftCardGeneralId = this.props.Detail;
+    const { giftCardGeneralId } = this.props.giftCardGeneral;
     const quantity = this.state.quantity;
-    if (quantity === 0) {
-      this.props.warningNotify("Please enter the Quantity!");
+
+    if (Number(quantity) === 0) {
+      this.setState({
+        quantityError: true,
+        errorMessage: "Please enter a valid quantity",
+      });
     } else {
-      this.setState({ loading: true });
-      axios
-        .post(
-          URL + "/giftcardgeneral/general",
-          { giftCardGeneralId, quantity },
-          {
-            headers: {
-              Authorization: `Bearer ${this.props.userLogin.token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.data.message === "Success") {
-            this.setState({ quantity: 0, loading: false, search: "" });
+      this.props.addGiftCardGeneral(giftCardGeneralId, quantity);
+      this.setState({
+        quantity: 0,
+        search: "",
+        quantityError: false,
+        errorMessage: "",
+      });
 
-            this.props.successNotify(res.data.message);
-
-            this.fetchData();
-            this.getGiftCardById(this.state.deleteID);
-          }
-        })
-        .catch((error) => console.log(error));
+      // ADD XONG CHƯA CẬP NHẬT LẠI CODE
+      // setTimeout(() => {
+      //   this.fetchApi();
+      // }, 1000);
     }
   };
 
-  // Delete
-  handleCloseDelete = () => {
-    this.setState({ openDelete: false });
-  };
+  fetchApi = async (state) => {
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
+    const { giftCardGeneralId } = this.props.giftCardGeneral;
 
-  fetchData = async (state) => {
-    const ID = this.props.Detail;
-    const page = state?.page ? state?.page : 0;
-    const pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/giftcard/getByGeneral/${ID}?keySearch=${this.state.search}&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.setState({
-            data: [],
-          });
-        }
+    const url = `${URL}/giftcard/getByGeneral/${giftCardGeneralId}?keySearch=${
+      this.state.search
+    }&page=${page === 0 ? 1 : page + 1}&row=${pageSize}`;
 
-        this.setState({ loading: false });
-      });
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -157,64 +114,48 @@ class Generation_Detail extends Component {
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
-  Delete = () => {
-    const deleteID = this.state.deleteID;
+  // Delete = () => {
+  //   const deleteID = this.state.deleteID;
 
-    axios
-      .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.message === "Success") {
-          this.props.successNotify(res.data.message);
+  //   axios
+  //     .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
+  //       headers: {
+  //         Authorization: `Bearer ${this.props.userLogin.token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       if (res.data.message === "Success") {
+  //         this.props.successNotify(res.data.message);
 
-          this.setState({ openDelete: false });
-          setTimeout(() => {
-            this.props.history.push("/app/giftcard/generation");
-          }, 1100);
-        }
-      })
-      .catch((error) => console.log(error));
-  };
+  //         this.setState({ openDelete: false });
+  //         setTimeout(() => {
+  //           this.props.history.push("/app/giftcard/generation");
+  //         }, 1100);
+  //       }
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   getExport = () => {
-    this.setState({ isLoading: true });
-    const ID = this.props.Detail;
-    axios
-      .get(
-        URL +
-          `/giftcard/getByGeneral/export/${ID}?keySearch=${this.state.search}&type=${this.state.typeExport.value}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 400 || res.data.data === null) {
-          this.props.errorNotify(res.data.message);
+    const { giftCardGeneralId } = this.props.giftCardGeneral;
+    const url = `${URL}/giftcard/getByGeneral/export/${giftCardGeneralId}?keySearch=${this.state.search}&type=${this.state.typeExport}`;
+    this.props.exportGiftCardGeneral(url);
+  };
 
-          this.setState({ isLoading: false });
-        } else {
-          setTimeout(() => {
-            window.open(res.data.data.path);
-            this.setState({ isLoading: false });
-          }, 1000);
-        }
-      });
+  handleQuantity = (e) => {
+    this.setState({ quantity: e.target.value });
   };
 
   render() {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
-    const Detail = this.props.GenerationByID;
-    const { page, pageCount, data } = this.state;
-
+    const Detail = this.props.giftCardGeneral;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
+    const { loading: exportLoading } = this.props.exportGeneral;
     const columns = [
       {
         Header: <CustomTableHeader value="ID" />,
@@ -331,10 +272,6 @@ class Generation_Detail extends Component {
         },
       },
     ];
-    const typeExport = [
-      { value: "excel", label: "CSV" },
-      // { value: "pdf", label: "Pdf" },
-    ];
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -353,12 +290,6 @@ class Generation_Detail extends Component {
               >
                 BACK
               </Button>
-              {/* <Button
-                className="btn btn-red"
-                onClick={() => this.setState({ openDelete: true })}
-              >
-                DELETE
-              </Button> */}
             </div>
           </div>
           <Grid container spacing={3} className="information container-fluid">
@@ -397,15 +328,24 @@ class Generation_Detail extends Component {
             </Grid>
             <Grid item xs={12}>
               <CustomTitle value="Add Gift Codes" />
-              <CustomTextLabel value="Quantity*" />
-              <input
-                type="number"
-                name="amount"
-                className="add-codes"
-                onChange={(e) => this.setState({ quantity: e.target.value })}
-                style={{ width: "12%" }}
+
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                label="Quantity*"
                 value={this.state.quantity}
+                onChange={this.handleQuantity}
+                name="amount"
+                InputProps={{
+                  inputComponent: InputCustom,
+                }}
+                inputProps={{
+                  numericOnly: true,
+                }}
+                style={{ width: "15%" }}
+                error={this.state.quantityError}
+                helperText={this.state.errorMessage}
               />
+
               <br />
               <Button
                 className="btn btn-red"
@@ -417,13 +357,19 @@ class Generation_Detail extends Component {
             </Grid>
 
             <Grid item xs={12} style={{ zIndex: "9999" }}>
-              <ScaleLoader isLoading={this.state.isLoading} />
+              <ScaleLoader isLoading={exportLoading} />
             </Grid>
-            {/* <div className="giftcard_content"> */}
             <Grid item xs={12}>
               <CustomTitle value="Gift Card Codes" />
             </Grid>
             <Grid item xs={12} className="giftCard_search">
+              <SearchComponent
+                value={this.state.search}
+                onChange={(e) => this.setState({ search: e.target.value })}
+                onKeyPress={this.keyPressed}
+                placeholder="Search by ID, Serial, Pin Code"
+              />
+              {/* 
               <form>
                 <SearchIcon
                   className="button"
@@ -433,13 +379,9 @@ class Generation_Detail extends Component {
                 <input
                   type="text"
                   className="textBox"
-                  placeholder="Search by ID, Serial, Pin Code"
                   style={{ paddingTop: "6px" }}
-                  value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
-                  onKeyPress={this.keyPressed}
                 />
-              </form>
+              </form> */}
               {CheckPermissions("export-generation") && (
                 <div
                   style={{
@@ -450,16 +392,19 @@ class Generation_Detail extends Component {
                   <label style={styles.h4}>Export to:</label>
                   <div
                     style={{
-                      width: "100px",
+                      width: "120px",
                       zIndex: "9999",
                       marginRight: "10px",
                     }}
                   >
-                    <Select
-                      value={this.state.typeExport}
-                      options={typeExport}
-                      onChange={(e) => this.setState({ typeExport: e })}
-                    />
+                    <FormControl style={{ width: "100%" }}>
+                      <Select
+                        value={this.state.typeExport}
+                        onChange={(e) => this.setState({ typeExport: e })}
+                      >
+                        <MenuItem value="excel">CSV</MenuItem>
+                      </Select>
+                    </FormControl>
                   </div>
                   <Button style={styles.btn} onClick={this.getExport}>
                     Export
@@ -468,33 +413,26 @@ class Generation_Detail extends Component {
               )}
             </Grid>
 
-            {/* <Delete
-                handleCloseDelete={this.handleCloseDelete}
-                open={this.state.openDelete}
-                deleteGeneration={this.Delete}
-                text={"Gift Card"}
-              /> */}
             <CodeLog
               open={this.state.open}
               handleClose={this.handleClose}
               Serial={this.state.serialNumber}
             />
             <Grid item xs={12}>
-              {this.state.loadingData && (
-                <ReactTable
-                  manual
-                  page={page}
-                  pages={pageCount}
-                  data={data}
-                  onPageChange={(pageIndex) => this.changePage(pageIndex)}
-                  onFetchData={(state) => this.fetchData(state)}
-                  minRows={1}
-                  noDataText="NO DATA!"
-                  loading={this.state.loading}
-                  columns={columns}
-                  defaultPageSize={10}
-                />
-              )}
+              <ReactTable
+                manual
+                page={page}
+                pages={pageCount}
+                data={data}
+                row={pageSize}
+                onPageChange={(pageIndex) => this.changePage(pageIndex)}
+                onFetchData={(state) => this.fetchApi(state)}
+                minRows={1}
+                noDataText="NO DATA!"
+                loading={loading}
+                columns={columns}
+                defaultPageSize={10}
+              />
             </Grid>
           </Grid>
         </div>
@@ -504,26 +442,26 @@ class Generation_Detail extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-  Detail: state.GiftCardReducer.detail,
-  GenerationByID: state.GiftCardReducer.GenerationByID,
+  apiData: state.fetchApi,
+  giftCardGeneral: state.getGiftCardGeneral.data,
+  exportGeneral: state.exportGiftCardGeneral,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getGenerationCode: (ID) => {
-    dispatch(GET_GIFT_CARD_BY_ID(ID));
+  addGiftCardGeneral: (giftCardGeneralId, quantity) => {
+    dispatch(addGiftCardGeneral(giftCardGeneralId, quantity));
   },
-  getCodeLog: (ID) => {
-    dispatch(GET_GIFT_CARD_CODE_LOG_BY_ID(ID));
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
-  successNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
+  getGiftCardGeneral: (ID, path) => {
+    dispatch(getGiftCardGeneral(ID, path));
   },
-  errorNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
+  exportGiftCardGeneral: (url) => {
+    dispatch(exportGiftCardGeneral(url));
   },
-  warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
+  getCodeLog: (CodeId) => {
+    dispatch(getCodeLog(CodeId));
   },
 });
 

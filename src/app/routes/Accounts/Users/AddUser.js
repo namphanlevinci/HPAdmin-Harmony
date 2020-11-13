@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
 import { Select, Avatar } from "@material-ui/core";
-import { ADD_ADMIN, VIEW_PROFILE_USER } from "../../../../actions/user/actions";
+import { addUser } from "../../../../actions/userActions";
 import { TextField, Grid, Button } from "@material-ui/core";
 import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -76,7 +76,7 @@ class addAdmin2 extends Component {
     }
   };
 
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/accounts/admin");
   };
 
@@ -85,21 +85,11 @@ class addAdmin2 extends Component {
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (
-        <Avatar
-          src={imagePreviewUrl}
-          alt="avatar"
-          // style={{ width: "220px", height: "220px" }}
-          className="avatar_last"
-        />
+        <Avatar src={imagePreviewUrl} alt="avatar" style={styles.avatar} />
       );
     } else {
       $imagePreview = (
-        <Avatar
-          src={DefaultAvatar}
-          alt="avatar"
-          className="avatar_last"
-          // style={{ width: "220px", height: "220px" }}
-        />
+        <Avatar src={DefaultAvatar} alt="avatar" style={styles.avatar} />
       );
     }
 
@@ -183,37 +173,17 @@ class addAdmin2 extends Component {
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
-                const {
-                  stateID,
-                  WaRoleId,
-                  firstname,
-                  lastname,
-                  email,
-                  password,
-                  address,
-                  city,
-                  zip,
-                  phone,
-                  fileId,
-                } = values;
+                const { firstname, lastname } = values;
                 const BirthDate = moment(values.BirthDate).format("MM/DD/YYYY");
                 const fullname = firstname + lastname;
-                const Data = {
-                  stateID,
-                  WaRoleId,
-                  firstname,
-                  lastname,
-                  email,
-                  password,
-                  address,
-                  city,
-                  zip,
+                const path = "/app/accounts/admin";
+                const payload = {
+                  ...values,
                   BirthDate,
                   fullname,
-                  phone,
-                  fileId,
+                  path,
                 };
-                this.props.addUserAdmin(Data);
+                this.props.addUser(payload);
               }}
             >
               {({
@@ -250,7 +220,7 @@ class addAdmin2 extends Component {
                             backgroundColor: "white",
                           }}
                           className="btn btn-green"
-                          onClick={this._goBack}
+                          onClick={this.goBack}
                         >
                           BACK
                         </Button>
@@ -289,7 +259,7 @@ class addAdmin2 extends Component {
                         placeholder="Contact Phone Number"
                         name="phone"
                         fullWidth
-                        label="Phone"
+                        label="Phone*"
                         onChange={(phone) => setFieldValue("phone", phone)}
                         error={touched.phone && Boolean(errors.phone)}
                         helperText={touched.phone ? errors.phone : ""}
@@ -480,7 +450,7 @@ class addAdmin2 extends Component {
                       <Button
                         style={{ color: "#4251af", backgroundColor: "white" }}
                         className="btn btn-green"
-                        onClick={this._goBack}
+                        onClick={this.goBack}
                       >
                         CANCEL
                       </Button>
@@ -503,16 +473,10 @@ class addAdmin2 extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  UserProfile: state.userReducer.ViewUser,
-  AddUser: state.userReducer.AddUser,
-});
+const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_PROFILE_USER: (payload) => {
-    dispatch(VIEW_PROFILE_USER(payload));
-  },
-  addUserAdmin: (payload) => {
-    dispatch(ADD_ADMIN(payload));
+  addUser: (payload) => {
+    dispatch(addUser(payload));
   },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
@@ -550,5 +514,12 @@ const styles = {
   },
   input: {
     width: "100%",
+  },
+  avatar: {
+    height: "200px",
+    width: "200px",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 };

@@ -8,32 +8,6 @@ function Password({
 }) {
   return (
     <div style={styles.div}>
-      {/* <h2 style={styles.h2}>Current Password</h2>
-      <label>Password</label>
-      <div style={{ display: "flex" }}>
-        <input
-          type={showPassword ? "text" : "password"}
-          name="password"
-          value={password}
-          onChange={handleChange}
-          style={styles.input}
-        />
-        <span>
-          {showPassword ? (
-            <RiEyeLine
-              onClick={handleShowPassword}
-              style={styles.icon}
-              size={20}
-            />
-          ) : (
-            <RiEyeOffLine
-              onClick={handleShowPassword}
-              style={styles.icon}
-              size={20}
-            />
-          )}
-        </span>
-      </div> */}
       <h2 style={styles.h2}>New Password</h2>
       <div className="row">
         <div className="col-4">
@@ -53,25 +27,8 @@ function Password({
               label="Confirm Password"
               type={showPassword ? "text" : "password"}
               name="confirmPassword"
-              //   value={password}
               onChange={handleChange}
-              //   style={styles.input}
             />
-            {/* <span>
-              {showPassword ? (
-                <RiEyeLine
-                  onClick={handleShowPassword}
-                  style={styles.icon}
-                  size={20}
-                />
-              ) : (
-                <RiEyeOffLine
-                  onClick={handleShowPassword}
-                  style={styles.icon}
-                  size={20}
-                />
-              )}
-            </span> */}
           </div>
           {<p style={styles.p}>{confirmError}</p>}
         </div>

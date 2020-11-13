@@ -1,18 +1,9 @@
 import React, { Component } from "react";
-import {
-  ViewProfile_Merchants,
-  UPDATE_MERCHANT,
-  GET_MERCHANT_BY_ID,
-} from "../../../../actions/merchants/actions";
-import { ViewMerchant_Rejected_Merchants } from "../../../../actions/merchants/actions";
+import { updateMerchantGeneralById } from "../../../../actions/merchantActions";
 import { connect } from "react-redux";
 import { Formik } from "formik";
 import { Button, Grid } from "@material-ui/core";
 import { CustomTitle } from "../../../../util/CustomText";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
 
 import * as Yup from "yup";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -92,8 +83,6 @@ class EditMerchantRejected extends Component {
   };
 
   render() {
-    // const e = this.props.MerchantProfile;
-
     return (
       <div className="content general-content react-transition swipe-right">
         <ContainerHeader
@@ -110,12 +99,15 @@ class EditMerchantRejected extends Component {
                 onSubmit={(values, { setSubmitting }) => {
                   const ID = this.props.MerchantProfile?.general?.generalId;
                   const merchantId = this.props.MerchantProfile.merchantId;
-                  this.props.updateMerchant({
+
+                  const payload = {
                     ...values,
                     ID,
                     merchantId,
                     path: "/app/merchants/rejected/profile",
-                  });
+                  };
+
+                  this.props.updateMerchantGeneralById(payload);
                 }}
               >
                 {({
@@ -466,33 +458,13 @@ class EditMerchantRejected extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
-  userLogin: state.userReducer.User,
-  UpdateStatus: state.updateMerchant_Infor,
-  getMerchant: state.getMerchant,
+  MerchantProfile: state.merchant.merchant,
 });
-const mapDispatchToProps = (dispatch) => {
-  return {
-    ViewProfile_Merchants: (payload) => {
-      dispatch(ViewProfile_Merchants(payload));
-    },
-    updateMerchant: (payload) => {
-      dispatch(UPDATE_MERCHANT(payload));
-    },
-    GET_MERCHANT_BY_ID: (payload) => {
-      dispatch(GET_MERCHANT_BY_ID(payload));
-    },
-    ViewMerchant_Rejected_Merchants: (payload) => {
-      dispatch(ViewMerchant_Rejected_Merchants(payload));
-    },
-    SUCCESS_NOTIFICATION: (payload) => {
-      dispatch(SUCCESS_NOTIFICATION(payload));
-    },
-    FAILURE_NOTIFICATION: (payload) => {
-      dispatch(FAILURE_NOTIFICATION(payload));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  updateMerchantGeneralById: (payload) => {
+    dispatch(updateMerchantGeneralById(payload));
+  },
+});
 export default connect(
   mapStateToProps,
   mapDispatchToProps

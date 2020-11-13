@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
-import {
-  getUser_Transaction,
-  getUser_Activity,
-} from "../../../../actions/transactions/actions";
+import { AnimatePresence } from "framer-motion";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import General from "./Detail/General";
 import Transactions from "./Detail/Transactions";
-import Acti from "./Detail/Acti";
+import ActivityList from "./Detail/ActivityList";
 import EditGeneral from "./Detail/EditGeneral";
 import Bank from "./Detail/Bank";
 import CheckPermissions from "../../../../util/checkPermission";
@@ -28,18 +25,30 @@ class ConsumerProfile extends Component {
     this.state = {};
   }
 
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/consumers/list");
   };
   render() {
-    // render staff
     const e = this.props.ConsumerProfile;
+
+    const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
+
+    const pageTransition = {
+      in: {
+        opacity: 1,
+        transition,
+      },
+      out: {
+        opacity: 0,
+        transition: { duration: 1.5, ...transition },
+      },
+    };
 
     return (
       <div className="container-fluid content-list">
         <ContainerHeader
           match={this.props.match}
-          title={<IntlMessages id="sidebar.dashboard.MerchantList/Profile" />}
+          title={<IntlMessages id="sidebar.dashboard.consumers" />}
         />
         <div className="content-body page-heading general-content">
           <div className="header col-12">
@@ -55,7 +64,7 @@ class ConsumerProfile extends Component {
                 marginRight: "0px",
               }}
               className="btn btn-green"
-              onClick={this._goBack}
+              onClick={this.goBack}
             >
               BACK
             </Button>
@@ -63,63 +72,88 @@ class ConsumerProfile extends Component {
           <hr />
           <div className="content">
             <div className="container-fluid">
-              <div className="">
-                <div className="profile-nav">
-                  <ul className="detail-tab">
-                    <li>
-                      <NavLink to="/app/consumers/profile/general">
-                        General
+              <div className="profile-nav">
+                <ul className="detail-tab">
+                  <li>
+                    <NavLink to="/app/consumers/profile/general">
+                      General
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/app/consumers/profile/bank">Bank</NavLink>
+                  </li>
+                  <li>
+                    {CheckPermissions("view-consumer-transactions") && (
+                      <NavLink to="/app/consumers/profile/transactions">
+                        Transactions
                       </NavLink>
-                    </li>
-                    <li>
-                      <NavLink to="/app/consumers/profile/bank">Bank</NavLink>
-                    </li>
-                    <li>
-                      {CheckPermissions("view-consumer-transactions") && (
-                        <NavLink to="/app/consumers/profile/transactions">
-                          Transactions
-                        </NavLink>
-                      )}
-                    </li>
-                    <li>
-                      <NavLink to="/app/consumers/profile/activies">
-                        Activities
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink to="/app/consumers/profile/setting">
-                        Setting
-                      </NavLink>
-                    </li>
-                  </ul>
-                  <div className="detail-content">
+                    )}
+                  </li>
+                  <li>
+                    <NavLink to="/app/consumers/profile/activies">
+                      Activities
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/app/consumers/profile/setting">
+                      Setting
+                    </NavLink>
+                  </li>
+                </ul>
+                <div className="detail-content">
+                  <AnimatePresence
+                    exitBeforeEnter
+                    location={this.props.history.location}
+                    key={this.props.history.location.pathname}
+                  >
                     <Switch>
                       <Route
                         path="/app/consumers/profile/general/edit"
-                        component={EditGeneral}
+                        render={(props) => (
+                          <EditGeneral
+                            {...props}
+                            pageTransition={pageTransition}
+                          />
+                        )}
                       />
                       <Route
                         path="/app/consumers/profile/general"
-                        component={General}
+                        render={(props) => (
+                          <General {...props} pageTransition={pageTransition} />
+                        )}
                       />
                       <Route
                         path="/app/consumers/profile/bank"
-                        component={Bank}
+                        render={(props) => (
+                          <Bank {...props} pageTransition={pageTransition} />
+                        )}
                       />
                       <Route
                         path="/app/consumers/profile/transactions"
-                        component={Transactions}
+                        render={(props) => (
+                          <Transactions
+                            {...props}
+                            pageTransition={pageTransition}
+                          />
+                        )}
                       />
                       <Route
                         path="/app/consumers/profile/activies"
-                        component={Acti}
+                        render={(props) => (
+                          <ActivityList
+                            {...props}
+                            pageTransition={pageTransition}
+                          />
+                        )}
                       />
                       <Route
                         path="/app/consumers/profile/setting"
-                        component={Setting}
+                        render={(props) => (
+                          <Setting {...props} pageTransition={pageTransition} />
+                        )}
                       />
                     </Switch>
-                  </div>
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
@@ -130,20 +164,7 @@ class ConsumerProfile extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  ConsumerProfile: state.ConsumerReducer.Consumer,
-  userLogin: state.userReducer.User,
+  ConsumerProfile: state.consumerById.data,
 });
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getTransactions: (id) => {
-      dispatch(getUser_Transaction(id));
-    },
-    getActivity: (id) => {
-      dispatch(getUser_Activity(id));
-    },
-  };
-};
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ConsumerProfile)
-);
+export default withRouter(connect(mapStateToProps)(ConsumerProfile));

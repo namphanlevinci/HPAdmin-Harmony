@@ -19,10 +19,7 @@ export const ViewMerchant_Rejected_Merchants =
 export const UPDATE_MERCHANT = "UPDATE_MERCHANT";
 export const UPDATE_MERCHANT_SUCCESS = "UPDATE_MERCHANT_SUCCESS";
 export const UPDATE_MERCHANT_ERROR = "UPDATE_MERCHANT_ERROR";
-// GET MERCHANT INFO BY ID
-export const GetMerchant_byID = "GetMerchant_byID";
-export const GetMerchant_byID_Success = "GetMerchant_byID_Success";
-export const GetMerchant_byID_Error = "GetMerchant_byID_Success";
+
 // SEND APPROVAL REQUEST
 export const MERCHANT_APPROVAL = "MERCHANT_APPROVAL";
 export const MERCHANT_APPROVAL_SUCCESS = "MERCHANT_APPROVAL_SUCCESS";

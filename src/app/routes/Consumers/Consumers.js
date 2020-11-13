@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { GET_CONSUMER_BY_ID } from "../../../actions/consumer/actions";
+import { getConsumerByID } from "../../../actions/consumerActions";
 import { config } from "../../../url/url";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
@@ -8,9 +8,10 @@ import { Typography } from "@material-ui/core";
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
 
 import IntlMessages from "../../../util/IntlMessages";
+import CustomProgress from "../../../util/CustomProgress";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
+import SearchComponent from "../../../util/searchComponent";
 
 import "../Merchants/Merchants.css";
 import "./ConsumerProfile/Detail/Consumer.css";
@@ -63,6 +64,7 @@ class Consumers extends React.Component {
   render() {
     const { page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
+    const { loading: loadingConsumer } = this.props.consumerById;
 
     const columns = [
       {
@@ -158,7 +160,8 @@ class Consumers extends React.Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.props.GET_CONSUMER_BY_ID(rowInfo.row._original.userId);
+            const path = "/app/consumers/profile/general";
+            this.props.getConsumerByID(rowInfo.row._original.userId, path);
           }
         },
       };
@@ -166,6 +169,7 @@ class Consumers extends React.Component {
     return (
       <>
         <div className="container-fluid">
+          {loadingConsumer && <CustomProgress />}
           <Helmet>
             <title>Consumer | Harmony Admin</title>
           </Helmet>
@@ -176,19 +180,11 @@ class Consumers extends React.Component {
           <div className="MerList page-heading" style={{ padding: "10px" }}>
             <div className=" TransactionsBox ">
               {/* SEARCH */}
-              <div className="search">
-                <form>
-                  <SearchIcon className="button" title="Search" />
-                  <input
-                    type="text"
-                    className="textBox"
-                    placeholder="Search.."
-                    value={this.state.search}
-                    onChange={this.searchMerchant}
-                    onKeyPress={this.keyPressed}
-                  />
-                </form>
-              </div>
+              <SearchComponent
+                value={this.state.search}
+                onChange={this.searchMerchant}
+                onKeyPress={this.keyPressed}
+              />
             </div>
 
             <div className="merchant-list-container">
@@ -216,13 +212,13 @@ class Consumers extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   ConsumerList: state.getConsumerUsers,
   apiData: state.fetchApi,
+  consumerById: state.consumerById,
 });
 const mapDispatchToProps = (dispatch) => ({
-  GET_CONSUMER_BY_ID: (payload) => {
-    dispatch(GET_CONSUMER_BY_ID(payload));
+  getConsumerByID: (ID, path) => {
+    dispatch(getConsumerByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

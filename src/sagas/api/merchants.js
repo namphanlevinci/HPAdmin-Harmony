@@ -520,30 +520,30 @@ export function* RESTORE_MERCHANT_EXTRA_API(payload) {
 }
 
 // Add Staff
-export function* ADD_STAFF_API(payload) {
-  const getInfoLogin = (state) => state.userReducer.User;
-  const infoLogin = yield select(getInfoLogin);
-  let config = {
-    headers: {
-      Authorization: "Bearer " + infoLogin.token,
-    },
-  };
+// export function* ADD_STAFF_API(payload) {
+//   const getInfoLogin = (state) => state.userReducer.User;
+//   const infoLogin = yield select(getInfoLogin);
+//   let config = {
+//     headers: {
+//       Authorization: "Bearer " + infoLogin.token,
+//     },
+//   };
 
-  console.log("PAYLOAD API", payload);
+//   console.log("PAYLOAD API", payload);
 
-  const kq = yield axios
-    .post(
-      URL + `/staff?api-version=1.1`,
-      {
-        ...payload,
-      },
-      config
-    )
-    .then((result) => {
-      return result.data.message;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  return kq;
-}
+//   const kq = yield axios
+//     .post(
+//       URL + `/staff`,
+//       {
+//         ...payload,
+//       },
+//       config
+//     )
+//     .then((result) => {
+//       return result.data.message;
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+//   return kq;
+// }

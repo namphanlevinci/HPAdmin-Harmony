@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  GET_MERCHANT_BY_ID,
-  MERCHANT_UPDATE_SETTING,
-} from "../../../../../../actions/merchants/actions";
+import { updateMerchantSettingById } from "../../../../../../actions/merchantActions";
 import {
   InputAdornment,
   FormControl,
@@ -63,29 +60,17 @@ class EditSettings extends Component {
     this.props.history.push("/app/merchants/profile/settings");
   };
   updateMerchantSetting = () => {
-    const ID = this.props.MerchantProfile.merchantId;
-    const {
-      merchantCode,
-      transactionsFee,
-      totalAmountLimit,
-      discountRate,
-      pointRate,
-      turnAmount,
-    } = this.state;
-
+    const merchantId = this.props.MerchantProfile.merchantId;
     const merchantToken = "";
-
+    const path = "/app/merchants/profile/settings";
     const payload = {
-      merchantCode,
+      ...this.state,
       merchantToken,
-      transactionsFee,
-      totalAmountLimit,
-      turnAmount,
-      discountRate,
-      pointRate,
-      ID,
+      transactionsfee: this.state.transactionsFee,
+      merchantId,
+      path,
     };
-    this.props.MERCHANT_UPDATE_SETTING(payload);
+    this.props.updateMerchantSettingById(payload);
   };
   render() {
     return (
@@ -195,17 +180,11 @@ class EditSettings extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
 });
-const mapDispatchToProps = (dispatch) => {
-  return {
-    GET_MERCHANT_BY_ID: (ID) => {
-      dispatch(GET_MERCHANT_BY_ID(ID));
-    },
-    MERCHANT_UPDATE_SETTING: (payload) => {
-      dispatch(MERCHANT_UPDATE_SETTING(payload));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  updateMerchantSettingById: (payload) => {
+    dispatch(updateMerchantSettingById(payload));
+  },
+});
 export default connect(mapStateToProps, mapDispatchToProps)(EditSettings);

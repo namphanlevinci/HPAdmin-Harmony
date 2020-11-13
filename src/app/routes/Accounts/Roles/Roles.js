@@ -2,17 +2,16 @@ import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import {
-  GET_ALL_PERMISSION,
-  UPDATE_PERMISSIONS,
-  GET_PERMISSION_BY_ID,
-} from "../../../../actions/user/actions";
-import CircularProgress from "@material-ui/core/CircularProgress";
+  getAllPermission,
+  updatePermissions,
+} from "../../../../actions/userActions";
+import { CustomTitle } from "../../../../util/CustomText";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import { CustomTitle } from "../../../../util/CustomText";
 import update from "immutability-helper";
 import CheckPermissions from "../../../../util/checkPermission";
 import Typography from "@material-ui/core/Typography";
@@ -32,20 +31,23 @@ class Roles extends Component {
   }
 
   componentDidMount = async () => {
-    await this.props.GET_ALL_PERMISSION();
-    const adminPermissions = this.props.permissions
+    await this.props.getAllPermission();
+
+    const { allPermissions: permissions } = this.props.allPermissions;
+
+    const adminPermissions = permissions
       .filter(({ waRoleId }) => waRoleId === 1)
       .reduce((obj, item) => item, {});
 
-    const managerPermissions = this.props.permissions
+    const managerPermissions = permissions
       .filter(({ waRoleId }) => waRoleId === 2)
       .reduce((obj, item) => item, {});
 
-    const staff1Permissions = this.props.permissions
+    const staff1Permissions = permissions
       .filter(({ waRoleId }) => waRoleId === 3)
       .reduce((obj, item) => item, {});
 
-    const staff2Permissions = this.props.permissions
+    const staff2Permissions = permissions
       .filter(({ waRoleId }) => waRoleId === 4)
       .reduce((obj, item) => item, {});
 
@@ -131,21 +133,20 @@ class Roles extends Component {
   };
 
   handleUpdatePermission = async () => {
-    const ID = this.props?.userLogin?.userAdmin?.waRoleId;
     const {
       adminPermissions,
       managerPermissions,
       staff1Permissions,
       staff2Permissions,
     } = this.state;
-    const data = [
+    const payload = [
       { ...adminPermissions },
       { ...managerPermissions },
       { ...staff1Permissions },
       { ...staff2Permissions },
     ];
 
-    await this.props.UPDATE_PERMISSIONS(data, ID);
+    await this.props.updatePermissions(payload);
   };
 
   render() {
@@ -310,6 +311,8 @@ class Roles extends Component {
       );
     });
 
+    const { loading } = this.props.allPermissions;
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -336,7 +339,7 @@ class Roles extends Component {
             <ReactTable columns={department} data={data} minRows={1} />
           </div> */}
 
-          {this.props.isLoading ? (
+          {loading ? (
             <div style={styles.loading}>
               <CircularProgress size={42} />
             </div>
@@ -407,19 +410,14 @@ class Roles extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer?.User,
-  permissions: state.userReducer.Permissions,
-  isLoading: state.userReducer?.loadingAllPermissions,
+  allPermissions: state.allPermissions,
 });
 const mapDispatchToProps = (dispatch) => ({
-  GET_ALL_PERMISSION: () => {
-    dispatch(GET_ALL_PERMISSION());
+  getAllPermission: () => {
+    dispatch(getAllPermission());
   },
-  UPDATE_PERMISSIONS: (data, ID) => {
-    dispatch(UPDATE_PERMISSIONS(data, ID));
-  },
-  GET_PERMISSION_BY_ID: (payload) => {
-    dispatch(GET_PERMISSION_BY_ID(payload));
+  updatePermissions: (payload) => {
+    dispatch(updatePermissions(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Roles);

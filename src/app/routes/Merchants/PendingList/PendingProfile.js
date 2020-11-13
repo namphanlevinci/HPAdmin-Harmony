@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  MERCHANT_APPROVAL,
-  MERCHANT_REJECT,
-  SET_PENDING_STATUS,
-  DELETE_MERCHANT,
-} from "../../../../actions/merchants/actions";
+  approveMerchantById,
+  rejectMerchantById,
+  deleteMerchantById,
+} from "../../../../actions/merchantActions";
+
+import { setPendingStatus } from "../../../../actions/merchantActions";
 import { Checkbox } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import { withRouter } from "react-router-dom";
@@ -83,10 +84,10 @@ class MerchantReqProfile extends Component {
 
   handleSetStatus = (event) => {
     this.setState({ pendingStatus: false });
-    const ID = this.props.PendingProfile.merchantId;
-    const status = event.target.value;
-    const payload = { ID, status };
-    this.props.setStatus(payload);
+    const merchantId = this.props.PendingProfile.merchantId;
+    const Status = event.target.value;
+    const payload = { merchantId, Status };
+    this.props.setPendingStatus(payload);
 
     setTimeout(() => {
       this.setState({ pendingStatus: true });
@@ -94,10 +95,10 @@ class MerchantReqProfile extends Component {
   };
 
   handleDeleteMerchant = () => {
-    const ID = this.props.PendingProfile.merchantId;
+    const merchantId = this.props.PendingProfile.merchantId;
     const path = "/app/merchants/pending";
-    const payload = { ID, path };
-    this.props.deleteMerchant(payload);
+    const payload = { merchantId, path };
+    this.props.deleteMerchantById(payload);
     this.setState({ openDelete: false });
   };
 
@@ -325,9 +326,11 @@ class MerchantReqProfile extends Component {
                         }}
                         onSubmit={(values, { setSubmitting }) => {
                           const reason = values.rejectReason;
-                          const ID = this.props.PendingProfile.merchantId;
-                          const data = { reason, ID };
-                          this.props.RejectMerchant(data);
+                          const merchantId = this.props.PendingProfile
+                            .merchantId;
+                          const path = "/app/merchants/pending";
+                          const payload = { reason, merchantId, path };
+                          this.props.rejectMerchantById(payload);
                         }}
                       >
                         {({
@@ -421,17 +424,20 @@ class MerchantReqProfile extends Component {
                         }}
                         validationSchema={AcceptSchema}
                         onSubmit={(values, { setSubmitting }) => {
-                          const ID = this.props.PendingProfile.merchantId;
+                          const merchantId = this.props.PendingProfile
+                            .merchantId;
                           const merchantCode = values.merchantID;
                           const transactionsFee = values.fee;
                           const discountRate = values.discount;
-                          const data = {
-                            transactionsFee,
+                          const path = "/app/merchants/pending";
+                          const payload = {
                             merchantCode,
-                            ID,
+                            transactionsFee,
                             discountRate,
+                            merchantId,
+                            path,
                           };
-                          this.props.ApproveMerchant(data);
+                          this.props.approveMerchantById(payload);
                         }}
                       >
                         {({ values, handleChange, errors, touched }) => (
@@ -513,7 +519,7 @@ class MerchantReqProfile extends Component {
           <hr />
 
           <Grid item xs={3} className="pending_status">
-            {this.props.setPendingStatus ? (
+            {this.props.pendingStatus ? (
               <div className="loading-progress">
                 <CircularProgress
                   size={20}
@@ -693,24 +699,22 @@ class MerchantReqProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  PendingProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
-  setPendingStatus: state.MerchantReducer.setPendingStatus,
-  checkPermission: state.userReducer.checkPermission,
+  PendingProfile: state.merchant.merchant,
+  pendingStatus: state.pendingStatus.loading,
 });
 const mapDispatchToProps = (dispatch) => {
   return {
-    ApproveMerchant: (payload) => {
-      dispatch(MERCHANT_APPROVAL(payload));
+    approveMerchantById: (payload) => {
+      dispatch(approveMerchantById(payload));
     },
-    RejectMerchant: (payload) => {
-      dispatch(MERCHANT_REJECT(payload));
+    rejectMerchantById: (payload) => {
+      dispatch(rejectMerchantById(payload));
     },
-    setStatus: (payload) => {
-      dispatch(SET_PENDING_STATUS(payload));
+    setPendingStatus: (payload) => {
+      dispatch(setPendingStatus(payload));
     },
-    deleteMerchant: (payload) => {
-      dispatch(DELETE_MERCHANT(payload));
+    deleteMerchantById: (payload) => {
+      dispatch(deleteMerchantById(payload));
     },
   };
 };

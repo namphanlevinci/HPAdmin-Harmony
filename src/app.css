@@ -133,3 +133,7 @@ label {
   margin-left: auto;
   margin-right: auto;
 }
+
+.search_input {
+  padding: 50px;
+}

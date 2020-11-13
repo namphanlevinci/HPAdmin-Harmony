@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
-import {
-  UPDATE_MERCHANT_PRINCIPAL,
-  GET_MERCHANT_BY_ID,
-} from "../../../../../../actions/merchants/actions";
+import { updateMerchantPrincipalById } from "../../../../../../actions/merchantActions";
 import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
 import { Grid, Button, TextField } from "@material-ui/core";
 import {
@@ -136,7 +133,7 @@ class EditPrincipal extends Component {
     } else {
       $imagePreview = (
         <img
-          src={e.imageUrl}
+          src={e?.imageUrl}
           style={{ width: "100%", height: "70%" }}
           alt="service"
         />
@@ -153,12 +150,9 @@ class EditPrincipal extends Component {
             onSubmit={(values, { setSubmitting }) => {
               const principalID = this.props.principalData.principalId;
               const ID = this.props.MerchantProfile.merchantId;
-
-              this.props.UPDATE_MERCHANT_PRINCIPAL({
-                ...values,
-                principalID,
-                ID,
-              });
+              const path = "/app/merchants/profile/principal/info";
+              const payload = { ...values, principalID, ID, path };
+              this.props.updateMerchantPrincipalById(payload);
             }}
           >
             {({
@@ -363,17 +357,14 @@ class EditPrincipal extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  principalData: state.MerchantReducer.PrincipalData,
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  principalData: state.updateMerchantPrincipal.principal,
+  MerchantProfile: state.merchant.merchant,
 });
 const mapDispatchToProps = (dispatch) => ({
-  UPDATE_MERCHANT_PRINCIPAL: (payload) => {
-    dispatch(UPDATE_MERCHANT_PRINCIPAL(payload));
+  updateMerchantPrincipalById: (payload) => {
+    dispatch(updateMerchantPrincipalById(payload));
   },
-  GET_MERCHANT_BY_ID: (ID) => {
-    dispatch(GET_MERCHANT_BY_ID(ID));
-  },
+
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
   },

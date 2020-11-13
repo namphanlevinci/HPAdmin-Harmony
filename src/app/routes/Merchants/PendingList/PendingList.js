@@ -1,19 +1,13 @@
 import React, { Component } from "react";
-import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
+import { getMerchantByID } from "../../../../actions/merchantActions";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
-import {
-  InputAdornment,
-  IconButton,
-  FormControl,
-  OutlinedInput,
-  Typography,
-} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 
-import SearchIcon from "@material-ui/icons/Search";
+import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
@@ -36,11 +30,9 @@ class PendingList extends Component {
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-
     const url = `${URL}/merchant/pending?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
-
     this.props.fetchApiByPage(url);
   };
 
@@ -50,8 +42,13 @@ class PendingList extends Component {
     });
   };
 
-  searchMerchant = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchMerchant = (e) => {
+    this.setState({ search: e.target.value });
+    // // debounce(() => this.fetchAp, 100);
+
+    // let search = e.target.value;
+    // debounce(search, 300);
+    // this.setState({ search: search }, () => this.fetchApi);
   };
 
   keyPressed = (event) => {
@@ -63,7 +60,7 @@ class PendingList extends Component {
 
   goToPendingPage = (ID) => {
     const path = "/app/merchants/pending/profile";
-    this.props.getMerchantByID({ ID, path });
+    this.props.getMerchantByID(ID, path);
   };
   render() {
     const { page } = this.state;
@@ -146,7 +143,7 @@ class PendingList extends Component {
         ),
       },
     ];
-    const onRowClick = (state, rowInfo, column, instance) => {
+    const onRowClick = (state, rowInfo) => {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
@@ -167,27 +164,11 @@ class PendingList extends Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <FormControl>
-              <OutlinedInput
-                inputProps={{
-                  style: {
-                    padding: 14,
-                  },
-                }}
-                placeholder="Search.."
-                value={this.state.search}
-                onChange={this.searchMerchant}
-                onKeyPress={this.keyPressed}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton edge="end">
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
-                labelWidth={0}
-              />
-            </FormControl>
+            <SearchComponent
+              value={this.state.search}
+              onChange={this.searchMerchant}
+              onKeyPress={this.keyPressed}
+            />
           </div>
           <ScaleLoader isLoading={this.state.isLoading} />
 
@@ -218,8 +199,8 @@ const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getMerchantByID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+  getMerchantByID: (ID, path) => {
+    dispatch(getMerchantByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { CustomTextLabel, CustomTitle } from "../../../../../util/CustomText";
+
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import moment from "moment";
@@ -9,8 +10,8 @@ import Grid from "@material-ui/core/Grid";
 
 import "./code-log.styles.scss";
 
-const CodeLog = ({ open, handleClose, Log, Serial }) => {
-  const renderLog = Log.map((e, index) => (
+const CodeLog = ({ open, handleClose, log, Serial }) => {
+  const renderLog = log.map((e, index) => (
     <Grid container key={index}>
       <Grid item xs={3}>
         <p>{moment(e?.createdDate).format("hh:mm A")}</p>
@@ -56,7 +57,7 @@ const CodeLog = ({ open, handleClose, Log, Serial }) => {
 };
 
 const mapStateToProps = (state) => ({
-  Log: state.GiftCardReducer.generationCode_log,
+  log: state.codeLog.log,
 });
 
 export default connect(mapStateToProps)(CodeLog);

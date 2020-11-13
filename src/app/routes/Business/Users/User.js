@@ -8,6 +8,8 @@ import ContainerHeader from "components/ContainerHeader/index";
 import moment from "moment";
 import "../../Reports/Transactions/Transactions.css";
 
+// ON HOLD
+
 class Users extends React.Component {
   constructor(props) {
     super(props);
@@ -160,7 +162,6 @@ class Users extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   ConsumerList: state.getConsumerUsers,
 });
 const mapDispatchToProps = (dispatch) => ({

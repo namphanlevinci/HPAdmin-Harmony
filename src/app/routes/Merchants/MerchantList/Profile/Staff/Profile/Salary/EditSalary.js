@@ -304,26 +304,27 @@ class EditSalary extends Component {
                                       />
                                     </Grid>
                                   )}
-                                  {values?.commValue.length - 1 === index && (
-                                    <Grid>
-                                      <p
-                                        style={{
-                                          marginLeft: 35,
-                                          color: "#4251af",
-                                          fontWeight: "600",
-                                          fontSize: 14,
-                                          marginTop: 30,
-                                          cursor: "pointer",
-                                          letterSpacing: 0.3,
-                                        }}
-                                        onClick={() =>
-                                          arrayHelpers.insert(index + 1, "")
-                                        }
-                                      >
-                                        + Add more
-                                      </p>
-                                    </Grid>
-                                  )}
+                                  {values?.commValue.length - 1 === index &&
+                                    values?.commIsCheck && (
+                                      <Grid>
+                                        <p
+                                          style={{
+                                            marginLeft: 35,
+                                            color: "#4251af",
+                                            fontWeight: "600",
+                                            fontSize: 14,
+                                            marginTop: 30,
+                                            cursor: "pointer",
+                                            letterSpacing: 0.3,
+                                          }}
+                                          onClick={() =>
+                                            arrayHelpers.insert(index + 1, "")
+                                          }
+                                        >
+                                          + Add more
+                                        </p>
+                                      </Grid>
+                                    )}
                                 </Grid>
                               );
                             })
@@ -519,7 +520,7 @@ const salarySchema = Yup.object().shape({
 
 const mapStateToProps = (state) => ({
   Staff: state.staffById.data,
-  MerchantData: state.MerchantReducer.MerchantData,
+  MerchantData: state.merchant.merchant,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,7 +3,8 @@
   background-color: #fff;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   border-radius: 6px;
-  button {
+  
+  .btn {
     display: inline-block;
     color: #666;
     background-color: #eee;
@@ -111,7 +112,7 @@
       font-size: 16px;
       letter-spacing: 0.3px;
       padding: 5px 10px;
-      margin-left: 5px
+      margin-left: 5px;
     }
     div.rt-tr {
       align-items: center;
@@ -161,7 +162,6 @@
     }
   }
   .information {
-
     .input-feedback {
       padding-top: 5px;
       color: red;
@@ -195,12 +195,12 @@
       font-weight: 400;
       margin: 6px 0px;
     }
-    p {
-      font-weight: 400;
-      color: black;
-      letter-spacing: 0.5px;
-      font-size: 16px;
-    }
+    // p {
+    //   font-weight: 400;
+    //   color: black;
+    //   letter-spacing: 0.5px;
+    //   font-size: 16px;
+    // }
 
     label {
       color: #909090;

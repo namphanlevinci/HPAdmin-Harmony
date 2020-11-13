@@ -1,25 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  GET_GIFT_CARD,
-  VIEW_DETAIL,
-} from "../../../../actions/gift-card/actions";
-
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { Typography, Button } from "@material-ui/core";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { getGiftCardGeneral } from "../../../../actions/giftCardActions";
 
 import EditSVG from "../../../../assets/images/edit.svg";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import moment from "moment";
 import Tooltip from "@material-ui/core/Tooltip";
-import axios from "axios";
-// import Delete from "../delete-generation";
 import CheckPermissions from "../../../../util/checkPermission";
+import SearchComponent from "../../../../util/searchComponent";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -43,71 +38,13 @@ class Generation extends Component {
     this.setState({ openDelete: true, deleteID: ID });
   };
 
-  // Delete = () => {
-  //   const deleteID = this.state.deleteID;
-  //   this.setState({ loading: true });
-  //   axios
-  //     .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
-  //       headers: {
-  //         Authorization: `Bearer ${this.props.userLogin.token}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.data.message === "Success") {
-  //         store.addNotification({
-  //           title: "Success!",
-  //           message: `${res.data.message}`,
-  //           type: "success",
-  //           insert: "top",
-  //           container: "top-right",
-  //           animationIn: ["animated", "fadeIn"],
-  //           animationOut: ["animated", "fadeOut"],
-  //           dismiss: {
-  //             duration: 2500,
-  //             onScreen: true,
-  //           },
-  //           width: 250,
-  //         });
-  //         this.fetchData();
-  //         this.setState({ loading: false, deleteID: "", openDelete: false });
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
-
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/giftcardgeneral?keySearch=${this.state.search}&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.setState({
-            data: [],
-          });
-        }
-        this.setState({ loading: false });
-      });
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
+    const url = `${URL}/giftcardgeneral?keySearch=${this.state.search}&page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}`;
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -120,16 +57,19 @@ class Generation extends Component {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
-  viewGeneration = (data) => {
-    this.props.VIEW_DETAIL(data.giftCardGeneralId);
-    this.props.history.push("/app/giftcard/generation/detail");
+  viewGeneration = (giftCardGeneralId) => {
+    const path = "/app/giftcard/generation/detail";
+    this.props.getGiftCardGeneral(giftCardGeneralId, path);
   };
 
   render() {
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
+
     const columns = [
       {
         Header: <CustomTableHeader value="ID" />,
@@ -216,16 +156,6 @@ class Generation extends Component {
         Cell: (row) => {
           return (
             <div style={{ textAlign: "center" }}>
-              {/* {CheckPermissions(37) && (
-                <Tooltip title="Delete">
-                  <ArchiveOutlinedIcon
-                    style={style.icon}
-                    onClick={() =>
-                      this.handleOpenDelete(row?.original?.giftCardGeneralId)
-                    }
-                  />
-                </Tooltip>
-              )} */}
               {CheckPermissions("edit-gift-card") && (
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "10px" }}>
@@ -233,7 +163,9 @@ class Generation extends Component {
                       alt=""
                       src={EditSVG}
                       style={style.icon}
-                      onClick={() => this.viewGeneration(row.original)}
+                      onClick={() =>
+                        this.viewGeneration(row.original.giftCardGeneralId)
+                      }
                     />
                   </span>
                 </Tooltip>
@@ -243,8 +175,6 @@ class Generation extends Component {
         },
       },
     ];
-
-    const { page, pageCount, data } = this.state;
 
     return (
       <div className="container-fluid react-transition swipe-right">
@@ -257,45 +187,36 @@ class Generation extends Component {
         />
         <div className="giftcard">
           <div className="giftCard_search">
-            <form>
-              <SearchIcon className="button" title="Search" />
-              <input
-                type="text"
-                className="textBox"
-                placeholder="Search by ID, Name, Template"
-                value={this.state.search}
-                onChange={(e) => this.setState({ search: e.target.value })}
-                onKeyPress={this.keyPressed}
-              />
-            </form>
+            <SearchComponent
+              value={this.state.search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+              onKeyPress={this.keyPressed}
+            />
+
             {CheckPermissions("add-new-gift-card") && (
               <Button
-                className="btn btn-green"
+                className="btn btn-red"
+                style={{ backgroundColor: "#4251af", color: "white" }}
                 onClick={() =>
                   this.props.history.push("/app/giftcard/generation/add")
                 }
               >
-                New Gift Card
+                NEW GIFT CARD
               </Button>
             )}
           </div>
           <div className="giftcard_content">
-            {/* <Delete
-              handleCloseDelete={this.handleCloseDelete}
-              open={this.state.openDelete}
-              deleteGeneration={this.Delete}
-              text={"Gift Card"}
-            /> */}
             <ReactTable
               manual
               page={page}
               pages={pageCount}
               data={data}
+              row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
             />
           </div>
@@ -306,16 +227,15 @@ class Generation extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-  GiftList: state.GiftCardReducer.generation,
+  apiData: state.fetchApi,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_DATA: () => {
-    dispatch(GET_GIFT_CARD());
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
-  VIEW_DETAIL: (payload) => {
-    dispatch(VIEW_DETAIL(payload));
+  getGiftCardGeneral: (giftCardGeneralId, path) => {
+    dispatch(getGiftCardGeneral(giftCardGeneralId, path));
   },
 });
 

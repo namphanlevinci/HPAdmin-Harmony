@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
-import { UPDATE_MERCHANT_BANK } from "../../../../../../actions/merchants/actions";
+import { updateMerchantBankById } from "../../../../../../actions/merchantActions";
 import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
 
 import { Formik, Form } from "formik";
@@ -93,7 +93,9 @@ class EditBank extends Component {
               validationSchema={SignupSchema}
               onSubmit={(values) => {
                 const ID = this.props.MerchantProfile.merchantId;
-                this.props.UPDATE_MERCHANT_BANK({ ...values, ID });
+                const path = "/app/merchants/profile/bank";
+                const payload = { ...values, ID, path };
+                this.props.updateMerchantBankById(payload);
               }}
             >
               {({ errors, touched, handleChange, setFieldValue, values }) => (
@@ -217,13 +219,11 @@ class EditBank extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
-  getMerchant: state.getMerchant,
+  MerchantProfile: state.merchant.merchant,
 });
 const mapDispatchToProps = (dispatch) => ({
-  UPDATE_MERCHANT_BANK: (payload) => {
-    dispatch(UPDATE_MERCHANT_BANK(payload));
+  updateMerchantBankById: (payload) => {
+    dispatch(updateMerchantBankById(payload));
   },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));

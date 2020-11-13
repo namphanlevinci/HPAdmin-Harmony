@@ -223,7 +223,7 @@ class Transactions extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
+  MerchantProfile: state.merchant.merchant,
   userLogin: state.userReducer.User,
 });
 

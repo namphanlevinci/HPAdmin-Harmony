@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
-import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
+import { getMerchantByID } from "../../../../actions/merchantActions";
 import { TextField, Grid } from "@material-ui/core";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
+import { updateMerchantPendingByID } from "../../../../actions/merchantActions";
 import { Formik, Form, FieldArray } from "formik";
 import { CustomTitle } from "../../../../util/CustomText";
 import * as Yup from "yup";
@@ -39,7 +36,6 @@ import "./MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
 
 const upFile = config.url.upFile;
-const URL = config.url.URL;
 
 class EditPendingMerchant extends Component {
   constructor(props) {
@@ -55,7 +51,6 @@ class EditPendingMerchant extends Component {
   uploadFile = (e, setFieldValue, name, imageUrlName) => {
     e.preventDefault();
     let file = e?.target?.files[0];
-    // this.setState({ progress: true });
 
     if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       let formData = new FormData();
@@ -70,9 +65,6 @@ class EditPendingMerchant extends Component {
           reader.onloadend = () => {
             setFieldValue(name, res.data.data.fileId);
             setFieldValue(imageUrlName, reader.result);
-            // this.setState({
-            //   progress: false,
-            // });
           };
           reader.readAsDataURL(file);
         })
@@ -154,7 +146,7 @@ class EditPendingMerchant extends Component {
           <div className="header col-12">
             <h3>{"HP-" + e.merchantId}</h3>
           </div>
-          {/* <CustomTitle value /> */}
+
           <hr />
           <div className="content react-transition swipe-right">
             {this.state.loading && (
@@ -188,34 +180,14 @@ class EditPendingMerchant extends Component {
                       businessHourEnd: "11:00 PM",
                       businessHourStart: "10:00 AM",
                     };
-                    const body = {
+                    const payload = {
                       ...values,
                       generalInfo: newGeneralInfo,
                       bankInfo: newBankInfo,
+                      path: "/app/merchants/pending/profile",
                     };
 
-                    axios
-                      .put(URL + `/merchant/${this.state.ID}`, body, {
-                        headers: {
-                          Authorization: `Bearer ${this.props.userLogin.token}`,
-                        },
-                      })
-                      .then((res) => {
-                        if ((res.status = 200)) {
-                          this.props.SUCCESS_NOTIFICATION(res.data.message);
-                          setTimeout(() => {
-                            this.props.getMerchantByID({
-                              ID: this.state.ID,
-                              path: "/app/merchants/pending/profile",
-                            });
-                          }, 1000);
-                        } else {
-                          this.props.FAILURE_NOTIFICATION(res.data.message);
-                        }
-                      })
-                      .catch((error) => {
-                        console.log(error);
-                      });
+                    this.props.updateMerchantPendingByID(payload);
                   }}
                 >
                   {({
@@ -925,20 +897,16 @@ class EditPendingMerchant extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Profile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  Profile: state.merchant.merchant,
   RejectStatus: state.Reject,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getMerchantByID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+    dispatch(getMerchantByID(payload));
   },
-  SUCCESS_NOTIFICATION: (payload) => {
-    dispatch(SUCCESS_NOTIFICATION(payload));
-  },
-  FAILURE_NOTIFICATION: (payload) => {
-    dispatch(FAILURE_NOTIFICATION(payload));
+  updateMerchantPendingByID: (payload) => {
+    dispatch(updateMerchantPendingByID(payload));
   },
   WARNING_NOTIFICATION: (payload) => {
     dispatch(WARNING_NOTIFICATION(payload));

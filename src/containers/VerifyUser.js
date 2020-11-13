@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { VERIFY_USER } from "../actions/user/actions";
 import { connect } from "react-redux";
+import { verifyUser } from "../actions/userActions";
 
 import IntlMessages from "../util/IntlMessages";
 import TextField from "@material-ui/core/TextField";
@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import firebase from "../firebase";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-class Verify_User extends React.Component {
+class VerifyUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +19,6 @@ class Verify_User extends React.Component {
   }
 
   async componentDidMount() {
-    // document.addEventListener("keypress", this.keyPressed);
     const messaging = firebase.messaging();
     messaging
       .requestPermission()
@@ -33,27 +32,21 @@ class Verify_User extends React.Component {
         console.log(err);
       });
   }
-  // componentWillUnmount() {
-  //   document.removeEventListener("keypress", this.keyPressed);
-  // }
 
-  // keyPressed = (e) => {
-  //   if (e.code === "Enter") {
-  //     this._Login();
-  //   }
-  // };
-  _Login = async (e) => {
-    const serial = this.props?.userLogin?.VERIFY_NUMBER;
-    const code = await this.state.verify_code;
-    const token = this.state.token;
-    const roleID = await this.props?.userLogin?.UserRoleID;
+  keyPressed = (e) => {
+    if (e.key === "Enter") {
+      this.login();
+    }
+  };
 
-    const data = { code, serial, token, roleID };
-
-    await this.props.VERIFY_USER(data);
+  login = async (e) => {
+    const { code, token } = this.state;
+    await this.props.verifyUser(code, token);
   };
 
   render() {
+    const { loading } = this.props.verify;
+
     return (
       <div className="app-login-container login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
         <div className="login-content text-center">
@@ -85,9 +78,10 @@ class Verify_User extends React.Component {
               defaultValue=""
               margin="normal"
               className="mt-0 mb-4"
-              onChange={(e) => this.setState({ verify_code: e.target.value })}
+              onChange={(e) => this.setState({ code: e.target.value })}
+              onKeyPress={this.keyPressed}
             />
-            {this.props.userLogin.GettingPermissions ? (
+            {loading ? (
               <CircularProgress />
             ) : (
               <div className="mb-2">
@@ -95,7 +89,7 @@ class Verify_User extends React.Component {
                   style={{ background: "#4251af", color: "white" }}
                   variant="contained"
                   className="text-white"
-                  onClick={this._Login}
+                  onClick={this.login}
                 >
                   <IntlMessages id="appModule.login" />
                 </Button>
@@ -113,12 +107,11 @@ class Verify_User extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer,
-  Verify_User: state.Verify_User,
+  verify: state.verifyUser,
 });
 const mapDispatchToProps = (dispatch) => ({
-  VERIFY_USER: (payload) => {
-    dispatch(VERIFY_USER(payload));
+  verifyUser: (code, token) => {
+    dispatch(verifyUser(code, token));
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Verify_User);
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyUser);

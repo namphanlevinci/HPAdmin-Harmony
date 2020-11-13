@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import {
-  GET_USER_REQUEST,
-  VIEW_PROFILE_USER,
-} from "../../../../actions/user/actions";
+import { getUserByID } from "../../../../actions/userActions";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
@@ -12,10 +7,11 @@ import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { Button, Typography } from "@material-ui/core";
 
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
-import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
+import SearchComponent from "../../../../util/searchComponent";
 
 import "../../Merchants/Merchants.css";
 import "./User.css";
@@ -30,32 +26,15 @@ class Users extends Component {
       loading: false,
     };
   }
-  componentDidMount() {
-    const User = localStorage.getItem("User_login");
-    this.setState({ User: JSON.parse(User) });
-  }
-  _SearchUsers = async (e) => {
+
+  searchUser = async (e) => {
     await this.setState({ search: e.target.value });
   };
 
-  _userProfile = async (e) => {
-    this.setState({ loading: true });
+  goToUserProfile = async (e) => {
     const ID = e?.waUserId;
-
-    await axios
-      .get(URL + "/adminuser/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.props.VIEW_PROFILE_USER(res.data.data);
-
-        this.props.history.push("/app/accounts/admin/profile");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const path = "/app/accounts/admin/profile";
+    await this.props.getUserByID(ID, path);
   };
 
   fetchApi = async (state) => {
@@ -165,7 +144,7 @@ class Users extends Component {
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
-          this._userProfile(rowInfo.original);
+          this.goToUserProfile(rowInfo.original);
         },
       };
     };
@@ -182,17 +161,12 @@ class Users extends Component {
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className="UserSearchBox">
             <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._SearchUsers}
-                  onKeyPress={this.keyPressed}
-                />
-              </form>
+              <SearchComponent
+                placeholder="Search by Name, Group"
+                value={this.state.search}
+                onChange={this.searchUser}
+                onKeyPress={this.keyPressed}
+              />
             </div>
 
             {CheckPermissions("add-new-user") && (
@@ -230,17 +204,12 @@ class Users extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  GET_USER_REQUEST: () => {
-    dispatch(GET_USER_REQUEST());
+  getUserByID: (ID, path) => {
+    dispatch(getUserByID(ID, path));
   },
-  VIEW_PROFILE_USER: (payload) => {
-    dispatch(VIEW_PROFILE_USER(payload));
-  },
-
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
   },

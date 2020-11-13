@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Formik } from "formik";
-import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import {
   Select,
@@ -10,21 +9,17 @@ import {
   Grid,
   FormHelperText,
   MenuItem,
+  Button,
 } from "@material-ui/core";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../../../actions/notifications/actions";
-import axios from "axios";
+
+import { updateMerchantCategoryById } from "../../../../../../actions/merchantActions";
+
 import "../Detail.css";
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
 import "../../../Merchants.css";
-import { config } from "../../../../../../url/url";
 
 import "./category.styles.scss";
-
-const URL = config.url.URL;
 
 class EditCategory extends Component {
   constructor(props) {
@@ -32,7 +27,7 @@ class EditCategory extends Component {
     this.state = {};
   }
   render() {
-    const category = this.props.SERVICE;
+    const category = this.props.category;
     return (
       <Formik
         initialValues={{
@@ -50,33 +45,16 @@ class EditCategory extends Component {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          const { categoryType, name } = values;
           const merchantId = category.merchantId;
-          const ID = category.categoryId;
-          axios
-            .put(
-              URL + "/category/" + ID,
-              {
-                categoryType,
-                name,
-                merchantId,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${this.props.userLogin.token}`,
-                },
-              }
-            )
-            .then((res) => {
-              let message = res.data.message;
-              if (res.data.codeNumber === 200) {
-                this.props.successNotify(message);
-                this.props.getCategory();
-                this.props.toggleEdit();
-              } else {
-                this.props.failureNotify(message);
-              }
-            });
+          const categoryId = category.categoryId;
+
+          const payload = {
+            ...values,
+            merchantId,
+            categoryId,
+          };
+          this.props.updateMerchantCategoryById(payload);
+          this.props.toggleEdit();
         }}
       >
         {({
@@ -90,7 +68,7 @@ class EditCategory extends Component {
           setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
-            <Grid container className="edit-category">
+            <Grid container className="edit-category" style={{ width: "100%" }}>
               <Grid item xs={12}>
                 <FormControl style={{ width: "50%" }}>
                   <InputLabel
@@ -164,17 +142,12 @@ class EditCategory extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.ViewProfile_Merchants,
-  userLogin: state.userReducer.User,
-  SERVICE: state.serviceProps,
+  category: state.category.category,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  successNotify: (payload) => {
-    dispatch(SUCCESS_NOTIFICATION(payload));
-  },
-  failureNotify: (payload) => {
-    dispatch(FAILURE_NOTIFICATION(payload));
+  updateMerchantCategoryById: (payload) => {
+    dispatch(updateMerchantCategoryById(payload));
   },
 });
 
