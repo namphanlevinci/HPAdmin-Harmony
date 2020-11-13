@@ -63,6 +63,7 @@ class MerchantReqProfile extends Component {
   goBack = () => {
     this.props.history.push("/app/merchants/pending");
   };
+
   handleEdit = () => {
     this.props.history.push("/app/merchants/pending/profile/edit");
   };
