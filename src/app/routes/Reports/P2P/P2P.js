@@ -10,8 +10,8 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
 import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
+import SearchComponent from "../../../../util/searchComponent";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
@@ -206,19 +206,11 @@ class P2P extends React.Component {
           <div className=" TransactionsBox">
             {/* SEARCH */}
             <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-
-                <DebounceInput
-                  debounceTimeout={500}
-                  type="text"
-                  name="search"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._handleChange}
-                />
-              </form>
+              <SearchComponent
+                placeholder="Search.."
+                value={this.state.search}
+                onChange={this._handleChange}
+              />
             </div>
 
             <div>

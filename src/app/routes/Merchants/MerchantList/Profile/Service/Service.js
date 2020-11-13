@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
-import { config } from "../../../../../../url/url";
 import {
   getServiceByID,
   viewService,
@@ -16,7 +14,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
-import axios from "axios";
 import defaultImage from "../Extra/hpadmin2.png";
 import AddService from "./AddService";
 import CheckPermissions from "../../../../../../util/checkPermission";
@@ -27,7 +24,6 @@ import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 
-const URL = config.url.URL;
 class Service extends Component {
   constructor(props) {
     super(props);

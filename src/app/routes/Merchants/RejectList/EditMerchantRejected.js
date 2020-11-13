@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { UPDATE_MERCHANT } from "../../../../actions/merchants/actions";
 import { updateMerchantGeneralById } from "../../../../actions/merchantActions";
 import { connect } from "react-redux";
 import { Formik } from "formik";
@@ -462,9 +461,6 @@ const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
 });
 const mapDispatchToProps = (dispatch) => ({
-  updateMerchant: (payload) => {
-    dispatch(UPDATE_MERCHANT(payload));
-  },
   updateMerchantGeneralById: (payload) => {
     dispatch(updateMerchantGeneralById(payload));
   },

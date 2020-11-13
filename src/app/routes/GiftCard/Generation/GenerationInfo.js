@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { GoInfo } from "react-icons/go";
 import { config } from "../../../../url/url";
-
 import { addGiftCardGeneral } from "../../../../actions/giftCardActions";
 import {
   CustomTextLabel,
@@ -18,18 +17,20 @@ import {
   getCodeLog,
 } from "../../../../actions/giftCardActions";
 
+import SearchComponent from "../../../../util/searchComponent";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import ReactTable from "react-table";
 import moment from "moment";
 import Checkbox from "@material-ui/core/Checkbox";
-import SearchIcon from "@material-ui/icons/Search";
 import CodeLog from "./CodeLog/CodeLog";
 import Tooltip from "@material-ui/core/Tooltip";
-import Select from "react-select";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
 import InputCustom from "../../../../util/CustomInput";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -49,7 +50,7 @@ class Generation_Detail extends Component {
       deleteID: "",
       openDelete: false,
       loadingData: false,
-      typeExport: { value: "excel", label: "CSV" },
+      typeExport: "excel",
       isLoading: false,
 
       //
@@ -84,6 +85,11 @@ class Generation_Detail extends Component {
         quantityError: false,
         errorMessage: "",
       });
+
+      // ADD XONG CHƯA CẬP NHẬT LẠI CODE
+      // setTimeout(() => {
+      //   this.fetchApi();
+      // }, 1000);
     }
   };
 
@@ -136,7 +142,7 @@ class Generation_Detail extends Component {
 
   getExport = () => {
     const { giftCardGeneralId } = this.props.giftCardGeneral;
-    const url = `${URL}/giftcard/getByGeneral/export/${giftCardGeneralId}?keySearch=${this.state.search}&type=${this.state.typeExport.value}`;
+    const url = `${URL}/giftcard/getByGeneral/export/${giftCardGeneralId}?keySearch=${this.state.search}&type=${this.state.typeExport}`;
     this.props.exportGiftCardGeneral(url);
   };
 
@@ -266,7 +272,6 @@ class Generation_Detail extends Component {
         },
       },
     ];
-    const typeExport = [{ value: "excel", label: "CSV" }];
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -358,6 +363,13 @@ class Generation_Detail extends Component {
               <CustomTitle value="Gift Card Codes" />
             </Grid>
             <Grid item xs={12} className="giftCard_search">
+              <SearchComponent
+                value={this.state.search}
+                onChange={(e) => this.setState({ search: e.target.value })}
+                onKeyPress={this.keyPressed}
+                placeholder="Search by ID, Serial, Pin Code"
+              />
+              {/* 
               <form>
                 <SearchIcon
                   className="button"
@@ -367,13 +379,9 @@ class Generation_Detail extends Component {
                 <input
                   type="text"
                   className="textBox"
-                  placeholder="Search by ID, Serial, Pin Code"
                   style={{ paddingTop: "6px" }}
-                  value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
-                  onKeyPress={this.keyPressed}
                 />
-              </form>
+              </form> */}
               {CheckPermissions("export-generation") && (
                 <div
                   style={{
@@ -384,16 +392,19 @@ class Generation_Detail extends Component {
                   <label style={styles.h4}>Export to:</label>
                   <div
                     style={{
-                      width: "100px",
+                      width: "120px",
                       zIndex: "9999",
                       marginRight: "10px",
                     }}
                   >
-                    <Select
-                      value={this.state.typeExport}
-                      options={typeExport}
-                      onChange={(e) => this.setState({ typeExport: e })}
-                    />
+                    <FormControl style={{ width: "100%" }}>
+                      <Select
+                        value={this.state.typeExport}
+                        onChange={(e) => this.setState({ typeExport: e })}
+                      >
+                        <MenuItem value="excel">CSV</MenuItem>
+                      </Select>
+                    </FormControl>
                   </div>
                   <Button style={styles.btn} onClick={this.getExport}>
                     Export

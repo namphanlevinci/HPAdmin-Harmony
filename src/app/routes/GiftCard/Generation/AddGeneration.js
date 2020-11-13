@@ -6,14 +6,13 @@ import {
   addGeneration,
   getAllTemplate,
 } from "../../../../actions/giftCardActions";
+import { TextField, InputAdornment } from "@material-ui/core";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import axios from "axios";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import { TextField, InputAdornment } from "@material-ui/core";
 
 import "./generation.styles.scss";
 

@@ -2,13 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
-import {
-  InputAdornment,
-  IconButton,
-  FormControl,
-  OutlinedInput,
-  Typography,
-} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { getMerchantByID } from "../../../../actions/merchantActions";
@@ -16,8 +10,7 @@ import { getMerchantByID } from "../../../../actions/merchantActions";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-
-import SearchIcon from "@material-ui/icons/Search";
+import SearchComponent from "../../../../util/searchComponent";
 import Button from "@material-ui/core/Button";
 import CheckPermissions from "../../../../util/checkPermission";
 
@@ -67,7 +60,7 @@ class Merchants extends React.Component {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
@@ -178,27 +171,11 @@ class Merchants extends React.Component {
         <div className="MerList page-heading " style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
-              <FormControl variant="outlined">
-                <OutlinedInput
-                  inputProps={{
-                    style: {
-                      padding: 14,
-                    },
-                  }}
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this.searchMerchant}
-                  onKeyPress={this.keyPressed}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton edge="end">
-                        <SearchIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={0}
-                />
-              </FormControl>
+              <SearchComponent
+                value={this.state.search}
+                onChange={this.searchMerchant}
+                onKeyPress={this.keyPressed}
+              />
             </div>
 
             <div>

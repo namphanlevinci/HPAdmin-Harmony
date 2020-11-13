@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
 import {
   getExtraByID,
   archiveExtraById,
@@ -9,10 +8,6 @@ import {
 } from "../../../../../../actions/merchantActions";
 
 import { config } from "../../../../../../url/url";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../../../actions/notifications/actions";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -135,7 +130,7 @@ class ExtraTab extends Component {
   };
 
   render() {
-    const { extraList, loading } = this.props.extra;
+    let { extraList, loading } = this.props.extra;
 
     // Search
     if (extraList) {

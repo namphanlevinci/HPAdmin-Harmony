@@ -16,7 +16,7 @@ import {
   InputLabel,
 } from "@material-ui/core";
 import { CustomTitle } from "../../../../../../util/CustomText";
-import Extra from "./Extra";
+import Extra from "./Extra.js";
 import axios from "axios";
 import { config } from "../../../../../../url/url";
 import * as Yup from "yup";
@@ -24,7 +24,6 @@ import LinearProgress from "../../../../../../util/linearProgress";
 
 import "./service.style.scss";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class EditService extends Component {
@@ -139,7 +138,7 @@ class EditService extends Component {
   render() {
     const service = this.props.updateService;
 
-    let { categoryList: category, loading } = this.props.categoryList;
+    let { categoryList: category } = this.props.categoryList;
 
     //~ preview image
     let { imagePreviewUrl } = this.state;

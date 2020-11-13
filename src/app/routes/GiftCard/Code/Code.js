@@ -3,11 +3,8 @@ import { connect } from "react-redux";
 import { GoInfo } from "react-icons/go";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
-import { DebounceInput } from "react-debounce-input";
-import {
-  CustomTextLabel,
-  CustomTableHeader,
-} from "../../../../util/CustomText";
+// import { DebounceInput } from "react-debounce-input";
+import { CustomTableHeader } from "../../../../util/CustomText";
 import { Grid, Button, Typography, Tooltip, Checkbox } from "@material-ui/core";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import {
@@ -17,14 +14,18 @@ import {
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import Delete from "../DeleteGeneration";
 import moment from "moment";
-import Select from "react-select";
+// import Select from "react-select";
 import CodeLog from "../Generation/CodeLog/CodeLog";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
+import SearchComponent from "../../../../util/searchComponent";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 import "../Generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -43,12 +44,11 @@ class Codes extends Component {
       data: [],
       // Search
       search: "",
-
       isLoading: false,
-      typeExport: { value: "excel", label: "CSV" },
-      isPhysical: { value: -1, label: "Select" },
-      isActive: { value: -1, label: "Select" },
-      isUsed: { value: -1, label: "Select" },
+      typeExport: "excel",
+      isPhysical: -1,
+      isActive: -1,
+      isUsed: -1,
     };
   }
 
@@ -66,11 +66,9 @@ class Codes extends Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const url = `${URL}/giftcard/search?keySearch=${
-      this.state.search
-    }&isActive=${this.state.isActive.value}&isPhysical=${
-      this.state.isPhysical.value
-    }&isUsed=${this.state.isUsed.value}&page=${
+    const { isPhysical, isActive, isUsed, search } = this.state;
+
+    const url = `${URL}/giftcard/search?keySearch=${search}&isActive=${isActive}&isPhysical=${isPhysical}&isUsed=${isUsed}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -83,10 +81,11 @@ class Codes extends Component {
     });
   };
 
-  handleSelect = (name) => (value) => {
-    this.setState({
-      [name]: value.value,
-    });
+  handleSelect = async (e) => {
+    const { value, name } = e.target;
+    this.setState({ [name]: value });
+
+    await this.fetchApi();
   };
 
   handEnter = (e) => {
@@ -98,27 +97,17 @@ class Codes extends Component {
 
   handleSearchInput = async (e) => {
     this.setState({ search: e.target.value });
-    await this.fetchApi();
   };
 
   getExport = (e) => {
-    const url = `${URL}/giftcard/search/export/${this.state.typeExport.value}?keySearch=&isActive=${this.state.isActive.value}&isPhysical=${this.state.isPhysical.value}&isUsed=${this.state.isUsed.value}`;
+    const url = `${URL}/giftcard/search/export/${this.state.typeExport}?keySearch=&isActive=${this.state.isActive}&isPhysical=${this.state.isPhysical}&isUsed=${this.state.isUsed}`;
     this.props.exportGiftCardGeneral(url);
-  };
-
-  handleSelect = async (value, name) => {
-    await this.setState({
-      [name.name]: value,
-    });
-    await this.fetchApi();
   };
 
   render() {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
     const { page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
-
-    const typeExport = [{ value: "excel", label: "CSV" }];
 
     const columns = [
       {
@@ -163,7 +152,7 @@ class Codes extends Component {
         ),
         accessor: "isPhysical",
         Cell: (e) => (
-          <div style={{ textAlign: "center" }}>
+          <div>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
@@ -178,7 +167,7 @@ class Codes extends Component {
         ),
         accessor: "isActive",
         Cell: (e) => (
-          <div style={{ textAlign: "center" }}>
+          <div>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
@@ -193,7 +182,7 @@ class Codes extends Component {
         ),
         accessor: "isUsed",
         Cell: (e) => (
-          <div style={{ textAlign: "center" }}>
+          <div>
             <Checkbox
               checked={e.value === 1 ? true : false}
               style={{ color: "#4251af" }}
@@ -241,24 +230,6 @@ class Codes extends Component {
       },
     ];
 
-    const isPhysical = [
-      { value: 0, label: "False" },
-      { value: 1, label: "True" },
-      { value: -1, label: "Select" },
-    ];
-
-    const isActive = [
-      { value: 0, label: "False" },
-      { value: 1, label: "True" },
-      { value: -1, label: "Select" },
-    ];
-
-    const isUsed = [
-      { value: 0, label: "False" },
-      { value: 1, label: "True" },
-      { value: -1, label: "Select" },
-    ];
-
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -271,10 +242,15 @@ class Codes extends Component {
         <div className="giftcard">
           <Grid container spacing={3} className="giftCard_search">
             <Grid item xs={12}>
-              <form>
-                <SearchIcon className="button" title="Search" />
+              <SearchComponent
+                value={this.state.search}
+                onKeyDown={this.handEnter}
+                onChange={this.handleSearchInput}
+              />
+              {/* <form> */}
+              {/* <SearchIcon className="button" title="Search" /> */}
 
-                <DebounceInput
+              {/* <DebounceInput
                   debounceTimeout={500}
                   type="text"
                   name="search"
@@ -283,36 +259,54 @@ class Codes extends Component {
                   value={this.state.search}
                   onKeyDown={this.handEnter}
                   onChange={this.handleSearchInput}
-                />
-              </form>
+                /> */}
+              {/* </form> */}
             </Grid>
 
             <Grid item xs={4} style={styles.div}>
-              <CustomTextLabel value="Physical Card" />
-              <Select
-                value={this.state.isPhysical}
-                onChange={this.handleSelect}
-                name="isPhysical"
-                options={isPhysical}
-              />
+              <FormControl style={{ width: "80%" }}>
+                <InputLabel>Physical Card</InputLabel>
+                <Select
+                  value={this.state.isPhysical}
+                  onChange={this.handleSelect}
+                  name="isPhysical"
+                  autoWidth={true}
+                >
+                  <MenuItem value={0}>False</MenuItem>
+                  <MenuItem value={1}>True</MenuItem>
+                  <MenuItem value={-1}>Select</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={4} style={styles.div}>
-              <CustomTextLabel value="Active" />
-              <Select
-                value={this.state.isActive}
-                onChange={this.handleSelect}
-                name="isActive"
-                options={isActive}
-              />
+              <FormControl style={{ width: "80%" }}>
+                <InputLabel>Active</InputLabel>
+                <Select
+                  value={this.state.isActive}
+                  onChange={this.handleSelect}
+                  name="isActive"
+                  autoWidth={true}
+                >
+                  <MenuItem value={0}>False</MenuItem>
+                  <MenuItem value={1}>True</MenuItem>
+                  <MenuItem value={-1}>Select</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={4} style={styles.div}>
-              <CustomTextLabel value="Used" />
-              <Select
-                value={this.state.isUsed}
-                onChange={this.handleSelect}
-                name="isUsed"
-                options={isUsed}
-              />
+              <FormControl style={{ width: "80%" }}>
+                <InputLabel>Used</InputLabel>
+                <Select
+                  value={this.state.isUsed}
+                  onChange={this.handleSelect}
+                  name="isUsed"
+                  autoWidth={true}
+                >
+                  <MenuItem value={0}>False</MenuItem>
+                  <MenuItem value={1}>True</MenuItem>
+                  <MenuItem value={-1}>Select</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
           <div className="giftcard_content">
@@ -333,7 +327,7 @@ class Codes extends Component {
                 justifyContent: "space-between",
               }}
             >
-              <h2 style={styles.h2}></h2>
+              <h2 style={styles.h2}>1</h2>
 
               {CheckPermissions("export-gift-card-code ") && (
                 <div
@@ -351,11 +345,15 @@ class Codes extends Component {
                       marginRight: "10px",
                     }}
                   >
-                    <Select
-                      value={this.state.typeExport}
-                      options={typeExport}
-                      onChange={(e) => this.setState({ typeExport: e })}
-                    />
+                    <FormControl style={{ width: "100%" }}>
+                      <Select
+                        value={this.state.typeExport}
+                        onChange={(e) => this.setState({ typeExport: e })}
+                        autoWidth={true}
+                      >
+                        <MenuItem value="excel">CSV</MenuItem>
+                      </Select>
+                    </FormControl>
                   </div>
                   <Button style={styles.btn} onClick={this.getExport}>
                     Export
@@ -412,7 +410,7 @@ const styles = {
     padding: "15px 0px 3px 5px",
   },
   h2: {
-    color: "#4251af",
+    color: "white",
     paddingBottom: "20px",
   },
   div: {

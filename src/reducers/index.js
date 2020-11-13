@@ -2,15 +2,10 @@ import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
 
 import Settings from "./Settings";
-// USER
-import userReducer from "./User/UserReducer";
 
 // NOTIFICATIONS
 import NotificationReducer from "./notificationReducer";
 
-import {} from "./Merchants/MerchantReducer";
-// Consumer
-import ConsumerReducer from "./Consumer/index";
 // Fetch api
 import { fetchApiReducer } from "./fetchApiReducer";
 // Merchant & Staff
@@ -74,6 +69,7 @@ import {
   allPermissionReducer,
   updatePermissionReducer,
   allUserReducer,
+  addUserReducer,
 } from "./userReducer";
 // Gift Card
 import {
@@ -96,10 +92,6 @@ export default (history) =>
   combineReducers({
     router: connectRouter(history),
     settings: Settings,
-
-    userReducer,
-
-    ConsumerReducer,
 
     // Notification
     notification: NotificationReducer,
@@ -163,6 +155,7 @@ export default (history) =>
     userPermissions: userPermissionReducer,
     allPermissions: allPermissionReducer,
     updatePermissions: updatePermissionReducer,
+    addUser: addUserReducer,
 
     // Gift Card
     addGiftCardGeneral: addGiftCardGeneralReducer,
@@ -172,7 +165,7 @@ export default (history) =>
     updateTemplate: updateTemplateReducer,
     archiveTemplate: archiveTemplateReducer,
     restoreTemplate: restoreTemplateReducer,
-    addTemplate: addTemplateReducer,
+    addTemplateGiftCard: addTemplateReducer,
     template: templateReducer,
     addGeneration: addGenerationReducer,
 

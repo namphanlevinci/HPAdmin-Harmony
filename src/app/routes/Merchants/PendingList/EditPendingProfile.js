@@ -36,7 +36,6 @@ import "./MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
 
 const upFile = config.url.upFile;
-const URL = config.url.URL;
 
 class EditPendingMerchant extends Component {
   constructor(props) {

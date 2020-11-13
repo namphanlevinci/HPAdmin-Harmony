@@ -61,7 +61,14 @@ class EditGeneral extends Component {
                   this.props.updateConsumerByID(payload);
                 }}
               >
-                {({ values, isSubmitting, handleChange, errors, touched }) => (
+                {({
+                  values,
+                  isSubmitting,
+                  handleChange,
+                  errors,
+                  setFieldValue,
+                  touched,
+                }) => (
                   <Form>
                     <Grid container spacing={4} className="container-fluid">
                       <Grid item xs={12}>
@@ -110,7 +117,7 @@ class EditGeneral extends Component {
                           label="Business Phone*"
                           name="phone"
                           value={values?.phone}
-                          onChange={handleChange}
+                          onChange={(e) => setFieldValue(`phone`, e)}
                           helperText={touched.phone ? errors.phone : ""}
                           error={touched.phone && Boolean(errors.phone)}
                         />
@@ -147,9 +154,15 @@ const mapDispatchToProps = (dispatch) => ({
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditGeneral);
 
+const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
+
 const consumerSchema = Yup.object().shape({
   firstName: Yup.string().required("First name is required"),
   lastName: Yup.string().required("Last name is required"),
   email: Yup.string().email().required("Email is required"),
-  phone: Yup.string().required("Phone is required"),
+
+  phone: Yup.string()
+    .matches(phoneRegExp, "Phone number is not valid")
+    .min(4, "Phone number is not valid")
+    .max(14, "Phone number is not valid"),
 });

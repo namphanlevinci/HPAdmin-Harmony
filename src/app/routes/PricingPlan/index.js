@@ -4,9 +4,9 @@ import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
 import { Typography } from "@material-ui/core";
 
+import SearchComponent from "../../../util/searchComponent";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import IntlMessages from "../../../util/IntlMessages";
-import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import axios from "axios";
 
@@ -102,30 +102,13 @@ class Pricing extends Component {
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               {/* SEARCH */}
               <div className="search">
-                <form>
-                  <SearchIcon className="button" title="Search" />
-                  <input
-                    type="text"
-                    className="textBox"
-                    placeholder="Search.."
-                    value={this.state.search}
-                    onChange={this._SearchMerchants}
-                  />
-                </form>
+                <SearchComponent
+                  placeholder="Search by Name, Group"
+                  // value={this.state.search}
+                  // onChange={(e) => this.setState({ search: e.target.value })}
+                  // onKeyPress={this.keyPressed}
+                />
               </div>
-              {/* <div>
-                <Button
-                  style={{
-                    backgroundColor: "#4251af",
-                    color: "white",
-                    marginTop: "0px",
-                  }}
-                  className="btn btn-red"
-                  onClick={this.addMerchant}
-                >
-                  ADD MERCHANT
-                </Button>
-              </div> */}
             </div>
             <div className="merchant-list-container">
               {this.state.loading && (

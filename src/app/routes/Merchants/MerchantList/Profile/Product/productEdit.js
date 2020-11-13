@@ -22,18 +22,13 @@ import {
   updateMerchantProductById,
 } from "../../../../../../actions/merchantActions";
 
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
 import { CustomTitle } from "../../../../../../util/CustomText";
 
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class EditProduct extends Component {

@@ -1,10 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { VIEW_DETAIL } from "../../../../actions/gift-card/actions";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
 import { Helmet } from "react-helmet";
 import { config } from "../../../../url/url";
 import { CustomTableHeader } from "../../../../util/CustomText";
@@ -14,15 +9,14 @@ import {
   archiveTemplateByID,
   restoreTemplateByID,
 } from "../../../../actions/giftCardActions";
+import { Typography, Button } from "@material-ui/core";
 
+import SearchComponent from "../../../../util/searchComponent";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import { Typography, Button } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../DeleteGeneration";
-import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -242,21 +236,17 @@ class Template extends Component {
         />
         <div className="giftcard">
           <div className="giftCard_search">
-            <form>
-              <SearchIcon className="button" title="Search" />
-              <input
-                type="text"
-                className="textBox"
-                placeholder="Search by Name, Group"
-                value={this.state.search}
-                onChange={(e) => this.setState({ search: e.target.value })}
-                onKeyPress={this.keyPressed}
-              />
-            </form>
+            <SearchComponent
+              placeholder="Search by Name, Group"
+              value={this.state.search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+              onKeyPress={this.keyPressed}
+            />
 
             {CheckPermissions("add-new-template") && (
               <Button
                 className="btn btn-green"
+                style={{ backgroundColor: "#4251af", color: "white" }}
                 onClick={() =>
                   this.props.history.push("/app/giftcard/template/add")
                 }
@@ -326,7 +316,6 @@ class Template extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   apiData: state.fetchApi,
 });
 

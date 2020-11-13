@@ -10,8 +10,8 @@ import { Button, Typography } from "@material-ui/core";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
 import CheckPermissions from "../../../../util/checkPermission";
+import SearchComponent from "../../../../util/searchComponent";
 
 import "../../Merchants/Merchants.css";
 import "./User.css";
@@ -161,17 +161,12 @@ class Users extends Component {
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className="UserSearchBox">
             <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this.searchUser}
-                  onKeyPress={this.keyPressed}
-                />
-              </form>
+              <SearchComponent
+                placeholder="Search by Name, Group"
+                value={this.state.search}
+                onChange={this.searchUser}
+                onKeyPress={this.keyPressed}
+              />
             </div>
 
             {CheckPermissions("add-new-user") && (

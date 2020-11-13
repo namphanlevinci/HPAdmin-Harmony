@@ -571,3 +571,55 @@ export const userLogout = (payload) => async (dispatch, getState) => {
     });
   }
 };
+
+export const addUser = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.ADD_USER_REQUEST,
+    });
+
+    const { path } = payload;
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.post(
+      `${URL}/adminuser`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.ADD_USER_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    history.push(path);
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.ADD_USER_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

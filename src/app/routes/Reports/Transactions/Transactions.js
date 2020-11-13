@@ -4,14 +4,14 @@ import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { DebounceInput } from "react-debounce-input";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import { Button } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
 import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
+import SearchComponent from "../../../../util/searchComponent";
 
 import "./Transactions.css";
 import "react-table/react-table.css";
@@ -244,17 +244,12 @@ class Transactions extends React.Component {
           <div className=" TransactionsBox">
             {/* SEARCH */}
             <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this.searchMerchants}
-                  onKeyDown={this.handEnter}
-                />
-              </form>
+              <SearchComponent
+                placeholder="Search"
+                value={this.state.search}
+                onChange={this.searchMerchants}
+                onKeyDown={this.handEnter}
+              />
             </div>
 
             <div>

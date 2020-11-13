@@ -28,6 +28,8 @@
     "js-file-download": "^0.4.12",
     "jss": "^10.0.0",
     "jss-rtl": "^0.2.3",
+    "lodash": "^4.17.20",
+    "lodash.debounce": "^4.0.8",
     "material-ui-image": "^3.3.0",
     "material-ui-phone-number": "^2.2.6",
     "moment": "^2.24.0",
@@ -42,7 +44,7 @@
     "react-currency-masked-input": "^2.5.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-datepicker": "^2.10.1",
-    "react-debounce-input": "^3.2.2",
+    "react-debounce-input": "^3.2.3",
     "react-device-detect": "^1.6.2",
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.5",
@@ -98,7 +100,8 @@
     "svg-react-loader": "^0.4.6",
     "typeface-roboto": "^0.0.54",
     "url-search-params": "^1.1.0",
-    "yup": "^0.27.0"
+    "yup": "^0.27.0",
+    "yup-phone": "^1.2.14"
   },
   "scripts": {
     "start": "react-scripts start",

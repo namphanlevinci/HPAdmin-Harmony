@@ -303,6 +303,34 @@ const allUserReducer = (
   }
 };
 
+const addUserReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ADD_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.ADD_USER_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ADD_USER_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export {
   updateUserByIdReducer,
   changeUserPasswordByIdReducer,
@@ -315,4 +343,5 @@ export {
   allPermissionReducer,
   updatePermissionReducer,
   allUserReducer,
+  addUserReducer,
 };

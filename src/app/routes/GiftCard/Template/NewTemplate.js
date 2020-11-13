@@ -21,7 +21,6 @@ import DefaultImage from "./default.png";
 import "../Generation/generation.styles.scss";
 import "./template.styles.scss";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class NewTemplate extends Component {

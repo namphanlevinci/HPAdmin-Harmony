@@ -1,12 +1,4 @@
 import * as types from "../../trash/merchants/types";
-import {
-  MERCHANT_DOWNLOAD_TEMPLATE_REQUEST,
-  MERCHANT_DOWNLOAD_TEMPLATE_SUCCESS,
-  MERCHANT_DOWNLOAD_TEMPLATE_FAIL,
-  MERCHANT_ADD_TEMPLATE_REQUEST,
-  MERCHANT_ADD_TEMPLATE_SUCCESS,
-  MERCHANT_ADD_TEMPLATE_FAIL,
-} from "../../constants/merchantConstants";
 
 const initialState = {
   MerchantData: "",

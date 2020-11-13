@@ -10,11 +10,11 @@ import { getGiftCardGeneral } from "../../../../actions/giftCardActions";
 import EditSVG from "../../../../assets/images/edit.svg";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import moment from "moment";
 import Tooltip from "@material-ui/core/Tooltip";
 import CheckPermissions from "../../../../util/checkPermission";
+import SearchComponent from "../../../../util/searchComponent";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
@@ -57,7 +57,7 @@ class Generation extends Component {
     if (event.key === "Enter") {
       event.preventDefault();
       this.setState({ loading: true });
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
@@ -187,20 +187,16 @@ class Generation extends Component {
         />
         <div className="giftcard">
           <div className="giftCard_search">
-            <form>
-              <SearchIcon className="button" title="Search" />
-              <input
-                type="text"
-                className="textBox"
-                placeholder="Search by ID, Name, Template"
-                value={this.state.search}
-                onChange={(e) => this.setState({ search: e.target.value })}
-                onKeyPress={this.keyPressed}
-              />
-            </form>
+            <SearchComponent
+              value={this.state.search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+              onKeyPress={this.keyPressed}
+            />
+
             {CheckPermissions("add-new-gift-card") && (
               <Button
-                className="btn btn-green"
+                className="btn btn-red"
+                style={{ backgroundColor: "#4251af", color: "white" }}
                 onClick={() =>
                   this.props.history.push("/app/giftcard/generation/add")
                 }

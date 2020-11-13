@@ -32,7 +32,6 @@ import "../../../Merchants.css";
 import "../Detail.css";
 import "../Service/service.style.scss";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class AddProduct extends Component {

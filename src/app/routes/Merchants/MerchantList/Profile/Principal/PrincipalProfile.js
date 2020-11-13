@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { VIEW_PRINCIPAL } from "../../../../../../actions/merchants/actions";
 import { viewPrincipal } from "../../../../../../actions/merchantActions";
 import { Grid, Button } from "@material-ui/core";
 import {

@@ -4,11 +4,10 @@ import { getReportMerchantId } from "../../../../actions/reportActions";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { Typography } from "@material-ui/core";
-
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
 
-import SearchIcon from "@material-ui/icons/Search";
+import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
@@ -200,17 +199,12 @@ class Transactions extends React.Component {
         >
           <div className=" TransactionsBox">
             <div className="BatchSearch">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this.searchMerchantBatch}
-                  onKeyPress={this.keyPressed}
-                />
-              </form>
+              <SearchComponent
+                placeholder="Search"
+                value={this.state.search}
+                onChange={this.searchMerchantBatch}
+                onKeyPress={this.keyPressed}
+              />
             </div>
           </div>
           <div className="merchant-list-container Transactions">

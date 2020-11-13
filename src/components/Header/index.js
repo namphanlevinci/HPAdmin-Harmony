@@ -9,7 +9,6 @@ import {
   HORIZONTAL_NAVIGATION,
   INSIDE_THE_HEADER,
 } from "../../constants/ActionTypes";
-import { ViewMerchant_Request } from "../../actions/merchants/actions";
 import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
 import { getMerchantByID } from "../../actions/merchantActions";
 import { getUserByID } from "../../actions/userActions";
@@ -464,10 +463,6 @@ const mapStateToProps = ({ settings }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  ViewMerchant_Request: (payload) => {
-    dispatch(ViewMerchant_Request(payload));
-  },
-
   toggleCollapsedNav: (payload) => {
     dispatch(toggleCollapsedNav(payload));
   },

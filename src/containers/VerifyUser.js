@@ -47,7 +47,6 @@ class VerifyUser extends React.Component {
   render() {
     const { loading } = this.props.verify;
 
-    console.log(loading);
     return (
       <div className="app-login-container login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
         <div className="login-content text-center">
@@ -82,20 +81,20 @@ class VerifyUser extends React.Component {
               onChange={(e) => this.setState({ code: e.target.value })}
               onKeyPress={this.keyPressed}
             />
-            {/* {loading ? (
+            {loading ? (
               <CircularProgress />
-            ) : ( */}
-            <div className="mb-2">
-              <Button
-                style={{ background: "#4251af", color: "white" }}
-                variant="contained"
-                className="text-white"
-                onClick={this.login}
-              >
-                <IntlMessages id="appModule.login" />
-              </Button>
-            </div>
-            {/* )} */}
+            ) : (
+              <div className="mb-2">
+                <Button
+                  style={{ background: "#4251af", color: "white" }}
+                  variant="contained"
+                  className="text-white"
+                  onClick={this.login}
+                >
+                  <IntlMessages id="appModule.login" />
+                </Button>
+              </div>
+            )}
           </form>
           <div>
             <Link className="right-arrow" to="/signin">

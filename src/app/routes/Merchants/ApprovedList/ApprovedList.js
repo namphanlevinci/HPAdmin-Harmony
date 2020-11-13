@@ -2,21 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
-import {
-  InputAdornment,
-  IconButton,
-  FormControl,
-  OutlinedInput,
-  Typography,
-} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { getMerchantByID } from "../../../../actions/merchantActions";
 
+import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
 import moment from "moment";
 
 import "../Merchants.css";
@@ -177,27 +171,11 @@ class MerchantsList extends React.Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <FormControl>
-              <OutlinedInput
-                inputProps={{
-                  style: {
-                    padding: 14,
-                  },
-                }}
-                placeholder="Search.."
-                value={this.state.search}
-                onChange={this.searchMerchants}
-                onKeyPress={this.keyPressed}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton edge="end">
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
-                labelWidth={0}
-              />
-            </FormControl>
+            <SearchComponent
+              value={this.state.search}
+              onChange={this.searchMerchants}
+              onKeyPress={this.keyPressed}
+            />
           </div>
 
           <div className="merchant-list-container">

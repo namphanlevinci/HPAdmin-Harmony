@@ -11,7 +11,7 @@ import IntlMessages from "../../../util/IntlMessages";
 import CustomProgress from "../../../util/CustomProgress";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
+import SearchComponent from "../../../util/searchComponent";
 
 import "../Merchants/Merchants.css";
 import "./ConsumerProfile/Detail/Consumer.css";
@@ -180,19 +180,11 @@ class Consumers extends React.Component {
           <div className="MerList page-heading" style={{ padding: "10px" }}>
             <div className=" TransactionsBox ">
               {/* SEARCH */}
-              <div className="search">
-                <form>
-                  <SearchIcon className="button" title="Search" />
-                  <input
-                    type="text"
-                    className="textBox"
-                    placeholder="Search.."
-                    value={this.state.search}
-                    onChange={this.searchMerchant}
-                    onKeyPress={this.keyPressed}
-                  />
-                </form>
-              </div>
+              <SearchComponent
+                value={this.state.search}
+                onChange={this.searchMerchant}
+                onKeyPress={this.keyPressed}
+              />
             </div>
 
             <div className="merchant-list-container">
