@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../../url/url";
 import { CustomTitle } from "../../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../../actions/fetchApiActions";
 
@@ -18,8 +17,6 @@ import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
 import "../../../Merchants/Merchants.css";
 import "moment/locale/it";
-
-const URL = config.url.URL;
 
 class Transactions extends Component {
   constructor(props) {
@@ -74,7 +71,7 @@ class Transactions extends Component {
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     const { ID, from, to, timeRange } = this.state;
 
-    const url = `${URL}/paymenttransaction/${ID}?page=${
+    const url = `paymenttransaction/${ID}?page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}&quickFilter=${timeRange}&from=${from}&to=${to}`;
 

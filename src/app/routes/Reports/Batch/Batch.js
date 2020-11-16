@@ -4,8 +4,8 @@ import { getReportMerchantId } from "../../../../actions/reportActions";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { Typography } from "@material-ui/core";
-import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import { debounce } from "lodash";
 
 import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -18,8 +18,6 @@ import "../../Merchants/Merchants.css";
 import "react-table/react-table.css";
 import "./Batch.css";
 
-const URL = config.url.URL;
-
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
@@ -28,8 +26,13 @@ class Transactions extends React.Component {
     };
   }
 
-  searchMerchantBatch = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchMerchantBatch = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchMerchantBatch();
   };
 
   fetchApi = async (state) => {
@@ -37,7 +40,7 @@ class Transactions extends React.Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
 
-    const url = `${URL}/settlement?key=${search}&page=${
+    const url = `settlement?key=${search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -63,7 +66,7 @@ class Transactions extends React.Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            const url = `${URL}/settlement/${rowInfo?.original?.settlementId}`;
+            const url = `settlement/${rowInfo?.original?.settlementId}`;
             this.props.fetchApiByPage(url);
             this.props.getReportMerchantId(rowInfo?.original);
             this.props.history.push("/app/reports/batchs/detail");
@@ -202,7 +205,7 @@ class Transactions extends React.Component {
               <SearchComponent
                 placeholder="Search"
                 value={this.state.search}
-                onChange={this.searchMerchantBatch}
+                onChange={this.handleChange}
                 onKeyPress={this.keyPressed}
               />
             </div>

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { getUserByID } from "../../../../actions/userActions";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { Button, Typography } from "@material-ui/core";
+import { debounce } from "lodash";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -17,7 +17,6 @@ import "../../Merchants/Merchants.css";
 import "./User.css";
 import "react-table/react-table.css";
 
-const URL = config.url.URL;
 class Users extends Component {
   constructor(props) {
     super(props);
@@ -27,8 +26,13 @@ class Users extends Component {
     };
   }
 
-  searchUser = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchUser = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchUser();
   };
 
   goToUserProfile = async (e) => {
@@ -41,7 +45,7 @@ class Users extends Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
 
-    const url = `${URL}/adminuser?key=${this.state.search}&page=${
+    const url = `adminuser?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -164,7 +168,7 @@ class Users extends Component {
               <SearchComponent
                 placeholder="Search by Name, Group"
                 value={this.state.search}
-                onChange={this.searchUser}
+                onChange={this.handleChange}
                 onKeyPress={this.keyPressed}
               />
             </div>

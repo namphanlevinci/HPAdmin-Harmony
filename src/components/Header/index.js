@@ -33,9 +33,12 @@ const URL = config.url.URL;
 class Header extends React.Component {
   async componentDidMount() {
     const User = localStorage.getItem("user");
-    await this.setState({ User: JSON.parse(User) });
+    this.setState({ User: JSON.parse(User) });
 
-    await this.loadNotify();
+    setTimeout(() => {
+      this.loadNotify();
+    }, 1500);
+
     const messaging = firebase.messaging();
 
     // messaging
@@ -54,10 +57,10 @@ class Header extends React.Component {
   loadNotify = (next) => {
     const loadPage = next ? next : 1;
     try {
-      let data = this.state.User;
+      let { token } = this.state.User;
       axios
-        .get(URL + `/notification?page=${loadPage}&row=10`, {
-          headers: { Authorization: `Bearer ${data.token}` },
+        .get(`${URL}/notification?page=${loadPage}&row=10`, {
+          headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
           const data = res.data.data;
@@ -89,8 +92,8 @@ class Header extends React.Component {
   };
 
   handleDelete = (e) => {
-    let data = this.state.User;
-    const UserToken = data.token;
+    let { token } = this.state.User;
+
     this.setState({
       Notify: this.state.Notify.filter(
         (el) => el.waNotificationId !== e.waNotificationId
@@ -98,9 +101,9 @@ class Header extends React.Component {
     });
     const ID = e.waNotificationId;
     axios
-      .delete(URL + "/notification/" + ID, {
+      .delete(`${URL}/notification/${ID}`, {
         headers: {
-          Authorization: `Bearer ${UserToken}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {

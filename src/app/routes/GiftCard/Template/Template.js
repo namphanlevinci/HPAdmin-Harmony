@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import {
@@ -10,6 +9,7 @@ import {
   restoreTemplateByID,
 } from "../../../../actions/giftCardActions";
 import { Typography, Button } from "@material-ui/core";
+import { debounce } from "lodash";
 
 import SearchComponent from "../../../../util/searchComponent";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -30,7 +30,6 @@ import RestoreSVG from "../../../../assets/images/restore.svg";
 
 import "../Generation/generation.styles.scss";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 
 class Template extends Component {
   constructor(props) {
@@ -63,7 +62,7 @@ class Template extends Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const url = `${URL}/giftcardTemplate?key=${this.state.search}&page=${
+    const url = `giftcardTemplate?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -76,11 +75,19 @@ class Template extends Component {
     });
   };
 
+  searchTemplate = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchTemplate();
+  };
+
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.setState({ loading: true });
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
@@ -239,7 +246,7 @@ class Template extends Component {
             <SearchComponent
               placeholder="Search by Name, Group"
               value={this.state.search}
-              onChange={(e) => this.setState({ search: e.target.value })}
+              onChange={this.handleChange}
               onKeyPress={this.keyPressed}
             />
 

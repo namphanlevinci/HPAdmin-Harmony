@@ -51,7 +51,7 @@ class Transactions extends React.Component {
             variant="subtitle1"
             className=" batch__detail table__light"
           >
-            {moment.utc(e.createdDate).local().format("LLL")}
+            {moment.utc(e.createdDate).local().format("MM/DD/YYYY hh:mm A")}
           </Typography>
         ),
       },

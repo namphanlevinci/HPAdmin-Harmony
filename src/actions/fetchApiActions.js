@@ -4,7 +4,11 @@ import {
   FETCH_API_FAILURE,
 } from "../constants/fetchApiConstants";
 import { FAILURE_NOTIFICATION } from "../constants/notificationConstants";
+import { config } from "../url/url";
+
 import axios from "axios";
+
+const URL = config.url.URL;
 
 export const fetchApiByPage = (url) => async (dispatch, getState) => {
   try {
@@ -15,7 +19,7 @@ export const fetchApiByPage = (url) => async (dispatch, getState) => {
     const {
       verifyUser: { user },
     } = await getState();
-    const { data } = await axios.get(url, {
+    const { data } = await axios.get(`${URL}/${url}`, {
       headers: {
         Authorization: `Bearer ${user?.token}`,
       },

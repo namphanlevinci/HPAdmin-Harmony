@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { GoInfo } from "react-icons/go";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
-// import { DebounceInput } from "react-debounce-input";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { Grid, Button, Typography, Tooltip, Checkbox } from "@material-ui/core";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
@@ -11,13 +9,13 @@ import {
   getCodeLog,
   exportGiftCardGeneral,
 } from "../../../../actions/giftCardActions";
+import { debounce } from "lodash";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import ReactTable from "react-table";
 import Delete from "../DeleteGeneration";
 import moment from "moment";
-// import Select from "react-select";
 import CodeLog from "../Generation/CodeLog/CodeLog";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
@@ -29,7 +27,6 @@ import Select from "@material-ui/core/Select";
 
 import "../Generation/generation.styles.scss";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 class Codes extends Component {
   constructor(props) {
     super(props);
@@ -68,7 +65,7 @@ class Codes extends Component {
 
     const { isPhysical, isActive, isUsed, search } = this.state;
 
-    const url = `${URL}/giftcard/search?keySearch=${search}&isActive=${isActive}&isPhysical=${isPhysical}&isUsed=${isUsed}&page=${
+    const url = `giftcard/search?keySearch=${search}&isActive=${isActive}&isPhysical=${isPhysical}&isUsed=${isUsed}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -84,7 +81,6 @@ class Codes extends Component {
   handleSelect = async (e) => {
     const { value, name } = e.target;
     this.setState({ [name]: value });
-
     await this.fetchApi();
   };
 
@@ -95,12 +91,17 @@ class Codes extends Component {
     }
   };
 
-  handleSearchInput = async (e) => {
+  searchCode = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
     this.setState({ search: e.target.value });
+    this.searchCode();
   };
 
   getExport = (e) => {
-    const url = `${URL}/giftcard/search/export/${this.state.typeExport}?keySearch=&isActive=${this.state.isActive}&isPhysical=${this.state.isPhysical}&isUsed=${this.state.isUsed}`;
+    const url = `giftcard/search/export/${this.state.typeExport}?keySearch=&isActive=${this.state.isActive}&isPhysical=${this.state.isPhysical}&isUsed=${this.state.isUsed}`;
     this.props.exportGiftCardGeneral(url);
   };
 
@@ -245,22 +246,8 @@ class Codes extends Component {
               <SearchComponent
                 value={this.state.search}
                 onKeyDown={this.handEnter}
-                onChange={this.handleSearchInput}
+                onChange={this.handleChange}
               />
-              {/* <form> */}
-              {/* <SearchIcon className="button" title="Search" /> */}
-
-              {/* <DebounceInput
-                  debounceTimeout={500}
-                  type="text"
-                  name="search"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onKeyDown={this.handEnter}
-                  onChange={this.handleSearchInput}
-                /> */}
-              {/* </form> */}
             </Grid>
 
             <Grid item xs={4} style={styles.div}>

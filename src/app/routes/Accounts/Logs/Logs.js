@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -33,7 +32,6 @@ import "./Logs.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "moment/locale/it";
 import "bootstrap/js/src/collapse.js";
-const URL = config.url.URL;
 
 class Logs extends Component {
   constructor(props) {
@@ -62,7 +60,7 @@ class Logs extends Component {
 
   fetchApi = async () => {
     const { page, adminId, timeStart, timeEnd } = this.state;
-    const url = `${URL}/merchantapprovallog?userId=${adminId}&page=${page}&row=20&timeStart=${timeStart}&timeEnd=${timeEnd}`;
+    const url = `merchantapprovallog?userId=${adminId}&page=${page}&row=20&timeStart=${timeStart}&timeEnd=${timeEnd}`;
     await this.props.fetchApiByPage(url);
   };
 

@@ -1,23 +1,33 @@
 import React from "react";
 import { connect } from "react-redux";
-import { DebounceInput } from "react-debounce-input";
-import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { debounce } from "lodash";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import {
+  Button,
+  FormControl,
+  Select,
+  MenuItem,
+  Grid,
+  InputLabel,
+  TextField,
+} from "@material-ui/core";
 
+import DateFnsUtils from "@date-io/date-fns";
+import InputCustom from "../../../../util/CustomInput";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
-import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
 import SearchComponent from "../../../../util/searchComponent";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
 import "../../Merchants/Merchants.css";
-
-const URL = config.url.URL;
 
 class P2P extends React.Component {
   constructor(props) {
@@ -42,14 +52,7 @@ class P2P extends React.Component {
       amountTo: -1,
       range: "thisMonth",
     });
-  };
-  fromDate = async (e) => {
-    await this.setState({ from: e.target.value, range: "all" });
-    await this.fetchApi();
-  };
-  toDate = async (e) => {
-    await this.setState({ to: e.target.value, range: "all" });
-    await this.fetchApi();
+    this.fetchApi();
   };
 
   componentDidMount() {
@@ -59,16 +62,16 @@ class P2P extends React.Component {
     });
   }
 
-  _handleChange = (event) => {
-    event.preventDefault();
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
+  searchTransaction = debounce((query) => {
     this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+    this.searchTransaction();
   };
+
   timeRange = async (e) => {
     const value = e.target.value;
     if (value === "today") {
@@ -129,7 +132,7 @@ class P2P extends React.Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
 
-    const url = `${URL}/p2pgiftcard/transaction?page=${
+    const url = `p2pgiftcard/transaction?page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
       amount ? amount : amountFrom
@@ -145,16 +148,7 @@ class P2P extends React.Component {
   };
 
   render() {
-    const {
-      page,
-
-      from,
-      to,
-      amountTo,
-      amountFrom,
-      amount,
-    } = this.state;
-
+    const { page, from, to, amountTo, amountFrom, amount, range } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
@@ -209,7 +203,8 @@ class P2P extends React.Component {
               <SearchComponent
                 placeholder="Search.."
                 value={this.state.search}
-                onChange={this._handleChange}
+                onChange={this.handleChange}
+                name="search"
               />
             </div>
 
@@ -223,100 +218,114 @@ class P2P extends React.Component {
               </Button>
             </div>
           </div>
-          <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
-            <div className="col-4">
-              <form noValidate>
-                <h6 style={styles.label}>From</h6>
-                <DateInput fromDate={this.fromDate} date={from} />
-              </form>
-            </div>
-            <div className="col-4">
-              <form noValidate>
-                <h6 style={styles.label}>To</h6>
-                <DateInput fromDate={this.toDate} date={to} />
-              </form>
-            </div>
-            <div className="col-4">
-              <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
-                Time range
-              </h6>
-              <select
-                className="search"
-                value={this.state.range}
-                onChange={this.timeRange}
-                style={{ width: "100%" }}
-              >
-                <option value="all">ALL</option>
-                <option value="today">Today</option>
-                <option value="yesterday">Yesterday</option>
-                <option value="thisWeek">This Week</option>
-                <option value="lastWeek">Last Week</option>
-                <option value="thisMonth">This Month</option>
-                <option value="lastMonth">Last Month</option>
-              </select>
-            </div>
-            <div className="col-4 search">
-              <h6
-                style={{
-                  color: "rgba(0, 0, 0, 0.54)",
-                  fontSize: "0,7rem",
-                }}
-              >
-                Amount ($)
-              </h6>
-              <form style={{ width: "100%" }}>
-                <DebounceInput
-                  type="text"
-                  name="amount"
-                  className="textBox"
-                  debounceTimeout={500}
-                  placeholder="Amount ($)"
-                  value={amount}
-                  onChange={this._handleChange}
+          <Grid
+            container
+            spacing={0}
+            className="TransactionSearch"
+            style={{ textAlign: "center" }}
+          >
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid item xs={4}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  label="From"
+                  name="from"
+                  value={from}
+                  onChange={(e) => this.handleDateChange(e, "from")}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  autoOk={true}
                 />
-              </form>
-            </div>
-            <div className="col-4">
-              <div className="search">
-                <h6
-                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
-                >
-                  Amount From:
-                </h6>
-                <form style={{ width: "100%" }}>
-                  <DebounceInput
-                    type="text"
-                    className="textBox"
-                    name="amountFrom"
-                    debounceTimeout={500}
-                    placeholder="Amount From"
-                    value={amountFrom === -1 ? 0 : amountFrom}
-                    onChange={this._handleChange}
-                  />
-                </form>
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="search">
-                <h6
-                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
-                >
-                  Amount To:
-                </h6>
-                <form style={{ width: "100%" }}>
-                  <DebounceInput
-                    type="text"
-                    className="textBox"
-                    name="amountTo"
-                    debounceTimeout={500}
-                    placeholder="Amount To"
-                    value={amountTo === -1 ? 0 : amountTo}
-                    onChange={this._handleChange}
-                  />
-                </form>
-              </div>
-            </div>
-          </div>
+              </Grid>
+              <Grid item xs={4}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  label="To"
+                  value={to}
+                  name="to"
+                  onChange={(e) => this.handleDateChange(e, "to")}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  autoOk={true}
+                />
+              </Grid>
+              <Grid item xs={4} style={{ marginTop: "16px" }}>
+                <FormControl style={{ width: "80%" }}>
+                  <InputLabel>Time Range</InputLabel>
+                  <Select value={range} onChange={this.timeRange}>
+                    <MenuItem value="all">ALL</MenuItem>
+                    <MenuItem value="today">Today</MenuItem>
+                    <MenuItem value="yesterday">Yesterday</MenuItem>
+                    <MenuItem value="thisWeek">This Week</MenuItem>
+                    <MenuItem value="lastWeek">Last Week</MenuItem>
+                    <MenuItem value="thisMonth">This Month</MenuItem>
+                    <MenuItem value="lastMonth">Last Month</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </MuiPickersUtilsProvider>
+            <Grid item xs={4} style={{ marginTop: "20px" }}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                label="Amount ($)"
+                value={amount}
+                onChange={this.handleChange}
+                name="amount"
+                variant="outlined"
+                InputProps={{
+                  inputComponent: InputCustom,
+                }}
+                inputProps={{
+                  numericOnly: true,
+                }}
+                style={{ width: "80%" }}
+              />
+            </Grid>
+
+            <Grid item xs={4} style={{ marginTop: "20px" }}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                label="Amount From"
+                value={amountFrom === -1 ? 0 : amountFrom}
+                onChange={this.handleChange}
+                name="amountFrom"
+                variant="outlined"
+                InputProps={{
+                  inputComponent: InputCustom,
+                }}
+                inputProps={{
+                  numericOnly: true,
+                }}
+                style={{ width: "80%" }}
+              />
+            </Grid>
+
+            <Grid item xs={4} style={{ marginTop: "20px" }}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                label="Amount To"
+                value={amountTo === -1 ? 0 : amountTo}
+                onChange={this.handleChange}
+                name="amountTo"
+                variant="outlined"
+                InputProps={{
+                  inputComponent: InputCustom,
+                }}
+                inputProps={{
+                  numericOnly: true,
+                }}
+                style={{ width: "80%" }}
+              />
+            </Grid>
+          </Grid>
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual
@@ -348,11 +357,3 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(P2P);
-
-const styles = {
-  label: {
-    color: "rgba(0, 0, 0, 0.54)",
-    fontSize: "0,7rem",
-    textAlign: "left",
-  },
-};

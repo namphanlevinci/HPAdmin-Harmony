@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../../url/url";
 import { CustomTitle } from "../../../../../util/CustomText";
 import { motion } from "framer-motion";
 import { fetchApiByPage } from "../../../../../actions/fetchApiActions";
@@ -18,8 +17,6 @@ import "../../../Merchants/MerchantList/MerchantProfile.css";
 import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
 import "../../../Merchants/Merchants.css";
-
-const URL = config.url.URL;
 
 class ActivityList extends Component {
   constructor(props) {
@@ -65,7 +62,7 @@ class ActivityList extends Component {
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     const { ID, from, to } = this.state;
 
-    const url = `${URL}/useractivity/${ID}?page=${
+    const url = `useractivity/${ID}?page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}&from=${from}&to=${to}`;
 

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { getMerchantByID } from "../../../../actions/merchantActions";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
 import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { debounce } from "lodash";
 
 import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -16,7 +16,6 @@ import ScaleLoader from "../../../../util/scaleLoader";
 
 import "../Merchants.css";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 
 class PendingList extends Component {
   constructor(props) {
@@ -30,7 +29,7 @@ class PendingList extends Component {
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-    const url = `${URL}/merchant/pending?key=${this.state.search}&page=${
+    const url = `merchant/pending?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
     this.props.fetchApiByPage(url);
@@ -42,13 +41,13 @@ class PendingList extends Component {
     });
   };
 
-  searchMerchant = (e) => {
-    this.setState({ search: e.target.value });
-    // // debounce(() => this.fetchAp, 100);
+  searchMerchant = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
 
-    // let search = e.target.value;
-    // debounce(search, 300);
-    // this.setState({ search: search }, () => this.fetchApi);
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchMerchant();
   };
 
   keyPressed = (event) => {
@@ -166,7 +165,7 @@ class PendingList extends Component {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <SearchComponent
               value={this.state.search}
-              onChange={this.searchMerchant}
+              onChange={this.handleChange}
               onKeyPress={this.keyPressed}
             />
           </div>

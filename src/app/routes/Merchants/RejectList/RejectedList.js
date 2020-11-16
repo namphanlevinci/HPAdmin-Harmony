@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
 import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { getMerchantByID } from "../../../../actions/merchantActions";
-import SearchComponent from "../../../../util/searchComponent";
+import { debounce } from "lodash";
 
+import SearchComponent from "../../../../util/searchComponent";
 import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -15,7 +15,6 @@ import moment from "moment";
 
 import "react-table/react-table.css";
 import "../Merchants.css";
-const URL = config.url.URL;
 class PendingList extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +27,7 @@ class PendingList extends Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const url = `${URL}/merchant/reject?key=${this.state.search}&page=${
+    const url = `merchant/reject?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -41,8 +40,13 @@ class PendingList extends Component {
     });
   };
 
-  searchMerchant = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchMerchant = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchMerchant();
   };
 
   keyPressed = (event) => {
@@ -157,7 +161,7 @@ class PendingList extends Component {
             {/* SEARCH */}
             <SearchComponent
               value={this.state.search}
-              onChange={this.searchMerchant}
+              onChange={this.handleChange}
               onKeyPress={this.keyPressed}
             />
           </div>

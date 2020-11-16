@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
 import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { getMerchantByID } from "../../../../actions/merchantActions";
+import { debounce } from "lodash";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -17,7 +17,6 @@ import CheckPermissions from "../../../../util/checkPermission";
 import "../Merchants.css";
 import "../PendingList/MerchantReqProfile.css";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 
 class Merchants extends React.Component {
   constructor(props) {
@@ -35,7 +34,7 @@ class Merchants extends React.Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const url = `${URL}/merchant/search?key=${this.state.search}&page=${
+    const url = `merchant/search?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -64,9 +63,15 @@ class Merchants extends React.Component {
     }
   };
 
-  searchMerchant = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchMerchant = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchMerchant();
   };
+
   render() {
     const { page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
@@ -173,7 +178,7 @@ class Merchants extends React.Component {
             <div>
               <SearchComponent
                 value={this.state.search}
-                onChange={this.searchMerchant}
+                onChange={this.handleChange}
                 onKeyPress={this.keyPressed}
               />
             </div>

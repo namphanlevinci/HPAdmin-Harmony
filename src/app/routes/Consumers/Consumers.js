@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getConsumerByID } from "../../../actions/consumerActions";
-import { config } from "../../../url/url";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
 import { Typography } from "@material-ui/core";
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
+import { debounce } from "lodash";
 
 import IntlMessages from "../../../util/IntlMessages";
 import CustomProgress from "../../../util/CustomProgress";
@@ -17,8 +17,6 @@ import "../Merchants/Merchants.css";
 import "./ConsumerProfile/Detail/Consumer.css";
 import "react-table/react-table.css";
 import "../Reports/Transactions/Transactions.css";
-
-const URL = config.url.URL;
 
 class Consumers extends React.Component {
   constructor(props) {
@@ -37,7 +35,7 @@ class Consumers extends React.Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const url = `${URL}/user/?key=${this.state.search}&page=${
+    const url = `user/?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -50,8 +48,13 @@ class Consumers extends React.Component {
     });
   };
 
-  searchMerchant = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchCustomer = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchCustomer();
   };
 
   keyPressed = async (event) => {
@@ -182,7 +185,7 @@ class Consumers extends React.Component {
               {/* SEARCH */}
               <SearchComponent
                 value={this.state.search}
-                onChange={this.searchMerchant}
+                onChange={this.handleChange}
                 onKeyPress={this.keyPressed}
               />
             </div>

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { GoInfo } from "react-icons/go";
-import { config } from "../../../../url/url";
 import { addGiftCardGeneral } from "../../../../actions/giftCardActions";
 import {
   CustomTextLabel,
@@ -16,6 +15,7 @@ import {
   exportGiftCardGeneral,
   getCodeLog,
 } from "../../../../actions/giftCardActions";
+import { debounce } from "lodash";
 
 import SearchComponent from "../../../../util/searchComponent";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -35,8 +35,6 @@ import Select from "@material-ui/core/Select";
 import "./generation.styles.scss";
 import "react-table/react-table.css";
 import "react-notifications-component/dist/theme.css";
-
-const URL = config.url.URL;
 
 class Generation_Detail extends Component {
   constructor(props) {
@@ -98,7 +96,7 @@ class Generation_Detail extends Component {
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     const { giftCardGeneralId } = this.props.giftCardGeneral;
 
-    const url = `${URL}/giftcard/getByGeneral/${giftCardGeneralId}?keySearch=${
+    const url = `giftcard/getByGeneral/${giftCardGeneralId}?keySearch=${
       this.state.search
     }&page=${page === 0 ? 1 : page + 1}&row=${pageSize}`;
 
@@ -118,31 +116,18 @@ class Generation_Detail extends Component {
     }
   };
 
-  // Delete = () => {
-  //   const deleteID = this.state.deleteID;
+  searchCode = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
 
-  //   axios
-  //     .put(URL + "/giftcardgeneral/disabled/" + deleteID, null, {
-  //       headers: {
-  //         Authorization: `Bearer ${this.props.userLogin.token}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.data.message === "Success") {
-  //         this.props.successNotify(res.data.message);
-
-  //         this.setState({ openDelete: false });
-  //         setTimeout(() => {
-  //           this.props.history.push("/app/giftcard/generation");
-  //         }, 1100);
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchCode();
+  };
 
   getExport = () => {
     const { giftCardGeneralId } = this.props.giftCardGeneral;
-    const url = `${URL}/giftcard/getByGeneral/export/${giftCardGeneralId}?keySearch=${this.state.search}&type=${this.state.typeExport}`;
+    const url = `giftcard/getByGeneral/export/${giftCardGeneralId}?keySearch=${this.state.search}&type=${this.state.typeExport}`;
     this.props.exportGiftCardGeneral(url);
   };
 
@@ -365,23 +350,11 @@ class Generation_Detail extends Component {
             <Grid item xs={12} className="giftCard_search">
               <SearchComponent
                 value={this.state.search}
-                onChange={(e) => this.setState({ search: e.target.value })}
+                onChange={this.handleChange}
                 onKeyPress={this.keyPressed}
                 placeholder="Search by ID, Serial, Pin Code"
               />
-              {/* 
-              <form>
-                <SearchIcon
-                  className="button"
-                  title="Search"
-                  style={{ marginTop: "4px" }}
-                />
-                <input
-                  type="text"
-                  className="textBox"
-                  style={{ paddingTop: "6px" }}
-                />
-              </form> */}
+
               {CheckPermissions("export-generation") && (
                 <div
                   style={{

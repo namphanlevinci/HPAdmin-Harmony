@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
 import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { getMerchantByID } from "../../../../actions/merchantActions";
+import { debounce } from "lodash";
 
 import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -15,7 +15,6 @@ import moment from "moment";
 
 import "../Merchants.css";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 
 class MerchantsList extends React.Component {
   constructor(props) {
@@ -29,7 +28,7 @@ class MerchantsList extends React.Component {
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-    const url = `${URL}/merchant/search?key=${this.state.search}&page=${
+    const url = `merchant/search?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
     this.props.fetchApiByPage(url);
@@ -41,8 +40,13 @@ class MerchantsList extends React.Component {
     });
   };
 
-  searchMerchants = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchMerchant = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchMerchant();
   };
 
   keyPressed = (event) => {
@@ -173,7 +177,7 @@ class MerchantsList extends React.Component {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <SearchComponent
               value={this.state.search}
-              onChange={this.searchMerchants}
+              onChange={this.handleChange}
               onKeyPress={this.keyPressed}
             />
           </div>

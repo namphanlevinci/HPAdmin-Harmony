@@ -4,9 +4,7 @@ import {
   IconButton,
   FormControl,
   OutlinedInput,
-  // TextField,
 } from "@material-ui/core";
-// import { DebounceInput } from "react-debounce-input";
 
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -33,17 +31,3 @@ export default function SearchComponent(props) {
     </FormControl>
   );
 }
-
-// function CustomDebounceInput(props) {
-//   const { inputRef, ...other } = props;
-
-//   return (
-//     <DebounceInput
-//       minLength={2}
-//       debounceTimeout={300}
-//       ref={(ref) => {
-//         inputRef(ref ? ref.inputElement : null);
-//       }}
-//     />
-//   );
-// }

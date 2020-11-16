@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { Typography, Button } from "@material-ui/core";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { getGiftCardGeneral } from "../../../../actions/giftCardActions";
+import { debounce } from "lodash";
 
 import EditSVG from "../../../../assets/images/edit.svg";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -18,7 +18,6 @@ import SearchComponent from "../../../../util/searchComponent";
 
 import "./generation.styles.scss";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 class Generation extends Component {
   constructor(props) {
     super(props);
@@ -38,10 +37,19 @@ class Generation extends Component {
     this.setState({ openDelete: true, deleteID: ID });
   };
 
+  searchGeneration = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+    this.searchGeneration();
+  };
+
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-    const url = `${URL}/giftcardgeneral?keySearch=${this.state.search}&page=${
+    const url = `giftcardgeneral?keySearch=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
     this.props.fetchApiByPage(url);
@@ -189,7 +197,7 @@ class Generation extends Component {
           <div className="giftCard_search">
             <SearchComponent
               value={this.state.search}
-              onChange={(e) => this.setState({ search: e.target.value })}
+              onChange={this.handleChange}
               onKeyPress={this.keyPressed}
             />
 
