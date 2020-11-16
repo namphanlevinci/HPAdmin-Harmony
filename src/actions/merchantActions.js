@@ -247,7 +247,7 @@ export const updateStaffByID = (payload) => async (dispatch, getState) => {
     } = await getState();
 
     const { data } = await axios.put(
-      `${URL}/staff?api-version=1.1/${StaffID}`,
+      `${URL}/staff/${StaffID}?api-version=1.1`,
       {
         firstName,
         lastName,
@@ -1747,7 +1747,7 @@ export const DownloadMerchantTemplateById = () => async (
 
     dispatch({
       type: types.MERCHANT_DOWNLOAD_TEMPLATE_SUCCESS,
-      payload: data,
+      payload: data.data,
     });
   } catch (error) {
     dispatch({
@@ -1796,6 +1796,11 @@ export const AddMerchantTemplateById = ({ merchantId, file }) => async (
     dispatch({
       type: types.MERCHANT_ADD_TEMPLATE_SUCCESS,
       payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data.message,
     });
   } catch (error) {
     dispatch({

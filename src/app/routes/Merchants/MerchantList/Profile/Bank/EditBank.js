@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import { updateMerchantBankById } from "../../../../../../actions/merchantActions";
-import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 
 import { Formik, Form } from "formik";
 import { CustomTitle } from "../../../../../../util/CustomText";

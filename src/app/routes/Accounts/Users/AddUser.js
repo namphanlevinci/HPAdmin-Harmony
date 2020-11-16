@@ -10,7 +10,9 @@ import { config } from "../../../../url/url";
 import { Select, Avatar } from "@material-ui/core";
 import { addUser } from "../../../../actions/userActions";
 import { TextField, Grid, Button } from "@material-ui/core";
-import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../constants/notificationConstants";
+
+import * as Yup from "yup";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -20,13 +22,12 @@ import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import moment from "moment";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
-import "date-fns";
-
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import DefaultAvatar from "./avatar.png";
 
+import "date-fns";
 import "../../Merchants/MerchantList/Profile/Detail.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "./User.css";
@@ -115,63 +116,12 @@ class addAdmin2 extends Component {
                 city: "",
                 zip: "",
                 BirthDate: null,
-                phone: "",
+                phone: "+",
                 fileId: 0,
                 userName: "",
                 gender: "",
               }}
-              validate={(values) => {
-                const errors = {};
-                if (!values.email) {
-                  errors.email = "Email is required";
-                } else if (
-                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                ) {
-                  errors.email = "Invalid email address";
-                }
-                if (!values.firstname) {
-                  errors.firstname = "First name is required";
-                }
-                if (!values.lastname) {
-                  errors.lastname = "Last name is required";
-                }
-                if (!values.userName) {
-                  errors.userName = "Username is required";
-                }
-                if (!values.password) {
-                  errors.password = "Password cannot be empty ";
-                }
-                if (!values.confirmPassword) {
-                  errors.confirmPassword = "Confirm password cannot be empty ";
-                }
-                if (!values.confirmPassword) {
-                  errors.confirmPassword = "Please confirm your password";
-                } else if (values.password !== values.confirmPassword) {
-                  errors.confirmPassword = "Confirm password didn't match";
-                }
-                if (!values.WaRoleId) {
-                  errors.WaRoleId = "Please choose a Role";
-                }
-                if (!values.phone) {
-                  errors.phone = "Please enter Phone number";
-                }
-                if (!values.address) {
-                  errors.address = "Address is required";
-                }
-                // if (!values.zip) {
-                //   errors.zip = "Required";
-                // }
-                if (!values.city) {
-                  errors.city = "City is required";
-                }
-                if (!values.stateID) {
-                  errors.stateID = "Please choose a State";
-                }
-                if (!values.BirthDate) {
-                  errors.BirthDate = "Date of birth is required";
-                }
-                return errors;
-              }}
+              validationSchema={userSchema}
               onSubmit={(values, { setSubmitting }) => {
                 const { firstname, lastname } = values;
                 const BirthDate = moment(values.BirthDate).format("MM/DD/YYYY");
@@ -259,6 +209,7 @@ class addAdmin2 extends Component {
                         placeholder="Contact Phone Number"
                         name="phone"
                         fullWidth
+                        value={values.phone}
                         label="Phone*"
                         onChange={(phone) => setFieldValue("phone", phone)}
                         error={touched.phone && Boolean(errors.phone)}
@@ -283,6 +234,8 @@ class addAdmin2 extends Component {
                         fullWidth
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        error={touched.city && Boolean(errors.city)}
+                        helperText={touched.city ? errors.city : ""}
                       />
                     </Grid>
                     <Grid item xs={4}>
@@ -294,6 +247,11 @@ class addAdmin2 extends Component {
                           setFieldValue("stateID", state.target.value)
                         }
                       />
+                      {errors.stateID && touched.stateID ? (
+                        <FormHelperText style={styles.errorText}>
+                          {errors.stateID}
+                        </FormHelperText>
+                      ) : null}
                     </Grid>
                     <Grid item xs={4}>
                       <TextField
@@ -312,8 +270,6 @@ class addAdmin2 extends Component {
                         <Select
                           displayEmpty
                           fullWidth
-                          // error={touched.gender && Boolean(errors.gender)}
-                          // helperText={touched.gender ? errors.gender : ""}
                           value={values.gender}
                           onChange={(gender) =>
                             setFieldValue("gender", gender.target.value)
@@ -339,6 +295,7 @@ class addAdmin2 extends Component {
                           KeyboardButtonProps={{
                             "aria-label": "change date",
                           }}
+                          autoOk={true}
                           fullWidth
                           error={touched.BirthDate && Boolean(errors.BirthDate)}
                           // helperText={
@@ -440,7 +397,6 @@ class addAdmin2 extends Component {
                     <Grid
                       item
                       xs={12}
-                      className="admin-header-div"
                       style={{
                         display: "block",
                         padding: "20px 15px 0px 15px",
@@ -457,7 +413,7 @@ class addAdmin2 extends Component {
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="btn btn-red"
+                        className="btn btn-green"
                       >
                         SAVE
                       </Button>
@@ -523,3 +479,24 @@ const styles = {
     marginRight: "auto",
   },
 };
+
+const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
+
+const userSchema = Yup.object().shape({
+  firstname: Yup.string().required("First name is required"),
+  lastname: Yup.string().required("Last name is required"),
+  phone: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  email: Yup.string().email().required("Email is required"),
+  userName: Yup.string().required("Last name is required"),
+  password: Yup.string().required("Password is required"),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Passwords must match"
+  ),
+  address: Yup.string().required("Address is required"),
+  city: Yup.string().required("City is required"),
+  stateID: Yup.string().required("City is required"),
+
+  WaRoleId: Yup.string().required("Please choose a State"),
+  BirthDate: Yup.string().required("Date of birth is required"),
+});

@@ -163,6 +163,6 @@ const consumerSchema = Yup.object().shape({
 
   phone: Yup.string()
     .matches(phoneRegExp, "Phone number is not valid")
-    .min(4, "Phone number is not valid")
-    .max(14, "Phone number is not valid"),
+    .min(4, "Phone number is not valid"),
+  // .max(14, "Phone number is not valid"),
 });

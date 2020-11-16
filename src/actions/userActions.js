@@ -594,17 +594,29 @@ export const addUser = (payload) => async (dispatch, getState) => {
       }
     );
 
-    dispatch({
-      type: types.ADD_USER_SUCCESS,
-      payload: data,
-    });
+    if (Number(data.codeNumber) === 200) {
+      dispatch({
+        type: types.ADD_USER_SUCCESS,
+        payload: data,
+      });
 
-    dispatch({
-      type: SUCCESS_NOTIFICATION,
-      payload: data?.message,
-    });
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data?.message,
+      });
 
-    history.push(path);
+      history.push(path);
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data.message,
+      });
+
+      dispatch({
+        type: types.ADD_USER_FAILURE,
+        payload: data.message,
+      });
+    }
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,

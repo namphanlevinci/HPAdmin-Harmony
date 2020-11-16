@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { WARNING_NOTIFICATION } from "../../../../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../../../../constants/notificationConstants";
 import { Formik, Form } from "formik";
 import { config } from "../../../../../../../url/url";
 import { AddMerchantStaffById } from "../../../../../../../actions/merchantActions";

@@ -1024,7 +1024,7 @@ const downloadMerchantTemplateReducer = (
         template: {},
       };
     case types.MERCHANT_DOWNLOAD_TEMPLATE_SUCCESS:
-      window.open(payload.data);
+      window.open(payload);
 
       return {
         loading: false,

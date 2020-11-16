@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
 import { getMerchantByID } from "../../../../actions/merchantActions";
 import { TextField, Grid } from "@material-ui/core";
-import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../constants/notificationConstants";
 import { updateMerchantPendingByID } from "../../../../actions/merchantActions";
 import { Formik, Form, FieldArray } from "formik";
 import { CustomTitle } from "../../../../util/CustomText";

@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { GET_ALL_PERMISSION } from "../../../actions/user/actions";
 import { connect } from "react-redux";
 
 import asyncComponent from "../../../util/asyncComponent";
@@ -36,10 +35,6 @@ const Accounts = ({ match }) => (
   </div>
 );
 
-const mapDispatchToProps = (dispatch) => ({
-  GET_ALL_PERMISSION: () => {
-    dispatch(GET_ALL_PERMISSION());
-  },
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(null, mapDispatchToProps)(Accounts);

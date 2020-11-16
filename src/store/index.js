@@ -30,7 +30,6 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // function configureStore(initialState) {
-
 //   if (module.hot) {
 //     // Enable Webpack hot module replacement for reducers
 //     module.hot.accept("../reducers/index", () => {
@@ -42,11 +41,7 @@ if (process.env.NODE_ENV === "development") {
 //   return { store, persistor };
 // }
 
-const store = createStore(
-  persistedReducer,
-  compose(...enhancers)
-  // composeEnhancers(applyMiddleware(...middlewares))
-);
+const store = createStore(persistedReducer, compose(...enhancers));
 let persistor = persistStore(store);
 
 export { history, store, persistor };

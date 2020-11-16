@@ -248,7 +248,7 @@ class Transactions extends React.Component {
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
-          <div className=" TransactionsBox">
+          <div className="TransactionsBox">
             <div className="search">
               <SearchComponent
                 placeholder="Search"

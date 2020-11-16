@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Formik, Form } from "formik";
 
 import { withStyles } from "@material-ui/core/styles";
-import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 
 import {
   TextField,

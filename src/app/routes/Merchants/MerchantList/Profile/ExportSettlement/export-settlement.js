@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   SUCCESS_NOTIFICATION,
   FAILURE_NOTIFICATION,
-} from "../../../../../../actions/notifications/actions";
+} from "../../../../../../constants/notificationConstants";
 import { css } from "@emotion/core";
 import {
   MuiPickersUtilsProvider,
