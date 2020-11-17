@@ -16,13 +16,14 @@ import {
   FormControl,
   InputLabel,
 } from "@material-ui/core";
-import { CustomTitle } from "../../../../../../util/CustomText";
-import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 import { Formik } from "formik";
 import {
   getCategoryByID,
   updateMerchantProductById,
 } from "../../../../../../actions/merchantActions";
+
+import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
+import { CustomTitle } from "../../../../../../util/CustomText";
 
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 import ServiceImg from "./hpadmin2.png";
