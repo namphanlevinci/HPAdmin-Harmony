@@ -4,11 +4,15 @@ import { CustomTitle } from "../../../../../util/CustomText";
 import { motion } from "framer-motion";
 import { fetchApiByPage } from "../../../../../actions/fetchApiActions";
 
-import Button from "@material-ui/core/Button";
 import moment from "moment";
 import ReactTable from "react-table";
-import DateInput from "./date-input";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import { Grid, Button, Select, MenuItem, InputLabel } from "@material-ui/core";
 
+import DateFnsUtils from "@date-io/date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
@@ -34,15 +38,15 @@ class ActivityList extends Component {
       from: moment().startOf("month").format("YYYY-MM-DD"),
       to: moment().endOf("month").format("YYYY-MM-DD"),
     });
-    this.fetchData();
+    this.fetchApi();
   };
-  fromDate = async (e) => {
-    await this.setState({ from: e.target.value });
-    await this.fetchData();
-  };
-  toDate = async (e) => {
-    await this.setState({ to: e.target.value });
-    await this.fetchData();
+
+  handleDateChange = async (e, name) => {
+    const value = moment(e).format("MM/DD/YYYY");
+    this.setState({
+      [name]: value,
+    });
+    await this.fetchApi();
   };
 
   componentDidMount() {
@@ -76,7 +80,7 @@ class ActivityList extends Component {
   };
 
   render() {
-    const { page } = this.state;
+    const { from, to, page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
     const columns = [
       {
@@ -91,7 +95,6 @@ class ActivityList extends Component {
         accessor: "action",
       },
     ];
-    const { from, to } = this.state;
 
     return (
       <motion.div
@@ -121,41 +124,42 @@ class ActivityList extends Component {
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col-4">
-                  <h6
-                    style={{
-                      color: "rgba(0, 0, 0, 0.54)",
-                      fontSize: "0,7rem",
-                      textAlign: "left",
-                    }}
-                  >
-                    From
-                  </h6>
-                  <div>
-                    <form noValidate>
-                      <DateInput fromDate={this.fromDate} date={from} />
-                    </form>
-                  </div>
-                </div>
-
-                <div className="col-4">
-                  <form noValidate>
-                    <h6
-                      style={{
-                        color: "rgba(0, 0, 0, 0.54)",
-                        fontSize: "0,7rem",
-                        textAlign: "left",
+              <Grid container spacing={3} style={{ marginBottom: "10px" }}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid item xs={4}>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      variant="inline"
+                      format="MM/dd/yyyy"
+                      margin="normal"
+                      label="From"
+                      name="from"
+                      value={from}
+                      onChange={(e) => this.handleDateChange(e, "from")}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
                       }}
-                    >
-                      To
-                    </h6>
-                    <div>
-                      <DateInput fromDate={this.toDate} date={to} />
-                    </div>
-                  </form>
-                </div>
-              </div>
+                      autoOk={true}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      variant="inline"
+                      format="MM/dd/yyyy"
+                      margin="normal"
+                      label="To"
+                      value={to}
+                      name="to"
+                      onChange={(e) => this.handleDateChange(e, "to")}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                      autoOk={true}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+              </Grid>
               <div className="TransactionTable ActivityTable">
                 {this.state.loadingDate && (
                   <ReactTable

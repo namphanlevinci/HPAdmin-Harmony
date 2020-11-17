@@ -61,7 +61,7 @@ class Bank extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ConsumerProfile: state.ConsumerReducer.Consumer,
+  ConsumerProfile: state.consumerById.data,
 });
 
 export default connect(mapStateToProps)(Bank);

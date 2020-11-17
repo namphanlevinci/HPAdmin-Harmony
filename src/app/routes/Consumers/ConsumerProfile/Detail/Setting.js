@@ -111,7 +111,7 @@ class Setting extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ConsumerProfile: state.ConsumerReducer.Consumer,
+  ConsumerProfile: state.consumerById.data,
 });
 
 const mapDispatchToProps = (dispatch) => ({

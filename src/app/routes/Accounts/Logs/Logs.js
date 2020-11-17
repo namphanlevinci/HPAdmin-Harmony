@@ -78,7 +78,7 @@ class Logs extends Component {
 
   handleDateChange = async (e, name) => {
     const value = moment(e).format("MM/DD/YYYY");
-    await this.setState({
+    this.setState({
       [name]: value,
     });
     await this.fetchApi();
