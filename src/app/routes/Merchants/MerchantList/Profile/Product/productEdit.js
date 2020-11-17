@@ -21,7 +21,7 @@ import {
   updateMerchantProductById,
 } from "../../../../../../actions/merchantActions";
 
-import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 import { CustomTitle } from "../../../../../../util/CustomText";
 
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
