@@ -1,11 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { updateMerchantGeneralById } from "../../../../../../actions/merchantActions";
-
 import { Formik, Form } from "formik";
-import { Grid, Button, TextField } from "@material-ui/core";
-import * as Yup from "yup";
+import {
+  Grid,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  TextField,
+  InputLabel,
+} from "@material-ui/core";
 import { CustomTitle } from "../../../../../../util/CustomText";
+
+import * as Yup from "yup";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../../../util/getState";
 import InputCustom from "../../../../../../util/CustomInput";
@@ -340,6 +348,31 @@ class General extends Component {
                             : ""
                         }
                       />
+                    </Grid>
+                    {/* // Bruh */}
+                    <Grid item xs={6} md={3}>
+                      <TextField
+                        name="reviewLink"
+                        label="Review Link"
+                        type="text"
+                        fullWidth
+                        onChange={handleChange}
+                        value={values.reviewLink}
+                      />
+                    </Grid>
+                    <Grid item xs={6} md={4}>
+                      <FormControl style={{ width: "100%" }}>
+                        <InputLabel>Send Review Link Option</InputLabel>
+                        <Select
+                          name="sendReviewLinkOption"
+                          value={values?.sendReviewLinkOption}
+                          onChange={handleChange}
+                        >
+                          <MenuItem value="On">On</MenuItem>
+                          <MenuItem value="Off">Off</MenuItem>
+                          <MenuItem value="Manual">Manual</MenuItem>
+                        </Select>
+                      </FormControl>
                     </Grid>
                     <Grid item xs={12} style={{ paddingTop: "20px" }}>
                       <Button className="btn btn-green" type="submit">

@@ -36,12 +36,30 @@ class General extends Component {
       showP: false,
     };
   }
-  _toggleEdit = () => {
+  goToEdit = () => {
     this.props.history.push("/app/merchants/profile/general/edit");
   };
 
   render() {
     const e = this.props.MerchantProfile;
+    const {
+      legalBusinessName,
+      doBusinessName,
+      tax,
+      address,
+      city,
+      dbaAddress,
+      phoneBusiness,
+      emailContact,
+      sendReviewLinkOption,
+      reviewLink,
+      zip,
+      lastName,
+      firstName,
+      phoneContact,
+      title,
+    } = this.props.MerchantProfile.general;
+
     const renderGeneral = (
       <Grid container spacing={3} className="container-fluid">
         <Grid item xs={12}>
@@ -50,23 +68,23 @@ class General extends Component {
 
         <Grid item xs={6} md={4}>
           <CustomTextLabel value="Legal Business Name*" />
-          <CustomText value={e?.general?.legalBusinessName} />
+          <CustomText value={legalBusinessName} />
         </Grid>
         <Grid item xs={6} md={4}>
           <CustomTextLabel value="Doing Business As* (DBA)" />
-          <CustomText value={e?.general?.doBusinessName} />
+          <CustomText value={doBusinessName} />
         </Grid>
         <Grid item xs={12} md={4}>
           <CustomTextLabel value="Federal Tax ID*" />
-          <CustomText value={e?.taxId} />
+          <CustomText value={tax} />
         </Grid>
         <Grid item xs={6} md={4}>
           <CustomTextLabel value="Business Address* (no P.O. Boxes)" />
-          <CustomText value={e?.general?.address} />
+          <CustomText value={address} />
         </Grid>
         <Grid item xs={6} md={3}>
           <CustomTextLabel value="City*" />
-          <CustomText value={e?.general?.city} />
+          <CustomText value={city} />
         </Grid>
         <Grid item xs={6} md={3}>
           <CustomTextLabel value="State Issued*" />
@@ -74,38 +92,37 @@ class General extends Component {
         </Grid>
         <Grid item xs={6} md={2}>
           <CustomTextLabel value="Zip Code*" />
-          <CustomText value={e.zip} />
+          <CustomText value={zip} />
         </Grid>
         {/* DBA Address */}
         <Grid item xs={6} md={4}>
           <CustomTextLabel value="DBA Address* " />
-          <CustomText value={e?.general?.dbaAddress?.Address} />
+          <CustomText value={dbaAddress?.Address} />
         </Grid>
         <Grid item xs={6} md={3}>
           <CustomTextLabel value="City*" />
-          <CustomText value={e?.general?.dbaAddress?.City} />
+          <CustomText value={dbaAddress?.City} />
         </Grid>
         <Grid item xs={6} md={3}>
           <CustomTextLabel value="State Issued*" />
-          <CustomText value={e?.general?.dbaAddress?.StateName} />
+          <CustomText value={dbaAddress?.StateName} />
         </Grid>
         <Grid item xs={6} md={2}>
           <CustomTextLabel value="Zip Code*" />
-          <CustomText value={e?.general?.dbaAddress?.Zip} />
+          <CustomText value={dbaAddress?.Zip} />
         </Grid>
 
         <Grid item xs={6} md={4}>
           <CustomTextLabel value="Business Phone Number*" />
-          <CustomText value={e.phone} />
+          <CustomText value={phoneBusiness} />
         </Grid>
         <Grid item xs={6} md={4}>
           <CustomTextLabel value="Contact Email Address*" />
-          <CustomText value={e.email} />
+          <CustomText value={emailContact} />
         </Grid>
 
         <Grid item xs={12} md={4}>
           <CustomTextLabel value="Password" />
-
           <FormControl>
             <Input
               type={this.state.showP ? "text" : "password"}
@@ -127,17 +144,23 @@ class General extends Component {
 
         <Grid item xs={6} md={4}>
           <CustomTextLabel value="Contact Name*" />
-          <CustomText
-            value={e?.general?.firstName + " " + e?.general?.lastName}
-          />
+          <CustomText value={firstName + " " + lastName} />
         </Grid>
         <Grid item xs={6} md={4}>
           <CustomTextLabel value="Title/Position*" />
-          <CustomText value={e?.general?.title} />
+          <CustomText value={title} />
         </Grid>
         <Grid item xs={12} md={4}>
           <CustomTextLabel value="Contact Phone Number*" />
-          <CustomText value={e?.general?.phoneContact} />
+          <CustomText value={phoneContact} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <CustomTextLabel value="Review Link" />
+          <CustomText value={reviewLink} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <CustomTextLabel value="Send Review Link Option" />
+          <CustomText value={sendReviewLinkOption} />
         </Grid>
       </Grid>
     );
@@ -178,7 +201,7 @@ class General extends Component {
 
         <Grid item xs={12} className="general-content">
           {CheckPermissions("edit-merchant") && (
-            <Button className="btn btn-green" onClick={this._toggleEdit}>
+            <Button className="btn btn-green" onClick={this.goToEdit}>
               EDIT
             </Button>
           )}
