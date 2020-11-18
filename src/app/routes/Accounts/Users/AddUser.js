@@ -229,7 +229,7 @@ class addAdmin2 extends Component {
                     </Grid>
                     <Grid item xs={4}>
                       <TextField
-                        label="City"
+                        label="City*"
                         name="city"
                         fullWidth
                         onChange={handleChange}
@@ -240,7 +240,7 @@ class addAdmin2 extends Component {
                     </Grid>
                     <Grid item xs={4}>
                       <CustomStateSelect
-                        label="State"
+                        label="State*"
                         name="stateID"
                         initialValue={values.stateID}
                         handleChange={(state) =>
@@ -286,7 +286,7 @@ class addAdmin2 extends Component {
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                           disableToolbar
-                          label="Birthday"
+                          label="Birthday*"
                           variant="inline"
                           format="MM/dd/yyyy"
                           placeholder="MM/DD/YYYY"
@@ -298,15 +298,13 @@ class addAdmin2 extends Component {
                           autoOk={true}
                           fullWidth
                           error={touched.BirthDate && Boolean(errors.BirthDate)}
-                          // helperText={
-                          //   touched.BirthDate ? errors.BirthDate : ""
-                          // }
+                          helperText={touched.BirthDate ? errors.BirthDate : ""}
                         />
                       </MuiPickersUtilsProvider>
                     </Grid>
                     <Grid item xs={4}>
                       <FormControl style={{ width: "100%" }}>
-                        <InputLabel>Role</InputLabel>
+                        <InputLabel>Role*</InputLabel>
                         <Select
                           displayEmpty
                           fullWidth
@@ -412,7 +410,7 @@ class addAdmin2 extends Component {
                       </Button>
                       <Button
                         type="submit"
-                        disabled={isSubmitting}
+                        // disabled={isSubmitting}
                         className="btn btn-green"
                       >
                         SAVE
@@ -498,5 +496,5 @@ const userSchema = Yup.object().shape({
   stateID: Yup.string().required("City is required"),
 
   WaRoleId: Yup.string().required("Please choose a State"),
-  BirthDate: Yup.string().required("Date of birth is required"),
+  BirthDate: Yup.string().required("Date of birth is required").nullable(),
 });

@@ -160,7 +160,7 @@ class General extends Component {
         </Grid>
         <Grid item xs={12} md={4}>
           <CustomTextLabel value="Send Review Link Option" />
-          <CustomText value={sendReviewLinkOption} />
+          <CustomText value={sendLinkName(sendReviewLinkOption)} />
         </Grid>
       </Grid>
     );
@@ -230,5 +230,18 @@ function customLabel(questionId) {
       return "Yes (if yes, who was your previous company)";
     default:
       return "Yes";
+  }
+}
+
+function sendLinkName(name) {
+  switch (name) {
+    case "auto":
+      return "Automatic";
+    case "off":
+      return "Off";
+    case "manual":
+      return "Manual";
+    default:
+      return name;
   }
 }

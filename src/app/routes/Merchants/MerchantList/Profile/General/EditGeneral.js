@@ -368,9 +368,9 @@ class General extends Component {
                           value={values?.sendReviewLinkOption}
                           onChange={handleChange}
                         >
-                          <MenuItem value="On">On</MenuItem>
-                          <MenuItem value="Off">Off</MenuItem>
-                          <MenuItem value="Manual">Manual</MenuItem>
+                          <MenuItem value="auto">Automatic</MenuItem>
+                          <MenuItem value="off">Off</MenuItem>
+                          <MenuItem value="manual">Manual</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
