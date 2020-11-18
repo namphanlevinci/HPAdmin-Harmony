@@ -160,7 +160,7 @@ class General extends Component {
         </Grid>
         <Grid item xs={12} md={4}>
           <CustomTextLabel value="Send Review Link Option" />
-          <CustomText value={sendLinkName(sendReviewLinkOption)} />
+          <CustomText value={reNameSendLinkName(sendReviewLinkOption)} />
         </Grid>
       </Grid>
     );
@@ -233,7 +233,7 @@ function customLabel(questionId) {
   }
 }
 
-function sendLinkName(name) {
+function reNameSendLinkName(name) {
   switch (name) {
     case "auto":
       return "Automatic";
