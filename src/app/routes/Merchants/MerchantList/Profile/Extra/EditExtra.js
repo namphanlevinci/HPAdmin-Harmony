@@ -28,10 +28,8 @@ import "./extra.styles.scss";
 
 const EditExtra = ({
   updateExtra,
-  handleImageChange,
-  getExtra,
+  uploadImage,
   merchantId,
-  token,
   handleClose,
   edit,
   data: {
@@ -256,7 +254,7 @@ const EditExtra = ({
                         className="custom-input"
                         accept="image/gif,image/jpeg, image/png"
                         type="file"
-                        onChange={handleImageChange}
+                        onChange={(e) => uploadImage(e, setFieldValue)}
                       />
                     </Grid>
                     <Grid item xs={6}>

@@ -29,6 +29,7 @@ import {
   CustomText,
 } from "../../../../util/CustomText";
 
+import getStateNameById from "../../../../util/FormatState";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import CloseIcon from "@material-ui/icons/Close";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -105,7 +106,9 @@ class MerchantReqProfile extends Component {
 
   render() {
     const e = this.props.PendingProfile;
+
     let principalLength = this.props.PendingProfile?.principals?.length;
+
     // Render Principal
     const renderPrincipal =
       e?.principals !== undefined ? (
@@ -141,7 +144,9 @@ class MerchantReqProfile extends Component {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="Address*" />
-                <CustomText value={e.address} />
+                <CustomText
+                  value={`${e.address}, ${e.city}, ${e.state.name}, ${e.zip}`}
+                />
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="Social Security Number* (SSN)" />
@@ -170,7 +175,7 @@ class MerchantReqProfile extends Component {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="State Issued*" />
-                <CustomText value={e?.state?.name} />
+                <CustomText value={getStateNameById(e?.stateIssued)} />
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={3} lg={3}>
@@ -260,34 +265,6 @@ class MerchantReqProfile extends Component {
         <div className="content-body page-heading">
           <div className="header col-12">
             <h3 style={{ marginBottom: "0px" }}>{"HP-" + e.merchantId}</h3>
-
-            {/* // Delete */}
-            {/* <Dialog open={this.state.openDelete}>
-              <DialogTitle id="alert-dialog-title">
-                {"Delete Merchant?"}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  This Merchant will be remove from the app. You can not restore
-                  this Merchant, Are you sure you want to do this?.
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  onClick={() => this.setState({ openDelete: false })}
-                  color="primary"
-                >
-                  Disagree
-                </Button>
-                <Button
-                  onClick={this.handleDeleteMerchant}
-                  color="primary"
-                  autoFocus
-                >
-                  Agree
-                </Button>
-              </DialogActions>
-            </Dialog> */}
             <span>
               <Button className="btn btn-red" onClick={this.goBack}>
                 BACK

@@ -143,7 +143,7 @@ class Generation extends Component {
       {
         id: "Unused",
         Header: () => (
-          <CustomTableHeader styles={{ textAlign: "center" }} value="Unused" />
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Remain" />
         ),
         accessor: (row) => (
           <Typography

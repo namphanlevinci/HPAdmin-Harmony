@@ -57,7 +57,7 @@ class ExtraTab extends Component {
     };
   }
 
-  uploadImage = (e) => {
+  uploadImage = (e, setFieldValue) => {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
@@ -76,7 +76,7 @@ class ExtraTab extends Component {
     axios
       .post(upFile, formData, config)
       .then((res) => {
-        this.setState({ fileId: res.data.data.fileId });
+        setFieldValue(`fileId`, res.data.data.fileId);
       })
       .catch((err) => {
         console.log(err);

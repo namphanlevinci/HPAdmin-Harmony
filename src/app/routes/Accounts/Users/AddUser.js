@@ -487,10 +487,9 @@ const userSchema = Yup.object().shape({
   email: Yup.string().email().required("Email is required"),
   userName: Yup.string().required("Last name is required"),
   password: Yup.string().required("Password is required"),
-  confirmPassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    "Passwords must match"
-  ),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm password is required"),
   address: Yup.string().required("Address is required"),
   city: Yup.string().required("City is required"),
   stateID: Yup.string().required("City is required"),

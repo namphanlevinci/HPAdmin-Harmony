@@ -12,6 +12,7 @@ import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import NumberFormat from "react-number-format";
+import getStateNameById from "../../../../util/FormatState";
 
 import "bootstrap/js/src/collapse.js";
 import "../PendingList/MerchantReqProfile.css";
@@ -63,7 +64,9 @@ class MerchantApprovedProfile extends Component {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="Address*" />
-                <CustomText value={e.address} />
+                <CustomText
+                  value={`${e.address}, ${e.city}, ${e.state.name}, ${e.zip}`}
+                />
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="Social Security Number* (SSN)" />
@@ -91,7 +94,7 @@ class MerchantApprovedProfile extends Component {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="State Issued*" />
-                <CustomText value={e?.state?.name} />
+                <CustomText value={getStateNameById(e?.stateIssued)} />
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={3}>
