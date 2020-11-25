@@ -217,7 +217,7 @@ class MerchantApprovedProfile extends Component {
                   <CustomText value={e?.general?.city} />
                 </Grid>
                 <Grid item xs={3}>
-                  <CustomTextLabel value="State Issued*" />
+                  <CustomTextLabel value="State*" />
                   <CustomText value={e?.state?.name} />
                 </Grid>
                 <Grid item xs={2}>
@@ -234,7 +234,7 @@ class MerchantApprovedProfile extends Component {
                   <CustomText value={e?.general?.dbaAddress?.City} />
                 </Grid>
                 <Grid item xs={3}>
-                  <CustomTextLabel value="State Issued*" />
+                  <CustomTextLabel value="State*" />
                   <CustomText value={e?.general?.dbaAddress?.StateName} />
                 </Grid>
                 <Grid item xs={2}>

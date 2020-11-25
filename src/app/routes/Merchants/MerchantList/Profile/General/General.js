@@ -87,7 +87,7 @@ class General extends Component {
           <CustomText value={city} />
         </Grid>
         <Grid item xs={6} md={3}>
-          <CustomTextLabel value="State Issued*" />
+          <CustomTextLabel value="State*" />
           <CustomText value={e?.state?.name} />
         </Grid>
         <Grid item xs={6} md={2}>
@@ -104,7 +104,7 @@ class General extends Component {
           <CustomText value={dbaAddress?.City} />
         </Grid>
         <Grid item xs={6} md={3}>
-          <CustomTextLabel value="State Issued*" />
+          <CustomTextLabel value="State*" />
           <CustomText value={dbaAddress?.StateName} />
         </Grid>
         <Grid item xs={6} md={2}>

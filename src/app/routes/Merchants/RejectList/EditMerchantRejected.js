@@ -223,7 +223,7 @@ class EditMerchantRejected extends Component {
                         <CustomSelect
                           name="state"
                           margin="normal"
-                          label="State Issued*"
+                          label="State*"
                           initialValue={values.stateId}
                           handleChange={(e) =>
                             setFieldValue("stateId", e.target.value)
@@ -298,7 +298,7 @@ class EditMerchantRejected extends Component {
                         <CustomSelect
                           name={`dbaAddress.State`}
                           margin="normal"
-                          label="State Issued*"
+                          label="State*"
                           initialValue={values.dbaAddress?.State}
                           handleChange={(e) =>
                             setFieldValue(`dbaAddress.State`, e.target.value)

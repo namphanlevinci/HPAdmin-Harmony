@@ -259,7 +259,7 @@ class EditPendingMerchant extends Component {
                         <Grid item xs={3}>
                           <CustomSelect
                             name="state"
-                            label="State Issued*"
+                            label="State*"
                             initialValue={values.generalInfo.stateId}
                             handleChange={(e) =>
                               setFieldValue(
@@ -318,7 +318,7 @@ class EditPendingMerchant extends Component {
                         <Grid item xs={3}>
                           <CustomSelect
                             name={`generalInfo.dbaAddress.State`}
-                            label="State Issued*"
+                            label="State*"
                             initialValue={
                               values?.generalInfo?.dbaAddress?.State
                             }

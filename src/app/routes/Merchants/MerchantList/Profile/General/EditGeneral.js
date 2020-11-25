@@ -145,7 +145,7 @@ class General extends Component {
                     <Grid item xs={6} md={3}>
                       <CustomSelect
                         name="state"
-                        label="State Issued*"
+                        label="State*"
                         initialValue={values.stateId}
                         handleChange={(e) =>
                           setFieldValue(`stateId`, e.target.value)
@@ -217,7 +217,7 @@ class General extends Component {
                     <Grid item xs={6} md={3}>
                       <CustomSelect
                         name={`dbaAddress.State`}
-                        label="State Issued*"
+                        label="State*"
                         initialValue={values.dbaAddress?.State}
                         handleChange={(e) =>
                           setFieldValue(`dbaAddress.State`, e.target.value)
