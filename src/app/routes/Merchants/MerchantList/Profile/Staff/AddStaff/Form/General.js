@@ -51,11 +51,16 @@ function General(props) {
         <Grid item xs={12} md={4}>
           <InputField name="displayName" label="Display Name*" fullWidth />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={12}>
           <InputField name={`address.street`} label="Address" fullWidth />
         </Grid>
         <Grid item xs={12} md={4}>
-          <InputField name={`address.city`} label="City" fullWidth />
+          <InputField
+            name={`address.city`}
+            label="City"
+            fullWidth
+            style={{ paddingTop: "6px" }}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
           <SelectField
@@ -67,6 +72,7 @@ function General(props) {
         </Grid>
         <Grid item xs={12} md={4}>
           <CustomNumberField
+            style={{ paddingTop: "6px" }}
             name={`address.zip`}
             label="Zip Code"
             fullWidth
@@ -87,57 +93,61 @@ function General(props) {
         <Grid item xs={12} md={4}>
           <InputField name="email" label="Contact Email" fullWidth />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <InputField
-            name="pin"
-            label="Pin"
-            fullWidth
-            type={showPin ? "text" : "password"}
-            inputProps={{ maxLength: 4 }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle pin visibility"
-                    onClick={handleShowPin}
-                  >
-                    {showPin ? (
-                      <Visibility style={{ fontSize: 18 }} />
-                    ) : (
-                      <VisibilityOff style={{ fontSize: 18 }} />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+        <Grid item xs={12}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <InputField
+                name="pin"
+                label="Pin"
+                fullWidth
+                type={showPin ? "text" : "password"}
+                inputProps={{ maxLength: 4 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle pin visibility"
+                        onClick={handleShowPin}
+                      >
+                        {showPin ? (
+                          <Visibility style={{ fontSize: 18 }} />
+                        ) : (
+                          <VisibilityOff style={{ fontSize: 18 }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <InputField
+                name="confirmPin"
+                label="Confirm Pin"
+                fullWidth
+                type={showConfirmPin ? "text" : "password"}
+                inputProps={{ maxLength: 4 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle pin visibility"
+                        onClick={handleConfirmPin}
+                      >
+                        {showConfirmPin ? (
+                          <Visibility style={{ fontSize: 18 }} />
+                        ) : (
+                          <VisibilityOff style={{ fontSize: 18 }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <InputField
-            name="confirmPin"
-            label="Confirm Pin"
-            fullWidth
-            type={showConfirmPin ? "text" : "password"}
-            inputProps={{ maxLength: 4 }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle pin visibility"
-                    onClick={handleConfirmPin}
-                  >
-                    {showConfirmPin ? (
-                      <Visibility style={{ fontSize: 18 }} />
-                    ) : (
-                      <VisibilityOff style={{ fontSize: 18 }} />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} md={4}></Grid>
         <Grid item xs={12} md={4}>
           <SelectField
             name={`roles.nameRole`}
