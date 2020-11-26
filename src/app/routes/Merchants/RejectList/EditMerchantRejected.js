@@ -187,7 +187,7 @@ class EditMerchantRejected extends Component {
                           }
                         />
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={12}>
                         <TextField
                           name="address"
                           label="Business Address* (no P.O. Boxes)"
@@ -204,7 +204,7 @@ class EditMerchantRejected extends Component {
                           }
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={4}>
                         <TextField
                           name="city"
                           label="City*"
@@ -219,7 +219,7 @@ class EditMerchantRejected extends Component {
                           }
                         />
                       </Grid>
-                      <Grid item xs={3} style={{ marginTop: "9px" }}>
+                      <Grid item xs={4} style={{ marginTop: "9px" }}>
                         <CustomSelect
                           name="state"
                           margin="normal"
@@ -230,7 +230,7 @@ class EditMerchantRejected extends Component {
                           }
                         />
                       </Grid>
-                      <Grid item xs={2}>
+                      <Grid item xs={4}>
                         <TextField
                           margin="normal"
                           InputLabelProps={{ shrink: true }}
@@ -238,6 +238,7 @@ class EditMerchantRejected extends Component {
                           onChange={handleChange}
                           label="Zip Code*"
                           name="zip"
+                          fullWidth
                           startAdornment
                           inputProps={{
                             block: [5],
@@ -253,7 +254,7 @@ class EditMerchantRejected extends Component {
                         />
                       </Grid>
 
-                      <Grid item xs={4}>
+                      <Grid item xs={12}>
                         <TextField
                           name={`dbaAddress.Address`}
                           label="DBA Address*"
@@ -274,7 +275,7 @@ class EditMerchantRejected extends Component {
                           }
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={4}>
                         <TextField
                           name={`dbaAddress.City`}
                           label="City*"
@@ -294,7 +295,7 @@ class EditMerchantRejected extends Component {
                         />
                       </Grid>
 
-                      <Grid item xs={3} style={{ marginTop: "9px" }}>
+                      <Grid item xs={4} style={{ marginTop: "9px" }}>
                         <CustomSelect
                           name={`dbaAddress.State`}
                           margin="normal"
@@ -306,7 +307,7 @@ class EditMerchantRejected extends Component {
                         />
                       </Grid>
 
-                      <Grid item xs={2}>
+                      <Grid item xs={4}>
                         <TextField
                           margin="normal"
                           InputLabelProps={{ shrink: true }}
@@ -314,6 +315,7 @@ class EditMerchantRejected extends Component {
                           onChange={handleChange}
                           label="Zip Code*"
                           name={`dbaAddress.Zip`}
+                          fullWidth
                           startAdornment
                           inputProps={{
                             block: [5],

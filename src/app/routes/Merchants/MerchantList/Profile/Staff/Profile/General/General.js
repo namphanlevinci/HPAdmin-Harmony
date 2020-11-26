@@ -37,7 +37,7 @@ export class General extends Component {
           <CustomText value={Staff?.displayName} />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={12}>
           <CustomTextLabel value="Address" />
           <CustomText value={Staff?.address} />
         </Grid>
@@ -57,14 +57,18 @@ export class General extends Component {
           <CustomText value={Staff?.zip} />
         </Grid>
 
-        <Grid item xs={4}>
-          <CustomTextLabel value="Cell Phone" />
-          <CustomText value={Staff?.phone} />
-        </Grid>
+        <Grid item xs={12}>
+          <Grid container spacing={3}>
+            <Grid item xs={4}>
+              <CustomTextLabel value="Cell Phone" />
+              <CustomText value={Staff?.phone} />
+            </Grid>
 
-        <Grid item xs={4}>
-          <CustomTextLabel value="Contact Email" />
-          <CustomText value={Staff?.email} />
+            <Grid item xs={4}>
+              <CustomTextLabel value="Contact Email" />
+              <CustomText value={Staff?.email} />
+            </Grid>
+          </Grid>
         </Grid>
 
         <Grid item xs={4}>

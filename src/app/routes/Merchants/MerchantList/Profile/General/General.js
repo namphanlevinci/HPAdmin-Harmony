@@ -78,36 +78,36 @@ class General extends Component {
           <CustomTextLabel value="Federal Tax ID*" />
           <CustomText value={tax} />
         </Grid>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={12}>
           <CustomTextLabel value="Business Address* (no P.O. Boxes)" />
           <CustomText value={address} />
         </Grid>
-        <Grid item xs={6} md={3}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="City*" />
           <CustomText value={city} />
         </Grid>
-        <Grid item xs={6} md={3}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="State*" />
           <CustomText value={e?.state?.name} />
         </Grid>
-        <Grid item xs={6} md={2}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="Zip Code*" />
           <CustomText value={zip} />
         </Grid>
         {/* DBA Address */}
-        <Grid item xs={6} md={4}>
+        <Grid item xs={12}>
           <CustomTextLabel value="DBA Address* " />
           <CustomText value={dbaAddress?.Address} />
         </Grid>
-        <Grid item xs={6} md={3}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="City*" />
           <CustomText value={dbaAddress?.City} />
         </Grid>
-        <Grid item xs={6} md={3}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="State*" />
           <CustomText value={dbaAddress?.StateName} />
         </Grid>
-        <Grid item xs={6} md={2}>
+        <Grid item xs={6} md={4}>
           <CustomTextLabel value="Zip Code*" />
           <CustomText value={dbaAddress?.Zip} />
         </Grid>

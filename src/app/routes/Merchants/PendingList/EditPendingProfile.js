@@ -240,7 +240,7 @@ class EditPendingMerchant extends Component {
                             }
                           />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={12}>
                           <InputField
                             style={styles.input}
                             name={`generalInfo.address`}
@@ -248,7 +248,7 @@ class EditPendingMerchant extends Component {
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                           <InputField
                             style={styles.input}
                             name={`generalInfo.city`}
@@ -256,7 +256,7 @@ class EditPendingMerchant extends Component {
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                           <CustomSelect
                             name="state"
                             label="State*"
@@ -269,7 +269,7 @@ class EditPendingMerchant extends Component {
                             }
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={4}>
                           <TextField
                             style={styles.input}
                             InputLabelProps={{ shrink: true }}
@@ -299,7 +299,7 @@ class EditPendingMerchant extends Component {
                         </Grid>
 
                         {/* // DBA ADDRESS */}
-                        <Grid item xs={4}>
+                        <Grid item xs={12}>
                           <InputField
                             style={styles.input}
                             name={`generalInfo.dbaAddress.Address`}
@@ -307,7 +307,7 @@ class EditPendingMerchant extends Component {
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                           <InputField
                             style={styles.input}
                             name={`generalInfo.dbaAddress.City`}
@@ -315,7 +315,7 @@ class EditPendingMerchant extends Component {
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                           <CustomSelect
                             name={`generalInfo.dbaAddress.State`}
                             label="State*"
@@ -330,7 +330,7 @@ class EditPendingMerchant extends Component {
                             }
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={4}>
                           <TextField
                             style={styles.input}
                             InputLabelProps={{ shrink: true }}

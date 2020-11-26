@@ -554,36 +554,36 @@ class MerchantReqProfile extends Component {
                 <CustomTextLabel value="Federal Tax ID*" />
                 <CustomText value={e?.taxId} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <CustomTextLabel value="Business Address* (no P.O. Boxes)" />
                 <CustomText value={e?.general?.address} />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="City*" />
                 <CustomText value={e?.general?.city} />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="State*" />
                 <CustomText value={e?.state?.name} />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="Zip Code*" />
                 <CustomText value={e.zip} />
               </Grid>
               {/* DBA ADDRESS */}
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <CustomTextLabel value="DBA Address* " />
                 <CustomText value={e?.general?.dbaAddress?.Address} />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="City*" />
                 <CustomText value={e?.general?.dbaAddress?.City} />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="State*" />
                 <CustomText value={e?.general?.dbaAddress?.StateName} />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="Zip Code*" />
                 <CustomText value={e?.general?.dbaAddress?.Zip} />
               </Grid>
