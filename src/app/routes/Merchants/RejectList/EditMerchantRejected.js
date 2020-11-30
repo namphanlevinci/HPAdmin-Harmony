@@ -5,14 +5,15 @@ import { Formik } from "formik";
 import { Button, Grid } from "@material-ui/core";
 import { CustomTitle } from "../../../../util/CustomText";
 
+import State from "../../../../util/InitialState";
 import * as Yup from "yup";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import SimpleReactValidator from "simple-react-validator";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
-import CustomSelect from "../../../../util/getState";
 import InputCustom from "../../../../util/CustomInput";
 import TextField from "@material-ui/core/TextField";
+import SelectField from "../MerchantList/AddMerchants/FormFields/SelectField";
 
 import "../MerchantList/MerchantProfile.css";
 import "../PendingList/MerchantReqProfile.css";
@@ -49,7 +50,6 @@ class EditMerchantRejected extends Component {
 
   componentDidMount() {
     const data = this.props.MerchantProfile?.general;
-    const stateName = this.props.MerchantProfile?.state;
 
     this.setState({
       emailContact: data.emailContact,
@@ -65,7 +65,6 @@ class EditMerchantRejected extends Component {
       lastName: data.lastName,
       title: data.title,
       doBusinessName: data.doBusinessName,
-      stateName: stateName.name,
 
       dbaAddress: {
         Address: data?.dbaAddress?.Address,
@@ -206,6 +205,7 @@ class EditMerchantRejected extends Component {
                       </Grid>
                       <Grid item xs={4}>
                         <TextField
+                          style={{ paddingTop: "4px" }}
                           name="city"
                           label="City*"
                           type="text"
@@ -219,19 +219,19 @@ class EditMerchantRejected extends Component {
                           }
                         />
                       </Grid>
-                      <Grid item xs={4} style={{ marginTop: "9px" }}>
-                        <CustomSelect
-                          name="state"
+                      <Grid item xs={4}>
+                        <SelectField
+                          name="stateId"
                           margin="normal"
                           label="State*"
                           initialValue={values.stateId}
-                          handleChange={(e) =>
-                            setFieldValue("stateId", e.target.value)
-                          }
+                          data={State}
+                          fullWidth
                         />
                       </Grid>
                       <Grid item xs={4}>
                         <TextField
+                          style={{ paddingTop: "4px" }}
                           margin="normal"
                           InputLabelProps={{ shrink: true }}
                           value={values.zip}
@@ -277,6 +277,7 @@ class EditMerchantRejected extends Component {
                       </Grid>
                       <Grid item xs={4}>
                         <TextField
+                          style={{ paddingTop: "4px" }}
                           name={`dbaAddress.City`}
                           label="City*"
                           type="text"
@@ -295,8 +296,8 @@ class EditMerchantRejected extends Component {
                         />
                       </Grid>
 
-                      <Grid item xs={4} style={{ marginTop: "9px" }}>
-                        <CustomSelect
+                      <Grid item xs={4}>
+                        <SelectField
                           name={`dbaAddress.State`}
                           margin="normal"
                           label="State*"
@@ -304,11 +305,14 @@ class EditMerchantRejected extends Component {
                           handleChange={(e) =>
                             setFieldValue(`dbaAddress.State`, e.target.value)
                           }
+                          data={State}
+                          fullWidth
                         />
                       </Grid>
 
                       <Grid item xs={4}>
                         <TextField
+                          style={{ paddingTop: "4px" }}
                           margin="normal"
                           InputLabelProps={{ shrink: true }}
                           value={values.dbaAddress.Zip}

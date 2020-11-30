@@ -253,7 +253,7 @@ class EditPrincipal extends Component {
                     <TextField
                       InputLabelProps={{ shrink: true }}
                       fullWidth
-                      label="Zip"
+                      label="Zip Code*"
                       name="zip"
                       type="number"
                       value={values.zip}

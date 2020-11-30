@@ -94,7 +94,7 @@ class ProductDetail extends Component {
             <Button
               className="btn btn-green"
               style={{
-                backgroundColor: "#4251af",
+                backgroundColor: "#0764B0",
                 color: "white",
               }}
               onClick={this.gotoEdit}

@@ -20,6 +20,7 @@ import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import General from "./General";
 import Password from "./Password";
@@ -55,6 +56,7 @@ class EditUserProfile extends Component {
       showPassword: false,
       isPass: false,
       newPassword: null,
+      uploadImage: false,
     };
   }
 
@@ -97,17 +99,11 @@ class EditUserProfile extends Component {
     event.stopPropagation();
     event.preventDefault();
 
-    let reader = new FileReader();
-
     const file = event?.target?.files[0];
 
     if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
-      reader.onloadend = () => {
-        this.setState({
-          imagePreviewUrl: reader.result,
-        });
-      };
-      reader.readAsDataURL(file);
+      this.setState({ uploadImage: true });
+
       let formData = new FormData();
       formData.append("Filename3", file);
       const config = {
@@ -116,10 +112,19 @@ class EditUserProfile extends Component {
       axios
         .post(upFile, formData, config)
         .then((res) => {
-          this.setState({ fileId: res.data.data.fileId });
+          let reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            this.setState({
+              imagePreviewUrl: reader.result,
+              fileId: res.data.data.fileId,
+              uploadImage: false,
+            });
+          };
         })
         .catch((err) => {
           console.log(err);
+          this.setState({ uploadImage: false });
         });
     } else {
       this.props.warningNotify(
@@ -183,7 +188,7 @@ class EditUserProfile extends Component {
   };
 
   render() {
-    let { imagePreviewUrl } = this.state;
+    let { imagePreviewUrl, uploadImage } = this.state;
     const e = this.props.UserProfile;
     let $imagePreview = null;
     if (imagePreviewUrl) {
@@ -216,24 +221,28 @@ class EditUserProfile extends Component {
             className="admin_profile page-heading"
             style={{ minHeight: "500px" }}
           >
-            <Grid item xs={3} className="text-center">
+            <Grid item xs={4} className="text-center">
               {$imagePreview}
               <div style={{ paddingTop: "10px" }}>
-                <input
-                  type="file"
-                  name="image"
-                  id="file"
-                  className="custom-input"
-                  accept="image/gif,image/jpeg, image/png"
-                  onChange={(e) => this.uploadImage(e)}
-                />
+                {uploadImage ? (
+                  <CircularProgress />
+                ) : (
+                  <input
+                    type="file"
+                    name="image"
+                    id="file"
+                    className="custom-input"
+                    accept="image/gif,image/jpeg, image/png"
+                    onChange={(e) => this.uploadImage(e)}
+                  />
+                )}
               </div>
               <div className="nav-btn">
                 <NavLink
                   to="/app/accounts/admin/profile/edit/general"
                   activeStyle={{
                     fontWeight: "300",
-                    color: "#4251af",
+                    color: "#0764B0",
                     opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: false })}
@@ -248,7 +257,7 @@ class EditUserProfile extends Component {
                   to="/app/accounts/admin/profile/edit/password"
                   activeStyle={{
                     fontWeight: "300",
-                    color: "#4251af",
+                    color: "#0764B0",
                     opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: true })}
@@ -260,7 +269,7 @@ class EditUserProfile extends Component {
                 </NavLink>
               </div>
             </Grid>
-            <Grid item xs={9} style={{ paddingLeft: "55px" }}>
+            <Grid item xs={8}>
               <div className="row">
                 <div className="col-4">
                   <h1>{e.firstName + " " + e.lastName}</h1>
@@ -280,6 +289,7 @@ class EditUserProfile extends Component {
                     className="btn btn-red"
                     style={styles.button}
                     onClick={this.updateSettings}
+                    disabled={uploadImage}
                   >
                     SAVE
                   </Button>
@@ -333,7 +343,7 @@ const styles = {
   hr: {
     height: "1px",
     border: "0",
-    borderTop: "1px solid #4251af",
+    borderTop: "1px solid #0764B0",
     alignContent: "center",
     width: "100%",
   },

@@ -424,7 +424,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Roles);
 
 const styles = {
   checkbox: {
-    color: "#4251af",
+    color: "#0764B0",
   },
   btn: {
     margin: "40px 0px",

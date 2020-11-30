@@ -22,6 +22,8 @@ import PricingPlan from "./Steps/PricingPlan/PricingPlan";
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
 
+import "../MerchantProfile.css";
+
 const upFile = config.url.upFile;
 
 class AddMerchant extends React.Component {
@@ -233,7 +235,7 @@ class AddMerchant extends React.Component {
                       index === activeStep ? "active" : ""
                     }`}
                   >
-                    <StepLabel className="stepperlabel">{label}</StepLabel>
+                    <StepLabel className="stepperLabel">{label}</StepLabel>
                   </Step>
                 );
               })}
@@ -293,7 +295,7 @@ class AddMerchant extends React.Component {
                               className="btn btn-red"
                               type="submit"
                               style={{
-                                backgroundColor: "#4251af",
+                                backgroundColor: "#0764B0",
                                 color: "white",
                               }}
                               disabled={isSubmitting}

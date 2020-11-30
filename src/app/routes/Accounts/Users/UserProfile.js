@@ -164,7 +164,7 @@ const styles = {
   hr: {
     height: "1px",
     border: "0",
-    borderTop: "1px solid #4251af",
+    borderTop: "1px solid #0764B0",
     alignContent: "center",
     width: "100%",
   },

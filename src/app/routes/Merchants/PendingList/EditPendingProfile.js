@@ -742,7 +742,7 @@ class EditPendingMerchant extends Component {
                                               marginTop: "10px",
                                             }}
                                           >
-                                            {principal?.imageUrl !== "" ? (
+                                            {principal?.imageUrl ? (
                                               <img
                                                 src={principal?.imageUrl}
                                                 alt="avatar"
@@ -967,14 +967,15 @@ const validationSchema = Yup.object().shape({
       ownerShip: Yup.string().required("Ownership is required"),
       mobilePhone: Yup.string().required("Mobile phone is required"),
       ssn: Yup.string().required("Social security number is required"),
-      // dateOfBirth: Yup.string()
-      //   .required("Date of birth is required")
-      //   .nullable(),
+      DateOfBirth: Yup.string()
+        .required("Date of birth is required")
+        .nullable(),
       email: Yup.string()
         .email("Please enter a valid email")
-        .required("Email is required"),
+        .required("Email is required")
+        .nullable(),
       driverNumber: Yup.string().required("Driver license number is required"),
-      // stateIssued: Yup.string().required("State issued is required"),
+      stateIssued: Yup.string().required("State issued is required").nullable(),
       fileId: Yup.string().required("Driver license image is required"),
 
       address: Yup.string().required("Address is required"),

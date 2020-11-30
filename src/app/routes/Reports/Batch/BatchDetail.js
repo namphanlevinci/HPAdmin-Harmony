@@ -130,7 +130,7 @@ class Transactions extends React.Component {
             </div>
             <Button
               style={{
-                color: "#4251af",
+                color: "#0764B0",
                 backgroundColor: "white",
                 marginTop: "0",
               }}

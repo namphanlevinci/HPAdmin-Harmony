@@ -7,7 +7,7 @@
 }
 .UserSearchBox .addAdmin {
   padding: 10px 20px;
-  background: #4251af;
+  background: #0764B0;
   color: white;
 }
 
@@ -34,13 +34,13 @@
 .admin_profile h4 {
   font-weight: 400;
   font-size: 20px;
-  color: #4251af;
+  color: #0764B0;
 }
 
 .admin_profile h2 {
   font-weight: 400;
   font-size: 18px;
-  color: #4251af;
+  color: #0764B0;
   padding: 25px 0px;
 }
 
@@ -52,7 +52,7 @@
   color: red;
 }
 .admin_profile button:hover {
-  background: #4251af;
+  background: #0764B0;
 }
 
 .admin_profile table {
@@ -82,7 +82,7 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #4251af;
+  border-color: #0764B0;
 }
 
 .react-tel-input {
@@ -104,13 +104,12 @@ input:focus {
 }
 
 .admin-header-div button.btn {
-  /* display: inline-block; */
   color: #666;
   background-color: #eee;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 12px;
-  padding: 10px 30px;
+  padding: 10px 20px;
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -121,7 +120,7 @@ input:focus {
 
 /* GREEN BTN */
 .admin-header-div button.btn:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -133,7 +132,7 @@ input:focus {
   background-color: white;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
 .admin-header-div button.btn.btn-green:hover {
@@ -150,7 +149,7 @@ input:focus {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
 .admin-header-div button.btn.btn-red {
@@ -158,16 +157,16 @@ input:focus {
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: white;
-  background-color: #4251af;
+  background-color: #0764B0;
 }
 
 .admin-header-div button.btn.btn-red:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .admin-header-div button.btn.btn-red:active {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 
@@ -228,7 +227,7 @@ input:focus {
 }
 
 .user_table .ReactTable .rt-thead .rt-tr {
-  background: #4251af;
+  background: #0764B0;
 }
 .user_table .ReactTable .rt-tbody .rt-td p {
   font-weight: 400;

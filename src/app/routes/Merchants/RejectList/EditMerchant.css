@@ -3,7 +3,7 @@
   height: 100%;
 }
 .reject-info h2 {
-  color: #4251af;
+  color: #0764B0;
 }
 .reject-info input {
   width: 100% ;
@@ -33,7 +33,7 @@
 
 /* GREEN BTN */
 .reject-info button.btn:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -42,19 +42,19 @@
   border-color: rgba(0, 0, 0, 0.9);
 }
 .reject-info button.btn.btn-green {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 
 .reject-info button.btn.btn-green:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .reject-info button.btn.btn-green:active {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
@@ -62,7 +62,7 @@
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
 .reject-info button.btn.btn-red:hover {

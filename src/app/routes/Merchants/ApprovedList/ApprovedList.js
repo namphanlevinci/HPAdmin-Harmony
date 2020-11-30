@@ -146,7 +146,7 @@ class MerchantsList extends React.Component {
         Header: <CustomTableHeader value="Approved By" />,
         accessor: "adminUser",
         Cell: (e) => (
-          <Typography variant="subtitle1" style={{ color: "#4251af" }}>
+          <Typography variant="subtitle1" style={{ color: "#0764B0" }}>
             {e?.value?.first_name + " " + e?.value?.last_name}
           </Typography>
         ),

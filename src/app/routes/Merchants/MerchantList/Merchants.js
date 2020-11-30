@@ -187,7 +187,7 @@ class Merchants extends React.Component {
               {CheckPermissions("add-new-merchant") && (
                 <Button
                   style={{
-                    backgroundColor: "#4251af",
+                    backgroundColor: "#0764B0",
                     color: "white",
                     marginTop: "10px",
                   }}

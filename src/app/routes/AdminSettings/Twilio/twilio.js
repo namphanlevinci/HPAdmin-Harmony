@@ -133,7 +133,7 @@ class Twilio extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Twilio" />}
         />
-        <form className="form-style-7">
+        <form className="">
           <h1>TWILIO ACCOUNT</h1>
           <ul>
             <li>

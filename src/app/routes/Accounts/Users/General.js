@@ -77,6 +77,6 @@ export default General;
 const styles = {
   h2: {
     fontWeight: "500",
-    color: "#4251af",
+    color: "#0764B0",
   },
 };

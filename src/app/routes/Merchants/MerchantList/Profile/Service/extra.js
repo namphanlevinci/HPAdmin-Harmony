@@ -77,7 +77,7 @@ const Extra = ({
                       <label
                         style={{
                           fontSize: 14,
-                          color: "#4251af",
+                          color: "#0764B0",
                           fontWeight: "600",
                           letterSpacing: 0.3,
                         }}
@@ -96,7 +96,7 @@ const Extra = ({
                       </div>
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
-                      <label style={{ fontSize: 14, color: "#4251af" }}>
+                      <label style={{ fontSize: 14, color: "#0764B0" }}>
                         Description
                       </label>
                       <br />
@@ -117,7 +117,7 @@ const Extra = ({
                     className="row"
                   >
                     <div className="col-10" style={{ marginTop: 20 }}>
-                      <label style={{ fontSize: 14, color: "#4251af" }}>
+                      <label style={{ fontSize: 14, color: "#0764B0" }}>
                         <span className="small-label">Duration* (Min)</span>
                       </label>
                       <div className="input-box">
@@ -133,7 +133,7 @@ const Extra = ({
                       </div>
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
-                      <label style={{ fontSize: 14, color: "#4251af" }}>
+                      <label style={{ fontSize: 14, color: "#0764B0" }}>
                         Price* ($)
                       </label>
                       <div className="input-box">
@@ -153,7 +153,7 @@ const Extra = ({
                       </div>
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
-                      <label style={{ fontSize: 14, color: "#4251af" }}>
+                      <label style={{ fontSize: 14, color: "#0764B0" }}>
                         Surcharged
                       </label>
                       <div className="input-box">
@@ -174,7 +174,7 @@ const Extra = ({
                       </div>
                     </div>
                     <div className="col-10" style={{ marginTop: 20 }}>
-                      <label style={{ fontSize: 14, color: "#4251af" }}>
+                      <label style={{ fontSize: 14, color: "#0764B0" }}>
                         Status*
                       </label>
                       <Select
@@ -202,7 +202,7 @@ const Extra = ({
                       <p
                         style={{
                           marginLeft: -15,
-                          color: "#4251af",
+                          color: "#0764B0",
                           fontWeight: "600",
                           fontSize: 14,
                           marginTop: 30,

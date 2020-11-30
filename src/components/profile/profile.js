@@ -268,7 +268,7 @@ class proFile extends Component {
                   to="/app/profile/general"
                   activeStyle={{
                     fontWeight: "500",
-                    color: "#4251af",
+                    color: "#0764B0",
                     opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: false })}
@@ -283,7 +283,7 @@ class proFile extends Component {
                   to="/app/profile/password"
                   activeStyle={{
                     fontWeight: "500",
-                    color: "#4251af",
+                    color: "#0764B0",
                     opacity: "0.6",
                   }}
                   onClick={() => this.setState({ isPass: true })}
@@ -368,7 +368,7 @@ const styles = {
   hr: {
     height: "1px",
     border: "0",
-    borderTop: "1px solid #4251af",
+    borderTop: "1px solid #0764B0",
     alignContent: "center",
     width: "100%",
   },

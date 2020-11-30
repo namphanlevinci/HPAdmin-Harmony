@@ -18,7 +18,7 @@ import defaultImage from "../Extra/hpadmin2.png";
 import AddService from "./AddService";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-
+import SearchComponent from "../../../../../../util/searchComponent";
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
@@ -227,18 +227,13 @@ class Service extends Component {
       <div className="content general-content react-transition swipe-up Staff">
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="search">
-              <form>
-                {/* <SearchIcon className="button" title="Search" /> */}
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
-                />
-              </form>
-            </div>
+            <SearchComponent
+              type="text"
+              className="textBox"
+              placeholder="Search.."
+              value={this.state.search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+            />
             <div>
               {CheckPermissions("add-new-service") && (
                 <AddService reload={this.getService} />

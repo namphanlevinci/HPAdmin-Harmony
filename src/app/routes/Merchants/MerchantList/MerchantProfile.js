@@ -89,7 +89,7 @@ class merchantProfile extends Component {
                 <span style={{ display: "flex", justifyContent: "flex-end" }}>
                   {CheckPermissions("delete-merchant") && (
                     <Button
-                      style={{ color: "#4251af", backgroundColor: "white" }}
+                      style={{ color: "#0764B0", backgroundColor: "white" }}
                       className="btn btn-green"
                       onClick={() => this.setState({ openDelete: true })}
                     >
@@ -106,7 +106,7 @@ class merchantProfile extends Component {
                   )}
 
                   <Button
-                    style={{ color: "#4251af", backgroundColor: "white" }}
+                    style={{ color: "#0764B0", backgroundColor: "white" }}
                     className="btn btn-green"
                     onClick={this.goBack}
                   >

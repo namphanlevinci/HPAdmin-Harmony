@@ -6,7 +6,7 @@ import {
   restoreExtraById,
   updateMerchantExtraById,
 } from "../../../../../../actions/merchantActions";
-
+import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 import { config } from "../../../../../../url/url";
 
 import Button from "@material-ui/core/Button";
@@ -25,6 +25,7 @@ import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import EditExtra from "./EditExtra";
+import SearchComponent from "../../../../../../util/searchComponent";
 
 const upFile = config.url.upFile;
 
@@ -61,26 +62,35 @@ class ExtraTab extends Component {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
-    let formData = new FormData();
-    formData.append("Filename3", file);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    axios
-      .post(upFile, formData, config)
-      .then((res) => {
-        setFieldValue(`fileId`, res.data.data.fileId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
+      setFieldValue("isUpload", true);
+
+      let formData = new FormData();
+      formData.append("Filename3", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            setFieldValue(`imageUrl`, reader.result);
+          };
+
+          setFieldValue(`isUpload`, false);
+          setFieldValue(`fileId`, res.data.data.fileId);
+        })
+        .catch((err) => {
+          console.log(err);
+          setFieldValue(`isUpload`, false);
+        });
+    } else {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another image "
+      );
+    }
   };
 
   componentDidMount() {
@@ -281,18 +291,13 @@ class ExtraTab extends Component {
       <div className="content general-content react-transition swipe-up Staff">
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="search">
-              <form>
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
-                />
-              </form>
-            </div>
-            <div></div>
+            <SearchComponent
+              type="text"
+              className="textBox"
+              placeholder="Search.."
+              value={this.state.search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+            />
           </div>
           <EditExtra
             getExtra={this.props.getExtraByID}
@@ -394,6 +399,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   updateMerchantExtraById: (payload) => {
     dispatch(updateMerchantExtraById(payload));
+  },
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);

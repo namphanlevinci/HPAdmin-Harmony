@@ -5,7 +5,7 @@
   color: black;
 }
 .GeneralReportBox h1 {
-  color: #4251af;
+  color: #0764B0;
   font-weight: 500;
   font-size: 22px;
 }
@@ -17,7 +17,7 @@
   background-color: white;
 }
 .ReportBox h2 {
-  color: #4251af;
+  color: #0764B0;
   font-weight: 500;
   padding-top: 20px;
 }
@@ -26,7 +26,7 @@
   margin-bottom: 0px;
   margin-left: 10px;
   height: 40px;
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -93,12 +93,12 @@
   cursor: pointer;
 }
 .ReactTable .-pagination .-btn:not([disabled]):hover {
-  background: #4251af !important;
+  background: #0764B0 !important;
   color: white;
   font-weight: 500;
 }
 .ReactTable .rt-thead .rt-th,
 .ReactTable .rt-thead .rt-td {
   padding: 0px;
-  background: #4251af;
+  background: #0764B0;
 }

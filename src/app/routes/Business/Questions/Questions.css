@@ -31,7 +31,7 @@
   font-weight: 900;
 }
 .Questions button.btn:hover {
-  background-color: #3f51b5;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -40,7 +40,7 @@
   border-color: rgba(0, 0, 0, 0.9);
 }
 .Questions button.btn.btn-green {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;

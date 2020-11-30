@@ -57,7 +57,7 @@ class staffGeneral extends Component {
 
               <span>
                 <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  style={{ color: "#0764B0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={() =>
                     this.props.history.push("/app/merchants/profile/staff")

@@ -17,7 +17,7 @@ const Loader = ({ isLoading }) => (
   <div>
     <ScaleLoader
       css={override}
-      color={"#4251af"}
+      color={"#0764B0"}
       height={50}
       width={4}
       radius={2}

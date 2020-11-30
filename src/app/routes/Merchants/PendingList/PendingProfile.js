@@ -117,7 +117,7 @@ class MerchantReqProfile extends Component {
             <React.Fragment key={index}>
               {Number(principalLength) >= 2 ? (
                 <Grid item xs={12}>
-                  <h3 style={{ color: "#4251af", fontWeight: "500" }}>
+                  <h3 style={{ color: "#0764B0", fontWeight: "500" }}>
                     Principal {index + 1}
                   </h3>
                 </Grid>

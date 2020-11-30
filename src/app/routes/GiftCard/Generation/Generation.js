@@ -204,7 +204,7 @@ class Generation extends Component {
             {CheckPermissions("add-new-gift-card") && (
               <Button
                 className="btn btn-red"
-                style={{ backgroundColor: "#4251af", color: "white" }}
+                style={{ backgroundColor: "#0764B0", color: "white" }}
                 onClick={() =>
                   this.props.history.push("/app/giftcard/generation/add")
                 }

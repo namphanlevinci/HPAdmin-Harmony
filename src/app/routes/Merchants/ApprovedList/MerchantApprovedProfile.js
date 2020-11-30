@@ -37,7 +37,7 @@ class MerchantApprovedProfile extends Component {
             <React.Fragment key={index}>
               {Number(principalLength) >= 2 ? (
                 <Grid item xs={12}>
-                  <h3 style={{ color: "#4251af", fontWeight: "500" }}>
+                  <h3 style={{ color: "#0764B0", fontWeight: "500" }}>
                     Principal {index + 1}
                   </h3>
                 </Grid>
@@ -156,7 +156,7 @@ class MerchantApprovedProfile extends Component {
               <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2>
               <span>
                 <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  style={{ color: "#0764B0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={this.goBack}
                 >

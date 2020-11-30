@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid, Button, Avatar } from "@material-ui/core";
-
 import {
   CustomText,
   CustomTextLabel,
@@ -14,6 +13,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 
 import "../../Staff.styles.scss";
+
 export class General extends Component {
   render() {
     const Staff = this.props.Staff;

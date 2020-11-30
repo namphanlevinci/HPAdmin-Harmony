@@ -22,16 +22,17 @@ import State from "../../../../../../../../util/InitialState";
 import Checkbox from "@material-ui/core/Checkbox";
 import DefaultAvatar from "../../../../avatar.png";
 import Avatar from "@material-ui/core/Avatar";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 function General(props) {
   const {
-    uploadFile,
+    uploadImage,
     setFieldValue,
     showPin,
     handleShowPin,
     handleConfirmPin,
     showConfirmPin,
-    initValue: { isActive, roles, isDisabled },
+    initValue: { isActive, roles, isDisabled, isUpload },
   } = props;
 
   return (
@@ -201,20 +202,26 @@ function General(props) {
             className="avatar_last"
           />
 
-          <input
-            type="file"
-            style={{
-              marginTop: "20px",
-              width: "100%",
-              fontWeight: "normal",
-              borderBottom: "none",
-            }}
-            className="custom-input"
-            accept="image/gif,image/jpeg, image/png"
-            name="imagePreviewUrl"
-            id="file"
-            onChange={(e) => uploadFile(e, setFieldValue)}
-          />
+          {isUpload ? (
+            <div style={{ paddingTop: "10px" }}>
+              <LinearProgress />
+            </div>
+          ) : (
+            <input
+              type="file"
+              style={{
+                marginTop: "20px",
+                width: "100%",
+                fontWeight: "normal",
+                borderBottom: "none",
+              }}
+              className="custom-input"
+              accept="image/gif,image/jpeg, image/png"
+              name="imagePreviewUrl"
+              id="file"
+              onChange={(e) => uploadImage(e, setFieldValue)}
+            />
+          )}
         </Grid>
       </Grid>
     </div>

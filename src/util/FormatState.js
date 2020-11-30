@@ -4,7 +4,6 @@ export default function getStateNameById(stateId) {
       return "New York";
     case 2:
       return "Florida";
-
     case 4:
       return "California";
     case 5:
@@ -15,7 +14,6 @@ export default function getStateNameById(stateId) {
       return "Alabama";
     case 9:
       return "Arkansas";
-
     case 10:
       return "Arizona";
     case 11:

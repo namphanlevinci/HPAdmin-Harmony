@@ -10,14 +10,20 @@ import { Grid, Button } from "@material-ui/core";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import Select from "react-select";
+// import Select from "react-select";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
 
 import DefaultImage from "./default.png";
+
 import "../Generation/generation.styles.scss";
 import "./template.styles.scss";
 
@@ -73,21 +79,6 @@ class NewTemplate extends Component {
   };
 
   render() {
-    const Group = [
-      { value: "Happy Anniversary", label: "Happy Anniversary" },
-      { value: "Happy Birthday", label: "Happy Birthday" },
-      { value: "Happy New Year", label: "Happy New Year" },
-      { value: "Happy Valentine", label: "Happy Valentine" },
-      { value: "Thank You", label: "Thank You" },
-      { value: "I Love You", label: "I Love You" },
-      { value: "Merry Christmas", label: "Merry Christmas" },
-    ];
-
-    const Status = [
-      { value: "0", label: "Active" },
-      { value: "1", label: "Disable" },
-    ];
-
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
@@ -121,7 +112,7 @@ class NewTemplate extends Component {
               if (!values.giftCardType) {
                 errors.giftCardType = "Required";
               }
-              if (!values.isDisabled) {
+              if (values.isDisabled === "") {
                 errors.isDisabled = "Required";
               }
               return errors;
@@ -200,7 +191,7 @@ class NewTemplate extends Component {
                         name="giftCardTemplateName"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        label="Template Name"
+                        label="Template Name*"
                         value={values.giftCardTemplateName}
                         error={
                           errors.giftCardTemplateName &&
@@ -215,35 +206,61 @@ class NewTemplate extends Component {
                       />
                     </Grid>
                     <Grid item xs={4}>
-                      <h4>Group</h4>
-                      <Select
-                        options={Group}
-                        onChange={(selectedOption) => {
-                          setFieldValue("giftCardType", selectedOption.value);
-                        }}
-                        placeholder="Select Group"
-                        value={this.state.group}
-                      />
+                      <FormControl
+                        style={{ width: "100%", paddingTop: "12px" }}
+                      >
+                        <InputLabel>Group*</InputLabel>
+                        <Select
+                          name="giftCardType"
+                          value={values.giftCardType}
+                          onChange={handleChange}
+                          error={errors.giftCardType && touched.giftCardType}
+                        >
+                          <MenuItem value="Happy Anniversary">
+                            Happy Anniversary
+                          </MenuItem>
+                          <MenuItem value="Happy Birthday">
+                            Happy Birthday
+                          </MenuItem>
+                          <MenuItem value="Happy New Year">
+                            Happy New Year
+                          </MenuItem>
+                          <MenuItem value="Happy Valentine">
+                            Happy Valentine
+                          </MenuItem>
+                          <MenuItem value="Thank You">Thank You</MenuItem>
+                          <MenuItem value="I Love You">I Love You</MenuItem>
+                          <MenuItem value="Merry Christmas">
+                            Merry Christmas
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+
                       {errors.giftCardType && touched.giftCardType && (
-                        <div className="input-feedback">
+                        <FormHelperText className="input-feedback">
                           {errors.giftCardType}
-                        </div>
+                        </FormHelperText>
                       )}
                     </Grid>
                     <Grid item xs={4}>
-                      <h4>Status</h4>
-                      <Select
-                        options={Status}
-                        onChange={(selectedOption) => {
-                          setFieldValue("isDisabled", selectedOption.value);
-                        }}
-                        placeholder="Select Status"
-                        value={this.state.isDisabled}
-                      />
+                      <FormControl
+                        style={{ width: "100%", paddingTop: "12px" }}
+                      >
+                        <InputLabel>Status*</InputLabel>
+                        <Select
+                          name="isDisabled"
+                          value={values.isDisabled}
+                          onChange={handleChange}
+                        >
+                          <MenuItem value={0}>Active</MenuItem>
+                          <MenuItem value={1}>Disable</MenuItem>
+                        </Select>
+                      </FormControl>
+
                       {errors.isDisabled && touched.isDisabled && (
-                        <div className="input-feedback">
+                        <FormHelperText className="input-feedback">
                           {errors.isDisabled}
-                        </div>
+                        </FormHelperText>
                       )}
                     </Grid>
                     <Grid item xs={4}>
@@ -273,7 +290,7 @@ class NewTemplate extends Component {
                         }
                         value="1"
                         inputProps={{ "aria-label": "primary checkbox" }}
-                        style={{ color: "#4251af" }}
+                        style={{ color: "#0764B0" }}
                       />
                       Visible on Consumer App
                     </Grid>

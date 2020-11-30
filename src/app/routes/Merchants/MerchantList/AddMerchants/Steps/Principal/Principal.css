@@ -4,7 +4,7 @@
 }
 
 .add-principal {
-    color: #4251af;
+    color: #0764B0;
     cursor: pointer;
     font-weight: 500;
     margin-right: 5px;
@@ -14,7 +14,7 @@
 }
 .remove-principal {
     cursor: pointer;
-    color: #4251af;
+    color: #0764B0;
 }
 
 .error-message {

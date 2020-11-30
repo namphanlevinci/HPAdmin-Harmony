@@ -77,7 +77,7 @@ class MerchantRejectedProfile extends Component {
             <React.Fragment key={index}>
               {Number(principalLength) >= 2 ? (
                 <Grid item xs={12}>
-                  <h3 style={{ color: "#4251af", fontWeight: "500" }}>
+                  <h3 style={{ color: "#0764B0", fontWeight: "500" }}>
                     Principal {index + 1}
                   </h3>
                 </Grid>
@@ -197,7 +197,7 @@ class MerchantRejectedProfile extends Component {
             <span>
               {CheckPermissions("delete-merchant-in-rejected-request") && (
                 <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  style={{ color: "#0764B0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={() => this.setState({ openDelete: true })}
                 >
@@ -206,7 +206,7 @@ class MerchantRejectedProfile extends Component {
               )}
               {CheckPermissions("edit-merchant-in-rejected-request") && (
                 <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  style={{ color: "#0764B0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={() => this.goToEditPage(e)}
                 >
@@ -215,7 +215,7 @@ class MerchantRejectedProfile extends Component {
               )}
               {CheckPermissions("revert-merchant-in-rejected-request") && (
                 <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  style={{ color: "#0764B0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={this.revertMerchant}
                 >
@@ -223,7 +223,7 @@ class MerchantRejectedProfile extends Component {
                 </Button>
               )}
               <Button
-                style={{ color: "#4251af", backgroundColor: "white" }}
+                style={{ color: "#0764B0", backgroundColor: "white" }}
                 className="btn btn-green"
                 onClick={this.goBack}
               >
