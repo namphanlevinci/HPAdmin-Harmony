@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
 import { deleteMerchantById } from "../../../../actions/merchantActions";
-
 import {
   Dialog,
   DialogActions,

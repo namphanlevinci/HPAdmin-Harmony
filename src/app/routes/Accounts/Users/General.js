@@ -6,24 +6,29 @@ import "react-phone-number-input/style.css";
 
 const General = ({
   handleChange,
-  handlePhone,
-  data: { phone, email, address, birthDate, password, loading },
+  values: { phone, email, address, birthDate, loading },
+  errors,
+  touched,
+  setFieldValue,
 }) => {
   return (
     <div>
       <h2 style={styles.h2}>Contact Information</h2>
 
       <Grid container spacing={3}>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <MaterialUiPhoneNumber
             onlyCountries={["us", "vn"]}
             label="Phone"
+            name="phone"
             value={phone}
-            onChange={handlePhone}
+            onChange={(e) => setFieldValue("phone", e)}
             fullWidth
+            error={touched.phone && Boolean(errors.phone)}
+            helperText={touched.phone ? errors.phone : ""}
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={6} md={3}>
           <TextField
             label="Address"
             type="text"
@@ -31,6 +36,8 @@ const General = ({
             value={address}
             onChange={handleChange}
             fullWidth
+            error={touched.address && Boolean(errors.address)}
+            helperText={touched.address ? errors.address : ""}
           />
         </Grid>
         <Grid item xs={5}>
@@ -41,6 +48,8 @@ const General = ({
             name="email"
             value={email}
             onChange={handleChange}
+            error={touched.email && Boolean(errors.email)}
+            helperText={touched.email ? errors.email : ""}
           />
         </Grid>
       </Grid>
@@ -52,20 +61,21 @@ const General = ({
           <label>Date of Birth: </label>
         </div>
         <div style={{ display: "inline", paddingLeft: "15px" }}>
-          <form noValidate>
-            {loading && (
-              <TextField
-                id="date"
-                type="date"
-                name="birthDate"
-                defaultValue={birthDate}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleChange}
-              />
-            )}
-          </form>
+          <br />
+          {loading && (
+            <TextField
+              id="date"
+              type="date"
+              name="birthDate"
+              defaultValue={birthDate}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={handleChange}
+              error={touched.birthDate && Boolean(errors.birthDate)}
+              helperText={touched.birthDate ? errors.birthDate : ""}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -632,6 +632,7 @@ class EditPendingMerchant extends Component {
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
                                           <InputField
+                                          style={{paddingTop: '6px'}}
                                             name={`principalInfo.${index}.address`}
                                             label="Address*"
                                             fullWidth
@@ -639,6 +640,7 @@ class EditPendingMerchant extends Component {
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
                                           <InputField
+                                          style={{paddingTop: '6px'}}
                                             name={`principalInfo.${index}.city`}
                                             label="City*"
                                             fullWidth
@@ -648,7 +650,7 @@ class EditPendingMerchant extends Component {
                                         <Grid item xs={12} sm={4}>
                                           <SelectField
                                             name={`principalInfo.${index}.stateId`}
-                                            label="State "
+                                            label="State*"
                                             data={State}
                                             fullWidth
                                           />
@@ -728,6 +730,7 @@ class EditPendingMerchant extends Component {
                                             }
                                             label="State Issued*"
                                             data={State}
+                                            
                                             fullWidth
                                           />
                                         </Grid>
@@ -977,10 +980,10 @@ const validationSchema = Yup.object().shape({
       driverNumber: Yup.string().required("Driver license number is required"),
       stateIssued: Yup.string().required("State issued is required").nullable(),
       fileId: Yup.string().required("Driver license image is required"),
-
+      yearAddress: Yup.string().required("Year at this address is required"),
       address: Yup.string().required("Address is required"),
       city: Yup.string().required("City is required"),
-      // stateId: Yup.string().required("State is required"),
+      stateId: Yup.string().required("State is required"),
       zip: Yup.string().required("Zip code is required"),
     })
   ),

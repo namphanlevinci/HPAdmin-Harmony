@@ -114,7 +114,7 @@ class EditMerchantRejected extends Component {
                   errors,
                   touched,
                   handleChange,
-                  handleBlur,
+                 
                   handleSubmit,
                   isSubmitting,
                   setFieldValue,
@@ -307,6 +307,14 @@ class EditMerchantRejected extends Component {
                           }
                           data={State}
                           fullWidth
+                          error={
+                            errors.dbaAddress?.State && touched.dbaAddress?.State
+                          }
+                          helperText={
+                            errors.dbaAddress?.State && touched.dbaAddress?.State
+                              ? errors.dbaAddress?.State
+                              : ""
+                          }
                         />
                       </Grid>
 
@@ -360,9 +368,10 @@ class EditMerchantRejected extends Component {
                           onlyCountries={["us", "vn"]}
                           label="Business Phone Number*"
                           margin="normal"
-                          name="businessPhone"
+                          name="phoneBusiness"
                           value={values.phoneBusiness}
-                          onChange={handleChange}
+                   
+                          onChange={(e) => setFieldValue('phoneBusiness', e)}
                           error={errors.phoneBusiness && touched.phoneBusiness}
                           helperText={
                             errors.phoneBusiness && touched.phoneBusiness
@@ -429,7 +438,7 @@ class EditMerchantRejected extends Component {
                           margin="normal"
                           name="phoneContact"
                           value={values.phoneContact}
-                          onChange={handleChange}
+                          onChange={(e) => setFieldValue('phoneContact', e)}
                           error={errors.phoneContact && touched.phoneContact}
                           helperText={
                             errors.phoneContact && touched.phoneContact
@@ -476,7 +485,7 @@ export default connect(
   mapDispatchToProps
 )(EditMerchantRejected);
 
-// const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
 
 const validateSchema = Yup.object().shape({
   legalBusinessName: Yup.string().required("Business name is required"),
@@ -498,13 +507,10 @@ const validateSchema = Yup.object().shape({
   emailContact: Yup.string()
     .email("Email is not valid")
     .required("Email is required"),
-  phoneBusiness: Yup.string()
-    // .matches(phoneRegExp, "Business phone number is not valid")
-    .required("Business phone number is required"),
+  phoneBusiness: Yup.string().matches(phoneRegExp, "Business phone is not valid").required("Business phone is required"),
+
   firstName: Yup.string().required("First Name is required"),
   lastName: Yup.string().required("Last name is required"),
   title: Yup.string().required("Title/Position is required"),
-  phoneContact: Yup.string()
-    // .min(1, "Contact phone number is not valid")
-    .required("Contact phone number is required"),
+  phoneContact: Yup.string().matches(phoneRegExp, "Contact phone is not valid").required("Contact phone is required"),
 });

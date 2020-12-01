@@ -184,15 +184,9 @@ class EditProduct extends Component {
               }
               return errors;
             }}
-            onSubmit={(
-              values,
-              { setSubmitting, setFieldError },
-              setFieldValue
-            ) => {
-              let fileId = this.state.fileId;
+            onSubmit={(values) => {
               const path = "/app/merchants/profile/product";
-              const payload = { ...values, fileId, path };
-
+              const payload = { ...values, path };
               this.props.updateMerchantProductById(payload);
             }}
           >

@@ -67,7 +67,7 @@ class userProfile extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
         />
-        <Grid container spacing={3} className="admin_profile page-heading">
+        <Grid container spacing={0} className="admin_profile page-heading">
           <Grid item xs={3} className="text-center">
             {e?.imageUrl !== null ? (
               <img src={e?.imageUrl} alt="avatar" style={styles.avatar} />

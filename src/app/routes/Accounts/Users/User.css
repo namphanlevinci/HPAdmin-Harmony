@@ -7,7 +7,7 @@
 }
 .UserSearchBox .addAdmin {
   padding: 10px 20px;
-  background: #0764B0;
+  background: #0764b0;
   color: white;
 }
 
@@ -34,13 +34,13 @@
 .admin_profile h4 {
   font-weight: 400;
   font-size: 20px;
-  color: #0764B0;
+  color: #0764b0;
 }
 
 .admin_profile h2 {
   font-weight: 400;
   font-size: 18px;
-  color: #0764B0;
+  color: #0764b0;
   padding: 25px 0px;
 }
 
@@ -52,7 +52,7 @@
   color: red;
 }
 .admin_profile button:hover {
-  background: #0764B0;
+  background: #0764b0;
 }
 
 .admin_profile table {
@@ -82,7 +82,7 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #0764B0;
+  border-color: #0764b0;
 }
 
 .react-tel-input {
@@ -120,7 +120,7 @@ input:focus {
 
 /* GREEN BTN */
 .admin-header-div button.btn:hover {
-  background-color: #0764B0;
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -132,7 +132,7 @@ input:focus {
   background-color: white;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #0764B0;
+  color: #0764b0;
 }
 
 .admin-header-div button.btn.btn-green:hover {
@@ -149,7 +149,7 @@ input:focus {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #0764B0;
+  color: #0764b0;
 }
 
 .admin-header-div button.btn.btn-red {
@@ -157,16 +157,16 @@ input:focus {
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: white;
-  background-color: #0764B0;
+  background-color: #0764b0;
 }
 
 .admin-header-div button.btn.btn-red:hover {
-  background-color: #0764B0;
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .admin-header-div button.btn.btn-red:active {
-  background-color: #0764B0;
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 
@@ -227,7 +227,7 @@ input:focus {
 }
 
 .user_table .ReactTable .rt-thead .rt-tr {
-  background: #0764B0;
+  background: #0764b0;
 }
 .user_table .ReactTable .rt-tbody .rt-td p {
   font-weight: 400;
