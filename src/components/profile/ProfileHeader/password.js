@@ -7,6 +7,7 @@ function Password({
     errorPassword,
     errorConfirmPassword,
     errorConfirmPasswordMsg,
+    errorCurrentPasswordMsg,
   },
   handleChange,
 }) {
@@ -21,9 +22,7 @@ function Password({
               type="password"
               name="currentPassword"
               error={errorCurrentPassword}
-              helperText={
-                errorCurrentPassword && "Current password is required"
-              }
+              helperText={errorCurrentPassword && errorCurrentPasswordMsg}
               onChange={handleChange}
               style={styles.input}
             />
@@ -40,6 +39,8 @@ function Password({
               name="newPassword"
               onChange={handleChange}
               style={styles.input}
+              error={errorPassword}
+              helperText={errorPassword && "New password is required"}
             />
           </div>
         </div>
@@ -52,6 +53,8 @@ function Password({
               name="confirmPassword"
               onChange={handleChange}
               style={styles.input}
+              error={errorConfirmPassword}
+              helperText={errorConfirmPassword && errorConfirmPasswordMsg}
             />
           </div>
         </div>

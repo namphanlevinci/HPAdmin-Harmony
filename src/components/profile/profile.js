@@ -119,6 +119,7 @@ class proFile extends Component {
     const ID = this.props.CurrentUser?.waUserId;
     const { passwordTab, currentPassword, newPassword } = values;
     const { isCurrentUserPage } = this.state;
+
     const path = "/app/profile/general";
 
     let payload = passwordTab
@@ -140,55 +141,6 @@ class proFile extends Component {
     } else {
       this.props.updateUserById(payload);
     }
-  };
-
-  _updateSettings = () => {
-    this.setState({
-      errorCurrentPassword: "",
-      errorConfirmError: "",
-      errorNewPassword: "",
-    });
-    const {
-      password,
-      confirmPassword,
-      currentPassword,
-      newPassword,
-      isPass,
-    } = this.state;
-    if (isPass) {
-      if (currentPassword === null) {
-        this.setState({
-          errorCurrentPassword: "Please enter current password",
-        });
-        return;
-      }
-      if (currentPassword !== password) {
-        this.setState({
-          errorCurrentPassword: "Current password did not match",
-        });
-        return;
-      }
-      if (newPassword === null) {
-        this.setState({ errorNewPassword: "Please enter new password" });
-        return;
-      }
-      if (confirmPassword === null) {
-        this.setState({ errorConfirmError: "Please enter confirm password" });
-        return;
-      }
-      if (newPassword !== confirmPassword) {
-        this.setState({ errorConfirmError: "Confirm password did not match" });
-        return;
-      } else {
-        this.updateAdmin();
-      }
-    } else {
-      this.updateAdmin();
-    }
-  };
-
-  handlePhone = (value) => {
-    this.setState({ phone: value });
   };
 
   render() {
@@ -233,16 +185,29 @@ class proFile extends Component {
                   confirmPassword,
                   newPassword,
                   currentPassword,
+                  password,
                 } = values;
                 setFieldValue(`errorCurrentPassword`, false);
+                setFieldValue(`errorCurrentPasswordMsg`, "");
                 setFieldValue(`errorPassword`, false);
                 setFieldValue(`errorConfirmPassword`, false);
                 setFieldValue(`errorConfirmPasswordMsg`, "");
+
                 if (passwordTab) {
                   if (currentPassword === null) {
                     setFieldValue(`errorCurrentPassword`, true);
+                    setFieldValue(
+                      `errorCurrentPasswordMsg`,
+                      "Current password is required"
+                    );
                   }
-
+                  if (Number(currentPassword) !== Number(password)) {
+                    setFieldValue(`errorCurrentPassword`, true);
+                    setFieldValue(
+                      `errorCurrentPasswordMsg`,
+                      "Current password is incorrect"
+                    );
+                  }
                   if (newPassword === null) {
                     setFieldValue(`errorPassword`, true);
                   }
