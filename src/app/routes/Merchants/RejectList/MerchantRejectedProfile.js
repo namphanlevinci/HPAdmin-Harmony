@@ -30,7 +30,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import getStateNameById from "../../../../util/FormatState";
 
-import "bootstrap/js/src/collapse.js";
 import "../PendingList/MerchantReqProfile.css";
 
 const URL = config.url.URL;

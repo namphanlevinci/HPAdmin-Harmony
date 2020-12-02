@@ -409,7 +409,9 @@ const styles = {
 const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
 
 const userSchema = Yup.object().shape({
-  phone: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  phone: Yup.string()
+    .matches(phoneRegExp, "Phone number is not valid")
+    .required("Phone number is required"),
   email: Yup.string().email().required("Email is required"),
   address: Yup.string().required("Address is required"),
   birthDate: Yup.string().required("Date of birth is required").nullable(),
