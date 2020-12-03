@@ -114,7 +114,7 @@ class EditCategory extends Component {
 
               <div className="Disable-Button">
                 <Button
-                  style={{ marginTop: "20px", color: "#4251af" }}
+                  style={{ marginTop: "20px", color: "#0764B0" }}
                   className="btn btn-red"
                   onClick={this.props.toggleEdit}
                 >
@@ -123,7 +123,7 @@ class EditCategory extends Component {
                 <Button
                   style={{
                     marginTop: "20px",
-                    backgroundColor: "#4251af",
+                    backgroundColor: "#0764B0",
                     color: "white",
                   }}
                   className="btn btn-green"

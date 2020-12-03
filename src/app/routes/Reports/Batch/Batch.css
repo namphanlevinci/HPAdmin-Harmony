@@ -66,11 +66,11 @@
 
 .ReactTable .rt-thead .rt-th,
 .ReactTable .rt-thead .rt-td {
-  background: #4251af;
+  background: #0764B0;
 }
 .Batchs .batch-container .ReactTable .rt-thead .rt-th,
 .ReactTable .rt-thead .rt-td {
-  background: #4251af;
+  background: #0764B0;
   color: white;
   font-weight: 500;
 }
@@ -105,7 +105,7 @@
   border-bottom: 1px solid#505050
 }
 .Batchs .ReactTable .rt-thead .rt-tr {
-  background: #4251af
+  background: #0764B0
 }
 
 .batch-container .batch__detail  {

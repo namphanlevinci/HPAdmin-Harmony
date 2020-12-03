@@ -13,7 +13,7 @@ class VerifyUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      verify_code: "",
+      code: "",
       loading: false,
     };
   }
@@ -34,6 +34,7 @@ class VerifyUser extends React.Component {
   }
 
   keyPressed = (e) => {
+    e.preventDefault();
     if (e.key === "Enter") {
       this.login();
     }
@@ -86,7 +87,7 @@ class VerifyUser extends React.Component {
             ) : (
               <div className="mb-2">
                 <Button
-                  style={{ background: "#4251af", color: "white" }}
+                  style={{ background: "#0764B0", color: "white" }}
                   variant="contained"
                   className="text-white"
                   onClick={this.login}

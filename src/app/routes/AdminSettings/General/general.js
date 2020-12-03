@@ -114,7 +114,7 @@ class General extends Component {
         />
         <div className="row">
           <div className="col-md-4">
-            <form className="form-style-7">
+            <form className="">
               <h1>TRANSACTIONS FEE</h1>
               <ul>
                 <li>
@@ -137,7 +137,7 @@ class General extends Component {
             </form>
           </div>
           <div className="col-md-4">
-            <form className="form-style-7">
+            <form className="">
               <h1>TOTAL AMOUNT LIMIT</h1>
               <ul>
                 <li>
@@ -160,7 +160,7 @@ class General extends Component {
             </form>
           </div>
           <div className="col-md-4">
-            <form className="form-style-7">
+            <form className="">
               <h1>CREDIT FEE</h1>
               <ul>
                 <li>

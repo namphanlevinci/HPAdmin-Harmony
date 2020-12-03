@@ -78,7 +78,7 @@ class Setting extends Component {
               <FormControl>
                 <InputLabel
                   htmlFor="formatted-text-mask-input"
-                  style={{ color: "#4251af" }}
+                  style={{ color: "#0764B0" }}
                 >
                   Limit
                 </InputLabel>

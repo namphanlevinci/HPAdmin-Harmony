@@ -59,7 +59,7 @@ class ConsumerProfile extends Component {
 
             <Button
               style={{
-                color: "#4251af",
+                color: "#0764B0",
                 backgroundColor: "white",
                 marginRight: "0px",
               }}

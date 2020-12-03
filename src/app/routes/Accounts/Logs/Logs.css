@@ -22,7 +22,7 @@
 
 .first {
   height: 100%;
-  border-right: 1px solid #4251af;
+  border-right: 1px solid #0764B0;
   position: relative;
   padding-top: 60px;
 }
@@ -34,7 +34,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #4251af;
+  background-color: #0764B0;
 }
 
 .log_pagination {

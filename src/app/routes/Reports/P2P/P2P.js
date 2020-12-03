@@ -210,7 +210,7 @@ class P2P extends React.Component {
 
             <div>
               <Button
-                style={{ color: "#4251af", marginTop: "0" }}
+                style={{ color: "#0764B0", marginTop: "0" }}
                 onClick={this.handleResetClick}
                 className="btn btn-red"
               >
@@ -220,9 +220,9 @@ class P2P extends React.Component {
           </div>
           <Grid
             container
-            spacing={0}
+            spacing={3}
             className="TransactionSearch"
-            style={{ textAlign: "center" }}
+            // style={{ textAlign: "center" }}
           >
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid item xs={4}>
@@ -239,6 +239,7 @@ class P2P extends React.Component {
                     "aria-label": "change date",
                   }}
                   autoOk={true}
+                  style={{ width: "80%" }}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -255,6 +256,7 @@ class P2P extends React.Component {
                     "aria-label": "change date",
                   }}
                   autoOk={true}
+                  style={{ width: "80%" }}
                 />
               </Grid>
               <Grid item xs={4} style={{ marginTop: "16px" }}>

@@ -171,7 +171,7 @@ class Template extends Component {
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -253,7 +253,7 @@ class Template extends Component {
             {CheckPermissions("add-new-template") && (
               <Button
                 className="btn btn-green"
-                style={{ backgroundColor: "#4251af", color: "white" }}
+                style={{ backgroundColor: "#0764B0", color: "white" }}
                 onClick={() =>
                   this.props.history.push("/app/giftcard/template/add")
                 }

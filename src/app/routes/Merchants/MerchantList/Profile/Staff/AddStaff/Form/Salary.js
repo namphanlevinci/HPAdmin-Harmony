@@ -165,7 +165,7 @@ function Salary(props) {
                           <p
                             style={{
                               marginLeft: 35,
-                              color: "#4251af",
+                              color: "#0764B0",
                               fontWeight: "600",
                               fontSize: 14,
                               marginTop: 30,
@@ -186,7 +186,7 @@ function Salary(props) {
                   <p
                     style={{
                       marginLeft: 35,
-                      color: "#4251af",
+                      color: "#0764B0",
                       fontWeight: "600",
                       fontSize: 14,
                       marginTop: 30,

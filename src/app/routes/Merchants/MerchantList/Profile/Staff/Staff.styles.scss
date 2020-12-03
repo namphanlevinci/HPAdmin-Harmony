@@ -36,7 +36,7 @@
 
 .Staff {
   label {
-    color: #4251af;
+    color: #0764B0;
   }
 }
 
@@ -46,12 +46,12 @@
     align-items: center;
   }
   label {
-    color: #4251af;
+    color: #0764B0;
   }
 }
 
 .MuiCheckbox-colorSecondary.Mui-checked {
-  color: #4251af !important;
+  color: #0764B0 !important;
 }
 
 button.btn {
@@ -72,7 +72,7 @@ button.btn {
 
 /* GREEN BTN */
 button.btn:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -81,19 +81,19 @@ button.btn:active {
   border-color: rgba(0, 0, 0, 0.9);
 }
 button.btn.btn-green {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 
 button.btn.btn-green:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 button.btn.btn-green:active {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
@@ -101,7 +101,7 @@ button.btn.btn-red {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
 .header  {
@@ -158,4 +158,8 @@ button.btn.btn-red {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.MuiStepIcon-root.MuiStepIcon-active{
+  color : #0764B0 !important;
 }

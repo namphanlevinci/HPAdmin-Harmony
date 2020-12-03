@@ -39,14 +39,6 @@ class EditPrincipal extends Component {
       loading: true,
     });
   }
-  _handleChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  };
 
   uploadFile = (e, setFieldValue) => {
     e.preventDefault();
@@ -213,7 +205,6 @@ class EditPrincipal extends Component {
                       name="email"
                       value={values.email}
                       onChange={handleChange}
-                      style={styles.input}
                       error={errors.email && touched.email}
                       helperText={
                         errors.email && touched.email ? errors.email : ""
@@ -250,7 +241,7 @@ class EditPrincipal extends Component {
                   </Grid>
                   <Grid item xs={3}>
                     <CustomSelect
-                      label="State Issued*"
+                      label="State"
                       name="stateId"
                       initialValue={values.stateId}
                       handleChange={(e) =>
@@ -262,7 +253,7 @@ class EditPrincipal extends Component {
                     <TextField
                       InputLabelProps={{ shrink: true }}
                       fullWidth
-                      label="Zip"
+                      label="Zip Code*"
                       name="zip"
                       type="number"
                       value={values.zip}
@@ -293,14 +284,14 @@ class EditPrincipal extends Component {
                       renderText={(value) => <CustomText value={value} />}
                     />
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
                     <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />
                     <CustomText
                       value={moment(e.birthDate).format("MM/DD/YYYY")}
                     />
                   </Grid>
 
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
                     <TextField
                       label="Driver License Number*"
                       fullWidth
@@ -317,7 +308,16 @@ class EditPrincipal extends Component {
                       }
                     />
                   </Grid>
-
+                  <Grid item xs={2}>
+                    <CustomSelect
+                      label="State Issued*"
+                      name="stateIssued"
+                      initialValue={values.stateIssued}
+                      handleChange={(e) =>
+                        setFieldValue(`stateIssued`, e.target.value)
+                      }
+                    />
+                  </Grid>
                   <Grid item xs={3} lg={3}>
                     <label>Driver License Picture*</label> <br />
                     {$imagePreview}
@@ -333,6 +333,7 @@ class EditPrincipal extends Component {
                       onChange={(e) => this.uploadFile(e, setFieldValue)}
                     />
                   </Grid>
+
                   <Grid item xs={12} style={{ paddingTop: "5px" }}>
                     <Button
                       className="btn btn-green"
@@ -377,7 +378,7 @@ const styles = {
     paddingBottom: "10px",
   },
   input: {
-    marginBottom: "10px",
+    marginTop: "6px",
   },
 };
 

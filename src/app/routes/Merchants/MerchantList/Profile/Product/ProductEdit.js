@@ -28,6 +28,7 @@ import { CustomTitle } from "../../../../../../util/CustomText";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const upFile = config.url.upFile;
 
@@ -87,13 +88,7 @@ class EditProduct extends Component {
     let file = e?.target?.files[0];
 
     if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
-      reader.onloadend = () => {
-        this.setState({
-          file: file,
-          imagePreviewUrl: reader.result,
-        });
-      };
-      reader.readAsDataURL(file);
+      setFieldValue("isUpload", true);
       // handle upload image
       let formData = new FormData();
       formData.append("Filename3", file);
@@ -103,11 +98,18 @@ class EditProduct extends Component {
       axios
         .post(upFile, formData, config)
         .then((res) => {
-          // this.setState({ fileId: res.data.data.fileId });
+          reader.onloadend = () => {
+            this.setState({
+              imagePreviewUrl: reader.result,
+            });
+          };
+          reader.readAsDataURL(file);
+          setFieldValue("isUpload", false);
           setFieldValue("fileId", res.data.data.fileId);
         })
         .catch((err) => {
           console.log(err);
+          setFieldValue("isUpload", false);
         });
     } else {
       this.props.warningNotify(
@@ -182,15 +184,9 @@ class EditProduct extends Component {
               }
               return errors;
             }}
-            onSubmit={(
-              values,
-              { setSubmitting, setFieldError },
-              setFieldValue
-            ) => {
-              let fileId = this.state.fileId;
+            onSubmit={(values) => {
               const path = "/app/merchants/profile/product";
-              const payload = { ...values, fileId, path };
-
+              const payload = { ...values, path };
               this.props.updateMerchantProductById(payload);
             }}
           >
@@ -435,12 +431,16 @@ class EditProduct extends Component {
                       {$imagePreview}
                       <br />
 
-                      <input
-                        type="file"
-                        className="custom-input"
-                        accept="image/gif,image/jpeg, image/png"
-                        onChange={(e) => this.uploadImage(e, setFieldValue)}
-                      />
+                      {values.isUpload ? (
+                        <LinearProgress />
+                      ) : (
+                        <input
+                          type="file"
+                          className="custom-input"
+                          accept="image/gif,image/jpeg, image/png"
+                          onChange={(e) => this.uploadImage(e, setFieldValue)}
+                        />
+                      )}
                     </div>
                   </Grid>
                   <Grid item xs={12}>

@@ -6,11 +6,13 @@ import {
   CustomTextLabel,
   CustomTitle,
 } from "../../../../../../util/CustomText";
-
+import { config } from "../../../../../../url/url";
 import CheckPermissions from "../../../../../../util/checkPermission";
 
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
+
+const URL = config.url.URL;
 
 class Bank extends Component {
   constructor(props) {

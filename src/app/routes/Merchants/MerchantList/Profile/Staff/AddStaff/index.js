@@ -87,8 +87,7 @@ class AddStaff extends Component {
     const file = event?.target?.files[0];
 
     if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
-      this.setState({ progressLoading: true });
-
+      setFieldValue(`isUpload`, true);
       let formData = new FormData();
       formData.append("Filename3", file);
       const config = {
@@ -101,14 +100,13 @@ class AddStaff extends Component {
           reader.onloadend = () => {
             setFieldValue("fileId", res.data.data.fileId);
             setFieldValue("staffAvatar", reader.result);
-            this.setState({
-              progressLoading: false,
-            });
+            setFieldValue(`isUpload`, false);
           };
           reader.readAsDataURL(file);
         })
         .catch((err) => {
           console.log(err);
+          setFieldValue(`isUpload`, false);
         });
     } else {
       this.props.warningNotify(
@@ -174,7 +172,7 @@ class AddStaff extends Component {
     return (
       <div className="container-fluid react-transition swipe-right add-staff">
         <div style={{ textAlign: "center" }}>
-          <h1 style={{ color: "#4251af" }}>New Staff</h1>
+          <h1 style={{ color: "#0764B0" }}>New Staff</h1>
         </div>
         <div className="MerList" style={{ padding: "30px" }}>
           <div className="w-100">

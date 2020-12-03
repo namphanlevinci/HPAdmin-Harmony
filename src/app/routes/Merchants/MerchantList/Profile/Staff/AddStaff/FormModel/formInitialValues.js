@@ -1,4 +1,7 @@
 export default {
+  // upload image
+  isUpload: false,
+
   // General
   lastName: "",
   firstName: "",

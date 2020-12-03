@@ -4,7 +4,7 @@
 .TransactionsBox {
   display: flex;
   justify-content: space-between;
-  margin: 0px 20px;
+  /* margin: 0px 20px; */
   margin-top: 20px;
 }
 .Transactions .bigshot {
@@ -13,11 +13,11 @@
 }
 .Transactions thead tr th {
   color: white;
-  background-color: #4251af;
+  background-color: #0764B0;
   padding: 10px 20px;
   font-weight: 400;
   font-size: 16px;
-  border: 1px solid #4251af;
+  border: 1px solid #0764B0;
 }
 .Transactions tbody tr td {
   padding: 10px 20px;
@@ -71,7 +71,7 @@
 
 
 .TransactionsBox .btn:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -82,7 +82,7 @@
 }
  
 .TransactionsBox .btn.btn-green {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -90,13 +90,13 @@
 
  
 .TransactionsBox .btn.btn-green:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
  
 .TransactionsBox .btn.btn-green:active {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
@@ -105,7 +105,7 @@
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
  

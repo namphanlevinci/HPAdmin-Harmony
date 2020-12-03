@@ -23,6 +23,7 @@ import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
+import SearchComponent from "../../../../../../util/searchComponent";
 
 class Product extends Component {
   constructor(props) {
@@ -235,17 +236,14 @@ class Product extends Component {
       <div className="content general-content react-transition swipe-up Staff">
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="search">
-              <form>
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
-                />
-              </form>
-            </div>
+            <SearchComponent
+              type="text"
+              className="textBox"
+              placeholder="Search.."
+              value={this.state.search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+            />
+
             <div>
               {CheckPermissions("add-new-product") && (
                 <Button

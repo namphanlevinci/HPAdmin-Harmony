@@ -67,7 +67,7 @@ class userProfile extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
         />
-        <Grid container spacing={3} className="admin_profile page-heading">
+        <Grid container spacing={0} className="admin_profile page-heading">
           <Grid item xs={3} className="text-center">
             {e?.imageUrl !== null ? (
               <img src={e?.imageUrl} alt="avatar" style={styles.avatar} />
@@ -164,7 +164,7 @@ const styles = {
   hr: {
     height: "1px",
     border: "0",
-    borderTop: "1px solid #4251af",
+    borderTop: "1px solid #0764B0",
     alignContent: "center",
     width: "100%",
   },

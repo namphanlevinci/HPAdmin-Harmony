@@ -24,14 +24,14 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle";
 
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
 import "./extra.styles.scss";
 
 const EditExtra = ({
   updateExtra,
-  handleImageChange,
-  getExtra,
+  uploadImage,
   merchantId,
-  token,
   handleClose,
   edit,
   data: {
@@ -45,26 +45,9 @@ const EditExtra = ({
     quantity,
     tax,
     imageUrl,
-    fileId,
-    imagePreviewUrl,
     supplyFee,
   },
 }) => {
-  let $imagePreview = null;
-  if (imagePreviewUrl) {
-    $imagePreview = (
-      <CardMedia component="img" src={imagePreviewUrl} alt="void" />
-    );
-  } else {
-    $imagePreview = (
-      <CardMedia
-        component="img"
-        src={imageUrl === "" ? defaultImg : imageUrl}
-        alt="void"
-      />
-    );
-  }
-
   const styles = (theme) => ({
     root: {
       margin: 0,
@@ -124,8 +107,9 @@ const EditExtra = ({
                 quantity,
                 tax,
                 merchantId,
-                imageUrl,
                 supplyFee: formatSupplyFee,
+                isUpload: false,
+                imageUrl,
               }}
               validate={(values) => {
                 const errors = {};
@@ -250,14 +234,27 @@ const EditExtra = ({
                     </Grid>
                     <Grid item xs={4}>
                       <label>Image</label>
-                      {$imagePreview} <br />
-                      <input
-                        name="image"
-                        className="custom-input"
-                        accept="image/gif,image/jpeg, image/png"
-                        type="file"
-                        onChange={handleImageChange}
+
+                      <CardMedia
+                        component="img"
+                        src={
+                          values.imageUrl === "" ? defaultImg : values.imageUrl
+                        }
+                        alt="void"
                       />
+
+                      <br />
+                      {values.isUpload ? (
+                        <LinearProgress />
+                      ) : (
+                        <input
+                          name="image"
+                          className="custom-input"
+                          accept="image/gif,image/jpeg, image/png"
+                          type="file"
+                          onChange={(e) => uploadImage(e, setFieldValue)}
+                        />
+                      )}
                     </Grid>
                     <Grid item xs={6}>
                       <FormControl>
@@ -283,7 +280,7 @@ const EditExtra = ({
                       <Button
                         className="btn btn-green"
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || values.isUpload}
                       >
                         SAVE
                       </Button>

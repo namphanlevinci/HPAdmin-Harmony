@@ -223,6 +223,7 @@ class Logs extends Component {
               <Grid item xs={12}>
                 <Pagination
                   count={pageCount}
+                  page={this.state.page}
                   className="log_pagination"
                   onChange={this.handlePageChange}
                 />

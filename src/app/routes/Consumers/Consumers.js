@@ -7,16 +7,18 @@ import { Typography } from "@material-ui/core";
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
 import { debounce } from "lodash";
 
+import Checkbox from "@material-ui/core/Checkbox";
 import IntlMessages from "../../../util/IntlMessages";
 import CustomProgress from "../../../util/CustomProgress";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchComponent from "../../../util/searchComponent";
+import moment from "moment";
 
 import "../Merchants/Merchants.css";
 import "./ConsumerProfile/Detail/Consumer.css";
 import "react-table/react-table.css";
-import "../Reports/Transactions/Transactions.css";
+// import "../Reports/Transactions/Transactions.css";
 
 class Consumers extends React.Component {
   constructor(props) {
@@ -118,11 +120,17 @@ class Consumers extends React.Component {
         ),
       },
       {
-        Header: <CustomTableHeader value="Balance" />,
+        Header: (
+          <CustomTableHeader value="Balance" styles={{ textAlign: "center" }} />
+        ),
         id: "balance",
         accessor: (e) => e.credit,
         Cell: (e) => (
-          <Typography variant="subtitle1" className="table__light">
+          <Typography
+            variant="subtitle1"
+            className="table__light"
+            style={{ textAlign: "center" }}
+          >
             ${e.value}
           </Typography>
         ),
@@ -134,6 +142,7 @@ class Consumers extends React.Component {
         sortMethod: (a, b) => Number(a) - Number(b),
         Cell: (e) => (
           <Typography
+            style={{ textAlign: "center" }}
             variant="subtitle1"
             className={Number(e.value) > 10000 ? "BIG" : ""}
           >
@@ -142,12 +151,30 @@ class Consumers extends React.Component {
         ),
       },
       {
-        accessor: "limitAmount",
-        show: false,
+        id: "Verify",
+        Header: (
+          <CustomTableHeader value="Verify" styles={{ textAlign: "center" }} />
+        ),
+        accessor: (e) => (
+          <div style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={e?.isVerified === 1}
+              style={{ color: "#0764B0", paddingTop: 0 }}
+            />
+          </div>
+        ),
       },
       {
-        accessor: "banks",
-        show: false,
+        id: "lastActivity",
+        Header: <CustomTableHeader value="Last Active" />,
+        accessor: (e) => (
+          <Typography
+            variant="subtitle1"
+            className={Number(e.value) > 10000 ? "BIG" : ""}
+          >
+            {e?.lastActivity && moment(e?.lastActivity).fromNow()}
+          </Typography>
+        ),
       },
       {
         accessor: "stateName",

@@ -316,7 +316,7 @@ class EditTemplate extends Component {
                             ]}
                             value="isConsumer"
                             inputProps={{ "aria-label": "primary checkbox" }}
-                            style={{ color: "#4251af" }}
+                            style={{ color: "#0764B0" }}
                           />
                           Visible on Consumer App
                         </Grid>

@@ -10,7 +10,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { Grid, Button, Select, MenuItem, InputLabel } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 
 import DateFnsUtils from "@date-io/date-fns";
 import "react-datepicker/dist/react-datepicker.css";

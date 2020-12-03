@@ -22,15 +22,15 @@ class WorkTime extends Component {
         </Grid>
 
         <Grid item xs={2} sm={4} md={2}>
-          <CustomTextLabel value="Date" styles={{ color: "#4251af" }} />
+          <CustomTextLabel value="Date" styles={{ color: "#0764B0" }} />
         </Grid>
 
         <Grid item xs={5} sm={4} md={5}>
-          <CustomTextLabel value="Shift Start" styles={{ color: "#4251af" }} />
+          <CustomTextLabel value="Shift Start" styles={{ color: "#0764B0" }} />
         </Grid>
 
         <Grid item xs={5} sm={4} md={5}>
-          <CustomTextLabel value="Shift End" styles={{ color: "#4251af" }} />
+          <CustomTextLabel value="Shift End" styles={{ color: "#0764B0" }} />
         </Grid>
 
         <Grid item xs={2} sm={4} md={2}>

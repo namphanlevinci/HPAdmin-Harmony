@@ -18,7 +18,7 @@ function CustomProgress({ size }) {
       >
         <DialogContent>
           <DialogContentText>
-            <CircularProgress style={{ color: "#4251af", zIndex: "9999" }} />
+            <CircularProgress style={{ color: "#0764B0", zIndex: "9999" }} />
           </DialogContentText>
         </DialogContent>
       </Dialog>

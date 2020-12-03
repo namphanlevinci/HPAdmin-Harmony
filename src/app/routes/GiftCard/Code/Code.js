@@ -81,7 +81,7 @@ class Codes extends Component {
   handleSelect = async (e) => {
     const { value, name } = e.target;
     this.setState({ [name]: value });
-    await this.fetchApi();
+    this.searchCode();
   };
 
   handEnter = (e) => {
@@ -156,7 +156,7 @@ class Codes extends Component {
           <div>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -171,7 +171,7 @@ class Codes extends Component {
           <div>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -186,7 +186,7 @@ class Codes extends Component {
           <div>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -215,7 +215,7 @@ class Codes extends Component {
             <Tooltip title="Info" arrow>
               <div
                 style={{
-                  color: "#4251af",
+                  color: "#0764B0",
                   textAlign: "center",
                   cursor: "pointer",
                 }}
@@ -409,6 +409,6 @@ const styles = {
   btn: {
     padding: "7px 25px",
     backgroundColor: "white",
-    color: "#4251af",
+    color: "#0764B0",
   },
 };

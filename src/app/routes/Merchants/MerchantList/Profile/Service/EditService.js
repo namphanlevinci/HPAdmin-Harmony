@@ -258,7 +258,7 @@ class EditService extends Component {
               <label
                 style={{
                   paddingTop: "10px",
-                  color: "#4251af",
+                  color: "#0764B0",
                   marginBottom: 8,
                 }}
               >
@@ -287,7 +287,7 @@ class EditService extends Component {
               />
             </Grid>
             <Grid item xs={12}>
-              <label style={{ color: "#4251af", marginTop: "10px" }}>
+              <label style={{ color: "#0764B0", marginTop: "10px" }}>
                 Duration
               </label>{" "}
               <br />
@@ -465,7 +465,7 @@ class EditService extends Component {
                       className="btn btn-green"
                       type="submit"
                       style={{
-                        backgroundColor: "#4251af",
+                        backgroundColor: "#0764B0",
                         color: "white",
                       }}
                       disabled={isSubmitting}

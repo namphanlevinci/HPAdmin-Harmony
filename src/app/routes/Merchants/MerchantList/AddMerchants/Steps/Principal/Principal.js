@@ -298,7 +298,7 @@ export default function Principal(props) {
             type="submit"
             className="btn btn-red"
             style={{
-              backgroundColor: "#4251af",
+              backgroundColor: "#0764B0",
               color: "white",
             }}
             // disabled={this.state.progress ? true : false}

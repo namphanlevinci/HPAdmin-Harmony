@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../../../url/url";
 import { getMerchantByID } from "../../../../actions/merchantActions";
-import { TextField, Grid } from "@material-ui/core";
+import { TextField, Grid, Button } from "@material-ui/core";
 import { WARNING_NOTIFICATION } from "../../../../constants/notificationConstants";
 import { updateMerchantPendingByID } from "../../../../actions/merchantActions";
 import { Formik, Form, FieldArray } from "formik";
@@ -11,7 +11,6 @@ import { CustomTitle } from "../../../../util/CustomText";
 import * as Yup from "yup";
 import { Typography } from "@material-ui/core";
 
-import Button from "@material-ui/core/Button";
 import defaultImage from "./hpadmin2.png";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -78,15 +77,7 @@ class EditPendingMerchant extends Component {
     }
   };
 
-  handleSubmitting = () => {
-    this.setState({ isSubmitting: true });
-  };
-
-  handleSubmitFail = () => {
-    this.setState({ isSubmitting: false });
-  };
-
-  async componentDidMount() {
+  componentDidMount() {
     const Profile = this.props.Profile;
     var BusinessQuestionObject = Profile?.business.reduce(
       (obj, item, index) =>
@@ -249,40 +240,38 @@ class EditPendingMerchant extends Component {
                             }
                           />
                         </Grid>
-
-                        <Grid item xs={4}>
+                        <Grid item xs={12}>
                           <InputField
+                            style={styles.input}
                             name={`generalInfo.address`}
                             label="Business Address* (no P.O. Boxes)"
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                           <InputField
+                            style={styles.input}
                             name={`generalInfo.city`}
                             label="City*"
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={3}>
-                          {this.state.loading && (
-                            <div>
-                              <CustomSelect
-                                name="state"
-                                label="State Issued*"
-                                initialValue={values.generalInfo.stateId}
-                                handleChange={(e) =>
-                                  setFieldValue(
-                                    `generalInfo.stateId`,
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </div>
-                          )}
+                        <Grid item xs={4}>
+                          <CustomSelect
+                            name="state"
+                            label="State*"
+                            initialValue={values.generalInfo.stateId}
+                            handleChange={(e) =>
+                              setFieldValue(
+                                `generalInfo.stateId`,
+                                e.target.value
+                              )
+                            }
+                          />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={4}>
                           <TextField
+                            style={styles.input}
                             InputLabelProps={{ shrink: true }}
                             label="Zip Code*"
                             value={values.generalInfo.zip}
@@ -310,41 +299,40 @@ class EditPendingMerchant extends Component {
                         </Grid>
 
                         {/* // DBA ADDRESS */}
-                        <Grid item xs={4}>
+                        <Grid item xs={12}>
                           <InputField
+                            style={styles.input}
                             name={`generalInfo.dbaAddress.Address`}
                             label="DBA Address*"
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                           <InputField
+                            style={styles.input}
                             name={`generalInfo.dbaAddress.City`}
                             label="City*"
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={3}>
-                          {this.state.loading && (
-                            <div>
-                              <CustomSelect
-                                name={`generalInfo.dbaAddress.State`}
-                                label="State Issued*"
-                                initialValue={
-                                  values?.generalInfo?.dbaAddress?.State
-                                }
-                                handleChange={(e) =>
-                                  setFieldValue(
-                                    `generalInfo.dbaAddress.State`,
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </div>
-                          )}
+                        <Grid item xs={4}>
+                          <CustomSelect
+                            name={`generalInfo.dbaAddress.State`}
+                            label="State*"
+                            initialValue={
+                              values?.generalInfo?.dbaAddress?.State
+                            }
+                            handleChange={(e) =>
+                              setFieldValue(
+                                `generalInfo.dbaAddress.State`,
+                                e.target.value
+                              )
+                            }
+                          />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={4}>
                           <TextField
+                            style={styles.input}
                             InputLabelProps={{ shrink: true }}
                             label="Zip Code*"
                             value={values.generalInfo?.dbaAddress.Zip}
@@ -380,21 +368,16 @@ class EditPendingMerchant extends Component {
                         </Grid>
 
                         <Grid item xs={4}>
-                          {this.state.loading && (
-                            <MaterialUiPhoneNumber
-                              fullWidth
-                              onlyCountries={["us", "vn"]}
-                              label="Business Phone Number*"
-                              name="businessPhone"
-                              value={values.generalInfo.phoneBusiness}
-                              onChange={(phone) =>
-                                setFieldValue(
-                                  `generalInfo.phoneBusiness`,
-                                  phone
-                                )
-                              }
-                            />
-                          )}
+                          <MaterialUiPhoneNumber
+                            fullWidth
+                            onlyCountries={["us", "vn"]}
+                            label="Business Phone Number*"
+                            name="businessPhone"
+                            value={values.generalInfo.phoneBusiness}
+                            onChange={(phone) =>
+                              setFieldValue(`generalInfo.phoneBusiness`, phone)
+                            }
+                          />
                         </Grid>
                         <Grid item xs={4}></Grid>
                         <Grid item xs={3}>
@@ -420,27 +403,25 @@ class EditPendingMerchant extends Component {
                           />
                         </Grid>
                         <Grid item xs={3}>
-                          {this.state.loading && (
-                            <MaterialUiPhoneNumber
-                              onlyCountries={["us", "vn"]}
-                              label="Contact Phone Number*"
-                              name="phoneContact"
-                              value={values.generalInfo.phoneContact}
-                              onChange={(phone) =>
-                                setFieldValue(`generalInfo.phoneContact`, phone)
-                              }
-                              error={
-                                errors?.generalInfo?.phoneContact &&
-                                touched?.generalInfo?.phoneContact
-                              }
-                              helperText={
-                                errors?.generalInfo?.phoneContact &&
-                                touched?.generalInfo?.phoneContact
-                                  ? errors?.generalInfo?.phoneContact
-                                  : ""
-                              }
-                            />
-                          )}
+                          <MaterialUiPhoneNumber
+                            onlyCountries={["us", "vn"]}
+                            label="Contact Phone Number*"
+                            name="phoneContact"
+                            value={values.generalInfo.phoneContact}
+                            onChange={(phone) =>
+                              setFieldValue(`generalInfo.phoneContact`, phone)
+                            }
+                            error={
+                              errors?.generalInfo?.phoneContact &&
+                              touched?.generalInfo?.phoneContact
+                            }
+                            helperText={
+                              errors?.generalInfo?.phoneContact &&
+                              touched?.generalInfo?.phoneContact
+                                ? errors?.generalInfo?.phoneContact
+                                : ""
+                            }
+                          />
                         </Grid>
 
                         {/* BANK INFORMATION */}
@@ -573,9 +554,10 @@ class EditPendingMerchant extends Component {
                                       <Grid
                                         item
                                         xs={12}
-                                        className="principal-title "
+                                        className="principal-title"
                                       >
                                         <CustomTitle
+                                          styles={{ padding: "10px 0px" }}
                                           value={`Principal ${index + 1}`}
                                         />
                                         {index === 1 ? (
@@ -650,6 +632,7 @@ class EditPendingMerchant extends Component {
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
                                           <InputField
+                                          style={{paddingTop: '6px'}}
                                             name={`principalInfo.${index}.address`}
                                             label="Address*"
                                             fullWidth
@@ -657,6 +640,7 @@ class EditPendingMerchant extends Component {
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
                                           <InputField
+                                          style={{paddingTop: '6px'}}
                                             name={`principalInfo.${index}.city`}
                                             label="City*"
                                             fullWidth
@@ -666,7 +650,7 @@ class EditPendingMerchant extends Component {
                                         <Grid item xs={12} sm={4}>
                                           <SelectField
                                             name={`principalInfo.${index}.stateId`}
-                                            label="State Issued*"
+                                            label="State*"
                                             data={State}
                                             fullWidth
                                           />
@@ -737,9 +721,16 @@ class EditPendingMerchant extends Component {
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
                                           <SelectField
-                                            name={`principalInfo.${index}.stateId`}
-                                            label="State*"
+                                            name={`principalInfo.${index}.stateIssued`}
+                                            onChange={(e) =>
+                                              setFieldValue(
+                                                `principalInfo.${index}.stateIssued`,
+                                                Number(e.target.value)
+                                              )
+                                            }
+                                            label="State Issued*"
                                             data={State}
+                                            
                                             fullWidth
                                           />
                                         </Grid>
@@ -754,7 +745,7 @@ class EditPendingMerchant extends Component {
                                               marginTop: "10px",
                                             }}
                                           >
-                                            {principal?.imageUrl !== "" ? (
+                                            {principal?.imageUrl ? (
                                               <img
                                                 src={principal?.imageUrl}
                                                 alt="avatar"
@@ -930,6 +921,9 @@ const styles = {
     color: "red",
     fontSize: "18px",
   },
+  input: {
+    marginTop: "8px",
+  },
 };
 
 const validationSchema = Yup.object().shape({
@@ -976,19 +970,20 @@ const validationSchema = Yup.object().shape({
       ownerShip: Yup.string().required("Ownership is required"),
       mobilePhone: Yup.string().required("Mobile phone is required"),
       ssn: Yup.string().required("Social security number is required"),
-      // dateOfBirth: Yup.string()
-      //   .required("Date of birth is required")
-      //   .nullable(),
+      DateOfBirth: Yup.string()
+        .required("Date of birth is required")
+        .nullable(),
       email: Yup.string()
         .email("Please enter a valid email")
-        .required("Email is required"),
+        .required("Email is required")
+        .nullable(),
       driverNumber: Yup.string().required("Driver license number is required"),
-      // stateIssued: Yup.string().required("State issued is required"),
+      stateIssued: Yup.string().required("State issued is required").nullable(),
       fileId: Yup.string().required("Driver license image is required"),
-
+      yearAddress: Yup.string().required("Year at this address is required"),
       address: Yup.string().required("Address is required"),
       city: Yup.string().required("City is required"),
-      // stateId: Yup.string().required("State is required"),
+      stateId: Yup.string().required("State is required"),
       zip: Yup.string().required("Zip code is required"),
     })
   ),

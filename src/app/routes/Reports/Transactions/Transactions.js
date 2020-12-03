@@ -249,19 +249,17 @@ class Transactions extends React.Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className="TransactionsBox">
-            <div className="search">
-              <SearchComponent
-                placeholder="Search"
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyDown={this.handEnter}
-                name="search"
-              />
-            </div>
+            <SearchComponent
+              placeholder="Search"
+              value={this.state.search}
+              onChange={this.handleChange}
+              onKeyDown={this.handEnter}
+              name="search"
+            />
 
             <div>
               <Button
-                style={{ color: "#4251af" }}
+                style={{ color: "#0764B0" }}
                 onClick={this.handleResetClick}
                 className="btn btn-red"
               >
@@ -273,7 +271,7 @@ class Transactions extends React.Component {
             container
             spacing={0}
             className="TransactionSearch"
-            style={{ textAlign: "center" }}
+            // style={{ textAlign: "center" }}
           >
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid item xs={4}>
@@ -290,6 +288,7 @@ class Transactions extends React.Component {
                     "aria-label": "change date",
                   }}
                   autoOk={true}
+                  style={{ width: "80%" }}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -306,6 +305,7 @@ class Transactions extends React.Component {
                     "aria-label": "change date",
                   }}
                   autoOk={true}
+                  style={{ width: "80%" }}
                 />
               </Grid>
               <Grid item xs={4} style={{ marginTop: "16px" }}>

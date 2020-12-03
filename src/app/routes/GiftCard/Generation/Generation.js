@@ -143,7 +143,7 @@ class Generation extends Component {
       {
         id: "Unused",
         Header: () => (
-          <CustomTableHeader styles={{ textAlign: "center" }} value="Unused" />
+          <CustomTableHeader styles={{ textAlign: "center" }} value="Remain" />
         ),
         accessor: (row) => (
           <Typography
@@ -204,7 +204,7 @@ class Generation extends Component {
             {CheckPermissions("add-new-gift-card") && (
               <Button
                 className="btn btn-red"
-                style={{ backgroundColor: "#4251af", color: "white" }}
+                style={{ backgroundColor: "#0764B0", color: "white" }}
                 onClick={() =>
                   this.props.history.push("/app/giftcard/generation/add")
                 }

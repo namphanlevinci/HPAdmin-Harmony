@@ -28,8 +28,8 @@ import CheckPermissions from "../../../../util/checkPermission";
 import NumberFormat from "react-number-format";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import getStateNameById from "../../../../util/FormatState";
 
-import "bootstrap/js/src/collapse.js";
 import "../PendingList/MerchantReqProfile.css";
 
 const URL = config.url.URL;
@@ -76,7 +76,7 @@ class MerchantRejectedProfile extends Component {
             <React.Fragment key={index}>
               {Number(principalLength) >= 2 ? (
                 <Grid item xs={12}>
-                  <h3 style={{ color: "#4251af", fontWeight: "500" }}>
+                  <h3 style={{ color: "#0764B0", fontWeight: "500" }}>
                     Principal {index + 1}
                   </h3>
                 </Grid>
@@ -103,7 +103,9 @@ class MerchantRejectedProfile extends Component {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="Address*" />
-                <CustomText value={e.address} />
+                <CustomText
+                  value={`${e.address}, ${e.city}, ${e.state.name}, ${e.zip}`}
+                />
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="Social Security Number* (SSN)" />
@@ -132,7 +134,7 @@ class MerchantRejectedProfile extends Component {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="State Issued*" />
-                <CustomText value={e?.state?.name} />
+                <CustomText value={getStateNameById(e?.stateIssued)} />
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={3}>
@@ -194,7 +196,7 @@ class MerchantRejectedProfile extends Component {
             <span>
               {CheckPermissions("delete-merchant-in-rejected-request") && (
                 <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  style={{ color: "#0764B0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={() => this.setState({ openDelete: true })}
                 >
@@ -203,7 +205,7 @@ class MerchantRejectedProfile extends Component {
               )}
               {CheckPermissions("edit-merchant-in-rejected-request") && (
                 <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  style={{ color: "#0764B0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={() => this.goToEditPage(e)}
                 >
@@ -212,7 +214,7 @@ class MerchantRejectedProfile extends Component {
               )}
               {CheckPermissions("revert-merchant-in-rejected-request") && (
                 <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  style={{ color: "#0764B0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={this.revertMerchant}
                 >
@@ -220,7 +222,7 @@ class MerchantRejectedProfile extends Component {
                 </Button>
               )}
               <Button
-                style={{ color: "#4251af", backgroundColor: "white" }}
+                style={{ color: "#0764B0", backgroundColor: "white" }}
                 className="btn btn-green"
                 onClick={this.goBack}
               >
@@ -296,36 +298,36 @@ class MerchantRejectedProfile extends Component {
                 <CustomTextLabel value="Federal Tax ID*" />
                 <CustomText value={e?.taxId} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <CustomTextLabel value="Business Address* (no P.O. Boxes)" />
                 <CustomText value={e?.general?.address} />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="City*" />
                 <CustomText value={e?.general?.city} />
               </Grid>
-              <Grid item xs={3}>
-                <CustomTextLabel value="State Issued*" />
+              <Grid item xs={4}>
+                <CustomTextLabel value="State*" />
                 <CustomText value={e?.state?.name} />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="Zip Code*" />
                 <CustomText value={e.zip} />
               </Grid>
               {/* DBA ADDRESS */}
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <CustomTextLabel value="DBA Address* " />
                 <CustomText value={e?.general?.dbaAddress?.Address} />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="City*" />
                 <CustomText value={e?.general?.dbaAddress?.City} />
               </Grid>
-              <Grid item xs={3}>
-                <CustomTextLabel value="State Issued*" />
+              <Grid item xs={4}>
+                <CustomTextLabel value="State*" />
                 <CustomText value={e?.general?.dbaAddress?.StateName} />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={4}>
                 <CustomTextLabel value="Zip Code*" />
                 <CustomText value={e?.general?.dbaAddress?.Zip} />
               </Grid>

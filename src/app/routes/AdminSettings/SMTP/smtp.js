@@ -132,8 +132,8 @@ class SMTP extends Component {
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.smtp" />}
-        />
-        <form className="form-style-7">
+        />s
+        <form className="">
           <h1>MAIL SERVER</h1>
           <ul>
             <li>

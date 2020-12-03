@@ -6,12 +6,20 @@ import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { getMerchantByID } from "../../../../actions/merchantActions";
 import { debounce } from "lodash";
+import {
+  Button,
+  Tooltip,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Input,
+} from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
-import Button from "@material-ui/core/Button";
 import CheckPermissions from "../../../../util/checkPermission";
 
 import "../Merchants.css";
@@ -23,6 +31,7 @@ class Merchants extends React.Component {
     super(props);
     this.state = {
       search: "",
+      statusValue: -1,
     };
   }
 
@@ -33,10 +42,10 @@ class Merchants extends React.Component {
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-
-    const url = `merchant/search?key=${this.state.search}&page=${
+    const { search, statusValue } = this.state;
+    const url = `merchant/search?key=${search}&page=${
       page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    }&row=${pageSize}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -46,6 +55,11 @@ class Merchants extends React.Component {
       page: pageIndex,
     });
   };
+
+  handleStatus = debounce((e) => {
+    this.setState({ statusValue: e.target.value });
+    this.fetchApi();
+  }, 1000);
 
   addMerchant = () => {
     this.props.history.push("/app/merchants/add");
@@ -73,7 +87,7 @@ class Merchants extends React.Component {
   };
 
   render() {
-    const { page } = this.state;
+    const { page, statusValue } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
@@ -176,18 +190,31 @@ class Merchants extends React.Component {
         <div className="MerList page-heading " style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
-              <SearchComponent
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyPress={this.keyPressed}
-              />
+              <Tooltip
+                title="Must enter correct MID to search by MID"
+                aria-label="add"
+              >
+                <SearchComponent
+                  placeholder="Search by ID, MID, DBA, Email"
+                  value={this.state.search}
+                  onChange={this.handleChange}
+                  onKeyPress={this.keyPressed}
+                />
+              </Tooltip>
             </div>
-
+            <FormControl style={{ width: "20%", marginLeft: "15px" }}>
+              <InputLabel>Status</InputLabel>
+              <Select onChange={this.handleStatus} value={statusValue}>
+                <MenuItem value={-1}>All</MenuItem>
+                <MenuItem value={0}>Active</MenuItem>
+                <MenuItem value={1}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
             <div>
               {CheckPermissions("add-new-merchant") && (
                 <Button
                   style={{
-                    backgroundColor: "#4251af",
+                    backgroundColor: "#0764B0",
                     color: "white",
                     marginTop: "10px",
                   }}

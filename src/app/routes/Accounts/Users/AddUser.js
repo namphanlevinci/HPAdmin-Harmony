@@ -166,7 +166,7 @@ class addAdmin2 extends Component {
                       <span>
                         <Button
                           style={{
-                            color: "#4251af",
+                            color: "#0764B0",
                             backgroundColor: "white",
                           }}
                           className="btn btn-green"
@@ -402,7 +402,7 @@ class addAdmin2 extends Component {
                       }}
                     >
                       <Button
-                        style={{ color: "#4251af", backgroundColor: "white" }}
+                        style={{ color: "#0764B0", backgroundColor: "white" }}
                         className="btn btn-green"
                         onClick={this.goBack}
                       >
@@ -458,7 +458,7 @@ const styles = {
     color: "red",
   },
   h2: {
-    color: "#4251af",
+    color: "#0764B0",
     fontWeight: "400",
     padding: "10px 0px",
     fontSize: "22px",
@@ -487,10 +487,9 @@ const userSchema = Yup.object().shape({
   email: Yup.string().email().required("Email is required"),
   userName: Yup.string().required("Last name is required"),
   password: Yup.string().required("Password is required"),
-  confirmPassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    "Passwords must match"
-  ),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm password is required"),
   address: Yup.string().required("Address is required"),
   city: Yup.string().required("City is required"),
   stateID: Yup.string().required("City is required"),

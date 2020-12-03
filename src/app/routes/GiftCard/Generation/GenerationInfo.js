@@ -187,7 +187,7 @@ class Generation_Detail extends Component {
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -205,7 +205,7 @@ class Generation_Detail extends Component {
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -220,7 +220,7 @@ class Generation_Detail extends Component {
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -245,7 +245,7 @@ class Generation_Detail extends Component {
         Cell: (row) => {
           return (
             <Tooltip title="Info" arrow>
-              <div style={{ color: "#4251af", textAlign: "center" }}>
+              <div style={{ color: "#0764B0", textAlign: "center" }}>
                 <GoInfo
                   size={22}
                   onClick={() => this.handleLogs(row.original)}
@@ -308,7 +308,7 @@ class Generation_Detail extends Component {
               <CustomTextLabel value="Template" />
               <CustomText
                 value={Detail?.giftCardTemplateName}
-                styles={{ color: "#4251af" }}
+                styles={{ color: "#0764B0" }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -446,7 +446,7 @@ const styles = {
     padding: "15px 0px 3px 5px",
   },
   h2: {
-    color: "#4251af",
+    color: "#0764B0",
     paddingBottom: "20px",
   },
   div: {
@@ -458,6 +458,6 @@ const styles = {
   btn: {
     padding: "7px 25px",
     backgroundColor: "white",
-    color: "#4251af",
+    color: "#0764B0",
   },
 };

@@ -224,7 +224,7 @@ class AddService extends Component {
                 <div className="service-container content-body">
                   <h2
                     style={{
-                      color: "#4251af",
+                      color: "#0764B0",
                       marginBottom: "65px",
                       marginTop: 15,
                       textAlign: "center",
@@ -284,7 +284,7 @@ class AddService extends Component {
                                   <label
                                     style={{
                                       textAlign: "left",
-                                      color: "#4251af",
+                                      color: "#0764B0",
                                     }}
                                   >
                                     Category*
@@ -333,7 +333,7 @@ class AddService extends Component {
                                   className="col-12"
                                   style={{ marginTop: 40 }}
                                 >
-                                  <label style={{ color: "#4251af" }}>
+                                  <label style={{ color: "#0764B0" }}>
                                     Service*
                                   </label>
                                   <br />
@@ -363,7 +363,7 @@ class AddService extends Component {
                                   className="col-12"
                                   style={{ marginTop: 40 }}
                                 >
-                                  <label style={{ color: "#4251af" }}>
+                                  <label style={{ color: "#0764B0" }}>
                                     Description
                                   </label>
                                   <br />
@@ -378,7 +378,7 @@ class AddService extends Component {
                                   <label
                                     style={{
                                       paddingTop: "10px",
-                                      color: "#4251af",
+                                      color: "#0764B0",
                                       marginBottom: 8,
                                     }}
                                   >
@@ -410,7 +410,7 @@ class AddService extends Component {
                                   </div>
                                 </div>
                                 <div className="col-4" style={{ marginTop: 5 }}>
-                                  <label style={{ color: "#4251af" }}>
+                                  <label style={{ color: "#0764B0" }}>
                                     Duration
                                   </label>
                                   <br />
@@ -505,7 +505,7 @@ class AddService extends Component {
                                   className="col-6"
                                   style={{ marginTop: 60 }}
                                 >
-                                  <label style={{ color: "#4251af" }}>
+                                  <label style={{ color: "#0764B0" }}>
                                     Price*
                                   </label>
                                   <br />
@@ -542,7 +542,7 @@ class AddService extends Component {
                                   className="col-6"
                                   style={{ marginTop: 60 }}
                                 >
-                                  <label style={{ color: "#4251af" }}>
+                                  <label style={{ color: "#0764B0" }}>
                                     Status*
                                   </label>
                                   <Select
@@ -566,7 +566,7 @@ class AddService extends Component {
                                   className="col-6"
                                   style={{ marginTop: 60 }}
                                 >
-                                  <label style={{ color: "#4251af" }}>
+                                  <label style={{ color: "#0764B0" }}>
                                     Surcharged
                                   </label>
                                   <br />

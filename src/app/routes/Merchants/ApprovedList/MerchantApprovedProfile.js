@@ -12,6 +12,7 @@ import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import NumberFormat from "react-number-format";
+import getStateNameById from "../../../../util/FormatState";
 
 import "bootstrap/js/src/collapse.js";
 import "../PendingList/MerchantReqProfile.css";
@@ -36,7 +37,7 @@ class MerchantApprovedProfile extends Component {
             <React.Fragment key={index}>
               {Number(principalLength) >= 2 ? (
                 <Grid item xs={12}>
-                  <h3 style={{ color: "#4251af", fontWeight: "500" }}>
+                  <h3 style={{ color: "#0764B0", fontWeight: "500" }}>
                     Principal {index + 1}
                   </h3>
                 </Grid>
@@ -63,7 +64,9 @@ class MerchantApprovedProfile extends Component {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="Address*" />
-                <CustomText value={e.address} />
+                <CustomText
+                  value={`${e.address}, ${e.city}, ${e.state.name}, ${e.zip}`}
+                />
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="Social Security Number* (SSN)" />
@@ -91,7 +94,7 @@ class MerchantApprovedProfile extends Component {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="State Issued*" />
-                <CustomText value={e?.state?.name} />
+                <CustomText value={getStateNameById(e?.stateIssued)} />
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={3}>
@@ -153,7 +156,7 @@ class MerchantApprovedProfile extends Component {
               <h2 style={{ fontWeight: 500 }}>ID: {e.merchantId}</h2>
               <span>
                 <Button
-                  style={{ color: "#4251af", backgroundColor: "white" }}
+                  style={{ color: "#0764B0", backgroundColor: "white" }}
                   className="btn btn-green"
                   onClick={this.goBack}
                 >
@@ -205,36 +208,36 @@ class MerchantApprovedProfile extends Component {
                   <CustomTextLabel value="Federal Tax ID*" />
                   <CustomText value={e?.taxId} />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                   <CustomTextLabel value="Business Address* (no P.O. Boxes)" />
                   <CustomText value={e?.general?.address} />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                   <CustomTextLabel value="City*" />
                   <CustomText value={e?.general?.city} />
                 </Grid>
-                <Grid item xs={3}>
-                  <CustomTextLabel value="State Issued*" />
+                <Grid item xs={4}>
+                  <CustomTextLabel value="State*" />
                   <CustomText value={e?.state?.name} />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={4}>
                   <CustomTextLabel value="Zip Code*" />
                   <CustomText value={e.zip} />
                 </Grid>
                 {/* DBA ADDRESS */}
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                   <CustomTextLabel value="DBA Address* " />
                   <CustomText value={e?.general?.dbaAddress?.Address} />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                   <CustomTextLabel value="City*" />
                   <CustomText value={e?.general?.dbaAddress?.City} />
                 </Grid>
-                <Grid item xs={3}>
-                  <CustomTextLabel value="State Issued*" />
+                <Grid item xs={4}>
+                  <CustomTextLabel value="State*" />
                   <CustomText value={e?.general?.dbaAddress?.StateName} />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={4}>
                   <CustomTextLabel value="Zip Code*" />
                   <CustomText value={e?.general?.dbaAddress?.Zip} />
                 </Grid>

@@ -32,6 +32,7 @@ import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import EditCategory from "./EditCategory";
+import SearchComponent from "../../../../../../util/searchComponent";
 
 import "./category.styles.scss";
 
@@ -201,18 +202,13 @@ class Category extends Component {
       <div className="react-transition swipe-up category-container">
         <div style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="search">
-              <form>
-                {/* <SearchIcon className="button" title="Search" /> */}
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
-                />
-              </form>
-            </div>
+            <SearchComponent
+              className="textBox"
+              placeholder="Search.."
+              value={this.state.search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+            />
+
             <div>
               {/* NEW ADD FORM */}
               {CheckPermissions("add-new-category") && (
