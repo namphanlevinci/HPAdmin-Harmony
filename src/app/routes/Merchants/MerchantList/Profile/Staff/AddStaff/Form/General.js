@@ -92,15 +92,21 @@ function General(props) {
           />
         </Grid>
         <Grid item xs={12} md={4}>
-          <InputField name="email" label="Contact Email" fullWidth />
+          <InputField
+            name="email"
+            label="Contact Email"
+            fullWidth
+            autoComplete="none"
+          />
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
               <InputField
                 name="pin"
-                label="Pin"
+                label="Pin*"
                 fullWidth
+                autoComplete="none"
                 type={showPin ? "text" : "password"}
                 inputProps={{ maxLength: 4 }}
                 InputProps={{
@@ -125,7 +131,7 @@ function General(props) {
             <Grid item xs={12} md={4}>
               <InputField
                 name="confirmPin"
-                label="Confirm Pin"
+                label="Confirm Pin*"
                 fullWidth
                 type={showConfirmPin ? "text" : "password"}
                 inputProps={{ maxLength: 4 }}
