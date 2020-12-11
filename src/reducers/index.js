@@ -47,6 +47,8 @@ import {
   merchantPendingStatusReducer,
   downloadMerchantTemplateReducer,
   addMerchantTemplateReducer,
+  addGiftCardByMerchantReducer,
+  exportGiftCardByMerchantReducer,
 } from "./merchantReducer";
 
 // Consumer
@@ -129,6 +131,8 @@ export default (history) =>
     activity: getMerchantActivityByIdReducer,
     addMerchant: addMerchantReducer,
     pendingStatus: merchantPendingStatusReducer,
+    addGiftCard: addGiftCardByMerchantReducer,
+    exportGiftCard: exportGiftCardByMerchantReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,

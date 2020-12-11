@@ -13,7 +13,6 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Input,
 } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";

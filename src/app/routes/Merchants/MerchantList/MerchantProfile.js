@@ -44,6 +44,10 @@ import ExtraTab from "./Profile/Extra/Extra.js";
 import ExportSettlement from "./Profile/ExportSettlement/export-settlement";
 import CheckPermissions from "../../../../util/checkPermission";
 import PrivateRoute from "../../../PrivateRoute";
+// Gift Card
+import GiftCard from "./Profile/GiftCard/GiftCard";
+import AddGiftCard from "./Profile/GiftCard/AddGiftCard";
+import GiftCardInfo from "./Profile/GiftCard/GiftCardInfo";
 
 import "../PendingList/MerchantReqProfile.css";
 import "./MerchantProfile.css";
@@ -187,6 +191,11 @@ class merchantProfile extends Component {
                         </NavLink>
                       </li>
                       <li>
+                        <NavLink to="/app/merchants/profile/gift-card">
+                          Gift Card
+                        </NavLink>
+                      </li>
+                      <li>
                         <NavLink to="/app/merchants/profile/settings">
                           Settings
                         </NavLink>
@@ -258,6 +267,20 @@ class merchantProfile extends Component {
                         <Route
                           path="/app/merchants/profile/extra"
                           component={ExtraTab}
+                        />
+                        <Route
+                          exact
+                          path="/app/merchants/profile/gift-card/add"
+                          component={AddGiftCard}
+                        />
+                        <Route
+                          exact
+                          path="/app/merchants/profile/gift-card/:id"
+                          component={GiftCardInfo}
+                        />
+                        <Route
+                          path="/app/merchants/profile/gift-card"
+                          component={GiftCard}
                         />
 
                         <PrivateRoute
