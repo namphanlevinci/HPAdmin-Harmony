@@ -102,5 +102,8 @@ export default function getStateNameById(stateId) {
       return "West Virginia";
     case 53:
       return "Wyoming";
+
+    default:
+      return;
   }
 }

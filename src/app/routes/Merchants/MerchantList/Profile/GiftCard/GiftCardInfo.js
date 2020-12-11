@@ -17,14 +17,14 @@ class GiftCardInfo extends Component {
       search: "",
       data: [],
       id: "",
+      loadingComp: false,
     };
   }
 
   componentDidMount() {
     const pageUrl = window.location.pathname;
     const id = pageUrl.substring(pageUrl.lastIndexOf("/") + 1);
-
-    this.setState({ id });
+    this.setState({ id, loadingComp: true });
   }
 
   fetchApi = async (state) => {
@@ -95,7 +95,7 @@ class GiftCardInfo extends Component {
       },
     ];
 
-    const { page } = this.state;
+    const { page, loadingComp } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
     const { loading: exportLoading } = this.props.exportStatus;
 
@@ -121,20 +121,22 @@ class GiftCardInfo extends Component {
           </Button>
         </div>
         <div className="merchant-list-container">
-          <ReactTable
-            manual
-            page={page}
-            pages={pageCount}
-            data={data}
-            row={pageSize}
-            onPageChange={(pageIndex) => this.changePage(pageIndex)}
-            onFetchData={(state) => this.fetchApi(state)}
-            defaultPageSize={20}
-            minRows={1}
-            noDataText="NO DATA!"
-            loading={loading}
-            columns={columns}
-          />
+          {loadingComp && (
+            <ReactTable
+              manual
+              page={page}
+              pages={pageCount}
+              data={data}
+              row={pageSize}
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onFetchData={(state) => this.fetchApi(state)}
+              defaultPageSize={20}
+              minRows={1}
+              noDataText="NO DATA!"
+              loading={loading}
+              columns={columns}
+            />
+          )}
         </div>
       </div>
     );
