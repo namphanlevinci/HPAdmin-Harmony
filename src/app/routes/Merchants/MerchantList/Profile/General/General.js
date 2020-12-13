@@ -42,6 +42,7 @@ class General extends Component {
 
   render() {
     const e = this.props.MerchantProfile;
+
     const {
       legalBusinessName,
       doBusinessName,
@@ -58,6 +59,8 @@ class General extends Component {
       firstName,
       phoneContact,
       title,
+      longitude,
+      latitude,
     } = this.props.MerchantProfile.general;
 
     const renderGeneral = (
@@ -161,6 +164,18 @@ class General extends Component {
         <Grid item xs={12} md={4}>
           <CustomTextLabel value="Send Review Link Option" />
           <CustomText value={reNameSendLinkName(sendReviewLinkOption)} />
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={12} md={4}>
+              <CustomTextLabel value="Longitude" />
+              <CustomText value={longitude} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CustomTextLabel value="Latitude" />
+              <CustomText value={latitude} />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     );

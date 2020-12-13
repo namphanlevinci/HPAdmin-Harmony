@@ -16,7 +16,7 @@ class AddGiftCard extends Component {
       <div>
         <CustomTitle value="General Information" />
         <Formik
-          initialValues={{ Name: "", Amount: "", quantity: "" }}
+          initialValues={{ Name: "", Amount: 0, quantity: "" }}
           validate={(values) => {
             const errors = {};
             if (!values.Name) {
