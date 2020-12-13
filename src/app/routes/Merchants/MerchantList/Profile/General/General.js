@@ -168,12 +168,12 @@ class General extends Component {
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={12} md={4}>
-              <CustomTextLabel value="Longitude" />
-              <CustomText value={longitude} />
-            </Grid>
-            <Grid item xs={12} md={4}>
               <CustomTextLabel value="Latitude" />
               <CustomText value={latitude} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <CustomTextLabel value="Longitude" />
+              <CustomText value={longitude} />
             </Grid>
           </Grid>
         </Grid>

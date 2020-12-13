@@ -388,25 +388,29 @@ class General extends Component {
                         <Grid item xs={6} md={4}>
                           <CustomNumberField
                             InputLabelProps={{ shrink: true }}
-                            name="longitude"
-                            label="Longitude"
+                            name="latitude"
+                            label="Latitude"
                             fullWidth
-                            options={{
-                              delimiters: ["."],
-                              blocks: [3, 20],
-                            }}
+                            options={
+                              {
+                                // delimiters: ["."],
+                                // blocks: [2, 20],
+                              }
+                            }
                           />
                         </Grid>
                         <Grid item xs={6} md={4}>
                           <CustomNumberField
                             InputLabelProps={{ shrink: true }}
-                            name="latitude"
-                            label="Latitude"
+                            name="longitude"
+                            label="Longitude"
                             fullWidth
-                            options={{
-                              delimiters: ["."],
-                              blocks: [2, 20],
-                            }}
+                            options={
+                              {
+                                // delimiters: ["."],
+                                // blocks: [3, 20],
+                              }
+                            }
                           />
                         </Grid>
                       </Grid>
@@ -472,6 +476,14 @@ const validationSchema = Yup.object().shape({
   phoneContact: Yup.string()
     .matches(phoneRegExp, "Invalid phone number")
     .required("Phone is required"),
-  longitude: Yup.string().required("Longitude is required").nullable(),
-  latitude: Yup.string().required("Latitude is required").nullable(),
+
+  latitude: Yup.number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .nullable(true)
+    .required("Latitude is required"),
+
+  longitude: Yup.number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .nullable(true)
+    .required("Longitude is required"),
 });
