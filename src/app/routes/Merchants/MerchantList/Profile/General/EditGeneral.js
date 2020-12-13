@@ -17,6 +17,7 @@ import * as Yup from "yup";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../../../util/getState";
 import InputCustom from "../../../../../../util/CustomInput";
+import CustomNumberField from "../../AddMerchants/FormFields/CustomNumberField";
 
 class General extends Component {
   constructor(props) {
@@ -382,6 +383,39 @@ class General extends Component {
                         </Select>
                       </FormControl>
                     </Grid>
+                    <Grid item xs={12}>
+                      <Grid container spacing={3}>
+                        <Grid item xs={6} md={4}>
+                          <CustomNumberField
+                            InputLabelProps={{ shrink: true }}
+                            name="latitude"
+                            label="Latitude"
+                            fullWidth
+                            options={
+                              {
+                                // delimiters: ["."],
+                                // blocks: [2, 20],
+                              }
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                          <CustomNumberField
+                            InputLabelProps={{ shrink: true }}
+                            name="longitude"
+                            label="Longitude"
+                            fullWidth
+                            options={
+                              {
+                                // delimiters: ["."],
+                                // blocks: [3, 20],
+                              }
+                            }
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
                     <Grid item xs={12} style={{ paddingTop: "20px" }}>
                       <Button className="btn btn-green" type="submit">
                         SAVE
@@ -442,4 +476,14 @@ const validationSchema = Yup.object().shape({
   phoneContact: Yup.string()
     .matches(phoneRegExp, "Invalid phone number")
     .required("Phone is required"),
+
+  latitude: Yup.number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .nullable(true)
+    .required("Latitude is required"),
+
+  longitude: Yup.number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .nullable(true)
+    .required("Longitude is required"),
 });
