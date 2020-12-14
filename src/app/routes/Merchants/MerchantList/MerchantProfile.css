@@ -35,6 +35,7 @@ ul.detail-tab .active {
   color: white;
   border-bottom: 3px solid red;
   background: #0764B0;
+  padding: 10px;
 }
 
 /* .label {

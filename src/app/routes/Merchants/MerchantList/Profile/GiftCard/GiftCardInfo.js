@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Checkbox } from "@material-ui/core";
+import { Button, Checkbox, Tooltip } from "@material-ui/core";
 import { fetchApiByPage } from "../../../../../../actions/fetchApiActions";
 import { exportGiftCardByMerchantId } from "../../../../../../actions/merchantActions";
 import { BsInfoCircle } from "react-icons/bs";
-
+import { getCodeLog } from "../../../../../../actions/giftCardActions";
 import CustomProgress from "../../../../../../util/CustomProgress";
 
 import moment from "moment";
 import ReactTable from "react-table";
+import Log from "./Log/Log";
 
 class GiftCardInfo extends Component {
   constructor(props) {
@@ -46,6 +47,11 @@ class GiftCardInfo extends Component {
 
   exportGiftCard = () => {
     this.props.exportGiftCard(this.state.id);
+  };
+
+  handleLogs = (e) => {
+    this.setState({ open: true, serialNumber: e?.serialNumber });
+    this.props.getCodeLog(e?.giftCardId);
   };
 
   render() {
@@ -87,9 +93,17 @@ class GiftCardInfo extends Component {
       {
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
         id: "action",
-        accessor: (e) => (
+        Cell: (row) => (
           <div style={{ textAlign: "center" }}>
-            <BsInfoCircle size={20} />
+            <Tooltip title="Info" arrow>
+              <div style={{ color: "#0764B0", textAlign: "center" }}>
+                <BsInfoCircle
+                  size={22}
+                  onClick={() => this.handleLogs(row.original)}
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+            </Tooltip>
           </div>
         ),
       },
@@ -137,6 +151,12 @@ class GiftCardInfo extends Component {
               columns={columns}
             />
           )}
+
+          <Log
+            open={this.state.open}
+            handleClose={() => this.setState({ open: false })}
+            Serial={this.state.serialNumber}
+          />
         </div>
       </div>
     );
@@ -155,6 +175,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   exportGiftCard: (id) => {
     dispatch(exportGiftCardByMerchantId(id));
+  },
+  getCodeLog: (CodeId) => {
+    dispatch(getCodeLog(CodeId));
   },
 });
 

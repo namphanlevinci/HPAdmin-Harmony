@@ -22,7 +22,7 @@ class AddGiftCard extends Component {
             if (!values.Name) {
               errors.Name = "Name is required";
             }
-            if (!values.Amount) {
+            if (values.Amount === "") {
               errors.Amount = "Value is required";
             }
             if (!values.quantity) {
@@ -97,10 +97,13 @@ class AddGiftCard extends Component {
                   />
                 </Grid>
                 <Grid item xs={12} style={{ paddingTop: "20px" }}>
-                  <Button className="btn btn-green" type="submit">
+                  <Button
+                    className="btn btn-red"
+                    onClick={this.props.history.goBack}
+                  >
                     CANCEL
                   </Button>
-                  <Button className="btn btn-red" type="submit">
+                  <Button className="btn btn-green " type="submit">
                     GENERATE
                   </Button>
                 </Grid>
