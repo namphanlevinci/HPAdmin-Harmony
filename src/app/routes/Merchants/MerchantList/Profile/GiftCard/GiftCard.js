@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import { exportGiftCardByMerchantId } from "../../../../../../actions/merchantActions";
 import { fetchApiByPage } from "../../../../../../actions/fetchApiActions";
 import { debounce } from "lodash";
-import { Button } from "@material-ui/core";
+import { Button, Tooltip } from "@material-ui/core";
 import { RiShareForwardBoxLine } from "react-icons/ri";
+
+import CustomProgress from "../../../../../../util/CustomProgress";
 import ReactTable from "react-table";
 import SearchComponent from "../../../../../../util/searchComponent";
 import moment from "moment";
@@ -81,19 +83,30 @@ class Product extends Component {
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
         id: "action",
         accessor: (e) => (
-          <div style={{ textAlign: "center" }}>
-            <RiShareForwardBoxLine size={20} onClick={this.getGiftCardInfo} />
-          </div>
+          <Tooltip title="Export" arrow>
+            <div
+              style={{
+                color: "#0764B0",
+                textAlign: "center",
+                cursor: "pointer",
+              }}
+            >
+              <RiShareForwardBoxLine size={20} onClick={this.getGiftCardInfo} />
+            </div>
+          </Tooltip>
         ),
       },
     ];
     const { page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
+    const { loading: exportLoading } = this.props.exportStatus;
 
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined && column.id === "action") {
+            this.props.exportGiftCard(rowInfo.original.giftCardGeneralId);
+          } else {
             this.props.history.push(
               `/app/merchants/profile/gift-card/${rowInfo.original.giftCardGeneralId}`
             );
@@ -104,6 +117,7 @@ class Product extends Component {
 
     return (
       <div className="content general-content Staff react-transition swipe-up">
+        {exportLoading && <CustomProgress />}
         <div className="search_box">
           <SearchComponent
             value={this.state.search}
@@ -146,10 +160,14 @@ class Product extends Component {
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
   MerchantProfile: state.merchant.merchant,
+  exportStatus: state.exportGiftCard,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
+  },
+  exportGiftCard: (id) => {
+    dispatch(exportGiftCardByMerchantId(id));
   },
 });
 

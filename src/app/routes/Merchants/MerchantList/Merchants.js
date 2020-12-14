@@ -157,12 +157,18 @@ class Merchants extends React.Component {
         ),
       },
       {
-        Header: <CustomTableHeader value="Status" />,
+        Header: (
+          <div style={{ textAlign: "center" }}>
+            <CustomTableHeader value="Status" />
+          </div>
+        ),
         accessor: "isDisabled",
         Cell: (e) => (
-          <Typography variant="subtitle1">
-            {e.value === 0 ? "Active" : "Inactive"}
-          </Typography>
+          <div style={{ textAlign: "center" }}>
+            <Typography variant="subtitle1">
+              {e.value === 0 ? "Active" : "Inactive"}
+            </Typography>{" "}
+          </div>
         ),
         width: 100,
       },
