@@ -1171,6 +1171,23 @@ const exportGiftCardByMerchantReducer = (
   }
 };
 
+const giftCardNameReducer = (
+  state = {
+    name: "",
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_GIFT_CARD_NAME:
+      return {
+        name: payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export {
   restoreStaffReducer,
   archiveStaffReducer,
@@ -1216,4 +1233,5 @@ export {
   rejectMerchantReducer,
   addGiftCardByMerchantReducer,
   exportGiftCardByMerchantReducer,
+  giftCardNameReducer,
 };

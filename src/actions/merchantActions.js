@@ -2375,3 +2375,10 @@ export const exportGiftCardByMerchantId = (id) => async (
     });
   }
 };
+
+export const getGiftCardName = (name) => async (dispatch, getState) => {
+  dispatch({
+    type: types.GET_GIFT_CARD_NAME,
+    payload: name,
+  });
+};

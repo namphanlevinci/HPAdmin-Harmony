@@ -14,7 +14,7 @@ import Grid from "@material-ui/core/Grid";
 
 import "./log.scss";
 
-const CodeLog = ({ open, handleClose, log, Serial }) => {
+const CodeLog = ({ open = false, handleClose, log, Serial }) => {
   const renderLog = log.map((e, index) => (
     <Grid container key={index}>
       <Grid item xs={3}>
