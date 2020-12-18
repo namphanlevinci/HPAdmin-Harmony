@@ -6,6 +6,7 @@ import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { Button, Typography } from "@material-ui/core";
 import { debounce } from "lodash";
+import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -23,6 +24,7 @@ class Users extends Component {
     this.state = {
       search: "",
       loading: false,
+      statusValue: -1,
     };
   }
 
@@ -35,6 +37,11 @@ class Users extends Component {
     this.searchUser();
   };
 
+  handleStatus = debounce((e) => {
+    this.setState({ statusValue: e.target.value });
+    this.fetchApi();
+  }, 1000);
+
   goToUserProfile = async (e) => {
     const ID = e?.waUserId;
     const path = "/app/accounts/admin/profile";
@@ -44,10 +51,11 @@ class Users extends Component {
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
+    const { statusValue, search } = this.state;
 
-    const url = `adminuser?key=${this.state.search}&page=${
+    const url = `adminuser?key=${search}&page=${
       page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    }&row=${pageSize}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -68,7 +76,7 @@ class Users extends Component {
     this.props.history.push("/app/accounts/admin/add");
   };
   render() {
-    const { page } = this.state;
+    const { page, statusValue } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
@@ -143,6 +151,22 @@ class Users extends Component {
           </div>
         ),
       },
+      {
+        Header: (
+          <div style={{ textAlign: "center" }}>
+            <CustomTableHeader value="Status" />
+          </div>
+        ),
+        accessor: "isDisabled",
+        Cell: (e) => (
+          <div style={{ textAlign: "center" }}>
+            <Typography variant="subtitle1">
+              {e.value === 0 ? "Active" : "Inactive"}
+            </Typography>{" "}
+          </div>
+        ),
+        width: 100,
+      },
     ];
 
     const onRowClick = (state, rowInfo, column, instance) => {
@@ -172,7 +196,14 @@ class Users extends Component {
                 onKeyPress={this.keyPressed}
               />
             </div>
-
+            <FormControl style={{ width: "20%", marginLeft: "15px" }}>
+              <InputLabel>Status</InputLabel>
+              <Select onChange={this.handleStatus} value={statusValue}>
+                <MenuItem value={-1}>All</MenuItem>
+                <MenuItem value={0}>Active</MenuItem>
+                <MenuItem value={1}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
             {CheckPermissions("add-new-user") && (
               <Button
                 className="btn btn-green"
@@ -187,6 +218,7 @@ class Users extends Component {
           <div className="merchant-list-container user_table">
             <ReactTable
               manual
+              sortable={false}
               page={page}
               pages={pageCount}
               data={data}

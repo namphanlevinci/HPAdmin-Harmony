@@ -189,7 +189,7 @@ class SidenavContent extends Component {
                 </span>
               </Button>
               <ul className="sub-menu">
-                {CheckPermissions("view-generation") && (
+                {/* {CheckPermissions("view-generation") && (
                   <li>
                     <NavLink
                       className="prepend-icon"
@@ -200,9 +200,9 @@ class SidenavContent extends Component {
                       </span>
                     </NavLink>
                   </li>
-                )}
+                )} */}
 
-                {CheckPermissions("view-codes") && (
+                {/* {CheckPermissions("view-codes") && (
                   <li>
                     <NavLink className="prepend-icon" to="/app/giftcard/codes">
                       <span className="nav-text">
@@ -210,7 +210,7 @@ class SidenavContent extends Component {
                       </span>
                     </NavLink>
                   </li>
-                )}
+                )} */}
 
                 {CheckPermissions("view-template") && (
                   <li>

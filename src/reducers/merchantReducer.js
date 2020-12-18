@@ -1119,6 +1119,75 @@ const rejectMerchantReducer = (
   }
 };
 
+const addGiftCardByMerchantReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.ADD_GIFT_CARD_MERCHANT_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.ADD_GIFT_CARD_MERCHANT_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.ADD_GIFT_CARD_MERCHANT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const exportGiftCardByMerchantReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.EXPORT_GIFT_CARD_MERCHANT_BY_ID_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.EXPORT_GIFT_CARD_MERCHANT_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.EXPORT_GIFT_CARD_MERCHANT_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const giftCardNameReducer = (
+  state = {
+    name: "",
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_GIFT_CARD_NAME:
+      return {
+        name: payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export {
   restoreStaffReducer,
   archiveStaffReducer,
@@ -1162,4 +1231,7 @@ export {
   addMerchantTemplateReducer,
   approveMerchantReducer,
   rejectMerchantReducer,
+  addGiftCardByMerchantReducer,
+  exportGiftCardByMerchantReducer,
+  giftCardNameReducer,
 };

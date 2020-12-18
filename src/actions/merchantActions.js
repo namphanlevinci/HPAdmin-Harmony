@@ -2271,3 +2271,114 @@ export const rejectMerchantById = (payload) => async (dispatch, getState) => {
     });
   }
 };
+
+export const addGiftCardByMerchantId = (payload) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.ADD_GIFT_CARD_MERCHANT_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { path } = payload;
+
+    const { data } = await axios.post(
+      `${URL}/giftcard/general`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.ADD_GIFT_CARD_MERCHANT_SUCCESS,
+      payload: data.data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    if (path) {
+      history.push(path);
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.ADD_GIFT_CARD_MERCHANT_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const exportGiftCardByMerchantId = (id) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.EXPORT_GIFT_CARD_MERCHANT_BY_ID_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(
+      `${URL}/giftcard/getByGeneral/export/excel?generalId=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    window.open(data.data.path);
+
+    dispatch({
+      type: types.EXPORT_GIFT_CARD_MERCHANT_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.EXPORT_GIFT_CARD_MERCHANT_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getGiftCardName = (name) => async (dispatch, getState) => {
+  dispatch({
+    type: types.GET_GIFT_CARD_NAME,
+    payload: name,
+  });
+};

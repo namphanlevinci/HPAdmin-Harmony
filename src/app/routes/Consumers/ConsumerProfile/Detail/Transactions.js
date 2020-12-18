@@ -210,7 +210,7 @@ class Transactions extends Component {
                   <FormControl style={{ width: "80%" }}>
                     <InputLabel>Time Range</InputLabel>
                     <Select value={timeRange} onChange={this.handleTimeRange}>
-                      <MenuItem value="All">All User</MenuItem>
+                      <MenuItem value="All">All</MenuItem>
                       <MenuItem value="thisWeek">This Week</MenuItem>
                       <MenuItem value="thisMonth">This Month</MenuItem>
                     </Select>
