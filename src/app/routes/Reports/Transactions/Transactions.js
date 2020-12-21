@@ -290,38 +290,42 @@ class Transactions extends React.Component {
 
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid item xs={4}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  label="From"
-                  name="from"
-                  value={from}
-                  onChange={(e) => this.handleDateChange(e, "from")}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                  autoOk={true}
-                  style={{ width: "80%" }}
-                />
+                {range === "all" ? (
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    label="From"
+                    name="from"
+                    value={from}
+                    onChange={(e) => this.handleDateChange(e, "from")}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    autoOk={true}
+                    style={{ width: "80%" }}
+                  />
+                ) : null}
               </Grid>
               <Grid item xs={4}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  label="To"
-                  value={to}
-                  name="to"
-                  onChange={(e) => this.handleDateChange(e, "to")}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                  autoOk={true}
-                  style={{ width: "80%" }}
-                />
+                {range === "all" ? (
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    label="To"
+                    value={to}
+                    name="to"
+                    onChange={(e) => this.handleDateChange(e, "to")}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    autoOk={true}
+                    style={{ width: "80%" }}
+                  />
+                ) : null}
               </Grid>
             </MuiPickersUtilsProvider>
 
