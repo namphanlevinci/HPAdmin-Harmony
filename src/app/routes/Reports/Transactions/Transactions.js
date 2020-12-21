@@ -273,6 +273,21 @@ class Transactions extends React.Component {
             className="TransactionSearch"
             // style={{ textAlign: "center" }}
           >
+            <Grid item xs={4} style={{ marginTop: "16px" }}>
+              <FormControl style={{ width: "80%" }}>
+                <InputLabel>Time Range</InputLabel>
+                <Select value={range} onChange={this.timeRange}>
+                  <MenuItem value="today">Today</MenuItem>
+                  <MenuItem value="yesterday">Yesterday</MenuItem>
+                  <MenuItem value="thisWeek">This Week</MenuItem>
+                  <MenuItem value="lastWeek">Last Week</MenuItem>
+                  <MenuItem value="thisMonth">This Month</MenuItem>
+                  <MenuItem value="lastMonth">Last Month</MenuItem>
+                  <MenuItem value="all">Custom</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid item xs={4}>
                 <KeyboardDatePicker
@@ -307,20 +322,6 @@ class Transactions extends React.Component {
                   autoOk={true}
                   style={{ width: "80%" }}
                 />
-              </Grid>
-              <Grid item xs={4} style={{ marginTop: "16px" }}>
-                <FormControl style={{ width: "80%" }}>
-                  <InputLabel>Time Range</InputLabel>
-                  <Select value={range} onChange={this.timeRange}>
-                    <MenuItem value="all">ALL</MenuItem>
-                    <MenuItem value="today">Today</MenuItem>
-                    <MenuItem value="yesterday">Yesterday</MenuItem>
-                    <MenuItem value="thisWeek">This Week</MenuItem>
-                    <MenuItem value="lastWeek">Last Week</MenuItem>
-                    <MenuItem value="thisMonth">This Month</MenuItem>
-                    <MenuItem value="lastMonth">Last Month</MenuItem>
-                  </Select>
-                </FormControl>
               </Grid>
             </MuiPickersUtilsProvider>
 

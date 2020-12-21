@@ -3,11 +3,17 @@ import { connect } from "react-redux";
 import { getConsumerByID } from "../../../actions/consumerActions";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
-import { Typography } from "@material-ui/core";
+import {
+  Typography,
+  Checkbox,
+  Select,
+  FormControl,
+  MenuItem,
+  InputLabel,
+} from "@material-ui/core";
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
 import { debounce } from "lodash";
 
-import Checkbox from "@material-ui/core/Checkbox";
 import IntlMessages from "../../../util/IntlMessages";
 import CustomProgress from "../../../util/CustomProgress";
 import ContainerHeader from "../../../components/ContainerHeader/index";
@@ -30,6 +36,9 @@ class Consumers extends React.Component {
       page: 0,
       pageCount: 0,
       data: [],
+      isVerify: -1,
+      sortValue: "",
+      sortType: "desc",
     };
   }
 
@@ -37,7 +46,9 @@ class Consumers extends React.Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const url = `user/?key=${this.state.search}&page=${
+    const { search, isVerify, sortType, sortValue } = this.state;
+
+    const url = `user/?key=${search}&isVerify=${isVerify}&sortValue=${sortValue}&sortType=${sortType}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -64,6 +75,23 @@ class Consumers extends React.Component {
       event.preventDefault();
       this.fetchApi();
     }
+  };
+
+  handleSelect = (e) => {
+    this.setState({ isVerify: e.target.value });
+    this.searchCustomer();
+  };
+
+  handleSort = (e) => {
+    const { id, desc } = e[0];
+    let sortType = desc ? "desc" : "asc";
+
+    this.setState({
+      sortType,
+      sortValue: id,
+    });
+
+    this.searchCustomer();
   };
 
   render() {
@@ -123,7 +151,7 @@ class Consumers extends React.Component {
         Header: (
           <CustomTableHeader value="Balance" styles={{ textAlign: "center" }} />
         ),
-        id: "balance",
+        id: "credit",
         accessor: (e) => e.credit,
         Cell: (e) => (
           <Typography
@@ -151,7 +179,7 @@ class Consumers extends React.Component {
         ),
       },
       {
-        id: "Verify",
+        id: "isVerified",
         Header: (
           <CustomTableHeader value="Verify" styles={{ textAlign: "center" }} />
         ),
@@ -208,13 +236,27 @@ class Consumers extends React.Component {
             title={<IntlMessages id="sidebar.dashboard.consumers" />}
           />
           <div className="MerList page-heading" style={{ padding: "10px" }}>
-            <div className=" TransactionsBox ">
+            <div style={styles.div}>
               {/* SEARCH */}
-              <SearchComponent
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyPress={this.keyPressed}
-              />
+              <div>
+                <SearchComponent
+                  value={this.state.search}
+                  onChange={this.handleChange}
+                  onKeyPress={this.keyPressed}
+                />
+              </div>
+
+              <FormControl style={styles.select}>
+                <InputLabel>Is Verify</InputLabel>
+                <Select
+                  onChange={this.handleSelect}
+                  value={this.state.isVerify}
+                >
+                  <MenuItem value="-1">All</MenuItem>
+                  <MenuItem value="1">True</MenuItem>
+                  <MenuItem value="0">False</MenuItem>
+                </Select>
+              </FormControl>
             </div>
 
             <div className="merchant-list-container">
@@ -232,6 +274,7 @@ class Consumers extends React.Component {
                 loading={loading}
                 columns={columns}
                 getTdProps={onRowClick}
+                onSortedChange={(e) => this.handleSort(e)}
               />
             </div>
           </div>
@@ -255,3 +298,13 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Consumers);
+
+const styles = {
+  div: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  select: {
+    width: "20%",
+  },
+};

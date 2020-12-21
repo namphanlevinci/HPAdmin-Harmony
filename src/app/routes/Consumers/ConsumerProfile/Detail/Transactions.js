@@ -110,7 +110,7 @@ class Transactions extends Component {
         Header: "Activity",
         accessor: (e) => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
-            {e?.paymentData?.transaction_type?.toUpperCase()}
+            {e?.title?.toUpperCase()}
           </p>
         ),
       },
@@ -124,7 +124,7 @@ class Transactions extends Component {
         ),
       },
       {
-        id: "cardtype",
+        id: "card_type",
         Header: "Card type",
         accessor: (e) => e?.paymentData?.card_type,
       },
@@ -142,10 +142,19 @@ class Transactions extends Component {
       },
       {
         id: "status",
-        Header: "Status",
+        Header: "Validation Status",
         accessor: (e) => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
             {e.paymentData?.validation_status?.toUpperCase()}
+          </p>
+        ),
+      },
+      {
+        id: "status",
+        Header: "Transaction Status",
+        accessor: (e) => (
+          <p className="TStatus" style={{ fontWeight: 0 }}>
+            {e.paymentData?.transaction_status?.toUpperCase()}
           </p>
         ),
       },

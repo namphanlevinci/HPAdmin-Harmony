@@ -372,6 +372,7 @@ class addAdmin2 extends Component {
                         fullWidth
                         error={touched.password && Boolean(errors.password)}
                         helperText={touched.password ? errors.password : ""}
+                        autoComplete="new-password"
                       />
                     </Grid>
                     <Grid item xs={4}>

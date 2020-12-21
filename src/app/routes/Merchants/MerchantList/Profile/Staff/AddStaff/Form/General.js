@@ -96,7 +96,7 @@ function General(props) {
             name="email"
             label="Contact Email"
             fullWidth
-            autoComplete="none"
+            autoComplete="new-password"
           />
         </Grid>
         <Grid item xs={12}>
@@ -106,7 +106,7 @@ function General(props) {
                 name="pin"
                 label="Pin*"
                 fullWidth
-                autoComplete="none"
+                autoComplete="new-password"
                 type={showPin ? "text" : "password"}
                 inputProps={{ maxLength: 4 }}
                 InputProps={{
