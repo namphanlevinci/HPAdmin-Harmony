@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { motion } from "framer-motion";
+import {
+  CustomText,
+  CustomTextLabel,
+  CustomTitle,
+} from "../../../../../util/CustomText";
+import { Button, Grid } from "@material-ui/core";
 
 import "../../../Merchants/MerchantList/MerchantProfile.css";
 import "../../../Merchants/PendingList/MerchantReqProfile.css";
@@ -20,41 +26,41 @@ class Bank extends Component {
         exit="out"
         variants={this.props.pageTransition}
       >
-        <div className="content general-content">
+        <Grid container className="content general-content">
           {e.map((i) => {
             return (
-              <div className="container" key={i.bankAcountId}>
-                <h2>Bank Information</h2>
-                <div className="row" style={{ paddingTop: "25px" }}>
-                  <div className="col-md-4">
-                    <label style={styles.label}>Bank Name:</label>
-                    <p>{i.accountHolderName}</p>
-                  </div>
-                  <div className="col-md-4">
-                    <label style={styles.label}>Routing Number:</label>
-                    <p>{i.routingNumber}</p>
-                  </div>
-                  <div className="col-md-4">
-                    <label style={styles.label}>Account Number:</label>
-                    <p>{i.accountNumber}</p>
-                  </div>
-                  <div className="col-md-4">
-                    <label style={styles.label}>Address:</label>
-                    <p>{i.address}</p>
-                  </div>
-                  <div className="col-md-4">
-                    <label style={styles.label}>State:</label>
-                    <p>{i.stateName}</p>
-                  </div>
-                  <div className="col-md-4">
-                    <label style={styles.label}>City:</label>
-                    <p>{i.city}</p>
-                  </div>
-                </div>
-              </div>
+              <Grid container spacing={3} key={i.bankAcountId}>
+                <Grid item xs={12}>
+                  <CustomTitle value="Bank Information" />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="Bank Name" />
+                  <CustomText value={i.accountHolderName} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="Routing Number" />
+                  <CustomText value={i.routingNumber} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="Account Number" />
+                  <CustomText value={i.accountNumber} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="Address" />
+                  <CustomText value={i.address} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="State" />
+                  <CustomText value={i.stateName} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="City" />
+                  <CustomText value={i.city} />
+                </Grid>
+              </Grid>
             );
           })}
-        </div>
+        </Grid>
       </motion.div>
     );
   }

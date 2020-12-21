@@ -82,16 +82,16 @@ class Consumers extends React.Component {
     this.searchCustomer();
   };
 
-  handleSort = (e) => {
+  handleSort = async (e) => {
     const { id, desc } = e[0];
     let sortType = desc ? "desc" : "asc";
 
-    this.setState({
+    await this.setState({
       sortType,
       sortValue: id,
     });
 
-    this.searchCustomer();
+    await this.fetchApi();
   };
 
   render() {
@@ -200,7 +200,7 @@ class Consumers extends React.Component {
             variant="subtitle1"
             className={Number(e.value) > 10000 ? "BIG" : ""}
           >
-            {e?.lastActivity && moment(e?.lastActivity).fromNow()}
+            {e?.lastActivity && moment(e?.lastActivity).fromNow("en")}
           </Typography>
         ),
       },
@@ -263,6 +263,7 @@ class Consumers extends React.Component {
               <ReactTable
                 manual
                 page={page}
+                sortable="false"
                 pages={pageCount}
                 data={data}
                 row={pageSize}
