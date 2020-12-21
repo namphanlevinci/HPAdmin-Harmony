@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { exportGiftCardByMerchantId } from "../../../../../../actions/merchantActions";
+import {
+  exportGiftCardByMerchantId,
+  getGiftCardName,
+} from "../../../../../../actions/merchantActions";
 import { fetchApiByPage } from "../../../../../../actions/fetchApiActions";
 import { debounce } from "lodash";
 import { Button, Tooltip } from "@material-ui/core";
@@ -71,13 +74,18 @@ class Product extends Component {
         accessor: (e) => moment(e.createdDate).format("MM/DD/YYYY"),
       },
       {
-        Header: "Value",
+        Header: <div style={{ textAlign: "center" }}> Value </div>,
         id: "amount",
-        accessor: (e) => `$ ${e.amount}`,
+        accessor: (e) => (
+          <div style={{ textAlign: "center" }}>$ {e.amount}</div>
+        ),
       },
       {
-        Header: "Qty",
-        accessor: "quantity",
+        Header: <div style={{ textAlign: "center" }}> Qty </div>,
+        id: "qty",
+        accessor: (e) => (
+          <div style={{ textAlign: "center" }}>{e?.quantity}</div>
+        ),
       },
       {
         Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
@@ -91,7 +99,7 @@ class Product extends Component {
                 cursor: "pointer",
               }}
             >
-              <RiShareForwardBoxLine size={20} onClick={this.getGiftCardInfo} />
+              <RiShareForwardBoxLine size={20} />
             </div>
           </Tooltip>
         ),
@@ -105,8 +113,9 @@ class Product extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined && column.id === "action") {
-            this.props.exportGiftCard(rowInfo.original.giftCardGeneralId);
+            this.props.exportGiftCard(rowInfo?.original?.giftCardGeneralId);
           } else {
+            this.props.getGiftCardName(rowInfo?.original?.name);
             this.props.history.push(
               `/app/merchants/profile/gift-card/${rowInfo.original.giftCardGeneralId}`
             );
@@ -168,6 +177,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   exportGiftCard: (id) => {
     dispatch(exportGiftCardByMerchantId(id));
+  },
+  getGiftCardName: (name) => {
+    dispatch(getGiftCardName(name));
   },
 });
 

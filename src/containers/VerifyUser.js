@@ -34,15 +34,19 @@ class VerifyUser extends React.Component {
   }
 
   keyPressed = (e) => {
-    e.preventDefault();
-    if (e.key === "Enter") {
+    if (e.keyCode === 13) {
       this.login();
+      e.preventDefault();
     }
   };
 
   login = async (e) => {
     const { code, token } = this.state;
     await this.props.verifyUser(code, token);
+  };
+
+  handleVerify = (e) => {
+    this.setState({ code: e.target.value });
   };
 
   render() {
@@ -76,11 +80,12 @@ class VerifyUser extends React.Component {
               id="required"
               label={<IntlMessages id="appModule.verify" />}
               fullWidth
-              defaultValue=""
               margin="normal"
               className="mt-0 mb-4"
-              onChange={(e) => this.setState({ code: e.target.value })}
-              onKeyPress={this.keyPressed}
+              onChange={this.handleVerify}
+              onKeyDown={this.keyPressed}
+              value={this.state.code}
+              onKey
             />
             {loading ? (
               <CircularProgress />

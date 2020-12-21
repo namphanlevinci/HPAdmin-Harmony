@@ -118,14 +118,23 @@ class GiftCardInfo extends Component {
         {exportLoading && <CustomProgress />}
 
         <div className="search_box">
-          <Button
-            className="btn btn-green"
-            onClick={() =>
-              this.props.history.push("/app/merchants/profile/gift-card")
-            }
-          >
-            BACK TO LIST
-          </Button>
+          <div style={{ display: "flex" }}>
+            <h1 style={{ margin: 0 }}>{this.props.giftCardName}</h1>
+            <p
+              style={{
+                marginLeft: "20px",
+                color: "#0764B0",
+                cursor: "pointer",
+                marginBottom: 0,
+              }}
+              onClick={() =>
+                this.props.history.push("/app/merchants/profile/gift-card")
+              }
+            >
+              Back to List
+            </p>
+          </div>
+
           <Button
             className="btn btn-green"
             style={styles.btn}
@@ -167,6 +176,7 @@ const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   apiData: state.fetchApi,
   exportStatus: state.exportGiftCard,
+  giftCardName: state.giftCardName.name,
 });
 
 const mapDispatchToProps = (dispatch) => ({
