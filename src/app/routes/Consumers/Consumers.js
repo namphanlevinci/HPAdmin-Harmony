@@ -91,7 +91,7 @@ class Consumers extends React.Component {
       sortValue: id,
     });
 
-    await this.fetchApi();
+    // await this.fetchApi();
   };
 
   render() {

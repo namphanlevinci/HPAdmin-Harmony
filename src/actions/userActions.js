@@ -299,6 +299,15 @@ export const userLogin = (email, password, path) => async (dispatch) => {
       });
     }
   } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload: error.message,
+    });
+
+    dispatch({
+      type: types.USER_LOGIN_FAILURE,
+      payload: null,
+    });
     console.log("error", error);
   }
 };
