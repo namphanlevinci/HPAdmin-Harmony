@@ -578,7 +578,7 @@
   "sidebar.dashboard.reports": "Reports",
   "sidebar.dashboard.generalreport": "General Report",
   "sidebar.dashboard.transactionreport": "Transactions",
-  "sidebar.dashboard.p2ptransactionreport": "Gift Card Transactions",
+  "sidebar.dashboard.p2ptransactionreport": "P2P Gift Card Transactions",
   "sidebar.dashboard.Template": "Template",
   "sidebar.dashboard.General": "General",
   "sidebar.dashboard.Batch": "Merchant Batch Settlement",

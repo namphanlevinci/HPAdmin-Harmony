@@ -11,6 +11,7 @@ import {
   InputLabel,
   TextField,
   Typography,
+  InputAdornment,
 } from "@material-ui/core";
 
 import { debounce } from "lodash";
@@ -42,6 +43,7 @@ class Transactions extends React.Component {
       amountFrom: -1,
       amountTo: -1,
       range: "thisMonth",
+      status: -1,
     };
   }
 
@@ -54,6 +56,7 @@ class Transactions extends React.Component {
       amountTo: -1,
       range: "thisMonth",
       search: "",
+      status: -1,
     });
     this.fetchApi();
   };
@@ -93,31 +96,31 @@ class Transactions extends React.Component {
           from: moment().startOf("day").format("YYYY-MM-DD"),
           to: moment().startOf("day").format("YYYY-MM-DD"),
         });
-        return this.fetchApi();
+      // return this.fetchApi();
       case "yesterday":
         this.setState({
           from: moment().subtract(1, "day").format("YYYY-MM-DD"),
           to: moment().subtract(1, "day").format("YYYY-MM-DD"),
         });
-        return this.fetchApi();
+      // return this.fetchApi();
       case "thisWeek":
         this.setState({
           from: moment().startOf("week").format("YYYY-MM-DD"),
           to: moment().endOf("week").format("YYYY-MM-DD"),
         });
-        return this.fetchApi();
+      // return this.fetchApi();
       case "lastWeek":
         this.setState({
           from: moment().subtract(1, "week").format("YYYY-MM-DD"),
           to: moment().subtract(1, "week").endOf("week").format("YYYY-MM-DD"),
         });
-        return this.fetchApi();
+      // return this.fetchApi();
       case "thisMonth":
         this.setState({
           from: moment().startOf("month").format("YYYY-MM-DD"),
           to: moment().endOf("month").format("YYYY-MM-DD"),
         });
-        return this.fetchApi();
+      // return this.fetchApi();
       case "lastMonth":
         this.setState({
           from: moment()
@@ -126,7 +129,7 @@ class Transactions extends React.Component {
             .format("YYYY-MM-DD"),
           to: moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
         });
-        return this.fetchApi();
+      // return this.fetchApi();
       default:
         return;
     }
@@ -141,11 +144,12 @@ class Transactions extends React.Component {
       amount,
       amountFrom,
       amountTo,
+      status,
     } = this.state;
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
-    const sortType = state?.sorted[0]?.desc ? "desc" : "asc";
-    const sortValue = state?.sorted[0]?.id ? state?.sorted[0]?.id : "";
+    const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
+    const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
     const url = `paymentTransaction/search?page=${
       page === 0 ? 1 : page + 1
@@ -153,7 +157,7 @@ class Transactions extends React.Component {
       amount ? amount : amountFrom
     }&amountTo=${
       amount ? amount : amountTo
-    }&sortValue=${sortValue}&sortType=${sortType}`;
+    }&sortValue=${sortValue}&sortType=${sortType}&status=${status}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -173,7 +177,16 @@ class Transactions extends React.Component {
   };
 
   render() {
-    const { page, from, to, amountTo, amountFrom, amount, range } = this.state;
+    const {
+      page,
+      from,
+      to,
+      amountTo,
+      amountFrom,
+      amount,
+      range,
+      status,
+    } = this.state;
     const {
       data,
       loading,
@@ -311,20 +324,15 @@ class Transactions extends React.Component {
             <div>
               <Button
                 style={{ color: "#0764B0" }}
-                onClick={this.handleResetClick}
+                onClick={() => this.fetchApi()}
                 className="btn btn-red"
               >
-                RESET
+                SEARCH
               </Button>
             </div>
           </div>
-          <Grid
-            container
-            spacing={0}
-            className="TransactionSearch"
-            // style={{ textAlign: "center" }}
-          >
-            <Grid item xs={4} style={{ marginTop: "16px" }}>
+          <Grid container spacing={0} className="TransactionSearch">
+            <Grid item xs={3} style={{ marginTop: "20px" }}>
               <FormControl style={{ width: "80%" }}>
                 <InputLabel>Time Range</InputLabel>
                 <Select value={range} onChange={this.timeRange}>
@@ -338,10 +346,9 @@ class Transactions extends React.Component {
                 </Select>
               </FormControl>
             </Grid>
-
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid item xs={4}>
-                {range === "all" ? (
+            {range === "all" ? (
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid item xs={3}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -357,10 +364,8 @@ class Transactions extends React.Component {
                     autoOk={true}
                     style={{ width: "80%" }}
                   />
-                ) : null}
-              </Grid>
-              <Grid item xs={4}>
-                {range === "all" ? (
+                </Grid>
+                <Grid item xs={3}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -376,62 +381,86 @@ class Transactions extends React.Component {
                     autoOk={true}
                     style={{ width: "80%" }}
                   />
-                ) : null}
-              </Grid>
-            </MuiPickersUtilsProvider>
+                </Grid>
+              </MuiPickersUtilsProvider>
+            ) : null}
 
-            <Grid item xs={4} style={{ marginTop: "20px" }}>
-              <TextField
-                InputLabelProps={{ shrink: true }}
-                label="Amount ($)"
-                value={amount}
-                onChange={this.handleChange}
-                name="amount"
-                variant="outlined"
-                InputProps={{
-                  inputComponent: InputCustom,
-                }}
-                inputProps={{
-                  numericOnly: true,
-                }}
-                style={{ width: "80%" }}
-              />
+            <Grid item xs={3} style={{ marginTop: "20px" }}>
+              <FormControl style={{ width: "80%" }}>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  value={status}
+                  onChange={(e) => this.setState({ status: e.target.value })}
+                >
+                  <MenuItem value={-1}>All Status</MenuItem>
+                  <MenuItem value={1}>Success </MenuItem>
+                  <MenuItem value={2}>Failure</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
 
-            <Grid item xs={4} style={{ marginTop: "20px" }}>
+            <Grid item xs={3} style={{ marginTop: "20px" }}>
               <TextField
                 InputLabelProps={{ shrink: true }}
                 label="Amount From"
                 value={amountFrom === -1 ? 0 : amountFrom}
                 onChange={this.handleChange}
                 name="amountFrom"
-                variant="outlined"
+                // variant="outlined"
                 InputProps={{
                   inputComponent: InputCustom,
                 }}
                 inputProps={{
                   numericOnly: true,
                 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
+                }}
                 style={{ width: "80%" }}
               />
             </Grid>
 
-            <Grid item xs={4} style={{ marginTop: "20px" }}>
+            <Grid item xs={3} style={{ marginTop: "20px" }}>
               <TextField
                 InputLabelProps={{ shrink: true }}
                 label="Amount To"
                 value={amountTo === -1 ? 0 : amountTo}
                 onChange={this.handleChange}
                 name="amountTo"
-                variant="outlined"
+                // variant="outlined"
                 InputProps={{
                   inputComponent: InputCustom,
                 }}
                 inputProps={{
                   numericOnly: true,
                 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
+                }}
                 style={{ width: "80%" }}
               />
+            </Grid>
+
+            <Grid
+              item
+              xs={3}
+              style={{
+                marginTop: "20px",
+                marginLeft: "auto",
+                textAlign: "right",
+              }}
+            >
+              <Button
+                style={{ color: "#0764B0" }}
+                onClick={this.handleResetClick}
+                className="btn btn-red"
+              >
+                RESET
+              </Button>
             </Grid>
           </Grid>
           <div className="merchant-list-container Transactions">

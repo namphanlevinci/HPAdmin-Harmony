@@ -43,8 +43,8 @@ class Consumers extends React.Component {
   }
 
   fetchApi = async (state) => {
-    const sortType = state?.sorted[0]?.desc ? "desc" : "asc";
-    const sortValue = state?.sorted[0]?.id ? state?.sorted[0]?.id : "";
+    const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
+    const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
