@@ -348,7 +348,7 @@ class Transactions extends React.Component {
             </Grid>
             {range === "all" ? (
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid item xs={3}>
+                <Grid item xs={3} style={{ marginTop: "3px" }}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -365,7 +365,7 @@ class Transactions extends React.Component {
                     style={{ width: "80%" }}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={3} style={{ marginTop: "3px" }}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -465,6 +465,7 @@ class Transactions extends React.Component {
           </Grid>
           <div className="merchant-list-container Transactions">
             <ReactTable
+              manual={true}
               page={page}
               pages={pageCount}
               data={data}
