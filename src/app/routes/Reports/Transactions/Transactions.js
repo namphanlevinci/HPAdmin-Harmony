@@ -348,7 +348,7 @@ class Transactions extends React.Component {
             </Grid>
             {range === "all" ? (
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid item xs={3} style={{ marginTop: "3px" }}>
+                <Grid item xs={3} style={{ marginTop: "5px" }}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -365,7 +365,7 @@ class Transactions extends React.Component {
                     style={{ width: "80%" }}
                   />
                 </Grid>
-                <Grid item xs={3} style={{ marginTop: "3px" }}>
+                <Grid item xs={3} style={{ marginTop: "5px" }}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
