@@ -173,7 +173,6 @@ class Transactions extends React.Component {
     await this.setState({
       [name]: value,
     });
-    await this.fetchApi();
   };
 
   render() {
