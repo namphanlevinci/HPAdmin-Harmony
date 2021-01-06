@@ -9,6 +9,8 @@ const initialState = {
   page: 0,
   pageCount: 0,
   pageSize: 0,
+  summary: {},
+  totalRow: 0,
 };
 
 const fetchApiReducer = (state = initialState, { type, payload }) => {
@@ -23,6 +25,8 @@ const fetchApiReducer = (state = initialState, { type, payload }) => {
         data: payload.data ? payload.data : [],
         pageCount: payload.pages,
         pageSize: 5,
+        summary: payload?.summary,
+        totalRow: payload?.count,
       };
 
     case FETCH_API_FAILURE:

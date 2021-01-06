@@ -46,7 +46,6 @@ class PendingList extends Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchMerchant();
   };
 
   keyPressed = (event) => {
@@ -163,6 +162,7 @@ class PendingList extends Component {
               value={this.state.search}
               onChange={this.handleChange}
               onKeyPress={this.keyPressed}
+              onClickIcon={this.fetchApi}
             />
           </div>
           <div className="merchant-list-container">

@@ -81,7 +81,6 @@ class Template extends Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchTemplate();
   };
 
   keyPressed = (event) => {
@@ -248,6 +247,7 @@ class Template extends Component {
               value={this.state.search}
               onChange={this.handleChange}
               onKeyPress={this.keyPressed}
+              onClickIcon={this.fetchApi}
             />
 
             {CheckPermissions("add-new-template") && (

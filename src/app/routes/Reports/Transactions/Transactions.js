@@ -10,7 +10,9 @@ import {
   Grid,
   InputLabel,
   TextField,
+  Typography,
 } from "@material-ui/core";
+
 import { debounce } from "lodash";
 import {
   MuiPickersUtilsProvider,
@@ -70,7 +72,6 @@ class Transactions extends React.Component {
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-    this.searchTransaction();
   };
 
   handEnter = (e) => {
@@ -143,12 +144,16 @@ class Transactions extends React.Component {
     } = this.state;
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
+    const sortType = state?.sorted[0]?.desc ? "desc" : "asc";
+    const sortValue = state?.sorted[0]?.id ? state?.sorted[0]?.id : "";
 
     const url = `paymentTransaction/search?page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
       amount ? amount : amountFrom
-    }&amountTo=${amount ? amount : amountTo}`;
+    }&amountTo=${
+      amount ? amount : amountTo
+    }&sortValue=${sortValue}&sortType=${sortType}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -169,71 +174,116 @@ class Transactions extends React.Component {
 
   render() {
     const { page, from, to, amountTo, amountFrom, amount, range } = this.state;
-    const { data, loading, pageSize, pageCount } = this.props.apiData;
+    const {
+      data,
+      loading,
+      pageSize,
+      pageCount,
+      totalRow,
+      summary,
+    } = this.props.apiData;
 
     const columns = [
       {
         id: "createDate",
         Header: "Date/time",
-        // maxWidth: 200,
-        accessor: (e) => {
-          return moment.utc(e.createDate).local().format("MM/DD/YYYY HH:mm A");
-        },
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {moment.utc(e.createDate).local().format("MM/DD/YYYY HH:mm A")}
+          </Typography>
+        ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            Total Transaction: {totalRow}
+          </Typography>
+        ),
+        width: 220,
       },
       {
         Header: "ID",
-        accessor: "paymentTransactionId",
-        // width: 100,
+        id: "paymentTransactionId",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.paymentTransactionId}
+          </Typography>
+        ),
+        width: 100,
       },
       {
-        id: "Title",
+        id: "title",
         Header: "Method",
-        accessor: "title",
-        // width: 100,
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.title}
+          </Typography>
+        ),
       },
       {
         id: "Customer",
         Header: "Original Account",
-        accessor: (e) => e?.paymentData?.name_on_card,
-        // width: 140,
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.paymentData?.name_on_card}
+          </Typography>
+        ),
+        sortable: false,
       },
 
       {
         id: "Account Details ",
         Header: "Card /Last 4 Digit",
         // width: 180,
-        accessor: (e) =>
-          e?.paymentData?.card_type ? (
-            <span>
-              {e?.paymentData?.card_type} <br />
-              {` **** **** ****  ${e?.paymentData?.card_number}`}
-            </span>
-          ) : null,
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.paymentData?.card_type ? (
+              <span>
+                {e?.paymentData?.card_type} <br />
+                {` **** **** ****  ${e?.paymentData?.card_number}`}
+              </span>
+            ) : null}
+          </Typography>
+        ),
+        sortable: false,
       },
       {
         id: "MerchantCode",
         Header: "Merchant Account",
         // width: 180,
         accessor: (e) => (
-          <span>{`${e?.receiver === null ? "" : e?.receiver?.name}`}</span>
+          <Typography variant="subtitle1" className="table__light">
+            {`${e?.receiver === null ? "" : e?.receiver?.name}`}
+          </Typography>
+        ),
+        sortable: false,
+      },
+      {
+        id: "amount",
+        Header: "Amount",
+        accessor: (e) => e.amount,
+        Cell: (e) => <Typography variant="subtitle1">${e.value}</Typography>,
+        // width: 100,
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            ${summary?.amount}
+          </Typography>
         ),
       },
       {
-        id: "Amount",
-        Header: "Amount",
-        accessor: (e) => e.amount,
-        Cell: (e) => <span style={{ fontWeight: 600 }}>${e.value}</span>,
-        // width: 100,
-      },
-      {
         Header: "IP",
-        accessor: "ip",
+        id: "ip",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.ip}
+          </Typography>
+        ),
       },
       {
         id: "status",
         Header: "Status",
         accessor: (e) => (
-          <p className="TStatus">{e?.status === 1 ? "Success" : "Fail"}</p>
+          <Typography variant="subtitle1" className="table__light">
+            {e?.status === 1 ? "Success" : "Fail"}
+          </Typography>
         ),
       },
     ];
@@ -254,6 +304,7 @@ class Transactions extends React.Component {
               value={this.state.search}
               onChange={this.handleChange}
               onKeyDown={this.handEnter}
+              onClickIcon={this.fetchApi}
               name="search"
             />
 
@@ -385,7 +436,6 @@ class Transactions extends React.Component {
           </Grid>
           <div className="merchant-list-container Transactions">
             <ReactTable
-              manual
               page={page}
               pages={pageCount}
               data={data}

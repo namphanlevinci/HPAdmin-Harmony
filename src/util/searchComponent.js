@@ -22,7 +22,7 @@ export default function SearchComponent(props) {
         endAdornment={
           <InputAdornment position="end">
             <IconButton edge="end">
-              <SearchIcon />
+              <SearchIcon onClick={props?.onClickIcon} />
             </IconButton>
           </InputAdornment>
         }

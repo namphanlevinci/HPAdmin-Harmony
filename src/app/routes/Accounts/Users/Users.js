@@ -34,7 +34,6 @@ class Users extends Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchUser();
   };
 
   handleStatus = debounce((e) => {
@@ -194,6 +193,7 @@ class Users extends Component {
                 value={this.state.search}
                 onChange={this.handleChange}
                 onKeyPress={this.keyPressed}
+                onClickIcon={this.fetchApi}
               />
             </div>
             <FormControl style={{ width: "20%", marginLeft: "15px" }}>

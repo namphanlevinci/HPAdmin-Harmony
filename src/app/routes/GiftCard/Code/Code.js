@@ -97,7 +97,6 @@ class Codes extends Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchCode();
   };
 
   getExport = (e) => {
@@ -247,6 +246,7 @@ class Codes extends Component {
                 value={this.state.search}
                 onKeyDown={this.handEnter}
                 onChange={this.handleChange}
+                onClickIcon={this.fetchApi}
               />
             </Grid>
 

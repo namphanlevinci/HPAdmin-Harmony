@@ -43,7 +43,6 @@ class Generation extends Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchGeneration();
   };
 
   fetchApi = async (state) => {
@@ -199,6 +198,7 @@ class Generation extends Component {
               value={this.state.search}
               onChange={this.handleChange}
               onKeyPress={this.keyPressed}
+              onClickIcon={this.fetchApi}
             />
 
             {CheckPermissions("add-new-gift-card") && (

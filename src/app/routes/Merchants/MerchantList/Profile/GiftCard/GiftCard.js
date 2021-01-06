@@ -51,7 +51,6 @@ class Product extends Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchMerchant();
   };
 
   keyPressed = (event) => {
@@ -132,6 +131,7 @@ class Product extends Component {
             value={this.state.search}
             onChange={this.handleChange}
             onKeyPress={this.keyPressed}
+            onClickIcon={this.fetchApi}
           />
           <Button
             className="btn btn-green"

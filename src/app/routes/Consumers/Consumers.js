@@ -43,10 +43,13 @@ class Consumers extends React.Component {
   }
 
   fetchApi = async (state) => {
+    const sortType = state?.sorted[0]?.desc ? "desc" : "asc";
+    const sortValue = state?.sorted[0]?.id ? state?.sorted[0]?.id : "";
+
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const { search, isVerify, sortType, sortValue } = this.state;
+    const { search, isVerify } = this.state;
 
     const url = `user/?key=${search}&isVerify=${isVerify}&sortValue=${sortValue}&sortType=${sortType}&page=${
       page === 0 ? 1 : page + 1
@@ -67,7 +70,6 @@ class Consumers extends React.Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchCustomer();
   };
 
   keyPressed = async (event) => {
@@ -82,21 +84,16 @@ class Consumers extends React.Component {
     this.searchCustomer();
   };
 
-  handleSort = async (e) => {
-    const { id, desc } = e[0];
-    let sortType = desc ? "desc" : "asc";
-
-    await this.setState({
-      sortType,
-      sortValue: id,
-    });
-
-    // await this.fetchApi();
-  };
-
   render() {
     const { page } = this.state;
-    const { data, loading, pageSize, pageCount } = this.props.apiData;
+    const {
+      data,
+      loading,
+      pageSize,
+      pageCount,
+      totalRow,
+      summary,
+    } = this.props.apiData;
     const { loading: loadingConsumer } = this.props.consumerById;
 
     const columns = [
@@ -108,12 +105,12 @@ class Consumers extends React.Component {
             {row?.accountId}
           </Typography>
         ),
-      },
-      {
-        Header: "Harmony ID",
-        id: "userId",
-        accessor: (row) => <p>{row?.userId}</p>,
-        show: false,
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            Sum
+          </Typography>
+        ),
+        width: 220,
       },
       {
         Header: <CustomTableHeader value=" First Name" />,
@@ -162,6 +159,15 @@ class Consumers extends React.Component {
             ${e.value}
           </Typography>
         ),
+        Footer: (
+          <Typography
+            variant="subtitle1"
+            className="table__light"
+            style={{ textAlign: "center" }}
+          >
+            ${summary?.credit}
+          </Typography>
+        ),
       },
       {
         id: "totalAmount",
@@ -175,6 +181,15 @@ class Consumers extends React.Component {
             className={Number(e.value) > 10000 ? "BIG" : ""}
           >
             ${e.value}
+          </Typography>
+        ),
+        Footer: (
+          <Typography
+            variant="subtitle1"
+            className="table__light"
+            style={{ textAlign: "center" }}
+          >
+            ${summary?.totalAmount}
           </Typography>
         ),
       },
@@ -243,6 +258,7 @@ class Consumers extends React.Component {
                   value={this.state.search}
                   onChange={this.handleChange}
                   onKeyPress={this.keyPressed}
+                  onClickIcon={this.fetchApi}
                 />
               </div>
 
@@ -261,9 +277,8 @@ class Consumers extends React.Component {
 
             <div className="merchant-list-container">
               <ReactTable
-                manual
+                manual={true}
                 page={page}
-                sortable="false"
                 pages={pageCount}
                 data={data}
                 row={pageSize}
@@ -275,7 +290,6 @@ class Consumers extends React.Component {
                 loading={loading}
                 columns={columns}
                 getTdProps={onRowClick}
-                onSortedChange={(e) => this.handleSort(e)}
               />
             </div>
           </div>

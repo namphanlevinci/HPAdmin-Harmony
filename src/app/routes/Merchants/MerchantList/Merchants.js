@@ -82,7 +82,6 @@ class Merchants extends React.Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchMerchant();
   };
 
   render() {
@@ -204,6 +203,7 @@ class Merchants extends React.Component {
                   value={this.state.search}
                   onChange={this.handleChange}
                   onKeyPress={this.keyPressed}
+                  onClickIcon={this.fetchApi}
                 />
               </Tooltip>
             </div>

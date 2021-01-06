@@ -15,6 +15,7 @@ import {
   Grid,
   InputLabel,
   TextField,
+  Typography,
 } from "@material-ui/core";
 
 import DateFnsUtils from "@date-io/date-fns";
@@ -69,7 +70,13 @@ class P2P extends React.Component {
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-    this.searchTransaction();
+  };
+
+  handEnter = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.fetchApi();
+    }
   };
 
   timeRange = async (e) => {
@@ -155,35 +162,57 @@ class P2P extends React.Component {
       {
         id: "createDate",
         Header: "Date/time",
-        accessor: (e) => {
-          return moment.utc(e.createDate).local().format("MM/DD/YYYY hh:mm A");
-        },
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {moment.utc(e.createDate).local().format("MM/DD/YYYY hh:mm A")}
+          </Typography>
+        ),
       },
       {
         id: "Sender",
         Header: "Sender",
-        accessor: "senderUserName",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.senderUserName}
+          </Typography>
+        ),
       },
       {
         id: "Receiver",
         Header: "Receiver",
-        accessor: "receiveUserName",
+
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.receiveUserName}
+          </Typography>
+        ),
       },
       {
         id: "Type ",
         Header: "Type",
-        accessor: (row) => <span>Gift Card</span>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            Gift Card
+          </Typography>
+        ),
       },
       {
         id: "Status",
         Header: "Status",
-        accessor: (e) =>
-          e.status !== null ? <p className="P2pStatus">{e.status}</p> : null,
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e.status !== null ? <p className="P2pStatus">{e.status}</p> : null}
+          </Typography>
+        ),
       },
       {
         id: "Amount",
         Header: "Amount",
-        accessor: (e) => (e.amount !== null ? <span>${e.amount}</span> : null),
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e.amount !== null ? <span>${e.amount}</span> : null}
+          </Typography>
+        ),
       },
     ];
 
@@ -204,6 +233,8 @@ class P2P extends React.Component {
                 placeholder="Search.."
                 value={this.state.search}
                 onChange={this.handleChange}
+                onKeyDown={this.handEnter}
+                onClickIcon={this.fetchApi}
                 name="search"
               />
             </div>

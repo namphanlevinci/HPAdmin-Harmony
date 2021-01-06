@@ -122,7 +122,6 @@ class Generation_Detail extends Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchCode();
   };
 
   getExport = () => {
@@ -352,6 +351,7 @@ class Generation_Detail extends Component {
                 value={this.state.search}
                 onChange={this.handleChange}
                 onKeyPress={this.keyPressed}
+                onClickIcon={this.fetchApi}
                 placeholder="Search by ID, Serial, Pin Code"
               />
 

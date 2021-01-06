@@ -32,7 +32,6 @@ class Transactions extends React.Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
-    this.searchMerchantBatch();
   };
 
   fetchApi = async (state) => {
@@ -207,6 +206,7 @@ class Transactions extends React.Component {
                 value={this.state.search}
                 onChange={this.handleChange}
                 onKeyPress={this.keyPressed}
+                onClickIcon={this.fetchApi}
               />
             </div>
           </div>
