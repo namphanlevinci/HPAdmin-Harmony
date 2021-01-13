@@ -6,7 +6,7 @@ import {
   CustomTextLabel,
   CustomTitle,
 } from "../../../../../util/CustomText";
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import "../../../Merchants/MerchantList/MerchantProfile.css";
 import "../../../Merchants/PendingList/MerchantReqProfile.css";
@@ -71,16 +71,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Bank);
-
-const styles = {
-  p: { fontWeight: 400, color: "black" },
-  Form: {
-    marginTop: "10px",
-  },
-  btnDiv: {
-    marginTop: "10px",
-  },
-  label: {
-    fontSize: "13px",
-  },
-};

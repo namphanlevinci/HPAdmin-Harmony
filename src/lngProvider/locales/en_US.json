@@ -582,6 +582,7 @@
   "sidebar.dashboard.Template": "Template",
   "sidebar.dashboard.General": "General",
   "sidebar.dashboard.Batch": "Merchant Batch Settlement",
+  "sidebar.dashboard.giftCardsold": "Gift Card Sold",
   "sidebar.dashboard.Business": "Business",
   "sidebar.dashboard.Questions": "Questions",
   "sidebar.dashboard.Twilio": "Twilio",

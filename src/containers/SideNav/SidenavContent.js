@@ -347,7 +347,7 @@ class SidenavContent extends Component {
                     to="/app/reports/gift-card-sold"
                   >
                     <span className="nav-text">
-                      <IntlMessages id="sidebar.dashboard.Batch" />
+                      <IntlMessages id="sidebar.dashboard.giftCardsold" />
                     </span>
                   </NavLink>
                 </li>

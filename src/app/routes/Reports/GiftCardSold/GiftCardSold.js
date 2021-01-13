@@ -14,12 +14,10 @@ import {
   MenuItem,
   Grid,
   InputLabel,
-  TextField,
   Typography,
 } from "@material-ui/core";
 
 import DateFnsUtils from "@date-io/date-fns";
-import InputCustom from "../../../../util/CustomInput";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
@@ -37,18 +35,17 @@ class P2P extends React.Component {
       search: "",
       from: "",
       to: "",
-
       range: "thisMonth",
     };
   }
 
-  handleResetClick = () => {
+  handleResetClick = async () => {
     this.setState({
       from: moment().startOf("month").format("YYYY-MM-DD"),
       to: moment().endOf("month").format("YYYY-MM-DD"),
       range: "thisMonth",
     });
-    this.fetchApi();
+    this.searchTransaction();
   };
 
   componentDidMount() {
@@ -60,7 +57,7 @@ class P2P extends React.Component {
 
   searchTransaction = debounce((query) => {
     this.fetchApi();
-  }, 1000);
+  }, 800);
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -219,7 +216,6 @@ class P2P extends React.Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.Transactions" />}
         />
-        <h1>Gift Card Sold</h1>
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className=" TransactionsBox">
             {/* SEARCH */}

@@ -107,7 +107,7 @@ class Consumers extends React.Component {
         ),
         Footer: (
           <Typography variant="subtitle1" className="table__light">
-            Sum
+            Total Rows: {totalRow}
           </Typography>
         ),
         width: 220,
