@@ -161,7 +161,7 @@ class P2P extends React.Component {
         Header: "Date/time",
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
-            {moment.utc(e.date).local().format("MM/DD/YYYY hh:mm A")}
+            {moment.utc(e.date).local().format("MM/DD/YYYY")}
           </Typography>
         ),
         Footer: (
