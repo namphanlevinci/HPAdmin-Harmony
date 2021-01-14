@@ -147,7 +147,7 @@ class Transactions extends React.Component {
       status,
     } = this.state;
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 

@@ -74,117 +74,110 @@ class Transactions extends React.Component {
       };
     };
 
+    const { page } = this.state;
+    const {
+      data,
+      loading,
+      pageSize,
+      pageCount,
+      totalRow,
+      summary,
+    } = this.props.apiData;
+
     const columns = [
       {
         Header: <CustomTableHeader value="Date/Time" />,
-        columns: [
-          {
-            Header: "",
-            id: "dateTime",
-            accessor: (e) => (
-              <Typography variant="subtitle1" className="table__light">
-                {moment
-                  .utc(e.settlementDate)
-                  .local()
-                  .format("MM/DD/YYYY hh:mm A")}
-              </Typography>
-            ),
-            width: 200,
-          },
-        ],
+        id: "dateTime",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {moment.utc(e.settlementDate).local().format("MM/DD/YYYY hh:mm A")}
+          </Typography>
+        ),
+        // Footer: (
+        //   <Typography variant="subtitle1" className="table__light">
+        //     Total Transaction: {totalRow}
+        //   </Typography>
+        // ),
+        width: 200,
       },
       {
         id: "Customer",
         Header: <CustomTableHeader value="Merchant DBA" />,
-        columns: [
-          {
-            Header: "",
-            id: "DBA",
-            accessor: (e) => (
-              <Typography variant="subtitle1">{e.doBusinessName}</Typography>
-            ),
-            width: 130,
-          },
-        ],
+        accessor: (e) => (
+          <Typography variant="subtitle1">{e.doBusinessName}</Typography>
+        ),
+        width: 130,
       },
       {
         Header: <CustomTableHeader value="Merchant ID" />,
-        columns: [
-          {
-            Header: "",
-            id: "merchantId",
-            accessor: (e) => (
-              <Typography variant="subtitle1">{e.merchantId}</Typography>
-            ),
-          },
-        ],
+        id: "merchantId",
+        accessor: (e) => (
+          <Typography variant="subtitle1">{e.merchantId}</Typography>
+        ),
       },
       {
-        Header: () => (
-          <div
-            style={{
-              textAlign: "center",
-            }}
-          >
-            Reports
-          </div>
+        Header: <CustomTableHeader value="HarmonyPay" />,
+        id: "paymentByHarmony",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            ${e.paymentByHarmony}
+          </Typography>
         ),
+      },
+      {
+        Header: <CustomTableHeader value="Credit Card" />,
+        id: "paymentByCreditCard",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            ${e.paymentByCreditCard}
+          </Typography>
+        ),
+      },
 
-        columns: [
-          {
-            Header: <CustomTableHeader value="HarmonyPay" />,
-            id: "paymentByHarmony",
-            accessor: (e) => (
-              <Typography variant="subtitle1" className="table__light">
-                ${e.paymentByHarmony}
-              </Typography>
-            ),
-          },
-          {
-            Header: <CustomTableHeader value="Credit Card" />,
-            id: "paymentByCreditCard",
-            accessor: (e) => (
-              <Typography variant="subtitle1" className="table__light">
-                ${e.paymentByCreditCard}
-              </Typography>
-            ),
-          },
-          {
-            Header: <CustomTableHeader value="Cash" />,
-            id: "paymentByCash",
-            accessor: (e) => (
-              <Typography variant="subtitle1" className="table__light">
-                ${e.paymentByCash}
-              </Typography>
-            ),
-          },
-          {
-            Header: <CustomTableHeader value="Other" />,
-            id: "otherPayment",
-            accessor: (e) => (
-              <Typography variant="subtitle1" className="table__light">
-                ${e.otherPayment}
-              </Typography>
-            ),
-          },
-        ],
+      {
+        Header: <CustomTableHeader value="Cash" />,
+        id: "paymentByCash",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            ${e.paymentByCash}
+          </Typography>
+        ),
+      },
+      {
+        Header: <CustomTableHeader value="Gift Card" />,
+        id: "paymentByCash",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            ${e.paymentByGiftcard}
+          </Typography>
+        ),
+      },
+      {
+        Header: <CustomTableHeader value="Other" />,
+        id: "otherPayment",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            ${e.otherPayment}
+          </Typography>
+        ),
+      },
+      {
+        Header: <CustomTableHeader value="Discount" />,
+        id: "otherPayment",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            ${e?.discount}
+          </Typography>
+        ),
       },
       {
         Header: "Total",
-        columns: [
-          {
-            Header: "",
-            id: "total",
-            accessor: (e) => (
-              <Typography variant="subtitle1">${e.total}</Typography>
-            ),
-          },
-        ],
+        id: "total",
+        accessor: (e) => (
+          <Typography variant="subtitle1">${e.total}</Typography>
+        ),
       },
     ];
-
-    const { page } = this.state;
-    const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     return (
       <div className="container-fluid react-transition swipe-right Batchs">

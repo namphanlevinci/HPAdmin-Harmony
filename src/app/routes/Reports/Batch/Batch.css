@@ -73,6 +73,7 @@
   background: #0764B0;
   color: white;
   font-weight: 500;
+  padding-left: 0px;
 }
 .Batchs .batch-container .ReactTable .rt-resizable-header-content {
   color: white;
