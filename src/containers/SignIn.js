@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { USER_LOGIN_REQUEST } from "../actions/user/actions";
-import { USER_LOGIN_SUCCESS } from "../actions/user/actions";
+import { userLogin } from "../actions/userActions";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -16,32 +15,25 @@ class SignIn extends React.Component {
     this.state = {
       email: "",
       password: "",
-      loading: false,
-      isRight: false,
-      error: false,
     };
   }
 
   onSubmit = (e) => {
     const { email, password } = this.state;
-    this.props.USER_LOGIN_REQUEST({ email, password });
+    const path = "/verify";
+    this.props.userLogin(email, password, path);
   };
-  // componentDidMount() {
-  //   document.addEventListener("keypress", this.keyPressed);
-  // }
-
-  // componentWillUnmount() {
-  //   document.removeEventListener("keypress", this.keyPressed);
-  // }
 
   keyPressed = (e) => {
-    if (e.code === "Enter") {
+    if (e.key === "Enter") {
       this.onSubmit();
     }
   };
 
   render() {
     const { email, password } = this.state;
+    const { loading } = this.props.user;
+
     return (
       <div className="app-login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
         <div className="app-login-main-content">
@@ -69,64 +61,55 @@ class SignIn extends React.Component {
                   <TextField
                     label={<IntlMessages id="appModule.email" />}
                     fullWidth
-                    onChange={(event) =>
-                      this.setState({ email: event.target.value })
-                    }
+                    onChange={(e) => this.setState({ email: e.target.value })}
                     defaultValue={email}
                     margin="normal"
                     className="mt-1 my-sm-3"
+                    onKeyPress={this.keyPressed}
                   />
                   <TextField
                     type="password"
                     label={<IntlMessages id="appModule.password" />}
                     fullWidth
-                    onChange={(event) =>
-                      this.setState({ password: event.target.value })
+                    onChange={(e) =>
+                      this.setState({ password: e.target.value })
                     }
                     defaultValue={password}
                     margin="normal"
                     className="mt-1 my-sm-3"
+                    onKeyPress={this.keyPressed}
                   />
 
                   <div className="mb-3 d-flex align-items-center justify-content-between">
                     <Button
                       onClick={this.onSubmit}
                       variant="contained"
-                      style={{ background: "#4251af", color: "white" }}
+                      style={{ background: "#0764B0", color: "white" }}
                     >
                       <IntlMessages id="appModule.signIn" />
                     </Button>
-
-                    {/* <Link to="/signup">
-                      <IntlMessages id="signIn.signUp"/>
-                    </Link> */}
-                    {}
                   </div>
                 </fieldset>
               </form>
             </div>
           </div>
         </div>
-        {this.state.loading === true ? (
+
+        {loading && (
           <div className="loader-view">
             <CircularProgress />
           </div>
-        ) : (
-          <div></div>
         )}
       </div>
     );
   }
 }
 const mapStateToProps = (state) => ({
-  // InfoUser_Login: state.userReducer.User,
+  user: state.user,
 });
 const mapDispatchToProps = (dispatch) => ({
-  USER_LOGIN_REQUEST: (user_info) => {
-    dispatch(USER_LOGIN_REQUEST(user_info));
-  },
-  USER_LOGIN_SUCCESS: (VerifyCode) => {
-    dispatch(USER_LOGIN_SUCCESS(VerifyCode));
+  userLogin: (email, password, path) => {
+    dispatch(userLogin(email, password, path));
   },
 });
 

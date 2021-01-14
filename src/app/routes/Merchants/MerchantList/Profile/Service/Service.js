@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
-import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
-import { config } from "../../../../../../url/url";
+import {
+  getServiceByID,
+  viewService,
+  archiveServiceById,
+  restoreServiceById,
+} from "../../../../../../actions/merchantActions";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -11,18 +14,16 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
-import axios from "axios";
 import defaultImage from "../Extra/hpadmin2.png";
-import AddService from "./add-service";
+import AddService from "./AddService";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-
+import SearchComponent from "../../../../../../util/searchComponent";
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 
-const URL = config.url.URL;
 class Service extends Component {
   constructor(props) {
     super(props);
@@ -38,26 +39,15 @@ class Service extends Component {
     };
   }
 
-  getService = () => {
-    const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/service/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ data: res.data.data, loading: false });
-      });
-  };
+  getService = () => {};
 
   componentDidMount() {
-    this.getService();
+    const ID = this.props.MerchantProfile.merchantId;
+    this.props.getServiceByID(ID);
   }
 
   handleEdit = async (e) => {
-    await this.props.VIEW_SERVICE(e);
-    // this.setState({ openEdit: true });
+    await this.props.viewService(e);
     this.props.history.push("/app/merchants/profile/service/edit");
   };
 
@@ -79,36 +69,20 @@ class Service extends Component {
     this.setState({ openEdit: !this.state.openEdit });
   };
 
-  handleArchive = (ID) => {
-    axios
-      .put(URL + "/service/archive/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {});
-    this.setState({ isOpenReject: false, loading: true });
-    setTimeout(() => {
-      this.getService();
-    }, 1500);
+  handleArchive = (serviceId) => {
+    const MerchantId = this.props.MerchantProfile.merchantId;
+    this.props.archiveServiceById(serviceId, MerchantId);
+    this.setState({ isOpenReject: false });
   };
 
-  handleRestore = (ID) => {
-    axios
-      .put(URL + "/service/restore/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {});
-    this.setState({ isOpenReject: false, loading: true });
-    setTimeout(() => {
-      this.getService();
-    }, 1500);
+  handleRestore = (serviceId) => {
+    const MerchantId = this.props.MerchantProfile.merchantId;
+    this.props.restoreServiceById(serviceId, MerchantId);
+    this.setState({ isOpenReject: false });
   };
   render() {
-    // Search
-    let serviceList = this.state.data;
+    let { serviceList, loading } = this.props.service;
+
     if (serviceList) {
       if (this.state.search) {
         serviceList = serviceList.filter((e) => {
@@ -253,18 +227,13 @@ class Service extends Component {
       <div className="content general-content react-transition swipe-up Staff">
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="search">
-              <form>
-                {/* <SearchIcon className="button" title="Search" /> */}
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
-                />
-              </form>
-            </div>
+            <SearchComponent
+              type="text"
+              className="textBox"
+              placeholder="Search.."
+              value={this.state.search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+            />
             <div>
               {CheckPermissions("add-new-service") && (
                 <AddService reload={this.getService} />
@@ -279,7 +248,7 @@ class Service extends Component {
               defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
             />
 
             {/* ARCHIVE */}
@@ -354,12 +323,21 @@ class Service extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
+  service: state.service,
 });
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_SERVICE: (payload) => {
-    dispatch(VIEW_SERVICE(payload));
+  viewService: (payload) => {
+    dispatch(viewService(payload));
+  },
+  getServiceByID: (MerchantId) => {
+    dispatch(getServiceByID(MerchantId));
+  },
+  archiveServiceById: (serviceId, MerchantID) => {
+    dispatch(archiveServiceById(serviceId, MerchantID));
+  },
+  restoreServiceById: (serviceId, MerchantID) => {
+    dispatch(restoreServiceById(serviceId, MerchantID));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Service);

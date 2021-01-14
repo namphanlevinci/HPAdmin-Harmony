@@ -146,7 +146,7 @@ class Transactions extends Component {
                 <Button
                   style={{
                     padding: "10px 20px",
-                    color: "#4251af",
+                    color: "#0764B0",
                     backgroundColor: "#fff",
                     fontWeight: "600",
                   }}
@@ -223,7 +223,7 @@ class Transactions extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
+  MerchantProfile: state.merchant.merchant,
   userLogin: state.userReducer.User,
 });
 

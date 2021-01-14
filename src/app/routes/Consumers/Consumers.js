@@ -1,23 +1,30 @@
 import React from "react";
 import { connect } from "react-redux";
-import { GET_CONSUMER_BY_ID } from "../../../actions/consumer/actions";
-import { config } from "../../../url/url";
+import { getConsumerByID } from "../../../actions/consumerActions";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
-import { Typography } from "@material-ui/core";
+import {
+  Typography,
+  Checkbox,
+  Select,
+  FormControl,
+  MenuItem,
+  InputLabel,
+} from "@material-ui/core";
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
+import { debounce } from "lodash";
 
 import IntlMessages from "../../../util/IntlMessages";
+import CustomProgress from "../../../util/CustomProgress";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
+import SearchComponent from "../../../util/searchComponent";
+import moment from "moment";
 
 import "../Merchants/Merchants.css";
 import "./ConsumerProfile/Detail/Consumer.css";
 import "react-table/react-table.css";
-import "../Reports/Transactions/Transactions.css";
-
-const URL = config.url.URL;
+// import "../Reports/Transactions/Transactions.css";
 
 class Consumers extends React.Component {
   constructor(props) {
@@ -29,14 +36,22 @@ class Consumers extends React.Component {
       page: 0,
       pageCount: 0,
       data: [],
+      isVerify: -1,
+      sortValue: "",
+      sortType: "desc",
     };
   }
 
   fetchApi = async (state) => {
+    const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
+    const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
+
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const url = `${URL}/user/?key=${this.state.search}&page=${
+    const { search, isVerify } = this.state;
+
+    const url = `user/?key=${search}&isVerify=${isVerify}&sortValue=${sortValue}&sortType=${sortType}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -49,8 +64,12 @@ class Consumers extends React.Component {
     });
   };
 
-  searchMerchant = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchCustomer = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
   };
 
   keyPressed = async (event) => {
@@ -60,9 +79,22 @@ class Consumers extends React.Component {
     }
   };
 
+  handleSelect = (e) => {
+    this.setState({ isVerify: e.target.value });
+    this.searchCustomer();
+  };
+
   render() {
     const { page } = this.state;
-    const { data, loading, pageSize, pageCount } = this.props.apiData;
+    const {
+      data,
+      loading,
+      pageSize,
+      pageCount,
+      totalRow,
+      summary,
+    } = this.props.apiData;
+    const { loading: loadingConsumer } = this.props.consumerById;
 
     const columns = [
       {
@@ -73,12 +105,12 @@ class Consumers extends React.Component {
             {row?.accountId}
           </Typography>
         ),
-      },
-      {
-        Header: "Harmony ID",
-        id: "userId",
-        accessor: (row) => <p>{row?.userId}</p>,
-        show: false,
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            Total Rows: {totalRow}
+          </Typography>
+        ),
+        width: 220,
       },
       {
         Header: <CustomTableHeader value=" First Name" />,
@@ -113,12 +145,27 @@ class Consumers extends React.Component {
         ),
       },
       {
-        Header: <CustomTableHeader value="Balance" />,
-        id: "balance",
+        Header: (
+          <CustomTableHeader value="Balance" styles={{ textAlign: "center" }} />
+        ),
+        id: "credit",
         accessor: (e) => e.credit,
         Cell: (e) => (
-          <Typography variant="subtitle1" className="table__light">
+          <Typography
+            variant="subtitle1"
+            className="table__light"
+            style={{ textAlign: "center" }}
+          >
             ${e.value}
+          </Typography>
+        ),
+        Footer: (
+          <Typography
+            variant="subtitle1"
+            className="table__light"
+            style={{ textAlign: "center" }}
+          >
+            ${summary?.credit}
           </Typography>
         ),
       },
@@ -129,20 +176,48 @@ class Consumers extends React.Component {
         sortMethod: (a, b) => Number(a) - Number(b),
         Cell: (e) => (
           <Typography
+            style={{ textAlign: "center" }}
             variant="subtitle1"
             className={Number(e.value) > 10000 ? "BIG" : ""}
           >
             ${e.value}
           </Typography>
         ),
+        Footer: (
+          <Typography
+            variant="subtitle1"
+            className="table__light"
+            style={{ textAlign: "center" }}
+          >
+            ${summary?.totalAmount}
+          </Typography>
+        ),
       },
       {
-        accessor: "limitAmount",
-        show: false,
+        id: "isVerified",
+        Header: (
+          <CustomTableHeader value="Verify" styles={{ textAlign: "center" }} />
+        ),
+        accessor: (e) => (
+          <div style={{ textAlign: "center" }}>
+            <Checkbox
+              checked={e?.isVerified === 1}
+              style={{ color: "#0764B0", paddingTop: 0 }}
+            />
+          </div>
+        ),
       },
       {
-        accessor: "banks",
-        show: false,
+        id: "lastActivity",
+        Header: <CustomTableHeader value="Last Active" />,
+        accessor: (e) => (
+          <Typography
+            variant="subtitle1"
+            className={Number(e.value) > 10000 ? "BIG" : ""}
+          >
+            {e?.lastActivity && moment(e?.lastActivity).fromNow("en")}
+          </Typography>
+        ),
       },
       {
         accessor: "stateName",
@@ -158,7 +233,8 @@ class Consumers extends React.Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.props.GET_CONSUMER_BY_ID(rowInfo.row._original.userId);
+            const path = "/app/consumers/profile/general";
+            this.props.getConsumerByID(rowInfo.row._original.userId, path);
           }
         },
       };
@@ -166,6 +242,7 @@ class Consumers extends React.Component {
     return (
       <>
         <div className="container-fluid">
+          {loadingConsumer && <CustomProgress />}
           <Helmet>
             <title>Consumer | Harmony Admin</title>
           </Helmet>
@@ -174,26 +251,33 @@ class Consumers extends React.Component {
             title={<IntlMessages id="sidebar.dashboard.consumers" />}
           />
           <div className="MerList page-heading" style={{ padding: "10px" }}>
-            <div className=" TransactionsBox ">
+            <div style={styles.div}>
               {/* SEARCH */}
-              <div className="search">
-                <form>
-                  <SearchIcon className="button" title="Search" />
-                  <input
-                    type="text"
-                    className="textBox"
-                    placeholder="Search.."
-                    value={this.state.search}
-                    onChange={this.searchMerchant}
-                    onKeyPress={this.keyPressed}
-                  />
-                </form>
+              <div>
+                <SearchComponent
+                  value={this.state.search}
+                  onChange={this.handleChange}
+                  onKeyPress={this.keyPressed}
+                  onClickIcon={this.fetchApi}
+                />
               </div>
+
+              <FormControl style={styles.select}>
+                <InputLabel>Is Verify</InputLabel>
+                <Select
+                  onChange={this.handleSelect}
+                  value={this.state.isVerify}
+                >
+                  <MenuItem value="-1">All</MenuItem>
+                  <MenuItem value="1">True</MenuItem>
+                  <MenuItem value="0">False</MenuItem>
+                </Select>
+              </FormControl>
             </div>
 
             <div className="merchant-list-container">
               <ReactTable
-                manual
+                manual={true}
                 page={page}
                 pages={pageCount}
                 data={data}
@@ -216,16 +300,26 @@ class Consumers extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   ConsumerList: state.getConsumerUsers,
   apiData: state.fetchApi,
+  consumerById: state.consumerById,
 });
 const mapDispatchToProps = (dispatch) => ({
-  GET_CONSUMER_BY_ID: (payload) => {
-    dispatch(GET_CONSUMER_BY_ID(payload));
+  getConsumerByID: (ID, path) => {
+    dispatch(getConsumerByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Consumers);
+
+const styles = {
+  div: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  select: {
+    width: "20%",
+  },
+};

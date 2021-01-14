@@ -1,24 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getP2P_Transactions } from "../../../../actions/transactions/actions";
-import { DebounceInput } from "react-debounce-input";
-import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { debounce } from "lodash";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import {
+  Button,
+  FormControl,
+  Select,
+  MenuItem,
+  Grid,
+  InputLabel,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 
-import axios from "axios";
+import DateFnsUtils from "@date-io/date-fns";
+import InputCustom from "../../../../util/CustomInput";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
-import Button from "@material-ui/core/Button";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
-import DateInput from "../../Consumers/ConsumerProfile/Detail/date-input";
+import SearchComponent from "../../../../util/searchComponent";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
 import "../../Merchants/Merchants.css";
-
-const URL = config.url.URL;
 
 class P2P extends React.Component {
   constructor(props) {
@@ -43,14 +53,7 @@ class P2P extends React.Component {
       amountTo: -1,
       range: "thisMonth",
     });
-  };
-  fromDate = async (e) => {
-    await this.setState({ from: e.target.value, range: "all" });
-    await this.fetchData();
-  };
-  toDate = async (e) => {
-    await this.setState({ to: e.target.value, range: "all" });
-    await this.fetchData();
+    this.fetchApi();
   };
 
   componentDidMount() {
@@ -60,16 +63,22 @@ class P2P extends React.Component {
     });
   }
 
-  _handleChange = (event) => {
-    event.preventDefault();
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-    this.fetchData();
+  searchTransaction = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
+
+  handEnter = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.fetchApi();
+    }
+  };
+
   timeRange = async (e) => {
     const value = e.target.value;
     if (value === "today") {
@@ -114,10 +123,10 @@ class P2P extends React.Component {
     await this.setState({
       range: value,
     });
-    await this.fetchData();
+    await this.fetchApi();
   };
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     const {
       from,
       to,
@@ -129,35 +138,14 @@ class P2P extends React.Component {
     } = this.state;
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/p2pgiftcard/transaction?page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
-            amount ? amount : amountFrom
-          }&amountTo=${amount ? amount : amountTo}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.setState({ data: [], loading: false });
-        }
-      });
+
+    const url = `p2pgiftcard/transaction?page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
+      amount ? amount : amountFrom
+    }&amountTo=${amount ? amount : amountTo}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -167,51 +155,64 @@ class P2P extends React.Component {
   };
 
   render() {
-    const {
-      page,
-      pageCount,
-      data,
-      pageSize,
-      from,
-      to,
-      amountTo,
-      amountFrom,
-      amount,
-    } = this.state;
+    const { page, from, to, amountTo, amountFrom, amount, range } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
       {
         id: "createDate",
         Header: "Date/time",
-        accessor: (e) => {
-          return moment.utc(e.createDate).local().format("MM/DD/YYYY hh:mm A");
-        },
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {moment.utc(e.createDate).local().format("MM/DD/YYYY hh:mm A")}
+          </Typography>
+        ),
       },
       {
         id: "Sender",
         Header: "Sender",
-        accessor: "senderUserName",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.senderUserName}
+          </Typography>
+        ),
       },
       {
         id: "Receiver",
         Header: "Receiver",
-        accessor: "receiveUserName",
+
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.receiveUserName}
+          </Typography>
+        ),
       },
       {
         id: "Type ",
         Header: "Type",
-        accessor: (row) => <span>Gift Card</span>,
+        accessor: (row) => (
+          <Typography variant="subtitle1" className="table__light">
+            Gift Card
+          </Typography>
+        ),
       },
       {
         id: "Status",
         Header: "Status",
-        accessor: (e) =>
-          e.status !== null ? <p className="P2pStatus">{e.status}</p> : null,
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e.status !== null ? <p className="P2pStatus">{e.status}</p> : null}
+          </Typography>
+        ),
       },
       {
         id: "Amount",
         Header: "Amount",
-        accessor: (e) => (e.amount !== null ? <span>${e.amount}</span> : null),
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e.amount !== null ? <span>${e.amount}</span> : null}
+          </Typography>
+        ),
       },
     ];
 
@@ -228,24 +229,19 @@ class P2P extends React.Component {
           <div className=" TransactionsBox">
             {/* SEARCH */}
             <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-
-                <DebounceInput
-                  debounceTimeout={500}
-                  type="text"
-                  name="search"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._handleChange}
-                />
-              </form>
+              <SearchComponent
+                placeholder="Search.."
+                value={this.state.search}
+                onChange={this.handleChange}
+                onKeyDown={this.handEnter}
+                onClickIcon={this.fetchApi}
+                name="search"
+              />
             </div>
 
             <div>
               <Button
-                style={{ color: "#4251af", marginTop: "0" }}
+                style={{ color: "#0764B0", marginTop: "0" }}
                 onClick={this.handleResetClick}
                 className="btn btn-red"
               >
@@ -253,100 +249,116 @@ class P2P extends React.Component {
               </Button>
             </div>
           </div>
-          <div className="row TransactionSearch" style={{ marginTop: "10px" }}>
-            <div className="col-4">
-              <form noValidate>
-                <h6 style={styles.label}>From</h6>
-                <DateInput fromDate={this.fromDate} date={from} />
-              </form>
-            </div>
-            <div className="col-4">
-              <form noValidate>
-                <h6 style={styles.label}>To</h6>
-                <DateInput fromDate={this.toDate} date={to} />
-              </form>
-            </div>
-            <div className="col-4">
-              <h6 style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}>
-                Time range
-              </h6>
-              <select
-                className="search"
-                value={this.state.range}
-                onChange={this.timeRange}
-                style={{ width: "100%" }}
-              >
-                <option value="all">ALL</option>
-                <option value="today">Today</option>
-                <option value="yesterday">Yesterday</option>
-                <option value="thisWeek">This Week</option>
-                <option value="lastWeek">Last Week</option>
-                <option value="thisMonth">This Month</option>
-                <option value="lastMonth">Last Month</option>
-              </select>
-            </div>
-            <div className="col-4 search">
-              <h6
-                style={{
-                  color: "rgba(0, 0, 0, 0.54)",
-                  fontSize: "0,7rem",
-                }}
-              >
-                Amount ($)
-              </h6>
-              <form style={{ width: "100%" }}>
-                <DebounceInput
-                  type="text"
-                  name="amount"
-                  className="textBox"
-                  debounceTimeout={500}
-                  placeholder="Amount ($)"
-                  value={amount}
-                  onChange={this._handleChange}
+          <Grid
+            container
+            spacing={3}
+            className="TransactionSearch"
+            // style={{ textAlign: "center" }}
+          >
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid item xs={4}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  label="From"
+                  name="from"
+                  value={from}
+                  onChange={(e) => this.handleDateChange(e, "from")}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  autoOk={true}
+                  style={{ width: "80%" }}
                 />
-              </form>
-            </div>
-            <div className="col-4">
-              <div className="search">
-                <h6
-                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
-                >
-                  Amount From:
-                </h6>
-                <form style={{ width: "100%" }}>
-                  <DebounceInput
-                    type="text"
-                    className="textBox"
-                    name="amountFrom"
-                    debounceTimeout={500}
-                    placeholder="Amount From"
-                    value={amountFrom === -1 ? 0 : amountFrom}
-                    onChange={this._handleChange}
-                  />
-                </form>
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="search">
-                <h6
-                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
-                >
-                  Amount To:
-                </h6>
-                <form style={{ width: "100%" }}>
-                  <DebounceInput
-                    type="text"
-                    className="textBox"
-                    name="amountTo"
-                    debounceTimeout={500}
-                    placeholder="Amount To"
-                    value={amountTo === -1 ? 0 : amountTo}
-                    onChange={this._handleChange}
-                  />
-                </form>
-              </div>
-            </div>
-          </div>
+              </Grid>
+              <Grid item xs={4}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  label="To"
+                  value={to}
+                  name="to"
+                  onChange={(e) => this.handleDateChange(e, "to")}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  autoOk={true}
+                  style={{ width: "80%" }}
+                />
+              </Grid>
+              <Grid item xs={4} style={{ marginTop: "16px" }}>
+                <FormControl style={{ width: "80%" }}>
+                  <InputLabel>Time Range</InputLabel>
+                  <Select value={range} onChange={this.timeRange}>
+                    <MenuItem value="all">ALL</MenuItem>
+                    <MenuItem value="today">Today</MenuItem>
+                    <MenuItem value="yesterday">Yesterday</MenuItem>
+                    <MenuItem value="thisWeek">This Week</MenuItem>
+                    <MenuItem value="lastWeek">Last Week</MenuItem>
+                    <MenuItem value="thisMonth">This Month</MenuItem>
+                    <MenuItem value="lastMonth">Last Month</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </MuiPickersUtilsProvider>
+            <Grid item xs={4} style={{ marginTop: "20px" }}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                label="Amount ($)"
+                value={amount}
+                onChange={this.handleChange}
+                name="amount"
+                variant="outlined"
+                InputProps={{
+                  inputComponent: InputCustom,
+                }}
+                inputProps={{
+                  numericOnly: true,
+                }}
+                style={{ width: "80%" }}
+              />
+            </Grid>
+
+            <Grid item xs={4} style={{ marginTop: "20px" }}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                label="Amount From"
+                value={amountFrom === -1 ? 0 : amountFrom}
+                onChange={this.handleChange}
+                name="amountFrom"
+                variant="outlined"
+                InputProps={{
+                  inputComponent: InputCustom,
+                }}
+                inputProps={{
+                  numericOnly: true,
+                }}
+                style={{ width: "80%" }}
+              />
+            </Grid>
+
+            <Grid item xs={4} style={{ marginTop: "20px" }}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                label="Amount To"
+                value={amountTo === -1 ? 0 : amountTo}
+                onChange={this.handleChange}
+                name="amountTo"
+                variant="outlined"
+                InputProps={{
+                  inputComponent: InputCustom,
+                }}
+                inputProps={{
+                  numericOnly: true,
+                }}
+                style={{ width: "80%" }}
+              />
+            </Grid>
+          </Grid>
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual
@@ -355,11 +367,11 @@ class P2P extends React.Component {
               data={data}
               row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               defaultPageSize={20}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
             />
           </div>
@@ -370,21 +382,11 @@ class P2P extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-  TransactionList: state.getTransactions,
-  P2PList: state.GetP2P,
+  apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getP2P_Transactions: () => {
-    dispatch(getP2P_Transactions());
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(P2P);
-
-const styles = {
-  label: {
-    color: "rgba(0, 0, 0, 0.54)",
-    fontSize: "0,7rem",
-    textAlign: "left",
-  },
-};

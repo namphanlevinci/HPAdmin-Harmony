@@ -165,14 +165,14 @@ function Salary(props) {
                           <p
                             style={{
                               marginLeft: 35,
-                              color: "#4251af",
+                              color: "#0764B0",
                               fontWeight: "600",
                               fontSize: 14,
                               marginTop: 30,
                               cursor: "pointer",
                               letterSpacing: 0.3,
                             }}
-                            onClick={() => arrayHelpers.insert(1, "")}
+                            onClick={() => arrayHelpers.insert(index + 1, "")}
                           >
                             + Add more
                           </p>
@@ -186,7 +186,7 @@ function Salary(props) {
                   <p
                     style={{
                       marginLeft: 35,
-                      color: "#4251af",
+                      color: "#0764B0",
                       fontWeight: "600",
                       fontSize: 14,
                       marginTop: 30,

@@ -1,15 +1,17 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  FormControl,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+} from "@material-ui/core";
 import InputField from "../../FormFields/InputField";
 import CustomNumberField from "../../FormFields/CustomNumberField";
 import SelectField from "../../FormFields/SelectField";
 import State from "../../../../../../../util/InitialState";
-
-import FormControl from "@material-ui/core/FormControl";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormGroup from "@material-ui/core/FormGroup";
 
 export default function General(props) {
   const {
@@ -53,21 +55,21 @@ export default function General(props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12}>
           <InputField
             name={`generalInfo.businessAddress.address`}
             label="Business Address* (no P.O. Boxes)"
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={4}>
           <InputField
             name={`generalInfo.businessAddress.city`}
             label="City*"
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={4}>
           <SelectField
             name={`generalInfo.businessAddress.state`}
             label="State*"
@@ -75,7 +77,7 @@ export default function General(props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={12} sm={4}>
           <CustomNumberField
             InputLabelProps={{ shrink: true }}
             name={`generalInfo.businessAddress.zip`}
@@ -107,7 +109,7 @@ export default function General(props) {
             </FormGroup>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12}>
           <InputField
             name={`generalInfo.dbaAddress.address`}
             label="DBA Address*"
@@ -115,7 +117,7 @@ export default function General(props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={4}>
           <InputField
             name={`generalInfo.dbaAddress.city`}
             label="City*"
@@ -123,7 +125,7 @@ export default function General(props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={4}>
           <SelectField
             name={`generalInfo.dbaAddress.state`}
             label="State*"
@@ -132,7 +134,7 @@ export default function General(props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={12} sm={4}>
           <CustomNumberField
             InputLabelProps={{ shrink: true }}
             name={`generalInfo.dbaAddress.zip`}

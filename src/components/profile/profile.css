@@ -7,7 +7,7 @@
 }
 .UserSearchBox .addAdmin {
   padding: 10px 20px;
-  background: #4251af;
+  background: #0764B0;
   color: white;
 }
 .admin_profile {
@@ -20,7 +20,7 @@
 }
 .admin_profile h2 {
   padding-top: 15px;
-  color: "#4251af";
+  color: "#0764B0";
   font-weight: 500;
   font-size: 20px;
   opacity: 0.9;
@@ -35,14 +35,14 @@
   color: red;
 }
 .admin_profile button:hover {
-  background: #4251af;
+  background: #0764B0;
 }
 .admin_profile h1 {
   color: black;
   font-weight: 550;
 }
 .admin_profile h4 {
-  color: #4251af;
+  color: #0764B0;
   font-weight: 400;
 }
 .admin_profile table {
@@ -72,7 +72,7 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #4251af;
+  border-color: #0764B0;
 }
 
 .react-tel-input {
@@ -81,7 +81,7 @@ input:focus {
 
 /* .admin_profile input:focus {
     outline: none;
-    border-color: #4251af;
+    border-color: #0764B0;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(66, 81, 175, 0.25);
   } */
 
@@ -117,7 +117,7 @@ input:focus {
 
 /* GREEN BTN */
 .admin-header-div button.btn:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -129,7 +129,7 @@ input:focus {
   background-color: white;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
 .admin-header-div button.btn.btn-green:hover {
@@ -146,7 +146,7 @@ input:focus {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
 .admin-header-div button.btn.btn-red {
@@ -154,16 +154,16 @@ input:focus {
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: white;
-  background-color: #4251af;
+  background-color: #0764B0;
 }
 
 .admin-header-div button.btn.btn-red:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .admin-header-div button.btn.btn-red:active {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 
@@ -238,7 +238,7 @@ input:focus {
   font-weight: 900;
 }
 .SettingsContent button:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -247,7 +247,7 @@ input:focus {
   border-color: rgba(0, 0, 0, 0.9);
 }
 .SettingsContent button {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -256,7 +256,7 @@ input:focus {
   margin-bottom: 0px;
   margin-left: 10px;
   height: 40px;
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -282,7 +282,7 @@ input:focus {
   margin-left: 0px;
 }
 .general-content button.btn:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -291,7 +291,7 @@ input:focus {
   border-color: rgba(0, 0, 0, 0.9);
 }
 .general-content button.btn.btn-green {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -299,12 +299,12 @@ input:focus {
 }
 
 .general-content button.btn.btn-green:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .general-content button.btn.btn-green:active {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
@@ -312,7 +312,7 @@ input:focus {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
 .general-content button.btn.btn-red:hover {
@@ -338,8 +338,8 @@ input:focus {
 }
 .general-content input:focus {
   outline: none;
-  border-color: #4251af;
-  /* border-bottom: 2px solid #4251af; */
+  border-color: #0764B0;
+  /* border-bottom: 2px solid #0764B0; */
 }
 .general-content select {
   padding: 8px;
@@ -356,11 +356,11 @@ input:focus {
 
 .TransactionTable thead tr th {
   color: white;
-  background-color: #4251af;
+  background-color: #0764B0;
   padding: 10px 20px;
   font-weight: 400;
   font-size: 16px;
-  border: 1px solid #4251af;
+  border: 1px solid #0764B0;
 }
 .TransactionTable tbody tr td {
   padding: 10px 12px;

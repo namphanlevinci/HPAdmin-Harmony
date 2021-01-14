@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ViewProfile_Merchants } from "../../../../../actions/merchants/actions";
+import { motion } from "framer-motion";
+import {
+  CustomText,
+  CustomTextLabel,
+  CustomTitle,
+} from "../../../../../util/CustomText";
+import { Grid } from "@material-ui/core";
 
 import "../../../Merchants/MerchantList/MerchantProfile.css";
 import "../../../Merchants/PendingList/MerchantReqProfile.css";
@@ -14,66 +20,54 @@ class Bank extends Component {
   render() {
     const e = this.props.ConsumerProfile.banks;
     return (
-      <div className="content general-content">
-        {e.map((i) => {
-          return (
-            <div className="container" key={i.bankAcountId}>
-              <h2>Bank Information</h2>
-              <div className="row" style={{ paddingTop: "25px" }}>
-                <div className="col-md-4">
-                  <label style={styles.label}>Bank Name:</label>
-                  <p>{i.accountHolderName}</p>
-                </div>
-                <div className="col-md-4">
-                  <label style={styles.label}>Routing Number:</label>
-                  <p>{i.routingNumber}</p>
-                </div>
-                <div className="col-md-4">
-                  <label style={styles.label}>Account Number:</label>
-                  <p>{i.accountNumber}</p>
-                </div>
-                <div className="col-md-4">
-                  <label style={styles.label}>Address:</label>
-                  <p>{i.address}</p>
-                </div>
-                <div className="col-md-4">
-                  <label style={styles.label}>State:</label>
-                  <p>{i.stateName}</p>
-                </div>
-                <div className="col-md-4">
-                  <label style={styles.label}>City:</label>
-                  <p>{i.city}</p>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <motion.div
+        initial="out"
+        animate="in"
+        exit="out"
+        variants={this.props.pageTransition}
+      >
+        <Grid container className="content general-content">
+          {e.map((i) => {
+            return (
+              <Grid container spacing={3} key={i.bankAcountId}>
+                <Grid item xs={12}>
+                  <CustomTitle value="Bank Information" />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="Bank Name" />
+                  <CustomText value={i.accountHolderName} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="Routing Number" />
+                  <CustomText value={i.routingNumber} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="Account Number" />
+                  <CustomText value={i.accountNumber} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="Address" />
+                  <CustomText value={i.address} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="State" />
+                  <CustomText value={i.stateName} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CustomTextLabel value="City" />
+                  <CustomText value={i.city} />
+                </Grid>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </motion.div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  ConsumerProfile: state.ConsumerReducer.Consumer,
-  userLogin: state.userReducer.User,
+  ConsumerProfile: state.consumerById.data,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
-  },
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Bank);
-
-const styles = {
-  p: { fontWeight: 400, color: "black" },
-  Form: {
-    marginTop: "10px",
-  },
-  btnDiv: {
-    marginTop: "10px",
-  },
-  label: {
-    fontSize: "13px",
-  },
-};
+export default connect(mapStateToProps)(Bank);

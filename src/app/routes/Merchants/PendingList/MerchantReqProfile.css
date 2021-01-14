@@ -10,7 +10,7 @@
 .content-body hr {
   height: 1px;
   border: 0;
-  border-top: 1px solid #4251af;
+  border-top: 1px solid #0764B0;
   align-content: center;
   width: 100%;
 }
@@ -32,7 +32,7 @@
 
 /* GREEN BTN */
 .content-body .btn button.btn:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -41,19 +41,19 @@
   border-color: rgba(0, 0, 0, 0.9);
 }
 .content-body .btn button.btn.btn-green {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 
 .content-body .btn button.btn.btn-green:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
 .content-body .btn button.btn.btn-green:active {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
@@ -61,7 +61,7 @@
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
 .content-body .btn button.btn.btn-red:hover {
@@ -79,16 +79,11 @@
 }
 
 .content-body .content .container-fluid h2 {
-  color: #4251af;
+  color: #0764B0;
   font-weight: 400;
   margin: 0;
 }
-/* .content-body .content p {
-  font-weight: 400;
-  color: #252525;
-  overflow-wrap: break-word;
-  font-size: 16px;
-} */
+
 
 h4 {
   margin-bottom: 4px;
@@ -105,13 +100,13 @@ h4 {
   margin-bottom: 20px;
 }
 .request-status h4 {
-  color: #4251af;
+  color: #0764B0;
   font-size: 17px;
 }
 
 .content-list .content-body .title {
   padding-top: 15px;
-  color: #4251af;
+  color: #0764B0;
   text-align: center;
 }
 
@@ -127,11 +122,11 @@ h4 {
 
 .content-list .content-body input:focus {
   outline: none;
-  border-color: #4251af;
+  border-color: #0764B0;
 }
 
 .MuiCheckbox-colorSecondary.Mui-checked {
-  color: #4251af !important;
+  color: #0764B0 !important;
 }
 
 .checked-red .MuiCheckbox-colorSecondary.Mui-checked {
@@ -172,7 +167,7 @@ h4 {
 
 .pending_status {
   max-width: 160px !important;
-  background-color: #4251af;
+  background-color: #0764B0;
   text-align: center;
   margin-bottom: 20px !important;
 }
@@ -201,12 +196,12 @@ h4 {
 }
 
 .pending_status > h4:first-of-type {
-  color: #4251af;
+  color: #0764B0;
   padding: 10px 0px;
 }
 
 .modal-title {
-  background-color: #4251af;
+  background-color: #0764B0;
   display: inline;
 }
 .modal-title h5 {
@@ -228,7 +223,7 @@ h4 {
 }
 
 .add-principal {
-  color: #4251af;
+  color: #0764B0;
   cursor: pointer;
   font-weight: 500;
   margin-right: 5px;
@@ -238,7 +233,7 @@ h4 {
 }
 .remove-principal {
   cursor: pointer;
-  color: #4251af;
+  color: #0764B0;
 }
 
 .error-message {

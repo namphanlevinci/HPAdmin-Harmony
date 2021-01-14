@@ -10,6 +10,8 @@ import Axios from "axios";
 import { config } from "../../../../url/url";
 const URL = config.url.URL;
 
+// ON HOLD
+
 class SMTP extends Component {
   constructor(props) {
     super(props);
@@ -130,8 +132,8 @@ class SMTP extends Component {
         <ContainerHeader
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.smtp" />}
-        />
-        <form className="form-style-7">
+        />s
+        <form className="">
           <h1>MAIL SERVER</h1>
           <ul>
             <li>

@@ -1,17 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  ViewProfile_Merchants,
-  UPDATE_MERCHANT,
-  GET_MERCHANT_BY_ID,
-} from "../../../../../../actions/merchants/actions";
+import { updateMerchantGeneralById } from "../../../../../../actions/merchantActions";
 import { Formik, Form } from "formik";
-import { Grid, Button, TextField } from "@material-ui/core";
-import * as Yup from "yup";
+import {
+  Grid,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  TextField,
+  InputLabel,
+} from "@material-ui/core";
 import { CustomTitle } from "../../../../../../util/CustomText";
+
+import * as Yup from "yup";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import CustomSelect from "../../../../../../util/getState";
 import InputCustom from "../../../../../../util/CustomInput";
+import CustomNumberField from "../../AddMerchants/FormFields/CustomNumberField";
 
 class General extends Component {
   constructor(props) {
@@ -20,13 +26,12 @@ class General extends Component {
       loading: false,
     };
   }
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/merchants/profile/general");
   };
 
   componentDidMount() {
     const data = this.props.MerchantProfile.general;
-
     this.setState({ data: data, loading: true });
   }
 
@@ -40,7 +45,9 @@ class General extends Component {
               validationSchema={validationSchema}
               onSubmit={(values) => {
                 const ID = this.props.MerchantProfile.general.generalId;
-                this.props.updateMerchant({ ...values, ID });
+                const path = "/app/merchants/profile/general";
+                const payload = { ...values, ID, path };
+                this.props.updateMerchantGeneralById(payload);
               }}
             >
               {({ errors, touched, handleChange, values, setFieldValue }) => (
@@ -104,7 +111,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={12}>
                       <TextField
                         name="address"
                         label="Business Address* (no P.O. Boxes)"
@@ -118,9 +125,10 @@ class General extends Component {
                             ? errors?.address
                             : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
-                    <Grid item xs={6} md={3}>
+                    <Grid item xs={6} md={4}>
                       <TextField
                         name="city"
                         label="City*"
@@ -132,19 +140,20 @@ class General extends Component {
                         helperText={
                           errors?.city && touched?.city ? errors?.city : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
-                    <Grid item xs={6} md={3}>
+                    <Grid item xs={6} md={4}>
                       <CustomSelect
                         name="state"
-                        label="State Issued*"
+                        label="State*"
                         initialValue={values.stateId}
                         handleChange={(e) =>
                           setFieldValue(`stateId`, e.target.value)
                         }
                       />
                     </Grid>
-                    <Grid item xs={6} md={2}>
+                    <Grid item xs={6} md={4}>
                       <TextField
                         InputLabelProps={{ shrink: true }}
                         label="Zip Code*"
@@ -163,9 +172,10 @@ class General extends Component {
                         helperText={
                           errors?.zip && touched?.zip ? errors?.zip : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={12}>
                       <TextField
                         name={`dbaAddress.Address`}
                         label="DBA Address*"
@@ -183,9 +193,10 @@ class General extends Component {
                             ? errors?.dbaAddress?.Address
                             : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
-                    <Grid item xs={6} md={3}>
+                    <Grid item xs={6} md={4}>
                       <TextField
                         name={`dbaAddress.City`}
                         label="City*"
@@ -201,19 +212,20 @@ class General extends Component {
                             ? errors?.dbaAddress?.City
                             : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
-                    <Grid item xs={6} md={3}>
+                    <Grid item xs={6} md={4}>
                       <CustomSelect
                         name={`dbaAddress.State`}
-                        label="State Issued*"
+                        label="State*"
                         initialValue={values.dbaAddress?.State}
                         handleChange={(e) =>
                           setFieldValue(`dbaAddress.State`, e.target.value)
                         }
                       />
                     </Grid>
-                    <Grid item xs={6} md={2}>
+                    <Grid item xs={6} md={4}>
                       <TextField
                         InputLabelProps={{ shrink: true }}
                         label="Zip Code*"
@@ -236,9 +248,10 @@ class General extends Component {
                             ? errors?.dbaAddress?.Zip
                             : ""
                         }
+                        style={styles.TextField}
                       />
                     </Grid>
-                    <Grid item xs={6} md={5}>
+                    <Grid item xs={6} md={4}>
                       <TextField
                         name="emailContact"
                         label="Email Contact*"
@@ -254,7 +267,7 @@ class General extends Component {
                         }
                       />
                     </Grid>
-                    <Grid item xs={6} md={5}>
+                    <Grid item xs={6} md={4}>
                       <MaterialUiPhoneNumber
                         onlyCountries={["us", "vn"]}
                         placeholder="Business Phone Number"
@@ -272,76 +285,142 @@ class General extends Component {
                         }
                       />
                     </Grid>
+                    <Grid item xs={12}>
+                      <Grid container spacing={3}>
+                        <Grid item xs={6} md={3}>
+                          <TextField
+                            name="firstName"
+                            label="First Name*"
+                            type="text"
+                            fullWidth
+                            onChange={handleChange}
+                            value={values.firstName}
+                            error={errors?.firstName && touched?.firstName}
+                            helperText={
+                              errors?.firstName && touched?.firstName
+                                ? errors?.firstName
+                                : ""
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={6} md={3}>
+                          <TextField
+                            name="lastName"
+                            label="Last Name*"
+                            type="text"
+                            fullWidth
+                            onChange={handleChange}
+                            value={values.lastName}
+                            error={errors?.lastName && touched?.lastName}
+                            helperText={
+                              errors?.lastName && touched?.lastName
+                                ? errors?.lastName
+                                : ""
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={6} md={3}>
+                          <TextField
+                            name="title"
+                            label="Title/Position*"
+                            type="text"
+                            fullWidth
+                            onChange={handleChange}
+                            value={values.title}
+                            error={errors?.title && touched?.title}
+                            helperText={
+                              errors?.title && touched?.title
+                                ? errors?.title
+                                : ""
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={6} md={3}>
+                          <MaterialUiPhoneNumber
+                            onlyCountries={["us", "vn"]}
+                            label="Contact Phone Number*"
+                            placeholder="Business Phone Number"
+                            name="phoneContact"
+                            value={values.phoneContact}
+                            onChange={(phone) =>
+                              setFieldValue(`phoneContact`, phone)
+                            }
+                            error={
+                              errors?.phoneContact && touched?.phoneContact
+                            }
+                            helperText={
+                              errors?.phoneContact && touched?.phoneContact
+                                ? errors?.phoneContact
+                                : ""
+                            }
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
 
-                    <Grid item xs={6} md={3}>
+                    <Grid item xs={6} md={4}>
                       <TextField
-                        name="firstName"
-                        label="First Name*"
+                        style={{ paddingTop: "5px" }}
+                        name="reviewLink"
+                        label="Review Link"
                         type="text"
                         fullWidth
                         onChange={handleChange}
-                        value={values.firstName}
-                        error={errors?.firstName && touched?.firstName}
-                        helperText={
-                          errors?.firstName && touched?.firstName
-                            ? errors?.firstName
-                            : ""
-                        }
+                        value={values.reviewLink}
                       />
                     </Grid>
-                    <Grid item xs={6} md={3}>
-                      <TextField
-                        name="lastName"
-                        label="Last Name*"
-                        type="text"
-                        fullWidth
-                        onChange={handleChange}
-                        value={values.lastName}
-                        error={errors?.lastName && touched?.lastName}
-                        helperText={
-                          errors?.lastName && touched?.lastName
-                            ? errors?.lastName
-                            : ""
-                        }
-                      />
+                    <Grid item xs={6} md={4}>
+                      <FormControl style={{ width: "100%" }}>
+                        <InputLabel>Send Review Link Option</InputLabel>
+                        <Select
+                          name="sendReviewLinkOption"
+                          value={values?.sendReviewLinkOption}
+                          onChange={handleChange}
+                        >
+                          <MenuItem value="auto">Automatic</MenuItem>
+                          <MenuItem value="off">Off</MenuItem>
+                          <MenuItem value="manual">Manual</MenuItem>
+                        </Select>
+                      </FormControl>
                     </Grid>
-                    <Grid item xs={6} md={3}>
-                      <TextField
-                        name="title"
-                        label="Title/Position*"
-                        type="text"
-                        fullWidth
-                        onChange={handleChange}
-                        value={values.title}
-                        error={errors?.title && touched?.title}
-                        helperText={
-                          errors?.title && touched?.title ? errors?.title : ""
-                        }
-                      />
+                    <Grid item xs={12}>
+                      <Grid container spacing={3}>
+                        <Grid item xs={6} md={4}>
+                          <CustomNumberField
+                            InputLabelProps={{ shrink: true }}
+                            name="latitude"
+                            label="Latitude"
+                            fullWidth
+                            options={
+                              {
+                                // delimiters: ["."],
+                                // blocks: [2, 20],
+                              }
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                          <CustomNumberField
+                            InputLabelProps={{ shrink: true }}
+                            name="longitude"
+                            label="Longitude"
+                            fullWidth
+                            options={
+                              {
+                                // delimiters: ["."],
+                                // blocks: [3, 20],
+                              }
+                            }
+                          />
+                        </Grid>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={6} md={3}>
-                      <MaterialUiPhoneNumber
-                        onlyCountries={["us", "vn"]}
-                        label="Contact Phone Number*"
-                        placeholder="Business Phone Number"
-                        name="phoneContact"
-                        value={values.phoneContact}
-                        onChange={(phone) =>
-                          setFieldValue(`phoneContact`, phone)
-                        }
-                        error={errors?.phoneContact && touched?.phoneContact}
-                        helperText={
-                          errors?.phoneContact && touched?.phoneContact
-                            ? errors?.phoneContact
-                            : ""
-                        }
-                      />
-                    </Grid>
+
                     <Grid item xs={12} style={{ paddingTop: "20px" }}>
                       <Button className="btn btn-green" type="submit">
                         SAVE
                       </Button>
-                      <Button className="btn btn-red" onClick={this._goBack}>
+                      <Button className="btn btn-red" onClick={this.goBack}>
                         CANCEL
                       </Button>
                     </Grid>
@@ -357,22 +436,20 @@ class General extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
-  getMerchant: state.getMerchant,
+  MerchantProfile: state.merchant.merchant,
 });
 const mapDispatchToProps = (dispatch) => ({
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
-  },
-  updateMerchant: (payload) => {
-    dispatch(UPDATE_MERCHANT(payload));
-  },
-  GET_MERCHANT_BY_ID: (ID) => {
-    dispatch(GET_MERCHANT_BY_ID(ID));
+  updateMerchantGeneralById: (payload) => {
+    dispatch(updateMerchantGeneralById(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(General);
+
+const styles = {
+  TextField: {
+    paddingTop: "6px",
+  },
+};
 
 const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
 const validationSchema = Yup.object().shape({
@@ -399,4 +476,14 @@ const validationSchema = Yup.object().shape({
   phoneContact: Yup.string()
     .matches(phoneRegExp, "Invalid phone number")
     .required("Phone is required"),
+
+  latitude: Yup.number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .nullable(true)
+    .required("Latitude is required"),
+
+  longitude: Yup.number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .nullable(true)
+    .required("Longitude is required"),
 });

@@ -10,7 +10,7 @@ import {
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
-
+import SearchComponent from "../../../../../../util/searchComponent";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import ReactTable from "react-table";
 import Dialog from "@material-ui/core/Dialog";
@@ -247,18 +247,13 @@ class Staff extends Component {
         {loadingRestore && <CustomProgress />}
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="search">
-              <form>
-                {/* <input title="Search" value="" className="button" readOnly /> */}
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this.searchMerchant}
-                />
-              </form>
-            </div>
+            <SearchComponent
+              className="textBox"
+              placeholder="Search.."
+              value={this.state.search}
+              onChange={this.searchMerchant}
+            />
+
             <div>
               {CheckPermissions("add-new-staff") && (
                 <Button
@@ -355,7 +350,7 @@ class Staff extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
+  MerchantProfile: state.merchant.merchant,
   staff: state.staff,
   restoreStaff: state.restoreStaff,
   archiveStaff: state.archiveStaff,

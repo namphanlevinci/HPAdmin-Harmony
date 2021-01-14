@@ -2,30 +2,31 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MdAddToPhotos } from "react-icons/md";
 import { Formik } from "formik";
-import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  WARNING_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
+import { addTemplateByID } from "../../../../actions/giftCardActions";
+
 import { config } from "../../../../url/url";
 import { CustomTitle } from "../../../../util/CustomText";
 import { Grid, Button } from "@material-ui/core";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import Select from "react-select";
+// import Select from "react-select";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
 
 import DefaultImage from "./default.png";
+
 import "../Generation/generation.styles.scss";
 import "./template.styles.scss";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class NewTemplate extends Component {
@@ -39,7 +40,7 @@ class NewTemplate extends Component {
     };
   }
 
-  _uploadFile = (e) => {
+  updateImage = (e) => {
     e.preventDefault();
 
     // handle preview Image
@@ -78,21 +79,6 @@ class NewTemplate extends Component {
   };
 
   render() {
-    const Group = [
-      { value: "Happy Anniversary", label: "Happy Anniversary" },
-      { value: "Happy Birthday", label: "Happy Birthday" },
-      { value: "Happy New Year", label: "Happy New Year" },
-      { value: "Happy Valentine", label: "Happy Valentine" },
-      { value: "Thank You", label: "Thank You" },
-      { value: "I Love You", label: "I Love You" },
-      { value: "Merry Christmas", label: "Merry Christmas" },
-    ];
-
-    const Status = [
-      { value: "0", label: "Active" },
-      { value: "1", label: "Disable" },
-    ];
-
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
@@ -126,40 +112,23 @@ class NewTemplate extends Component {
               if (!values.giftCardType) {
                 errors.giftCardType = "Required";
               }
-              if (!values.isDisabled) {
+              if (values.isDisabled === "") {
                 errors.isDisabled = "Required";
               }
               return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              const { giftCardTemplateName, giftCardType, isDisabled } = values;
               const { fileId, isConsumer } = this.state;
-              // resetForm();
-              axios
-                .post(
-                  URL + "/giftcardtemplate",
-                  {
-                    giftCardTemplateName,
-                    giftCardType,
-                    isConsumer,
-                    fileId,
-                    isDisabled: Number(isDisabled),
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${this.props.userLogin.token}`,
-                    },
-                  }
-                )
-                .then((res) => {
-                  if (res.data.message === "Success") {
-                    this.props.SuccessNotify(res.data.message);
-                    this.props.history.push("/app/giftcard/template");
-                  } else {
-                    this.props.FailureNotify(res.data.message);
-                  }
-                })
-                .catch((error) => console.log(error));
+              const { isDisabled } = values;
+              const path = "/app/giftcard/template";
+              const payload = {
+                ...values,
+                isDisabled: Number(isDisabled),
+                fileId,
+                isConsumer,
+                path,
+              };
+              this.props.addTemplateByID(payload);
             }}
           >
             {({
@@ -222,7 +191,7 @@ class NewTemplate extends Component {
                         name="giftCardTemplateName"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        label="Template Name"
+                        label="Template Name*"
                         value={values.giftCardTemplateName}
                         error={
                           errors.giftCardTemplateName &&
@@ -237,35 +206,61 @@ class NewTemplate extends Component {
                       />
                     </Grid>
                     <Grid item xs={4}>
-                      <h4>Group</h4>
-                      <Select
-                        options={Group}
-                        onChange={(selectedOption) => {
-                          setFieldValue("giftCardType", selectedOption.value);
-                        }}
-                        placeholder="Select Group"
-                        value={this.state.group}
-                      />
+                      <FormControl
+                        style={{ width: "100%", paddingTop: "12px" }}
+                      >
+                        <InputLabel>Group*</InputLabel>
+                        <Select
+                          name="giftCardType"
+                          value={values.giftCardType}
+                          onChange={handleChange}
+                          error={errors.giftCardType && touched.giftCardType}
+                        >
+                          <MenuItem value="Happy Anniversary">
+                            Happy Anniversary
+                          </MenuItem>
+                          <MenuItem value="Happy Birthday">
+                            Happy Birthday
+                          </MenuItem>
+                          <MenuItem value="Happy New Year">
+                            Happy New Year
+                          </MenuItem>
+                          <MenuItem value="Happy Valentine">
+                            Happy Valentine
+                          </MenuItem>
+                          <MenuItem value="Thank You">Thank You</MenuItem>
+                          <MenuItem value="I Love You">I Love You</MenuItem>
+                          <MenuItem value="Merry Christmas">
+                            Merry Christmas
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+
                       {errors.giftCardType && touched.giftCardType && (
-                        <div className="input-feedback">
+                        <FormHelperText className="input-feedback">
                           {errors.giftCardType}
-                        </div>
+                        </FormHelperText>
                       )}
                     </Grid>
                     <Grid item xs={4}>
-                      <h4>Status</h4>
-                      <Select
-                        options={Status}
-                        onChange={(selectedOption) => {
-                          setFieldValue("isDisabled", selectedOption.value);
-                        }}
-                        placeholder="Select Status"
-                        value={this.state.isDisabled}
-                      />
+                      <FormControl
+                        style={{ width: "100%", paddingTop: "12px" }}
+                      >
+                        <InputLabel>Status*</InputLabel>
+                        <Select
+                          name="isDisabled"
+                          value={values.isDisabled}
+                          onChange={handleChange}
+                        >
+                          <MenuItem value={0}>Active</MenuItem>
+                          <MenuItem value={1}>Disable</MenuItem>
+                        </Select>
+                      </FormControl>
+
                       {errors.isDisabled && touched.isDisabled && (
-                        <div className="input-feedback">
+                        <FormHelperText className="input-feedback">
                           {errors.isDisabled}
-                        </div>
+                        </FormHelperText>
                       )}
                     </Grid>
                     <Grid item xs={4}>
@@ -283,7 +278,7 @@ class NewTemplate extends Component {
                         type="file"
                         className="custom-input"
                         accept="image/gif,image/jpeg, image/png"
-                        onChange={(e) => this._uploadFile(e)}
+                        onChange={(e) => this.updateImage(e)}
                         style={{ width: "100%", border: "none" }}
                       />
                     </Grid>
@@ -295,7 +290,7 @@ class NewTemplate extends Component {
                         }
                         value="1"
                         inputProps={{ "aria-label": "primary checkbox" }}
-                        style={{ color: "#4251af" }}
+                        style={{ color: "#0764B0" }}
                       />
                       Visible on Consumer App
                     </Grid>
@@ -310,23 +305,11 @@ class NewTemplate extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  Template: state.GiftCardReducer.template,
-  userLogin: state.userReducer.User,
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_TEMPLATE: () => {
-    dispatch(GET_TEMPLATE());
-  },
-  SuccessNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
-  },
-  FailureNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
-  },
-  warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
+  addTemplateByID: (payload) => {
+    dispatch(addTemplateByID(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(NewTemplate);

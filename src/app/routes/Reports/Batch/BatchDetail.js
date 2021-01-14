@@ -1,12 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  getBatch,
-  getBatchDetail,
-} from "../../../../actions/transactions/actions";
 import { AiFillAppstore } from "react-icons/ai";
+import { CustomTableHeader } from "../../../../util/CustomText";
+import { Button, Typography } from "@material-ui/core";
 
-import Button from "@material-ui/core/Button";
 import moment from "moment";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -26,72 +23,84 @@ class Transactions extends React.Component {
       search: "",
     };
   }
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/reports/batchs");
   };
   render() {
-    let BatchDetail = this.props.BatchDetail;
+    const { data, loading, pageSize } = this.props.apiData;
 
     const columns = [
       {
-        Header: "Transaction ID",
+        Header: <CustomTableHeader value="Transaction ID" />,
         id: "transaction id",
         accessor: (e) => (
-          <div className="batch__detail">
-            <p style={{ fontWeight: 400 }}>{e.paymentData.transaction_id}</p>
-          </div>
+          <Typography
+            variant="subtitle1"
+            className="batch__detail table__light"
+          >
+            {e.paymentData.transaction_id}
+          </Typography>
         ),
-        width: 300,
+        width: 400,
       },
       {
         id: "Customer",
-        Header: "Date/Time",
+        Header: <CustomTableHeader value="Date/Time" />,
         accessor: (e) => (
-          <div className="batch__detail">
-            <p style={{ fontWeight: 400 }}>
-              {moment.utc(e.createdDate).local().format("LLL")}
-            </p>
-          </div>
+          <Typography
+            variant="subtitle1"
+            className=" batch__detail table__light"
+          >
+            {moment.utc(e.createdDate).local().format("MM/DD/YYYY hh:mm A")}
+          </Typography>
         ),
-        width: 200,
       },
       {
-        Header: "Invoice Number",
+        Header: <CustomTableHeader value="Invoice Number" />,
         id: "invoice number",
         accessor: (e) => (
-          <div className="batch__detail">
-            <p>{e?.checkoutId}</p>
-          </div>
+          <Typography
+            variant="subtitle1"
+            className=" batch__detail table__light"
+          >
+            {e?.checkoutId}
+          </Typography>
         ),
-        width: 140,
       },
       {
-        Header: "Status",
+        Header: <CustomTableHeader value="Status" />,
         id: "status",
         accessor: (e) => (
-          <div className="batch__detail">
-            <p className="BatchStatus">{e?.status}</p>
-          </div>
+          <Typography
+            variant="subtitle1"
+            className=" batch__detail table__light"
+          >
+            {e?.status.toUpperCase()}
+          </Typography>
         ),
-        width: 100,
       },
       {
-        Header: "Payment",
+        Header: <CustomTableHeader value="Payment" />,
         id: "payment",
         accessor: (e) => (
           <div style={{ display: "flex", alignItems: "center" }}>
             <img src={CreditCardIcon(e.paymentData.card_type)} alt="" />
-            <p>{e.paymentData.card_number}</p>
+            <Typography variant="subtitle1" className="table__light">
+              {e.paymentData.card_number}
+            </Typography>
           </div>
         ),
       },
       {
-        Header: "Total",
+        Header: <CustomTableHeader value="Total" />,
         id: "total",
         accessor: (e) => (
-          <div className="batch__detail">
-            <p style={{ fontWeight: 400 }}>${e.amount}</p>
-          </div>
+          <Typography
+            variant="subtitle1"
+            className="table__light batch__detail"
+          >
+            ${e.amount}
+          </Typography>
         ),
       },
     ];
@@ -116,27 +125,29 @@ class Transactions extends React.Component {
                   fontWeight: "500",
                 }}
               >
-                {`Merchant ID: ${this.props.MerchantID?.merchantId}`}
+                {`Merchant ID: ${this.props.reportMerchant?.merchantId}`}
               </h3>
             </div>
             <Button
               style={{
-                color: "#4251af",
+                color: "#0764B0",
                 backgroundColor: "white",
                 marginTop: "0",
               }}
               className="btn btn-green"
-              onClick={this._goBack}
+              onClick={this.goBack}
             >
               BACK
             </Button>
           </div>
           <div className="Transactions" style={{ paddingTop: "10px" }}>
             <ReactTable
-              data={BatchDetail}
               columns={columns}
+              data={data}
+              row={pageSize}
               defaultPageSize={10}
               minRows={1}
+              loading={loading}
               noDataText="NO DATA!"
             />
           </div>
@@ -147,17 +158,7 @@ class Transactions extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-  Batch: state.getAllBatch,
-  BatchDetail: state.BatchDetail,
-  MerchantID: state.ViewProfile_Merchants,
+  reportMerchant: state.reportMerchant.data,
+  apiData: state.fetchApi,
 });
-const mapDispatchToProps = (dispatch) => ({
-  getBatch: () => {
-    dispatch(getBatch());
-  },
-  fetchBatchDetail: (payload) => {
-    dispatch(getBatchDetail(payload));
-  },
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Transactions);
+export default connect(mapStateToProps)(Transactions);

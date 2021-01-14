@@ -21,7 +21,7 @@ label {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 12px;
-  padding: 10px 30px;
+  padding: 10px 20px;
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -33,7 +33,7 @@ label {
 
 /* GREEN BTN */
  .btn:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -42,19 +42,19 @@ label {
   border-color: rgba(0, 0, 0, 0.9);
 }
  .btn.btn-green {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 
  .btn.btn-green:hover {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
  .btn.btn-green:active {
-  background-color: #4251af;
+  background-color: #0764B0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
@@ -62,7 +62,7 @@ label {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764B0;
 }
 
  .btn.btn-red:hover {
@@ -83,14 +83,14 @@ label {
 }
 
 .ReactTable .-pagination .-btn:not([disabled]):hover {
-  background: #4251af !important;
+  background: #0764B0 !important;
   color: white;
   font-weight: 500;
 }
 .ReactTable .rt-thead .rt-th,
 .ReactTable .rt-thead .rt-td {
   padding: 0px;
-  background: #4251af;
+  background: #0764B0;
 }
 
 
@@ -105,7 +105,7 @@ label {
 
 
 .content__title {
-  color: #4251af;
+  color: #0764B0;
 }
 .content__label {
   color: #707070;
@@ -132,4 +132,8 @@ label {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.search_input {
+  padding: 50px;
 }

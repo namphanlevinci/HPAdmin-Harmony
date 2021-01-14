@@ -2,13 +2,15 @@ import {
   FETCH_API_REQUEST,
   FETCH_API_SUCCESS,
   FETCH_API_FAILURE,
-} from "../constants/fetchApiConstanst";
+} from "../constants/fetchApiConstants";
 
 const initialState = {
   loading: false,
   page: 0,
   pageCount: 0,
   pageSize: 0,
+  summary: {},
+  totalRow: 0,
 };
 
 const fetchApiReducer = (state = initialState, { type, payload }) => {
@@ -20,9 +22,11 @@ const fetchApiReducer = (state = initialState, { type, payload }) => {
     case FETCH_API_SUCCESS:
       return {
         loading: false,
-        data: payload.data,
+        data: payload.data ? payload.data : [],
         pageCount: payload.pages,
         pageSize: 5,
+        summary: payload?.summary,
+        totalRow: payload?.count,
       };
 
     case FETCH_API_FAILURE:

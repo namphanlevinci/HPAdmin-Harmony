@@ -2,23 +2,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MdAddToPhotos } from "react-icons/md";
 import { Formik } from "formik";
-import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
-import { config } from "../../../../url/url";
 import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
+  addGeneration,
+  getAllTemplate,
+} from "../../../../actions/giftCardActions";
+import { TextField, InputAdornment } from "@material-ui/core";
+
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import axios from "axios";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import { TextField, InputAdornment } from "@material-ui/core";
 
 import "./generation.styles.scss";
-
-const URL = config.url.URL;
 
 class AddGeneration extends Component {
   constructor(props) {
@@ -27,10 +23,12 @@ class AddGeneration extends Component {
   }
 
   componentDidMount() {
-    this.props.GET_TEMPLATE();
+    this.props.getAllTemplate();
   }
 
   render() {
+    const { templateList } = this.props.template;
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <ContainerHeader
@@ -63,6 +61,7 @@ class AddGeneration extends Component {
               </Button>
             </div>
           </div>
+
           <div className="information container-fluid">
             <h3 className="title">General Information</h3>
             <Formik
@@ -81,28 +80,12 @@ class AddGeneration extends Component {
                 return errors;
               }}
               onSubmit={(values, { setSubmitting, resetForm }) => {
-                const { giftCardTemplateId, name, amount } = values;
                 resetForm();
-                axios
-                  .post(
-                    URL + "/giftcardgeneral",
-                    { giftCardTemplateId, name, amount },
-                    {
-                      headers: {
-                        Authorization: `Bearer ${this.props.userLogin.token}`,
-                      },
-                    }
-                  )
-                  .then((res) => {
-                    if (res.data.message === "Success") {
-                      this.props.SuccessNotify(res.data.message);
 
-                      this.props.history.push("/app/giftcard/generation");
-                    } else {
-                      this.props.FailureNotify(res.data.message);
-                    }
-                  })
-                  .catch((error) => console.log(error));
+                const path = "/app/giftcard/generation";
+                const payload = { ...values, path };
+
+                this.props.addGeneration(payload);
               }}
             >
               {({
@@ -161,26 +144,26 @@ class AddGeneration extends Component {
                     <div className="col-4">
                       <label style={{ fontSize: "12px" }}>Template</label>
                       <Select
-                        options={this.props.Template.filter(
-                          (e) => e.isDisabled !== 1
-                        ).map((e) => {
-                          return {
-                            id: e.giftCardTemplateId,
-                            label: (
-                              <div>
-                                <img
-                                  alt="default img"
-                                  src={e.imageUrl}
-                                  height="30px"
-                                  width="30px"
-                                  style={{ marginRight: "10px" }}
-                                />
-                                {e.giftCardTemplateName}
-                              </div>
-                            ),
-                            value: e.giftCardTemplateId,
-                          };
-                        })}
+                        options={templateList
+                          ?.filter((e) => e.isDisabled !== 1)
+                          ?.map((e) => {
+                            return {
+                              id: e.giftCardTemplateId,
+                              label: (
+                                <div>
+                                  <img
+                                    alt="default img"
+                                    src={e.imageUrl}
+                                    height="30px"
+                                    width="30px"
+                                    style={{ marginRight: "10px" }}
+                                  />
+                                  {e.giftCardTemplateName}
+                                </div>
+                              ),
+                              value: e.giftCardTemplateId,
+                            };
+                          })}
                         onChange={(selectedOption) => {
                           setFieldValue(
                             "giftCardTemplateId",
@@ -216,19 +199,15 @@ class AddGeneration extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardReducer.template,
-  userLogin: state.userReducer.User,
+  template: state.template,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_TEMPLATE: () => {
-    dispatch(GET_TEMPLATE());
+  getAllTemplate: () => {
+    dispatch(getAllTemplate());
   },
-  SuccessNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
-  },
-  FailureNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
+  addGeneration: (payload) => {
+    dispatch(addGeneration(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(AddGeneration);

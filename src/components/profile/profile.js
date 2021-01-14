@@ -2,27 +2,28 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { config } from "../../url/url";
+
 import {
-  VIEW_PROFILE_USER,
-  UPDATE_USER_ADMIN,
-  UPDATE_USER_PASSWORD,
-} from "../../actions/user/actions";
+  updateUserById,
+  changeUserPasswordById,
+} from "../../actions/userActions";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
 } from "react-router-dom";
-import { GiCheckedShield } from "react-icons/gi";
-import { FaPen } from "react-icons/fa";
 import { Grid } from "@material-ui/core";
+import { Form, Formik } from "formik";
 
+import * as Yup from "yup";
+import SecurityIcon from "@material-ui/icons/Security";
+import CreateIcon from "@material-ui/icons/Create";
 import IntlMessages from "../../util/IntlMessages";
 import ContainerHeader from "../../components/ContainerHeader/index";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
 import axios from "axios";
-
 import General from "../../app/routes/Accounts/Users/General";
 import Password from "./ProfileHeader/password";
 
@@ -86,15 +87,6 @@ class proFile extends Component {
     );
   }
 
-  handleChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  };
-
   uploadFile = (event) => {
     event.stopPropagation();
     event.preventDefault();
@@ -123,110 +115,32 @@ class proFile extends Component {
       });
   };
 
-  handleDateChange = (date) => {
-    this.setState({ birthDate: date });
-  };
-
-  updateAdmin = () => {
+  updateAdmin = (values) => {
     const ID = this.props.CurrentUser?.waUserId;
-    const {
-      firstName,
-      lastName,
-      email,
-      birthDate,
-      address,
-      city,
-      zip,
-      phone,
-      stateId,
-      fileId,
-      waRoleId,
-      isPass,
-      newPassword,
-      currentPassword,
-      isCurrentUserPage,
-    } = this.state;
+    const { passwordTab, currentPassword, newPassword } = values;
+    const { isCurrentUserPage } = this.state;
 
-    let body = isPass
-      ? { oldPassword: currentPassword, newPassword, ID, isCurrentUserPage }
-      : {
-          firstName,
-          lastName,
-          email,
-          birthDate,
-          address,
-          city,
-          zip,
-          waRoleId,
-          phone,
-          stateId,
-          fileId,
+    const path = "/app/profile/general";
+
+    let payload = passwordTab
+      ? {
+          oldPassword: currentPassword,
+          newPassword,
           ID,
           isCurrentUserPage,
+          path,
+        }
+      : {
+          ...values,
+          path,
+          ID,
         };
 
-    if (isPass) {
-      this.props.UPDATE_USER_PASSWORD(body);
+    if (passwordTab) {
+      this.props.changeUserPasswordById(payload);
     } else {
-      this.props.UPDATE_USER_ADMIN(body);
+      this.props.updateUserById(payload);
     }
-  };
-
-  _updateSettings = () => {
-    this.setState({
-      errorCurrentPassword: "",
-      errorConfirmError: "",
-      errorNewPassword: "",
-    });
-    const {
-      password,
-      confirmPassword,
-      currentPassword,
-      newPassword,
-      isPass,
-    } = this.state;
-    if (isPass) {
-      if (currentPassword === null) {
-        this.setState({
-          errorCurrentPassword: "Please enter current password",
-        });
-        return;
-      }
-      if (currentPassword !== password) {
-        this.setState({
-          errorCurrentPassword: "Current password did not match",
-        });
-        return;
-      }
-      if (newPassword === null) {
-        this.setState({ errorNewPassword: "Please enter new password" });
-        return;
-      }
-      if (confirmPassword === null) {
-        this.setState({ errorConfirmError: "Please enter confirm password" });
-        return;
-      }
-      if (newPassword !== confirmPassword) {
-        this.setState({ errorConfirmError: "Confirm password did not match" });
-        return;
-      } else {
-        this.updateAdmin();
-      }
-    } else {
-      this.updateAdmin();
-    }
-  };
-
-  handlePhone = (value) => {
-    this.setState({ phone: value });
-  };
-
-  _goBack = () => {
-    this.props.history.push("/app/dashboard");
-  };
-
-  handleShowPassword = () => {
-    this.setState({ showPassword: !this.state.showPassword });
   };
 
   render() {
@@ -260,103 +174,183 @@ class proFile extends Component {
             match={this.props.match}
             title={<IntlMessages id="sidebar.dashboard.adminUserProfile" />}
           />
-          <Grid
-            container
-            spacing={3}
-            className="admin_profile page-heading"
-            style={{ minHeight: "500px", paddingTop: "50px" }}
-          >
-            <Grid item xs={3} className="text-center">
-              {$imagePreview}
-              <div style={{ paddingTop: "20px" }}>
-                <input
-                  type="file"
-                  name="image"
-                  id="file"
-                  className="custom-input"
-                  onChange={(e) => this.uploadFile(e)}
-                />
-              </div>
-              <div className="nav-btn" style={{ marginTop: "5px" }}>
-                <NavLink
-                  to="/app/profile/general"
-                  activeStyle={{
-                    fontWeight: "500",
-                    color: "#4251af",
-                    opacity: "0.6",
-                  }}
-                  onClick={() => this.setState({ isPass: false })}
-                >
-                  <div style={styles.navIcon}>
-                    <FaPen size={19} />
-                    <span style={{ paddingLeft: "10px" }}>Profile</span>
-                  </div>
-                </NavLink>
 
-                <NavLink
-                  to="/app/profile/password"
-                  activeStyle={{
-                    fontWeight: "500",
-                    color: "#4251af",
-                    opacity: "0.6",
-                  }}
-                  onClick={() => this.setState({ isPass: true })}
-                >
-                  <div style={styles.navIcon}>
-                    <GiCheckedShield size={20} />
-                    <span style={{ paddingLeft: "10px" }}>Change password</span>
-                  </div>
-                </NavLink>
-              </div>
-            </Grid>
-            <Grid item xs={9} style={{ paddingLeft: "30px" }}>
-              <Grid container>
-                <Grid item xs={4}>
-                  <h1>{e?.firstName + " " + e.lastName}</h1>
-                  <h4>{e?.roleName}</h4>
-                </Grid>
-                <Grid item xs={8} className="col-8 admin-header-div">
-                  <Button
-                    className="btn btn-green"
-                    style={styles.button}
-                    onClick={() =>
-                      this.props.history.push("/app/merchants/list")
-                    }
-                  >
-                    BACK
-                  </Button>
-                  <Button
-                    className="btn btn-red"
-                    style={styles.button}
-                    onClick={this._updateSettings}
-                  >
-                    SAVE
-                  </Button>
-                </Grid>
-              </Grid>
+          {this.state.loading && (
+            <Formik
+              initialValues={this.state}
+              validationSchema={userSchema}
+              onSubmit={(values, { setSubmitting, setFieldValue }) => {
+                const {
+                  passwordTab,
+                  confirmPassword,
+                  newPassword,
+                  currentPassword,
+                  password,
+                } = values;
+                setFieldValue(`errorCurrentPassword`, false);
+                setFieldValue(`errorCurrentPasswordMsg`, "");
+                setFieldValue(`errorPassword`, false);
+                setFieldValue(`errorConfirmPassword`, false);
+                setFieldValue(`errorConfirmPasswordMsg`, "");
 
-              <hr />
-              {this.state.loading && (
-                <Switch>
-                  <Route path="/app/profile/general">
-                    <General
-                      data={this.state}
-                      handlePhone={this.handlePhone}
-                      handleChange={this.handleChange}
-                      showPassword={this.showPassword}
-                    />
-                  </Route>
-                  <Route path="/app/profile/password">
-                    <Password
-                      data={this.state}
-                      handleChange={this.handleChange}
-                      handleShowPassword={this.handleShowPassword}
-                    />
-                  </Route>
-                </Switch>
+                if (passwordTab) {
+                  if (currentPassword === null) {
+                    setFieldValue(`errorCurrentPassword`, true);
+                    setFieldValue(
+                      `errorCurrentPasswordMsg`,
+                      "Current password is required"
+                    );
+                  }
+                  if (Number(currentPassword) !== Number(password)) {
+                    setFieldValue(`errorCurrentPassword`, true);
+                    setFieldValue(
+                      `errorCurrentPasswordMsg`,
+                      "Current password is incorrect"
+                    );
+                  }
+                  if (newPassword === null) {
+                    setFieldValue(`errorPassword`, true);
+                  }
+                  if (confirmPassword === null) {
+                    setFieldValue(`errorConfirmPassword`, true);
+                    setFieldValue(
+                      `errorConfirmPasswordMsg`,
+                      "Confirm Password is required"
+                    );
+                  }
+                  if (newPassword !== confirmPassword) {
+                    setFieldValue(`errorConfirmPassword`, true);
+                    setFieldValue(
+                      `errorConfirmPasswordMsg`,
+                      "Confirm Password didn't match"
+                    );
+                  }
+                  if (
+                    newPassword !== null &&
+                    confirmPassword !== null &&
+                    newPassword === confirmPassword
+                  ) {
+                    this.updateAdmin(values);
+                  }
+                } else {
+                  this.updateAdmin(values);
+                }
+              }}
+            >
+              {({
+                isSubmitting,
+                setFieldValue,
+                values,
+                handleChange,
+                errors,
+                touched,
+              }) => (
+                <Form style={{ width: "100%" }}>
+                  <Grid
+                    container
+                    spacing={3}
+                    className="admin_profile page-heading"
+                    style={{ minHeight: "500px", paddingTop: "50px" }}
+                  >
+                    <Grid item xs={3} className="text-center">
+                      {$imagePreview}
+                      <div style={{ paddingTop: "20px" }}>
+                        <input
+                          type="file"
+                          name="image"
+                          id="file"
+                          className="custom-input"
+                          onChange={(e) => this.uploadFile(e)}
+                        />
+                      </div>
+                      <div className="nav-btn" style={{ marginTop: "5px" }}>
+                        <NavLink
+                          to="/app/profile/general"
+                          activeStyle={{
+                            fontWeight: "500",
+                            color: "#0764B0",
+                            opacity: "0.6",
+                          }}
+                          onClick={() => setFieldValue(`passwordTab`, false)}
+                        >
+                          <div style={styles.navIcon}>
+                            <CreateIcon size={19} />
+                            <span style={{ paddingLeft: "10px" }}>Profile</span>
+                          </div>
+                        </NavLink>
+
+                        <NavLink
+                          to="/app/profile/password"
+                          activeStyle={{
+                            fontWeight: "500",
+                            color: "#0764B0",
+                            opacity: "0.6",
+                          }}
+                          onClick={() => setFieldValue(`passwordTab`, true)}
+                        >
+                          <div style={styles.navIcon}>
+                            <SecurityIcon size={20} />
+                            <span style={{ paddingLeft: "10px" }}>
+                              Change password
+                            </span>
+                          </div>
+                        </NavLink>
+                      </div>
+                    </Grid>
+                    <Grid item xs={9} style={{ paddingLeft: "30px" }}>
+                      <Grid container>
+                        <Grid item xs={4}>
+                          <h1>{e?.firstName + " " + e.lastName}</h1>
+                          <h4>{e?.roleName}</h4>
+                        </Grid>
+                        <Grid item xs={8} className="col-8 admin-header-div">
+                          <Button
+                            className="btn btn-green"
+                            style={styles.button}
+                            onClick={() =>
+                              this.props.history.push("/app/merchants/list")
+                            }
+                          >
+                            BACK
+                          </Button>
+                          <Button
+                            className="btn btn-red"
+                            style={styles.button}
+                            type="submit"
+                          >
+                            SAVE
+                          </Button>
+                        </Grid>
+                      </Grid>
+
+                      <hr />
+
+                      <Switch>
+                        <Route path="/app/profile/general">
+                          <General
+                            values={values}
+                            handleChange={handleChange}
+                            errors={errors}
+                            touched={touched}
+                            setFieldValue={setFieldValue}
+                          />
+                        </Route>
+                        <Route path="/app/profile/password">
+                          <Password
+                            values={values}
+                            handleChange={handleChange}
+                            errors={errors}
+                            touched={touched}
+                            setFieldValue={setFieldValue}
+                          />
+                        </Route>
+                      </Switch>
+                    </Grid>
+                  </Grid>
+                </Form>
               )}
-            </Grid>
-          </Grid>
+            </Formik>
+          )}
         </div>
       </Router>
     );
@@ -364,18 +358,14 @@ class proFile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  UserProfile: state.User,
-  CurrentUser: state.userReducer.LoggedUser,
+  CurrentUser: state.verifyUser.user.userAdmin,
 });
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_PROFILE_USER: (payload) => {
-    dispatch(VIEW_PROFILE_USER(payload));
+  updateUserById: (payload) => {
+    dispatch(updateUserById(payload));
   },
-  UPDATE_USER_ADMIN: (payload) => {
-    dispatch(UPDATE_USER_ADMIN(payload));
-  },
-  UPDATE_USER_PASSWORD: (payload) => {
-    dispatch(UPDATE_USER_PASSWORD(payload));
+  changeUserPasswordById: (payload) => {
+    dispatch(changeUserPasswordById(payload));
   },
 });
 
@@ -386,7 +376,7 @@ const styles = {
   hr: {
     height: "1px",
     border: "0",
-    borderTop: "1px solid #4251af",
+    borderTop: "1px solid #0764B0",
     alignContent: "center",
     width: "100%",
   },
@@ -415,3 +405,14 @@ const styles = {
     borderRadius: "50%",
   },
 };
+
+const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
+
+const userSchema = Yup.object().shape({
+  phone: Yup.string()
+    .matches(phoneRegExp, "Phone number is not valid")
+    .required("Phone number is required"),
+  email: Yup.string().email().required("Email is required"),
+  address: Yup.string().required("Address is required"),
+  birthDate: Yup.string().required("Date of birth is required").nullable(),
+});

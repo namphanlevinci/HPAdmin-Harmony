@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
-import {
-  UPDATE_MERCHANT_PRINCIPAL,
-  GET_MERCHANT_BY_ID,
-} from "../../../../../../actions/merchants/actions";
-import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
+import { updateMerchantPrincipalById } from "../../../../../../actions/merchantActions";
+import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 import { Grid, Button, TextField } from "@material-ui/core";
 import {
   CustomText,
@@ -42,14 +39,6 @@ class EditPrincipal extends Component {
       loading: true,
     });
   }
-  _handleChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  };
 
   uploadFile = (e, setFieldValue) => {
     e.preventDefault();
@@ -136,7 +125,7 @@ class EditPrincipal extends Component {
     } else {
       $imagePreview = (
         <img
-          src={e.imageUrl}
+          src={e?.imageUrl}
           style={{ width: "100%", height: "70%" }}
           alt="service"
         />
@@ -153,12 +142,9 @@ class EditPrincipal extends Component {
             onSubmit={(values, { setSubmitting }) => {
               const principalID = this.props.principalData.principalId;
               const ID = this.props.MerchantProfile.merchantId;
-
-              this.props.UPDATE_MERCHANT_PRINCIPAL({
-                ...values,
-                principalID,
-                ID,
-              });
+              const path = "/app/merchants/profile/principal/info";
+              const payload = { ...values, principalID, ID, path };
+              this.props.updateMerchantPrincipalById(payload);
             }}
           >
             {({
@@ -219,7 +205,6 @@ class EditPrincipal extends Component {
                       name="email"
                       value={values.email}
                       onChange={handleChange}
-                      style={styles.input}
                       error={errors.email && touched.email}
                       helperText={
                         errors.email && touched.email ? errors.email : ""
@@ -256,7 +241,7 @@ class EditPrincipal extends Component {
                   </Grid>
                   <Grid item xs={3}>
                     <CustomSelect
-                      label="State Issued*"
+                      label="State"
                       name="stateId"
                       initialValue={values.stateId}
                       handleChange={(e) =>
@@ -268,7 +253,7 @@ class EditPrincipal extends Component {
                     <TextField
                       InputLabelProps={{ shrink: true }}
                       fullWidth
-                      label="Zip"
+                      label="Zip Code*"
                       name="zip"
                       type="number"
                       value={values.zip}
@@ -299,14 +284,14 @@ class EditPrincipal extends Component {
                       renderText={(value) => <CustomText value={value} />}
                     />
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
                     <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />
                     <CustomText
                       value={moment(e.birthDate).format("MM/DD/YYYY")}
                     />
                   </Grid>
 
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
                     <TextField
                       label="Driver License Number*"
                       fullWidth
@@ -323,7 +308,16 @@ class EditPrincipal extends Component {
                       }
                     />
                   </Grid>
-
+                  <Grid item xs={2}>
+                    <CustomSelect
+                      label="State Issued*"
+                      name="stateIssued"
+                      initialValue={values.stateIssued}
+                      handleChange={(e) =>
+                        setFieldValue(`stateIssued`, e.target.value)
+                      }
+                    />
+                  </Grid>
                   <Grid item xs={3} lg={3}>
                     <label>Driver License Picture*</label> <br />
                     {$imagePreview}
@@ -339,6 +333,7 @@ class EditPrincipal extends Component {
                       onChange={(e) => this.uploadFile(e, setFieldValue)}
                     />
                   </Grid>
+
                   <Grid item xs={12} style={{ paddingTop: "5px" }}>
                     <Button
                       className="btn btn-green"
@@ -363,17 +358,14 @@ class EditPrincipal extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  principalData: state.MerchantReducer.PrincipalData,
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  principalData: state.updateMerchantPrincipal.principal,
+  MerchantProfile: state.merchant.merchant,
 });
 const mapDispatchToProps = (dispatch) => ({
-  UPDATE_MERCHANT_PRINCIPAL: (payload) => {
-    dispatch(UPDATE_MERCHANT_PRINCIPAL(payload));
+  updateMerchantPrincipalById: (payload) => {
+    dispatch(updateMerchantPrincipalById(payload));
   },
-  GET_MERCHANT_BY_ID: (ID) => {
-    dispatch(GET_MERCHANT_BY_ID(ID));
-  },
+
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
   },
@@ -386,7 +378,7 @@ const styles = {
     paddingBottom: "10px",
   },
   input: {
-    marginBottom: "10px",
+    marginTop: "6px",
   },
 };
 

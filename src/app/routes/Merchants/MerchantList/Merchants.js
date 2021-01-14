@@ -1,37 +1,36 @@
 import React from "react";
 import { connect } from "react-redux";
-import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
-
-import {
-  InputAdornment,
-  IconButton,
-  FormControl,
-  OutlinedInput,
-  Typography,
-} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { getMerchantByID } from "../../../../actions/merchantActions";
+import { debounce } from "lodash";
+import {
+  Button,
+  Tooltip,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-
-import SearchIcon from "@material-ui/icons/Search";
-import Button from "@material-ui/core/Button";
+import SearchComponent from "../../../../util/searchComponent";
 import CheckPermissions from "../../../../util/checkPermission";
 
 import "../Merchants.css";
 import "../PendingList/MerchantReqProfile.css";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 
 class Merchants extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       search: "",
+      statusValue: -1,
     };
   }
 
@@ -42,10 +41,10 @@ class Merchants extends React.Component {
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-
-    const url = `${URL}/merchant/search?key=${this.state.search}&page=${
+    const { search, statusValue } = this.state;
+    const url = `merchant/search?key=${search}&page=${
       page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    }&row=${pageSize}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -56,12 +55,17 @@ class Merchants extends React.Component {
     });
   };
 
+  handleStatus = debounce((e) => {
+    this.setState({ statusValue: e.target.value });
+    this.fetchApi();
+  }, 1000);
+
   addMerchant = () => {
     this.props.history.push("/app/merchants/add");
   };
   MerchantProfilePage = (ID) => {
-    const payload = { ID, path: "/app/merchants/profile/general" };
-    this.props.getMerchantByID(payload);
+    const path = "/app/merchants/profile/general";
+    this.props.getMerchantByID(ID, path);
   };
 
   keyPressed = (event) => {
@@ -72,11 +76,16 @@ class Merchants extends React.Component {
     }
   };
 
-  searchMerchant = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchMerchant = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
   };
+
   render() {
-    const { page } = this.state;
+    const { page, statusValue } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
@@ -147,12 +156,18 @@ class Merchants extends React.Component {
         ),
       },
       {
-        Header: <CustomTableHeader value="Status" />,
+        Header: (
+          <div style={{ textAlign: "center" }}>
+            <CustomTableHeader value="Status" />
+          </div>
+        ),
         accessor: "isDisabled",
         Cell: (e) => (
-          <Typography variant="subtitle1">
-            {e.value === 0 ? "Active" : "Inactive"}
-          </Typography>
+          <div style={{ textAlign: "center" }}>
+            <Typography variant="subtitle1">
+              {e.value === 0 ? "Active" : "Inactive"}
+            </Typography>{" "}
+          </div>
         ),
         width: 100,
       },
@@ -179,34 +194,32 @@ class Merchants extends React.Component {
         <div className="MerList page-heading " style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
-              <FormControl variant="outlined">
-                <OutlinedInput
-                  inputProps={{
-                    style: {
-                      padding: 14,
-                    },
-                  }}
-                  placeholder="Search.."
+              <Tooltip
+                title="Must enter correct MID to search by MID"
+                aria-label="add"
+              >
+                <SearchComponent
+                  placeholder="Search by ID, MID, DBA, Email"
                   value={this.state.search}
-                  onChange={this.searchMerchant}
+                  onChange={this.handleChange}
                   onKeyPress={this.keyPressed}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton edge="end">
-                        <SearchIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={0}
+                  onClickIcon={this.fetchApi}
                 />
-              </FormControl>
+              </Tooltip>
             </div>
-
+            <FormControl style={{ width: "20%", marginLeft: "15px" }}>
+              <InputLabel>Status</InputLabel>
+              <Select onChange={this.handleStatus} value={statusValue}>
+                <MenuItem value={-1}>All</MenuItem>
+                <MenuItem value={0}>Active</MenuItem>
+                <MenuItem value={1}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
             <div>
               {CheckPermissions("add-new-merchant") && (
                 <Button
                   style={{
-                    backgroundColor: "#4251af",
+                    backgroundColor: "#0764B0",
                     color: "white",
                     marginTop: "10px",
                   }}
@@ -246,8 +259,8 @@ const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getMerchantByID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+  getMerchantByID: (ID, path) => {
+    dispatch(getMerchantByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

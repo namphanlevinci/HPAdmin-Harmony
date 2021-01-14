@@ -24,6 +24,8 @@ import TextField from "@material-ui/core/TextField";
 import "./Questions.css";
 import "../../Merchants/MerchantList/MerchantProfile.css";
 
+// ON HOLD
+
 class Questions extends Component {
   constructor(props) {
     super(props);
@@ -171,7 +173,7 @@ class Questions extends Component {
 
 const mapStateToProps = (state) => ({
   userLogin: state.userReducer.User,
-  Questions: state.getQuestions,
+  // Questions: state.getQuestions,
   uQuestions: state.uQuestions,
 });
 const mapDispatchToProps = (dispatch) => ({

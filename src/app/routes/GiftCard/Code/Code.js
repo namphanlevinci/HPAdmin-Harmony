@@ -1,36 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  GET_TEMPLATE,
-  VIEW_DETAIL,
-} from "../../../../actions/gift-card/actions";
 import { GoInfo } from "react-icons/go";
-import { GET_GIFT_CARD_CODE_LOG_BY_ID } from "../../../../actions/gift-card/actions";
-import { SUCCESS_NOTIFICATION } from "../../../../actions/notifications/actions";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
-import { DebounceInput } from "react-debounce-input";
-import {
-  CustomTextLabel,
-  CustomTableHeader,
-} from "../../../../util/CustomText";
+import { CustomTableHeader } from "../../../../util/CustomText";
 import { Grid, Button, Typography, Tooltip, Checkbox } from "@material-ui/core";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import {
+  getCodeLog,
+  exportGiftCardGeneral,
+} from "../../../../actions/giftCardActions";
+import { debounce } from "lodash";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import Delete from "../DeleteGeneration";
-import axios from "axios";
 import moment from "moment";
-import Select from "react-select";
 import CodeLog from "../Generation/CodeLog/CodeLog";
 import ScaleLoader from "../../../../util/scaleLoader";
 import CheckPermissions from "../../../../util/checkPermission";
+import SearchComponent from "../../../../util/searchComponent";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 import "../Generation/generation.styles.scss";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 class Codes extends Component {
   constructor(props) {
     super(props);
@@ -45,60 +41,35 @@ class Codes extends Component {
       data: [],
       // Search
       search: "",
-
       isLoading: false,
-      typeExport: { value: "excel", label: "CSV" },
-      isPhysical: { value: -1, label: "Select" },
-      isActive: { value: -1, label: "Select" },
-      isUsed: { value: -1, label: "Select" },
+      typeExport: "excel",
+      isPhysical: -1,
+      isActive: -1,
+      isUsed: -1,
     };
   }
 
   // logs
-  handleLogs = (Data) => {
-    this.setState({ open: true, serialNumber: Data?.serialNumber });
-    this.props.getCodeLog(Data?.giftCardId);
+  handleLogs = (e) => {
+    this.setState({ open: true, serialNumber: e?.serialNumber });
+    this.props.getCodeLog(e?.giftCardId);
   };
 
   handleClose = () => {
     this.setState({ open: false });
   };
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/giftcard/search?keySearch=${this.state.search}&isActive=${
-            this.state.isActive.value
-          }&isPhysical=${this.state.isPhysical.value}&isUsed=${
-            this.state.isUsed.value
-          }&page=${page === 0 ? 1 : page + 1}&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-          });
-        } else {
-          this.setState({
-            data: [],
-            loading: false,
-          });
-        }
-      });
+    const { isPhysical, isActive, isUsed, search } = this.state;
+
+    const url = `giftcard/search?keySearch=${search}&isActive=${isActive}&isPhysical=${isPhysical}&isUsed=${isUsed}&page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -107,64 +78,36 @@ class Codes extends Component {
     });
   };
 
-  handleSelect = (name) => (value) => {
-    this.setState({
-      [name]: value.value,
-    });
+  handleSelect = async (e) => {
+    const { value, name } = e.target;
+    this.setState({ [name]: value });
+    this.searchCode();
   };
 
   handEnter = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
-  handleSearchInput = async (e) => {
+  searchCode = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
     this.setState({ search: e.target.value });
-    await this.fetchData();
   };
 
   getExport = (e) => {
-    this.setState({ isLoading: true });
-    axios
-      .get(
-        URL +
-          `/giftcard/search/export/${this.state.typeExport.value}?keySearch=&isActive=${this.state.isActive.value}&isPhysical=${this.state.isPhysical.value}&isUsed=${this.state.isUsed.value}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (Number(res.data.codeNumber) === 400 || res.data.data === null) {
-          this.props.SuccessNotify(res.data.message);
-
-          this.setState({ isLoading: false });
-        } else {
-          setTimeout(() => {
-            window.open(res.data.data.path);
-            this.setState({ isLoading: false });
-          }, 1000);
-        }
-      });
-  };
-
-  handleSelect = (value, name) => {
-    this.setState(
-      {
-        [name.name]: value,
-      },
-      () => this.fetchData()
-    );
+    const url = `giftcard/search/export/${this.state.typeExport}?keySearch=&isActive=${this.state.isActive}&isPhysical=${this.state.isPhysical}&isUsed=${this.state.isUsed}`;
+    this.props.exportGiftCardGeneral(url);
   };
 
   render() {
     let defaultDate = "2019-12-31T10:53:00.424248+07:00";
-    const { page, pageCount, data } = this.state;
-
-    const typeExport = [{ value: "excel", label: "CSV" }];
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
       {
@@ -209,10 +152,10 @@ class Codes extends Component {
         ),
         accessor: "isPhysical",
         Cell: (e) => (
-          <div style={{ textAlign: "center" }}>
+          <div>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -224,10 +167,10 @@ class Codes extends Component {
         ),
         accessor: "isActive",
         Cell: (e) => (
-          <div style={{ textAlign: "center" }}>
+          <div>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -239,10 +182,10 @@ class Codes extends Component {
         ),
         accessor: "isUsed",
         Cell: (e) => (
-          <div style={{ textAlign: "center" }}>
+          <div>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -271,7 +214,7 @@ class Codes extends Component {
             <Tooltip title="Info" arrow>
               <div
                 style={{
-                  color: "#4251af",
+                  color: "#0764B0",
                   textAlign: "center",
                   cursor: "pointer",
                 }}
@@ -287,23 +230,6 @@ class Codes extends Component {
       },
     ];
 
-    const isPhysical = [
-      { value: 0, label: "False" },
-      { value: 1, label: "True" },
-      { value: -1, label: "Select" },
-    ];
-
-    const isActive = [
-      { value: 0, label: "False" },
-      { value: 1, label: "True" },
-      { value: -1, label: "Select" },
-    ];
-
-    const isUsed = [
-      { value: 0, label: "False" },
-      { value: 1, label: "True" },
-      { value: -1, label: "Select" },
-    ];
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -316,51 +242,58 @@ class Codes extends Component {
         <div className="giftcard">
           <Grid container spacing={3} className="giftCard_search">
             <Grid item xs={12}>
-              <form>
-                <SearchIcon className="button" title="Search" />
-
-                <DebounceInput
-                  debounceTimeout={500}
-                  type="text"
-                  name="search"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onKeyDown={this.handEnter}
-                  onChange={this.handleSearchInput}
-                />
-              </form>
+              <SearchComponent
+                value={this.state.search}
+                onKeyDown={this.handEnter}
+                onChange={this.handleChange}
+                onClickIcon={this.fetchApi}
+              />
             </Grid>
-            {/* <Button className="btn btn-green" onClick={this.fetchData}>
-              Search
-            </Button> */}
 
             <Grid item xs={4} style={styles.div}>
-              <CustomTextLabel value="Physical Card" />
-              <Select
-                value={this.state.isPhysical}
-                onChange={this.handleSelect}
-                name="isPhysical"
-                options={isPhysical}
-              />
+              <FormControl style={{ width: "80%" }}>
+                <InputLabel>Physical Card</InputLabel>
+                <Select
+                  value={this.state.isPhysical}
+                  onChange={this.handleSelect}
+                  name="isPhysical"
+                  autoWidth={true}
+                >
+                  <MenuItem value={0}>False</MenuItem>
+                  <MenuItem value={1}>True</MenuItem>
+                  <MenuItem value={-1}>Select</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={4} style={styles.div}>
-              <CustomTextLabel value="Active" />
-              <Select
-                value={this.state.isActive}
-                onChange={this.handleSelect}
-                name="isActive"
-                options={isActive}
-              />
+              <FormControl style={{ width: "80%" }}>
+                <InputLabel>Active</InputLabel>
+                <Select
+                  value={this.state.isActive}
+                  onChange={this.handleSelect}
+                  name="isActive"
+                  autoWidth={true}
+                >
+                  <MenuItem value={0}>False</MenuItem>
+                  <MenuItem value={1}>True</MenuItem>
+                  <MenuItem value={-1}>Select</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={4} style={styles.div}>
-              <CustomTextLabel value="Used" />
-              <Select
-                value={this.state.isUsed}
-                onChange={this.handleSelect}
-                name="isUsed"
-                options={isUsed}
-              />
+              <FormControl style={{ width: "80%" }}>
+                <InputLabel>Used</InputLabel>
+                <Select
+                  value={this.state.isUsed}
+                  onChange={this.handleSelect}
+                  name="isUsed"
+                  autoWidth={true}
+                >
+                  <MenuItem value={0}>False</MenuItem>
+                  <MenuItem value={1}>True</MenuItem>
+                  <MenuItem value={-1}>Select</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
           <div className="giftcard_content">
@@ -381,7 +314,7 @@ class Codes extends Component {
                 justifyContent: "space-between",
               }}
             >
-              <h2 style={styles.h2}></h2>
+              <h2 style={styles.h2}>1</h2>
 
               {CheckPermissions("export-gift-card-code ") && (
                 <div
@@ -399,11 +332,15 @@ class Codes extends Component {
                       marginRight: "10px",
                     }}
                   >
-                    <Select
-                      value={this.state.typeExport}
-                      options={typeExport}
-                      onChange={(e) => this.setState({ typeExport: e })}
-                    />
+                    <FormControl style={{ width: "100%" }}>
+                      <Select
+                        value={this.state.typeExport}
+                        onChange={(e) => this.setState({ typeExport: e })}
+                        autoWidth={true}
+                      >
+                        <MenuItem value="excel">CSV</MenuItem>
+                      </Select>
+                    </FormControl>
                   </div>
                   <Button style={styles.btn} onClick={this.getExport}>
                     Export
@@ -418,12 +355,13 @@ class Codes extends Component {
               page={page}
               pages={pageCount}
               data={data}
+              row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
             />
           </div>
@@ -434,22 +372,20 @@ class Codes extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardReducer.template,
-  userLogin: state.userReducer.User,
+  apiData: state.fetchApi,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_TEMPLATE: () => {
-    dispatch(GET_TEMPLATE());
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
-  VIEW_DETAIL: (payload) => {
-    dispatch(VIEW_DETAIL(payload));
+
+  getCodeLog: (CodeId) => {
+    dispatch(getCodeLog(CodeId));
   },
-  getCodeLog: (ID) => {
-    dispatch(GET_GIFT_CARD_CODE_LOG_BY_ID(ID));
-  },
-  SuccessNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
+
+  exportGiftCardGeneral: (url) => {
+    dispatch(exportGiftCardGeneral(url));
   },
 });
 
@@ -461,7 +397,7 @@ const styles = {
     padding: "15px 0px 3px 5px",
   },
   h2: {
-    color: "#4251af",
+    color: "white",
     paddingBottom: "20px",
   },
   div: {
@@ -473,6 +409,6 @@ const styles = {
   btn: {
     padding: "7px 25px",
     backgroundColor: "white",
-    color: "#4251af",
+    color: "#0764B0",
   },
 };

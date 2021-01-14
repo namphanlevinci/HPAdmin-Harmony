@@ -1,86 +1,49 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-
+import { Grid } from "@material-ui/core";
 function Password({
-  data: { password, showPassword, error, confirmError },
-  handleChange,
-  handleShowPassword,
+  values: { errorPassword, errorConfirmPassword, errorConfirmPasswordMsg },
+  errors,
+  touched,
+  setFieldValue,
 }) {
   return (
-    <div style={styles.div}>
-      {/* <h2 style={styles.h2}>Current Password</h2>
-      <label>Password</label>
-      <div style={{ display: "flex" }}>
-        <input
-          type={showPassword ? "text" : "password"}
-          name="password"
-          value={password}
-          onChange={handleChange}
-          style={styles.input}
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <h2 style={styles.h2}>New Password</h2>
+      </Grid>
+
+      <Grid item xs={6}>
+        <TextField
+          label="New Password"
+          type="password"
+          name="newPassword"
+          onChange={(e) => setFieldValue(`newPassword`, Number(e.target.value))}
+          error={errorPassword}
+          helperText={errorPassword && "New password is required"}
+          fullWidth
         />
-        <span>
-          {showPassword ? (
-            <RiEyeLine
-              onClick={handleShowPassword}
-              style={styles.icon}
-              size={20}
-            />
-          ) : (
-            <RiEyeOffLine
-              onClick={handleShowPassword}
-              style={styles.icon}
-              size={20}
-            />
-          )}
-        </span>
-      </div> */}
-      <h2 style={styles.h2}>New Password</h2>
-      <div className="row">
-        <div className="col-4">
-          <div style={{ display: "flex" }}>
-            <TextField
-              label="New Password"
-              type={showPassword ? "text" : "password"}
-              name="newPassword"
-              onChange={handleChange}
-            />
-          </div>
-          {<p style={styles.p}>{error}</p>}
-        </div>
-        <div className="col-5">
-          <div>
-            <TextField
-              label="Confirm Password"
-              type={showPassword ? "text" : "password"}
-              name="confirmPassword"
-              //   value={password}
-              onChange={handleChange}
-              //   style={styles.input}
-            />
-            {/* <span>
-              {showPassword ? (
-                <RiEyeLine
-                  onClick={handleShowPassword}
-                  style={styles.icon}
-                  size={20}
-                />
-              ) : (
-                <RiEyeOffLine
-                  onClick={handleShowPassword}
-                  style={styles.icon}
-                  size={20}
-                />
-              )}
-            </span> */}
-          </div>
-          {<p style={styles.p}>{confirmError}</p>}
-        </div>
-      </div>
-    </div>
+      </Grid>
+
+      <Grid item xs={6}>
+        <TextField
+          label="Confirm Password"
+          type="password"
+          name="confirmPassword"
+          onChange={(e) =>
+            setFieldValue(`confirmPassword`, Number(e.target.value))
+          }
+          error={errorConfirmPassword}
+          helperText={errorConfirmPassword && errorConfirmPasswordMsg}
+          fullWidth
+        />
+      </Grid>
+    </Grid>
   );
 }
 
 export default Password;
+
 const styles = {
   div: {
     paddingTop: "10px",
@@ -93,7 +56,8 @@ const styles = {
   },
   h2: {
     fontWeight: "500",
-    color: "#4251af",
+    color: "#0764B0",
+    paddingBottom: "0px",
   },
   p: {
     color: "red",

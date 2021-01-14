@@ -1,27 +1,20 @@
 import React, { Component } from "react";
-import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
 import { connect } from "react-redux";
-import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
-import {
-  InputAdornment,
-  IconButton,
-  FormControl,
-  OutlinedInput,
-  Typography,
-} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { getMerchantByID } from "../../../../actions/merchantActions";
+import { debounce } from "lodash";
 
+import SearchComponent from "../../../../util/searchComponent";
 import ReactTable from "react-table";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import SearchIcon from "@material-ui/icons/Search";
 import moment from "moment";
 
 import "react-table/react-table.css";
 import "../Merchants.css";
-const URL = config.url.URL;
 class PendingList extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +27,7 @@ class PendingList extends Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const url = `${URL}/merchant/reject?key=${this.state.search}&page=${
+    const url = `merchant/reject?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
 
@@ -47,8 +40,12 @@ class PendingList extends Component {
     });
   };
 
-  searchMerchant = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchMerchant = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
   };
 
   keyPressed = (event) => {
@@ -128,7 +125,7 @@ class PendingList extends Component {
         Header: <CustomTableHeader value="Rejected By" />,
         accessor: "adminUser",
         Cell: (e) => (
-          <Typography variant="subtitle1" style={{ color: "#4251af" }}>
+          <Typography variant="subtitle1" style={{ color: "#0764B0" }}>
             {e?.value?.first_name + " " + e?.value?.last_name}
           </Typography>
         ),
@@ -138,10 +135,9 @@ class PendingList extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
-            this.props.getMerchantByID({
-              ID: rowInfo.original.merchantId,
-              path: "/app/merchants/rejected/profile",
-            });
+            const ID = rowInfo.original.merchantId;
+            const path = "/app/merchants/rejected/profile";
+            this.props.getMerchantByID(ID, path);
           }
         },
       };
@@ -162,27 +158,12 @@ class PendingList extends Component {
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
-            <FormControl>
-              <OutlinedInput
-                inputProps={{
-                  style: {
-                    padding: 14,
-                  },
-                }}
-                placeholder="Search.."
-                value={this.state.search}
-                onChange={this.searchMerchant}
-                onKeyPress={this.keyPressed}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton edge="end">
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
-                labelWidth={0}
-              />
-            </FormControl>
+            <SearchComponent
+              value={this.state.search}
+              onChange={this.handleChange}
+              onKeyPress={this.keyPressed}
+              onClickIcon={this.fetchApi}
+            />
           </div>
           <div className="merchant-list-container">
             <ReactTable
@@ -211,8 +192,8 @@ const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getMerchantByID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+  getMerchantByID: (ID, path) => {
+    dispatch(getMerchantByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

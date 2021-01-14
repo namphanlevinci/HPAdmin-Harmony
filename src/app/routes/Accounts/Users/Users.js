@@ -1,70 +1,60 @@
 import React, { Component } from "react";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import {
-  GET_USER_REQUEST,
-  VIEW_PROFILE_USER,
-} from "../../../../actions/user/actions";
+import { getUserByID } from "../../../../actions/userActions";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { Button, Typography } from "@material-ui/core";
+import { debounce } from "lodash";
+import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 
+import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
-import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
+import SearchComponent from "../../../../util/searchComponent";
 
 import "../../Merchants/Merchants.css";
 import "./User.css";
 import "react-table/react-table.css";
 
-const URL = config.url.URL;
 class Users extends Component {
   constructor(props) {
     super(props);
     this.state = {
       search: "",
       loading: false,
+      statusValue: -1,
     };
   }
-  componentDidMount() {
-    const User = localStorage.getItem("User_login");
-    this.setState({ User: JSON.parse(User) });
-  }
-  _SearchUsers = async (e) => {
-    await this.setState({ search: e.target.value });
+
+  searchUser = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
   };
 
-  _userProfile = async (e) => {
-    this.setState({ loading: true });
+  handleStatus = debounce((e) => {
+    this.setState({ statusValue: e.target.value });
+    this.fetchApi();
+  }, 1000);
+
+  goToUserProfile = async (e) => {
     const ID = e?.waUserId;
-
-    await axios
-      .get(URL + "/adminuser/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.props.VIEW_PROFILE_USER(res.data.data);
-
-        this.props.history.push("/app/accounts/admin/profile");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const path = "/app/accounts/admin/profile";
+    await this.props.getUserByID(ID, path);
   };
 
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
+    const { statusValue, search } = this.state;
 
-    const url = `${URL}/adminuser?key=${this.state.search}&page=${
+    const url = `adminuser?key=${search}&page=${
       page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    }&row=${pageSize}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -85,7 +75,7 @@ class Users extends Component {
     this.props.history.push("/app/accounts/admin/add");
   };
   render() {
-    const { page } = this.state;
+    const { page, statusValue } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     const columns = [
@@ -160,12 +150,28 @@ class Users extends Component {
           </div>
         ),
       },
+      {
+        Header: (
+          <div style={{ textAlign: "center" }}>
+            <CustomTableHeader value="Status" />
+          </div>
+        ),
+        accessor: "isDisabled",
+        Cell: (e) => (
+          <div style={{ textAlign: "center" }}>
+            <Typography variant="subtitle1">
+              {e.value === 0 ? "Active" : "Inactive"}
+            </Typography>{" "}
+          </div>
+        ),
+        width: 100,
+      },
     ];
 
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
-          this._userProfile(rowInfo.original);
+          this.goToUserProfile(rowInfo.original);
         },
       };
     };
@@ -182,19 +188,22 @@ class Users extends Component {
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className="UserSearchBox">
             <div className="search">
-              <form>
-                <SearchIcon className="button" title="Search" />
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={this._SearchUsers}
-                  onKeyPress={this.keyPressed}
-                />
-              </form>
+              <SearchComponent
+                placeholder="Search by Name, Group"
+                value={this.state.search}
+                onChange={this.handleChange}
+                onKeyPress={this.keyPressed}
+                onClickIcon={this.fetchApi}
+              />
             </div>
-
+            <FormControl style={{ width: "20%", marginLeft: "15px" }}>
+              <InputLabel>Status</InputLabel>
+              <Select onChange={this.handleStatus} value={statusValue}>
+                <MenuItem value={-1}>All</MenuItem>
+                <MenuItem value={0}>Active</MenuItem>
+                <MenuItem value={1}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
             {CheckPermissions("add-new-user") && (
               <Button
                 className="btn btn-green"
@@ -209,6 +218,7 @@ class Users extends Component {
           <div className="merchant-list-container user_table">
             <ReactTable
               manual
+              sortable={false}
               page={page}
               pages={pageCount}
               data={data}
@@ -230,17 +240,12 @@ class Users extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  GET_USER_REQUEST: () => {
-    dispatch(GET_USER_REQUEST());
+  getUserByID: (ID, path) => {
+    dispatch(getUserByID(ID, path));
   },
-  VIEW_PROFILE_USER: (payload) => {
-    dispatch(VIEW_PROFILE_USER(payload));
-  },
-
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
   },

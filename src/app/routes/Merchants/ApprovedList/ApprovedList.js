@@ -1,27 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../url/url";
 import { Helmet } from "react-helmet";
-import {
-  InputAdornment,
-  IconButton,
-  FormControl,
-  OutlinedInput,
-  Typography,
-} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import { GET_MERCHANT_BY_ID } from "../../../../actions/merchants/actions";
+import { getMerchantByID } from "../../../../actions/merchantActions";
+import { debounce } from "lodash";
 
+import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
-import SearchIcon from "@material-ui/icons/Search";
 import moment from "moment";
 
 import "../Merchants.css";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 
 class MerchantsList extends React.Component {
   constructor(props) {
@@ -29,19 +22,15 @@ class MerchantsList extends React.Component {
     this.state = {
       search: "",
       loading: true,
-      // Pages
-      data: [],
     };
   }
 
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-
-    const url = `${URL}/merchant/search?key=${this.state.search}&page=${
+    const url = `merchant/search?key=${this.state.search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}`;
-
     this.props.fetchApiByPage(url);
   };
 
@@ -51,9 +40,14 @@ class MerchantsList extends React.Component {
     });
   };
 
-  _SearchMerchants = async (e) => {
-    await this.setState({ search: e.target.value });
+  searchMerchant = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
   };
+
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -64,7 +58,7 @@ class MerchantsList extends React.Component {
 
   goToApprovePage = (ID) => {
     const path = "/app/merchants/approved/profile";
-    this.props.getMerchantByID({ ID, path });
+    this.props.getMerchantByID(ID, path);
   };
 
   render() {
@@ -113,10 +107,9 @@ class MerchantsList extends React.Component {
       {
         id: "principals",
         Header: <CustomTableHeader value="Owner" />,
-        accessor: (e) => e.principals[0],
-        Cell: (e) => (
+        accessor: (row) => (
           <Typography variant="subtitle1">
-            {e?.value?.firstName + " " + e?.value?.lastName}
+            {row?.principals[0]?.firstName + " " + row?.principals[0]?.lastName}
           </Typography>
         ),
       },
@@ -152,14 +145,14 @@ class MerchantsList extends React.Component {
         Header: <CustomTableHeader value="Approved By" />,
         accessor: "adminUser",
         Cell: (e) => (
-          <Typography variant="subtitle1" style={{ color: "#4251af" }}>
+          <Typography variant="subtitle1" style={{ color: "#0764B0" }}>
             {e?.value?.first_name + " " + e?.value?.last_name}
           </Typography>
         ),
       },
     ];
 
-    const onRowClick = (state, rowInfo, column, instance) => {
+    const onRowClick = (state, rowInfo) => {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
@@ -181,27 +174,12 @@ class MerchantsList extends React.Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <FormControl>
-              <OutlinedInput
-                inputProps={{
-                  style: {
-                    padding: 14,
-                  },
-                }}
-                placeholder="Search.."
-                value={this.state.search}
-                onChange={this._SearchMerchants}
-                onKeyPress={this.keyPressed}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton edge="end">
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
-                labelWidth={0}
-              />
-            </FormControl>
+            <SearchComponent
+              value={this.state.search}
+              onChange={this.handleChange}
+              onKeyPress={this.keyPressed}
+              onClickIcon={this.fetchApi}
+            />
           </div>
 
           <div className="merchant-list-container">
@@ -229,12 +207,11 @@ class MerchantsList extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
   apiData: state.fetchApi,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getMerchantByID: (payload) => {
-    dispatch(GET_MERCHANT_BY_ID(payload));
+  getMerchantByID: (ID, path) => {
+    dispatch(getMerchantByID(ID, path));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

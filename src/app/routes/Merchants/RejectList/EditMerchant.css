@@ -2,19 +2,8 @@
   padding: 20px;
   height: 100%;
 }
-.reject-info h2 {
-  color: #4251af;
-}
-.reject-info input {
-  width: 100% ;
-  font-weight: 400;
-  /* color: #000000; */
-  border: none;
-  /* border-bottom: 2px solid #dcdcdc; */
-  margin: 0px;
-  font-size: 16px;
-}
-.reject-info button.btn {
+
+button.btn {
   display: inline-block;
   color: #666;
   background-color: #eee;
@@ -31,50 +20,45 @@
   margin-top: 20px;
 }
 
-/* GREEN BTN */
-.reject-info button.btn:hover {
-  background-color: #4251af;
+button.btn:hover {
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
-.reject-info button.btn:active {
+button.btn:active {
   background-color: #ccc;
   border-color: rgba(0, 0, 0, 0.9);
 }
-.reject-info button.btn.btn-green {
-  background-color: #4251af;
+button.btn.btn-green {
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
 }
 
-.reject-info button.btn.btn-green:hover {
-  background-color: #4251af;
+button.btn.btn-green:hover {
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
-.reject-info button.btn.btn-green:active {
-  background-color: #4251af;
+button.btn.btn-green:active {
+  background-color: #0764b0;
   border-color: rgba(0, 0, 0, 0.9);
 }
 /* RED BUTTON */
-.reject-info button.btn.btn-red {
+button.btn.btn-red {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  color: #4251af;
+  color: #0764b0;
 }
 
-.reject-info button.btn.btn-red:hover {
+button.btn.btn-red:hover {
   background-color: #fcfcfc;
   border-color: rgba(0, 0, 0, 0.5);
 }
 
-.reject-info button.btn.btn-red:active {
+button.btn.btn-red:active {
   background-color: #f4f4f4;
   border-color: rgba(0, 0, 0, 0.9);
-}
-
-.inputPadding {
-  margin-top: 10px !important;
 }

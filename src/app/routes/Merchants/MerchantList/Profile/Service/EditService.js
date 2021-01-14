@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Formik } from "formik";
-import { UPDATE_MERCHANT_SERVICE } from "../../../../../../actions/merchants/actions";
-import { WARNING_NOTIFICATION } from "../../../../../../actions/notifications/actions";
-
+import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
+import {
+  getServiceByID,
+  updateMerchantServiceById,
+} from "../../../../../../actions/merchantActions";
 import {
   Button,
   Grid,
@@ -14,7 +16,7 @@ import {
   InputLabel,
 } from "@material-ui/core";
 import { CustomTitle } from "../../../../../../util/CustomText";
-import Extra from "./extra";
+import Extra from "./Extra.js";
 import axios from "axios";
 import { config } from "../../../../../../url/url";
 import * as Yup from "yup";
@@ -22,7 +24,6 @@ import LinearProgress from "../../../../../../util/linearProgress";
 
 import "./service.style.scss";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class EditService extends Component {
@@ -53,16 +54,10 @@ class EditService extends Component {
   }
   componentDidMount() {
     const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/category/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ category: res.data.data });
-      });
-    const service = this.props.ServiceData;
+
+    this.props.getServiceByID(ID);
+
+    const service = this.props.updateService;
     if (service !== null) {
       this.setState(
         {
@@ -93,7 +88,7 @@ class EditService extends Component {
     this.setState({ [name]: value });
   };
 
-  _handleImageChange = (e) => {
+  uploadImage = (e) => {
     e.preventDefault();
     let file = e?.target?.files[0];
 
@@ -133,43 +128,17 @@ class EditService extends Component {
   };
 
   updateService = () => {
-    const {
-      categoryId,
-      name,
-      duration,
-      description,
-      openTime,
-      secondTime,
-      price,
-      discount,
-      isDisabled,
-      fileId,
-      serviceId,
-      supplyFee,
-      extras,
-    } = this.state;
     const merchantId = this.props.MerchantProfile.merchantId;
-    const payload = {
-      categoryId,
-      name,
-      duration,
-      description,
-      openTime,
-      secondTime,
-      price,
-      discount,
-      isDisabled,
-      fileId,
-      serviceId,
-      supplyFee,
-      extras,
-      merchantId,
-    };
-    this.props.UPDATE_MERCHANT_SERVICE(payload);
+    const path = "/app/merchants/profile/service";
+    const payload = { ...this.state, merchantId, path };
+
+    this.props.updateMerchantServiceById(payload);
   };
 
   render() {
-    const service = this.props.ServiceData;
+    const service = this.props.updateService;
+
+    let { categoryList: category } = this.props.categoryList;
 
     //~ preview image
     let { imagePreviewUrl } = this.state;
@@ -242,8 +211,8 @@ class EditService extends Component {
                       this.setState({ categoryId: e.target.value });
                     }}
                   >
-                    {this.state.category
-                      ? this.state.category
+                    {category
+                      ? category
                           .filter((e) => e.categoryType !== "Product")
                           .map((e) => (
                             <MenuItem key={e.categoryId} value={e.categoryId}>
@@ -289,7 +258,7 @@ class EditService extends Component {
               <label
                 style={{
                   paddingTop: "10px",
-                  color: "#4251af",
+                  color: "#0764B0",
                   marginBottom: 8,
                 }}
               >
@@ -314,11 +283,11 @@ class EditService extends Component {
                 type="file"
                 className="custom-input"
                 accept="image/gif,image/jpeg, image/png"
-                onChange={this._handleImageChange}
+                onChange={this.uploadImage}
               />
             </Grid>
             <Grid item xs={12}>
-              <label style={{ color: "#4251af", marginTop: "10px" }}>
+              <label style={{ color: "#0764B0", marginTop: "10px" }}>
                 Duration
               </label>{" "}
               <br />
@@ -496,7 +465,7 @@ class EditService extends Component {
                       className="btn btn-green"
                       type="submit"
                       style={{
-                        backgroundColor: "#4251af",
+                        backgroundColor: "#0764B0",
                         color: "white",
                       }}
                       disabled={isSubmitting}
@@ -518,21 +487,23 @@ class EditService extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
-  ServiceData: state.MerchantReducer.ServiceData,
+  MerchantProfile: state.merchant.merchant,
+  service: state.service,
+  updateService: state.updateService.service,
+  categoryList: state.category,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    UPDATE_MERCHANT_SERVICE: (payload) => {
-      dispatch(UPDATE_MERCHANT_SERVICE(payload));
-    },
-    warningNotify: (message) => {
-      dispatch(WARNING_NOTIFICATION(message));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  warningNotify: (message) => {
+    dispatch(WARNING_NOTIFICATION(message));
+  },
+  getServiceByID: (MerchantId) => {
+    dispatch(getServiceByID(MerchantId));
+  },
+  updateMerchantServiceById: (payload) => {
+    dispatch(updateMerchantServiceById(payload));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditService);
 

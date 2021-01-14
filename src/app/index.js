@@ -9,7 +9,7 @@ import {
   HORIZONTAL_NAVIGATION,
 } from "../constants/ActionTypes";
 import { isIOS, isMobile } from "react-device-detect";
-import { USER_LOGOUT } from "../actions/user/actions";
+import { userLogout } from "../actions/userActions";
 
 // import { AnimatedRoute } from "react-router-transition";
 
@@ -46,10 +46,7 @@ class App extends React.Component {
   onIdle = (e) => {
     // REMOVE USER AFTER 30' IDLE
     console.log("BYE");
-    const user = JSON.parse(localStorage.getItem("User_login"));
-    const ID = user.userAdmin.waUserId;
-    this.props.USER_LOGOUT(ID);
-
+    this.props.userLogout();
     // console.log("last active", this.idleTimer.getLastActiveTime());
   };
   render() {
@@ -169,8 +166,8 @@ const mapStateToProps = ({ settings }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  USER_LOGOUT: (ID) => {
-    dispatch(USER_LOGOUT(ID));
+  userLogout: (payload) => {
+    dispatch(userLogout(payload));
   },
 });
 

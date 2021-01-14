@@ -9,16 +9,12 @@ import {
   HORIZONTAL_NAVIGATION,
   INSIDE_THE_HEADER,
 } from "../../constants/ActionTypes";
-import {
-  ViewProfile_Merchants,
-  ViewMerchant_Request,
-} from "../../actions/merchants/actions";
 import { switchLanguage, toggleCollapsedNav } from "../../actions/Setting";
-import { GET_CURRENT_USER } from "../../actions/user/actions";
+import { getMerchantByID } from "../../actions/merchantActions";
+import { getUserByID } from "../../actions/userActions";
 
 import firebase from "../../firebase";
-// import SearchBox from 'components/SearchBox';
-// import MailNotification from '../MailNotification/index';
+
 import AppNotification from "../AppNotification/index";
 import CardHeader from "../../components/dashboard/Common/CardHeader/index";
 import IntlMessages from "../../util/IntlMessages";
@@ -26,24 +22,23 @@ import AppBar from "@material-ui/core/AppBar";
 import Avatar from "@material-ui/core/Avatar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-// import LanguageSwitcher from 'components/LanguageSwitcher/index';
 import Menu from "../../components/TopNav/Menu";
 import UserInfoPopup from "../../components/UserInfo/UserInfoPopup";
 import axios from "axios";
 import Logo from "../../assets/images/harmonylogo.png";
 
-// import playMessageAudio from "../../util/sound";
 import { config } from "../../url/url";
 const URL = config.url.URL;
 
 class Header extends React.Component {
   async componentDidMount() {
-    const User = localStorage.getItem("User_login");
-    await this.setState({ User: JSON.parse(User) });
-    const ID = this.state.User?.userAdmin?.waUserId;
-    await this.props.GET_CURRENT_USER(ID);
+    const User = localStorage.getItem("user");
+    this.setState({ User: JSON.parse(User) });
 
-    await this.loadNotify();
+    setTimeout(() => {
+      this.loadNotify();
+    }, 1500);
+
     const messaging = firebase.messaging();
 
     // messaging
@@ -62,18 +57,15 @@ class Header extends React.Component {
   loadNotify = (next) => {
     const loadPage = next ? next : 1;
     try {
-      const User = localStorage.getItem("User_login");
-      let token = JSON.parse(User);
-      const UserToken = token.token;
+      let { token } = this.state.User;
       axios
-        .get(URL + `/notification?page=${loadPage}&row=10`, {
-          headers: { Authorization: `Bearer ${UserToken}` },
+        .get(`${URL}/notification?page=${loadPage}&row=10`, {
+          headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
           const data = res.data.data;
           if (data?.length !== 0 && data !== undefined) {
             this.setState({
-              // Notify: this.state.Notify.concat(Array.from(data)),
               Notify: [...this.state.Notify, ...data],
             });
           } else {
@@ -86,46 +78,22 @@ class Header extends React.Component {
   };
 
   gotoList = async (e) => {
-    let data = this.state.User;
-    const UserToken = data.token;
     if (e.type === "payment") {
-      await axios
-        .get(URL + "/merchant/" + e.senderId, {
-          headers: { Authorization: `Bearer ${UserToken}` },
-        })
-        .then(async (res) => {
-          if (res.data.data !== null) {
-            if (
-              res.data.data.isApproved === 0 &&
-              res.data.data.isRejected === 0
-            ) {
-              await this.setState({ appNotification: false });
-              await this.props.ViewMerchant_Request(res.data.data);
-              await this.props.history.push("/app/merchants/pending/profile");
-              this.handleDelete(e);
-            } else {
-              this.handleDelete(e);
-            }
-          } else {
-            this.handleDelete(e);
-          }
-        });
+      const path = "/app/merchants/pending/profile";
+      this.props.getMerchantByID(e.senderId, path);
+      this.handleDelete(e);
+      this.setState({ appNotification: false });
     } else {
-      axios
-        .get(URL + "/user/" + e.senderId, {
-          headers: { Authorization: `Bearer ${UserToken}` },
-        })
-        .then(async (res) => {
-          await this.props.ViewProfile_Merchants(res.data.data);
-          await this.setState({ appNotification: false });
-          await this.props.history.push("/app/consumers/profile/general");
-          this.handleDelete(e);
-        });
+      const path = "/app/consumers/profile/general";
+      this.props.getUserByID(e.senderId, path);
+      this.setState({ appNotification: false });
+      this.handleDelete(e);
     }
   };
+
   handleDelete = (e) => {
-    let data = this.state.User;
-    const UserToken = data.token;
+    let { token } = this.state.User;
+
     this.setState({
       Notify: this.state.Notify.filter(
         (el) => el.waNotificationId !== e.waNotificationId
@@ -133,9 +101,9 @@ class Header extends React.Component {
     });
     const ID = e.waNotificationId;
     axios
-      .delete(URL + "/notification/" + ID, {
+      .delete(`${URL}/notification/${ID}`, {
         headers: {
-          Authorization: `Bearer ${UserToken}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -498,20 +466,17 @@ const mapStateToProps = ({ settings }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  ViewMerchant_Request: (payload) => {
-    dispatch(ViewMerchant_Request(payload));
-  },
-  ViewProfile_Merchants: (payload) => {
-    dispatch(ViewProfile_Merchants(payload));
-  },
   toggleCollapsedNav: (payload) => {
     dispatch(toggleCollapsedNav(payload));
   },
   switchLanguage: (payload) => {
     dispatch(switchLanguage(payload));
   },
-  GET_CURRENT_USER: (ID) => {
-    dispatch(GET_CURRENT_USER(ID));
+  getMerchantByID: (merchantID, path) => {
+    dispatch(getMerchantByID(merchantID, path));
+  },
+  getUserByID: (Id, path) => {
+    dispatch(getUserByID(Id, path));
   },
 });
 

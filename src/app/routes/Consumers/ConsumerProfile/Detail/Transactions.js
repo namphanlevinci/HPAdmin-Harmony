@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../../url/url";
 import { CustomTitle } from "../../../../../util/CustomText";
+import { fetchApiByPage } from "../../../../../actions/fetchApiActions";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import { Grid, Button, Select, MenuItem, InputLabel } from "@material-ui/core";
 
-import Button from "@material-ui/core/Button";
+import DateFnsUtils from "@date-io/date-fns";
 import moment from "moment";
 import ReactTable from "react-table";
-import DateInput from "./date-input";
-import axios from "axios";
+import FormControl from "@material-ui/core/FormControl";
 
 import "react-table/react-table.css";
 import "../../../Accounts/Logs/Logs.css";
@@ -18,8 +22,6 @@ import "../../../Merchants/PendingList/MerchantReqProfile.css";
 import "./Consumer.css";
 import "../../../Merchants/Merchants.css";
 import "moment/locale/it";
-
-const URL = config.url.URL;
 
 class Transactions extends Component {
   constructor(props) {
@@ -41,19 +43,19 @@ class Transactions extends Component {
     });
   };
 
-  fromDate = async (e) => {
-    await this.setState({ from: e.target.value });
-    await this.fetchData();
-  };
-  toDate = async (e) => {
-    await this.setState({ to: e.target.value });
-    await this.fetchData();
-  };
-  _TimeRange = async (e) => {
-    await this.setState({
+  handleTimeRange = async (e) => {
+    this.setState({
       timeRange: e.target.value,
     });
-    await this.fetchData();
+    await this.fetchApi();
+  };
+
+  handleDateChange = async (e, name) => {
+    const value = moment(e).format("MM/DD/YYYY");
+    this.setState({
+      [name]: value,
+    });
+    await this.fetchApi();
   };
 
   componentDidMount() {
@@ -69,34 +71,16 @@ class Transactions extends Component {
     );
   }
 
-  fetchData = async (state) => {
-    const page = state?.page ? state?.page : 0;
-    const pageSize = state?.pageSize ? state?.pageSize : 20;
+  fetchApi = async (state) => {
+    let page = state?.page ? state?.page : 0;
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
     const { ID, from, to, timeRange } = this.state;
 
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/paymenttransaction/${ID}?page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}&quickFilter=${timeRange}&from=${from}&to=${to}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        this.setState({
-          page,
-          pageCount: res.data.pages,
-          data: data,
-          loading: false,
-          pageSize: 5,
-        });
-      });
+    const url = `paymenttransaction/${ID}?page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}&quickFilter=${timeRange}&from=${from}&to=${to}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -106,7 +90,7 @@ class Transactions extends Component {
   };
 
   render() {
-    const { from, to } = this.state;
+    const { from, to, timeRange, page } = this.state;
 
     const columns = [
       {
@@ -126,7 +110,7 @@ class Transactions extends Component {
         Header: "Activity",
         accessor: (e) => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
-            {e?.paymentData?.transaction_type?.toUpperCase()}
+            {e?.title?.toUpperCase()}
           </p>
         ),
       },
@@ -140,9 +124,9 @@ class Transactions extends Component {
         ),
       },
       {
-        id: "cardtype",
+        id: "card_type",
         Header: "Card type",
-        accessor: (e) => e?.paymentData.card_type,
+        accessor: (e) => e?.paymentData?.card_type,
       },
       {
         id: "amount",
@@ -158,16 +142,25 @@ class Transactions extends Component {
       },
       {
         id: "status",
-        Header: "Status",
+        Header: "Validation Status",
         accessor: (e) => (
           <p className="TStatus" style={{ fontWeight: 0 }}>
             {e.paymentData?.validation_status?.toUpperCase()}
           </p>
         ),
       },
+      {
+        id: "status",
+        Header: "Transaction Status",
+        accessor: (e) => (
+          <p className="TStatus" style={{ fontWeight: 0 }}>
+            {e.paymentData?.transaction_status?.toUpperCase()}
+          </p>
+        ),
+      },
     ];
 
-    const { page, pageCount, data, pageSize } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
 
     return (
       <div className="content ConsumerTransactions react-transition swipe-right general-content">
@@ -188,64 +181,53 @@ class Transactions extends Component {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-4">
-                <form noValidate>
-                  <h6
-                    style={{
-                      color: "rgba(0, 0, 0, 0.54)",
-                      fontSize: "0,7rem",
-                      textAlign: "left",
+            <Grid container spacing={3} style={{ marginBottom: "10px" }}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid item xs={4}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    label="From"
+                    name="from"
+                    value={from}
+                    onChange={(e) => this.handleDateChange(e, "from")}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
                     }}
-                  >
-                    From
-                  </h6>
-                  <div>
-                    <DateInput fromDate={this.fromDate} date={from} />
-                  </div>
-                </form>
-              </div>
-              <div className="col-4">
-                <form noValidate>
-                  <h6
-                    style={{
-                      color: "rgba(0, 0, 0, 0.54)",
-                      fontSize: "0,7rem",
-                      textAlign: "left",
+                    autoOk={true}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    label="To"
+                    value={to}
+                    name="to"
+                    onChange={(e) => this.handleDateChange(e, "to")}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
                     }}
-                  >
-                    To
-                  </h6>
-                  <div>
-                    <DateInput fromDate={this.toDate} date={to} />
-                  </div>
-                </form>
-              </div>
-              <div className="col-4">
-                <h6
-                  style={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "0,7rem" }}
-                >
-                  Time range
-                </h6>
-                <select
-                  className="search"
-                  value={this.state.range}
-                  onChange={this._TimeRange}
-                >
-                  <option value="">ALL </option>
-                  <option value="thisWeek">This Week</option>
-                  <option value="thisMonth">This Month</option>
-                </select>
-              </div>
-            </div>
+                    autoOk={true}
+                  />
+                </Grid>
+                <Grid item xs={4} style={{ marginTop: "10px" }}>
+                  <FormControl style={{ width: "80%" }}>
+                    <InputLabel>Time Range</InputLabel>
+                    <Select value={timeRange} onChange={this.handleTimeRange}>
+                      <MenuItem value="All">All</MenuItem>
+                      <MenuItem value="thisWeek">This Week</MenuItem>
+                      <MenuItem value="thisMonth">This Month</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </MuiPickersUtilsProvider>
+            </Grid>
             <div className="TransactionTable">
-              {/* <ReactTable
-                data={renderTable}
-                columns={columns}
-                defaultPageSize={5}
-                minRows={1}
-                noDataText="NO DATA!"
-              /> */}
               {this.state.loadingDate && (
                 <ReactTable
                   manual
@@ -253,13 +235,12 @@ class Transactions extends Component {
                   pages={pageCount}
                   data={data}
                   row={pageSize}
-                  // You should also control this...
                   onPageChange={(pageIndex) => this.changePage(pageIndex)}
-                  onFetchData={(state) => this.fetchData(state)}
+                  onFetchData={(state) => this.fetchApi(state)}
                   defaultPageSize={20}
                   minRows={1}
                   noDataText="NO DATA!"
-                  loading={this.state.loading}
+                  loading={loading}
                   columns={columns}
                 />
               )}
@@ -272,9 +253,14 @@ class Transactions extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ConsumerProfile: state.ConsumerReducer.Consumer,
-  userLogin: state.userReducer.User,
-  TransactionsList: state.userTransaction,
+  ConsumerProfile: state.consumerById.data,
+  apiData: state.fetchApi,
 });
 
-export default connect(mapStateToProps)(Transactions);
+const mapDispatchToProps = (dispatch) => ({
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

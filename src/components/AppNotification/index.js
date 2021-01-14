@@ -80,9 +80,7 @@ class AppNotification extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  userLogin: state.userReducer.User,
-});
+const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({});
 
 export default withRouter(

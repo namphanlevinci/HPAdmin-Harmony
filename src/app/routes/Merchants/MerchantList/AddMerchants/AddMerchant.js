@@ -1,11 +1,8 @@
 import React from "react";
 import { config } from "../../../../../url/url";
 import { Formik, Form } from "formik";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../../actions/notifications/actions";
 import { connect } from "react-redux";
+import { addMerchant } from "../../../../../actions/merchantActions";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
@@ -25,7 +22,8 @@ import PricingPlan from "./Steps/PricingPlan/PricingPlan";
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
 
-const URL = config.url.URL;
+import "../MerchantProfile.css";
+
 const upFile = config.url.upFile;
 
 class AddMerchant extends React.Component {
@@ -61,7 +59,7 @@ class AddMerchant extends React.Component {
   // }
 
   navigateToMerchantList() {
-    this.props.history.push("/app/merchants/list");
+    this.props.history.push("");
   }
 
   getStepContent = (
@@ -169,28 +167,11 @@ class AddMerchant extends React.Component {
       });
   };
 
-  _submitForm = (values, actions) => {
+  submitForm = (values, actions) => {
     const { activeStep } = this.state;
-
-    axios
-      .post(URL + "/merchant?api-version=1.1", { ...values })
-      .then((res) => {
-        console.log("res", res);
-        if ((res.status = 200)) {
-          this.props.successNotification(res.data.message);
-
-          setTimeout(() => {
-            this.navigateToMerchantList();
-          }, 1500);
-        } else {
-          this.props.failureNotification(res.data.message);
-        }
-        this.setState({ isSubmitting: false });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
+    const path = "/app/merchants/list";
+    const payload = { ...values, path };
+    this.props.addMerchant(payload);
     actions.setSubmitting(false);
 
     this.setState({
@@ -198,13 +179,13 @@ class AddMerchant extends React.Component {
     });
   };
 
-  _handleSubmit = (values, actions) => {
+  handleSubmit = (values, actions) => {
     const { activeStep } = this.state;
     const steps = this.getSteps();
     const isLastStep = activeStep === steps.length - 1;
 
     if (isLastStep) {
-      this._submitForm(values, actions);
+      this.submitForm(values, actions);
     } else {
       this.setState({
         activeStep: activeStep + 1,
@@ -254,7 +235,7 @@ class AddMerchant extends React.Component {
                       index === activeStep ? "active" : ""
                     }`}
                   >
-                    <StepLabel className="stepperlabel">{label}</StepLabel>
+                    <StepLabel className="stepperLabel">{label}</StepLabel>
                   </Step>
                 );
               })}
@@ -268,7 +249,7 @@ class AddMerchant extends React.Component {
                 <Formik
                   initialValues={formInitialValues}
                   validationSchema={currentValidationSchema}
-                  onSubmit={this._handleSubmit}
+                  onSubmit={this.handleSubmit}
                 >
                   {({
                     values,
@@ -314,7 +295,7 @@ class AddMerchant extends React.Component {
                               className="btn btn-red"
                               type="submit"
                               style={{
-                                backgroundColor: "#4251af",
+                                backgroundColor: "#0764B0",
                                 color: "white",
                               }}
                               disabled={isSubmitting}
@@ -351,11 +332,8 @@ class AddMerchant extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  successNotification: (payload) => {
-    dispatch(SUCCESS_NOTIFICATION(payload));
-  },
-  failureNotification: (payload) => {
-    dispatch(FAILURE_NOTIFICATION(payload));
+  addMerchant: (payload) => {
+    dispatch(addMerchant(payload));
   },
 });
 

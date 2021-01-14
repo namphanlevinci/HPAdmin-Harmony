@@ -1,6 +1,6 @@
 .content-list .content-body input:focus {
   outline: none;
-  /* border-color: #4251af; */
+  /* border-color: #0764B0; */
 }
 
 .consumer__general .required {
@@ -18,7 +18,7 @@
 }
 
 .consumer_btn_container .disable__title {
-  background-color: #4251af;
+  background-color: #0764B0;
   height: 50px;
   padding: 10px;
   width: 100%;
@@ -29,11 +29,11 @@
 
 .TransactionTable thead tr th {
   color: white;
-  background-color: #4251af;
+  background-color: #0764B0;
   padding: 10px 20px;
   font-weight: 300;
   font-size: 16px;
-  border: 1px solid #4251af;
+  border: 1px solid #0764B0;
 }
 .TransactionTable tbody tr td {
   padding: 10px 20px;
@@ -47,7 +47,7 @@
 
 .resetBtn button:hover {
   color: #fff;
-  background: #4251af;
+  background: #0764B0;
 }
 .ConsumerTransactions select {
   outline: 0;
@@ -98,7 +98,7 @@
 }
 
 h2 {
-  color: #4251af;
+  color: #0764B0;
 }
 
 .btn {
@@ -121,3 +121,17 @@ h2 {
   font-size: 35px !important;
 }
 
+.setting_title {
+  background-color: #0764B0;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 25;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.setting_title > h6 {
+  color: white;
+}

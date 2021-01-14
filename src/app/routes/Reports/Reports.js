@@ -15,6 +15,10 @@ const Reports = ({ match }) => (
         component={asyncComponent(() => import("./P2P/P2P"))}
       />
       <Route
+        path={`${match.url}/gift-card-sold`}
+        component={asyncComponent(() => import("./GiftCardSold/GiftCardSold"))}
+      />
+      <Route
         path={`${match.url}/general-reports/download-reports`}
         component={asyncComponent(() =>
           import("./GeneralReport/Statistics/DownloadReport")

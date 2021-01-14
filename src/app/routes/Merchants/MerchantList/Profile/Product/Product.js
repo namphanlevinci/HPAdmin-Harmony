@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { VIEW_SERVICE } from "../../../../../../actions/merchants/actions";
-import { config } from "../../../../../../url/url";
+import {
+  getProductByID,
+  viewProduct,
+  archiveProductById,
+  restoreProductById,
+} from "../../../../../../actions/merchantActions";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@material-ui/core";
 
 import ReactTable from "react-table";
-import axios from "axios";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import defaultImage from "../Extra/hpadmin2.png";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -18,9 +23,8 @@ import ArchiveSVG from "../../../../../../assets/images/archive.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
+import SearchComponent from "../../../../../../util/searchComponent";
 
-
-const URL = config.url.URL;
 class Product extends Component {
   constructor(props) {
     super(props);
@@ -35,62 +39,37 @@ class Product extends Component {
     };
   }
 
-  getProduct = () => {
-    const ID = this.props.MerchantProfile.merchantId;
-    axios
-      .get(URL + "/product/getbymerchant/" + ID, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ data: res.data.data, loading: false });
-      });
-  };
-
   componentDidMount() {
-    this.getProduct();
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.getProductByID(merchantId);
   }
 
-  viewDetail = (e) => {
-    this.props.VIEW_SERVICE(e);
-    this.props.history.push("/app/merchants/profile/product/detail");
+  viewDetail = (payload) => {
+    this.props.viewProduct({
+      ...payload,
+      path: "/app/merchants/profile/product/profile",
+    });
+    this.props.history.push(payload);
   };
 
   handleCloseReject = () => {
     this.setState({ isOpenReject: false });
   };
 
-  handleArchive = (ID) => {
-    axios
-      .put(URL + "/product/archive/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {});
+  handleArchive = (productId) => {
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.archiveProductById(productId, merchantId);
     this.setState({ isOpenReject: false, loading: true });
-    setTimeout(() => {
-      this.getProduct();
-    }, 1500);
   };
 
-  handleRestore = (ID) => {
-    axios
-      .put(URL + "/product/restore/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {});
+  handleRestore = (productId) => {
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.restoreProductById(productId, merchantId);
     this.setState({ isOpenReject: false, loading: true });
-    setTimeout(() => {
-      this.getProduct();
-    }, 1500);
   };
   render() {
-    // Search
-    let productList = this.state.data;
+    let { productList, loading } = this.props.product;
+
     if (productList) {
       if (this.state.search) {
         productList = productList.filter((e) => {
@@ -240,7 +219,7 @@ class Product extends Component {
                 <span style={{ paddingLeft: "20px" }}>
                   <Tooltip title="Edit">
                     <img
-                      alt=""
+                      alt="product_image"
                       src={EditSVG}
                       onClick={() => this.viewDetail(row.original)}
                     />
@@ -257,17 +236,14 @@ class Product extends Component {
       <div className="content general-content react-transition swipe-up Staff">
         <div className="MerList" style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="search">
-              <form>
-                <input
-                  type="text"
-                  className="textBox"
-                  placeholder="Search.."
-                  value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
-                />
-              </form>
-            </div>
+            <SearchComponent
+              type="text"
+              className="textBox"
+              placeholder="Search.."
+              value={this.state.search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+            />
+
             <div>
               {CheckPermissions("add-new-product") && (
                 <Button
@@ -292,7 +268,7 @@ class Product extends Component {
               defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
             />
           </div>
 
@@ -361,12 +337,21 @@ class Product extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.MerchantReducer.MerchantData,
-  userLogin: state.userReducer.User,
+  MerchantProfile: state.merchant.merchant,
+  product: state.product,
 });
 const mapDispatchToProps = (dispatch) => ({
-  VIEW_SERVICE: (payload) => {
-    dispatch(VIEW_SERVICE(payload));
+  viewProduct: (payload) => {
+    dispatch(viewProduct(payload));
+  },
+  getProductByID: (merchantId) => {
+    dispatch(getProductByID(merchantId));
+  },
+  archiveProductById: (productId, merchantId) => {
+    dispatch(archiveProductById(productId, merchantId));
+  },
+  restoreProductById: (productId, merchantId) => {
+    dispatch(restoreProductById(productId, merchantId));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

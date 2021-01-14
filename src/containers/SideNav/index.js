@@ -32,8 +32,9 @@ class SideNav extends React.PureComponent {
       drawerType,
       width,
       navigationStyle,
-      isLoadingPermission,
+      loading,
     } = this.props;
+
     let drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "d-xl-flex"
       : drawerType.includes(COLLAPSED_DRAWER)
@@ -63,7 +64,7 @@ class SideNav extends React.PureComponent {
           }}
         >
           <UserInfo />
-          {isLoadingPermission ? (
+          {loading ? (
             <div style={styles.loading}>
               <Fade in={true}>
                 <CircularProgress size={42} />
@@ -80,15 +81,15 @@ class SideNav extends React.PureComponent {
   }
 }
 
-const mapStateToProps = ({ settings, userReducer }) => {
+const mapStateToProps = ({ settings, userPermissions }) => {
   const { navCollapsed, drawerType, width, navigationStyle } = settings;
-  const isLoadingPermission = userReducer.GettingPermissions;
+  const loading = userPermissions.loading;
   return {
     navCollapsed,
     drawerType,
     width,
     navigationStyle,
-    isLoadingPermission,
+    loading,
   };
 };
 

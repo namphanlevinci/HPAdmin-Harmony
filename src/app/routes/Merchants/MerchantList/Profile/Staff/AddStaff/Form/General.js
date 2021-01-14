@@ -22,16 +22,17 @@ import State from "../../../../../../../../util/InitialState";
 import Checkbox from "@material-ui/core/Checkbox";
 import DefaultAvatar from "../../../../avatar.png";
 import Avatar from "@material-ui/core/Avatar";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 function General(props) {
   const {
-    uploadFile,
+    uploadImage,
     setFieldValue,
     showPin,
     handleShowPin,
     handleConfirmPin,
     showConfirmPin,
-    initValue: { isActive, roles, isDisabled },
+    initValue: { isActive, roles, isDisabled, isUpload },
   } = props;
 
   return (
@@ -51,11 +52,16 @@ function General(props) {
         <Grid item xs={12} md={4}>
           <InputField name="displayName" label="Display Name*" fullWidth />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={12}>
           <InputField name={`address.street`} label="Address" fullWidth />
         </Grid>
         <Grid item xs={12} md={4}>
-          <InputField name={`address.city`} label="City" fullWidth />
+          <InputField
+            name={`address.city`}
+            label="City"
+            fullWidth
+            style={{ paddingTop: "6px" }}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
           <SelectField
@@ -67,6 +73,7 @@ function General(props) {
         </Grid>
         <Grid item xs={12} md={4}>
           <CustomNumberField
+            style={{ paddingTop: "6px" }}
             name={`address.zip`}
             label="Zip Code"
             fullWidth
@@ -85,59 +92,69 @@ function General(props) {
           />
         </Grid>
         <Grid item xs={12} md={4}>
-          <InputField name="email" label="Contact Email" fullWidth />
-        </Grid>
-        <Grid item xs={12} md={4}>
           <InputField
-            name="pin"
-            label="Pin"
+            name="email"
+            label="Contact Email"
             fullWidth
-            type={showPin ? "text" : "password"}
-            inputProps={{ maxLength: 4 }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle pin visibility"
-                    onClick={handleShowPin}
-                  >
-                    {showPin ? (
-                      <Visibility style={{ fontSize: 18 }} />
-                    ) : (
-                      <VisibilityOff style={{ fontSize: 18 }} />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
+            autoComplete="new-password"
           />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <InputField
-            name="confirmPin"
-            label="Confirm Pin"
-            fullWidth
-            type={showConfirmPin ? "text" : "password"}
-            inputProps={{ maxLength: 4 }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle pin visibility"
-                    onClick={handleConfirmPin}
-                  >
-                    {showConfirmPin ? (
-                      <Visibility style={{ fontSize: 18 }} />
-                    ) : (
-                      <VisibilityOff style={{ fontSize: 18 }} />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+        <Grid item xs={12}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <InputField
+                name="pin"
+                label="Pin*"
+                fullWidth
+                autoComplete="new-password"
+                type={showPin ? "text" : "password"}
+                inputProps={{ maxLength: 4 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle pin visibility"
+                        onClick={handleShowPin}
+                      >
+                        {showPin ? (
+                          <Visibility style={{ fontSize: 18 }} />
+                        ) : (
+                          <VisibilityOff style={{ fontSize: 18 }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <InputField
+                name="confirmPin"
+                label="Confirm Pin*"
+                fullWidth
+                type={showConfirmPin ? "text" : "password"}
+                inputProps={{ maxLength: 4 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle pin visibility"
+                        onClick={handleConfirmPin}
+                      >
+                        {showConfirmPin ? (
+                          <Visibility style={{ fontSize: 18 }} />
+                        ) : (
+                          <VisibilityOff style={{ fontSize: 18 }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={4}></Grid>
         <Grid item xs={12} md={4}>
           <SelectField
             name={`roles.nameRole`}
@@ -191,20 +208,26 @@ function General(props) {
             className="avatar_last"
           />
 
-          <input
-            type="file"
-            style={{
-              marginTop: "20px",
-              width: "100%",
-              fontWeight: "normal",
-              borderBottom: "none",
-            }}
-            className="custom-input"
-            accept="image/gif,image/jpeg, image/png"
-            name="imagePreviewUrl"
-            id="file"
-            onChange={(e) => uploadFile(e, setFieldValue)}
-          />
+          {isUpload ? (
+            <div style={{ paddingTop: "10px" }}>
+              <LinearProgress />
+            </div>
+          ) : (
+            <input
+              type="file"
+              style={{
+                marginTop: "20px",
+                width: "100%",
+                fontWeight: "normal",
+                borderBottom: "none",
+              }}
+              className="custom-input"
+              accept="image/gif,image/jpeg, image/png"
+              name="imagePreviewUrl"
+              id="file"
+              onChange={(e) => uploadImage(e, setFieldValue)}
+            />
+          )}
         </Grid>
       </Grid>
     </div>

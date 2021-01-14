@@ -2,18 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MdAddToPhotos } from "react-icons/md";
 import { Formik } from "formik";
-import { GET_TEMPLATE } from "../../../../actions/gift-card/actions";
 import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
-import { WARNING_NOTIFICATION } from "../../../../actions/notifications/actions";
+  updateTemplateByID,
+  archiveTemplateByID,
+} from "../../../../actions/giftCardActions";
 
 import { config } from "../../../../url/url";
+import { Button, Grid } from "@material-ui/core";
+import { CustomTitle } from "../../../../util/CustomText";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import Button from "@material-ui/core/Button";
+
 import Select from "react-select";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -25,7 +25,6 @@ import DefaultImage from "./default.png";
 import "../Generation/generation.styles.scss";
 import "./template.styles.scss";
 
-const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class EditTemplate extends Component {
@@ -71,24 +70,10 @@ class EditTemplate extends Component {
     this.setState({ openDelete: false });
   };
 
-  _Delete = () => {
-    const ID = this.state.ID;
-    axios
-      .put(URL + "/giftcardtemplate/disabled/" + ID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.message === "Success") {
-          this.props.SuccessNotify(res.data.message);
-          this.setState({ openDelete: false });
-          setTimeout(() => {
-            this.props.history.push("/app/giftcard/template");
-          }, 1100);
-        }
-      })
-      .catch((error) => console.log(error));
+  handleDeleteTemplate = () => {
+    const templateId = this.state.ID;
+    const path = "/app/giftcard/template";
+    this.props.archiveTemplateByID(templateId, path);
   };
 
   _uploadFile = (e) => {
@@ -167,7 +152,7 @@ class EditTemplate extends Component {
           <Delete
             handleCloseDelete={this.handleCloseDelete}
             open={this.state.openDelete}
-            deleteGeneration={this._Delete}
+            deleteGeneration={this.handleDeleteTemplate}
             text={"Template"}
           />
           <Formik
@@ -182,39 +167,10 @@ class EditTemplate extends Component {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              const {
-                isConsumer,
-                giftCardTemplateName,
-                giftCardType,
-                isDisabled,
-              } = values;
-              const { fileId, ID } = this.state;
-              axios
-                .put(
-                  URL + "/giftcardtemplate/" + ID,
-                  {
-                    giftCardTemplateName,
-                    giftCardType,
-                    isConsumer,
-                    fileId,
-                    isDisabled,
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${this.props.userLogin.token}`,
-                    },
-                  }
-                )
-                .then((res) => {
-                  if (res.data.message === "Success") {
-                    this.props.SuccessNotify(res.data.message);
-
-                    this.props.history.push("/app/giftcard/template");
-                  } else {
-                    this.props.FailureNotify(res.data.message);
-                  }
-                })
-                .catch((error) => console.log(error));
+              const path = "/app/giftcard/template";
+              const { ID, fieldId } = this.state;
+              const payload = { ...values, ID, fieldId, path };
+              this.props.updateTemplateByID(payload);
             }}
           >
             {({
@@ -260,11 +216,13 @@ class EditTemplate extends Component {
                       </Button>
                     </div>
                   </div>
-                  <div className="information container-fluid">
-                    <h3 className="title">General Information</h3>
+                  <Grid container spacing={3} className="information ">
+                    <Grid item xs={12}>
+                      <CustomTitle value="General Information" />
+                    </Grid>
                     {this.state.loading && (
-                      <div className="row">
-                        <div className="col-4">
+                      <>
+                        <Grid item xs={4}>
                           <h4>Template Name</h4>
                           <input
                             type="text"
@@ -279,9 +237,9 @@ class EditTemplate extends Component {
                                 {errors.giftCardTemplateName}
                               </div>
                             )}
-                        </div>
+                        </Grid>
 
-                        <div className="col-4">
+                        <Grid item xs={4}>
                           <h4>Group</h4>
                           <Select
                             options={Group}
@@ -302,9 +260,9 @@ class EditTemplate extends Component {
                               {errors.giftCardType}
                             </div>
                           )}
-                        </div>
+                        </Grid>
 
-                        <div className="col-4">
+                        <Grid item xs={4}>
                           <h4>Status</h4>
                           <Select
                             options={Status}
@@ -322,9 +280,9 @@ class EditTemplate extends Component {
                               {errors.status}
                             </div>
                           )}
-                        </div>
+                        </Grid>
 
-                        <div className="col-4" style={{ paddingTop: "10px" }}>
+                        <Grid item xs={4}>
                           <h4>Image</h4>
 
                           {this.state.isUploadImage ? (
@@ -334,9 +292,7 @@ class EditTemplate extends Component {
                               <CircularProgress size={50} />
                             </div>
                           ) : (
-                            <div className="image__container">
-                              {$imagePreview}
-                            </div>
+                            <div>{$imagePreview}</div>
                           )}
 
                           <br />
@@ -345,10 +301,10 @@ class EditTemplate extends Component {
                             className="custom-input"
                             accept="image/gif,image/jpeg, image/png"
                             onChange={(e) => this._uploadFile(e)}
-                            style={{ width: "250px", border: "none" }}
+                            style={{ width: "100%", border: "none" }}
                           />
-                        </div>
-                        <div className="col-8" style={{ paddingTop: "45px" }}>
+                        </Grid>
+                        <Grid item xs={8}>
                           <Checkbox
                             id="isConsumer"
                             checked={values.isChecked}
@@ -360,13 +316,13 @@ class EditTemplate extends Component {
                             ]}
                             value="isConsumer"
                             inputProps={{ "aria-label": "primary checkbox" }}
-                            style={{ color: "#4251af" }}
+                            style={{ color: "#0764B0" }}
                           />
                           Visible on Consumer App
-                        </div>
-                      </div>
+                        </Grid>
+                      </>
                     )}
-                  </div>
+                  </Grid>
                 </form>
               </React.Fragment>
             )}
@@ -378,23 +334,15 @@ class EditTemplate extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardReducer.template,
-  userLogin: state.userReducer.User,
-  Detail: state.GiftCardReducer.detail,
+  Detail: state.updateTemplate.template,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_TEMPLATE: () => {
-    dispatch(GET_TEMPLATE());
+  updateTemplateByID: (payload) => {
+    dispatch(updateTemplateByID(payload));
   },
-  SuccessNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
-  },
-  FailureNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
-  },
-  warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
+  archiveTemplateByID: (templateId, path) => {
+    dispatch(archiveTemplateByID(templateId, path));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditTemplate);

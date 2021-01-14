@@ -1,25 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  GET_TEMPLATE,
-  VIEW_DETAIL,
-} from "../../../../actions/gift-card/actions";
-import {
-  SUCCESS_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-} from "../../../../actions/notifications/actions";
 import { Helmet } from "react-helmet";
-import { config } from "../../../../url/url";
 import { CustomTableHeader } from "../../../../util/CustomText";
+import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import {
+  viewTemplate,
+  archiveTemplateByID,
+  restoreTemplateByID,
+} from "../../../../actions/giftCardActions";
+import { Typography, Button } from "@material-ui/core";
+import { debounce } from "lodash";
 
+import SearchComponent from "../../../../util/searchComponent";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
-import { Typography, Button } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 import ReactTable from "react-table";
 import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../DeleteGeneration";
-import axios from "axios";
 import CheckPermissions from "../../../../util/checkPermission";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -33,7 +30,6 @@ import RestoreSVG from "../../../../assets/images/restore.svg";
 
 import "../Generation/generation.styles.scss";
 import "react-table/react-table.css";
-const URL = config.url.URL;
 
 class Template extends Component {
   constructor(props) {
@@ -46,11 +42,11 @@ class Template extends Component {
     };
   }
 
-  _handleCloseDelete = () => {
+  handleCloseDelete = () => {
     this.setState({ openDelete: false });
   };
 
-  _handleOpenDelete = (ID) => {
+  handleOpenDelete = (ID) => {
     this.setState({ openDelete: true, deleteID: ID });
   };
 
@@ -62,37 +58,15 @@ class Template extends Component {
     this.setState({ openRestore: true, restoreID: ID });
   };
 
-  fetchData = async (state) => {
+  fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
-    this.setState({ loading: true });
-    await axios
-      .get(
-        URL +
-          `/giftcardTemplate?key=${this.state.search}&page=${
-            page === 0 ? 1 : page + 1
-          }&row=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.userLogin.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data.data;
-        if (Number(res.data.codeNumber) === 200) {
-          this.setState({
-            page,
-            pageCount: res.data.pages,
-            data: data,
-            loading: false,
-            pageSize: 5,
-          });
-        } else {
-          this.props.FailureNotify(res.data.message);
-        }
-        this.setState({ loading: false });
-      });
+    let pageSize = state?.pageSize ? state?.pageSize : 20;
+
+    const url = `giftcardTemplate?key=${this.state.search}&page=${
+      page === 0 ? 1 : page + 1
+    }&row=${pageSize}`;
+
+    this.props.fetchApiByPage(url);
   };
 
   changePage = (pageIndex) => {
@@ -101,65 +75,37 @@ class Template extends Component {
     });
   };
 
+  searchTemplate = debounce((query) => {
+    this.fetchApi();
+  }, 1000);
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+  };
+
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.setState({ loading: true });
-      this.fetchData();
+      this.fetchApi();
     }
   };
 
   deleteTemplate = () => {
-    const deleteID = this.state.deleteID;
-    this.setState({ loading: true });
-    axios
-      .put(URL + "/giftcardtemplate/disabled/" + deleteID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.message === "Success") {
-          this.props.SuccessNotify(res.data.message);
-          this.setState({
-            loading: false,
-            deleteID: "",
-            openDelete: false,
-            search: "",
-          });
-          this.fetchData();
-        }
-      })
-      .catch((error) => console.log(error));
+    const templateId = this.state.deleteID;
+    this.props.archiveTemplateByID(templateId);
+    this.handleCloseDelete();
+    this.fetchApi();
   };
 
   restoreTemplate = () => {
-    const { restoreID } = this.state;
-    this.setState({ loading: true });
-    axios
-      .put(URL + "/giftcardtemplate/restore/" + restoreID, null, {
-        headers: {
-          Authorization: `Bearer ${this.props.userLogin.token}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.message === "Success") {
-          this.props.SuccessNotify(res.data.message);
-
-          this.setState({
-            loading: false,
-            restoreID: "",
-            openRestore: false,
-            search: "",
-          });
-          this.fetchData();
-        }
-      })
-      .catch((error) => console.log(error));
+    const templateId = this.state.restoreID;
+    this.props.restoreTemplateByID(templateId);
+    this.handleCloseRestore();
+    this.fetchApi();
   };
 
   editTemplate = (data) => {
-    this.props.VIEW_DETAIL(data);
+    this.props.viewTemplate(data);
     this.props.history.push("/app/giftcard/template/edit");
   };
 
@@ -224,7 +170,7 @@ class Template extends Component {
           <div style={{ textAlign: "center" }}>
             <Checkbox
               checked={e.value === 1 ? true : false}
-              style={{ color: "#4251af" }}
+              style={{ color: "#0764B0" }}
             />
           </div>
         ),
@@ -246,9 +192,7 @@ class Template extends Component {
                       style={style.icon}
                       alt=""
                       onClick={() =>
-                        this._handleOpenDelete(
-                          row?.original?.giftCardTemplateId
-                        )
+                        this.handleOpenDelete(row?.original?.giftCardTemplateId)
                       }
                     />
                   </Tooltip>
@@ -284,7 +228,9 @@ class Template extends Component {
       },
     ];
 
-    const { page, pageCount, data } = this.state;
+    const { page } = this.state;
+    const { data, loading, pageSize, pageCount } = this.props.apiData;
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -296,32 +242,29 @@ class Template extends Component {
         />
         <div className="giftcard">
           <div className="giftCard_search">
-            <form>
-              <SearchIcon className="button" title="Search" />
-              <input
-                type="text"
-                className="textBox"
-                placeholder="Search by Name, Group"
-                value={this.state.search}
-                onChange={(e) => this.setState({ search: e.target.value })}
-                onKeyPress={this.keyPressed}
-              />
-            </form>
+            <SearchComponent
+              placeholder="Search by Name, Group"
+              value={this.state.search}
+              onChange={this.handleChange}
+              onKeyPress={this.keyPressed}
+              onClickIcon={this.fetchApi}
+            />
 
             {CheckPermissions("add-new-template") && (
               <Button
                 className="btn btn-green"
+                style={{ backgroundColor: "#0764B0", color: "white" }}
                 onClick={() =>
                   this.props.history.push("/app/giftcard/template/add")
                 }
               >
-                New Template
+                NEW TEMPLATE
               </Button>
             )}
           </div>
           <div className="giftcard_content">
             <Delete
-              handleCloseDelete={this._handleCloseDelete}
+              handleCloseDelete={this.handleCloseDelete}
               open={this.state.openDelete}
               deleteGeneration={this.deleteTemplate}
               text={"Template"}
@@ -363,11 +306,12 @@ class Template extends Component {
               page={page}
               pages={pageCount}
               data={data}
+              row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchData(state)}
+              onFetchData={(state) => this.fetchApi(state)}
               minRows={1}
               noDataText="NO DATA!"
-              loading={this.state.loading}
+              loading={loading}
               columns={columns}
               defaultPageSize={10}
             />
@@ -379,22 +323,21 @@ class Template extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Template: state.GiftCardReducer.template,
-  userLogin: state.userReducer.User,
+  apiData: state.fetchApi,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  GET_TEMPLATE: () => {
-    dispatch(GET_TEMPLATE());
+  viewTemplate: (payload) => {
+    dispatch(viewTemplate(payload));
   },
-  VIEW_DETAIL: (payload) => {
-    dispatch(VIEW_DETAIL(payload));
+  archiveTemplateByID: (templateId) => {
+    dispatch(archiveTemplateByID(templateId));
   },
-  SuccessNotify: (message) => {
-    dispatch(SUCCESS_NOTIFICATION(message));
+  restoreTemplateByID: (templateId) => {
+    dispatch(restoreTemplateByID(templateId));
   },
-  FailureNotify: (message) => {
-    dispatch(FAILURE_NOTIFICATION(message));
+  fetchApiByPage: (url) => {
+    dispatch(fetchApiByPage(url));
   },
 });
 

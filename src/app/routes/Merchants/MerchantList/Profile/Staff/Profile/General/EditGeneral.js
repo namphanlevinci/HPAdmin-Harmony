@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../../../url/url";
-import { WARNING_NOTIFICATION } from "../../../../../../../../actions/notifications/actions";
+import { WARNING_NOTIFICATION } from "../../../../../../../../constants/notificationConstants";
 import {
   Button,
   Checkbox,
@@ -233,7 +233,7 @@ export class EditGeneral extends Component {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={6} md={4}>
+                  <Grid item xs={6} md={12}>
                     <TextField
                       name="address"
                       label="Address"
@@ -290,29 +290,34 @@ export class EditGeneral extends Component {
                     />
                   </Grid>
 
-                  <Grid item xs={6} md={4}>
-                    <MaterialUiPhoneNumber
-                      label="Cell Phone"
-                      onlyCountries={["us", "vn"]}
-                      name="cellphone"
-                      value={values.phone}
-                      onChange={handleChange}
-                      fullWidth
-                    />
+                  <Grid item xs={12}>
+                    <Grid container spacing={3}>
+                      <Grid item xs={6} md={4}>
+                        <MaterialUiPhoneNumber
+                          label="Cell Phone"
+                          onlyCountries={["us", "vn"]}
+                          name="cellphone"
+                          value={values.phone}
+                          onChange={(e) => setFieldValue(`cellphone`, e)}
+                          fullWidth
+                        />
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <TextField
+                          name="email"
+                          label="Contact Email"
+                          type="email"
+                          fullWidth
+                          onChange={handleChange}
+                          value={values.email}
+                          inputProps={{
+                            maxLength: 50,
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6} md={4}>
-                    <TextField
-                      name="email"
-                      label="Contact Email"
-                      type="email"
-                      fullWidth
-                      onChange={handleChange}
-                      value={values.email}
-                      inputProps={{
-                        maxLength: 50,
-                      }}
-                    />
-                  </Grid>
+
                   <Grid item xs={6} md={4}>
                     <TextField
                       label="Create PIN*"
@@ -440,7 +445,7 @@ export class EditGeneral extends Component {
 
 const mapStateToProps = (state) => ({
   Staff: state.staffById.data,
-  MerchantData: state.MerchantReducer.MerchantData,
+  MerchantData: state.merchant.merchant,
 });
 
 const mapDispatchToProps = (dispatch) => ({
