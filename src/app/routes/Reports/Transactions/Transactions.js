@@ -201,7 +201,7 @@ class Transactions extends React.Component {
         Header: "Date/time",
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
-            {moment.utc(e.createDate).local().format("MM/DD/YYYY HH:mm A")}
+            {moment(e.createDate).format("MM/DD/YYYY HH:mm A")}
           </Typography>
         ),
         Footer: (
