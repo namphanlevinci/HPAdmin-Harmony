@@ -242,7 +242,7 @@ class SidenavContent extends Component {
           )}
 
           {/* MARKET PLACE  */}
-          {/* {CheckPermissions("view-pricing-plan") && (
+          {CheckPermissions("view-pricing-plan") && (
             <li className="menu no-arrow">
               <NavLink to="/app/market-place/home">
                 <i class="zmdi zmdi-store  zmdi-hc-fw"></i>
@@ -252,7 +252,7 @@ class SidenavContent extends Component {
                 </span>
               </NavLink>
             </li>
-          )} */}
+          )}
 
           {/* ACCOUNTS */}
           {CheckPermissions("view-accounts") && (

@@ -118,10 +118,10 @@ class App extends React.Component {
                 <Route path={`${match.url}/consumers`} component={Consumers} />
                 <Route path={`${match.url}/reports`} component={Reports} />
                 <Route path={`${match.url}/giftcard`} component={GiftCard} />
-                {/* <Route
+                <Route
                   path={`${match.url}/market-place`}
                   component={MarketPlace}
-                /> */}
+                />
                 <Route
                   path={`${match.url}/pricing`}
                   component={asyncComponent(() =>

@@ -5,7 +5,10 @@ import asyncComponent from "../../../util/asyncComponent";
 const MarketPlace = ({ match }) => (
   <div className="app-wrapper react-transition swipe-right">
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}`} />
+      <Route
+        path={`${match.url}/add`}
+        component={asyncComponent(() => import("./AddPlace"))}
+      />
       <Route
         path={`${match.url}/home`}
         component={asyncComponent(() => import("./Market"))}
