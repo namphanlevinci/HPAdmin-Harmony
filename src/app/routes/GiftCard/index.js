@@ -34,12 +34,6 @@ const GiftCard = ({ match }) => (
         path={`${match.url}/codes`}
         component={asyncComponent(() => import("./Code/Code"))}
       />
-      {/* <Route
-        path={`${match.url}/profile`}
-        component={asyncComponent(() =>
-          import("./ConsumerProfile/ConsumerProfile")
-        )}
-      /> */}
     </Switch>
   </div>
 );

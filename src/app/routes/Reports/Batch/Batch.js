@@ -93,11 +93,11 @@ class Transactions extends React.Component {
             {moment.utc(e.settlementDate).local().format("MM/DD/YYYY hh:mm A")}
           </Typography>
         ),
-        // Footer: (
-        //   <Typography variant="subtitle1" className="table__light">
-        //     Total Transaction: {totalRow}
-        //   </Typography>
-        // ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            Total Transaction: {totalRow}
+          </Typography>
+        ),
         width: 200,
       },
       {
@@ -123,6 +123,11 @@ class Transactions extends React.Component {
             ${e.paymentByHarmony}
           </Typography>
         ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            ${summary?.paymentByHarmony}
+          </Typography>
+        ),
       },
       {
         Header: <CustomTableHeader value="Credit Card" />,
@@ -130,6 +135,11 @@ class Transactions extends React.Component {
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
             ${e.paymentByCreditCard}
+          </Typography>
+        ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            ${summary?.paymentByCreditCard}
           </Typography>
         ),
       },
@@ -142,6 +152,11 @@ class Transactions extends React.Component {
             ${e.paymentByCash}
           </Typography>
         ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            ${summary?.paymentByCash}
+          </Typography>
+        ),
       },
       {
         Header: <CustomTableHeader value="Gift Card" />,
@@ -149,6 +164,11 @@ class Transactions extends React.Component {
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
             ${e.paymentByGiftcard}
+          </Typography>
+        ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            ${summary?.paymentByGiftcard}
           </Typography>
         ),
       },
@@ -160,6 +180,11 @@ class Transactions extends React.Component {
             ${e.otherPayment}
           </Typography>
         ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            ${summary?.otherPayment}
+          </Typography>
+        ),
       },
       {
         Header: <CustomTableHeader value="Discount" />,
@@ -169,12 +194,22 @@ class Transactions extends React.Component {
             ${e?.discount}
           </Typography>
         ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            ${summary?.discount}
+          </Typography>
+        ),
       },
       {
         Header: "Total",
         id: "total",
         accessor: (e) => (
           <Typography variant="subtitle1">${e.total}</Typography>
+        ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            ${summary?.total}
+          </Typography>
         ),
       },
     ];

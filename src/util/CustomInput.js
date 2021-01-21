@@ -12,8 +12,9 @@ function InputCustom(props) {
       }}
       options={{
         blocks: props?.block,
-        delimiter: "-",
+        delimiter: props?.delimiter ? " " : "-",
         numericOnly: props?.numericOnly,
+        creditCard: props?.creditCard,
       }}
     />
   );

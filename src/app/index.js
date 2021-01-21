@@ -27,6 +27,7 @@ import Business from "./routes/Business/Business";
 import Consumers from "./routes/Consumers/index";
 import Reports from "./routes/Reports/Reports";
 import GiftCard from "./routes/GiftCard/index";
+import MarketPlace from "./routes/MarketPlace";
 
 class App extends React.Component {
   constructor(props) {
@@ -117,6 +118,10 @@ class App extends React.Component {
                 <Route path={`${match.url}/consumers`} component={Consumers} />
                 <Route path={`${match.url}/reports`} component={Reports} />
                 <Route path={`${match.url}/giftcard`} component={GiftCard} />
+                {/* <Route
+                  path={`${match.url}/market-place`}
+                  component={MarketPlace}
+                /> */}
                 <Route
                   path={`${match.url}/pricing`}
                   component={asyncComponent(() =>

@@ -172,8 +172,8 @@ class EditBank extends Component {
                           inputComponent: InputCustom,
                         }}
                         inputProps={{
-                          block: [5],
-                          numericOnly: true,
+                          creditCard: true,
+                          delimiter: true,
                         }}
                         error={errors?.accountNumber && touched?.accountNumber}
                         helperText={

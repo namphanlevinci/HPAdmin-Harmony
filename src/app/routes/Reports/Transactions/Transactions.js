@@ -96,31 +96,31 @@ class Transactions extends React.Component {
           from: moment().startOf("day").format("YYYY-MM-DD"),
           to: moment().startOf("day").format("YYYY-MM-DD"),
         });
-      // return this.fetchApi();
+        return;
       case "yesterday":
         this.setState({
           from: moment().subtract(1, "day").format("YYYY-MM-DD"),
           to: moment().subtract(1, "day").format("YYYY-MM-DD"),
         });
-      // return this.fetchApi();
+        return;
       case "thisWeek":
         this.setState({
           from: moment().startOf("week").format("YYYY-MM-DD"),
           to: moment().endOf("week").format("YYYY-MM-DD"),
         });
-      // return this.fetchApi();
+        return;
       case "lastWeek":
         this.setState({
           from: moment().subtract(1, "week").format("YYYY-MM-DD"),
           to: moment().subtract(1, "week").endOf("week").format("YYYY-MM-DD"),
         });
-      // return this.fetchApi();
+        return;
       case "thisMonth":
         this.setState({
           from: moment().startOf("month").format("YYYY-MM-DD"),
           to: moment().endOf("month").format("YYYY-MM-DD"),
         });
-      // return this.fetchApi();
+        return;
       case "lastMonth":
         this.setState({
           from: moment()
@@ -129,7 +129,7 @@ class Transactions extends React.Component {
             .format("YYYY-MM-DD"),
           to: moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
         });
-      // return this.fetchApi();
+        return;
       default:
         return;
     }
