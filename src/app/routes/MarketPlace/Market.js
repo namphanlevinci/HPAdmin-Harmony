@@ -98,6 +98,7 @@ class Market extends Component {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
+            console.log("rowInfo", rowInfo);
             const path = "/app/consumers/profile/general";
             //   this.props.getConsumerByID(rowInfo.row._original.userId, path);
           }
@@ -134,7 +135,6 @@ class Market extends Component {
           <CustomTableHeader value="Status" styles={{ textAlign: "center" }} />
         ),
         accessor: (e) => (
-          //   <div style={{ textAlign: "center" }}>
           <Typography
             variant="subtitle1"
             className="table__light"
@@ -142,7 +142,6 @@ class Market extends Component {
           >
             {e?.isDisabled === 0 ? "Active" : "Disable"}
           </Typography>
-          //   </div>
         ),
       },
       {
@@ -152,7 +151,7 @@ class Market extends Component {
         ),
         accessor: (e) => (
           <div style={{ textAlign: "center" }}>
-            <Switch color="primary" disabled />
+            <Switch color="primary" checked={e?.onTop} />
           </div>
         ),
       },
@@ -195,8 +194,8 @@ class Market extends Component {
                 </Button>
               </div>
 
-              <div style={{ width: "50%", marginTop: "15px" }}>
-                <FormControl style={{ width: "60%" }}>
+              <div style={{ width: "45%", marginTop: "15px" }}>
+                <FormControl style={{ width: "40%" }}>
                   <InputLabel>Status</InputLabel>
                   <Select onChange={this.handleStatus} value={statusValue}>
                     <MenuItem value={-1}>All</MenuItem>
