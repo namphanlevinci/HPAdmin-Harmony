@@ -176,16 +176,7 @@ class Transactions extends React.Component {
   };
 
   render() {
-    const {
-      page,
-      from,
-      to,
-      amountTo,
-      amountFrom,
-      amount,
-      range,
-      status,
-    } = this.state;
+    const { page, from, to, amountTo, amountFrom, range, status } = this.state;
     const {
       data,
       loading,

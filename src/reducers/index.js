@@ -91,6 +91,15 @@ import {
 // Report
 import { viewReportMerchantReducer } from "./reportReducer";
 
+// Market Place
+import {
+  addMarketPlaceReducer,
+  editMarketPlaceReducer,
+  archiveMarketPlaceReducer,
+  restoreMarketPlaceReducer,
+  marketPlaceInfoReducer,
+} from "./MarketPlaceReducer.js";
+
 export default (history) =>
   combineReducers({
     router: connectRouter(history),
@@ -178,4 +187,11 @@ export default (history) =>
     // Report
     reportMerchant: viewReportMerchantReducer,
     adminUser: allUserReducer,
+
+    // Market Place
+    addMarketPlace: addMarketPlaceReducer,
+    editMarketPlace: editMarketPlaceReducer,
+    archiveMarketPlace: archiveMarketPlaceReducer,
+    restoreMarketPlace: restoreMarketPlaceReducer,
+    marketInfo: marketPlaceInfoReducer,
   });

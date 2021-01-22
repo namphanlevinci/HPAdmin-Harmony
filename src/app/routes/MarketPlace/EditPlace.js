@@ -16,10 +16,10 @@ import {
 } from "@material-ui/core";
 import { config } from "../../../url/url";
 import { history } from "../../../store";
-import { addMarketPlaceAction } from "../../../actions/marketActions";
+import { editMarketPlaceByIdAction } from "../../../actions/marketActions";
 import { WARNING_NOTIFICATION } from "../../../constants/notificationConstants";
-import LinearProgress from "../../../util/linearProgress";
 
+import LinearProgress from "../../../util/linearProgress";
 import defaultImg from "./hpadmin2.png";
 import axios from "axios";
 import IntlMessages from "../../../util/IntlMessages";
@@ -53,7 +53,7 @@ class AddPlace extends Component {
         .then((res) => {
           reader.readAsDataURL(file);
           reader.onloadend = () => {
-            setFieldValue(`imageUrl`, reader.result);
+            setFieldValue(`fileURL`, reader.result);
           };
 
           setFieldValue(`isUpload`, false);
@@ -92,24 +92,16 @@ class AddPlace extends Component {
           >
             <QueueIcon style={{ color: "black" }} size={22} />
             <CustomTitle
-              value="New Brand"
+              value={this.props.info?.name}
               styles={{ color: "black", marginLeft: "10px" }}
             />
           </div>
 
           <Formik
-            initialValues={{
-              name: "",
-              link: "",
-              onTop: true,
-              fileId: "",
-              isDisabled: 0,
-              imageUrl: "",
-            }}
+            initialValues={this.props.info}
             validationSchema={MarketPlaceSchema}
             onSubmit={(values) => {
-              console.log("values", values);
-              this.props.addMarketPlaceAction(values);
+              this.props.editMarketPlaceByIdAction(values);
             }}
           >
             {({ errors, touched, handleChange, setFieldValue, values }) => (
@@ -168,7 +160,7 @@ class AddPlace extends Component {
                     <CardMedia
                       component="img"
                       src={
-                        values?.imageUrl === "" ? defaultImg : values?.imageUrl
+                        values?.fileURL === "" ? defaultImg : values?.fileURL
                       }
                       alt="void"
                       style={{ width: "20%" }}
@@ -233,11 +225,11 @@ class AddPlace extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  MerchantProfile: state.merchant.merchant,
+  info: state.marketInfo.info,
 });
 const mapDispatchToProps = (dispatch) => ({
-  addMarketPlaceAction: (value) => {
-    dispatch(addMarketPlaceAction(value));
+  editMarketPlaceByIdAction: (value) => {
+    dispatch(editMarketPlaceByIdAction(value));
   },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));

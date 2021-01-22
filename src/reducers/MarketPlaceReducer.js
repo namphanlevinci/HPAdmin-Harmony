@@ -100,9 +100,21 @@ const restoreMarketPlaceReducer = (
   }
 };
 
-export default {
+const marketPlaceInfoReducer = (state = {}, { type, payload }) => {
+  switch (type) {
+    case types.MARKET_PLACE_INFO:
+      return {
+        info: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export {
   addMarketPlaceReducer,
   editMarketPlaceReducer,
   archiveMarketPlaceReducer,
   restoreMarketPlaceReducer,
+  marketPlaceInfoReducer,
 };

@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
 import { connect } from "react-redux";
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
+import { getMarketInfoAction } from "../../../actions/marketActions";
 import {
   Button,
   Select,
@@ -74,7 +75,7 @@ class Market extends Component {
     this.fetchApi();
   }, 800);
 
-  addMarketPlace = () => history.push("/app/market-place/add");
+  addMarketPlace = () => history.push("/app/market-place/new-brand");
 
   fetchApi = async (state) => {
     const { search, range, statusValue } = this.state;
@@ -93,14 +94,14 @@ class Market extends Component {
     const { page, statusValue } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
 
-    console.log("data", data);
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
-          if (rowInfo !== undefined) {
-            console.log("rowInfo", rowInfo);
-            const path = "/app/consumers/profile/general";
-            //   this.props.getConsumerByID(rowInfo.row._original.userId, path);
+          if (rowInfo !== undefined && column?.id !== "link") {
+            this.props.getMarketInfoAction(rowInfo?.original);
+            history.push(
+              `/app/market-place/${rowInfo?.original?.marketPlaceId}`
+            );
           }
         },
       };
@@ -151,7 +152,12 @@ class Market extends Component {
         ),
         accessor: (e) => (
           <div style={{ textAlign: "center" }}>
-            <Switch color="primary" checked={e?.onTop} />
+            <Switch
+              color="primary"
+              style={{ color: "#0764B0" }}
+              checked={e?.onTop}
+              disabled={!e?.onTop}
+            />
           </div>
         ),
       },
@@ -243,6 +249,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
+  },
+  getMarketInfoAction: (value) => {
+    dispatch(getMarketInfoAction(value));
   },
 });
 
