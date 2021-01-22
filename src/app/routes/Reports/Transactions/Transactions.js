@@ -235,7 +235,6 @@ class Transactions extends React.Component {
       {
         id: "Account Details ",
         Header: "Card /Last 4 Digit",
-        // width: 180,
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
             {e?.paymentData?.card_type ? (
@@ -251,7 +250,6 @@ class Transactions extends React.Component {
       {
         id: "MerchantCode",
         Header: "Merchant Account",
-        // width: 180,
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
             {`${e?.receiver === null ? "" : e?.receiver?.name}`}
@@ -264,7 +262,6 @@ class Transactions extends React.Component {
         Header: "Amount",
         accessor: (e) => e.amount,
         Cell: (e) => <Typography variant="subtitle1">${e.value}</Typography>,
-        // width: 100,
         Footer: (
           <Typography variant="subtitle1" className="table__light">
             ${summary?.amount}
@@ -396,17 +393,14 @@ class Transactions extends React.Component {
                 value={amountFrom === -1 ? 0 : amountFrom}
                 onChange={this.handleChange}
                 name="amountFrom"
-                // variant="outlined"
                 InputProps={{
                   inputComponent: InputCustom,
-                }}
-                inputProps={{
-                  numericOnly: true,
-                }}
-                InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
                   ),
+                }}
+                inputProps={{
+                  numericOnly: true,
                 }}
                 style={{ width: "80%" }}
               />
@@ -419,17 +413,14 @@ class Transactions extends React.Component {
                 value={amountTo === -1 ? 0 : amountTo}
                 onChange={this.handleChange}
                 name="amountTo"
-                // variant="outlined"
                 InputProps={{
                   inputComponent: InputCustom,
-                }}
-                inputProps={{
-                  numericOnly: true,
-                }}
-                InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
                   ),
+                }}
+                inputProps={{
+                  numericOnly: true,
                 }}
                 style={{ width: "80%" }}
               />

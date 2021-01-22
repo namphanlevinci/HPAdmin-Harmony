@@ -117,7 +117,12 @@ class Market extends Component {
         id: "fileURL",
         Header: <CustomTableHeader value="Image" />,
         accessor: (e) => (
-          <img src={e?.fileURL} alt={e?.name} width={75} height={75} />
+          <img
+            src={e?.fileURL}
+            alt={`market_place_${e?.name}`}
+            width={75}
+            height={75}
+          />
         ),
         sortable: false,
       },
@@ -125,7 +130,7 @@ class Market extends Component {
         id: "link",
         Header: <CustomTableHeader value="URL" />,
         accessor: (e) => (
-          <a href={e?.link} target="_blank">
+          <a href={e?.link} target="_blank" rel="noopener noreferrer">
             {e.link}
           </a>
         ),

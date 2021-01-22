@@ -118,7 +118,7 @@ class P2P extends React.Component {
   };
 
   fetchApi = async (state) => {
-    const { from, to, search, range, status } = this.state;
+    const { from, to, search, range } = this.state;
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
