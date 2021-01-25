@@ -9,6 +9,8 @@ import {
   Grid,
   Button,
   TextField,
+  Checkbox,
+  FormControlLabel,
 } from "@material-ui/core";
 import { CustomTitle, CustomText } from "../../../../../../util/CustomText";
 
@@ -51,6 +53,8 @@ class EditSettings extends Component {
       discountRate: data.discountRate,
       pointRate: data?.pointRate,
       turnAmount: data?.turnAmount,
+      isTop: data.isTop,
+      loading: true,
     });
   }
   toggleConfirm = () => {
@@ -79,100 +83,120 @@ class EditSettings extends Component {
         <div className="general-content">
           <CustomText value="The charged percent fee of credit card transactions" />
 
-          <Grid container spacing={3} style={{ paddingTop: "10px" }}>
-            <Grid item xs={12} sm={6} md={4}>
-              <FormControl>
-                <InputLabel htmlFor="formatted-text-mask-input">
-                  Transactions Fee
-                </InputLabel>
-                <Input
-                  onChange={(e, masked) =>
-                    this.setState({ transactionsFee: masked })
-                  }
-                  value={this.state.transactionsFee}
-                  name="transactionsFee"
-                  id="custom-transaction-fee-input"
-                  startAdornment={
-                    <InputAdornment position="start">%</InputAdornment>
-                  }
-                  inputComponent={CustomCurrencyInput}
-                />
-              </FormControl>
-            </Grid>
+          {this.state.loading && (
+            <Grid container spacing={3} style={{ paddingTop: "10px" }}>
+              <Grid item xs={12} sm={6} md={3}>
+                <FormControl>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Transactions Fee
+                  </InputLabel>
+                  <Input
+                    onChange={(e, masked) =>
+                      this.setState({ transactionsFee: masked })
+                    }
+                    value={this.state.transactionsFee}
+                    name="transactionsFee"
+                    id="custom-transaction-fee-input"
+                    startAdornment={
+                      <InputAdornment position="start">%</InputAdornment>
+                    }
+                    inputComponent={CustomCurrencyInput}
+                  />
+                </FormControl>
+              </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Merchant Code"
-                type="text"
-                name="merchantCode"
-                value={this.state.merchantCode}
-                onChange={this.handleChange}
-              />
-            </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <TextField
+                  label="Merchant Code"
+                  type="text"
+                  name="merchantCode"
+                  value={this.state.merchantCode}
+                  onChange={this.handleChange}
+                />
+              </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
-              <FormControl>
-                <InputLabel htmlFor="formatted-text-mask-input">
-                  Discount Rate
-                </InputLabel>
-                <Input
-                  onChange={(e, masked) =>
-                    this.setState({ discountRate: masked })
-                  }
-                  value={this.state.discountRate}
-                  name="discountRate"
-                  id="custom-transaction-fee-input"
-                  startAdornment
-                  inputComponent={CustomCurrencyInput}
-                />
-              </FormControl>
-            </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <FormControl>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Discount Rate
+                  </InputLabel>
+                  <Input
+                    onChange={(e, masked) =>
+                      this.setState({ discountRate: masked })
+                    }
+                    value={this.state.discountRate}
+                    name="discountRate"
+                    id="custom-transaction-fee-input"
+                    startAdornment
+                    inputComponent={CustomCurrencyInput}
+                  />
+                </FormControl>
+              </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
-              <FormControl>
-                <InputLabel htmlFor="formatted-text-mask-input">
-                  Point Rate
-                </InputLabel>
-                <Input
-                  onChange={(e, masked) => this.setState({ pointRate: masked })}
-                  value={this.state.pointRate}
-                  name="pointRate"
-                  id="custom-transaction-point--rate-input"
-                  startAdornment={
-                    <InputAdornment position="start">%</InputAdornment>
+              <Grid item xs={12} sm={6} md={3}>
+                <FormControl>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Point Rate
+                  </InputLabel>
+                  <Input
+                    onChange={(e, masked) =>
+                      this.setState({ pointRate: masked })
+                    }
+                    value={this.state.pointRate}
+                    name="pointRate"
+                    id="custom-transaction-point--rate-input"
+                    startAdornment={
+                      <InputAdornment position="start">%</InputAdornment>
+                    }
+                    inputComponent={CustomCurrencyInput}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <FormControl>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Turn Amount
+                  </InputLabel>
+                  <Input
+                    onChange={(e, masked) =>
+                      this.setState({ turnAmount: masked })
+                    }
+                    value={this.state.turnAmount}
+                    name="turnAmount"
+                    startAdornment
+                    inputComponent={CustomCurrencyInput}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} md={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="isTop"
+                      checked={this.state.isTop}
+                      style={{ color: "#0764B0" }}
+                      color="primary"
+                      onChange={(e) =>
+                        this.setState({ isTop: e.target.checked })
+                      }
+                    />
                   }
-                  inputComponent={CustomCurrencyInput}
+                  label="On Top"
                 />
-              </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  className="btn btn-green"
+                  onClick={this.updateMerchantSetting}
+                >
+                  SAVE
+                </Button>
+                <Button className="btn btn-red" onClick={this.goBack}>
+                  CANCEL
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <FormControl>
-                <InputLabel htmlFor="formatted-text-mask-input">
-                  Turn Amount
-                </InputLabel>
-                <Input
-                  onChange={(e, masked) =>
-                    this.setState({ turnAmount: masked })
-                  }
-                  value={this.state.turnAmount}
-                  name="turnAmount"
-                  startAdornment
-                  inputComponent={CustomCurrencyInput}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                className="btn btn-green"
-                onClick={this.updateMerchantSetting}
-              >
-                SAVE
-              </Button>
-              <Button className="btn btn-red" onClick={this.goBack}>
-                CANCEL
-              </Button>
-            </Grid>
-          </Grid>
+          )}
         </div>
       </div>
     );

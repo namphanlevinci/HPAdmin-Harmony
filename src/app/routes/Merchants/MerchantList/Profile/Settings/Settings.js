@@ -12,6 +12,8 @@ import {
   DialogContent,
   Grid,
   Typography,
+  Checkbox,
+  FormControlLabel,
 } from "@material-ui/core";
 import {
   CustomTitle,
@@ -269,7 +271,7 @@ class Settings extends Component {
           <CustomText value="The charged percent fee of credit card transactions" />
 
           <Grid container spacing={3} style={{ paddingTop: "10px" }}>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={6} md={3}>
               <TextField
                 label="Transactions Fee"
                 disabled
@@ -287,7 +289,7 @@ class Settings extends Component {
                 }}
               />
             </Grid>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={6} md={3}>
               <TextField
                 label=" Merchant ID"
                 disabled
@@ -295,14 +297,14 @@ class Settings extends Component {
               />
             </Grid>
 
-            <Grid item xs={6} md={4}>
+            <Grid item xs={6} md={3}>
               <TextField
                 label="Discount Rate"
                 disabled
                 value={data.discountRate}
               />
             </Grid>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={6} md={3}>
               <TextField
                 label="Point Rate"
                 disabled
@@ -320,14 +322,22 @@ class Settings extends Component {
                 }}
               />
             </Grid>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={6} md={3}>
               <TextField label="Turn Amount" disabled value={data.turnAmount} />
             </Grid>
+            <Grid item xs={6} md={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={data.isTop}
+                    style={{ color: "#0764B0" }}
+                    color="primary"
+                  />
+                }
+                label="On Top"
+              />
+            </Grid>
             <Grid item xs={12}>
-              {/* <Grid container spacing={3}>
-                  <Grid item auto></Grid>
-                </Grid> */}
-
               {CheckPermissions("edit-setting") && (
                 <Button className="btn btn-green" onClick={this.goToEditPage}>
                   EDIT
