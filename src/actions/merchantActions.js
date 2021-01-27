@@ -2382,3 +2382,138 @@ export const getGiftCardName = (name) => async (dispatch, getState) => {
     payload: name,
   });
 };
+
+export const getMerchantSubscriptionByID = (MerchantID) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.GET_MERCHANT_SUBSCRIPTION_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(
+      `${URL}/subscription/getbymerchant/${MerchantID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.GET_MERCHANT_SUBSCRIPTION_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.GET_MERCHANT_SUBSCRIPTION_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const updateMerchantSubscriptionById = (payload) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: types.UPDATE_MERCHANT_SUBSCRIPTION_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { subscriptionId } = payload;
+
+    const { data } = await axios.put(
+      `${URL}/subscription/${subscriptionId}`,
+      { ...payload },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: types.UPDATE_MERCHANT_SUBSCRIPTION_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data?.message,
+    });
+
+    history.goBack();
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.UPDATE_MERCHANT_SUBSCRIPTION_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getPackageAction = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.GET_PACKAGE_REQUEST,
+    });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(`${URL}/package/`);
+
+    dispatch({
+      type: types.GET_PACKAGE_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.GET_PACKAGE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

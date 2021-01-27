@@ -1188,6 +1188,84 @@ const giftCardNameReducer = (
   }
 };
 
+const merchantSubscriptionReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_MERCHANT_SUBSCRIPTION_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.GET_MERCHANT_SUBSCRIPTION_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.GET_MERCHANT_SUBSCRIPTION_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const updateMerchantSubscriptionByIdReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.UPDATE_MERCHANT_SUBSCRIPTION_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.UPDATE_MERCHANT_SUBSCRIPTION_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.UPDATE_MERCHANT_SUBSCRIPTION_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const packageReducer = (
+  state = {
+    loading: false,
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_PACKAGE_REQUEST:
+      return {
+        loading: true,
+      };
+    case types.GET_PACKAGE_SUCCESS:
+      return {
+        loading: false,
+        data: payload,
+      };
+    case types.GET_PACKAGE_FAILURE:
+      return {
+        loading: false,
+        data: payload,
+      };
+    default:
+      return state;
+  }
+};
+
 export {
   restoreStaffReducer,
   archiveStaffReducer,
@@ -1234,4 +1312,7 @@ export {
   addGiftCardByMerchantReducer,
   exportGiftCardByMerchantReducer,
   giftCardNameReducer,
+  merchantSubscriptionReducer,
+  updateMerchantSubscriptionByIdReducer,
+  packageReducer,
 };

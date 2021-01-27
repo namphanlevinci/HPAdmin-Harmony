@@ -108,7 +108,6 @@ class AddPlace extends Component {
             }}
             validationSchema={MarketPlaceSchema}
             onSubmit={(values) => {
-              console.log("values", values);
               this.props.addMarketPlaceAction(values);
             }}
           >

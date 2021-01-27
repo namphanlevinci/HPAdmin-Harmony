@@ -44,16 +44,29 @@ class AddPlace extends Component {
           <div
             style={{
               display: "flex",
-              textAlign: "center",
-              alignItems: "center",
-              marginBottom: "20px",
+              justifyContent: "space-between",
             }}
           >
-            <QueueIcon style={{ color: "black" }} size={22} />
-            <CustomTitle
-              value={name}
-              styles={{ color: "black", marginLeft: "10px" }}
-            />
+            <div
+              style={{
+                display: "flex",
+                textAlign: "center",
+                alignItems: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <QueueIcon style={{ color: "black" }} size={22} />
+              <CustomTitle
+                value={name}
+                styles={{ color: "black", marginLeft: "10px" }}
+              />
+            </div>
+            <Button
+              className="btn btn-red"
+              onClick={() => this.props.history.goBack()}
+            >
+              BACK
+            </Button>
           </div>
 
           <Grid container spacing={3}>
@@ -68,7 +81,7 @@ class AddPlace extends Component {
             <Grid item xs={4} md={12}>
               <label style={{ marginBottom: "10px" }}>
                 Image <span style={{ color: "red" }}>*</span>
-              </label>{" "}
+              </label>
               <br />
               <CardMedia
                 component="img"

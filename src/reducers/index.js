@@ -50,6 +50,9 @@ import {
   addGiftCardByMerchantReducer,
   exportGiftCardByMerchantReducer,
   giftCardNameReducer,
+  merchantSubscriptionReducer,
+  updateMerchantSubscriptionByIdReducer,
+  packageReducer,
 } from "./merchantReducer";
 
 // Consumer
@@ -144,6 +147,9 @@ export default (history) =>
     addGiftCard: addGiftCardByMerchantReducer,
     exportGiftCard: exportGiftCardByMerchantReducer,
     giftCardName: giftCardNameReducer,
+    subscription: merchantSubscriptionReducer,
+    updateSubscription: updateMerchantSubscriptionByIdReducer,
+    package: packageReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,

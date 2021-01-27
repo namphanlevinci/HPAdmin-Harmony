@@ -48,6 +48,9 @@ import PrivateRoute from "../../../PrivateRoute";
 import GiftCard from "./Profile/GiftCard/GiftCard";
 import AddGiftCard from "./Profile/GiftCard/AddGiftCard";
 import GiftCardInfo from "./Profile/GiftCard/GiftCardInfo";
+// Subscription
+import Subscription from "./Profile/Subscription";
+import EditSubscription from "./Profile/Subscription/EditSubscription";
 
 import "../PendingList/MerchantReqProfile.css";
 import "./MerchantProfile.css";
@@ -166,6 +169,11 @@ class merchantProfile extends Component {
                         </NavLink>
                       </li>
                       <li>
+                        <NavLink to="/app/merchants/profile/subscriptions">
+                          Subscription
+                        </NavLink>
+                      </li>
+                      <li>
                         <NavLink to="/app/merchants/profile/staff">
                           Staff
                         </NavLink>
@@ -235,6 +243,14 @@ class merchantProfile extends Component {
                         <Route
                           path="/app/merchants/profile/principal"
                           component={PrincipalList}
+                        />
+                        <Route
+                          path="/app/merchants/profile/subscriptions/edit"
+                          component={EditSubscription}
+                        />
+                        <Route
+                          path="/app/merchants/profile/subscriptions"
+                          component={Subscription}
                         />
                         <Route
                           path="/app/merchants/profile/category/edit"
