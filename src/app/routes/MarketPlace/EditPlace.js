@@ -199,6 +199,7 @@ class AddPlace extends Component {
                       style={{ color: "#0764B0" }}
                       color="primary"
                       name="onTop"
+                      checked={values?.onTop}
                       onChange={handleChange}
                     />
                   </Grid>

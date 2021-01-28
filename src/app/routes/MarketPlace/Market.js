@@ -209,7 +209,7 @@ class Market extends Component {
                 <FormControl style={{ width: "40%" }}>
                   <InputLabel>Status</InputLabel>
                   <Select onChange={this.handleStatus} value={statusValue}>
-                    <MenuItem value={-1}>All</MenuItem>
+                    <MenuItem value={-1}>All Status</MenuItem>
                     <MenuItem value={0}>Active</MenuItem>
                     <MenuItem value={1}>Inactive</MenuItem>
                   </Select>

@@ -101,7 +101,7 @@ class AddPlace extends Component {
             initialValues={{
               name: "",
               link: "",
-              onTop: true,
+              onTop: false,
               fileId: "",
               isDisabled: 0,
               imageUrl: "",
@@ -206,6 +206,7 @@ class AddPlace extends Component {
                       style={{ color: "#0764B0" }}
                       color="primary"
                       name="onTop"
+                      checked={values?.onTop}
                       onChange={handleChange}
                     />
                   </Grid>
