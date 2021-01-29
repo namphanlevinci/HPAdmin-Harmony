@@ -34,6 +34,7 @@ class EditSubscription extends Component {
     this.state = {
       additionStaff: 0,
       expiredDate: "2021-01-27T09:46:12.798Z",
+      firstLoad: true,
     };
   }
 
@@ -49,18 +50,44 @@ class EditSubscription extends Component {
       additionStaffPrice: packageList?.[0]?.additionStaffPrice,
       subName: sub?.planName,
       amount: sub?.price,
+      totalPrice: sub?.totalPrice,
       expiredDate: sub?.expiredDate,
+      additionStaff: sub?.additionStaff,
     });
   };
 
   handleSubPlan = (e, amount, subName) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value, amount, subName });
+    if (+value !== 3) {
+      this.setState({ additionStaff: 0 });
+    }
+    this.setState({ [name]: value, amount, subName, firstLoad: false });
   };
 
   handlePricing = (e) => {
+    const packageList = this.props.package;
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    const { packageId } = this.state;
+
+    if (+packageId === 3) {
+      this.setState({ amount: packageList?.[0]?.pricing });
+    }
+    if (+packageId === 2) {
+      this.setState({ amount: packageList?.[1]?.pricing });
+    }
+    if (+packageId === 1) {
+      this.setState({ amount: packageList?.[2]?.pricing });
+    }
+
+    this.setState({
+      [name]: value,
+      firstLoad: false,
+    });
+  };
+
+  handleAdditionStaff = (e) => {
+    const { value } = e.target;
+    this.setState({ additionStaff: value, firstLoad: false });
   };
 
   handleUpdate = () => {
@@ -78,14 +105,19 @@ class EditSubscription extends Component {
       additionStaffPrice,
       subName,
       expiredDate,
+      firstLoad,
+      totalPrice,
     } = this.state;
 
-    const totalAmount =
-      Number(amount) *
-      (pricingType === "monthly" ? 1 : 10) *
-      (Number(additionStaff) !== 0
-        ? Number(additionStaff) * additionStaffPrice
-        : 1);
+    const defaultAmount = pricingType === "annually" ? +amount * 10 : +amount;
+    const staffPrice =
+      +additionStaff !== 0
+        ? pricingType === "annually"
+          ? +additionStaff * +additionStaffPrice * 10
+          : +additionStaff * +additionStaffPrice
+        : 0;
+
+    const totalAmount = defaultAmount + staffPrice;
 
     return (
       <div className="react-transition swipe-up">
@@ -162,9 +194,7 @@ class EditSubscription extends Component {
                     label="Addition Staff"
                     InputLabelProps={{ shrink: true }}
                     value={additionStaff}
-                    onChange={(e) =>
-                      this.setState({ additionStaff: e.target.value })
-                    }
+                    onChange={this.handleAdditionStaff}
                     fullWidth
                     name="additionStaff"
                     InputProps={{
@@ -261,7 +291,9 @@ class EditSubscription extends Component {
             <CustomTextLabel value="Amount" />
           </Grid>
           <Grid item xs={8}>
-            <CustomText value={`$ ${totalAmount.toFixed(2)}`} />
+            <CustomText
+              value={`$ ${firstLoad ? totalPrice : totalAmount.toFixed(2)}`}
+            />
           </Grid>
 
           <Grid
