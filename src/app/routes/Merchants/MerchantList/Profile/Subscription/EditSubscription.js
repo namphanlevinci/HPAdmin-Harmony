@@ -86,8 +86,14 @@ class EditSubscription extends Component {
   };
 
   handleAdditionStaff = (e) => {
+    const packageList = this.props.package;
+
     const { value } = e.target;
-    this.setState({ additionStaff: value, firstLoad: false });
+    this.setState({
+      additionStaff: value,
+      firstLoad: false,
+      amount: packageList?.[0]?.pricing,
+    });
   };
 
   handleUpdate = () => {
