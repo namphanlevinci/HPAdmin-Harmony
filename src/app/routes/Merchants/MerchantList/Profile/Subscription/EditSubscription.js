@@ -253,7 +253,11 @@ class EditSubscription extends Component {
                   id="date-picker-inline"
                   label="Next Payment Date"
                   value={expiredDate}
-                  onChange={(expiredDate) => this.setState({ expiredDate })}
+                  onChange={(expiredDate) =>
+                    this.setState({
+                      expiredDate: moment(expiredDate).format("YYYY-MM-DD"),
+                    })
+                  }
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
