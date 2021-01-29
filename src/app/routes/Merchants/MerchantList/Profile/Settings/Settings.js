@@ -334,7 +334,7 @@ class Settings extends Component {
                     color="primary"
                   />
                 }
-                label="On Top"
+                label="Top Store"
               />
             </Grid>
             <Grid item xs={12}>

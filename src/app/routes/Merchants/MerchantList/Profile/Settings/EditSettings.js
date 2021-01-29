@@ -181,7 +181,7 @@ class EditSettings extends Component {
                       }
                     />
                   }
-                  label="On Top"
+                  label="Top Store"
                 />
               </Grid>
               <Grid item xs={12}>

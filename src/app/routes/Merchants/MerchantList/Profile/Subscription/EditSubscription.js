@@ -49,6 +49,7 @@ class EditSubscription extends Component {
       additionStaffPrice: packageList?.[0]?.additionStaffPrice,
       subName: sub?.planName,
       amount: sub?.price,
+      expiredDate: sub?.expiredDate,
     });
   };
 
@@ -67,7 +68,6 @@ class EditSubscription extends Component {
   };
 
   render() {
-    const sub = this.props.subscription;
     const packageList = this.props.package;
 
     const {
@@ -77,6 +77,7 @@ class EditSubscription extends Component {
       amount,
       additionStaffPrice,
       subName,
+      expiredDate,
     } = this.state;
 
     const totalAmount =
@@ -215,11 +216,12 @@ class EditSubscription extends Component {
                   margin="normal"
                   id="date-picker-inline"
                   label="Next Payment Date"
-                  value={sub?.expiredDate}
-                  disabled
+                  value={expiredDate}
+                  onChange={(expiredDate) => this.setState({ expiredDate })}
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
+                  autoOk={true}
                 />
               </Grid>
             </MuiPickersUtilsProvider>
@@ -252,9 +254,7 @@ class EditSubscription extends Component {
             <CustomTextLabel value="Next Payment Date" />
           </Grid>
           <Grid item xs={8}>
-            <CustomText
-              value={moment(sub?.expiredDate).format("MMM D, yyyy")}
-            />
+            <CustomText value={moment(expiredDate).format("MMM D, yyyy")} />
           </Grid>
 
           <Grid item xs={4}>

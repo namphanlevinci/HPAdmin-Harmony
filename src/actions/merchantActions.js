@@ -2489,10 +2489,6 @@ export const getPackageAction = () => async (dispatch, getState) => {
       type: types.GET_PACKAGE_REQUEST,
     });
 
-    const {
-      verifyUser: { user },
-    } = await getState();
-
     const { data } = await axios.get(`${URL}/package/`);
 
     dispatch({
