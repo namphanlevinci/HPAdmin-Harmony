@@ -11,7 +11,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 import DialogContent from "@material-ui/core/DialogContent";
 import ServiceImg from "../Product/hpadmin2.png";
-import Extra from "./Extra";
+import Extra from "./extra";
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
 import axios from "axios";

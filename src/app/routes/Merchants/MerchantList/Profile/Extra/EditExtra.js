@@ -218,7 +218,7 @@ const EditExtra = ({
                     <Grid item xs={4}>
                       <FormControl style={{ width: "100%" }}>
                         <InputLabel id="demo-simple-select-helper-label">
-                          Status*
+                          Status
                         </InputLabel>
                         <Select
                           value={values.isDisabled}

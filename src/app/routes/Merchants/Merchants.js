@@ -27,7 +27,7 @@ const Merchants = ({ match, location }) => {
         <Route
           path={`${match.url}/profile/product/add`}
           component={asyncComponent(() =>
-            import("./MerchantList/Profile/Product/ProductAdd")
+            import("./MerchantList/Profile/Product/productAdd")
           )}
           match={match}
           location={location}

@@ -16,7 +16,7 @@ import {
   InputLabel,
 } from "@material-ui/core";
 import { CustomTitle } from "../../../../../../util/CustomText";
-import Extra from "./Extra.js";
+import Extra from "./extra";
 import axios from "axios";
 import { config } from "../../../../../../url/url";
 import * as Yup from "yup";
