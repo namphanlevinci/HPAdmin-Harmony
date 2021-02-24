@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { getReportMerchantId } from "../../../../actions/reportActions";
 import { debounce } from "lodash";
 import {
   MuiPickersUtilsProvider,
@@ -35,16 +36,14 @@ class P2P extends React.Component {
       search: "",
       from: "",
       to: "",
-      // range: "thisMonth",
-      range: "",
+      range: "thisMonth",
     };
   }
   handleResetClick = async () => {
     this.setState({
       from: moment().startOf("month").format("YYYY-MM-DD"),
       to: moment().endOf("month").format("YYYY-MM-DD"),
-      // range: "thisMonth",
-      range: "",
+      range: "thisMonth",
     });
     this.searchTransaction();
   };
@@ -155,6 +154,7 @@ class P2P extends React.Component {
           if (rowInfo !== undefined) {
             const url = `GiftCard/sold/${rowInfo?.original?.merchantId}?date=2020-12-17T00:00:00`;
             this.props.fetchApiByPage(url);
+            this.props.getReportMerchantId(rowInfo?.original);
             this.props.history.push("/app/reports/gift-card-sold/detail");
           }
         },
@@ -363,6 +363,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
+  },
+  getReportMerchantId: (id) => {
+    dispatch(getReportMerchantId(id));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(P2P);
