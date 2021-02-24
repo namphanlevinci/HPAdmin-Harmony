@@ -9,6 +9,7 @@ import {
 
 import { Grid, Button, CardMedia, Switch } from "@material-ui/core";
 
+import CustomSwitch from "./components/Switch";
 import defaultImg from "./hpadmin2.png";
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
@@ -98,9 +99,9 @@ class AddPlace extends Component {
             </Grid>
             <Grid item xs={12}>
               On Top
-              <Switch
-                style={{ color: "#0764B0" }}
-                color="primary"
+              <CustomSwitch
+                // style={{ color: "#0764B0" }}
+                // color="primary"
                 name="onTop"
                 checked={onTop}
               />

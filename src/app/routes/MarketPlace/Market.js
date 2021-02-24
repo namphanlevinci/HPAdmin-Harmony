@@ -12,11 +12,12 @@ import {
   FormControl,
   InputLabel,
   Typography,
-  Switch,
+  // Switch,
 } from "@material-ui/core";
 import { history } from "../../../store";
 import { debounce } from "lodash";
 
+import CustomSwitch from "./components/Switch";
 import SearchComponent from "../../../util/searchComponent";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import IntlMessages from "../../../util/IntlMessages";
@@ -51,6 +52,10 @@ class Market extends Component {
 
   handleChange = (e) => {
     this.setState({ search: e.target.value });
+  };
+  handleResetClick = (e) => {
+    this.setState({ statusValue: -1 });
+    this.searchMarketPlace();
   };
 
   changePage = (pageIndex) => {
@@ -157,9 +162,9 @@ class Market extends Component {
         ),
         accessor: (e) => (
           <div style={{ textAlign: "center" }}>
-            <Switch
-              color="primary"
-              style={{ color: "#0764B0" }}
+            <CustomSwitch
+              // color="primary"
+              // style={{ color: "#0764B0" }}
               checked={e?.onTop}
               disabled={!e?.onTop}
             />

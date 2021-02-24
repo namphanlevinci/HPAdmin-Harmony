@@ -50,12 +50,13 @@ class GiftCardInfo extends Component {
     this.fetchApi();
   }, 800);
   fetchApi = async (state) => {
+    console.log("STATE", state);
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     let { search } = this.state;
     const url = `giftcard/getByGeneral?generalId=${this.state.id}&page=${
       page === 0 ? 1 : page + 1
-    }&row=${pageSize}&sortValue=serialNumber&keySearch=${search}`;
+    }&row=${pageSize}&keySearch=${search}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -84,7 +85,7 @@ class GiftCardInfo extends Component {
       },
       {
         Header: "Serial",
-        id: "createdDate",
+        id: "serial",
         accessor: "serialNumber",
       },
       {
