@@ -68,6 +68,11 @@ class Product extends Component {
         accessor: "name",
       },
       {
+        Header: "Serial",
+        id: "createdDate",
+        accessor: (e) => moment(e.createdDate).format("MM/DD/YYYY"),
+      },
+      {
         Header: "Date Created",
         id: "createdDate",
         accessor: (e) => moment(e.createdDate).format("MM/DD/YYYY"),

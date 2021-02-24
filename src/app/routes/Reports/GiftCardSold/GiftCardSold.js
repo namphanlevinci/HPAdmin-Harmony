@@ -35,15 +35,16 @@ class P2P extends React.Component {
       search: "",
       from: "",
       to: "",
-      range: "thisMonth",
+      // range: "thisMonth",
+      range: "",
     };
   }
-
   handleResetClick = async () => {
     this.setState({
       from: moment().startOf("month").format("YYYY-MM-DD"),
       to: moment().endOf("month").format("YYYY-MM-DD"),
-      range: "thisMonth",
+      // range: "thisMonth",
+      range: "",
     });
     this.searchTransaction();
   };
@@ -145,6 +146,20 @@ class P2P extends React.Component {
   };
 
   render() {
+    console.log("props", this.props);
+
+    const onRowClick = (state, rowInfo, column, instance) => {
+      return {
+        onClick: (e) => {
+          console.log(rowInfo);
+          if (rowInfo !== undefined) {
+            const url = `GiftCard/sold/${rowInfo?.original?.merchantId}?date=2020-12-17T00:00:00`;
+            this.props.fetchApiByPage(url);
+            this.props.history.push("/app/reports/gift-card-sold/detail");
+          }
+        },
+      };
+    };
     const { page, from, to, range } = this.state;
     const {
       data,
@@ -333,6 +348,7 @@ class P2P extends React.Component {
               noDataText="NO DATA!"
               loading={loading}
               columns={columns}
+              getTdProps={onRowClick}
             />
           </div>
         </div>

@@ -14,10 +14,7 @@ const Reports = ({ match }) => (
         path={`${match.url}/p2p-transactions`}
         component={asyncComponent(() => import("./P2P/P2P"))}
       />
-      <Route
-        path={`${match.url}/gift-card-sold`}
-        component={asyncComponent(() => import("./GiftCardSold/GiftCardSold"))}
-      />
+
       <Route
         path={`${match.url}/general-reports/download-reports`}
         component={asyncComponent(() =>
@@ -48,6 +45,17 @@ const Reports = ({ match }) => (
           import("./GeneralReport/Statistics/HarmonyPayAccount")
         )}
       /> */}
+      <Route
+        path={`${match.url}/gift-card-sold/detail`}
+        component={asyncComponent(() =>
+          import("./GiftCardSold/GiftCardSoldInfo")
+        )}
+      />
+      <Route
+        path={`${match.url}/gift-card-sold`}
+        component={asyncComponent(() => import("./GiftCardSold/GiftCardSold"))}
+      />
+
       <Route
         path={`${match.url}/batchs/detail`}
         component={asyncComponent(() => import("./Batch/BatchDetail"))}
