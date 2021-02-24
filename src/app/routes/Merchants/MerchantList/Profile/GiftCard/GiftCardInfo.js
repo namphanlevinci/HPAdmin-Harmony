@@ -5,7 +5,9 @@ import { fetchApiByPage } from "../../../../../../actions/fetchApiActions";
 import { exportGiftCardByMerchantId } from "../../../../../../actions/merchantActions";
 import { BsInfoCircle } from "react-icons/bs";
 import { getCodeLog } from "../../../../../../actions/giftCardActions";
+
 import CustomProgress from "../../../../../../util/CustomProgress";
+import SearchComponent from "../../../../../../util/searchComponent";
 
 import moment from "moment";
 import ReactTable from "react-table";
@@ -27,14 +29,23 @@ class GiftCardInfo extends Component {
     const id = pageUrl.substring(pageUrl.lastIndexOf("/") + 1);
     this.setState({ id, loadingComp: true });
   }
-
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
+  handEnter = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.fetchApi();
+    }
+  };
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-
+    let { search } = this.state;
     const url = `giftcard/getByGeneral?generalId=${this.state.id}&page=${
       page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    }&row=${pageSize}&sortValue=serialNumber&keySearch=${search}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -134,7 +145,6 @@ class GiftCardInfo extends Component {
               Back to List
             </p>
           </div>
-
           <Button
             className="btn btn-green"
             style={styles.btn}
@@ -142,6 +152,18 @@ class GiftCardInfo extends Component {
           >
             EXPORT
           </Button>
+        </div>
+        <div className="search">
+          <SearchComponent
+            placeholder="Search.."
+            value={this.state.search}
+            onChange={this.handleChange}
+            onKeyDown={this.handEnter}
+            onClickIcon={this.fetchApi}
+            name="search"
+          />
+          <button>Reset</button>
+          <button>Search</button>
         </div>
         <div className="merchant-list-container">
           {loadingComp && (

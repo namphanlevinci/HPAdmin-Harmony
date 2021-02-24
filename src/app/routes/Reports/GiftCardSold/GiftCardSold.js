@@ -145,14 +145,14 @@ class P2P extends React.Component {
   };
 
   render() {
-    console.log("props", this.props);
+    console.log("propssss", this.props);
 
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
           console.log(rowInfo);
           if (rowInfo !== undefined) {
-            const url = `GiftCard/sold/${rowInfo?.original?.merchantId}?date=2020-12-17T00:00:00`;
+            const url = `GiftCard/sold/${rowInfo?.original?.merchantId}?date=${rowInfo?.original?.date}`;
             this.props.fetchApiByPage(url);
             this.props.getReportMerchantId(rowInfo?.original);
             this.props.history.push("/app/reports/gift-card-sold/detail");
