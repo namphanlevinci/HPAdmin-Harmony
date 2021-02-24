@@ -5,6 +5,7 @@ import { fetchApiByPage } from "../../../../../../actions/fetchApiActions";
 import { exportGiftCardByMerchantId } from "../../../../../../actions/merchantActions";
 import { BsInfoCircle } from "react-icons/bs";
 import { getCodeLog } from "../../../../../../actions/giftCardActions";
+import { debounce } from "lodash";
 
 import CustomProgress from "../../../../../../util/CustomProgress";
 import SearchComponent from "../../../../../../util/searchComponent";
@@ -12,7 +13,7 @@ import SearchComponent from "../../../../../../util/searchComponent";
 import moment from "moment";
 import ReactTable from "react-table";
 import Log from "./Log/Log";
-
+import "./GiftCard.css";
 class GiftCardInfo extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +40,15 @@ class GiftCardInfo extends Component {
       this.fetchApi();
     }
   };
+  handleResetClick = async () => {
+    this.setState({
+      search: "",
+    });
+    this.searchTransaction();
+  };
+  searchTransaction = debounce((query) => {
+    this.fetchApi();
+  }, 800);
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
@@ -153,7 +163,14 @@ class GiftCardInfo extends Component {
             EXPORT
           </Button>
         </div>
-        <div className="search">
+        <div
+          className="search"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "20px",
+          }}
+        >
           <SearchComponent
             placeholder="Search.."
             value={this.state.search}
@@ -162,8 +179,33 @@ class GiftCardInfo extends Component {
             onClickIcon={this.fetchApi}
             name="search"
           />
-          <button>Reset</button>
-          <button>Search</button>
+          <div>
+            <Button
+              style={{
+                color: "#0764B0",
+                backgroundColor: "white",
+                marginTop: "0",
+                marginRight: "0",
+              }}
+              className="btn btn-green"
+              onClick={this.handleResetClick}
+            >
+              RESET
+            </Button>
+            <Button
+              style={{
+                color: "#0764B0",
+                backgroundColor: "white",
+                marginTop: "0",
+                marginRight: "0",
+                marginLeft: "10px",
+              }}
+              className="btn btn-green"
+              onClick={() => this.fetchApi()}
+            >
+              SEARCH
+            </Button>
+          </div>
         </div>
         <div className="merchant-list-container">
           {loadingComp && (
