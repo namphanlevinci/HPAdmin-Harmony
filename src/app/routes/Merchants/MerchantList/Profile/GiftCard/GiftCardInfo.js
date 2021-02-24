@@ -155,13 +155,6 @@ class GiftCardInfo extends Component {
               Back to List
             </p>
           </div>
-          <Button
-            className="btn btn-green"
-            style={styles.btn}
-            onClick={this.exportGiftCard}
-          >
-            EXPORT
-          </Button>
         </div>
         <div
           className="search"
@@ -179,7 +172,14 @@ class GiftCardInfo extends Component {
             onClickIcon={this.fetchApi}
             name="search"
           />
-          <div>
+          <Button
+            className="btn btn-green"
+            style={styles.btn}
+            onClick={this.exportGiftCard}
+          >
+            EXPORT
+          </Button>
+          {/* <div>
             <Button
               style={{
                 color: "#0764B0",
@@ -205,7 +205,7 @@ class GiftCardInfo extends Component {
             >
               SEARCH
             </Button>
-          </div>
+          </div> */}
         </div>
         <div className="merchant-list-container">
           {loadingComp && (
