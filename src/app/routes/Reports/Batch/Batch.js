@@ -7,6 +7,7 @@ import { Typography } from "@material-ui/core";
 import { Helmet } from "react-helmet";
 import { debounce } from "lodash";
 
+import NewButton from "../../../../../src/components/Button/Search";
 import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -29,7 +30,10 @@ class Transactions extends React.Component {
   searchMerchantBatch = debounce((query) => {
     this.fetchApi();
   }, 1000);
-
+  handleReset = debounce((e) => {
+    this.setState({ search: "" });
+    this.fetchApi();
+  }, 1000);
   handleChange = (e) => {
     this.setState({ search: e.target.value });
   };
@@ -228,7 +232,10 @@ class Transactions extends React.Component {
           style={{ padding: "10px" }}
         >
           <div className=" TransactionsBox">
-            <div className="BatchSearch">
+            <div
+              className="BatchSearch"
+              style={{ display: "flex", alignItems: "center" }}
+            >
               <SearchComponent
                 placeholder="Search"
                 value={this.state.search}
@@ -236,8 +243,14 @@ class Transactions extends React.Component {
                 onKeyPress={this.keyPressed}
                 onClickIcon={this.fetchApi}
               />
+              <NewButton style={{ marginLeft: "10px" }} onClick={this.fetchApi}>
+                Search
+              </NewButton>
             </div>
           </div>
+          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset
+          </NewButton>
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual

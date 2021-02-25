@@ -27,6 +27,7 @@ import moment from "moment";
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
 import InputCustom from "../../../../util/CustomInput";
+import NewButton from "../../../../components/Button/Search";
 
 import "./Transactions.css";
 import "react-table/react-table.css";
@@ -309,13 +310,20 @@ class Transactions extends React.Component {
             />
 
             <div>
-              <Button
+              <NewButton onClick={() => this.fetchApi()}>Search</NewButton>
+              <NewButton
+                onClick={this.handleResetClick}
+                style={{ marginLeft: "10px" }}
+              >
+                Reset
+              </NewButton>
+              {/* <Button
                 style={{ color: "#0764B0" }}
                 onClick={() => this.fetchApi()}
                 className="btn btn-red"
               >
                 SEARCH
-              </Button>
+              </Button> */}
             </div>
           </div>
           <Grid container spacing={0} className="TransactionSearch">
@@ -435,13 +443,13 @@ class Transactions extends React.Component {
                 textAlign: "right",
               }}
             >
-              <Button
+              {/* <Button
                 style={{ color: "#0764B0" }}
                 onClick={this.handleResetClick}
                 className="btn btn-red"
               >
                 RESET
-              </Button>
+              </Button> */}
             </Grid>
           </Grid>
           <div className="merchant-list-container Transactions">

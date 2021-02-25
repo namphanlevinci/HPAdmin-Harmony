@@ -17,6 +17,7 @@ import {
 import { history } from "../../../store";
 import { debounce } from "lodash";
 
+import NewButton from "../../../components/Button/Search";
 import CustomSwitch from "./components/Switch";
 import SearchComponent from "../../../util/searchComponent";
 import ContainerHeader from "../../../components/ContainerHeader/index";
@@ -194,7 +195,10 @@ class Market extends Component {
               }}
             >
               {/* SEARCH */}
-              <div className="search" style={{ width: "50%" }}>
+              <div
+                className="search"
+                style={{ width: "50%", display: "flex", alignItems: "center" }}
+              >
                 <SearchComponent
                   placeholder="Search"
                   value={this.state.search}
@@ -202,8 +206,13 @@ class Market extends Component {
                   onKeyPress={this.keyPressed}
                   onClickIcon={this.fetchApi}
                 />
+                <NewButton
+                  onClick={this.fetchApi}
+                  style={{ marginLeft: "10px" }}
+                >
+                  Search
+                </NewButton>
               </div>
-
               <div style={{ width: "50%", textAlign: "right" }}>
                 <Button onClick={this.addMarketPlace} className="btn btn-green">
                   NEW BRAND
@@ -221,13 +230,14 @@ class Market extends Component {
                 </FormControl>
               </div>
 
-              <Button
+              <NewButton onClick={this.handleResetClick}>Reset</NewButton>
+              {/* <Button
                 style={{ color: "#0764B0", marginTop: "15px" }}
                 onClick={this.handleResetClick}
                 className="btn btn-red"
               >
                 RESET
-              </Button>
+              </Button> */}
             </div>
             <div className="merchant-list-container">
               <ReactTable

@@ -14,6 +14,7 @@ import {
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
 import { debounce } from "lodash";
 
+import NewButton from "../../../components/Button/Search";
 import IntlMessages from "../../../util/IntlMessages";
 import CustomProgress from "../../../util/CustomProgress";
 import ContainerHeader from "../../../components/ContainerHeader/index";
@@ -63,7 +64,10 @@ class Consumers extends React.Component {
       page: pageIndex,
     });
   };
-
+  handleReset = debounce((query) => {
+    this.setState({ search: "", isVerify: -1 });
+    this.fetchApi();
+  }, 1000);
   searchCustomer = debounce((query) => {
     this.fetchApi();
   }, 1000);
@@ -253,13 +257,19 @@ class Consumers extends React.Component {
           <div className="MerList page-heading" style={{ padding: "10px" }}>
             <div style={styles.div}>
               {/* SEARCH */}
-              <div>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <SearchComponent
                   value={this.state.search}
                   onChange={this.handleChange}
                   onKeyPress={this.keyPressed}
                   onClickIcon={this.fetchApi}
                 />
+                <NewButton
+                  onClick={this.fetchApi}
+                  style={{ marginLeft: "10px" }}
+                >
+                  Search
+                </NewButton>
               </div>
 
               <FormControl style={styles.select}>
@@ -274,7 +284,9 @@ class Consumers extends React.Component {
                 </Select>
               </FormControl>
             </div>
-
+            <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+              Reset
+            </NewButton>
             <div className="merchant-list-container">
               <ReactTable
                 manual={true}
