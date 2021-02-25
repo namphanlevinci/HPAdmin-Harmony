@@ -6,6 +6,7 @@ import {
   archiveServiceById,
   restoreServiceById,
   setPage,
+  setSize,
 } from "../../../../../../actions/merchantActions";
 
 import Button from "@material-ui/core/Button";
@@ -57,6 +58,9 @@ class Service extends Component {
     });
     await this.props.setPage(pageIndex);
   };
+  changePageSize = async (size) => {
+    await this.props.setSize(size);
+  };
   handleCloseEdit = () => {
     this.setState({ openEdit: false });
   };
@@ -88,10 +92,8 @@ class Service extends Component {
   };
   render() {
     let { serviceList, loading } = this.props.service;
-    console.log("pageIndex", this.state.page);
 
     const { page } = this.state;
-    console.log("this", this);
     if (serviceList) {
       if (this.state.search) {
         serviceList = serviceList.filter((e) => {
@@ -252,15 +254,16 @@ class Service extends Component {
 
           <div className="merchant-list-container">
             <ReactTable
-              page={this.props.page.page || 0}
+              page={this.props.page || 0}
+              pageSize={this.props.size || 5}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onPageSizeChange={(size) => this.changePageSize(size)}
               data={serviceList}
               columns={columns}
               defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
-              onFetchData={(state) => console.log(state)}
             />
 
             {/* ARCHIVE */}
@@ -337,11 +340,15 @@ class Service extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   service: state.service,
-  page: state.updateService,
+  page: state.updateService.page,
+  size: state.updateService.size,
 });
 const mapDispatchToProps = (dispatch) => ({
   setPage: (payload) => {
     dispatch(setPage(payload));
+  },
+  setSize: (payload) => {
+    dispatch(setSize(payload));
   },
   viewService: (payload) => {
     dispatch(viewService(payload));

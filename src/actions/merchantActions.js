@@ -1075,7 +1075,9 @@ export const setPage = (payload) => async (dispatch) => {
     payload: payload,
   });
 };
-
+export const setSize = (payload) => async (dispatch) => {
+  dispatch({ type: "SET_SIZE", payload: payload });
+};
 export const updateMerchantServiceById = (payload) => async (
   dispatch,
   getState
