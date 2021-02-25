@@ -137,7 +137,7 @@ class EditService extends Component {
 
   render() {
     const service = this.props.updateService;
-
+    console.log("PROPSSS", this);
     let { categoryList: category } = this.props.categoryList;
 
     //~ preview image

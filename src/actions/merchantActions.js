@@ -1069,6 +1069,12 @@ export const viewService = (payload) => async (dispatch) => {
     payload: payload,
   });
 };
+export const setPage = (payload) => async (dispatch) => {
+  dispatch({
+    type: "SET_PAGE",
+    payload: payload,
+  });
+};
 
 export const updateMerchantServiceById = (payload) => async (
   dispatch,

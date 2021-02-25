@@ -512,6 +512,9 @@ const updateMerchantServiceByIdReducer = (
   { type, payload }
 ) => {
   switch (type) {
+    case "SET_PAGE":
+      console.log("adad", state.page);
+      return { ...state, page: payload };
     case types.VIEW_MERCHANT_SERVICE:
       return {
         ...state,
