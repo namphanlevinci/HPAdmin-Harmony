@@ -299,7 +299,7 @@ class EditPrincipal extends Component {
                       value={values.driverNumber}
                       onChange={handleChange}
                       style={styles.input}
-                      type="number"
+                      type="text"
                       error={errors.driverNumber && touched.driverNumber}
                       helperText={
                         errors.driverNumber && touched.driverNumber
