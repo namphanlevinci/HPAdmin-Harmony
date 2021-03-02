@@ -102,6 +102,12 @@ import {
   restoreMarketPlaceReducer,
   marketPlaceInfoReducer,
 } from "./MarketPlaceReducer.js";
+// Ticket
+import {
+  getTicketByIdReducer,
+  addTicketReducer,
+  updateTicketReducer,
+} from "./ticketReducer";
 
 export default (history) =>
   combineReducers({
@@ -200,4 +206,8 @@ export default (history) =>
     archiveMarketPlace: archiveMarketPlaceReducer,
     restoreMarketPlace: restoreMarketPlaceReducer,
     marketInfo: marketPlaceInfoReducer,
+    // Ticket
+    getTicketById: getTicketByIdReducer,
+    addTicket: addTicketReducer,
+    updateTicket: updateTicketReducer,
   });

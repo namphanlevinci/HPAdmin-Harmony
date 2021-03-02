@@ -1,0 +1,23 @@
+.mess-time {
+  display: flex;
+}
+.mess-time > p,
+.comment > p {
+  margin-bottom: 0;
+}
+.name {
+  font-weight: 500;
+  margin-right: 15px;
+}
+.comment {
+  border: 1px solid #e6e3e3;
+  padding: 10px;
+  max-width: 400px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.isUser {
+  background-color: #0764b0;
+  color: #fff;
+}

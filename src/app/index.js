@@ -128,6 +128,10 @@ class App extends React.Component {
                     import("./routes/PricingPlan/index")
                   )}
                 />
+                <Route
+                  path={`${match.url}/ticket`}
+                  component={asyncComponent(() => import("./routes/Ticket"))}
+                />
 
                 <Route
                   path={`${match.url}/403`}
