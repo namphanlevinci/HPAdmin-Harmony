@@ -33,9 +33,8 @@ class TicketInfo extends Component {
   render() {
     const { data } = this.props.ticketInfo;
     const { userAdmin } = this.props.verifyUser.user;
+    const { ticketComment, ticketLog } = this.props;
     const { TabPane } = Tabs;
-    console.log("props", this.props);
-
     return (
       <div className="container-fluid userProfile">
         <ContainerHeader
@@ -60,7 +59,7 @@ class TicketInfo extends Component {
                 <AiFillAppstore size={23} style={{ color: " black" }} />
                 <h3 style={style}>{`Ticket ID: ${data.id}`}</h3>
               </div>
-              <NewButton onClick={() => this.props.history.push('/app/ticket')}>
+              <NewButton onClick={() => this.props.history.push("/app/ticket")}>
                 Back
               </NewButton>
             </div>
@@ -145,7 +144,11 @@ class TicketInfo extends Component {
                 <div className="profile-nav">
                   <Tabs defaultActiveKey="1">
                     <TabPane tab="Comment" key="1">
-                      <Comment data={data} userAdmin={userAdmin} />
+                      <Comment
+                        data={data}
+                        userAdmin={userAdmin}
+                        ticketComment={ticketComment}
+                      />
                     </TabPane>
                     <TabPane tab="Log" key="2">
                       <div
@@ -155,7 +158,7 @@ class TicketInfo extends Component {
                           overflowX: "hidden",
                         }}
                       >
-                        <Log data={data} />
+                        <Log data={data} ticketLog={ticketLog} />
                       </div>
                     </TabPane>
                   </Tabs>
@@ -184,6 +187,8 @@ TicketInfo.propTypes = {};
 const mapStateToProps = (state) => ({
   ticketInfo: state.getTicketById,
   verifyUser: state.verifyUser,
+  ticketComment: state.getTicketCommentById,
+  ticketLog: state.getTicketLogById,
 });
 export default connect(mapStateToProps)(TicketInfo);
 const style = { display: "flex", alignItems: "center", margin: "10px 0" };

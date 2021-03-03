@@ -9,15 +9,15 @@ class Log extends Component {
   }
 
   render() {
-    const { data } = this.props;
-    const log = data.ticketActivities || [];
+    const { data, ticketLog } = this.props;
+    const log = ticketLog.data || [];
     console.log("log", log);
     return (
       <>
         {log.map((item, index) => {
           return (
             <>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} key={index}>
                 <Grid item xs={4}>
                   <div>
                     <p>{moment(item.createdDate).format("MMM DD, YYYY")}</p>

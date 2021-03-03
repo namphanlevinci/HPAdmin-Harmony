@@ -21,3 +21,10 @@
   background-color: #0764b0;
   color: #fff;
 }
+.comment_wrapper {
+  height: 300px;
+  overflow: scroll;
+}
+.comment_wrapper::-webkit-scrollbar {
+  display: none;
+}

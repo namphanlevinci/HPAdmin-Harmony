@@ -107,6 +107,11 @@ import {
   getTicketByIdReducer,
   addTicketReducer,
   updateTicketReducer,
+  getTicketCommenByIdReducer,
+  getTicketLogByIdReducer,
+  sendCommentReducer,
+  delTicketFileReducer,
+  addTicketFile,
 } from "./ticketReducer";
 
 export default (history) =>
@@ -206,8 +211,14 @@ export default (history) =>
     archiveMarketPlace: archiveMarketPlaceReducer,
     restoreMarketPlace: restoreMarketPlaceReducer,
     marketInfo: marketPlaceInfoReducer,
+
     // Ticket
     getTicketById: getTicketByIdReducer,
+    getTicketCommentById: getTicketCommenByIdReducer,
+    getTicketLogById: getTicketLogByIdReducer,
     addTicket: addTicketReducer,
     updateTicket: updateTicketReducer,
+    sendComment: sendCommentReducer,
+    deleteFile: delTicketFileReducer,
+    addFile: addTicketFile,
   });

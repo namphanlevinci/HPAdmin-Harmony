@@ -56,10 +56,11 @@ class AddTicket extends Component {
           reader.onloadend = () => {
             setFieldValue(`imageUrl`, reader.result);
           };
-          let fileIds = [];
-          fileIds.push(res.data.data.fileId);
+          this.setState({
+            fileIds: [...this.state.fileIds, res.data.data.fileId],
+          });
           setFieldValue(`isUpload`, false);
-          setFieldValue(`fileIds`, fileIds);
+          setFieldValue(`fileIds`, this.state.fileIds);
         })
         .catch((err) => {
           console.log(err);

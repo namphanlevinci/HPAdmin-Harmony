@@ -5,7 +5,11 @@ import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
 import { Typography } from "@material-ui/core";
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
-import { getTicketByID } from "../../../actions/ticketActions";
+import {
+  getTicketByID,
+  getTicketCommentById,
+  getTicketLogById,
+} from "../../../actions/ticketActions";
 
 import {
   Button,
@@ -62,6 +66,8 @@ class Tiket extends Component {
   ticketInfo = (ID) => {
     const path = "/app/ticket/detail";
     this.props.getTicketByID(ID, path);
+    this.props.getTicketCommentById(ID);
+    this.props.getTicketLogById(ID);
   };
   changePage = (pageIndex) => {
     this.setState({
@@ -197,7 +203,10 @@ class Tiket extends Component {
               <NewButton style={{ marginLeft: "10px" }} onClick={this.fetchApi}>
                 Search
               </NewButton>
-              <NewButton style={{ marginLeft: "10px" }} onClick={this.handleReset}>
+              <NewButton
+                style={{ marginLeft: "10px" }}
+                onClick={this.handleReset}
+              >
                 Reset
               </NewButton>
             </div>
@@ -259,6 +268,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getTicketByID: (ID, path) => {
     dispatch(getTicketByID(ID, path));
+  },
+  getTicketCommentById: (ID, path) => {
+    dispatch(getTicketCommentById(ID, path));
+  },
+  getTicketLogById: (ID, path) => {
+    dispatch(getTicketLogById(ID, path));
   },
 });
 
