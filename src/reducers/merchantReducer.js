@@ -652,6 +652,10 @@ const updateMerchantProductByIdReducer = (
   { type, payload }
 ) => {
   switch (type) {
+    case "SET_PAGE_PROD":
+      return { ...state, page: payload };
+    case "SET_SIZE_PROD":
+      return { ...state, size: payload };
     case types.VIEW_MERCHANT_PRODUCT:
       return {
         ...state,
@@ -762,6 +766,10 @@ const updateMerchantExtraByIdReducer = (
   { type, payload }
 ) => {
   switch (type) {
+    case "SET_PAGE_EXTRA":
+      return { ...state, page: payload };
+    case "SET_SIZE_EXTRA":
+      return { ...state, size: payload };
     case types.UPDATE_MERCHANT_EXTRA_REQUEST:
       return {
         ...state,

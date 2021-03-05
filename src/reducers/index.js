@@ -53,6 +53,7 @@ import {
   merchantSubscriptionReducer,
   updateMerchantSubscriptionByIdReducer,
   packageReducer,
+  updateMerchantExtraByIdReducer,
 } from "./merchantReducer";
 
 // Consumer
@@ -112,6 +113,7 @@ import {
   sendCommentReducer,
   delTicketFileReducer,
   addTicketFile,
+  changeTicketStatusReducer,
 } from "./ticketReducer";
 
 export default (history) =>
@@ -161,6 +163,7 @@ export default (history) =>
     subscription: merchantSubscriptionReducer,
     updateSubscription: updateMerchantSubscriptionByIdReducer,
     package: packageReducer,
+    updateMerchantExtra: updateMerchantExtraByIdReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,
@@ -221,4 +224,5 @@ export default (history) =>
     sendComment: sendCommentReducer,
     deleteFile: delTicketFileReducer,
     addFile: addTicketFile,
+    changeTicketStatus: changeTicketStatusReducer,
   });

@@ -11,9 +11,8 @@ class Log extends Component {
   render() {
     const { data, ticketLog } = this.props;
     const log = ticketLog.data || [];
-    console.log("log", log);
     return (
-      <>
+      <div className="log_content">
         {log.map((item, index) => {
           return (
             <>
@@ -39,7 +38,7 @@ class Log extends Component {
             </>
           );
         })}
-      </>
+      </div>
     );
   }
 }

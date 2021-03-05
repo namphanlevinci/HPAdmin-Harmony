@@ -15,11 +15,10 @@ class Comment extends Component {
     this.myRef = React.createRef();
   }
   componentDidMount() {
-    this.scrollToBottom();
-    console.log("didMount");
+    // this.scrollToBottom();
   }
   componentDidUpdate(prevProps, prevState) {
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
   scrollToBottom = () => {
     this.myRef.current.scrollIntoView({ behavior: "smooth" });
@@ -32,6 +31,17 @@ class Comment extends Component {
     if (comment !== "") {
       this.props.sendComment(payload, id);
       this.setState({ comment: "" });
+    }
+  };
+  keyPressed = (event) => {
+    if (event.key === "Enter") {
+      const { comment } = this.state;
+      const payload = { comment: comment };
+      const id = this.props.data.id;
+      if (comment !== "") {
+        this.props.sendComment(payload, id);
+        this.setState({ comment: "" });
+      }
     }
   };
   checkNewComment = () => {
@@ -78,7 +88,7 @@ class Comment extends Component {
                   </div>
                 );
               return (
-                <div key={index}>
+                <div key={index} style={{ marginBottom: 10 }}>
                   <div
                     className="mess-time"
                     style={{ justifyContent: "flex-end" }}
@@ -107,6 +117,7 @@ class Comment extends Component {
           value={this.state.comment}
           onChange={(e) => this.handleChange(e)}
           onClickIcon={() => this.handleSendComment()}
+          onKeyPress={this.keyPressed}
         />
       </div>
     );

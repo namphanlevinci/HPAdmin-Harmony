@@ -132,6 +132,22 @@ const delTicketFileReducer = (
       return state;
   }
 };
+
+const changeTicketStatusReducer = (
+  state = { loading: false },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.CHANGE_STATUS_REQUEST:
+      return { loading: true };
+    case types.CHANGE_STATUS_SUCCESS:
+      return { loading: false, data: payload };
+    case types.CHANGE_STATUS_FAILURE:
+      return { loading: false, data: payload };
+    default:
+      return state;
+  }
+};
 export {
   getTicketByIdReducer,
   addTicketReducer,
@@ -141,4 +157,5 @@ export {
   getTicketLogByIdReducer,
   delTicketFileReducer,
   addTicketFile,
+  changeTicketStatusReducer,
 };

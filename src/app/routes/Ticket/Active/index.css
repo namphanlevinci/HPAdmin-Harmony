@@ -4,6 +4,7 @@
 .mess-time > p,
 .comment > p {
   margin-bottom: 0;
+  text-align: justify;
 }
 .name {
   font-weight: 500;
@@ -22,9 +23,18 @@
   color: #fff;
 }
 .comment_wrapper {
-  height: 300px;
+  min-height: 300px;
+  max-height: 500px;
   overflow: scroll;
 }
 .comment_wrapper::-webkit-scrollbar {
   display: none;
+}
+.log_content::-webkit-scrollbar {
+  display: none;
+}
+.log_content {
+  min-height: 350px;
+  max-height: 561px;
+  overflow: scroll;
 }

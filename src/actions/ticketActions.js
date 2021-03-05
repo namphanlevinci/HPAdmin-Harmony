@@ -253,6 +253,55 @@ export const addTicket = (payload) => async (dispatch, getState) => {
     });
   }
 };
+
+export const changeStatus = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: types.CHANGE_STATUS_REQUEST });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { id, status } = payload;
+
+    const { data } = await axios.put(
+      `${URL}/ticket/${id}/stateChange`,
+      {
+        status,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+    dispatch({ type: types.CHANGE_STATUS_SUCCESS, payload: data });
+
+    dispatch({
+      type: SUCCESS_NOTIFICATION,
+      payload: data.message,
+    });
+
+    dispatch(getTicketByID(id));
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.CHANGE_STATUS_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const updateTicketById = (payload) => async (dispatch, getState) => {
   try {
     dispatch({ type: types.UPDATE_TICKET_REQUEST });

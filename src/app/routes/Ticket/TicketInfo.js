@@ -1,27 +1,37 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { Grid } from "@material-ui/core";
-import { withRouter, Route, NavLink, Switch } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { AiFillAppstore } from "react-icons/ai";
+import {
+  Grid,
+  Button,
+  TextField,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  CardMedia,
+  Switch,
+} from "@material-ui/core";
 import {
   CustomText,
   CustomTextLabel,
   CustomTitle,
 } from "../../../util/CustomText";
 import { Tabs } from "antd";
-
+import { changeStatus } from "../../../actions/ticketActions";
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import NewButton from "../../../components/Button/Search";
+import CustomSelect from "../../../components/Select/index";
 import Log from "./Active/Log";
 import Comment from "./Active/Comment";
-import Button from "@material-ui/core/Button";
 import moment from "moment";
 import CheckPermissions from "../../../util/checkPermission";
 // routes\Consumers\ConsumerProfile\Detail\Consumer.css
 // D:\levinci\HarmonyPay\Hpadmin\src\app\routes\Merchants\PendingList\MerchantReqProfile.css
 import "antd/dist/antd.css";
+import "./Ticket.css";
 
 class TicketInfo extends Component {
   constructor(props) {
@@ -29,6 +39,12 @@ class TicketInfo extends Component {
   }
   EditPage = () => {
     this.props.history.push("/app/ticket/edit");
+  };
+  changeStatus = (e) => {
+    console.log(e.target.value);
+    const { data } = this.props.ticketInfo;
+
+    this.props.changeStatus({ id: data.id, status: e.target.value });
   };
   render() {
     const { data } = this.props.ticketInfo;
@@ -55,10 +71,20 @@ class TicketInfo extends Component {
                 justifyContent: "space-between",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{
+                  display: "flex",
+                  textAlign: "center",
+                  alignItems: "center",
+                  marginBottom: "20px",
+                }}
+              >
                 <AiFillAppstore size={23} style={{ color: " black" }} />
-                <h3 style={style}>{`Ticket ID: ${data.id}`}</h3>
+                <h3
+                  style={{ margin: 0, marginLeft: 5, fontSize: 20 }}
+                >{`Ticket ID: ${data.id}`}</h3>
               </div>
+
               <NewButton onClick={() => this.props.history.push("/app/ticket")}>
                 Back
               </NewButton>
@@ -66,34 +92,46 @@ class TicketInfo extends Component {
           </Grid>
 
           <Grid item xs={12} md={6} spacing={3}>
+            <h3 style={{ margin: "20px 0" }}>{`${data.title}`}</h3>
+            <CustomSelect
+              value={data.status}
+              onChange={(e) => this.changeStatus(e)}
+              valuesArr={[
+                { title: "Backlog", value: "backlog" },
+                { title: "Waiting", value: "waiting" },
+                { title: "Complete", value: "complete" },
+                { title: "Inprogress", value: "inprogress" },
+              ]}
+            />
+            <hr />
             <Grid item xs={12} md={12}>
               <div style={style}>
-                <CustomTextLabel value="Description:" />
-                <CustomText value={data.description} />
+                <CustomText value="Description:" />
+                <CustomTextLabel value={data.description} />
               </div>
             </Grid>
             <Grid item xs={12} md={12}>
               <div style={style}>
-                <CustomTextLabel value="Application:" />
-                <CustomText value={data.clientApp} />
+                <CustomText value="Application:" />
+                <CustomTextLabel value={data.clientApp} />
               </div>
             </Grid>
             <Grid item xs={12} md={12}>
               <div style={style}>
-                <CustomTextLabel value="Client name:" />
-                <CustomText value={data.clientName} />
+                <CustomText value="Client name:" />
+                <CustomTextLabel value={data.clientName} />
               </div>
             </Grid>
             <Grid item xs={12} md={12}>
               <div style={style}>
-                <CustomTextLabel value="Create by:" />
-                <CustomText value={data.createdUserName} />
+                <CustomText value="Create by:" />
+                <CustomTextLabel value={data.createdUserName} />
               </div>
             </Grid>
             <Grid item xs={12} md={12}>
               <div style={style}>
-                <CustomTextLabel value="Date create:" />
-                <CustomText
+                <CustomText value="Date create:" />
+                <CustomTextLabel
                   value={moment(data.createdDate).format(
                     "MMM DD, YYYY, h:mm:ss A"
                   )}
@@ -102,8 +140,8 @@ class TicketInfo extends Component {
             </Grid>
             <Grid item xs={12} md={12}>
               <div style={style}>
-                <CustomTextLabel value="Last update:" />
-                <CustomText
+                <CustomText value="Last update:" />
+                <CustomTextLabel
                   value={moment(data.modifiedDate).format(
                     "MMM DD, YYYY, h:mm:ss A"
                   )}
@@ -112,8 +150,8 @@ class TicketInfo extends Component {
             </Grid>
             <Grid item xs={12} md={12}>
               <div style={style}>
-                <CustomTextLabel value="Modified by:" />
-                <CustomText value={data.modifiedUserName} />
+                <CustomText value="Modified by:" />
+                <CustomTextLabel value={data.modifiedUserName} />
               </div>
             </Grid>
             <Grid item xs={12} md={12}>
@@ -124,11 +162,20 @@ class TicketInfo extends Component {
                   flexDirection: "column",
                 }}
               >
-                <CustomTextLabel value="Attack file:" />
-                <div>
+                <CustomText value="Attack file:" />
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
+                  }}
+                >
                   {data.ticketAttachFiles.map((item, index) => (
                     <img
-                      style={{ height: "80px", margin: "5px 5px 5px 0px" }}
+                      style={{
+                        height: "80px",
+                        width: "80px",
+                        margin: "5px 5px 5px 0px",
+                      }}
                       alt=""
                       key={index}
                       src={item.fileURL}
@@ -151,15 +198,7 @@ class TicketInfo extends Component {
                       />
                     </TabPane>
                     <TabPane tab="Log" key="2">
-                      <div
-                        style={{
-                          height: "350px",
-                          overflow: "scroll",
-                          overflowX: "hidden",
-                        }}
-                      >
-                        <Log data={data} ticketLog={ticketLog} />
-                      </div>
+                      <Log data={data} ticketLog={ticketLog} />
                     </TabPane>
                   </Tabs>
                 </div>
@@ -190,5 +229,14 @@ const mapStateToProps = (state) => ({
   ticketComment: state.getTicketCommentById,
   ticketLog: state.getTicketLogById,
 });
-export default connect(mapStateToProps)(TicketInfo);
-const style = { display: "flex", alignItems: "center", margin: "10px 0" };
+const mapDispatchToProps = (dispatch) => ({
+  changeStatus: (payload) => {
+    dispatch(changeStatus(payload));
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(TicketInfo);
+const style = {
+  display: "grid",
+  gridTemplateColumns: "1fr 2fr",
+  marginBottom: "10px",
+};

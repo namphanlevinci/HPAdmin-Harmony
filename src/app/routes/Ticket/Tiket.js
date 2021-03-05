@@ -46,16 +46,16 @@ class Tiket extends Component {
       loading: false,
     };
   }
-  componentDidMount = async () => {
-    this.props.fetchApiByPage(`ticket?status=all`);
-  };
+  // componentDidMount = async () => {
+  //   // this.props.fetchApiByPage(`ticket?status=all`);
+  // };
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     const { search, statusValue } = this.state;
     const url = `ticket/?keySearch=${search}&page=${
       page === 0 ? 1 : page + 1
-    }&row=${pageSize}&isDisabled=${statusValue}`;
+    }&row=${pageSize}&status=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -85,10 +85,11 @@ class Tiket extends Component {
   addTicket = () => {
     this.props.history.push("/app/ticket/add-ticket");
   };
-  handleStatus = (e) => {
+  handleStatus = debounce((e) => {
     this.setState({ statusValue: e.target.value });
     this.fetchApi();
-  };
+  }, 1000);
+
   render() {
     const { statusValue, page } = this.state;
     console.log("apiData", this.props);

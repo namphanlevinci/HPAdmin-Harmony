@@ -216,7 +216,6 @@ class EditTicket extends Component {
                       <label style={{ marginBottom: "10px" }}>
                         Description <span style={{ color: "red" }}>*</span>
                       </label>
-                      <br />
                       {errors?.description && touched?.description ? (
                         <p
                           style={{

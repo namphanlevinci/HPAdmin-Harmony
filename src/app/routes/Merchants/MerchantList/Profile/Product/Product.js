@@ -5,6 +5,8 @@ import {
   viewProduct,
   archiveProductById,
   restoreProductById,
+  setPageProduct,
+  setSizeProduct,
 } from "../../../../../../actions/merchantActions";
 import {
   Button,
@@ -55,7 +57,12 @@ class Product extends Component {
   handleCloseReject = () => {
     this.setState({ isOpenReject: false });
   };
-
+  handleChangePage = async (pageIndex) => {
+    await this.props.setPageProduct(pageIndex);
+  };
+  handleChangeSize = async (pageSize) => {
+    await this.props.setSizeProduct(pageSize);
+  };
   handleArchive = (productId) => {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.archiveProductById(productId, merchantId);
@@ -263,6 +270,10 @@ class Product extends Component {
 
           <div className="merchant-list-container">
             <ReactTable
+              page={this.props.page || 0}
+              pageSize={this.props.size || 5}
+              onPageChange={(pageIndex) => this.handleChangePage(pageIndex)}
+              onPageSizeChange={(size) => this.handleChangeSize(size)}
               data={productList}
               columns={columns}
               defaultPageSize={5}
@@ -339,6 +350,8 @@ class Product extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   product: state.product,
+  page: state.updateProduct.page,
+  size: state.updateProduct.size,
 });
 const mapDispatchToProps = (dispatch) => ({
   viewProduct: (payload) => {
@@ -352,6 +365,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   restoreProductById: (productId, merchantId) => {
     dispatch(restoreProductById(productId, merchantId));
+  },
+  setPageProduct: (page) => {
+    dispatch(setPageProduct(page));
+  },
+  setSizeProduct: (size) => {
+    dispatch(setSizeProduct(size));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
