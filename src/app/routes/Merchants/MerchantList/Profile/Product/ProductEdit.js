@@ -26,6 +26,7 @@ import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationCo
 import { CustomTitle } from "../../../../../../util/CustomText";
 
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
+import PriceTextField from "../../../../../../components/Input";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -370,7 +371,7 @@ class EditProduct extends Component {
                   </Grid>
 
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField
+                    {/* <TextField
                       onChange={(e, masked) => setFieldValue("price", masked)}
                       error={touched.price && Boolean(errors.price)}
                       helperText={touched.price ? errors.price : ""}
@@ -391,6 +392,29 @@ class EditProduct extends Component {
                         ),
                         inputComponent: CustomCurrencyInput,
                       }}
+                    /> */}
+                    <PriceTextField
+                      onChange={(e, masked) => {
+                        if (
+                          e.target.value.search(/^\$?\d+(,\d{3})*(\.\d*)?$/) >=
+                            0 ||
+                          e.target.value === ""
+                        ) {
+                          setFieldValue("price", e.target.value);
+                        }
+                      }}
+                      error={touched.price && Boolean(errors.price)}
+                      helperText={touched.price ? errors.price : ""}
+                      value={values.price}
+                      id="custom-price-input"
+                      onBlur={handleBlur}
+                      label="Price*"
+                      name="price"
+                      className={
+                        errors.price && touched.price
+                          ? "text-input error"
+                          : "text-input"
+                      }
                     />
                   </Grid>
 
