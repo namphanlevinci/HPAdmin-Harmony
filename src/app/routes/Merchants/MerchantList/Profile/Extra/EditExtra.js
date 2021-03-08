@@ -21,7 +21,6 @@ import defaultImg from "./hpadmin2.png";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 import CloseIcon from "@material-ui/icons/Close";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import PriceTextField from "../../../../../../components/Input";
 
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
@@ -200,7 +199,7 @@ const EditExtra = ({
                     </Grid>
                     <Grid item xs={4}>
                       <FormControl>
-                        {/* <InputLabel htmlFor="formatted-text-mask-input">
+                        <InputLabel htmlFor="formatted-text-mask-input">
                           Price*
                         </InputLabel>
                         <Input
@@ -210,25 +209,6 @@ const EditExtra = ({
                           onBlur={handleBlur}
                           value={values.price}
                           inputComponent={CustomCurrencyInput}
-                          startAdornment={
-                            <InputAdornment position="start">$</InputAdornment>
-                          }
-                        /> */}
-                        <PriceTextField
-                          label="Price*"
-                          name="price"
-                          onChange={(e, masked) => {
-                            if (
-                              e.target.value.search(
-                                /^\$?\d+(,\d{3})*(\.\d*)?$/
-                              ) >= 0 ||
-                              e.target.value === ""
-                            ) {
-                              setFieldValue("price", e.target.value);
-                            }
-                          }}
-                          onBlur={handleBlur}
-                          value={values.price}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
                           }
@@ -276,9 +256,9 @@ const EditExtra = ({
                         />
                       )}
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6}>
                       <FormControl>
-                        {/* <InputLabel htmlFor="formatted-text-mask-input">
+                        <InputLabel htmlFor="formatted-text-mask-input">
                           Surcharged
                         </InputLabel>
                         <Input
@@ -289,25 +269,6 @@ const EditExtra = ({
                           onBlur={handleBlur}
                           value={values.supplyFee}
                           inputComponent={CustomCurrencyInput}
-                          startAdornment={
-                            <InputAdornment position="start">$</InputAdornment>
-                          }
-                        /> */}
-                        <PriceTextField
-                          label="Surcharged"
-                          name="supplyFee"
-                          onChange={(e, masked) => {
-                            if (
-                              e.target.value.search(
-                                /^\$?\d+(,\d{3})*(\.\d*)?$/
-                              ) >= 0 ||
-                              e.target.value === ""
-                            ) {
-                              setFieldValue("supplyFee", e.target.value);
-                            }
-                          }}
-                          onBlur={handleBlur}
-                          value={values.supplyFee}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
                           }
@@ -340,6 +301,5 @@ const EditExtra = ({
     </Dialog>
   );
 };
-const priceRegex = /^([0-9]{0,2}((.)[0-9]{0,2}))$/;
 
 export default EditExtra;

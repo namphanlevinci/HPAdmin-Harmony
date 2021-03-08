@@ -7,7 +7,6 @@ import { CustomTitle } from "../../../../../../../../util/CustomText";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import CustomCurrencyInput from "../../../../../../../../util/CustomCurrencyInput";
 import CustomCurrencyField from "../../AddStaff/FormFields/CustomCurrencyField";
-import PriceTextField from "../../../../../../../../components/Input";
 
 import * as Yup from "yup";
 import {
@@ -181,23 +180,17 @@ class EditSalary extends Component {
                           />
                           <label>Salary Per Hour</label>
                         </div>
-                        <PriceTextField
+                        <Input
                           name="salaryValue"
                           type="tel"
                           separator="."
                           style={styles.input}
                           value={values?.salaryValue}
                           disabled={values?.commIsCheck ? true : false}
-                          onChange={(e, masked) => {
-                            if (
-                              e.target.value.search(
-                                /^\$?\d+(,\d{3})*(\.\d*)?$/
-                              ) >= 0 ||
-                              e.target.value === ""
-                            ) {
-                              setFieldValue("salaryValue", e.target.value);
-                            }
-                          }}
+                          onChange={(e, masked) =>
+                            setFieldValue(`salaryValue`, masked)
+                          }
+                          inputComponent={CustomCurrencyInput}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
                           }
@@ -225,7 +218,6 @@ class EditSalary extends Component {
                         <Grid item xs={12}>
                           {values?.commValue && values?.commValue.length > 0 ? (
                             values?.commValue?.map((commValue, index) => {
-                              console.log("commValue", commValue);
                               return (
                                 <Grid
                                   container
@@ -234,25 +226,14 @@ class EditSalary extends Component {
                                   className={index !== 0 && "salary_padding"}
                                 >
                                   <Grid item xs={4}>
-                                    <PriceTextField
+                                    <CustomCurrencyField
                                       name={`commValue.${index}.from`}
-                                      value={commValue?.from}
-                                      type="tel"
-                                      separator="."
-                                      style={styles.input}
-                                      onChange={(e, masked) => {
-                                        if (
-                                          e.target.value.search(
-                                            /^\$?\d+(,\d{3})*(\.\d*)?$/
-                                          ) >= 0 ||
-                                          e.target.value === ""
-                                        ) {
-                                          setFieldValue(
-                                            `commValue.${index}.from`,
-                                            e.target.value
-                                          );
-                                        }
-                                      }}
+                                      onChange={(e, masked) =>
+                                        setFieldValue(
+                                          `commValue.${index}.from`,
+                                          masked
+                                        )
+                                      }
                                       label="From"
                                       style={styles.textField}
                                       InputProps={{
@@ -266,34 +247,6 @@ class EditSalary extends Component {
                                         values?.salaryIsCheck ? true : false
                                       }
                                     />
-                                    {/* <PriceTextField
-                                      name="salaryValue"
-                                      type="tel"
-                                      separator="."
-                                      style={styles.input}
-                                      value={values?.salaryValue}
-                                      disabled={
-                                        values?.commIsCheck ? true : false
-                                      }
-                                      onChange={(e, masked) => {
-                                        if (
-                                          e.target.value.search(
-                                            /^\$?\d+(,\d{3})*(\.\d*)?$/
-                                          ) >= 0 ||
-                                          e.target.value === ""
-                                        ) {
-                                          setFieldValue(
-                                            "salaryValue",
-                                            e.target.value
-                                          );
-                                        }
-                                      }}
-                                      startAdornment={
-                                        <InputAdornment position="start">
-                                          $
-                                        </InputAdornment>
-                                      }
-                                    /> */}
                                   </Grid>
                                   <Grid item xs={4}>
                                     <CustomCurrencyField
@@ -415,48 +368,21 @@ class EditSalary extends Component {
                         <label>Product Commission</label>
                       </div>
 
-                      <PriceTextField
+                      <Input
                         type="tel"
                         name="prodCommValue"
                         value={values?.prodCommValue}
                         separator="."
                         style={styles.input}
                         disabled={values?.prodCommIsCheck ? false : true}
-                        onChange={(e, masked) => {
-                          if (
-                            e.target.value.search(
-                              /^\$?\d+(,\d{3})*(\.\d*)?$/
-                            ) >= 0 ||
-                            e.target.value === ""
-                          ) {
-                            setFieldValue(`prodCommValue`, e.target.value);
-                          }
-                        }}
+                        onChange={(e, masked) =>
+                          setFieldValue(`prodCommValue`, masked)
+                        }
+                        inputComponent={CustomCurrencyInput}
                         startAdornment={
                           <InputAdornment position="start">%</InputAdornment>
                         }
                       />
-                      {/* <PriceTextField
-                        name="salaryValue"
-                        type="tel"
-                        separator="."
-                        style={styles.input}
-                        value={values?.salaryValue}
-                        disabled={values?.commIsCheck ? true : false}
-                        onChange={(e, masked) => {
-                          if (
-                            e.target.value.search(
-                              /^\$?\d+(,\d{3})*(\.\d*)?$/
-                            ) >= 0 ||
-                            e.target.value === ""
-                          ) {
-                            setFieldValue("salaryValue", e.target.value);
-                          }
-                        }}
-                        startAdornment={
-                          <InputAdornment position="start">$</InputAdornment>
-                        }
-                      /> */}
                     </Grid>
                     <Grid item xs={12} style={{ paddingTop: "10px" }}>
                       <CustomTitle value="Tip Fee" />
@@ -507,48 +433,21 @@ class EditSalary extends Component {
                         <label>Tip Fixed Amount</label>
                       </div>
 
-                      <PriceTextField
+                      <Input
                         style={styles.input}
                         name="fixValue"
                         type="tel"
                         separator="."
                         value={values?.fixValue}
                         disabled={values?.tipIsCheck ? true : false}
-                        onChange={(e, masked) => {
-                          if (
-                            e.target.value.search(
-                              /^\$?\d+(,\d{3})*(\.\d*)?$/
-                            ) >= 0 ||
-                            e.target.value === ""
-                          ) {
-                            setFieldValue("fixValue", e.target.value);
-                          }
-                        }}
+                        onChange={(e, masked) =>
+                          setFieldValue(`fixValue`, masked)
+                        }
+                        inputComponent={CustomCurrencyInput}
                         startAdornment={
                           <InputAdornment position="start">$</InputAdornment>
                         }
                       />
-                      {/* <PriceTextField
-                        name="salaryValue"
-                        type="tel"
-                        separator="."
-                        style={styles.input}
-                        value={values?.salaryValue}
-                        disabled={values?.commIsCheck ? true : false}
-                        onChange={(e, masked) => {
-                          if (
-                            e.target.value.search(
-                              /^\$?\d+(,\d{3})*(\.\d*)?$/
-                            ) >= 0 ||
-                            e.target.value === ""
-                          ) {
-                            setFieldValue("salaryValue", e.target.value);
-                          }
-                        }}
-                        startAdornment={
-                          <InputAdornment position="start">$</InputAdornment>
-                        }
-                      /> */}
                     </Grid>
                     <Grid item xs={12} style={{ paddingTop: 10 }}>
                       <CustomTitle value="Payout with Cash" />

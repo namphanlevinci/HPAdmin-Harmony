@@ -22,7 +22,6 @@ import axios from "axios";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import IntlMessages from "../../../../../../util/IntlMessages";
 import ContainerHeader from "../../../../../../components/ContainerHeader/index";
-import PriceTextField from "../../../../../../components/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
@@ -392,7 +391,7 @@ class AddProduct extends Component {
 
                   <Grid item xs={12} md={3}>
                     <FormControl>
-                      {/* <InputLabel htmlFor="formatted-text-mask-input">
+                      <InputLabel htmlFor="formatted-text-mask-input">
                         Price*
                       </InputLabel>
                       <Input
@@ -415,30 +414,6 @@ class AddProduct extends Component {
                           </InputAdornment>
                         }
                         inputComponent={CustomCurrencyInput}
-                      /> */}
-                      <PriceTextField
-                        onChange={(e, masked) => {
-                          if (
-                            e.target.value.search(
-                              /^\$?\d+(,\d{3})*(\.\d*)?$/
-                            ) >= 0 ||
-                            e.target.value === ""
-                          ) {
-                            setFieldValue("price", e.target.value);
-                          }
-                        }}
-                        error={touched.price && Boolean(errors.price)}
-                        helperText={touched.price ? errors.price : ""}
-                        value={values.price}
-                        id="custom-price-input"
-                        onBlur={handleBlur}
-                        label="Price*"
-                        name="price"
-                        className={
-                          errors.price && touched.price
-                            ? "text-input error"
-                            : "text-input"
-                        }
                       />
                     </FormControl>
                   </Grid>
