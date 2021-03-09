@@ -117,7 +117,7 @@ class Settings extends Component {
       this.props.MerchantProfile.isDisabled !== 1 ? (
         <>
           <Button className="btn btn-red" onClick={this.handleOpenArchive}>
-            ARCHIVE
+            INACTIVE
           </Button>
           <Dialog
             open={this.state.open}
@@ -206,9 +206,8 @@ class Settings extends Component {
             <Formik
               initialValues={{ archiveReason: "" }}
               onSubmit={(values, { setSubmitting }) => {
-                this.setState({ openActive: false });
-
                 this.props.restoreMerchantById(this.state.ID);
+                this.setState({ openActive: false, open: false });
               }}
             >
               {({ values, isSubmitting, handleChange, errors, touched }) => (

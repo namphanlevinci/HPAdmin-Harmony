@@ -12,6 +12,7 @@ import DatePickerField from "../../FormFields/DatePickerField";
 import CancelIcon from "@material-ui/icons/Cancel";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import ErrorMessage from "../../FormFields/ErrorMessage";
+import NumberLetterInput from "../../FormFields/NumberLetterInput";
 
 import "./Principal.css";
 
@@ -173,15 +174,26 @@ export default function Principal(props) {
                         />
                       </Grid>
                       <Grid item xs={12} sm={4}>
-                        <CustomNumberField
+                        <NumberLetterInput
                           InputLabelProps={{ shrink: true }}
                           name={`principalInfo.${index}.driverLicense`}
                           label="Driver License Number*"
                           fullWidth
-                          options={{
-                            numericOnly: true,
-                            blocks: [20],
+                          onChange={(e) => {
+                            if (
+                              e.target.value.search(/^[a-z0-9]+$/i) >= 0 ||
+                              e.target.value === ""
+                            ) {
+                              setFieldValue(
+                                `principalInfo.${index}.driverLicense`,
+                                e.target.value
+                              );
+                            }
                           }}
+                          // options={{
+                          //   numericOnly: true,
+                          //   blocks: [20],
+                          // }}
                         />
                       </Grid>
                       <Grid item xs={12} sm={4}>

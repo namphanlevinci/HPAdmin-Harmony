@@ -175,8 +175,10 @@ class TicketInfo extends Component {
                         height: "80px",
                         width: "80px",
                         margin: "5px 5px 5px 0px",
+                        cursor: "pointer",
                       }}
                       alt=""
+                      onClick={() => window.open(item.fileURL, "_blank")}
                       key={index}
                       src={item.fileURL}
                     ></img>
