@@ -43,7 +43,7 @@ class Transactions extends React.Component {
       amount: "",
       amountFrom: -1,
       amountTo: -1,
-      range: "thisMonth",
+      range: "",
       status: -1,
     };
   }
@@ -55,7 +55,7 @@ class Transactions extends React.Component {
       amount: "",
       amountFrom: -1,
       amountTo: -1,
-      range: "thisMonth",
+      range: "",
       search: "",
       status: -1,
     });
@@ -148,7 +148,7 @@ class Transactions extends React.Component {
       status,
     } = this.state;
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 20;
+    let pageSize = state?.pageSize ? state?.pageSize : 5;
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
@@ -186,6 +186,7 @@ class Transactions extends React.Component {
       totalRow,
       summary,
     } = this.props.apiData;
+    console.log("apiData", this.props.apiData);
 
     const columns = [
       {
@@ -209,6 +210,16 @@ class Transactions extends React.Component {
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
             {e?.paymentTransactionId}
+          </Typography>
+        ),
+        width: 100,
+      },
+      {
+        Header: "MID",
+        id: "merchantCode",
+        accessor: (e) => (
+          <Typography variant="subtitle1" className="table__light">
+            {e?.merchantCode}
           </Typography>
         ),
         width: 100,
@@ -461,7 +472,7 @@ class Transactions extends React.Component {
               row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchApi(state)}
-              defaultPageSize={20}
+              defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}

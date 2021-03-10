@@ -133,7 +133,7 @@ class Tiket extends Component {
         ),
       },
       {
-        Header: <CustomTableHeader value="Create By" />,
+        Header: <CustomTableHeader value="Create by" />,
         id: "createBy",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
@@ -142,7 +142,7 @@ class Tiket extends Component {
         ),
       },
       {
-        Header: <CustomTableHeader value="Last Update" />,
+        Header: <CustomTableHeader value="Last Updated" />,
         id: "lastUpdate",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">

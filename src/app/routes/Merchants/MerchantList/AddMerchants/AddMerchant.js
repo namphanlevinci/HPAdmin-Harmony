@@ -30,7 +30,7 @@ class AddMerchant extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 3,
+      activeStep: 0,
       imagePreviewUrl: "",
 
       progress: false,

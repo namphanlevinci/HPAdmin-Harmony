@@ -28,12 +28,13 @@ import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import QueueIcon from "@material-ui/icons/Queue";
 import * as Yup from "yup";
+import "./Ticket.css";
 const upFile = config.url.upFile;
 
 class AddTicket extends Component {
   constructor(props) {
     super(props);
-    this.state = { fileIds: [] };
+    this.state = { fileIds: [], imgUrl: [] };
   }
   uploadImage = (e, setFieldValue) => {
     e.preventDefault();
@@ -55,6 +56,7 @@ class AddTicket extends Component {
           reader.readAsDataURL(file);
           reader.onloadend = () => {
             setFieldValue(`imageUrl`, reader.result);
+            this.setState({ imgUrl: [...this.state.imgUrl, reader.result] });
           };
           this.setState({
             fileIds: [...this.state.fileIds, res.data.data.fileId],
@@ -125,6 +127,8 @@ class AddTicket extends Component {
     actions.setSubmitting(false);
   };
   render() {
+    const { imgUrl } = this.state || [];
+    console.log("imgURL", this.state.imgUrl);
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -260,13 +264,28 @@ class AddTicket extends Component {
                     <label style={{ marginBottom: "10px" }}>
                       Attack files <span style={{ color: "red" }}>*</span>
                     </label>
-                    <CardMedia
+                    <div className="img_area">
+                      {imgUrl.map((item, index) => (
+                        <div className="img_item">
+                          <img
+                            alt=""
+                            key={index}
+                            src={item}
+                            style={{
+                              height: "70px",
+                              width: "70px",
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    {/* <CardMedia
                       component="img"
                       src={values?.imageUrl === "" ? null : values?.imageUrl}
                       alt=""
                       style={{ width: "40%" }}
-                    />
-                    <br />
+                    /> */}
+
                     {errors?.fileId && touched?.fileId ? (
                       <p
                         style={{
