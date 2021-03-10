@@ -264,7 +264,13 @@ class AddTicket extends Component {
                     <label style={{ marginBottom: "10px" }}>
                       Attack files <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="img_area">
+                    <div
+                      className="img_area"
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr 1fr",
+                      }}
+                    >
                       {imgUrl.map((item, index) => (
                         <div className="img_item">
                           <img
