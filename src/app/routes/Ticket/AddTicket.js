@@ -269,6 +269,7 @@ class AddTicket extends Component {
                       style={{
                         display: "grid",
                         gridTemplateColumns: "1fr 1fr 1fr",
+                        marginBottom: "5px",
                       }}
                     >
                       {imgUrl.map((item, index) => (
