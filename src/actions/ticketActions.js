@@ -223,17 +223,19 @@ export const addTicket = (payload) => async (dispatch, getState) => {
       }
     );
 
-    dispatch({
-      type: types.ADD_TICKET_SUCCESS,
-      payload: data,
-    });
-    dispatch({
-      type: SUCCESS_NOTIFICATION,
-      payload: data?.message,
-    });
-    dispatch(getTicketByID(data.data));
-    if (payload.path) {
-      history.push(payload.path);
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: types.ADD_TICKET_SUCCESS,
+        payload: data,
+      });
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data?.message,
+      });
+      dispatch(getTicketByID(data.data));
+      if (payload.path) {
+        history.push(payload.path);
+      }
     }
   } catch (error) {
     dispatch({
