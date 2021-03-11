@@ -18,10 +18,10 @@ export default [
       }),
 
       dbaAddress: Yup.object().shape({
-        address: Yup.string().required("Address is required"),
         city: Yup.string().required("City is required"),
         state: Yup.string().required("State is required"),
         zip: Yup.string().required("Zip is required"),
+        address: Yup.string().required("Address is required"),
       }),
 
       email: Yup.string()

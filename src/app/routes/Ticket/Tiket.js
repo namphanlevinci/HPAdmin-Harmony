@@ -204,12 +204,6 @@ class Tiket extends Component {
               <NewButton style={{ marginLeft: "10px" }} onClick={this.fetchApi}>
                 Search
               </NewButton>
-              <NewButton
-                style={{ marginLeft: "10px" }}
-                onClick={this.handleReset}
-              >
-                Reset
-              </NewButton>
             </div>
             <div>
               {CheckPermissions("add-new-merchant") && (
@@ -237,6 +231,14 @@ class Tiket extends Component {
               <MenuItem value="all">All</MenuItem>
             </Select>
           </FormControl>
+          <div>
+            <NewButton
+              style={{ marginTop: "10px" }}
+              onClick={this.handleReset}
+            >
+              Reset
+            </NewButton>
+          </div>
           <div className="merchant-list-container">
             <ReactTable
               manual

@@ -100,7 +100,7 @@ class EditSettings extends Component {
                   </InputLabel>
                   <Input
                     onChange={(e, masked) =>
-                      this.setState({ transactionsFee: masked })
+                      this.setState({ transactionsFee: e.target.value })
                     }
                     value={this.state.transactionsFee}
                     name="transactionsFee"
@@ -130,7 +130,7 @@ class EditSettings extends Component {
                   </InputLabel>
                   <Input
                     onChange={(e, masked) =>
-                      this.setState({ discountRate: masked })
+                      this.setState({ discountRate: e.target.value })
                     }
                     value={this.state.discountRate}
                     name="discountRate"
@@ -148,7 +148,7 @@ class EditSettings extends Component {
                   </InputLabel>
                   <Input
                     onChange={(e, masked) =>
-                      this.setState({ pointRate: masked })
+                      this.setState({ pointRate: e.target.value })
                     }
                     value={this.state.pointRate}
                     name="pointRate"
@@ -167,7 +167,7 @@ class EditSettings extends Component {
                   </InputLabel>
                   <Input
                     onChange={(e, masked) =>
-                      this.setState({ turnAmount: masked })
+                      this.setState({ turnAmount: e.target.value })
                     }
                     value={this.state.turnAmount}
                     name="turnAmount"

@@ -83,9 +83,10 @@ class Setting extends Component {
                   Limit
                 </InputLabel>
                 <Input
-                  onChange={(e, masked) =>
-                    this.setState({ limitAmount: masked })
-                  }
+                  onChange={(e, masked) => {
+                    console.log(e.target.value, masked);
+                    this.setState({ limitAmount: e.target.value });
+                  }}
                   value={this.state.limitAmount}
                   name="price"
                   id="custom-price-input"

@@ -140,21 +140,6 @@ class AddTicket extends Component {
         />
 
         <div className="page-heading">
-          <div
-            style={{
-              display: "flex",
-              textAlign: "center",
-              alignItems: "center",
-              marginBottom: "20px",
-            }}
-          >
-            <QueueIcon style={{ color: "black" }} size={22} />
-            <CustomTitle
-              value="New Ticket"
-              styles={{ color: "black", marginLeft: "10px" }}
-            />
-          </div>
-
           <Formik
             initialValues={{
               title: "",
@@ -164,7 +149,7 @@ class AddTicket extends Component {
               fileIds: "",
               imageUrl: "",
               isUpload: "",
-              status: "",
+              status: "backlog",
             }}
             validationSchema={MarketPlaceSchema}
             onSubmit={this.handleSubmit}
@@ -172,6 +157,41 @@ class AddTicket extends Component {
             {({ errors, touched, handleChange, setFieldValue, values }) => (
               <Form>
                 <Grid container spacing={3} xs={12} md={6}>
+                  <Grid item xs={12} md={6}>
+                    <div
+                      style={{
+                        display: "flex",
+                        textAlign: "center",
+                        alignItems: "center",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <QueueIcon style={{ color: "black" }} size={22} />
+                      <CustomTitle
+                        value="New Ticket"
+                        styles={{ color: "black", marginLeft: "10px" }}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <FormControl style={{ width: "100%" }}>
+                      <InputLabel id="demo-simple-select-helper-label">
+                        Status
+                      </InputLabel>
+                      <Select
+                        value={values.status}
+                        fullWidth
+                        onChange={(e) =>
+                          setFieldValue("status", e.target.value)
+                        }
+                      >
+                        <MenuItem value="backlog">Backlog</MenuItem>
+                        <MenuItem value="waiting">Waiting</MenuItem>
+                        <MenuItem value="complete">Complete</MenuItem>
+                        <MenuItem value="inprogress">Inprogress</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
                   <Grid item xs={12} md={12}>
                     <TextField
                       label={
@@ -286,13 +306,6 @@ class AddTicket extends Component {
                         </div>
                       ))}
                     </div>
-                    {/* <CardMedia
-                      component="img"
-                      src={values?.imageUrl === "" ? null : values?.imageUrl}
-                      alt=""
-                      style={{ width: "40%" }}
-                    /> */}
-
                     {errors?.fileId && touched?.fileId ? (
                       <p
                         style={{
@@ -314,27 +327,7 @@ class AddTicket extends Component {
                       multiple
                     />
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <FormControl style={{ width: "100%" }}>
-                      <InputLabel id="demo-simple-select-helper-label">
-                        Status
-                      </InputLabel>
-                      <Select
-                        value={values.status}
-                        fullWidth
-                        onChange={(e) =>
-                          setFieldValue("status", e.target.value)
-                        }
-                      >
-                        <MenuItem value="backlog">Backlog</MenuItem>
-                        <MenuItem value="waiting">Waiting</MenuItem>
-                        <MenuItem value="complete">Complete</MenuItem>
-                        <MenuItem value="inprogress">Inprogress</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
                 </Grid>
-
                 <Grid item xs={12} style={{ paddingTop: "20px" }}>
                   <Button
                     className="btn btn-red"
