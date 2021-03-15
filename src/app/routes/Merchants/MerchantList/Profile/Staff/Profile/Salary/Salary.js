@@ -37,7 +37,7 @@ class Salary extends Component {
               <TextField
                 type="text"
                 style={styles.input}
-                value={Number(salaries?.perHour?.value)?.toFixed(2)}
+                value={salaries?.perHour?.value}
                 disabled
                 InputProps={{
                   startAdornment: (

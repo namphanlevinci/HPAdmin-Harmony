@@ -338,6 +338,8 @@ export const updateTicketById = (payload) => async (dispatch, getState) => {
       payload: data.message,
     });
     dispatch(getTicketByID(id));
+    dispatch(getTicketLogById(id));
+
     if (payload.path) {
       history.push(payload.path);
     }

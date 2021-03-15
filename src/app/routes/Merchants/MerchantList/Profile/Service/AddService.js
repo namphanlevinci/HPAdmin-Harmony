@@ -11,7 +11,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 import DialogContent from "@material-ui/core/DialogContent";
 import ServiceImg from "../Product/hpadmin2.png";
-import Extra from "./extra";
+import Extra from "./Extra";
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
@@ -513,8 +513,8 @@ class AddService extends Component {
                                     <CurrencyInput
                                       name="price"
                                       type="tel"
-                                      onChange={(value, masked) => [
-                                        setFieldValue("price", masked),
+                                      onChange={(e, masked) => [
+                                        setFieldValue("price", e.target.value),
                                       ]}
                                       onBlur={handleBlur}
                                       value={values.price}
@@ -573,8 +573,11 @@ class AddService extends Component {
                                   <div className="input-box">
                                     <CurrencyInput
                                       name="supplyFee"
-                                      onChange={(value, masked) => [
-                                        setFieldValue("supplyFee", masked),
+                                      onChange={(e, masked) => [
+                                        setFieldValue(
+                                          "supplyFee",
+                                          e.target.value
+                                        ),
                                       ]}
                                       type="tel"
                                       onBlur={handleBlur}

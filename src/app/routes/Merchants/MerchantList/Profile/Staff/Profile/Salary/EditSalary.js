@@ -183,13 +183,12 @@ class EditSalary extends Component {
                         <Input
                           name="salaryValue"
                           type="tel"
-                          separator="."
                           style={styles.input}
                           value={values?.salaryValue}
                           disabled={values?.commIsCheck ? true : false}
-                          onChange={(e, masked) =>
-                            setFieldValue(`salaryValue`, e.target.value)
-                          }
+                          onChange={(e, masked) => {
+                            setFieldValue(`salaryValue`, e.target.value);
+                          }}
                           inputComponent={CustomCurrencyInput}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
@@ -231,7 +230,7 @@ class EditSalary extends Component {
                                       onChange={(e, masked) =>
                                         setFieldValue(
                                           `commValue.${index}.from`,
-                                          masked
+                                          e.target.value
                                         )
                                       }
                                       label="From"
@@ -254,7 +253,7 @@ class EditSalary extends Component {
                                       onChange={(e, masked) =>
                                         setFieldValue(
                                           `commValue.${index}.to`,
-                                          masked
+                                          e.target.value
                                         )
                                       }
                                       InputProps={{
