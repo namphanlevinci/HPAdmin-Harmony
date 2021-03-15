@@ -241,9 +241,7 @@ class EditTicket extends Component {
                     </div>
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <label style={{ marginBottom: "10px" }}>
-                      Attack files <span style={{ color: "red" }}>*</span>
-                    </label>
+                    <label style={{ marginBottom: "10px" }}>Attack files</label>
 
                     <div className="img_area">
                       {ticketAttachFiles.map((item, index) => (
