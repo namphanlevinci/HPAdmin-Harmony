@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Avatar } from "@material-ui/core";
 import { sendComment } from "../../../../actions/ticketActions";
 import SendComponent from "../../../../util/sendmessInput";
+import { Scrollbars } from "react-custom-scrollbars";
 
 import moment from "moment";
 
@@ -16,13 +17,17 @@ class Comment extends Component {
   }
   componentDidMount() {
     // this.scrollToBottom();
+    const { scrollbars } = this.refs;
+    scrollbars.scrollToBottom();
   }
   componentDidUpdate(prevProps, prevState) {
-    // this.scrollToBottom();
+    const { scrollbars } = this.refs;
+    scrollbars.scrollToBottom();
+    console.log({ prevProps: prevProps, prevState: prevState });
   }
-  scrollToBottom = () => {
-    this.myRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+  // scrollToBottom = () => {
+  //   this.myRef.current.scrollIntoView({ behavior: "smooth" });
+  // };
   handleSendComment = () => {
     const { comment } = this.state;
 
@@ -56,14 +61,13 @@ class Comment extends Component {
   render() {
     const { data, userAdmin, ticketComment } = this.props;
     const comment = ticketComment?.data.slice(0).reverse() || [];
-    console.log("asda", this.props);
     // if (!this.props.sendCommentRes.loading) {
     //   this.scrollToBottom();
     // }
     return (
       <div>
         <>
-          <div className="comment_wrapper">
+          <Scrollbars style={{ height: 300 }} ref="scrollbars" autoHide={true}>
             {comment.map((item, index) => {
               if (item.createdBy !== userAdmin.waUserId)
                 return (
@@ -88,7 +92,7 @@ class Comment extends Component {
                   </div>
                 );
               return (
-                <div key={index} style={{ marginBottom: 10 }}>
+                <div key={index} style={{ marginBottom: 10, marginRight: 15 }}>
                   <div
                     className="mess-time"
                     style={{ justifyContent: "flex-end" }}
@@ -110,8 +114,9 @@ class Comment extends Component {
                 </div>
               );
             })}
-            <div ref={this.myRef}></div>
-          </div>
+          </Scrollbars>
+
+          {/* <div className="ref" ref={this.myRef}></div> */}
         </>
         <SendComponent
           value={this.state.comment}

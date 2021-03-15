@@ -30,3 +30,6 @@
   padding: 10px;
   background: #fafafa;
 }
+.container-fluid {
+  padding-right: 0px !important;
+}

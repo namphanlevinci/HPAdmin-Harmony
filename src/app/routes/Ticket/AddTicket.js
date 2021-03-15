@@ -117,7 +117,7 @@ class AddTicket extends Component {
   //   }
   // };
   submitForm = (values, actions) => {
-    const path = "/app/ticket/detail";
+    const path = "/app/ticket";
     const payload = { ...values, path };
     this.props.addTicket(payload);
     actions.setSubmitting(false);
@@ -255,7 +255,7 @@ class AddTicket extends Component {
                       <label style={{ marginBottom: "10px" }}>
                         Description <span style={{ color: "red" }}>*</span>
                       </label>
-                      <br />
+                      {/* <br /> */}
                       {errors?.description && touched?.description ? (
                         <p
                           style={{
@@ -282,7 +282,8 @@ class AddTicket extends Component {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <label style={{ marginBottom: "10px" }}>
-                      Attack files <span style={{ color: "red" }}>*</span>
+                      Attack files
+                      {/* <span style={{ color: "red" }}>*</span> */}
                     </label>
                     <div
                       className="img_area"

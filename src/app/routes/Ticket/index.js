@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router-dom";
 import asyncComponent from "../../../util/asyncComponent";
 
 const Ticket = ({ match }) => {
-  console.log(match);
   return (
     <div className="app-wrapper react-transition swipe-right">
       <Switch>

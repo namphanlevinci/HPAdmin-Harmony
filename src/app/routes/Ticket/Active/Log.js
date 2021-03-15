@@ -2,17 +2,22 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import moment from "moment";
+import { Scrollbars } from "react-custom-scrollbars";
 
 class Log extends Component {
   constructor(props) {
     super(props);
+  }
+  componentDidMount() {
+    const { scrollbars } = this.refs;
+    scrollbars.scrollToBottom();
   }
 
   render() {
     const { data, ticketLog } = this.props;
     const log = ticketLog.data || [];
     return (
-      <div className="log_content">
+      <Scrollbars style={{ height: 350 }} ref="scrollbars" autoHide={true}>
         {log.map((item, index) => {
           return (
             <>
@@ -38,7 +43,7 @@ class Log extends Component {
             </>
           );
         })}
-      </div>
+      </Scrollbars>
     );
   }
 }

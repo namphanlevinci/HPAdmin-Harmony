@@ -1,5 +1,5 @@
 import * as types from "../constants/ticketConstants";
-
+import { fetchApiByPage } from "./fetchApiActions";
 import {
   FAILURE_NOTIFICATION,
   SUCCESS_NOTIFICATION,
@@ -232,7 +232,8 @@ export const addTicket = (payload) => async (dispatch, getState) => {
         type: SUCCESS_NOTIFICATION,
         payload: data?.message,
       });
-      dispatch(getTicketByID(data.data));
+      dispatch(fetchApiByPage(`ticket`));
+      // dispatch(getTicketByID(data.data));
       if (payload.path) {
         history.push(payload.path);
       }
