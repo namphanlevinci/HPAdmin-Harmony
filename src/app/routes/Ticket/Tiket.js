@@ -146,7 +146,8 @@ class Tiket extends Component {
         id: "lastUpdate",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
-            {moment(row?.modifiedDate).format("MM/DD/YYYY")}
+            {moment(row?.modifiedDate).format("MM/DD/YYYY") !== "01/01/0001" &&
+              moment(row?.modifiedDate).format("MM/DD/YYYY")}
           </Typography>
         ),
       },
@@ -232,10 +233,7 @@ class Tiket extends Component {
             </Select>
           </FormControl>
           <div>
-            <NewButton
-              style={{ marginTop: "10px" }}
-              onClick={this.handleReset}
-            >
+            <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
               Reset
             </NewButton>
           </div>

@@ -48,6 +48,7 @@ class TicketInfo extends Component {
   };
   render() {
     const { data } = this.props.ticketInfo;
+
     const { userAdmin } = this.props.verifyUser.user;
     const { ticketComment, ticketLog } = this.props;
     const { TabPane } = Tabs;
@@ -141,11 +142,19 @@ class TicketInfo extends Component {
             <Grid item xs={12} md={12}>
               <div style={style}>
                 <CustomText value="Last update:" />
-                <CustomTextLabel
+                {moment(data.modifiedDate).format("MMM DD, YYYY, h:mm:ss A") !==
+                  "Jan 01, 0001, 12:00:00 AM" && (
+                  <CustomTextLabel
+                    value={moment(data.modifiedDate).format(
+                      "MMM DD, YYYY, h:mm:ss A"
+                    )}
+                  />
+                )}
+                {/* <CustomTextLabel
                   value={moment(data.modifiedDate).format(
                     "MMM DD, YYYY, h:mm:ss A"
                   )}
-                />
+                /> */}
               </div>
             </Grid>
             <Grid item xs={12} md={12}>
