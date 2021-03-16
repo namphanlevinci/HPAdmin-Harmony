@@ -25,6 +25,7 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
+import NewButton from "../../../../components/Button/Search";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
@@ -240,13 +241,20 @@ class P2P extends React.Component {
             </div>
 
             <div>
-              <Button
+              <NewButton onClick={this.fetchApi}>Search</NewButton>
+              <NewButton
+                onClick={this.handleResetClick}
+                style={{ marginLeft: "10px" }}
+              >
+                Reset
+              </NewButton>
+              {/* <Button
                 style={{ color: "#0764B0", marginTop: "0" }}
                 onClick={this.handleResetClick}
                 className="btn btn-red"
               >
                 RESET
-              </Button>
+              </Button> */}
             </div>
           </div>
           <Grid

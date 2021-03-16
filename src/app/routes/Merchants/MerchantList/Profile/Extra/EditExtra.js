@@ -204,7 +204,7 @@ const EditExtra = ({
                         </InputLabel>
                         <Input
                           onChange={(e, masked) =>
-                            setFieldValue("price", masked)
+                            setFieldValue("price", e.target.value)
                           }
                           onBlur={handleBlur}
                           value={values.price}
@@ -218,7 +218,7 @@ const EditExtra = ({
                     <Grid item xs={4}>
                       <FormControl style={{ width: "100%" }}>
                         <InputLabel id="demo-simple-select-helper-label">
-                          Status*
+                          Status
                         </InputLabel>
                         <Select
                           value={values.isDisabled}
@@ -264,7 +264,7 @@ const EditExtra = ({
                         <Input
                           name="supplyFee"
                           onChange={(e, masked) =>
-                            setFieldValue("supplyFee", masked)
+                            setFieldValue("supplyFee", e.target.value)
                           }
                           onBlur={handleBlur}
                           value={values.supplyFee}

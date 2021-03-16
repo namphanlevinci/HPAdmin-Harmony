@@ -27,6 +27,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ArchiveSVG from "../../../../assets/images/archive.svg";
 import EditSVG from "../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../assets/images/restore.svg";
+import NewButton from "../../../../components/Button/Search";
 
 import "../Generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -74,7 +75,10 @@ class Template extends Component {
       page: pageIndex,
     });
   };
-
+  handleReset = debounce(() => {
+    this.setState({ search: "" });
+    this.fetchApi();
+  }, 1000);
   searchTemplate = debounce((query) => {
     this.fetchApi();
   }, 1000);
@@ -242,13 +246,18 @@ class Template extends Component {
         />
         <div className="giftcard">
           <div className="giftCard_search">
-            <SearchComponent
-              placeholder="Search by Name, Group"
-              value={this.state.search}
-              onChange={this.handleChange}
-              onKeyPress={this.keyPressed}
-              onClickIcon={this.fetchApi}
-            />
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <SearchComponent
+                placeholder="Search by Name, Group"
+                value={this.state.search}
+                onChange={this.handleChange}
+                onKeyPress={this.keyPressed}
+                onClickIcon={this.fetchApi}
+              />
+              <NewButton onClick={this.fetchApi} style={{ marginLeft: "10px" }}>
+                Search
+              </NewButton>
+            </div>
 
             {CheckPermissions("add-new-template") && (
               <Button
@@ -262,6 +271,9 @@ class Template extends Component {
               </Button>
             )}
           </div>
+          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset
+          </NewButton>
           <div className="giftcard_content">
             <Delete
               handleCloseDelete={this.handleCloseDelete}

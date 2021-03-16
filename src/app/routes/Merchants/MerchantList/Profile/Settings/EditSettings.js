@@ -11,11 +11,16 @@ import {
   TextField,
   Checkbox,
   FormControlLabel,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
+
 import { CustomTitle, CustomText } from "../../../../../../util/CustomText";
 
 import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
 
+import { timeZone } from "./timeZone";
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
 import "../Detail.css";
@@ -33,6 +38,7 @@ class EditSettings extends Component {
       discountRate: "",
       pointRate: "",
       turnAmount: "",
+      timezone: "",
     };
   }
   handleChange = (event) => {
@@ -54,6 +60,7 @@ class EditSettings extends Component {
       pointRate: data?.pointRate,
       turnAmount: data?.turnAmount,
       isTop: data.isTop,
+      timezone: data.timezone,
       loading: true,
     });
   }
@@ -77,6 +84,7 @@ class EditSettings extends Component {
     this.props.updateMerchantSettingById(payload);
   };
   render() {
+    console.log("props", this.props.classes.select);
     return (
       <div className="container-fluid ">
         <CustomTitle value="Settings" />
@@ -92,7 +100,7 @@ class EditSettings extends Component {
                   </InputLabel>
                   <Input
                     onChange={(e, masked) =>
-                      this.setState({ transactionsFee: masked })
+                      this.setState({ transactionsFee: e.target.value })
                     }
                     value={this.state.transactionsFee}
                     name="transactionsFee"
@@ -122,7 +130,7 @@ class EditSettings extends Component {
                   </InputLabel>
                   <Input
                     onChange={(e, masked) =>
-                      this.setState({ discountRate: masked })
+                      this.setState({ discountRate: e.target.value })
                     }
                     value={this.state.discountRate}
                     name="discountRate"
@@ -140,7 +148,7 @@ class EditSettings extends Component {
                   </InputLabel>
                   <Input
                     onChange={(e, masked) =>
-                      this.setState({ pointRate: masked })
+                      this.setState({ pointRate: e.target.value })
                     }
                     value={this.state.pointRate}
                     name="pointRate"
@@ -159,7 +167,7 @@ class EditSettings extends Component {
                   </InputLabel>
                   <Input
                     onChange={(e, masked) =>
-                      this.setState({ turnAmount: masked })
+                      this.setState({ turnAmount: e.target.value })
                     }
                     value={this.state.turnAmount}
                     name="turnAmount"
@@ -167,6 +175,37 @@ class EditSettings extends Component {
                     inputComponent={CustomCurrencyInput}
                   />
                 </FormControl>
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
+                <FormControl style={{ width: "80%" }}>
+                  <InputLabel htmlFor="formatted-text-mask-input">
+                    Time Zone
+                  </InputLabel>
+                  <Select
+                    classes={{ select: this.props.classes.select }}
+                    name="sendReviewLinkOption"
+                    value={this.state.timezone}
+                    onChange={(e) => {
+                      this.setState({ timezone: e.target.value });
+                    }}
+                  >
+                    {timeZone.map((item, index) => (
+                      <MenuItem key={index} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {/* <Select
+                  name="sendReviewLinkOption"
+                  // value={values?.sendReviewLinkOption}
+                  // onChange={handleChange}
+                >
+                  <MenuItem value="auto">Automatic</MenuItem>
+                  <MenuItem value="off">Off</MenuItem>
+                  <MenuItem value="manual">Manual</MenuItem>
+                </Select> */}
               </Grid>
               <Grid item xs={6} md={12}>
                 <FormControlLabel
@@ -202,7 +241,11 @@ class EditSettings extends Component {
     );
   }
 }
-
+const styles = (theme) => ({
+  select: {
+    paddingBottom: "2px",
+  },
+});
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
 });
@@ -211,4 +254,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(updateMerchantSettingById(payload));
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(EditSettings);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(EditSettings));

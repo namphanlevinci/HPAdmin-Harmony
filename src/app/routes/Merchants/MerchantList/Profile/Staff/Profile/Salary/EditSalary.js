@@ -183,13 +183,12 @@ class EditSalary extends Component {
                         <Input
                           name="salaryValue"
                           type="tel"
-                          separator="."
                           style={styles.input}
                           value={values?.salaryValue}
                           disabled={values?.commIsCheck ? true : false}
-                          onChange={(e, masked) =>
-                            setFieldValue(`salaryValue`, masked)
-                          }
+                          onChange={(e, masked) => {
+                            setFieldValue(`salaryValue`, e.target.value);
+                          }}
                           inputComponent={CustomCurrencyInput}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
@@ -231,7 +230,7 @@ class EditSalary extends Component {
                                       onChange={(e, masked) =>
                                         setFieldValue(
                                           `commValue.${index}.from`,
-                                          masked
+                                          e.target.value
                                         )
                                       }
                                       label="From"
@@ -254,7 +253,7 @@ class EditSalary extends Component {
                                       onChange={(e, masked) =>
                                         setFieldValue(
                                           `commValue.${index}.to`,
-                                          masked
+                                          e.target.value
                                         )
                                       }
                                       InputProps={{
@@ -376,7 +375,7 @@ class EditSalary extends Component {
                         style={styles.input}
                         disabled={values?.prodCommIsCheck ? false : true}
                         onChange={(e, masked) =>
-                          setFieldValue(`prodCommValue`, masked)
+                          setFieldValue(`prodCommValue`, e.target.value)
                         }
                         inputComponent={CustomCurrencyInput}
                         startAdornment={
@@ -410,7 +409,7 @@ class EditSalary extends Component {
                         separator="."
                         disabled={values?.fixIsCheck ? true : false}
                         onChange={(e, masked) =>
-                          setFieldValue(`tipValue`, masked)
+                          setFieldValue(`tipValue`, e.target.value)
                         }
                         inputComponent={CustomCurrencyInput}
                         startAdornment={
@@ -441,7 +440,7 @@ class EditSalary extends Component {
                         value={values?.fixValue}
                         disabled={values?.tipIsCheck ? true : false}
                         onChange={(e, masked) =>
-                          setFieldValue(`fixValue`, masked)
+                          setFieldValue(`fixValue`, e.target.value)
                         }
                         inputComponent={CustomCurrencyInput}
                         startAdornment={
@@ -458,7 +457,7 @@ class EditSalary extends Component {
                         name="cashPercent"
                         value={values?.cashPercent}
                         onChange={(e, masked) =>
-                          setFieldValue(`cashPercent`, masked)
+                          setFieldValue(`cashPercent`, e.target.value)
                         }
                         min="0"
                         max="100"

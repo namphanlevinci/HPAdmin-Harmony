@@ -221,8 +221,8 @@ export default function General(props) {
     </React.Fragment>
   );
 
-  function handleSameAddress(name, value, setFieldValue, generalInfo) {
-    setFieldValue(name, value);
+  async function handleSameAddress(name, value, setFieldValue, generalInfo) {
+    await setFieldValue(name, value);
 
     if (value) {
       setFieldValue(

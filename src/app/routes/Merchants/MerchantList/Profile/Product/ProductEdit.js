@@ -371,7 +371,7 @@ class EditProduct extends Component {
 
                   <Grid item xs={12} sm={6} md={3}>
                     <TextField
-                      onChange={(e, masked) => setFieldValue("price", masked)}
+                      onChange={(e, masked) => setFieldValue("price", e.target.value)}
                       error={touched.price && Boolean(errors.price)}
                       helperText={touched.price ? errors.price : ""}
                       onBlur={handleBlur}

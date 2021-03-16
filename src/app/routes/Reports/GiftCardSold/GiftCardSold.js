@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { getReportMerchantId } from "../../../../actions/reportActions";
 import { debounce } from "lodash";
 import {
   MuiPickersUtilsProvider,
@@ -38,7 +39,6 @@ class P2P extends React.Component {
       range: "thisMonth",
     };
   }
-
   handleResetClick = async () => {
     this.setState({
       from: moment().startOf("month").format("YYYY-MM-DD"),
@@ -145,6 +145,21 @@ class P2P extends React.Component {
   };
 
   render() {
+    console.log("propssss", this.props);
+
+    const onRowClick = (state, rowInfo, column, instance) => {
+      return {
+        onClick: (e) => {
+          console.log(rowInfo);
+          if (rowInfo !== undefined) {
+            const url = `GiftCard/sold/${rowInfo?.original?.merchantId}?date=${rowInfo?.original?.date}`;
+            this.props.fetchApiByPage(url);
+            this.props.getReportMerchantId(rowInfo?.original);
+            this.props.history.push("/app/reports/gift-card-sold/detail");
+          }
+        },
+      };
+    };
     const { page, from, to, range } = this.state;
     const {
       data,
@@ -333,6 +348,7 @@ class P2P extends React.Component {
               noDataText="NO DATA!"
               loading={loading}
               columns={columns}
+              getTdProps={onRowClick}
             />
           </div>
         </div>
@@ -347,6 +363,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
+  },
+  getReportMerchantId: (id) => {
+    dispatch(getReportMerchantId(id));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(P2P);

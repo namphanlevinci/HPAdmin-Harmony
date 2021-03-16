@@ -5,6 +5,8 @@ import {
   viewService,
   archiveServiceById,
   restoreServiceById,
+  setPage,
+  setSize,
 } from "../../../../../../actions/merchantActions";
 
 import Button from "@material-ui/core/Button";
@@ -50,7 +52,15 @@ class Service extends Component {
     await this.props.viewService(e);
     this.props.history.push("/app/merchants/profile/service/edit");
   };
-
+  changePage = async (pageIndex) => {
+    this.setState({
+      page: pageIndex,
+    });
+    await this.props.setPage(pageIndex);
+  };
+  changePageSize = async (size) => {
+    await this.props.setSize(size);
+  };
   handleCloseEdit = () => {
     this.setState({ openEdit: false });
   };
@@ -83,6 +93,7 @@ class Service extends Component {
   render() {
     let { serviceList, loading } = this.props.service;
 
+    const { page } = this.state;
     if (serviceList) {
       if (this.state.search) {
         serviceList = serviceList.filter((e) => {
@@ -243,6 +254,10 @@ class Service extends Component {
 
           <div className="merchant-list-container">
             <ReactTable
+              page={this.props.page || 0}
+              pageSize={this.props.size || 5}
+              onPageChange={(pageIndex) => this.changePage(pageIndex)}
+              onPageSizeChange={(size) => this.changePageSize(size)}
               data={serviceList}
               columns={columns}
               defaultPageSize={5}
@@ -325,8 +340,16 @@ class Service extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   service: state.service,
+  page: state.updateService.page,
+  size: state.updateService.size,
 });
 const mapDispatchToProps = (dispatch) => ({
+  setPage: (payload) => {
+    dispatch(setPage(payload));
+  },
+  setSize: (payload) => {
+    dispatch(setSize(payload));
+  },
   viewService: (payload) => {
     dispatch(viewService(payload));
   },

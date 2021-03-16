@@ -82,6 +82,7 @@ class Settings extends Component {
 
   render() {
     const data = this.props.MerchantProfile;
+    console.log("DAta", data);
     const styles = (theme) => ({
       root: {
         margin: 0,
@@ -116,7 +117,7 @@ class Settings extends Component {
       this.props.MerchantProfile.isDisabled !== 1 ? (
         <>
           <Button className="btn btn-red" onClick={this.handleOpenArchive}>
-            ARCHIVE
+            INACTIVE
           </Button>
           <Dialog
             open={this.state.open}
@@ -205,9 +206,8 @@ class Settings extends Component {
             <Formik
               initialValues={{ archiveReason: "" }}
               onSubmit={(values, { setSubmitting }) => {
-                this.setState({ openActive: false });
-
                 this.props.restoreMerchantById(this.state.ID);
+                this.setState({ openActive: false, open: false });
               }}
             >
               {({ values, isSubmitting, handleChange, errors, touched }) => (
@@ -325,6 +325,14 @@ class Settings extends Component {
             <Grid item xs={6} md={3}>
               <TextField label="Turn Amount" disabled value={data.turnAmount} />
             </Grid>
+            <Grid item xs={12} sm={3} md={3}>
+              <TextField
+                style={{ width: "80%" }}
+                label="Time Zone"
+                disabled
+                value={data.timezone}
+              />
+            </Grid>
             <Grid item xs={6} md={12}>
               <FormControlLabel
                 control={
@@ -350,7 +358,7 @@ class Settings extends Component {
                 className="btn btn-green"
                 onClick={this.handleDownloadTemplate}
               >
-                DOWNLOAD TEMPLATE
+                Download Customer Template
               </Button>
 
               <div id="upload_button">
@@ -361,7 +369,7 @@ class Settings extends Component {
                     onChange={(e) => this.handleAddTemplate(e)}
                   />
                   <span style={{ margin: "0px" }} className="btn btn-green">
-                    ADD TEMPLATE
+                    Import Customer
                   </span>
                 </label>
               </div>

@@ -513,8 +513,8 @@ class AddService extends Component {
                                     <CurrencyInput
                                       name="price"
                                       type="tel"
-                                      onChange={(value, masked) => [
-                                        setFieldValue("price", masked),
+                                      onChange={(e, masked) => [
+                                        setFieldValue("price", e.target.value),
                                       ]}
                                       onBlur={handleBlur}
                                       value={values.price}
@@ -573,8 +573,11 @@ class AddService extends Component {
                                   <div className="input-box">
                                     <CurrencyInput
                                       name="supplyFee"
-                                      onChange={(value, masked) => [
-                                        setFieldValue("supplyFee", masked),
+                                      onChange={(e, masked) => [
+                                        setFieldValue(
+                                          "supplyFee",
+                                          e.target.value
+                                        ),
                                       ]}
                                       type="tel"
                                       onBlur={handleBlur}

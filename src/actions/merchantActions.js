@@ -1069,7 +1069,40 @@ export const viewService = (payload) => async (dispatch) => {
     payload: payload,
   });
 };
+export const setPageExtra = (payload) => async (dispatch) => {
+  dispatch({
+    type: "SET_PAGE_EXTRA",
+    payload: payload,
+  });
+};
+export const setSizeExtra = (payload) => async (dispatch) => {
+  dispatch({
+    type: "SET_SIZE_EXTRA",
+    payload: payload,
+  });
+};
+export const setPageProduct = (payload) => async (dispatch) => {
+  dispatch({
+    type: "SET_PAGE_PROD",
+    payload: payload,
+  });
+};
+export const setSizeProduct = (payload) => async (dispatch) => {
+  dispatch({
+    type: "SET_SIZE_PROD",
+    payload: payload,
+  });
+};
 
+export const setPage = (payload) => async (dispatch) => {
+  dispatch({
+    type: "SET_PAGE",
+    payload: payload,
+  });
+};
+export const setSize = (payload) => async (dispatch) => {
+  dispatch({ type: "SET_SIZE", payload: payload });
+};
 export const updateMerchantServiceById = (payload) => async (
   dispatch,
   getState

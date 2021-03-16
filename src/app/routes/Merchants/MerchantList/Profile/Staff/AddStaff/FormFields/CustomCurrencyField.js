@@ -3,17 +3,31 @@ import { at } from "lodash";
 import { useField } from "formik";
 import TextField from "@material-ui/core/TextField";
 import CurrencyInput from "react-currency-masked-input";
+import CurrencyFormat from "react-currency-format";
 
-function CurrencyFormat(props) {
+// function CurrencyFormat(props) {
+//   const { inputRef, ...other } = props;
+
+//   return (
+//     <CurrencyInput
+//       {...other}
+//       ref={(ref) => {
+//         inputRef(ref ? ref.inputElement : null);
+//       }}
+//       separator="."
+//     />
+//   );
+// }
+
+function CustomCurrencyInput(props) {
   const { inputRef, ...other } = props;
-
   return (
-    <CurrencyInput
+    <CurrencyFormat
       {...other}
+      thousandSeparator={true}
       ref={(ref) => {
         inputRef(ref ? ref.inputElement : null);
       }}
-      separator="."
     />
   );
 }
@@ -35,7 +49,7 @@ export default function CustomCurrencyField(props) {
       {...field}
       {...rest}
       InputProps={{
-        inputComponent: CurrencyFormat,
+        inputComponent: CustomCurrencyInput,
         startAdornment: props.InputProps?.startAdornment,
       }}
     />

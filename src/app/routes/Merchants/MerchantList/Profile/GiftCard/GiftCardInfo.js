@@ -5,12 +5,15 @@ import { fetchApiByPage } from "../../../../../../actions/fetchApiActions";
 import { exportGiftCardByMerchantId } from "../../../../../../actions/merchantActions";
 import { BsInfoCircle } from "react-icons/bs";
 import { getCodeLog } from "../../../../../../actions/giftCardActions";
+import { debounce } from "lodash";
+
 import CustomProgress from "../../../../../../util/CustomProgress";
+import SearchComponent from "../../../../../../util/searchComponent";
 
 import moment from "moment";
 import ReactTable from "react-table";
 import Log from "./Log/Log";
-
+import "./GiftCard.css";
 class GiftCardInfo extends Component {
   constructor(props) {
     super(props);
@@ -27,14 +30,33 @@ class GiftCardInfo extends Component {
     const id = pageUrl.substring(pageUrl.lastIndexOf("/") + 1);
     this.setState({ id, loadingComp: true });
   }
-
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
+  handEnter = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.fetchApi();
+    }
+  };
+  handleResetClick = async () => {
+    this.setState({
+      search: "",
+    });
+    this.searchTransaction();
+  };
+  searchTransaction = debounce((query) => {
+    this.fetchApi();
+  }, 800);
   fetchApi = async (state) => {
+    console.log("STATE", state);
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
-
+    let { search } = this.state;
     const url = `giftcard/getByGeneral?generalId=${this.state.id}&page=${
       page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    }&row=${pageSize}&keySearch=${search}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -63,7 +85,7 @@ class GiftCardInfo extends Component {
       },
       {
         Header: "Serial",
-        id: "createdDate",
+        id: "serial",
         accessor: "serialNumber",
       },
       {
@@ -134,7 +156,23 @@ class GiftCardInfo extends Component {
               Back to List
             </p>
           </div>
-
+        </div>
+        <div
+          className="search"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "20px",
+          }}
+        >
+          <SearchComponent
+            placeholder="Search.."
+            value={this.state.search}
+            onChange={this.handleChange}
+            onKeyDown={this.handEnter}
+            onClickIcon={this.fetchApi}
+            name="search"
+          />
           <Button
             className="btn btn-green"
             style={styles.btn}
@@ -142,6 +180,33 @@ class GiftCardInfo extends Component {
           >
             EXPORT
           </Button>
+          {/* <div>
+            <Button
+              style={{
+                color: "#0764B0",
+                backgroundColor: "white",
+                marginTop: "0",
+                marginRight: "0",
+              }}
+              className="btn btn-green"
+              onClick={this.handleResetClick}
+            >
+              RESET
+            </Button>
+            <Button
+              style={{
+                color: "#0764B0",
+                backgroundColor: "white",
+                marginTop: "0",
+                marginRight: "0",
+                marginLeft: "10px",
+              }}
+              className="btn btn-green"
+              onClick={() => this.fetchApi()}
+            >
+              SEARCH
+            </Button>
+          </div> */}
         </div>
         <div className="merchant-list-container">
           {loadingComp && (

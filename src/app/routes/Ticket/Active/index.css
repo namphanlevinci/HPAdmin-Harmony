@@ -1,0 +1,40 @@
+.mess-time {
+  display: flex;
+}
+.mess-time > p,
+.comment > p {
+  margin-bottom: 0;
+  text-align: justify;
+}
+.name {
+  font-weight: 500;
+  margin-right: 15px;
+}
+.comment {
+  border: 1px solid #e6e3e3;
+  padding: 10px;
+  max-width: 400px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.isUser {
+  background-color: #0764b0;
+  color: #fff;
+}
+.comment_wrapper {
+  min-height: 300px;
+  max-height: 500px;
+  overflow: scroll;
+}
+.comment_wrapper::-webkit-scrollbar {
+  display: none;
+}
+.log_content::-webkit-scrollbar {
+  display: none;
+}
+.log_content {
+  min-height: 350px;
+  max-height: 561px;
+  overflow: scroll;
+}

@@ -17,6 +17,7 @@ import {
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
+import NewButton from "../../../../components/Button/Search";
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
 import CheckPermissions from "../../../../util/checkPermission";
@@ -54,7 +55,10 @@ class Merchants extends React.Component {
       page: pageIndex,
     });
   };
-
+  handleReset = debounce((e) => {
+    this.setState({ statusValue: -1, search: "" });
+    this.fetchApi();
+  }, 1000);
   handleStatus = debounce((e) => {
     this.setState({ statusValue: e.target.value });
     this.fetchApi();
@@ -193,7 +197,7 @@ class Merchants extends React.Component {
         />
         <div className="MerList page-heading " style={{ padding: "10px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <Tooltip
                 title="Must enter correct MID to search by MID"
                 aria-label="add"
@@ -206,6 +210,9 @@ class Merchants extends React.Component {
                   onClickIcon={this.fetchApi}
                 />
               </Tooltip>
+              <NewButton style={{ marginLeft: "15px" }} onClick={this.fetchApi}>
+                Search
+              </NewButton>
             </div>
             <FormControl style={{ width: "20%", marginLeft: "15px" }}>
               <InputLabel>Status</InputLabel>
@@ -231,6 +238,9 @@ class Merchants extends React.Component {
               )}
             </div>
           </div>
+          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset
+          </NewButton>
           <div className="merchant-list-container">
             <ReactTable
               manual

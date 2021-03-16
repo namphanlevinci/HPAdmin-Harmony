@@ -13,6 +13,7 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import ReactTable from "react-table";
 import CheckPermissions from "../../../../util/checkPermission";
 import SearchComponent from "../../../../util/searchComponent";
+import NewButton from "../../../../components/Button/Search";
 
 import "../../Merchants/Merchants.css";
 import "./User.css";
@@ -35,7 +36,10 @@ class Users extends Component {
   handleChange = (e) => {
     this.setState({ search: e.target.value });
   };
-
+  handleReset = debounce((e) => {
+    this.setState({ statusValue: -1, search: "" });
+    this.fetchApi();
+  }, 1000);
   handleStatus = debounce((e) => {
     this.setState({ statusValue: e.target.value });
     this.fetchApi();
@@ -187,7 +191,10 @@ class Users extends Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className="UserSearchBox">
-            <div className="search">
+            <div
+              className="search"
+              style={{ display: "flex", alignItems: "center" }}
+            >
               <SearchComponent
                 placeholder="Search by Name, Group"
                 value={this.state.search}
@@ -195,6 +202,9 @@ class Users extends Component {
                 onKeyPress={this.keyPressed}
                 onClickIcon={this.fetchApi}
               />
+              <NewButton onClick={this.fetchApi} style={{ marginLeft: "10px" }}>
+                Search
+              </NewButton>
             </div>
             <FormControl style={{ width: "20%", marginLeft: "15px" }}>
               <InputLabel>Status</InputLabel>
@@ -214,7 +224,9 @@ class Users extends Component {
               </Button>
             )}
           </div>
-
+          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset
+          </NewButton>
           <div className="merchant-list-container user_table">
             <ReactTable
               manual

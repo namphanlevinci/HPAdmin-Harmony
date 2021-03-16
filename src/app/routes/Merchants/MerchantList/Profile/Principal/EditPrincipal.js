@@ -299,7 +299,7 @@ class EditPrincipal extends Component {
                       value={values.driverNumber}
                       onChange={handleChange}
                       style={styles.input}
-                      type="number"
+                      type="text"
                       error={errors.driverNumber && touched.driverNumber}
                       helperText={
                         errors.driverNumber && touched.driverNumber
@@ -381,10 +381,11 @@ const styles = {
     marginTop: "6px",
   },
 };
-
+const driverNumberRegExp = /^[a-zA-Z0-9]*$/;
 const validationPrincipal = Yup.object().shape({
   address: Yup.string().required("Address is required").nullable(),
   driverNumber: Yup.string()
+    .matches(driverNumberRegExp, "Driver license number  is not valid")
     .required("Driver license number is required")
     .nullable(),
   city: Yup.string().required("City is required").nullable(),

@@ -241,6 +241,19 @@ class SidenavContent extends Component {
             </li>
           )}
 
+          {/* TICKET */}
+
+          {CheckPermissions("view-pricing-plan") && (
+            <li className="menu no-arrow">
+              <NavLink to="/app/ticket">
+                <i className="zmdi zmdi-money-box zmdi-hc-fw" />
+                <span className="nav-text">
+                  <IntlMessages id="sidebar.dashboard.ticket" />
+                </span>
+              </NavLink>
+            </li>
+          )}
+
           {/* MARKET PLACE  */}
           {CheckPermissions("view-pricing-plan") && (
             <li className="menu no-arrow">

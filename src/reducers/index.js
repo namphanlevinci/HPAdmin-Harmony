@@ -53,6 +53,7 @@ import {
   merchantSubscriptionReducer,
   updateMerchantSubscriptionByIdReducer,
   packageReducer,
+  updateMerchantExtraByIdReducer,
 } from "./merchantReducer";
 
 // Consumer
@@ -102,6 +103,18 @@ import {
   restoreMarketPlaceReducer,
   marketPlaceInfoReducer,
 } from "./MarketPlaceReducer.js";
+// Ticket
+import {
+  getTicketByIdReducer,
+  addTicketReducer,
+  updateTicketReducer,
+  getTicketCommenByIdReducer,
+  getTicketLogByIdReducer,
+  sendCommentReducer,
+  delTicketFileReducer,
+  addTicketFile,
+  changeTicketStatusReducer,
+} from "./ticketReducer";
 
 export default (history) =>
   combineReducers({
@@ -150,6 +163,7 @@ export default (history) =>
     subscription: merchantSubscriptionReducer,
     updateSubscription: updateMerchantSubscriptionByIdReducer,
     package: packageReducer,
+    updateMerchantExtra: updateMerchantExtraByIdReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,
@@ -200,4 +214,15 @@ export default (history) =>
     archiveMarketPlace: archiveMarketPlaceReducer,
     restoreMarketPlace: restoreMarketPlaceReducer,
     marketInfo: marketPlaceInfoReducer,
+
+    // Ticket
+    getTicketById: getTicketByIdReducer,
+    getTicketCommentById: getTicketCommenByIdReducer,
+    getTicketLogById: getTicketLogByIdReducer,
+    addTicket: addTicketReducer,
+    updateTicket: updateTicketReducer,
+    sendComment: sendCommentReducer,
+    deleteFile: delTicketFileReducer,
+    addFile: addTicketFile,
+    changeTicketStatus: changeTicketStatusReducer,
   });

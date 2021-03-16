@@ -20,6 +20,7 @@ import { editMarketPlaceByIdAction } from "../../../actions/marketActions";
 import { WARNING_NOTIFICATION } from "../../../constants/notificationConstants";
 
 import LinearProgress from "../../../util/linearProgress";
+import CustomSwitch from "./components/Switch";
 import defaultImg from "./hpadmin2.png";
 import axios from "axios";
 import IntlMessages from "../../../util/IntlMessages";
@@ -179,7 +180,7 @@ class AddPlace extends Component {
                   <Grid item xs={4} md={4}>
                     <FormControl style={{ width: "100%" }}>
                       <InputLabel id="demo-simple-select-helper-label">
-                        Status*
+                        Status
                       </InputLabel>
                       <Select
                         value={values.isDisabled}
@@ -195,9 +196,9 @@ class AddPlace extends Component {
                   </Grid>
                   <Grid item xs={12}>
                     On Top{" "}
-                    <Switch
-                      style={{ color: "#0764B0" }}
-                      color="primary"
+                    <CustomSwitch
+                      // style={{ color: "#fffff" }}
+                      // color="primary"
                       name="onTop"
                       checked={values?.onTop}
                       onChange={handleChange}

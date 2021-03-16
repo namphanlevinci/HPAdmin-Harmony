@@ -16,7 +16,7 @@ import {
   InputLabel,
 } from "@material-ui/core";
 import { CustomTitle } from "../../../../../../util/CustomText";
-import Extra from "./Extra.js";
+import Extra from "./Extra";
 import axios from "axios";
 import { config } from "../../../../../../url/url";
 import * as Yup from "yup";
@@ -137,7 +137,7 @@ class EditService extends Component {
 
   render() {
     const service = this.props.updateService;
-
+    console.log("PROPSSS", this);
     let { categoryList: category } = this.props.categoryList;
 
     //~ preview image
