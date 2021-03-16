@@ -276,7 +276,6 @@ class EditTicket extends Component {
                       id="file"
                       accept="image/gif,image/jpeg, image/png"
                       onChange={(e) => this.uploadImage(e, setFieldValue)}
-                      multiple
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>

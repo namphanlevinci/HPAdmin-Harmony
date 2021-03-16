@@ -21,6 +21,7 @@ import {
 import { config } from "../../../url/url";
 import { Tabs } from "antd";
 import { changeStatus, addTicketFile } from "../../../actions/ticketActions";
+import LinearProgress from "../../../util/linearProgress";
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import NewButton from "../../../components/Button/Search";
@@ -41,6 +42,7 @@ const upFile = config.url.upFile;
 class TicketInfo extends Component {
   constructor(props) {
     super(props);
+    this.state = { isUpload: false, imgUrl: [] };
   }
   EditPage = () => {
     this.props.history.push("/app/ticket/edit");
@@ -57,7 +59,8 @@ class TicketInfo extends Component {
     const { ticketInfo } = this.props;
 
     if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
-      setFieldValue("isUpload", true);
+      // setFieldValue("isUpload", true);
+      this.setState({ isUpload: true });
       let formData = new FormData();
 
       formData.append("Filename", file);
@@ -71,7 +74,7 @@ class TicketInfo extends Component {
           reader.readAsDataURL(file);
           console.log("res", res);
           reader.onloadend = () => {
-            setFieldValue(`imageUrl`, reader.result);
+            // setFieldValue(`imageUrl`, reader.result);
             this.setState({
               imgUrl: [...this.state.imgUrl, res.data.data.url],
             });
@@ -81,15 +84,17 @@ class TicketInfo extends Component {
             });
           };
           this.setState({
-            fileIds: [...this.state.fileIds, res.data.data.fileId],
+            // fileIds: [...this.state.fileIds, res.data.data.fileId],
+            isUpload: false,
           });
 
-          setFieldValue(`isUpload`, false);
-          setFieldValue(`fileIds`, this.state.fileIds);
+          // setFieldValue(`isUpload`, false);
+          // setFieldValue(`fileIds`, this.state.fileIds);
         })
         .catch((err) => {
           console.log(err);
-          setFieldValue(`isUpload`, false);
+          // setFieldValue(`isUpload`, false);
+          this.setState({ isUpload: false });
         });
     } else {
       // this.props.warningNotify(
@@ -269,12 +274,22 @@ class TicketInfo extends Component {
             </div>
           </Grid>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <NewButton>Add file</NewButton>
+            <div style={{ width: "20%", margin: "5px 5px" }}>
+              {this.state?.isUpload ? <LinearProgress /> : null}
+            </div>
+            <input
+              type="file"
+              name="image"
+              id="file"
+              accept="image/gif,image/jpeg, image/png"
+              onChange={(e) => this.uploadImage(e)}
+            />
             <Button
               style={{
                 backgroundColor: "#0764B0",
                 color: "white",
                 marginTop: "10px",
+                width: "30%",
               }}
               className="btn btn-red"
               onClick={() => this.EditPage()}
