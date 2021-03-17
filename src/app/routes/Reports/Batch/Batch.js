@@ -94,7 +94,7 @@ class Transactions extends React.Component {
         id: "dateTime",
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
-            {moment.utc(e.settlementDate).local().format("MM/DD/YYYY hh:mm A")}
+            {moment(e.settlementDate).format("MM/DD/YYYY hh:mm A")}
           </Typography>
         ),
         Footer: (
@@ -153,7 +153,7 @@ class Transactions extends React.Component {
         id: "paymentByCash",
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
-            ${e.paymentByCash}
+            ${e.paymentByCashStatistic}
           </Typography>
         ),
         Footer: (
@@ -181,7 +181,7 @@ class Transactions extends React.Component {
         id: "otherPayment",
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
-            ${e.otherPayment}
+            ${e.otherPaymentStatistic}
           </Typography>
         ),
         Footer: (
