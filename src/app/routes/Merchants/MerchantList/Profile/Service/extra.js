@@ -50,6 +50,7 @@ const Extra = ({
             values.extras.map((extras, index) => {
               const price = extras.price;
               const supplyFee = extras.supplyFee;
+              const isDisabled = extras.isDisabled;
               return (
                 <div style={{ marginBottom: 40 }} key={index}>
                   <div
@@ -140,8 +141,11 @@ const Extra = ({
                         <CurrencyInput
                           style={styles.input}
                           value={price}
-                          onChange={(value, masked) => [
-                            setFieldValue(`extras.${index}.price`, masked),
+                          onChange={(e, masked) => [
+                            setFieldValue(
+                              `extras.${index}.price`,
+                              e.target.value
+                            ),
                           ]}
                           name={`extras.${index}.price`}
                           type="tel"
@@ -160,8 +164,11 @@ const Extra = ({
                         <CurrencyInput
                           style={styles.input}
                           value={supplyFee}
-                          onChange={(value, masked) => [
-                            setFieldValue(`extras.${index}.supplyFee`, masked),
+                          onChange={(e, masked) => [
+                            setFieldValue(
+                              `extras.${index}.supplyFee`,
+                              e.target.value
+                            ),
                           ]}
                           name={`extras.${index}.supplyFee`}
                           type="tel"
@@ -187,8 +194,8 @@ const Extra = ({
                           );
                         }}
                         defaultValue={{
-                          value: `extras.${index}.isDisabled`,
-                          label: "Active",
+                          value: isDisabled,
+                          label: isDisabled === 0 ? "Active" : "Inactive",
                         }}
                       />
 
@@ -209,7 +216,9 @@ const Extra = ({
                           cursor: "pointer",
                           letterSpacing: 0.3,
                         }}
-                        onClick={() => arrayHelpers.insert(1, "")}
+                        onClick={() =>
+                          arrayHelpers.insert(values.extras.length, "")
+                        }
                       >
                         + Add Extra
                       </p>
