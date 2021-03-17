@@ -140,11 +140,8 @@ const Extra = ({
                         <CurrencyInput
                           style={styles.input}
                           value={price}
-                          onChange={(e, masked) => [
-                            setFieldValue(
-                              `extras.${index}.price`,
-                              e.target.value
-                            ),
+                          onChange={(value, masked) => [
+                            setFieldValue(`extras.${index}.price`, masked),
                           ]}
                           name={`extras.${index}.price`}
                           type="tel"
@@ -163,11 +160,8 @@ const Extra = ({
                         <CurrencyInput
                           style={styles.input}
                           value={supplyFee}
-                          onChange={(e, masked) => [
-                            setFieldValue(
-                              `extras.${index}.supplyFee`,
-                              e.target.value
-                            ),
+                          onChange={(value, masked) => [
+                            setFieldValue(`extras.${index}.supplyFee`, masked),
                           ]}
                           name={`extras.${index}.supplyFee`}
                           type="tel"

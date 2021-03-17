@@ -395,7 +395,7 @@ class AddProduct extends Component {
                         Price*
                       </InputLabel>
                       <Input
-                        onChange={(e, masked) => setFieldValue("price", e.target.value)}
+                        onChange={(e, masked) => setFieldValue("price", masked)}
                         error={touched.price && Boolean(errors.price)}
                         helperText={touched.price ? errors.price : ""}
                         onBlur={handleBlur}
