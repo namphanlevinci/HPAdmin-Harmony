@@ -27,8 +27,8 @@ class Transactions extends React.Component {
     this.props.history.push("/app/reports/batchs");
   };
   render() {
-    const { data, loading, pageSize } = this.props.apiData;
-
+    const { data, loading, pageSize, summary } = this.props.apiData;
+    console.log("data", this.props.apiData);
     const columns = [
       {
         Header: <CustomTableHeader value="Transaction ID" />,
@@ -42,6 +42,11 @@ class Transactions extends React.Component {
           </Typography>
         ),
         width: 400,
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            Total:
+          </Typography>
+        ),
       },
       {
         id: "Customer",
@@ -99,7 +104,12 @@ class Transactions extends React.Component {
             variant="subtitle1"
             className="table__light batch__detail"
           >
-            ${e.amount}
+            {`$ ${e.amount}`}
+          </Typography>
+        ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            {`$ ${summary.totalAmount}`}
           </Typography>
         ),
       },
