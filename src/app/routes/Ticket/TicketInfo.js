@@ -156,9 +156,9 @@ class TicketInfo extends Component {
               onChange={(e) => this.changeStatus(e)}
               valuesArr={[
                 { title: "Backlog", value: "backlog" },
+                { title: "In progress", value: "inprogress" },
                 { title: "Waiting", value: "waiting" },
                 { title: "Complete", value: "complete" },
-                { title: "Inprogress", value: "inprogress" },
               ]}
             />
             <hr />

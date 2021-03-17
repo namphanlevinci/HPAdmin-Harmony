@@ -246,7 +246,7 @@ class SidenavContent extends Component {
           {CheckPermissions("view-pricing-plan") && (
             <li className="menu no-arrow">
               <NavLink to="/app/ticket">
-                <i className="zmdi zmdi-money-box zmdi-hc-fw" />
+                <i className="zmdi zmdi-receipt zmdi-hc-fw" />
                 <span className="nav-text">
                   <IntlMessages id="sidebar.dashboard.ticket" />
                 </span>

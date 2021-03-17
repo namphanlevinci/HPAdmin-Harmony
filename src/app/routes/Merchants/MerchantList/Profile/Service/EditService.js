@@ -386,7 +386,7 @@ class EditService extends Component {
                       <Select
                         value={this.state.isDisabled}
                         onChange={(e) => {
-                          this.setState({ isDisabled: e.value });
+                          this.setState({ isDisabled: e.target.value });
                         }}
                       >
                         <MenuItem value={0}>Active</MenuItem>

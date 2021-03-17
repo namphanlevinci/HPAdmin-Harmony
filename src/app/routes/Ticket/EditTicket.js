@@ -291,9 +291,9 @@ class EditTicket extends Component {
                         }
                       >
                         <MenuItem value="backlog">Backlog</MenuItem>
+                        <MenuItem value="inprogress">In Progress</MenuItem>
                         <MenuItem value="waiting">Waiting</MenuItem>
                         <MenuItem value="complete">Complete</MenuItem>
-                        <MenuItem value="inprogress">Inprogress</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
