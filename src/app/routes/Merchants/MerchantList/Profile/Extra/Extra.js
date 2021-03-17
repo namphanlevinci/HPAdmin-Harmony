@@ -5,6 +5,8 @@ import {
   archiveExtraById,
   restoreExtraById,
   updateMerchantExtraById,
+  setPageExtra,
+  setSizeExtra,
 } from "../../../../../../actions/merchantActions";
 import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 import { config } from "../../../../../../url/url";
@@ -133,7 +135,13 @@ class ExtraTab extends Component {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.archiveExtraById(extraId, merchantId);
   };
-
+  handleChangePage = (pageIndex) => {
+    this.props.setPageExtra(pageIndex);
+  };
+  handleChangeSize = (size) => {
+    console.log("size", size);
+    this.props.setSizeExtra(size);
+  };
   handleRestore = (extraId) => {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.restoreExtraById(extraId, merchantId);
@@ -310,6 +318,10 @@ class ExtraTab extends Component {
           />
           <div className="merchant-list-container">
             <ReactTable
+              page={this.props.page || 0}
+              pageSize={this.props.size || 5}
+              onPageChange={(pageIndex) => this.handleChangePage(pageIndex)}
+              onPageSizeChange={(size) => this.handleChangeSize(size)}
               data={extraList}
               columns={columns}
               defaultPageSize={5}
@@ -386,6 +398,8 @@ class ExtraTab extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   extra: state.extra,
+  page: state.updateMerchantExtra.page,
+  size: state.updateMerchantExtra.size,
 });
 const mapDispatchToProps = (dispatch) => ({
   getExtraByID: (merchantId) => {
@@ -402,6 +416,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
+  },
+  setPageExtra: (page) => {
+    dispatch(setPageExtra(page));
+  },
+  setSizeExtra: (size) => {
+    dispatch(setSizeExtra(size));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);
