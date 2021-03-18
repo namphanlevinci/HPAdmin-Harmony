@@ -164,7 +164,7 @@ class Transactions extends React.Component {
       },
       {
         Header: <CustomTableHeader value="Gift Card" />,
-        id: "paymentByCash",
+        id: "paymentByGiftCash",
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
             ${e.paymentByGiftcard}
@@ -192,7 +192,7 @@ class Transactions extends React.Component {
       },
       {
         Header: <CustomTableHeader value="Discount" />,
-        id: "otherPayment",
+        id: "discount",
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
             ${e?.discount}

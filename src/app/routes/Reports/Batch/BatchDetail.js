@@ -38,7 +38,7 @@ class Transactions extends React.Component {
             variant="subtitle1"
             className="batch__detail table__light"
           >
-            {e.paymentData.transaction_id}
+            {e.paymentData?.transaction_id}
           </Typography>
         ),
         width: 400,
@@ -80,7 +80,7 @@ class Transactions extends React.Component {
             variant="subtitle1"
             className=" batch__detail table__light"
           >
-            {e?.status.toUpperCase()}
+            {e?.status?.toUpperCase()}
           </Typography>
         ),
       },
@@ -89,9 +89,9 @@ class Transactions extends React.Component {
         id: "payment",
         accessor: (e) => (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <img src={CreditCardIcon(e.paymentData.card_type)} alt="" />
+            <img src={CreditCardIcon(e.paymentData?.card_type)} alt="" />
             <Typography variant="subtitle1" className="table__light">
-              {e.paymentData.card_number}
+              {e.paymentData?.card_number}
             </Typography>
           </div>
         ),
@@ -109,7 +109,7 @@ class Transactions extends React.Component {
         ),
         Footer: (
           <Typography variant="subtitle1" className="table__light">
-            {`$ ${summary.totalAmount}`}
+            {`$ ${summary?.totalAmount}`}
           </Typography>
         ),
       },
