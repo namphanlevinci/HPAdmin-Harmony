@@ -60,7 +60,7 @@ class Tiket extends Component {
     this.props.fetchApiByPage(url);
   };
   handleReset = debounce((e) => {
-    this.setState({ search: "" });
+    this.setState({ search: "", statusValue: "all" });
     this.fetchApi();
   }, 1000);
   ticketInfo = (ID) => {
@@ -225,11 +225,11 @@ class Tiket extends Component {
           <FormControl style={{ width: "20%", marginTop: "20px" }}>
             <InputLabel>Status</InputLabel>
             <Select onChange={this.handleStatus} value={statusValue}>
+              <MenuItem value="all">All Status</MenuItem>
               <MenuItem value="backlog">Backlog</MenuItem>
+              <MenuItem value="inprogress">In Progress</MenuItem>
               <MenuItem value="waiting">Waiting</MenuItem>
               <MenuItem value="complete">Complete</MenuItem>
-              <MenuItem value="inprogress">Inprogress</MenuItem>
-              <MenuItem value="all">All</MenuItem>
             </Select>
           </FormControl>
           <div>

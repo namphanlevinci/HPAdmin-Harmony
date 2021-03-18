@@ -16,7 +16,7 @@ import {
   InputLabel,
 } from "@material-ui/core";
 import { CustomTitle } from "../../../../../../util/CustomText";
-import Extra from "./Extra";
+import Extra from "./extra";
 import axios from "axios";
 import { config } from "../../../../../../url/url";
 import * as Yup from "yup";
@@ -386,7 +386,7 @@ class EditService extends Component {
                       <Select
                         value={this.state.isDisabled}
                         onChange={(e) => {
-                          this.setState({ isDisabled: e.value });
+                          this.setState({ isDisabled: e.target.value });
                         }}
                       >
                         <MenuItem value={0}>Active</MenuItem>

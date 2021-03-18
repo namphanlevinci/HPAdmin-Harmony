@@ -50,7 +50,6 @@ const Extra = ({
             values.extras.map((extras, index) => {
               const price = extras.price;
               const supplyFee = extras.supplyFee;
-              const isDisabled = extras.isDisabled;
               return (
                 <div style={{ marginBottom: 40 }} key={index}>
                   <div
@@ -194,8 +193,8 @@ const Extra = ({
                           );
                         }}
                         defaultValue={{
-                          value: isDisabled,
-                          label: isDisabled === 0 ? "Active" : "Inactive",
+                          value: `extras.${index}.isDisabled`,
+                          label: "Active",
                         }}
                       />
 
@@ -216,9 +215,7 @@ const Extra = ({
                           cursor: "pointer",
                           letterSpacing: 0.3,
                         }}
-                        onClick={() =>
-                          arrayHelpers.insert(values.extras.length, "")
-                        }
+                        onClick={() => arrayHelpers.insert(1, "")}
                       >
                         + Add Extra
                       </p>

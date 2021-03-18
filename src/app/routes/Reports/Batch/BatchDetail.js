@@ -27,8 +27,8 @@ class Transactions extends React.Component {
     this.props.history.push("/app/reports/batchs");
   };
   render() {
-    const { data, loading, pageSize } = this.props.apiData;
-
+    const { data, loading, pageSize, summary } = this.props.apiData;
+    console.log("data", this.props.apiData);
     const columns = [
       {
         Header: <CustomTableHeader value="Transaction ID" />,
@@ -38,10 +38,15 @@ class Transactions extends React.Component {
             variant="subtitle1"
             className="batch__detail table__light"
           >
-            {e.paymentData.transaction_id}
+            {e.paymentData?.transaction_id}
           </Typography>
         ),
         width: 400,
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            Total:
+          </Typography>
+        ),
       },
       {
         id: "Customer",
@@ -75,7 +80,7 @@ class Transactions extends React.Component {
             variant="subtitle1"
             className=" batch__detail table__light"
           >
-            {e?.status.toUpperCase()}
+            {e?.status?.toUpperCase()}
           </Typography>
         ),
       },
@@ -84,9 +89,9 @@ class Transactions extends React.Component {
         id: "payment",
         accessor: (e) => (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <img src={CreditCardIcon(e.paymentData.card_type)} alt="" />
+            <img src={CreditCardIcon(e.paymentData?.card_type)} alt="" />
             <Typography variant="subtitle1" className="table__light">
-              {e.paymentData.card_number}
+              {e.paymentData?.card_number}
             </Typography>
           </div>
         ),
@@ -99,7 +104,12 @@ class Transactions extends React.Component {
             variant="subtitle1"
             className="table__light batch__detail"
           >
-            ${e.amount}
+            {`$ ${e.amount}`}
+          </Typography>
+        ),
+        Footer: (
+          <Typography variant="subtitle1" className="table__light">
+            {`$ ${summary?.totalAmount}`}
           </Typography>
         ),
       },

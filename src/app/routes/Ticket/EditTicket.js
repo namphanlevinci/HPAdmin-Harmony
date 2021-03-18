@@ -276,7 +276,6 @@ class EditTicket extends Component {
                       id="file"
                       accept="image/gif,image/jpeg, image/png"
                       onChange={(e) => this.uploadImage(e, setFieldValue)}
-                      multiple
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
@@ -292,9 +291,9 @@ class EditTicket extends Component {
                         }
                       >
                         <MenuItem value="backlog">Backlog</MenuItem>
+                        <MenuItem value="inprogress">In Progress</MenuItem>
                         <MenuItem value="waiting">Waiting</MenuItem>
                         <MenuItem value="complete">Complete</MenuItem>
-                        <MenuItem value="inprogress">Inprogress</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>

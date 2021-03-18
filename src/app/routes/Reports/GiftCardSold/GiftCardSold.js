@@ -169,6 +169,7 @@ class P2P extends React.Component {
       totalRow,
       summary,
     } = this.props.apiData;
+    console.log("total", this.props.apiData);
 
     const columns = [
       {

@@ -18,8 +18,10 @@ import {
   CustomTextLabel,
   CustomTitle,
 } from "../../../util/CustomText";
+import { config } from "../../../url/url";
 import { Tabs } from "antd";
-import { changeStatus } from "../../../actions/ticketActions";
+import { changeStatus, addTicketFile } from "../../../actions/ticketActions";
+import LinearProgress from "../../../util/linearProgress";
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import NewButton from "../../../components/Button/Search";
@@ -28,23 +30,78 @@ import Log from "./Active/Log";
 import Comment from "./Active/Comment";
 import moment from "moment";
 import CheckPermissions from "../../../util/checkPermission";
+
+import axios from "axios";
+
 // routes\Consumers\ConsumerProfile\Detail\Consumer.css
 // D:\levinci\HarmonyPay\Hpadmin\src\app\routes\Merchants\PendingList\MerchantReqProfile.css
 import "antd/dist/antd.css";
 import "./Ticket.css";
 
+const upFile = config.url.upFile;
 class TicketInfo extends Component {
   constructor(props) {
     super(props);
+    this.state = { isUpload: false, imgUrl: [] };
   }
   EditPage = () => {
     this.props.history.push("/app/ticket/edit");
   };
   changeStatus = (e) => {
-    console.log(e.target.value);
     const { data } = this.props.ticketInfo;
-
     this.props.changeStatus({ id: data.id, status: e.target.value });
+  };
+  uploadImage = (e, setFieldValue) => {
+    e.preventDefault();
+    const { data } = this.props.ticketInfo;
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    const { ticketInfo } = this.props;
+
+    if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
+      // setFieldValue("isUpload", true);
+      this.setState({ isUpload: true });
+      let formData = new FormData();
+
+      formData.append("Filename", file);
+
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      axios
+        .post(upFile, formData, config)
+        .then((res) => {
+          reader.readAsDataURL(file);
+          console.log("res", res);
+          reader.onloadend = () => {
+            // setFieldValue(`imageUrl`, reader.result);
+            this.setState({
+              imgUrl: [...this.state.imgUrl, res.data.data.url],
+            });
+            this.props.addTicketFile({
+              id: data.id,
+              fileId: res.data.data.fileId,
+            });
+          };
+          this.setState({
+            // fileIds: [...this.state.fileIds, res.data.data.fileId],
+            isUpload: false,
+          });
+
+          // setFieldValue(`isUpload`, false);
+          // setFieldValue(`fileIds`, this.state.fileIds);
+        })
+        .catch((err) => {
+          console.log(err);
+          // setFieldValue(`isUpload`, false);
+          this.setState({ isUpload: false });
+        });
+    } else {
+      // this.props.warningNotify(
+      //   "Image type is not supported, Please choose another image "
+      // );
+      alert("Image type is not supported, Please choose another image ");
+    }
   };
   render() {
     const { data } = this.props.ticketInfo;
@@ -99,9 +156,9 @@ class TicketInfo extends Component {
               onChange={(e) => this.changeStatus(e)}
               valuesArr={[
                 { title: "Backlog", value: "backlog" },
+                { title: "In progress", value: "inprogress" },
                 { title: "Waiting", value: "waiting" },
                 { title: "Complete", value: "complete" },
-                { title: "Inprogress", value: "inprogress" },
               ]}
             />
             <hr />
@@ -216,17 +273,30 @@ class TicketInfo extends Component {
               </div>
             </div>
           </Grid>
-          <Button
-            style={{
-              backgroundColor: "#0764B0",
-              color: "white",
-              marginTop: "10px",
-            }}
-            className="btn btn-red"
-            onClick={() => this.EditPage()}
-          >
-            Edit
-          </Button>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ width: "20%", margin: "5px 5px" }}>
+              {this.state?.isUpload ? <LinearProgress /> : null}
+            </div>
+            <input
+              type="file"
+              name="image"
+              id="file"
+              accept="image/gif,image/jpeg, image/png"
+              onChange={(e) => this.uploadImage(e)}
+            />
+            <Button
+              style={{
+                backgroundColor: "#0764B0",
+                color: "white",
+                marginTop: "10px",
+                width: "30%",
+              }}
+              className="btn btn-red"
+              onClick={() => this.EditPage()}
+            >
+              Edit
+            </Button>
+          </div>
         </Grid>
       </div>
     );
@@ -243,6 +313,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeStatus: (payload) => {
     dispatch(changeStatus(payload));
+  },
+  addTicketFile: (payload) => {
+    dispatch(addTicketFile(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(TicketInfo);
