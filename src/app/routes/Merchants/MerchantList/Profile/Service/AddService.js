@@ -2,11 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import { Formik, Form } from "formik";
-import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
+import {
+  WARNING_NOTIFICATION,
+  FAILURE_NOTIFICATION,
+  SUCCESS_NOTIFICATION,
+} from "../../../../../../constants/notificationConstants";
 import {
   getCategoryByID,
   addMerchantServiceById,
+  exportService,
+  importService,
 } from "../../../../../../actions/merchantActions";
+import { MenuItem, FormControl, InputLabel } from "@material-ui/core";
 import { AiOutlineClose } from "react-icons/ai";
 
 import DialogContent from "@material-ui/core/DialogContent";
@@ -25,6 +32,7 @@ import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
 import "../../../Merchants.css";
 import "../Detail.css";
+import { values } from "lodash";
 
 const colourStyles = {
   control: (styles) => ({
@@ -70,6 +78,7 @@ class AddService extends Component {
       imageUrl: "",
       extras: [],
       supplyFee: 0,
+      extraId: "",
       //~ preview image
       imagePreviewUrl: "",
       render: false,
@@ -86,6 +95,24 @@ class AddService extends Component {
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+  };
+  handePushValue = (e, values) => {
+    console.log(e);
+    this.setState({ extraId: e.id }, () => {
+      values.extras.map((value) => {
+        if (value?.extraId !== e.id || values.extras.length === 0) {
+          console.log("haha");
+          const newExtra = { ...e.extra };
+          values.extras.push(newExtra);
+        } else {
+          console.log("jiji");
+        }
+      });
+    });
+  };
+  handleExport = () => {
+    const ID = this.props.MerchantProfile.merchantId;
+    this.props.exportService(ID);
   };
 
   handleUploadImage = (e) => {
@@ -122,7 +149,19 @@ class AddService extends Component {
       );
     }
   };
+  handleAddTemplate = async (e) => {
+    e.preventDefault();
+    const merchantId = this.props.MerchantProfile.merchantId;
+    let file = await e.target.files[0];
 
+    if (file?.name.toLowerCase().match(/\.(xlsx)$/)) {
+      this.props.importService(merchantId, file);
+    } else {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another file "
+      );
+    }
+  };
   goBack = () => {
     this.setState({ open: false });
   };
@@ -136,6 +175,7 @@ class AddService extends Component {
       { value: "0", label: "Active" },
       { value: "1", label: "Inactive" },
     ];
+    const extra = this.props.extraList.extraList;
 
     const extrasCondition =
       this.state.render === true
@@ -199,11 +239,34 @@ class AddService extends Component {
       <div>
         <Button
           className="btn btn-green"
+          style={{ marginRight: "10px" }}
+          onClick={() => this.handleExport()}
+        >
+          EXPORT
+        </Button>
+        <div id="upload_button">
+          <label>
+            <input
+              type="file"
+              accept=".xlsx"
+              onChange={(e) => this.handleAddTemplate(e)}
+            />
+            <span
+              style={{ margin: "0px", marginRight: 10 }}
+              className="btn btn-green"
+            >
+              IMPORT
+            </span>
+          </label>
+        </div>
+        <Button
+          className="btn btn-green"
           style={{ marginRight: "0px" }}
           onClick={this.handleClickOpen}
         >
           NEW SERVICE
         </Button>
+
         <Dialog
           fullScreen
           open={this.state.open}
@@ -315,7 +378,6 @@ class AddService extends Component {
                                           selectedOption.value
                                         );
                                       }}
-                                      placeholder="- Select -"
                                       loadingMessage={() => "Fetching Service"}
                                       noOptionsMessage={() =>
                                         "Service appears here!"
@@ -615,6 +677,50 @@ class AddService extends Component {
                                 handleBlur={handleBlur}
                                 touched={touched}
                               />
+                              <p
+                                style={{
+                                  marginLeft: -15,
+                                  color: "#4251af",
+                                  fontWeight: "600",
+                                  fontSize: 14,
+                                  cursor: "pointer",
+                                  letterSpacing: 0.3,
+                                  marginBottom: 0,
+                                }}
+                              >
+                                + Select Extra Existing
+                              </p>
+                              <label
+                                style={{
+                                  textAlign: "left",
+                                  color: "#0764B0",
+                                }}
+                              >
+                                Extra
+                              </label>
+                              <br />
+                              <div>
+                                <Select
+                                  styles={colourStyles}
+                                  options={
+                                    extra
+                                      ? extra
+                                          .filter((e) => e.isDeleted === 0)
+                                          .map((e) => {
+                                            return {
+                                              id: e.extraId,
+                                              value: e.extraId,
+                                              label: e.name,
+                                              extra: e,
+                                            };
+                                          })
+                                      : []
+                                  }
+                                  onChange={(e) => {
+                                    this.handePushValue(e, values);
+                                  }}
+                                />
+                              </div>
                             </div>
                           </div>
 
@@ -651,20 +757,37 @@ class AddService extends Component {
   }
 }
 
+const findElement = (array, id) => {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i]?.extraId === id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   categoryList: state.category,
+  extraList: state.extra,
 });
 
 const mapDispatchToPros = (dispatch) => ({
   warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
+    dispatch({ type: WARNING_NOTIFICATION, payload: message });
   },
   getCategoryByID: (MerchantId) => {
     dispatch(getCategoryByID(MerchantId));
   },
   addMerchantServiceById: (payload) => {
     dispatch(addMerchantServiceById(payload));
+  },
+  exportService: (serviceId) => {
+    dispatch(exportService(serviceId));
+  },
+  importService: (merchantID, file) => {
+    dispatch(importService(merchantID, file));
   },
 });
 

@@ -1801,6 +1801,138 @@ export const DownloadMerchantTemplateById = () => async (
   }
 };
 
+export const importService = (merchantID, file) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+    let formData = new FormData();
+    formData.append("serviceFile", file);
+
+    const { data } = await axios.put(
+      `${URL}/service/importByMerchant/${merchantID}`,
+      formData,
+      {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data.message,
+      });
+      dispatch(getServiceByID(merchantID));
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const importCategory = (merchantID, file) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    let formData = new FormData();
+    formData.append("fileCategory", file);
+
+    const { data } = await axios.put(
+      `${URL}/category/import/${merchantID}`,
+      formData,
+      {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data.message,
+      });
+      dispatch(getCategoryByID(merchantID));
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const importExtra = (merchantID, file) => async (dispatch, getState) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    let formData = new FormData();
+    formData.append("fileExtra", file);
+
+    const { data } = await axios.put(
+      `${URL}/extra/import/${merchantID}`,
+      formData,
+      {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data.message,
+      });
+      dispatch(getExtraByID(merchantID));
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const AddMerchantTemplateById = ({ merchantId, file }) => async (
   dispatch,
   getState
@@ -2508,6 +2640,210 @@ export const updateMerchantSubscriptionById = (payload) => async (
 
     dispatch({
       type: types.UPDATE_MERCHANT_SUBSCRIPTION_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const exportExtra = (id) => async (dispatch, getState) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(`${URL}/extra/export/${id}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data?.message,
+      });
+      window.open(data.data, "_blank").focus();
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const exportService = (id) => async (dispatch, getState) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(`${URL}/service/exportByMerchant/${id}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data?.message,
+      });
+      window.open(data.data, "_blank").focus();
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const exportCategory = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: types.EXPORT_CATEGORY_REQUEST });
+
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.get(`${URL}/category/export/${id}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: types.EXPORT_CATEGORY_SUCCESS,
+        payload: data,
+      });
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data?.message,
+      });
+      window.open(data.data, "_blank").focus();
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: "Failure",
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.EXPORT_CATEGORY_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const delService = (serviceId) => async (dispatch, getState) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.delete(`${URL}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data?.message,
+      });
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data?.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const delExtra = (id) => async (dispatch, getState) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.delete(`${URL}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+    if (data?.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data?.message,
+      });
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data?.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const delCategory = (id) => async (dispatch, getState) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.delete(`${URL}`, {
+      headers: { Authorization: `Bearer ${user?.token}` },
+    });
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data?.message,
+      });
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data?.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

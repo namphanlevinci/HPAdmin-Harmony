@@ -7,6 +7,9 @@ import {
   addMerchantCategoryById,
   restoreCategoryById,
   archiveCategoryById,
+  exportCategory,
+  importCategory,
+  delCategory,
 } from "../../../../../../actions/merchantActions";
 import {
   Select,
@@ -17,6 +20,7 @@ import {
   FormHelperText,
 } from "@material-ui/core";
 
+import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 import MenuItem from "@material-ui/core/MenuItem";
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
@@ -28,6 +32,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
+import DelSVG from "../../../../../../assets/images/del.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
@@ -48,6 +53,7 @@ class Category extends Component {
       // Archive & Restore & Add Category
       dialog: false,
       restoreDialog: false,
+      delDialog: false,
       cateDialog: false,
       // Category ID để update
       categoryId: "",
@@ -72,15 +78,33 @@ class Category extends Component {
     this.props.viewCategory(e);
     this.setState({ edit: true });
   };
-
+  handleDel = (id) => {
+    console.log(id);
+  };
   handleArchive = (categoryID) => {
     const merchantID = this.props.MerchantProfile.merchantId;
     this.props.archiveCategoryById(categoryID, merchantID);
   };
+  handleAddTemplate = async (e) => {
+    e.preventDefault();
+    const merchantId = this.props.MerchantProfile.merchantId;
+    let file = await e.target.files[0];
 
+    if (file?.name.toLowerCase().match(/\.(xlsx)$/)) {
+      this.props.importCategory(merchantId, file);
+    } else {
+      this.props.warningNotify(
+        "File type is not supported, Please choose another file "
+      );
+    }
+  };
   handleRestore = (categoryID) => {
     const merchantID = this.props.MerchantProfile.merchantId;
     this.props.restoreCategoryById(categoryID, merchantID);
+  };
+  handleExport = () => {
+    const merchantID = this.props.MerchantProfile.merchantId;
+    this.props.exportCategory(merchantID);
   };
   render() {
     let { categoryList, loading } = this.props.categoryList;
@@ -178,7 +202,13 @@ class Category extends Component {
               </Tooltip>
             );
           return (
-            <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               {CheckPermissions("active-category") && actionsBtn}
 
               {CheckPermissions("edit-category") && (
@@ -188,6 +218,22 @@ class Category extends Component {
                       alt="edit"
                       src={EditSVG}
                       onClick={() => this.handleEdit(row.original)}
+                    />
+                  </Tooltip>
+                </span>
+              )}
+              {CheckPermissions("edit-category") && (
+                <span style={{ paddingLeft: "20px" }}>
+                  <Tooltip title="Delete">
+                    <img
+                      alt="delete"
+                      src={DelSVG}
+                      onClick={() =>
+                        this.setState({
+                          delDialog: true,
+                          categoryId: row.original.categoryId,
+                        })
+                      }
                     />
                   </Tooltip>
                 </span>
@@ -212,13 +258,37 @@ class Category extends Component {
             <div>
               {/* NEW ADD FORM */}
               {CheckPermissions("add-new-category") && (
-                <Button
-                  className="btn add-category"
-                  style={{ marginTop: "0px" }}
-                  onClick={() => this.setState({ cateDialog: true })}
-                >
-                  NEW CATEGORY
-                </Button>
+                <>
+                  <Button
+                    className="btn add-category"
+                    style={{ marginTop: "0px" }}
+                    onClick={() => this.handleExport()}
+                  >
+                    EXPORT
+                  </Button>
+                  <div id="upload_button">
+                    <label>
+                      <input
+                        type="file"
+                        accept=".xlsx"
+                        onChange={(e) => this.handleAddTemplate(e)}
+                      />
+                      <span
+                        style={{ margin: "0px", marginRight: "10px" }}
+                        className="btn btn-green"
+                      >
+                        IMPORT
+                      </span>
+                    </label>
+                  </div>
+                  <Button
+                    className="btn add-category"
+                    style={{ marginTop: "0px" }}
+                    onClick={() => this.setState({ cateDialog: true })}
+                  >
+                    NEW CATEGORY
+                  </Button>
+                </>
               )}
 
               <Dialog open={this.state.cateDialog}>
@@ -417,7 +487,37 @@ class Category extends Component {
                 </Button>
               </DialogActions>
             </Dialog>
-
+            {/* // DEL  */}
+            <Dialog open={this.state.delDialog}>
+              <DialogTitle id="alert-dialog-title">
+                {"Delete this Category?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Do you want delete this Category ?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() =>
+                    this.setState({ delDialog: false, categoryId: "" })
+                  }
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={() => {
+                    this.handleDel(this.state.categoryId);
+                    this.setState({ delDialog: false });
+                  }}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
             {/* // EDIT CATEGORY  */}
             <Dialog open={this.state.edit} maxWidth="sm" fullWidth>
               <DialogTitle>{"Edit Category"}</DialogTitle>
@@ -452,8 +552,20 @@ const mapDispatchToProps = (dispatch) => ({
   restoreCategoryById: (categoryID, MerchantID) => {
     dispatch(restoreCategoryById(categoryID, MerchantID));
   },
+  warningNotify: (message) => {
+    dispatch({ type: WARNING_NOTIFICATION, payload: message });
+  },
   archiveCategoryById: (categoryID, MerchantID) => {
     dispatch(archiveCategoryById(categoryID, MerchantID));
+  },
+  exportCategory: (merchantID) => {
+    dispatch(exportCategory(merchantID));
+  },
+  importCategory: (merchantID, file) => {
+    dispatch(importCategory(merchantID, file));
+  },
+  delCategory: (categoryId) => {
+    dispatch(delCategory(categoryId));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Category);

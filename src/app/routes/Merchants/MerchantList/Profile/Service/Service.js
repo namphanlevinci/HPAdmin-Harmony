@@ -7,6 +7,7 @@ import {
   restoreServiceById,
   setPage,
   setSize,
+  delService,
 } from "../../../../../../actions/merchantActions";
 
 import Button from "@material-ui/core/Button";
@@ -22,6 +23,7 @@ import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 import SearchComponent from "../../../../../../util/searchComponent";
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
+import DelSVG from "../../../../../../assets/images/del.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
@@ -35,6 +37,7 @@ class Service extends Component {
       loading: true,
       // Archive & Restore
       dialog: false,
+      delDialog: false,
       restoreDialog: false,
       // Service ID
       serviceId: "",
@@ -214,7 +217,13 @@ class Service extends Component {
               </Tooltip>
             );
           return (
-            <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               {CheckPermissions("active-service") && actionsBtn}
 
               {CheckPermissions("edit-service") && (
@@ -224,6 +233,17 @@ class Service extends Component {
                       alt=""
                       src={EditSVG}
                       onClick={() => this.handleEdit(row.original)}
+                    />
+                  </Tooltip>
+                </span>
+              )}
+              {CheckPermissions("edit-service") && (
+                <span style={{ paddingLeft: "20px" }}>
+                  <Tooltip title="Delete">
+                    <img
+                      alt=""
+                      src={DelSVG}
+                      onClick={() => this.setState({ delDialog: true })}
                     />
                   </Tooltip>
                 </span>
@@ -298,6 +318,38 @@ class Service extends Component {
                 </Button>
               </DialogActions>
             </Dialog>
+            {/* DELETE */}
+
+            <Dialog open={this.state.delDialog}>
+              <DialogTitle id="alert-dialog-title">
+                {"Delete this Service?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Do you want delete this service ?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() =>
+                    this.setState({ delDialog: false, categoryId: "" })
+                  }
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={() => [
+                    this.setState({ delDialog: false, categoryId: "" }),
+                  ]}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
+
             {/* RESTORE */}
             <Dialog open={this.state.restoreDialog}>
               <DialogTitle id="alert-dialog-title">
@@ -361,6 +413,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   restoreServiceById: (serviceId, MerchantID) => {
     dispatch(restoreServiceById(serviceId, MerchantID));
+  },
+  delService: (serviceId) => {
+    dispatch(delService(serviceId));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Service);

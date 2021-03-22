@@ -7,6 +7,9 @@ import {
   updateMerchantExtraById,
   setPageExtra,
   setSizeExtra,
+  exportExtra,
+  importExtra,
+  delExtra,
 } from "../../../../../../actions/merchantActions";
 import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 import { config } from "../../../../../../url/url";
@@ -23,6 +26,7 @@ import defaultImage from "./hpadmin2.png";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
+import DelSVG from "../../../../../../assets/images/del.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
@@ -41,6 +45,7 @@ class ExtraTab extends Component {
       // Archive & Restore
       dialog: false,
       restoreDialog: false,
+      delDialog: false,
       // Service ID
       serviceId: "",
       edit: false,
@@ -138,6 +143,10 @@ class ExtraTab extends Component {
   handleChangePage = (pageIndex) => {
     this.props.setPageExtra(pageIndex);
   };
+  handleExport = () => {
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.exportExtra(merchantId);
+  };
   handleChangeSize = (size) => {
     console.log("size", size);
     this.props.setSizeExtra(size);
@@ -146,9 +155,27 @@ class ExtraTab extends Component {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.restoreExtraById(extraId, merchantId);
   };
+  handleDel = (id) => {
+    console.log(id);
+  };
+
+  handleAddTemplate = async (e) => {
+    e.preventDefault();
+    const merchantId = this.props.MerchantProfile.merchantId;
+    let file = await e.target.files[0];
+
+    if (file?.name.toLowerCase().match(/\.(xlsx)$/)) {
+      this.props.importExtra(merchantId, file);
+    } else {
+      this.props.warningNotify(
+        "File type is not supported, Please choose another file "
+      );
+    }
+  };
 
   render() {
-    let { extraList, loading } = this.props.extra;
+    let { loading } = this.props.extra;
+    let extraList = this.props.extra.extraList || [];
 
     // Search
     if (extraList) {
@@ -241,7 +268,17 @@ class ExtraTab extends Component {
       {
         id: "Actions",
         sortable: false,
-        Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
+        Header: () => (
+          <div
+            style={{
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            Actions
+          </div>
+        ),
         Cell: (row) => {
           const actionsBtn =
             row.original.isDisabled !== 1 ? (
@@ -289,6 +326,22 @@ class ExtraTab extends Component {
                   </Tooltip>
                 </span>
               )}
+              {CheckPermissions("edit-extra") && (
+                <span style={{ paddingLeft: "20px" }}>
+                  <Tooltip title="Delete">
+                    <img
+                      alt=""
+                      src={DelSVG}
+                      onClick={() => {
+                        this.setState({
+                          delDialog: true,
+                          extraId: row.original.extraId,
+                        });
+                      }}
+                    />
+                  </Tooltip>
+                </span>
+              )}
             </div>
           );
         },
@@ -306,6 +359,27 @@ class ExtraTab extends Component {
               value={this.state.search}
               onChange={(e) => this.setState({ search: e.target.value })}
             />
+            <div>
+              <Button
+                className="btn btn-green"
+                style={{ marginRight: "10px" }}
+                onClick={() => this.handleExport()}
+              >
+                EXPORT
+              </Button>
+              <div id="upload_button">
+                <label>
+                  <input
+                    type="file"
+                    accept=".xlsx"
+                    onChange={(e) => this.handleAddTemplate(e)}
+                  />
+                  <span style={{ margin: "0px" }} className="btn btn-green">
+                    IMPORT
+                  </span>
+                </label>
+              </div>
+            </div>
           </div>
           <EditExtra
             getExtra={this.props.getExtraByID}
@@ -350,6 +424,35 @@ class ExtraTab extends Component {
                   onClick={() => [
                     this.handleArchive(this.state.extraId),
                     this.setState({ dialog: false, extraId: "" }),
+                  ]}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
+            {/* DELETE */}
+            <Dialog open={this.state.delDialog}>
+              <DialogTitle>{"Delete this Extra?"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Do you want delete this extra ?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() =>
+                    this.setState({ delDialog: false, extraId: "" })
+                  }
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={() => [
+                    this.setState({ delDialog: false, extraId: "" }),
+                    this.handleDel(this.state.extraId),
                   ]}
                   color="primary"
                   autoFocus
@@ -415,13 +518,22 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(updateMerchantExtraById(payload));
   },
   warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
+    dispatch({ type: WARNING_NOTIFICATION, payload: message });
   },
   setPageExtra: (page) => {
     dispatch(setPageExtra(page));
   },
   setSizeExtra: (size) => {
     dispatch(setSizeExtra(size));
+  },
+  exportExtra: (merchantId) => {
+    dispatch(exportExtra(merchantId));
+  },
+  importExtra: (merchantId, file) => {
+    dispatch(importExtra(merchantId, file));
+  },
+  delExtra: (extraId) => {
+    dispatch(delExtra(extraId));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);

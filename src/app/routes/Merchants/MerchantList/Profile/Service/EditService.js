@@ -46,6 +46,7 @@ class EditService extends Component {
       isDisabled: "",
       imageUrl: "",
       extras: [],
+      extraId: "",
       //~ preview image
       imagePreviewUrl: "",
       loading: false,
@@ -130,14 +131,16 @@ class EditService extends Component {
   updateService = () => {
     const merchantId = this.props.MerchantProfile.merchantId;
     const path = "/app/merchants/profile/service";
-    const payload = { ...this.state, merchantId, path };
+    const payload = { ...this.state, extraId: "", merchantId, path };
+    console.log("payloaddddddd", JSON.stringify(payload));
 
     this.props.updateMerchantServiceById(payload);
   };
 
   render() {
     const service = this.props.updateService;
-    console.log("PROPSSS", this);
+    const extra = this.props.extraList.extraList;
+    console.log("PROPSSS", this.props);
     let { categoryList: category } = this.props.categoryList;
 
     //~ preview image
@@ -436,6 +439,7 @@ class EditService extends Component {
                 }
 
                 this.updateService();
+                // console.log(values);
               }}
             >
               {({
@@ -459,7 +463,54 @@ class EditService extends Component {
                     touched={touched}
                     loading={this.state.loading}
                   />
-
+                  <p
+                    style={{
+                      marginLeft: -15,
+                      color: "#4251af",
+                      fontWeight: "600",
+                      fontSize: 14,
+                      cursor: "pointer",
+                      letterSpacing: 0.3,
+                      marginBottom: 0,
+                    }}
+                  >
+                    + Select Extra Existing
+                  </p>
+                  {this.state.loading && (
+                    <FormControl
+                      style={{
+                        width: "80%",
+                        marginTop: 0,
+                        marginLeft: "-15px",
+                      }}
+                    >
+                      <InputLabel>Extra</InputLabel>
+                      <Select
+                        value={this.state.extraId}
+                        onChange={(e) => {
+                          this.setState({ extraId: e.target.value });
+                          const newExtra = {
+                            ...e.target.value,
+                            position: 0,
+                            imageUrl: null,
+                            fileId: 0,
+                            status: 1,
+                          };
+                          values.extras.push(newExtra);
+                        }}
+                      >
+                        {extra
+                          ? extra
+                              .filter((e) => e.isDeleted === 0)
+                              .map((e) => (
+                                <MenuItem key={e.extraId} value={e}>
+                                  {e.name}
+                                </MenuItem>
+                              ))
+                          : []}
+                      </Select>
+                    </FormControl>
+                  )}
                   <div className="Save-fixed-bottom">
                     <Button
                       className="btn btn-green"
@@ -491,6 +542,7 @@ const mapStateToProps = (state) => ({
   service: state.service,
   updateService: state.updateService.service,
   categoryList: state.category,
+  extraList: state.extra,
 });
 
 const mapDispatchToProps = (dispatch) => ({

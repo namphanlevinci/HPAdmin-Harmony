@@ -199,8 +199,8 @@ class TicketInfo extends Component {
             <Grid item xs={12} md={12}>
               <div style={style}>
                 <CustomText value="Last update:" />
-                {moment(data.modifiedDate).format("MMM DD, YYYY, h:mm:ss A") !==
-                  "Jan 01, 0001, 12:00:00 AM" && (
+                {moment(data.modifiedDate).format("MMM DD, YYYY") !==
+                  "Jan 01, 0001" && (
                   <CustomTextLabel
                     value={moment(data.modifiedDate).format(
                       "MMM DD, YYYY, h:mm:ss A"
