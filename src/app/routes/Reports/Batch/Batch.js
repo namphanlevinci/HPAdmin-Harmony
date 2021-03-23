@@ -44,7 +44,7 @@ class Transactions extends React.Component {
       amount: "",
       amountFrom: -1,
       amountTo: -1,
-      range: "",
+      range: "thisMonth",
       status: -1,
     };
   }
@@ -60,7 +60,12 @@ class Transactions extends React.Component {
     this.fetchApi();
   }, 1000);
   handleReset = debounce((e) => {
-    this.setState({ search: "" });
+    this.setState({
+      search: "",
+      from: moment().startOf("month").format("YYYY-MM-DD"),
+      to: moment().endOf("month").format("YYYY-MM-DD"),
+      range: "thisMonth",
+    });
     this.fetchApi();
   }, 1000);
   handleChange = (e) => {
@@ -124,9 +129,10 @@ class Transactions extends React.Component {
   };
 
   fetchApi = async (state) => {
+    console.log("stateeeeeeee", state);
     const { search, from, to, range } = this.state;
     let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
+    let pageSize = state?.pageSize ? state?.pageSize : 5;
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
@@ -167,7 +173,7 @@ class Transactions extends React.Component {
       };
     };
 
-    const { page, amountTo, amountFrom, range, status, from, to } = this.state;
+    const { page, range, from, to } = this.state;
     const {
       data,
       loading,
@@ -176,6 +182,8 @@ class Transactions extends React.Component {
       totalRow,
       summary,
     } = this.props.apiData;
+    console.log("apiDATA", this.props.apiData);
+    console.log("this statee", this.state);
 
     const columns = [
       {
@@ -406,14 +414,14 @@ class Transactions extends React.Component {
           </Grid>
           <div className="merchant-list-container Transactions">
             <ReactTable
-              manual
+              manual={true}
               page={page}
               pages={pageCount}
               data={data}
               row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onFetchData={(state) => this.fetchApi(state)}
-              defaultPageSize={20}
+              defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}

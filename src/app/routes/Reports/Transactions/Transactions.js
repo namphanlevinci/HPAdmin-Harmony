@@ -187,6 +187,7 @@ class Transactions extends React.Component {
       summary,
     } = this.props.apiData;
     console.log("apiData", this.props.apiData);
+    console.log("state", this.state);
 
     const columns = [
       {

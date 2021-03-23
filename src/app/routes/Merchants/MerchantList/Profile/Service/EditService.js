@@ -183,7 +183,7 @@ class EditService extends Component {
     const extraItem =
       service?.extras.length !== 0
         ? service?.extras.filter((e) => e?.isDeleted !== 1)
-        : null;
+        : [];
     return (
       <div
         className="react-transition swipe-up service-container"
@@ -496,6 +496,7 @@ class EditService extends Component {
                             fileId: 0,
                             status: 1,
                           };
+                          console.log(values);
                           values.extras.push(newExtra);
                         }}
                       >
