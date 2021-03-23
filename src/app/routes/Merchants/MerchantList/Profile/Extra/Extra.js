@@ -104,7 +104,10 @@ class ExtraTab extends Component {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.getExtraByID(merchantId);
   }
-
+  handleDel = (extraID) => {
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.delExtra(extraID, merchantId);
+  };
   handleClose = (name, value) => {
     this.setState({ [name]: value });
   };
@@ -154,9 +157,6 @@ class ExtraTab extends Component {
   handleRestore = (extraId) => {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.restoreExtraById(extraId, merchantId);
-  };
-  handleDel = (id) => {
-    console.log(id);
   };
 
   handleAddTemplate = async (e) => {
@@ -451,8 +451,8 @@ class ExtraTab extends Component {
                 </Button>
                 <Button
                   onClick={() => [
-                    this.setState({ delDialog: false, extraId: "" }),
                     this.handleDel(this.state.extraId),
+                    this.setState({ delDialog: false, extraId: "" }),
                   ]}
                   color="primary"
                   autoFocus
@@ -532,8 +532,8 @@ const mapDispatchToProps = (dispatch) => ({
   importExtra: (merchantId, file) => {
     dispatch(importExtra(merchantId, file));
   },
-  delExtra: (extraId) => {
-    dispatch(delExtra(extraId));
+  delExtra: (extraId, merchantId) => {
+    dispatch(delExtra(extraId, merchantId));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ExtraTab);

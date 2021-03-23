@@ -4,15 +4,12 @@ import { getReportMerchantId } from "../../../../actions/reportActions";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import {
-  Button,
   FormControl,
   Select,
   MenuItem,
   Grid,
   InputLabel,
-  TextField,
   Typography,
-  InputAdornment,
 } from "@material-ui/core";
 import { Helmet } from "react-helmet";
 import { debounce } from "lodash";
@@ -21,7 +18,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import InputCustom from "../../../../util/CustomInput";
 import NewButton from "../../../../../src/components/Button/Search";
 import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
@@ -46,6 +42,7 @@ class Transactions extends React.Component {
       amountTo: -1,
       range: "thisMonth",
       status: -1,
+      page: 0,
     };
   }
 
@@ -59,15 +56,21 @@ class Transactions extends React.Component {
   searchMerchantBatch = debounce((query) => {
     this.fetchApi();
   }, 1000);
-  handleReset = debounce((e) => {
-    this.setState({
-      search: "",
-      from: moment().startOf("month").format("YYYY-MM-DD"),
-      to: moment().endOf("month").format("YYYY-MM-DD"),
-      range: "thisMonth",
-    });
-    this.fetchApi();
-  }, 1000);
+  handleReset = (e) => {
+    this.setState(
+      {
+        page: 0,
+        search: "",
+        from: moment().startOf("month").format("YYYY-MM-DD"),
+        to: moment().endOf("month").format("YYYY-MM-DD"),
+        range: "thisMonth",
+      },
+      () => {
+        this.fetchApi();
+      }
+    );
+  };
+
   handleChange = (e) => {
     this.setState({ search: e.target.value });
   };
@@ -129,7 +132,7 @@ class Transactions extends React.Component {
   };
 
   fetchApi = async (state) => {
-    console.log("stateeeeeeee", state);
+    // console.log(state);
     const { search, from, to, range } = this.state;
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 5;
@@ -139,8 +142,6 @@ class Transactions extends React.Component {
     const url = `settlement?key=${search}&page=${
       page === 0 ? 1 : page + 1
     }&row=${pageSize}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
-    // {{host}}api/settlement?page=1&row=20&timeStart=2019-03-01&timeEnd=2021-03-31
-    //&sortValue=created_date&sortType=desc&key=405
 
     this.props.fetchApiByPage(url);
   };
@@ -148,6 +149,11 @@ class Transactions extends React.Component {
   changePage = (pageIndex) => {
     this.setState({
       page: pageIndex,
+    });
+  };
+  resetpage = () => {
+    this.setState({
+      page: 0,
     });
   };
 
@@ -182,8 +188,7 @@ class Transactions extends React.Component {
       totalRow,
       summary,
     } = this.props.apiData;
-    console.log("apiDATA", this.props.apiData);
-    console.log("this statee", this.state);
+    console.log(this.state);
 
     const columns = [
       {
@@ -426,6 +431,7 @@ class Transactions extends React.Component {
               noDataText="NO DATA!"
               loading={loading}
               columns={columns}
+              showPageJump={false}
               getTdProps={onRowClick}
             />
           </div>

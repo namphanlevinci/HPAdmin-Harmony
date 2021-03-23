@@ -78,9 +78,7 @@ class Category extends Component {
     this.props.viewCategory(e);
     this.setState({ edit: true });
   };
-  handleDel = (id) => {
-    console.log(id);
-  };
+
   handleArchive = (categoryID) => {
     const merchantID = this.props.MerchantProfile.merchantId;
     this.props.archiveCategoryById(categoryID, merchantID);
@@ -101,6 +99,10 @@ class Category extends Component {
   handleRestore = (categoryID) => {
     const merchantID = this.props.MerchantProfile.merchantId;
     this.props.restoreCategoryById(categoryID, merchantID);
+  };
+  handleDel = (categoryID) => {
+    const merchantID = this.props.MerchantProfile.merchantId;
+    this.props.delCategory(categoryID, merchantID);
   };
   handleExport = () => {
     const merchantID = this.props.MerchantProfile.merchantId;
@@ -564,8 +566,8 @@ const mapDispatchToProps = (dispatch) => ({
   importCategory: (merchantID, file) => {
     dispatch(importCategory(merchantID, file));
   },
-  delCategory: (categoryId) => {
-    dispatch(delCategory(categoryId));
+  delCategory: (categoryId, merchantId) => {
+    dispatch(delCategory(categoryId, merchantId));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Category);

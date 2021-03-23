@@ -2754,13 +2754,16 @@ export const exportCategory = (id) => async (dispatch, getState) => {
   }
 };
 
-export const delService = (serviceId) => async (dispatch, getState) => {
+export const delService = (serviceId, merchantID) => async (
+  dispatch,
+  getState
+) => {
   try {
     const {
       verifyUser: { user },
     } = await getState();
 
-    const { data } = await axios.delete(`${URL}`, {
+    const { data } = await axios.delete(`${URL}/service/${serviceId}`, {
       headers: {
         Authorization: `Bearer ${user?.token}`,
       },
@@ -2771,6 +2774,7 @@ export const delService = (serviceId) => async (dispatch, getState) => {
         type: SUCCESS_NOTIFICATION,
         payload: data?.message,
       });
+      dispatch(getServiceByID(merchantID));
     } else {
       dispatch({
         type: FAILURE_NOTIFICATION,
@@ -2788,13 +2792,13 @@ export const delService = (serviceId) => async (dispatch, getState) => {
   }
 };
 
-export const delExtra = (id) => async (dispatch, getState) => {
+export const delExtra = (id, merchantId) => async (dispatch, getState) => {
   try {
     const {
       verifyUser: { user },
     } = await getState();
 
-    const { data } = await axios.delete(`${URL}`, {
+    const { data } = await axios.delete(`${URL}/extra/${id}`, {
       headers: {
         Authorization: `Bearer ${user?.token}`,
       },
@@ -2804,6 +2808,7 @@ export const delExtra = (id) => async (dispatch, getState) => {
         type: SUCCESS_NOTIFICATION,
         payload: data?.message,
       });
+      dispatch(getExtraByID(merchantId));
     } else {
       dispatch({
         type: FAILURE_NOTIFICATION,
@@ -2821,13 +2826,13 @@ export const delExtra = (id) => async (dispatch, getState) => {
   }
 };
 
-export const delCategory = (id) => async (dispatch, getState) => {
+export const delCategory = (id, merchantID) => async (dispatch, getState) => {
   try {
     const {
       verifyUser: { user },
     } = await getState();
 
-    const { data } = await axios.delete(`${URL}`, {
+    const { data } = await axios.delete(`${URL}/category/${id}`, {
       headers: { Authorization: `Bearer ${user?.token}` },
     });
     if (data.codeNumber === 200) {
@@ -2835,6 +2840,7 @@ export const delCategory = (id) => async (dispatch, getState) => {
         type: SUCCESS_NOTIFICATION,
         payload: data?.message,
       });
+      dispatch(getCategoryByID(merchantID));
     } else {
       dispatch({
         type: FAILURE_NOTIFICATION,

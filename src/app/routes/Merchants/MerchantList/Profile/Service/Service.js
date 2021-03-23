@@ -87,6 +87,10 @@ class Service extends Component {
     this.props.archiveServiceById(serviceId, MerchantId);
     this.setState({ isOpenReject: false });
   };
+  handleDel = (serviceId) => {
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.delService(serviceId, merchantId);
+  };
 
   handleRestore = (serviceId) => {
     const MerchantId = this.props.MerchantProfile.merchantId;
@@ -243,7 +247,12 @@ class Service extends Component {
                     <img
                       alt=""
                       src={DelSVG}
-                      onClick={() => this.setState({ delDialog: true })}
+                      onClick={() =>
+                        this.setState({
+                          delDialog: true,
+                          categoryId: row.original.serviceId,
+                        })
+                      }
                     />
                   </Tooltip>
                 </span>
@@ -339,9 +348,10 @@ class Service extends Component {
                   Disagree
                 </Button>
                 <Button
-                  onClick={() => [
-                    this.setState({ delDialog: false, categoryId: "" }),
-                  ]}
+                  onClick={() => {
+                    this.handleDel(this.state.categoryId);
+                    this.setState({ delDialog: false, categoryId: "" });
+                  }}
                   color="primary"
                   autoFocus
                 >
@@ -414,8 +424,8 @@ const mapDispatchToProps = (dispatch) => ({
   restoreServiceById: (serviceId, MerchantID) => {
     dispatch(restoreServiceById(serviceId, MerchantID));
   },
-  delService: (serviceId) => {
-    dispatch(delService(serviceId));
+  delService: (serviceId, merchantId) => {
+    dispatch(delService(serviceId, merchantId));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Service);
