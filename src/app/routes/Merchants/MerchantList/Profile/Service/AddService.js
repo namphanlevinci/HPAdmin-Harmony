@@ -2,18 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { config } from "../../../../../../url/url";
 import { Formik, Form } from "formik";
-import {
-  WARNING_NOTIFICATION,
-  FAILURE_NOTIFICATION,
-  SUCCESS_NOTIFICATION,
-} from "../../../../../../constants/notificationConstants";
+import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
 import {
   getCategoryByID,
   addMerchantServiceById,
   exportService,
   importService,
 } from "../../../../../../actions/merchantActions";
-import { MenuItem, FormControl, InputLabel } from "@material-ui/core";
 import { AiOutlineClose } from "react-icons/ai";
 
 import DialogContent from "@material-ui/core/DialogContent";
@@ -32,7 +27,6 @@ import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
 import "../../../Merchants.css";
 import "../Detail.css";
-import { values } from "lodash";
 
 const colourStyles = {
   control: (styles) => ({
@@ -99,15 +93,13 @@ class AddService extends Component {
   handePushValue = (e, values) => {
     console.log(e);
     this.setState({ extraId: e.id }, () => {
-      values.extras.map((value) => {
-        if (value?.extraId !== e.id || values.extras.length === 0) {
-          console.log("haha");
-          const newExtra = { ...e.extra };
-          values.extras.push(newExtra);
-        } else {
-          console.log("jiji");
-        }
-      });
+      // values.extras.map((value) => {
+      //   if (value?.extraId !== e.id || values.extras.length === 0) {
+      //     const newExtra = { ...e.extra };
+      //     values.extras.push(newExtra);
+      //   } else {
+      //   }
+      // });
     });
   };
   handleExport = () => {
@@ -757,15 +749,15 @@ class AddService extends Component {
   }
 }
 
-const findElement = (array, id) => {
-  for (let i = 0; i < array.length; i++) {
-    if (array[i]?.extraId === id) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-};
+// const findElement = (array, id) => {
+//   for (let i = 0; i < array.length; i++) {
+//     if (array[i]?.extraId === id) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
+// };
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,

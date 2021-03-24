@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { Helmet } from "react-helmet";
 import {
-  Button,
   FormControl,
   Select,
   MenuItem,
