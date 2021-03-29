@@ -8,6 +8,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import CustomCurrencyInput from "../../../../../../../../util/CustomCurrencyInput";
 import CustomCurrencyField from "../../AddStaff/FormFields/CustomCurrencyField";
 
+import { setLocale } from "yup";
 import * as Yup from "yup";
 import {
   InputAdornment,
@@ -227,12 +228,31 @@ class EditSalary extends Component {
                                   <Grid item xs={4}>
                                     <CustomCurrencyField
                                       name={`commValue.${index}.from`}
-                                      onChange={(e, masked) =>
-                                        setFieldValue(
-                                          `commValue.${index}.from`,
-                                          e.target.value
-                                        )
-                                      }
+                                      onChange={(e, masked) => {
+                                        if (
+                                          !compareTwoInput(
+                                            parseFloat(
+                                              e.target.value.replace(/,/g, "")
+                                            ),
+                                            parseFloat(
+                                              commValue.to.replace(/,/g, "")
+                                            )
+                                          ) ||
+                                          parseFloat(
+                                            commValue.to.replace(/,/g, "")
+                                          ) === 0
+                                        ) {
+                                          setFieldValue(
+                                            `commValue.${index}.from`,
+                                            e.target.value
+                                          );
+                                        } else {
+                                          setFieldValue(
+                                            `commValue.${index}.from`,
+                                            commValue.to
+                                          );
+                                        }
+                                      }}
                                       label="From"
                                       style={styles.textField}
                                       InputProps={{
@@ -250,12 +270,29 @@ class EditSalary extends Component {
                                   <Grid item xs={4}>
                                     <CustomCurrencyField
                                       name={`commValue.${index}.to`}
-                                      onChange={(e, masked) =>
+                                      onChange={(e, masked) => {
+                                        // if (
+                                        //   !compareTwoInput(
+                                        //     parseFloat(
+                                        //       e.target.value.replace(/,/g, "")
+                                        //     ),
+                                        //     parseFloat(
+                                        //       commValue.from.replace(/,/g, "")
+                                        //     )
+                                        //   )
+                                        // ) {
+                                        //   setFieldValue(
+                                        //     `commValue.${index}.to`,
+                                        //     commValue.from
+                                        //   );
+                                        // } else {
+
+                                        // }
                                         setFieldValue(
                                           `commValue.${index}.to`,
                                           e.target.value
-                                        )
-                                      }
+                                        );
+                                      }}
                                       InputProps={{
                                         startAdornment: (
                                           <InputAdornment position="start">
@@ -501,7 +538,11 @@ const salarySchema = Yup.object().shape({
   commValue: Yup.array().of(
     Yup.object().shape({
       commIsCheck: Yup.boolean(),
-      from: Yup.string().when("commIsCheck", {
+      // from: Yup.string().when("commIsCheck", {
+      //   is: (commIsCheck) => true,
+      //   then: Yup.string().required("Required"),
+      // }),
+      from: Yup.string().when(["commIsCheck", "to"], {
         is: (commIsCheck) => true,
         then: Yup.string().required("Required"),
       }),
@@ -516,6 +557,11 @@ const salarySchema = Yup.object().shape({
     })
   ),
 });
+
+const compareTwoInput = (inputOne, inputTwo) => {
+  if (inputOne > inputTwo) return true;
+  return false;
+};
 
 const mapStateToProps = (state) => ({
   Staff: state.staffById.data,
