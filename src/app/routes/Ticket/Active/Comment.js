@@ -65,9 +65,13 @@ class Comment extends Component {
     //   this.scrollToBottom();
     // }
     return (
-      <div>
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <>
-          <Scrollbars style={{ height: 300 }} ref="scrollbars" autoHide={true}>
+          <Scrollbars
+            style={{ height: "100%" }}
+            ref="scrollbars"
+            autoHide={true}
+          >
             {comment.map((item, index) => {
               if (item.createdBy !== userAdmin.waUserId)
                 return (

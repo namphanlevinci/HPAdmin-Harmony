@@ -54,7 +54,7 @@ class EditSalary extends Component {
       setFieldValue(`commIsCheck`, false);
       setFieldValue(`commValue`, [
         {
-          form: (0).toFixed(2),
+          from: (0).toFixed(2),
           to: (0).toFixed(2),
           commission: (0).toFixed(2),
         },
@@ -276,7 +276,7 @@ class EditSalary extends Component {
                                       onChange={(e, masked) =>
                                         setFieldValue(
                                           `commValue.${index}.commission`,
-                                          masked
+                                          e.target.value
                                         )
                                       }
                                       label="Salary percented (%)"

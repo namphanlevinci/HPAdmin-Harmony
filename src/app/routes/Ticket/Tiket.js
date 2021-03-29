@@ -197,7 +197,7 @@ class Tiket extends Component {
               style={{ display: "flex", alignItems: "center" }}
             >
               <SearchComponent
-                placeholder="Search by Name, Group"
+                placeholder="Search by ID, Title, Application, Client Name"
                 value={this.state.search}
                 onChange={(e) => this.setState({ search: e.target.value })}
                 onKeyPress={this.keyPressed}
@@ -208,17 +208,9 @@ class Tiket extends Component {
             </div>
             <div>
               {CheckPermissions("add-new-merchant") && (
-                <Button
-                  style={{
-                    backgroundColor: "#0764B0",
-                    color: "white",
-                    marginTop: "10px",
-                  }}
-                  onClick={this.addTicket}
-                  className="btn btn-red"
-                >
+                <NewButton onClick={this.addTicket} blue>
                   New Ticket
-                </Button>
+                </NewButton>
               )}
             </div>
           </div>

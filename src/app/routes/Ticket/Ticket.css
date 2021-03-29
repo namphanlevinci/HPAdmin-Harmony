@@ -33,3 +33,6 @@
 .container-fluid {
   padding-right: 0px !important;
 }
+.ant-tabs-content {
+  height: 100%;
+}

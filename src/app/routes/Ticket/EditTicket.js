@@ -24,6 +24,7 @@ import {
   addTicketFile,
 } from "../../../actions/ticketActions";
 
+import NewButton from "../../../components/Button/Search";
 import CancelIcon from "@material-ui/icons/Cancel";
 import LinearProgress from "../../../util/linearProgress";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
@@ -300,15 +301,13 @@ class EditTicket extends Component {
                 </Grid>
 
                 <Grid item xs={12} style={{ paddingTop: "20px" }}>
-                  <Button
-                    className="btn btn-red"
+                  <NewButton
                     onClick={() => history.goBack()}
+                    style={{ marginRight: 15 }}
                   >
-                    CANCEL
-                  </Button>
-                  <Button className="btn btn-green" type="submit">
-                    SAVE
-                  </Button>
+                    Cancel
+                  </NewButton>
+                  <NewButton type="submit">Save</NewButton>
                 </Grid>
               </Form>
             )}

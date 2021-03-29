@@ -12,6 +12,7 @@ export default function SearchComponent(props) {
   return (
     <FormControl>
       <OutlinedInput
+        style={{ height: 36 }}
         inputProps={{
           style: {
             padding: 14,

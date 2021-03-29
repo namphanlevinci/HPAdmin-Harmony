@@ -237,6 +237,11 @@ export const addTicket = (payload) => async (dispatch, getState) => {
       if (payload.path) {
         history.push(payload.path);
       }
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data?.message,
+      });
     }
   } catch (error) {
     dispatch({
@@ -249,6 +254,42 @@ export const addTicket = (payload) => async (dispatch, getState) => {
 
     dispatch({
       type: types.ADD_TICKET_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const delTicket = (ticketID) => async (dispatch, getState) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.delete(`${URL}/ticket/${ticketID}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data.message,
+      });
+      dispatch(fetchApiByPage(`ticket`));
+      history.push("/app/ticket");
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

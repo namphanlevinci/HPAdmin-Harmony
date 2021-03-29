@@ -17,7 +17,7 @@ class Log extends Component {
     const { data, ticketLog } = this.props;
     const log = ticketLog.data || [];
     return (
-      <Scrollbars style={{ height: 350 }} ref="scrollbars" autoHide={true}>
+      <Scrollbars style={{ height: "100%" }} ref="scrollbars" autoHide={true}>
         {log.map((item, index) => {
           return (
             <>

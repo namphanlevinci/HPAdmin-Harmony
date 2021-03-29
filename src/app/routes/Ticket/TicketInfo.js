@@ -20,7 +20,16 @@ import {
 } from "../../../util/CustomText";
 import { config } from "../../../url/url";
 import { Tabs } from "antd";
-import { changeStatus, addTicketFile } from "../../../actions/ticketActions";
+import {
+  changeStatus,
+  addTicketFile,
+  delTicket,
+} from "../../../actions/ticketActions";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import LinearProgress from "../../../util/linearProgress";
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
@@ -42,7 +51,7 @@ const upFile = config.url.upFile;
 class TicketInfo extends Component {
   constructor(props) {
     super(props);
-    this.state = { isUpload: false, imgUrl: [] };
+    this.state = { isUpload: false, imgUrl: [], delDialog: false };
   }
   EditPage = () => {
     this.props.history.push("/app/ticket/edit");
@@ -50,6 +59,9 @@ class TicketInfo extends Component {
   changeStatus = (e) => {
     const { data } = this.props.ticketInfo;
     this.props.changeStatus({ id: data.id, status: e.target.value });
+  };
+  handleDel = (ticketID) => {
+    this.props.delTicket(ticketID);
   };
   uploadImage = (e, setFieldValue) => {
     e.preventDefault();
@@ -59,7 +71,6 @@ class TicketInfo extends Component {
     const { ticketInfo } = this.props;
 
     if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
-      // setFieldValue("isUpload", true);
       this.setState({ isUpload: true });
       let formData = new FormData();
 
@@ -143,9 +154,19 @@ class TicketInfo extends Component {
                 >{`Ticket ID: ${data.id}`}</h3>
               </div>
 
-              <NewButton onClick={() => this.props.history.push("/app/ticket")}>
-                Back
-              </NewButton>
+              <div>
+                <NewButton
+                  style={{ marginRight: 20 }}
+                  onClick={() => this.setState({ delDialog: true })}
+                >
+                  Delete
+                </NewButton>
+                <NewButton
+                  onClick={() => this.props.history.push("/app/ticket")}
+                >
+                  Back
+                </NewButton>
+              </div>
             </div>
           </Grid>
 
@@ -254,11 +275,11 @@ class TicketInfo extends Component {
             </Grid>
           </Grid>
           <Grid item xs={12} md={6} spacing={3}>
-            <div className="content">
-              <div className="container-fluid">
-                <div className="profile-nav">
-                  <Tabs defaultActiveKey="1">
-                    <TabPane tab="Comment" key="1">
+            <div className="content" style={{ height: "100%", marginTop: 20 }}>
+              <div className="container-fluid" style={{ height: "100%" }}>
+                <div className="profile-nav" style={{ height: "100%" }}>
+                  <Tabs defaultActiveKey="1" style={{ height: "100%" }}>
+                    <TabPane tab="Comment" key="1" style={{ height: "100%" }}>
                       <Comment
                         data={data}
                         userAdmin={userAdmin}
@@ -284,20 +305,43 @@ class TicketInfo extends Component {
               accept="image/gif,image/jpeg, image/png"
               onChange={(e) => this.uploadImage(e)}
             />
-            <Button
-              style={{
-                backgroundColor: "#0764B0",
-                color: "white",
-                marginTop: "10px",
-                width: "30%",
-              }}
-              className="btn btn-red"
+            <NewButton
               onClick={() => this.EditPage()}
+              style={{ marginTop: 10 }}
+              blue
             >
               Edit
-            </Button>
+            </NewButton>
           </div>
         </Grid>
+        <Dialog open={this.state.delDialog}>
+          <DialogTitle id="alert-dialog-title">
+            {"Delete this Ticket?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Do you want delete this ticket ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => this.setState({ delDialog: false })}
+              color="primary"
+            >
+              Disagree
+            </Button>
+            <Button
+              onClick={() => {
+                this.handleDel(data.id);
+                this.setState({ delDialog: false });
+              }}
+              color="primary"
+              autoFocus
+            >
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
@@ -316,6 +360,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   addTicketFile: (payload) => {
     dispatch(addTicketFile(payload));
+  },
+  delTicket: (ticketID) => {
+    dispatch(delTicket(ticketID));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(TicketInfo);
