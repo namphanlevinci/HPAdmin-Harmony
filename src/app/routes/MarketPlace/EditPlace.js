@@ -12,7 +12,6 @@ import {
   InputLabel,
   MenuItem,
   CardMedia,
-  Switch,
 } from "@material-ui/core";
 import { config } from "../../../url/url";
 import { history } from "../../../store";

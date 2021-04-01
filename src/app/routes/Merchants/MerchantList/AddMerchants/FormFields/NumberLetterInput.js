@@ -27,4 +27,4 @@ export default function NumberLetterInput({ ...props }) {
     </div>
   );
 }
-const priceRegex = /^\d+(,\d{1,2})?$/;
+// const priceRegex = /^\d+(,\d{1,2})?$/;

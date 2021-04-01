@@ -17,17 +17,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomSelect({ valuesArr, ...props }) {
+export default function CustomSelect({ valuesArr, label, ...props }) {
   const classes = useStyles();
 
   return (
     <FormControl variant="outlined" className={classes.formControl}>
-      <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
+      <InputLabel id="demo-simple-select-outlined-label">{label}</InputLabel>
       <Select
         classes={{ root: classes.selectRoot }}
         labelId="demo-simple-select-outlined-label"
         id="demo-simple-select-outlined"
-        label="Status"
+        label={label}
         {...props}
       >
         {valuesArr.map((item, index) => (

@@ -1,25 +1,12 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { AnimatePresence } from "framer-motion";
 import { AiFillAppstore } from "react-icons/ai";
-import {
-  Grid,
-  Button,
-  TextField,
-  Select,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  CardMedia,
-  Switch,
-} from "@material-ui/core";
-import {
-  CustomText,
-  CustomTextLabel,
-  CustomTitle,
-} from "../../../util/CustomText";
+import { Grid, Button } from "@material-ui/core";
+import { CustomText, CustomTextLabel } from "../../../util/CustomText";
 import { config } from "../../../url/url";
 import { Tabs } from "antd";
+import { getAllUser } from "../../../actions/userActions";
+
 import {
   changeStatus,
   addTicketFile,
@@ -33,12 +20,14 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import LinearProgress from "../../../util/linearProgress";
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
+import SliderShow from "./SliderShow/index";
 import NewButton from "../../../components/Button/Search";
+import AddButton from "../../../components/Button/Add";
+
 import CustomSelect from "../../../components/Select/index";
 import Log from "./Active/Log";
 import Comment from "./Active/Comment";
 import moment from "moment";
-import CheckPermissions from "../../../util/checkPermission";
 
 import axios from "axios";
 
@@ -51,11 +40,24 @@ const upFile = config.url.upFile;
 class TicketInfo extends Component {
   constructor(props) {
     super(props);
-    this.state = { isUpload: false, imgUrl: [], delDialog: false };
+    this.state = {
+      isUpload: false,
+      imgUrl: [],
+      delDialog: false,
+      isOpen: false,
+      defaultIndex: 0,
+    };
   }
+  handleClickOpen = (index) => {
+    this.setState({ isOpen: true, defaultIndex: index });
+  };
+  handleClose = () => {
+    this.setState({ isOpen: false });
+  };
   EditPage = () => {
     this.props.history.push("/app/ticket/edit");
   };
+
   changeStatus = (e) => {
     const { data } = this.props.ticketInfo;
     this.props.changeStatus({ id: data.id, status: e.target.value });
@@ -68,7 +70,6 @@ class TicketInfo extends Component {
     const { data } = this.props.ticketInfo;
     let reader = new FileReader();
     let file = e.target.files[0];
-    const { ticketInfo } = this.props;
 
     if (file?.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|tga)$/)) {
       this.setState({ isUpload: true });
@@ -116,6 +117,7 @@ class TicketInfo extends Component {
   };
   render() {
     const { data } = this.props.ticketInfo;
+    const { userList } = this.props.userList;
 
     const { userAdmin } = this.props.verifyUser.user;
     const { ticketComment, ticketLog } = this.props;
@@ -126,12 +128,7 @@ class TicketInfo extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.ticket" />}
         />
-        <Grid
-          container
-          spacing={0}
-          className="admin_profile page-heading"
-          xs={12}
-        >
+        <Grid container spacing={0} className="admin_profile page-heading">
           <Grid xs={12}>
             <div
               style={{
@@ -170,23 +167,43 @@ class TicketInfo extends Component {
             </div>
           </Grid>
 
-          <Grid item xs={12} md={6} spacing={3}>
+          <Grid item xs={12} md={6}>
             <h3 style={{ margin: "20px 0" }}>{`${data.title}`}</h3>
-            <CustomSelect
-              value={data.status}
-              onChange={(e) => this.changeStatus(e)}
-              valuesArr={[
-                { title: "Backlog", value: "backlog" },
-                { title: "In progress", value: "inprogress" },
-                { title: "Waiting", value: "waiting" },
-                { title: "Complete", value: "complete" },
-              ]}
-            />
+
+            <Grid item xs={12} md={12}>
+              <div style={style}>
+                <CustomText value="Status:" />
+                <CustomSelect
+                  value={data.status}
+                  label="Status"
+                  style={{ width: "200px" }}
+                  onChange={(e) => this.changeStatus(e)}
+                  valuesArr={[
+                    { title: "Backlog", value: "backlog" },
+                    { title: "In progress", value: "inprogress" },
+                    { title: "Waiting", value: "waiting" },
+                    { title: "Complete", value: "complete" },
+                  ]}
+                />
+              </div>
+              <div style={style}>
+                <CustomText value="Request by:" />
+                <CustomSelect
+                  label="Request by"
+                  style={{ width: "200px" }}
+                  valuesArr={listUserArray(userList)}
+                  value={70}
+                />
+              </div>
+            </Grid>
             <hr />
             <Grid item xs={12} md={12}>
               <div style={style}>
                 <CustomText value="Description:" />
-                <CustomTextLabel value={data.description} />
+                <CustomTextLabel
+                  value={data.description}
+                  styles={{ textAlign: "justify" }}
+                />
               </div>
             </Grid>
             <Grid item xs={12} md={12}>
@@ -253,19 +270,19 @@ class TicketInfo extends Component {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
+                    gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr",
                   }}
                 >
                   {data.ticketAttachFiles.map((item, index) => (
                     <img
                       style={{
-                        height: "80px",
-                        width: "80px",
-                        margin: "5px 5px 5px 0px",
+                        height: "100px",
+                        width: "100px",
+                        margin: "5px",
                         cursor: "pointer",
                       }}
                       alt=""
-                      onClick={() => window.open(item.fileURL, "_blank")}
+                      onClick={() => this.handleClickOpen(index)}
                       key={index}
                       src={item.fileURL}
                     ></img>
@@ -295,16 +312,12 @@ class TicketInfo extends Component {
             </div>
           </Grid>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ width: "20%", margin: "5px 5px" }}>
+            <div style={{ width: "100%", margin: "5px 5px" }}>
               {this.state?.isUpload ? <LinearProgress /> : null}
             </div>
-            <input
-              type="file"
-              name="image"
-              id="file"
-              accept="image/gif,image/jpeg, image/png"
-              onChange={(e) => this.uploadImage(e)}
-            />
+            <AddButton onChange={(e) => this.uploadImage(e)}>
+              Add file
+            </AddButton>
             <NewButton
               onClick={() => this.EditPage()}
               style={{ marginTop: 10 }}
@@ -314,6 +327,12 @@ class TicketInfo extends Component {
             </NewButton>
           </div>
         </Grid>
+        <SliderShow
+          isOpen={this.state.isOpen}
+          handleClose={this.handleClose}
+          imgArr={data.ticketAttachFiles}
+          defaultIndex={this.state.defaultIndex}
+        />
         <Dialog open={this.state.delDialog}>
           <DialogTitle id="alert-dialog-title">
             {"Delete this Ticket?"}
@@ -347,12 +366,26 @@ class TicketInfo extends Component {
   }
 }
 
+const listUserArray = (list = []) => {
+  let newArray = [];
+
+  list.map((item) => {
+    let userItem = {
+      title: `${item.firstName} ${item.lastName}`,
+      value: item.waUserId,
+    };
+    return newArray.push(userItem);
+  });
+  return newArray;
+};
+
 TicketInfo.propTypes = {};
 const mapStateToProps = (state) => ({
   ticketInfo: state.getTicketById,
   verifyUser: state.verifyUser,
   ticketComment: state.getTicketCommentById,
   ticketLog: state.getTicketLogById,
+  userList: state.adminUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   changeStatus: (payload) => {
@@ -363,6 +396,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   delTicket: (ticketID) => {
     dispatch(delTicket(ticketID));
+  },
+  getAllUser: (url) => {
+    dispatch(getAllUser(url));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(TicketInfo);

@@ -5,23 +5,20 @@ import { CustomTitle } from "../../../util/CustomText";
 import { Formik, Form } from "formik";
 import {
   Grid,
-  Button,
   TextField,
   Select,
   FormControl,
   InputLabel,
   MenuItem,
-  CardMedia,
-  Switch,
 } from "@material-ui/core";
 import { config } from "../../../url/url";
 import { history } from "../../../store";
-import { addMarketPlaceAction } from "../../../actions/marketActions";
 import { WARNING_NOTIFICATION } from "../../../constants/notificationConstants";
 import { addTicket } from "../../../actions/ticketActions";
 
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import NewButton from "../../../components/Button/Search";
+import AddButton from "../../../components/Button/Add";
 import LinearProgress from "../../../util/linearProgress";
 import axios from "axios";
 import IntlMessages from "../../../util/IntlMessages";
@@ -176,6 +173,7 @@ class AddTicket extends Component {
                           helperText={
                             errors.title && touched.title ? errors.title : ""
                           }
+                          style={{ margin: "15px 0" }}
                         />
                       </Grid>
                       <Grid item xs={12} md={12}>
@@ -197,6 +195,7 @@ class AddTicket extends Component {
                               ? errors.clientApp
                               : ""
                           }
+                          style={{ margin: "15px 0" }}
                         />
                       </Grid>
                       <Grid item xs={12} md={12}>
@@ -217,13 +216,20 @@ class AddTicket extends Component {
                               ? errors.clientName
                               : ""
                           }
+                          style={{ margin: "15px 0" }}
                         />
                       </Grid>
                       <Grid item xs={12} md={12}>
                         <div
                           style={{ display: "flex", flexDirection: "column" }}
                         >
-                          <label style={{ marginBottom: "10px" }}>
+                          <label
+                            style={{
+                              fontSize: 16,
+                              fontWeight: 400,
+                              color: "rbga(0,0,0,0.54)",
+                            }}
+                          >
                             Description <span style={{ color: "red" }}>*</span>
                           </label>
                           {/* <br /> */}
@@ -248,10 +254,11 @@ class AddTicket extends Component {
                                 ? errors.description
                                 : ""
                             }
+                            style={{ margin: "15px 0" }}
                           />
                         </div>
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={12}>
                         <label style={{ marginBottom: "10px" }}>
                           Attack files
                           {/* <span style={{ color: "red" }}>*</span> */}
@@ -260,7 +267,7 @@ class AddTicket extends Component {
                           className="img_area"
                           style={{
                             display: "grid",
-                            gridTemplateColumns: "1fr 1fr 1fr",
+                            gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr",
                             marginBottom: "5px",
                           }}
                         >
@@ -271,8 +278,9 @@ class AddTicket extends Component {
                                 key={index}
                                 src={item}
                                 style={{
-                                  height: "70px",
-                                  width: "70px",
+                                  height: "100px",
+                                  width: "100px",
+                                  padding: 5,
                                 }}
                               />
                             </div>
@@ -290,15 +298,13 @@ class AddTicket extends Component {
                         <div style={{ width: "20%", margin: "5px 5px" }}>
                           {values?.isUpload ? <LinearProgress /> : null}
                         </div>
-                        <input
-                          type="file"
-                          name="image"
-                          id="file"
-                          accept="image/gif,image/jpeg, image/png"
-                          onChange={(e) => this.uploadImage(e, setFieldValue)}
-                          multiple
-                        />
                       </Grid>
+                      <div style={{ width: 100 }}>
+                        <AddButton
+                          style={{ marginTop: 10, width: 100 }}
+                          onChange={(e) => this.uploadImage(e, setFieldValue)}
+                        />
+                      </div>
                     </Grid>
                     <Grid item xs={12} md={6}>
                       Khi có vấn đề về Web admin vùi lòng thực hiện 2 thao tác

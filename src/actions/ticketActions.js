@@ -443,3 +443,15 @@ export const deleteTicketFile = (payload) => async (dispatch, getState) => {
     });
   }
 };
+
+// export const getAllUser = () => async (dispatch, getState) => {
+//   try {
+//     const {
+//       verifyUser: { user },
+//     } = await getState();
+
+//     const { data } = await axios.get(`${URL}/adminuser`, {
+//       headers: { Authorization: `Bearer ${user?.token}` },
+//     });
+//   } catch (error) {}
+// };

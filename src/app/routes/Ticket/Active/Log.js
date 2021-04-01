@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import moment from "moment";
 import { Scrollbars } from "react-custom-scrollbars";
+import { compareTwoDate } from "./util";
 
 class Log extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
   componentDidMount() {
     const { scrollbars } = this.refs;
@@ -14,8 +15,9 @@ class Log extends Component {
   }
 
   render() {
-    const { data, ticketLog } = this.props;
-    const log = ticketLog.data || [];
+    const { ticketLog } = this.props;
+    const log = ticketLog?.data.slice(0).reverse() || [];
+
     return (
       <Scrollbars style={{ height: "100%" }} ref="scrollbars" autoHide={true}>
         {log.map((item, index) => {
@@ -24,7 +26,7 @@ class Log extends Component {
               <Grid container spacing={2} key={index}>
                 <Grid item xs={4}>
                   <div>
-                    <p>{moment(item.createdDate).format("MMM DD, YYYY")}</p>
+                    <p> {`${compareTwoDate(item.createdDate)}`}</p>
                     <p style={{ marginBottom: "0" }}>
                       {moment(item.createdDate).format("h:mm:ss A")}
                     </p>

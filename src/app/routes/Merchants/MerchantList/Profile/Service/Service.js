@@ -100,7 +100,6 @@ class Service extends Component {
   render() {
     let { serviceList, loading } = this.props.service;
 
-    const { page } = this.state;
     if (serviceList) {
       if (this.state.search) {
         serviceList = serviceList.filter((e) => {

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../url/url";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../util/CustomText";
 import { Typography } from "@material-ui/core";
@@ -10,15 +9,9 @@ import {
   getTicketCommentById,
   getTicketLogById,
 } from "../../../actions/ticketActions";
+import { getAllUser } from "../../../actions/userActions";
 
-import {
-  Button,
-  Tooltip,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-} from "@material-ui/core";
+import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 import { debounce } from "lodash";
 
 import NewButton from "../../../components/Button/Search";
@@ -26,7 +19,6 @@ import SearchComponent from "../../../util/searchComponent";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import IntlMessages from "../../../util/IntlMessages";
 import ReactTable from "react-table";
-import axios from "axios";
 import CheckPermissions from "../../../util/checkPermission";
 import moment from "moment";
 
@@ -34,7 +26,6 @@ import "react-table/react-table.css";
 import "../Merchants/Merchants.css";
 import "../Merchants/PendingList/MerchantReqProfile.css";
 import "./Ticket.css";
-const URL = config.url.URL;
 
 class Tiket extends Component {
   constructor(props) {
@@ -49,6 +40,9 @@ class Tiket extends Component {
   // componentDidMount = async () => {
   //   // this.props.fetchApiByPage(`ticket?status=all`);
   // };
+  componentDidMount = () => {
+    this.props.getAllUser();
+  };
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
@@ -92,7 +86,6 @@ class Tiket extends Component {
 
   render() {
     const { statusValue, page } = this.state;
-    console.log("apiData", this.props);
     const { data, loading, pageSize, pageCount } = this.props.apiData;
     const columns = [
       {
@@ -254,6 +247,7 @@ class Tiket extends Component {
 }
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  userList: state.adminUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
@@ -267,6 +261,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getTicketLogById: (ID, path) => {
     dispatch(getTicketLogById(ID, path));
+  },
+  getAllUser: () => {
+    dispatch(getAllUser());
   },
 });
 

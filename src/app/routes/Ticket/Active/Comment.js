@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Button } from "@material-ui/core";
 import { sendComment } from "../../../../actions/ticketActions";
-import SendComponent from "../../../../util/sendmessInput";
 import { Scrollbars } from "react-custom-scrollbars";
-
+import { compareTwoDate } from "./util";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import SendIcon from "@material-ui/icons/Send";
 import moment from "moment";
 
 import "./index.css";
@@ -23,14 +24,11 @@ class Comment extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { scrollbars } = this.refs;
     scrollbars.scrollToBottom();
-    console.log({ prevProps: prevProps, prevState: prevState });
   }
-  // scrollToBottom = () => {
-  //   this.myRef.current.scrollIntoView({ behavior: "smooth" });
-  // };
+
   handleSendComment = () => {
     const { comment } = this.state;
-
+    this.setState({ comment: "" });
     const payload = { comment: comment };
     const id = this.props.data.id;
     if (comment !== "") {
@@ -59,11 +57,9 @@ class Comment extends Component {
     this.setState({ comment: e.target.value });
   };
   render() {
-    const { data, userAdmin, ticketComment } = this.props;
+    const { userAdmin, ticketComment } = this.props;
     const comment = ticketComment?.data.slice(0).reverse() || [];
-    // if (!this.props.sendCommentRes.loading) {
-    //   this.scrollToBottom();
-    // }
+
     return (
       <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <>
@@ -84,9 +80,12 @@ class Comment extends Component {
                       <div className="mess-time">
                         <p className="name">{item.createdUserName}</p>
                         <p className="date-time">
-                          {moment(item.createdDate).format(
+                          {/* {moment(item.createdDate).format(
                             "MMM DD, YYYY, h:mm:ss A"
-                          )}
+                          )} */}
+                          {`${compareTwoDate(item.createdDate)} ${moment(
+                            item.createdDate
+                          ).format("h:mm:ss A")}`}
                         </p>
                       </div>
                       <div className="comment">
@@ -102,9 +101,9 @@ class Comment extends Component {
                     style={{ justifyContent: "flex-end" }}
                   >
                     <p className="date-time">
-                      {moment(item.createdDate).format(
-                        "MMM DD, YYYY, h:mm:ss A"
-                      )}
+                      {`${compareTwoDate(item.createdDate)} ${moment(
+                        item.createdDate
+                      ).format("h:mm:ss A")}`}
                     </p>
                   </div>
                   <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -122,12 +121,46 @@ class Comment extends Component {
 
           {/* <div className="ref" ref={this.myRef}></div> */}
         </>
-        <SendComponent
+        <div>
+          <TextareaAutosize
+            style={{
+              width: "100%",
+              border: "0.5px solid #c5c5c5",
+              outline: "none",
+              fontSize: 16,
+            }}
+            aria-label="minimum height"
+            rowsMin={3}
+            rowsMax={5}
+            placeholder="Type a comment..."
+            onChange={(e) => this.handleChange(e)}
+            value={this.state.comment}
+          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              endIcon={<SendIcon></SendIcon>}
+              onClick={() => this.handleSendComment()}
+            >
+              Send
+            </Button>
+          </div>
+          {/* <IconButton aria-label="">
+            <SendIcon />
+          </IconButton> */}
+        </div>
+        {/* <SendComponent
           value={this.state.comment}
           onChange={(e) => this.handleChange(e)}
           onClickIcon={() => this.handleSendComment()}
           onKeyPress={this.keyPressed}
-        />
+        /> */}
       </div>
     );
   }

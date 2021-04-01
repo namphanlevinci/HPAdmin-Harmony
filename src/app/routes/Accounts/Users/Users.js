@@ -165,7 +165,7 @@ class Users extends Component {
           <div style={{ textAlign: "center" }}>
             <Typography variant="subtitle1">
               {e.value === 0 ? "Active" : "Inactive"}
-            </Typography>{" "}
+            </Typography>
           </div>
         ),
         width: 100,

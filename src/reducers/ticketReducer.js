@@ -110,7 +110,7 @@ const addTicketFile = (state = { loading: false }, { type, payload }) => {
       return { loading: true };
     case types.ADD_TICKET_FILE_SUCCESS:
       return { loading: false, data: payload };
-    case types.ADD_TICKET_FILE_REQUEST:
+    case types.ADD_TICKET_FILE_FAILURE:
       return { loading: false, data: payload };
     default:
       return state;

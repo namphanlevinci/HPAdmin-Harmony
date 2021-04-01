@@ -8,7 +8,6 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import CustomCurrencyInput from "../../../../../../../../util/CustomCurrencyInput";
 import CustomCurrencyField from "../../AddStaff/FormFields/CustomCurrencyField";
 
-import { setLocale } from "yup";
 import * as Yup from "yup";
 import {
   InputAdornment,

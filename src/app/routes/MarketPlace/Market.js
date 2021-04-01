@@ -136,7 +136,7 @@ class Market extends Component {
         id: "link",
         Header: <CustomTableHeader value="URL" />,
         accessor: (e) => (
-          <a href={e?.link} target="_blank" rel="noopener noreferrer">
+          <a href="/#" target="_blank" rel="noopener noreferrer">
             {e.link}
           </a>
         ),

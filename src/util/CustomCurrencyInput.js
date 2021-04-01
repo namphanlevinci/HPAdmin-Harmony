@@ -1,5 +1,5 @@
 import React from "react";
-import CurrencyInput from "react-currency-masked-input";
+// import CurrencyInput from "react-currency-masked-input";
 import CurrencyFormat from "react-currency-format";
 
 // function CustomCurrencyInput(props) {
@@ -18,6 +18,8 @@ function CustomCurrencyInput(props) {
   const { inputRef, ...other } = props;
   return (
     <CurrencyFormat
+      decimalScale={2}
+      fixedDecimalScale={true}
       {...other}
       thousandSeparator={true}
       ref={(ref) => {

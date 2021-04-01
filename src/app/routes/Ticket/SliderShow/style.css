@@ -1,0 +1,20 @@
+.react-slideshow-container {
+  height: 100%;
+}
+.each-slide {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.slide-container {
+  height: 100%;
+}
+.imgItem {
+  max-height: 80vh;
+  max-width: 65vw;
+}
+.indicators {
+  position: absolute;
+  bottom: 0;
+  left: 32.5vw;
+}
