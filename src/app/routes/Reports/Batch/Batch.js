@@ -1,6 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getReportMerchantId } from "../../../../actions/reportActions";
+import {
+  getReportMerchantId,
+  setBatchDate,
+  setBatchRange,
+  setBatchPage,
+  setBatchRow,
+} from "../../../../actions/reportActions";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import {
@@ -19,6 +25,8 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import NewButton from "../../../../../src/components/Button/Search";
+import ResetButton from "../../../../../src/components/Button/Reset";
+
 import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -35,21 +43,20 @@ class Transactions extends React.Component {
     super(props);
     this.state = {
       search: "",
-      from: "",
-      to: "",
       amount: "",
       amountFrom: -1,
       amountTo: -1,
-      range: "thisMonth",
       status: -1,
       page: 0,
+      row: 5,
     };
   }
 
   componentDidMount() {
+    const { batchTimeSet } = this.props;
     this.setState({
-      from: moment().startOf("month").format("YYYY-MM-DD"),
-      to: moment().endOf("month").format("YYYY-MM-DD"),
+      page: batchTimeSet.page,
+      row: batchTimeSet.row,
     });
   }
 
@@ -59,32 +66,32 @@ class Transactions extends React.Component {
   handleReset = (e) => {
     this.setState(
       {
-        page: 0,
         search: "",
-        from: moment().startOf("month").format("YYYY-MM-DD"),
-        to: moment().endOf("month").format("YYYY-MM-DD"),
-        range: "thisMonth",
       },
       () => {
         this.fetchApi();
       }
     );
+    this.props.setBatchPage(0);
+    this.props.setBatchDate({
+      from: moment().startOf("month").format("YYYY-MM-DD"),
+      to: moment().endOf("month").format("YYYY-MM-DD"),
+    });
+    this.props.setBatchRange("thisMonth");
   };
 
-  handleChange = (e) => {
-    this.setState({ search: e.target.value });
-  };
   handleDateChange = async (e, name) => {
     const value = moment(e).format("MM/DD/YYYY");
-    await this.setState({
+    this.setState({
       [name]: value,
     });
+    const payload = { [name]: value };
+    this.props.setBatchDate(payload);
   };
   timeRange = async (e) => {
     const value = e.target.value;
-    await this.setState({
-      range: value,
-    });
+
+    this.props.setBatchRange(value);
 
     switch (value) {
       case "today":
@@ -130,31 +137,34 @@ class Transactions extends React.Component {
         return;
     }
   };
-
+  changePage = async (pageIndex) => {
+    await this.props.setBatchPage(pageIndex);
+    this.setState({ page: this.props.batchTimeSet.page });
+  };
+  changePageSize = async (row) => {
+    await this.props.setBatchRow(row);
+    console.log("row", this.props.batchTimeSet.row);
+    this.setState({ row: this.props.batchTimeSet.row });
+  };
   fetchApi = async (state) => {
-    // console.log(state);
-    const { search, from, to, range } = this.state;
-    let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 5;
+    const { search } = this.state;
+
+    console.log("state", state);
+    const { range, from, to } = await this.props.batchTimeSet;
+    const { page, row } = this.state;
+    console.log("asdawdasgawgasas", page);
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
     const url = `settlement?key=${search}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
+      page + 1
+    }&row=${row}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
 
     this.props.fetchApiByPage(url);
   };
 
-  changePage = (pageIndex) => {
-    this.setState({
-      page: pageIndex,
-    });
-  };
   resetpage = () => {
-    this.setState({
-      page: 0,
-    });
+    this.props.setBatchPage(0);
   };
 
   keyPressed = (event) => {
@@ -179,16 +189,9 @@ class Transactions extends React.Component {
       };
     };
 
-    const { page, range, from, to } = this.state;
-    const {
-      data,
-      loading,
-      pageSize,
-      pageCount,
-      totalRow,
-      summary,
-    } = this.props.apiData;
-    console.log(this.state);
+    const { range, from, to, page, row } = this.props.batchTimeSet;
+    console.log("render Page", page);
+    const { data, loading, pageCount, totalRow, summary } = this.props.apiData;
 
     const columns = [
       {
@@ -219,6 +222,15 @@ class Transactions extends React.Component {
         id: "merchantId",
         accessor: (e) => (
           <Typography variant="subtitle1">{e.merchantId}</Typography>
+        ),
+      },
+      {
+        Header: <CustomTableHeader value="Serial Number" />,
+        id: "serialNumber",
+        accessor: (e) => (
+          <Typography variant="subtitle1">
+            {e.serialNumber && `#${e.serialNumber}`}
+          </Typography>
         ),
       },
       {
@@ -350,14 +362,17 @@ class Transactions extends React.Component {
               </NewButton>
             </div>
           </div>
-          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-            Reset
-          </NewButton>
+          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset filter
+          </ResetButton>
           <Grid container spacing={0} className="TransactionSearch">
             <Grid item xs={3} style={{ marginTop: "20px" }}>
               <FormControl style={{ width: "80%" }}>
                 <InputLabel>Time Range</InputLabel>
-                <Select value={range} onChange={this.timeRange}>
+                <Select
+                  value={this.props.batchTimeSet.range}
+                  onChange={this.timeRange}
+                >
                   <MenuItem value="today">Today</MenuItem>
                   <MenuItem value="yesterday">Yesterday</MenuItem>
                   <MenuItem value="thisWeek">This Week</MenuItem>
@@ -420,12 +435,15 @@ class Transactions extends React.Component {
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual={true}
+              pageSize={row}
               page={page}
               pages={pageCount}
               data={data}
-              row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchApi(state)}
+              onPageSizeChange={(size) => this.changePageSize(size)}
+              onFetchData={(state) => {
+                this.fetchApi(state, page);
+              }}
               defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
@@ -443,6 +461,7 @@ class Transactions extends React.Component {
 
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  batchTimeSet: state.batchTime,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
@@ -450,6 +469,18 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getReportMerchantId: (id) => {
     dispatch(getReportMerchantId(id));
+  },
+  setBatchDate: (payload) => {
+    dispatch(setBatchDate(payload));
+  },
+  setBatchRange: (payload) => {
+    dispatch(setBatchRange(payload));
+  },
+  setBatchPage: (page) => {
+    dispatch(setBatchPage(page));
+  },
+  setBatchRow: (row) => {
+    dispatch(setBatchRow(row));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

@@ -93,7 +93,7 @@ import {
 } from "./giftCardReducer";
 
 // Report
-import { viewReportMerchantReducer } from "./reportReducer";
+import { viewReportMerchantReducer, setViewBatchDate } from "./reportReducer";
 
 // Market Place
 import {
@@ -207,6 +207,7 @@ export default (history) =>
     // Report
     reportMerchant: viewReportMerchantReducer,
     adminUser: allUserReducer,
+    batchTime: setViewBatchDate,
 
     // Market Place
     addMarketPlace: addMarketPlaceReducer,

@@ -71,9 +71,9 @@ class SignIn extends React.Component {
                     type="password"
                     label={<IntlMessages id="appModule.password" />}
                     fullWidth
-                    onChange={(e) =>
-                      this.setState({ password: e.target.value })
-                    }
+                    onChange={(e) => {
+                      this.setState({ password: e.target.value });
+                    }}
                     defaultValue={password}
                     margin="normal"
                     className="mt-1 my-sm-3"
@@ -84,7 +84,12 @@ class SignIn extends React.Component {
                     <Button
                       onClick={this.onSubmit}
                       variant="contained"
-                      style={{ background: "#0764B0", color: "white" }}
+                      style={
+                        password === "" || email === ""
+                          ? {}
+                          : { background: "#0764B0", color: "white" }
+                      }
+                      disabled={password === "" || email === "" ? true : false}
                     >
                       <IntlMessages id="appModule.signIn" />
                     </Button>
