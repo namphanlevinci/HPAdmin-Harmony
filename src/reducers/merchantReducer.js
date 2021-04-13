@@ -53,6 +53,7 @@ const archiveStaffReducer = (
 const getStaffReducer = (
   state = {
     loading: false,
+    statusAddStaff : false,
   },
   { type, payload }
 ) => {
@@ -71,6 +72,12 @@ const getStaffReducer = (
       return {
         loading: false,
       };
+
+    case types.UPDATE_STATUS_ADD_STAFF:
+      return{
+        ...state,
+        statusAddStaff : payload,
+      }
     default:
       return state;
   }
