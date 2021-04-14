@@ -63,6 +63,7 @@ class Header extends React.Component {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
+          console.log({res})
           const data = res.data.data;
           if (data?.length !== 0 && data !== undefined) {
             this.setState({

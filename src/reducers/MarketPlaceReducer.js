@@ -3,23 +3,33 @@ import * as types from "../constants/MarketPlaceConstants";
 const addMarketPlaceReducer = (
   state = {
     loading: false,
+    statusAddMarketPlace: false,
   },
   { type, payload }
 ) => {
   switch (type) {
     case types.ADD_MARKET_PLACE_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case types.ADD_MARKET_PLACE_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: payload,
       };
     case types.ADD_MARKET_PLACE_FAILURE:
       return {
+        ...state,
         loading: false,
       };
+    case types.UPDATE_STATUS_ADD_MARKET_PLACE:
+      return {
+        ...state,
+        statusAddMarketPlace: payload,
+      }
+
     default:
       return state;
   }

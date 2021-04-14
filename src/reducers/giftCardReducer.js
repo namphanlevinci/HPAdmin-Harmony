@@ -189,23 +189,32 @@ const restoreTemplateReducer = (
 const addTemplateReducer = (
   state = {
     loading: false,
+    statusAddTemplate: false,
   },
   { type, payload }
 ) => {
   switch (type) {
     case types.ADD_TEMPLATE_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case types.ADD_TEMPLATE_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: payload,
       };
     case types.ADD_TEMPLATE_FAILURE:
       return {
+        ...state,
         loading: false,
       };
+    case types.UPDATE_STATUS_ADD_TEMPLATE:
+      return {
+        ...state,
+        statusAddTemplate : payload
+      }
     default:
       return state;
   }

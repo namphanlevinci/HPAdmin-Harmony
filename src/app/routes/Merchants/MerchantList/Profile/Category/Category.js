@@ -113,7 +113,8 @@ class Category extends Component {
   };
 
   resetFirstPage = () => {
-    this.refTable.current.onPageChange(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
     const els = document.getElementsByClassName('-pageJump');
     const inputs = els[0].getElementsByTagName('input');
     inputs[0].value = 1;

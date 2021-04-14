@@ -135,6 +135,10 @@ export const addMarketPlaceAction = (value) => async (dispatch, getState) => {
     });
 
     history.goBack();
+    dispatch({
+      type: types.UPDATE_STATUS_ADD_MARKET_PLACE,
+      payload: true,
+    });
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,

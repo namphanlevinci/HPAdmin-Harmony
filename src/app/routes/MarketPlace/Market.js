@@ -24,6 +24,7 @@ import ContainerHeader from "../../../components/ContainerHeader/index";
 import IntlMessages from "../../../util/IntlMessages";
 import ReactTable from "react-table";
 import axios from "axios";
+import { reloadUrl } from '../../../util/reload';
 
 import "react-table/react-table.css";
 import "../Merchants/Merchants.css";
@@ -38,6 +39,7 @@ class Market extends Component {
       search: "",
       statusValue: -1,
     };
+    this.refTable = React.createRef();
   }
 
   componentDidMount = async () => {
@@ -48,6 +50,11 @@ class Market extends Component {
       );
     } catch (error) {
       console.log("error", error);
+    }
+    const { statusAddMarketPlace } = this.props;
+    if (statusAddMarketPlace) {
+      this.resetFirstPage();
+      this.props.updateStatusAddMarketPlace(false);
     }
   };
 
@@ -89,12 +96,21 @@ class Market extends Component {
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
-    const url = `MarketPlace/search?page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&quickFilter=${range}&key=${search}&sortValue=${sortValue}&sortType=${sortType}&isDisabled=${statusValue}`;
+    const url = `MarketPlace/search?page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&quickFilter=${range}&key=${search}&sortValue=${sortValue}&sortType=${sortType}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
+
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/market-place/home');
+  }
 
   render() {
     const { page, statusValue } = this.state;
@@ -241,6 +257,7 @@ class Market extends Component {
             </div>
             <div className="merchant-list-container">
               <ReactTable
+                ref={this.refTable}
                 manual
                 page={page}
                 pages={pageCount}
@@ -264,6 +281,7 @@ class Market extends Component {
 }
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  statusAddMarketPlace: state.addMarketPlace.statusAddMarketPlace,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -273,6 +291,9 @@ const mapDispatchToProps = (dispatch) => ({
   getMarketInfoAction: (value) => {
     dispatch(getMarketInfoAction(value));
   },
+  updateStatusAddMarketPlace: (payload) => {
+    dispatch({ type: 'UPDATE_STATUS_ADD_MARKET_PLACE', payload });
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Market);

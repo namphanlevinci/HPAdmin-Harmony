@@ -53,7 +53,7 @@ const archiveStaffReducer = (
 const getStaffReducer = (
   state = {
     loading: false,
-    statusAddStaff : false,
+    statusAddStaff: false,
   },
   { type, payload }
 ) => {
@@ -74,9 +74,9 @@ const getStaffReducer = (
       };
 
     case types.UPDATE_STATUS_ADD_STAFF:
-      return{
+      return {
         ...state,
-        statusAddStaff : payload,
+        statusAddStaff: payload,
       }
     default:
       return state;
@@ -629,24 +629,33 @@ const getMerchantProductByIdReducer = (
 const addMerchantProductByIdReducer = (
   state = {
     loading: false,
+    statusAddProduct: false,
   },
   { type, payload }
 ) => {
   switch (type) {
     case types.ADD_MERCHANT_PRODUCT_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case types.ADD_MERCHANT_PRODUCT_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: payload,
       };
     case types.ADD_MERCHANT_PRODUCT_FAILURE:
       return {
+        ...state,
         loading: false,
         data: payload,
       };
+    case types.UPDATE_STATUS_ADD_PRODUCT:
+      return {
+        ...state,
+        statusAddProduct: payload
+      }
     default:
       return state;
   }
@@ -983,24 +992,33 @@ const getMerchantActivityByIdReducer = (
 const addMerchantReducer = (
   state = {
     loading: false,
+    statusAddMerchant: false
   },
   { type, payload }
 ) => {
   switch (type) {
     case types.ADD_MERCHANT_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case types.ADD_MERCHANT_SUCCESS:
       return {
+        ...state,
         loading: false,
         activityList: payload,
       };
     case types.ADD_MERCHANT_FAILURE:
       return {
+        ...state,
         loading: false,
         data: payload,
       };
+    case types.UPDATE_STATUS_ADD_MERCHANT:
+      return {
+        ...state,
+        statusAddMerchant: payload,
+      }
     default:
       return state;
   }

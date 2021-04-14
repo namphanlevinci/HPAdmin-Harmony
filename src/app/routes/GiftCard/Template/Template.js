@@ -28,9 +28,11 @@ import ArchiveSVG from "../../../../assets/images/archive.svg";
 import EditSVG from "../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../assets/images/restore.svg";
 import NewButton from "../../../../components/Button/Search";
+import { reloadUrl } from '../../../../util/reload';
 
 import "../Generation/generation.styles.scss";
 import "react-table/react-table.css";
+import { UPDATE_STATUS_ADD_STAFF } from "../../../../constants/merchantConstants";
 
 class Template extends Component {
   constructor(props) {
@@ -41,6 +43,7 @@ class Template extends Component {
       loading: false,
       search: "",
     };
+    this.refTable = React.createRef();
   }
 
   handleCloseDelete = () => {
@@ -63,9 +66,8 @@ class Template extends Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
 
-    const url = `giftcardTemplate?key=${this.state.search}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    const url = `giftcardTemplate?key=${this.state.search}&page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -112,6 +114,24 @@ class Template extends Component {
     this.props.viewTemplate(data);
     this.props.history.push("/app/giftcard/template/edit");
   };
+
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/giftcard/template');
+  }
+
+  componentDidMount() {
+    const { statusAddTemplate } = this.props;
+    if (statusAddTemplate) {
+      this.resetFirstPage();
+      this.props.updateStatusAddTemplate(false);
+    }
+  }
 
   render() {
     const columns = [
@@ -201,19 +221,19 @@ class Template extends Component {
                     />
                   </Tooltip>
                 ) : (
-                  <Tooltip title="Restore">
-                    <img
-                      alt=""
-                      src={RestoreSVG}
-                      style={style.icon}
-                      onClick={() =>
-                        this.handleOpenRestore(
-                          row?.original?.giftCardTemplateId
-                        )
-                      }
-                    />
-                  </Tooltip>
-                ))}
+                    <Tooltip title="Restore">
+                      <img
+                        alt=""
+                        src={RestoreSVG}
+                        style={style.icon}
+                        onClick={() =>
+                          this.handleOpenRestore(
+                            row?.original?.giftCardTemplateId
+                          )
+                        }
+                      />
+                    </Tooltip>
+                  ))}
               {CheckPermissions("edit-template") && (
                 <Tooltip title="Edit" arrow>
                   <span style={{ paddingLeft: "15px" }}>
@@ -314,6 +334,7 @@ class Template extends Component {
             </Dialog>
 
             <ReactTable
+              ref={this.refTable}
               manual
               page={page}
               pages={pageCount}
@@ -336,6 +357,7 @@ class Template extends Component {
 
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  statusAddTemplate: state.addTemplateGiftCard.statusAddTemplate
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -351,6 +373,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
   },
+  updateStatusAddTemplate: (payload) => {
+    dispatch({ type: 'UPDATE_STATUS_ADD_TEMPLATE', payload });
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Template);
