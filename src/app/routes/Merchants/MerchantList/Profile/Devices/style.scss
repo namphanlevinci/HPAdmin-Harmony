@@ -1,0 +1,128 @@
+.merchant-device-container{
+    min-height : 25rem;
+    padding-bottom : 8rem;
+    position :relative;
+}
+
+.merchant-device-title{
+    font-size : 1.3rem;
+    font-weight : 500;
+    color: #136AB7;
+    margin-bottom : 1.5rem;
+}
+
+.itemContainer {
+    display : flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top : 1.5rem;
+}
+
+.itemContainer-left{
+    width: 25rem;
+}
+
+.itemContainer-right{
+    margin-left : 10rem;
+    position : relative;
+}
+.itemContainer-right-select{
+    display: flex;
+    flex-direction: row;
+    justify-content : space-between;
+    align-items: center;
+    width: 20rem;
+    font-size : 1.1rem;
+    border-bottom: 1px solid #333;
+}
+
+.itemContainer-right-select-error{
+    display: flex;
+    flex-direction: row;
+    justify-content : space-between;
+    align-items: center;
+    width: 20rem;
+    font-size : 1.1rem;
+    border-bottom: 1px solid red;
+    color : red;
+}
+
+.itemContainer-title{
+    color : #9F9F9F;
+    font-size: 0.9rem;
+}
+
+.itemContainer-name{
+    color : #404040;
+    font-size: 1.1rem;
+    margin-top : 0.5rem;
+}
+
+.device-name {
+    color : #585858;
+}
+
+.icon-grey-down{
+    width : 30px;
+    height : 30px;
+}
+
+.btn-save-device{
+    position : absolute;
+    bottom : 0rem;
+}
+
+.terminal-list-container{
+    position: absolute;
+    top : 3.7rem;
+    left : -1rem;
+    right : -1rem;
+    height : 15rem;
+    border-radius: 3px;
+    background : white;
+    z-index: 99999;
+    box-shadow: 0px 3px 17px -5px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0px 3px 17px -5px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 3px 17px -5px rgba(0,0,0,0.3);
+    overflow-y: scroll;
+    padding-bottom : 0px;
+}
+
+.terminal-device{
+    font-size : 1rem;
+    color : #585858;
+    padding: 1rem;
+    padding-bottom: 1.15rem;
+    cursor : pointer;
+}
+
+.terminal-device-selected{
+    font-size : 1rem;
+    color : white;
+    background : #136AB7;
+    padding: 1rem;
+    padding-bottom: 1.15rem;
+    cursor : pointer;
+}
+
+.terminal-device:hover{
+    background : #DFECFE;
+}
+
+.container-loading-devices{
+    position: absolute;
+    left : 0px;
+    right : 0px;
+    bottom : 0px;
+    top : 0px;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NoDevices{
+    display: flex;
+    justify-content : center;
+    align-items: center;
+    font-size : 1rem;   
+}

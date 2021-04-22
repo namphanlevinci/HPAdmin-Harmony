@@ -1303,6 +1303,58 @@ const packageReducer = (
   }
 };
 
+const deviceReducer = (
+  state = {
+    loading: false,
+    deviceList: [],
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_DEVICE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.GET_DEVICE_FAILURE:
+      return {
+        ...state,
+        loading: false,  
+      };
+    case types.UPDATE_DEVICE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      }
+    case 'set_devices':
+      return {
+        ...state,
+        loading: false,
+        deviceList: payload,
+      };
+    case 'select_terminal':
+      const { terminal, index } = payload;
+      let deviceList = state.deviceList;
+      deviceList = checkTerminal(terminal, deviceList);
+      deviceList[index].terminalId = terminal;
+      return {
+        ...state,
+        deviceList
+      }
+    default:
+      return state;
+  }
+};
+
+const checkTerminal = (terminal, deviceList = []) => {
+  for (let index = 0; index < deviceList.length; index++) {
+    if (deviceList[index].terminalId == terminal) {
+      deviceList[index].terminalId = '';
+    }
+  }
+  return deviceList;
+}
+
 export {
   restoreStaffReducer,
   archiveStaffReducer,
@@ -1352,4 +1404,5 @@ export {
   merchantSubscriptionReducer,
   updateMerchantSubscriptionByIdReducer,
   packageReducer,
+  deviceReducer,
 };
