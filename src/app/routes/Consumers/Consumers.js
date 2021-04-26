@@ -15,6 +15,7 @@ import { fetchApiByPage } from "../../../actions/fetchApiActions";
 import { debounce } from "lodash";
 
 import NewButton from "../../../components/Button/Search";
+import ResetButton from "../../../components/Button/Reset";
 import IntlMessages from "../../../util/IntlMessages";
 import CustomProgress from "../../../util/CustomProgress";
 import ContainerHeader from "../../../components/ContainerHeader/index";
@@ -284,9 +285,9 @@ class Consumers extends React.Component {
                 </Select>
               </FormControl>
             </div>
-            <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-              Reset
-            </NewButton>
+            <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+              Reset filter
+            </ResetButton>
             <div className="merchant-list-container">
               <ReactTable
                 manual={true}

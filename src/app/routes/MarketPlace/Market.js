@@ -6,17 +6,17 @@ import { connect } from "react-redux";
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
 import { getMarketInfoAction } from "../../../actions/marketActions";
 import {
-  Button,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
   Typography,
-  // Switch,
+  Grid,
 } from "@material-ui/core";
 import { history } from "../../../store";
 import { debounce } from "lodash";
 
+import RestButton from "../../../components/Button/Reset";
 import NewButton from "../../../components/Button/Search";
 import CustomSwitch from "./components/Switch";
 import SearchComponent from "../../../util/searchComponent";
@@ -191,54 +191,65 @@ class Market extends Component {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                flexWrap: "wrap",
               }}
             >
               {/* SEARCH */}
-              <div
+              <Grid
+                container
+                spacing={0}
                 className="search"
-                style={{ width: "50%", display: "flex", alignItems: "center" }}
+                style={{ display: "flex", alignItems: "center" }}
               >
-                <SearchComponent
-                  placeholder="Search"
-                  value={this.state.search}
-                  onChange={this.handleChange}
-                  onKeyPress={this.keyPressed}
-                  onClickIcon={this.fetchApi}
-                />
-                <NewButton
-                  onClick={this.fetchApi}
-                  style={{ marginLeft: "10px" }}
+                <Grid container spacing={0}>
+                  <Grid item xs={2}>
+                    <SearchComponent
+                      placeholder="Search"
+                      value={this.state.search}
+                      onChange={this.handleChange}
+                      onKeyPress={this.keyPressed}
+                      onClickIcon={this.fetchApi}
+                    />
+                  </Grid>
+                  <NewButton
+                    onClick={this.fetchApi}
+                    style={{ marginLeft: "10px" }}
+                  >
+                    Search
+                  </NewButton>
+                </Grid>
+                <Grid
+                  container
+                  spacing={0}
+                  className="TransactionSearch"
+                  style={{ marginTop: 20 }}
                 >
-                  Search
-                </NewButton>
-              </div>
-              <div style={{ width: "50%", textAlign: "right" }}>
-                <Button onClick={this.addMarketPlace} className="btn btn-green">
-                  NEW BRAND
-                </Button>
-              </div>
-
-              <div style={{ width: "45%", marginTop: "15px" }}>
-                <FormControl style={{ width: "40%" }}>
-                  <InputLabel>Status</InputLabel>
-                  <Select onChange={this.handleStatus} value={statusValue}>
-                    <MenuItem value={-1}>All Status</MenuItem>
-                    <MenuItem value={0}>Active</MenuItem>
-                    <MenuItem value={1}>Inactive</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-
-              <NewButton onClick={this.handleResetClick}>Reset</NewButton>
-              {/* <Button
-                style={{ color: "#0764B0", marginTop: "15px" }}
-                onClick={this.handleResetClick}
-                className="btn btn-red"
+                  <Grid item xs={2}>
+                    <FormControl style={{ width: "100%" }}>
+                      <InputLabel>Status</InputLabel>
+                      <Select onChange={this.handleStatus} value={statusValue}>
+                        <MenuItem value={-1}>All Status</MenuItem>
+                        <MenuItem value={0}>Active</MenuItem>
+                        <MenuItem value={1}>Inactive</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <NewButton
+                onClick={this.addMarketPlace}
+                style={{ minWidth: 160}}
+                blue
               >
-                RESET
-              </Button> */}
+                New brand
+              </NewButton>
             </div>
+            <RestButton
+              onClick={this.handleResetClick}
+              style={{ marginTop: 10 }}
+            >
+              Reset filter
+            </RestButton>
+
             <div className="merchant-list-container">
               <ReactTable
                 manual

@@ -7,17 +7,19 @@ import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { getMerchantByID } from "../../../../actions/merchantActions";
 import { debounce } from "lodash";
 import {
-  Button,
   Tooltip,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
+  Grid,
 } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import NewButton from "../../../../components/Button/Search";
+import ResetButton from "../../../../components/Button/Reset";
+
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
 import CheckPermissions from "../../../../util/checkPermission";
@@ -195,52 +197,70 @@ class Merchants extends React.Component {
           title={<IntlMessages id="sidebar.dashboard.MList" />}
           disableBreadcrumb
         />
-        <div className="MerList page-heading " style={{ padding: "10px" }}>
+        <div className="MerList page-heading " style={{ padding: "22px 26px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Tooltip
-                title="Must enter correct MID to search by MID"
-                aria-label="add"
+            <Grid
+              container
+              spacing={0}
+              className="search"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <Grid container spacing={0}>
+                <Grid item xs={2}>
+                  <Tooltip
+                    title="Must enter correct MID to search by MID"
+                    aria-label="add"
+                  >
+                    <SearchComponent
+                      placeholder="Search by ID, MID, DBA, Email"
+                      value={this.state.search}
+                      onChange={this.handleChange}
+                      onKeyPress={this.keyPressed}
+                      onClickIcon={this.fetchApi}
+                    />
+                  </Tooltip>
+                </Grid>
+                <NewButton
+                  style={{ marginLeft: "10px" }}
+                  onClick={this.fetchApi}
+                >
+                  Search
+                </NewButton>
+              </Grid>
+              <Grid
+                container
+                spacing={0}
+                className="TransactionSearch"
+                style={{ marginTop: 20 }}
               >
-                <SearchComponent
-                  placeholder="Search by ID, MID, DBA, Email"
-                  value={this.state.search}
-                  onChange={this.handleChange}
-                  onKeyPress={this.keyPressed}
-                  onClickIcon={this.fetchApi}
-                />
-              </Tooltip>
-              <NewButton style={{ marginLeft: "15px" }} onClick={this.fetchApi}>
-                Search
-              </NewButton>
-            </div>
-            <FormControl style={{ width: "20%", marginLeft: "15px" }}>
-              <InputLabel>Status</InputLabel>
-              <Select onChange={this.handleStatus} value={statusValue}>
-                <MenuItem value={-1}>All</MenuItem>
-                <MenuItem value={0}>Active</MenuItem>
-                <MenuItem value={1}>Inactive</MenuItem>
-              </Select>
-            </FormControl>
+                <Grid item xs={2}>
+                  <FormControl style={{ width: "100%" }}>
+                    <InputLabel>Status</InputLabel>
+                    <Select onChange={this.handleStatus} value={statusValue}>
+                      <MenuItem value={-1}>All</MenuItem>
+                      <MenuItem value={0}>Active</MenuItem>
+                      <MenuItem value={1}>Inactive</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Grid>
+
             <div>
               {CheckPermissions("add-new-merchant") && (
-                <Button
-                  style={{
-                    backgroundColor: "#0764B0",
-                    color: "white",
-                    marginTop: "10px",
-                  }}
-                  className="btn btn-red"
+                <NewButton
+                  blue
                   onClick={this.addMerchant}
+                  style={{ minWidth: 174 }}
                 >
-                  ADD MERCHANT
-                </Button>
+                  Add merchant
+                </NewButton>
               )}
             </div>
           </div>
-          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-            Reset
-          </NewButton>
+          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container">
             <ReactTable
               manual

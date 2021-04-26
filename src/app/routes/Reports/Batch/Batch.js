@@ -88,8 +88,16 @@ class Transactions extends React.Component {
     const payload = { [name]: value };
     this.props.setBatchDate(payload);
   };
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+  };
   timeRange = async (e) => {
     const value = e.target.value;
+    this.setState({
+      page: 0,
+      row: 5,
+    });
+    this.props.setBatchPage(0);
 
     this.props.setBatchRange(value);
 
@@ -225,7 +233,7 @@ class Transactions extends React.Component {
         ),
       },
       {
-        Header: <CustomTableHeader value="Serial Number" />,
+        Header: <CustomTableHeader value="Terminal" />,
         id: "serialNumber",
         accessor: (e) => (
           <Typography variant="subtitle1">
@@ -346,28 +354,35 @@ class Transactions extends React.Component {
           style={{ padding: "10px" }}
         >
           <div className=" TransactionsBox">
-            <div
+            <Grid
+              container
+              spacing={3}
               className="BatchSearch"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <SearchComponent
-                placeholder="Search"
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyPress={this.keyPressed}
-                onClickIcon={this.fetchApi}
-              />
+              <Grid item xs={2}>
+                <SearchComponent
+                  placeholder="Search"
+                  value={this.state.search}
+                  onChange={(e) => this.handleChange(e)}
+                  onKeyPress={this.keyPressed}
+                  onClickIcon={this.fetchApi}
+                />
+              </Grid>
               <NewButton style={{ marginLeft: "10px" }} onClick={this.fetchApi}>
                 Search
               </NewButton>
-            </div>
+            </Grid>
           </div>
-          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-            Reset filter
-          </ResetButton>
-          <Grid container spacing={0} className="TransactionSearch">
-            <Grid item xs={3} style={{ marginTop: "20px" }}>
-              <FormControl style={{ width: "80%" }}>
+
+          <Grid
+            container
+            spacing={3}
+            className="TransactionSearch"
+            style={{ marginTop: 5 }}
+          >
+            <Grid item xs={2}>
+              <FormControl style={{ width: "100%" }}>
                 <InputLabel>Time Range</InputLabel>
                 <Select
                   value={this.props.batchTimeSet.range}
@@ -385,7 +400,7 @@ class Transactions extends React.Component {
             </Grid>
             {range === "all" ? (
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid item xs={3} style={{ marginTop: "5px" }}>
+                <Grid item xs={2}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -399,10 +414,10 @@ class Transactions extends React.Component {
                       "aria-label": "change date",
                     }}
                     autoOk={true}
-                    style={{ width: "80%" }}
+                    style={{ width: "100%", margin: 0 }}
                   />
                 </Grid>
-                <Grid item xs={3} style={{ marginTop: "5px" }}>
+                <Grid item xs={2}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -416,22 +431,15 @@ class Transactions extends React.Component {
                       "aria-label": "change date",
                     }}
                     autoOk={true}
-                    style={{ width: "80%" }}
+                    style={{ width: "100%", margin: 0 }}
                   />
                 </Grid>
               </MuiPickersUtilsProvider>
             ) : null}
-
-            <Grid
-              item
-              xs={3}
-              style={{
-                marginTop: "20px",
-                marginLeft: "auto",
-                textAlign: "right",
-              }}
-            ></Grid>
           </Grid>
+          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual={true}

@@ -28,6 +28,7 @@ import ArchiveSVG from "../../../../assets/images/archive.svg";
 import EditSVG from "../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../assets/images/restore.svg";
 import NewButton from "../../../../components/Button/Search";
+import ResetButton from "../../../../components/Button/Reset";
 
 import "../Generation/generation.styles.scss";
 import "react-table/react-table.css";
@@ -271,9 +272,9 @@ class Template extends Component {
               </Button>
             )}
           </div>
-          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-            Reset
-          </NewButton>
+          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset filter
+          </ResetButton>
           <div className="giftcard_content">
             <Delete
               handleCloseDelete={this.handleCloseDelete}

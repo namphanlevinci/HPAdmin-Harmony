@@ -9,7 +9,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import {
-  Button,
   FormControl,
   Select,
   MenuItem,
@@ -24,6 +23,8 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
+import NewButton from "../../../../components/Button/Search";
+import ResetButton from "../../../../components/Button/Reset";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
@@ -235,30 +236,38 @@ class P2P extends React.Component {
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className=" TransactionsBox">
             {/* SEARCH */}
-            <div className="search">
-              <SearchComponent
-                placeholder="Search.."
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyDown={this.handEnter}
-                onClickIcon={this.fetchApi}
-                name="search"
-              />
-            </div>
-
-            <div>
-              <Button
-                style={{ color: "#0764B0" }}
+            <Grid
+              container
+              spacing={3}
+              className="search"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <Grid item xs={2}>
+                <SearchComponent
+                  placeholder="Search.."
+                  value={this.state.search}
+                  onChange={this.handleChange}
+                  onKeyDown={this.handEnter}
+                  onClickIcon={this.fetchApi}
+                  name="search"
+                />
+              </Grid>
+              <NewButton
+                style={{ marginLeft: "10px" }}
                 onClick={() => this.fetchApi()}
-                className="btn btn-red"
               >
-                SEARCH
-              </Button>
-            </div>
+                Search
+              </NewButton>
+            </Grid>
           </div>
-          <Grid container spacing={3} className="TransactionSearch">
-            <Grid item xs={3} style={{ marginTop: "16px" }}>
-              <FormControl style={{ width: "80%" }}>
+          <Grid
+            container
+            spacing={3}
+            className="TransactionSearch"
+            style={{ marginTop: 10 }}
+          >
+            <Grid item xs={2}>
+              <FormControl style={{ width: "100%" }}>
                 <InputLabel>Time Range</InputLabel>
                 <Select value={range} onChange={this.timeRange}>
                   <MenuItem value="today">Today</MenuItem>
@@ -273,7 +282,7 @@ class P2P extends React.Component {
             </Grid>
 
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 {this.state.range === "custom" && (
                   <KeyboardDatePicker
                     disableToolbar
@@ -288,12 +297,12 @@ class P2P extends React.Component {
                       "aria-label": "change date",
                     }}
                     autoOk={true}
-                    style={{ width: "80%" }}
+                    style={{ width: "100%", margin: 0 }}
                   />
                 )}
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 {this.state.range === "custom" && (
                   <KeyboardDatePicker
                     disableToolbar
@@ -308,7 +317,7 @@ class P2P extends React.Component {
                       "aria-label": "change date",
                     }}
                     autoOk={true}
-                    style={{ width: "80%" }}
+                    style={{ width: "100%", margin: 0 }}
                   />
                 )}
               </Grid>
@@ -322,19 +331,16 @@ class P2P extends React.Component {
                 alignItems: "flex-end",
                 justifyContent: "flex-end",
               }}
-            >
-              <Button
-                style={{
-                  color: "#0764B0",
-                  marginTop: "0",
-                }}
-                onClick={this.handleResetClick}
-                className="btn btn-red"
-              >
-                RESET
-              </Button>
-            </Grid>
+            ></Grid>
           </Grid>
+          <ResetButton
+            style={{
+              marginTop: "10px",
+            }}
+            onClick={this.handleResetClick}
+          >
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual={true}

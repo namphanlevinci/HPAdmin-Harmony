@@ -11,10 +11,18 @@ import {
 } from "../../../actions/ticketActions";
 import { getAllUser } from "../../../actions/userActions";
 
-import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Grid,
+} from "@material-ui/core";
 import { debounce } from "lodash";
 
 import NewButton from "../../../components/Button/Search";
+import ResetButton from "../../../components/Button/Reset";
+import Status from "./components/Status";
 import SearchComponent from "../../../util/searchComponent";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import IntlMessages from "../../../util/IntlMessages";
@@ -158,7 +166,7 @@ class Tiket extends Component {
         id: "status",
         accessor: (row) => (
           <Typography variant="subtitle1" className="table__light">
-            {row?.status}
+            <Status status={row?.status}>{row?.status}</Status>
           </Typography>
         ),
       },
@@ -185,42 +193,67 @@ class Tiket extends Component {
         <div className="page-heading MerList">
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* SEARCH */}
-            <div
+            <Grid
+              container
+              spacing={0}
               className="search"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <SearchComponent
-                placeholder="Search by ID, Title, Application, Client Name"
-                value={this.state.search}
-                onChange={(e) => this.setState({ search: e.target.value })}
-                onKeyPress={this.keyPressed}
-              />
-              <NewButton style={{ marginLeft: "10px" }} onClick={this.fetchApi}>
-                Search
-              </NewButton>
-            </div>
-            <div>
-              {CheckPermissions("add-new-merchant") && (
-                <NewButton onClick={this.addTicket} blue>
-                  New Ticket
+              <Grid container spacing={0}>
+                <Grid item xs={2}>
+                  <SearchComponent
+                    placeholder="Search by ID, Title, Application, Client Name"
+                    value={this.state.search}
+                    onChange={(e) => this.setState({ search: e.target.value })}
+                    onKeyPress={this.keyPressed}
+                  />
+                </Grid>
+                <NewButton
+                  style={{ marginLeft: "10px" }}
+                  onClick={this.fetchApi}
+                >
+                  Search
                 </NewButton>
-              )}
-            </div>
+              </Grid>
+              <Grid
+                container
+                spacing={0}
+                className="TransactionSearch"
+                style={{ marginTop: 5 }}
+              >
+                <Grid item xs={2}>
+                  <FormControl style={{ width: "100%", marginTop: "20px" }}>
+                    <InputLabel>Status</InputLabel>
+                    <Select onChange={this.handleStatus} value={statusValue}>
+                      <MenuItem value="all">All Status</MenuItem>
+                      <MenuItem value="backlog">Backlog</MenuItem>
+                      <MenuItem value="inprogress">In Progress</MenuItem>
+                      <MenuItem value="waiting">Waiting</MenuItem>
+                      <MenuItem value="complete">Complete</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            {CheckPermissions("add-new-merchant") && (
+              <NewButton
+                onClick={this.addTicket}
+                blue
+                style={{ minWidth: "160px" }}
+              >
+                New Ticket
+              </NewButton>
+            )}
           </div>
-          <FormControl style={{ width: "20%", marginTop: "20px" }}>
-            <InputLabel>Status</InputLabel>
-            <Select onChange={this.handleStatus} value={statusValue}>
-              <MenuItem value="all">All Status</MenuItem>
-              <MenuItem value="backlog">Backlog</MenuItem>
-              <MenuItem value="inprogress">In Progress</MenuItem>
-              <MenuItem value="waiting">Waiting</MenuItem>
-              <MenuItem value="complete">Complete</MenuItem>
-            </Select>
-          </FormControl>
+
           <div>
-            <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-              Reset
-            </NewButton>
+            <ResetButton
+              style={{ marginTop: "10px" }}
+              onClick={this.handleReset}
+            >
+              Reset filter
+            </ResetButton>
           </div>
           <div className="merchant-list-container">
             <ReactTable

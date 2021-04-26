@@ -27,6 +27,7 @@ import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
 import InputCustom from "../../../../util/CustomInput";
 import NewButton from "../../../../components/Button/Search";
+import ResetButton from "../../../../components/Button/Reset";
 
 import "./Transactions.css";
 import "react-table/react-table.css";
@@ -42,7 +43,7 @@ class Transactions extends React.Component {
       amount: "",
       amountFrom: -1,
       amountTo: -1,
-      range: "",
+      range: "thisMonth",
       status: -1,
     };
   }
@@ -55,7 +56,7 @@ class Transactions extends React.Component {
       amountFrom: -1,
       amountTo: -1,
       range: "",
-      search: "",
+      search: "thisMonth",
       status: -1,
     });
     this.fetchApi();
@@ -311,35 +312,38 @@ class Transactions extends React.Component {
         />
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className="TransactionsBox">
-            <SearchComponent
-              placeholder="Search"
-              value={this.state.search}
-              onChange={this.handleChange}
-              onKeyDown={this.handEnter}
-              onClickIcon={this.fetchApi}
-              name="search"
-            />
-
-            <div>
-              <NewButton onClick={() => this.fetchApi()}>Search</NewButton>
+            <Grid
+              container
+              spacing={3}
+              className="BatchSearch"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <Grid item xs={2}>
+                <SearchComponent
+                  placeholder="Search"
+                  value={this.state.search}
+                  onChange={this.handleChange}
+                  onKeyDown={this.handEnter}
+                  onClickIcon={this.fetchApi}
+                  name="search"
+                />
+              </Grid>
               <NewButton
-                onClick={this.handleResetClick}
                 style={{ marginLeft: "10px" }}
-              >
-                Reset
-              </NewButton>
-              {/* <Button
-                style={{ color: "#0764B0" }}
                 onClick={() => this.fetchApi()}
-                className="btn btn-red"
               >
-                SEARCH
-              </Button> */}
-            </div>
+                Search
+              </NewButton>
+            </Grid>
           </div>
-          <Grid container spacing={0} className="TransactionSearch">
-            <Grid item xs={3} style={{ marginTop: "20px" }}>
-              <FormControl style={{ width: "80%" }}>
+          <Grid
+            container
+            spacing={3}
+            className="TransactionSearch"
+            style={{ marginTop: 5 }}
+          >
+            <Grid item xs={2} style={{}}>
+              <FormControl style={{ width: "100%" }}>
                 <InputLabel>Time Range</InputLabel>
                 <Select value={range} onChange={this.timeRange}>
                   <MenuItem value="today">Today</MenuItem>
@@ -354,7 +358,7 @@ class Transactions extends React.Component {
             </Grid>
             {range === "all" ? (
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid item xs={3} style={{ marginTop: "5px" }}>
+                <Grid item xs={2} style={{}}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -368,10 +372,10 @@ class Transactions extends React.Component {
                       "aria-label": "change date",
                     }}
                     autoOk={true}
-                    style={{ width: "80%" }}
+                    style={{ width: "100%", margin: 0 }}
                   />
                 </Grid>
-                <Grid item xs={3} style={{ marginTop: "5px" }}>
+                <Grid item xs={2} style={{}}>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -385,14 +389,14 @@ class Transactions extends React.Component {
                       "aria-label": "change date",
                     }}
                     autoOk={true}
-                    style={{ width: "80%" }}
+                    style={{ width: "100%", margin: 0 }}
                   />
                 </Grid>
               </MuiPickersUtilsProvider>
             ) : null}
 
-            <Grid item xs={3} style={{ marginTop: "20px" }}>
-              <FormControl style={{ width: "80%" }}>
+            <Grid item xs={2} style={{}}>
+              <FormControl style={{ width: "100%" }}>
                 <InputLabel>Status</InputLabel>
                 <Select
                   value={status}
@@ -405,7 +409,7 @@ class Transactions extends React.Component {
               </FormControl>
             </Grid>
 
-            <Grid item xs={3} style={{ marginTop: "20px" }}>
+            <Grid item xs={2} style={{}}>
               <TextField
                 InputLabelProps={{ shrink: true }}
                 label="Amount From"
@@ -421,11 +425,11 @@ class Transactions extends React.Component {
                 inputProps={{
                   numericOnly: true,
                 }}
-                style={{ width: "80%" }}
+                style={{ width: "100%" }}
               />
             </Grid>
 
-            <Grid item xs={3} style={{ marginTop: "20px" }}>
+            <Grid item xs={2} style={{}}>
               <TextField
                 InputLabelProps={{ shrink: true }}
                 label="Amount To"
@@ -441,28 +445,16 @@ class Transactions extends React.Component {
                 inputProps={{
                   numericOnly: true,
                 }}
-                style={{ width: "80%" }}
+                style={{ width: "100%" }}
               />
             </Grid>
-
-            <Grid
-              item
-              xs={3}
-              style={{
-                marginTop: "20px",
-                marginLeft: "auto",
-                textAlign: "right",
-              }}
-            >
-              {/* <Button
-                style={{ color: "#0764B0" }}
-                onClick={this.handleResetClick}
-                className="btn btn-red"
-              >
-                RESET
-              </Button> */}
-            </Grid>
           </Grid>
+          <ResetButton
+            onClick={this.handleResetClick}
+            style={{ marginTop: "10px" }}
+          >
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual={true}

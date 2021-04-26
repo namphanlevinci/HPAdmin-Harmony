@@ -4,9 +4,15 @@ import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import { Button, Typography } from "@material-ui/core";
+import {  Typography } from "@material-ui/core";
 import { debounce } from "lodash";
-import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Grid,
+} from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -14,6 +20,7 @@ import ReactTable from "react-table";
 import CheckPermissions from "../../../../util/checkPermission";
 import SearchComponent from "../../../../util/searchComponent";
 import NewButton from "../../../../components/Button/Search";
+import ResetButton from "../../../../components/Button/Reset";
 
 import "../../Merchants/Merchants.css";
 import "./User.css";
@@ -189,44 +196,63 @@ class Users extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUsers" />}
         />
-        <div className="MerList page-heading" style={{ padding: "10px" }}>
+        <div className="MerList page-heading" style={{ padding: "22px 26px" }}>
           <div className="UserSearchBox">
-            <div
+            <Grid
+              container
+              spacing={0}
               className="search"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <SearchComponent
-                placeholder="Search by Name, Group"
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyPress={this.keyPressed}
-                onClickIcon={this.fetchApi}
-              />
-              <NewButton onClick={this.fetchApi} style={{ marginLeft: "10px" }}>
-                Search
-              </NewButton>
-            </div>
-            <FormControl style={{ width: "20%", marginLeft: "15px" }}>
-              <InputLabel>Status</InputLabel>
-              <Select onChange={this.handleStatus} value={statusValue}>
-                <MenuItem value={-1}>All</MenuItem>
-                <MenuItem value={0}>Active</MenuItem>
-                <MenuItem value={1}>Inactive</MenuItem>
-              </Select>
-            </FormControl>
-            {CheckPermissions("add-new-user") && (
-              <Button
-                className="btn btn-green"
-                onClick={this.addAdmin}
-                style={{ margin: "0px" }}
+              <Grid container spacing={0}>
+                <Grid item xs={2}>
+                  <SearchComponent
+                    placeholder="Search by Name, Group"
+                    value={this.state.search}
+                    onChange={this.handleChange}
+                    onKeyPress={this.keyPressed}
+                    onClickIcon={this.fetchApi}
+                  />
+                </Grid>
+                <NewButton
+                  onClick={this.fetchApi}
+                  style={{ marginLeft: "10px" }}
+                >
+                  Search
+                </NewButton>
+              </Grid>
+              <Grid
+                container
+                spacing={0}
+                className="TransactionSearch"
+                style={{ marginTop: 20 }}
               >
-                ADD NEW USER
-              </Button>
+                <Grid item xs={2}>
+                  <FormControl style={{ width: "100%" }}>
+                    <InputLabel>Status</InputLabel>
+                    <Select onChange={this.handleStatus} value={statusValue}>
+                      <MenuItem value={-1}>All</MenuItem>
+                      <MenuItem value={0}>Active</MenuItem>
+                      <MenuItem value={1}>Inactive</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            {CheckPermissions("add-new-user") && (
+              <NewButton
+                onClick={this.addAdmin}
+                style={{ margin: "0px", minWidth: 160, padding: 10 }}
+                blue
+              >
+                Add new user
+              </NewButton>
             )}
           </div>
-          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-            Reset
-          </NewButton>
+          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container user_table">
             <ReactTable
               manual
