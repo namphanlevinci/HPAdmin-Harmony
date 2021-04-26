@@ -28,6 +28,8 @@ import ArchiveSVG from "../../../../assets/images/archive.svg";
 import EditSVG from "../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../assets/images/restore.svg";
 import NewButton from "../../../../components/Button/Search";
+import ResetButton from "../../../../components/Button/Reset";
+
 import { reloadUrl } from '../../../../util/reload';
 
 import "../Generation/generation.styles.scss";

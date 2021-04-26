@@ -20,6 +20,7 @@ import ReactTable from "react-table";
 import CheckPermissions from "../../../../util/checkPermission";
 import SearchComponent from "../../../../util/searchComponent";
 import NewButton from "../../../../components/Button/Search";
+import ResetButton from '../../../../components/Button/Reset'
 import { reloadUrl } from '../../../../util/reload';
 
 import "../../Merchants/Merchants.css";
