@@ -23,6 +23,7 @@ import ResetButton from "../../../../components/Button/Reset";
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
 import CheckPermissions from "../../../../util/checkPermission";
+import { reloadUrl } from '../../../../util/reload';
 
 import "../Merchants.css";
 import "../PendingList/MerchantReqProfile.css";
@@ -35,19 +36,24 @@ class Merchants extends React.Component {
       search: "",
       statusValue: -1,
     };
+    this.refTable = React.createRef();
   }
 
   componentDidMount() {
     this.setState({ pageLoading: true });
+    const { statusAddMerchant } = this.props;
+    if(statusAddMerchant == true){
+      this.resetFirstPage();
+      this.props.updateStatusAddMerchant(false);
+    }
   }
 
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     const { search, statusValue } = this.state;
-    const url = `merchant/search?key=${search}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&isDisabled=${statusValue}`;
+    const url = `merchant/search?key=${search}&page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -89,6 +95,17 @@ class Merchants extends React.Component {
   handleChange = (e) => {
     this.setState({ search: e.target.value });
   };
+
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/merchants/list');
+  }
+
 
   render() {
     const { page, statusValue } = this.state;
@@ -263,6 +280,7 @@ class Merchants extends React.Component {
           </ResetButton>
           <div className="merchant-list-container">
             <ReactTable
+              ref={this.refTable}
               manual
               sortable={false}
               page={page}
@@ -287,6 +305,7 @@ class Merchants extends React.Component {
 
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  statusAddMerchant : state.addMerchant.statusAddMerchant,
 });
 const mapDispatchToProps = (dispatch) => ({
   getMerchantByID: (ID, path) => {
@@ -295,5 +314,11 @@ const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
   },
+  updateStatusAddMerchant : (payload) => {
+    dispatch({ 
+      type : 'UPDATE_STATUS_ADD_MERCHANT',
+      payload
+    })
+  }
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Merchants);

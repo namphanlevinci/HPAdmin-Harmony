@@ -142,6 +142,10 @@ export const getStaff = (MerchantID, path) => async (dispatch, getState) => {
 
     if (path) {
       history.push(path);
+      dispatch({
+        type: types.UPDATE_STATUS_ADD_STAFF,
+        payload: true
+      })
     }
   } catch (error) {
     dispatch({
@@ -802,6 +806,7 @@ export const addMerchantCategoryById = (payload) => async (
   dispatch,
   getState
 ) => {
+
   try {
     dispatch({
       type: types.ADD_MERCHANT_CATEGORY_REQUEST,
@@ -811,7 +816,8 @@ export const addMerchantCategoryById = (payload) => async (
       verifyUser: { user },
     } = await getState();
 
-    const { merchantId } = payload;
+    const { merchantId, resetFirstPage } = payload;
+    delete payload.resetFirstPage;
 
     const { data } = await axios.post(
       `${URL}/category`,
@@ -833,7 +839,9 @@ export const addMerchantCategoryById = (payload) => async (
       payload: data?.message,
     });
 
-    dispatch(getCategoryByID(merchantId));
+    resetFirstPage();
+
+    // dispatch(getCategoryByID(merchantId));
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
@@ -1021,7 +1029,8 @@ export const addMerchantServiceById = (payload) => async (
       verifyUser: { user },
     } = await getState();
 
-    const { merchantId } = payload;
+    const { merchantId, resetFirstPage } = payload;
+    delete payload.resetFirstPage;
 
     const { data } = await axios.post(
       `${URL}/service`,
@@ -1042,8 +1051,9 @@ export const addMerchantServiceById = (payload) => async (
       type: SUCCESS_NOTIFICATION,
       payload: data?.message,
     });
+    resetFirstPage();
 
-    dispatch(getServiceByID(merchantId));
+    // dispatch(getServiceByID(merchantId));
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
@@ -1366,6 +1376,10 @@ export const addMerchantProductById = (payload) => async (
       });
 
       dispatch(getProductByID(merchantId, path));
+      dispatch({
+        type: types.UPDATE_STATUS_ADD_PRODUCT,
+        payload: true
+      })
     }
   } catch (error) {
     dispatch({
@@ -2262,6 +2276,10 @@ export const addMerchant = (payload) => async (dispatch, getState) => {
     });
 
     history.push(path);
+    dispatch({
+      type: types.UPDATE_STATUS_ADD_MERCHANT,
+      payload: true
+    })
   } catch (error) {
     dispatch({
       type: types.ADD_MERCHANT_FAILURE,

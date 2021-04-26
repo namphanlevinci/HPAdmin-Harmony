@@ -613,8 +613,14 @@ export const addUser = (payload) => async (dispatch, getState) => {
         type: SUCCESS_NOTIFICATION,
         payload: data?.message,
       });
-
+      
       history.push(path);
+
+      dispatch({
+        type : types.UPDATE_STATUS_ADD_USER,
+        payload : true,
+      })
+
     } else {
       dispatch({
         type: FAILURE_NOTIFICATION,

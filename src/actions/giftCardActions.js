@@ -405,6 +405,10 @@ export const addTemplateByID = (payload) => async (dispatch, getState) => {
 
     if (path) {
       history.push(path);
+      dispatch({
+        type : types.UPDATE_STATUS_ADD_TEMPLATE,
+        payload : true
+      });
     }
   } catch (error) {
     dispatch({

@@ -29,6 +29,7 @@ import IntlMessages from "../../../util/IntlMessages";
 import ReactTable from "react-table";
 import CheckPermissions from "../../../util/checkPermission";
 import moment from "moment";
+import { reloadUrl } from '../../../util/reload';
 
 import "react-table/react-table.css";
 import "../Merchants/Merchants.css";
@@ -44,20 +45,25 @@ class Tiket extends Component {
       data: "",
       loading: false,
     };
+    this.refTable = React.createRef();
   }
   // componentDidMount = async () => {
   //   // this.props.fetchApiByPage(`ticket?status=all`);
   // };
   componentDidMount = () => {
     this.props.getAllUser();
+    const { statusAddTicket } = this.props;
+    if (statusAddTicket == true) {
+      this.resetFirstPage();
+      this.props.updateStatusAddTicket(false);
+    }
   };
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     const { search, statusValue } = this.state;
-    const url = `ticket/?keySearch=${search}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&status=${statusValue}`;
+    const url = `ticket/?keySearch=${search}&page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&status=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -92,9 +98,20 @@ class Tiket extends Component {
     this.fetchApi();
   }, 1000);
 
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/ticket');
+  }
+
   render() {
     const { statusValue, page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
+
     const columns = [
       {
         Header: <CustomTableHeader value="ID" />,
@@ -257,6 +274,7 @@ class Tiket extends Component {
           </div>
           <div className="merchant-list-container">
             <ReactTable
+              ref={this.refTable}
               manual
               sortable={false}
               page={page}
@@ -281,6 +299,7 @@ class Tiket extends Component {
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
   userList: state.adminUser,
+  statusAddTicket: state.addTicket.statusAddTicket,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
@@ -298,6 +317,9 @@ const mapDispatchToProps = (dispatch) => ({
   getAllUser: () => {
     dispatch(getAllUser());
   },
+  updateStatusAddTicket: (payload) => {
+    dispatch({ type: 'UPDATE_STATUS_ADD_TICKET', payload });
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tiket);

@@ -136,4 +136,7 @@ export const ON_TODO_SELECT = 'on_todo_select';
 export const SET_CURRENT_TODO_NULL = 'set_current_todo_null';
 export const REMOVE_LABEL = 'remove_label';
 export const UPDATE_SEARCH = 'update_search';
+export const GET_DEVICES = 'get_devices';
+export const SET_DEVICES = 'set_devices';
+export const SELECT_TERMINAL = 'select_terminal';
 

@@ -306,6 +306,7 @@ const allUserReducer = (
 const addUserReducer = (
   state = {
     loading: false,
+    statusAddUser : false,
   },
   { type, payload }
 ) => {
@@ -325,6 +326,12 @@ const addUserReducer = (
         ...state,
         loading: false,
       };
+    
+    case types.UPDATE_STATUS_ADD_USER:
+      return{
+        ...state,
+        statusAddUser : payload,
+      }
 
     default:
       return state;

@@ -391,11 +391,16 @@ class AddProduct extends Component {
 
                   <Grid item xs={12} md={3}>
                     <FormControl>
-                      <InputLabel htmlFor="formatted-text-mask-input">
+                      <InputLabel
+                        style={{
+                          color: errors.price ? 'red' : '#0764B0'
+                        }}
+                        htmlFor="formatted-text-mask-input"
+                      >
                         Price*
                       </InputLabel>
                       <Input
-                        onChange={(e, masked) => setFieldValue("price", masked)}
+                        onChange={(e) => setFieldValue("price", e.target.value)}
                         error={touched.price && Boolean(errors.price)}
                         helperText={touched.price ? errors.price : ""}
                         onBlur={handleBlur}
@@ -415,6 +420,10 @@ class AddProduct extends Component {
                         }
                         inputComponent={CustomCurrencyInput}
                       />
+                      {errors.price && <p style={{ color: 'red', fontSize: '12px', marginTop: 4 }}>
+                        {errors.price}
+                      </p>}
+
                     </FormControl>
                   </Grid>
 

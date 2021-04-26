@@ -53,6 +53,7 @@ export const getTicketByID = (ID, path) => async (dispatch, getState) => {
 
 export const addTicketFile = (payload) => async (dispatch, getState) => {
   try {
+    console.log(' add ticlet action')
     dispatch({ type: types.ADD_TICKET_FILE_REQUEST });
     const { id, fileId } = payload;
     const {
@@ -77,6 +78,10 @@ export const addTicketFile = (payload) => async (dispatch, getState) => {
       payload: data?.message,
     });
     dispatch(getTicketByID(id));
+    dispatch({ 
+      type : types.UPDATE_STATUS_ADD_TICKET,
+      payload : true
+    });
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,

@@ -27,6 +27,7 @@ import DelSVG from "../../../../../../assets/images/del.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
+import { reloadUrl } from '../../../../../../util/reload';
 
 class Service extends Component {
   constructor(props) {
@@ -42,9 +43,10 @@ class Service extends Component {
       // Service ID
       serviceId: "",
     };
+    this.refTable = React.createRef();
   }
 
-  getService = () => {};
+  getService = () => { };
 
   componentDidMount() {
     const ID = this.props.MerchantProfile.merchantId;
@@ -97,6 +99,17 @@ class Service extends Component {
     this.props.restoreServiceById(serviceId, MerchantId);
     this.setState({ isOpenReject: false });
   };
+
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/merchants/profile/service');
+  }
+
   render() {
     let { serviceList, loading } = this.props.service;
 
@@ -206,19 +219,19 @@ class Service extends Component {
                 />
               </Tooltip>
             ) : (
-              <Tooltip title="Restore">
-                <img
-                  alt=""
-                  src={RestoreSVG}
-                  onClick={() =>
-                    this.setState({
-                      categoryId: row.original.serviceId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
-              </Tooltip>
-            );
+                <Tooltip title="Restore">
+                  <img
+                    alt=""
+                    src={RestoreSVG}
+                    onClick={() =>
+                      this.setState({
+                        categoryId: row.original.serviceId,
+                        restoreDialog: true,
+                      })
+                    }
+                  />
+                </Tooltip>
+              );
           return (
             <div
               style={{
@@ -275,13 +288,17 @@ class Service extends Component {
             />
             <div>
               {CheckPermissions("add-new-service") && (
-                <AddService reload={this.getService} />
+                <AddService
+                  reload={this.getService}
+                  resetFirstPage={this.resetFirstPage}
+                />
               )}
             </div>
           </div>
 
           <div className="merchant-list-container">
             <ReactTable
+              ref={this.refTable}
               page={this.props.page || 0}
               pageSize={this.props.size || 5}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}

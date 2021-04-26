@@ -38,6 +38,7 @@ import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import EditCategory from "./EditCategory";
 import SearchComponent from "../../../../../../util/searchComponent";
+import { reloadUrl } from '../../../../../../util/reload';
 
 import "./category.styles.scss";
 
@@ -58,7 +59,9 @@ class Category extends Component {
       // Category ID để update
       categoryId: "",
       edit: false,
+      page: 0,
     };
+    this.refTable = React.createRef();
   }
 
   getCategory = () => {
@@ -108,6 +111,16 @@ class Category extends Component {
     const merchantID = this.props.MerchantProfile.merchantId;
     this.props.exportCategory(merchantID);
   };
+
+  resetFirstPage = () => {
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/merchants/profile/category');
+  }
+
   render() {
     let { categoryList, loading } = this.props.categoryList;
 
@@ -190,19 +203,19 @@ class Category extends Component {
                 />
               </Tooltip>
             ) : (
-              <Tooltip title="Restore">
-                <img
-                  alt="restore"
-                  src={RestoreSVG}
-                  onClick={() =>
-                    this.setState({
-                      categoryId: row.original.categoryId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
-              </Tooltip>
-            );
+                <Tooltip title="Restore">
+                  <img
+                    alt="restore"
+                    src={RestoreSVG}
+                    onClick={() =>
+                      this.setState({
+                        categoryId: row.original.categoryId,
+                        restoreDialog: true,
+                      })
+                    }
+                  />
+                </Tooltip>
+              );
           return (
             <div
               style={{
@@ -315,7 +328,11 @@ class Category extends Component {
                         onSubmit={(values, { setSubmitting }) => {
                           const merchantId = this.props.MerchantProfile
                             .merchantId;
-                          const payload = { ...values, merchantId };
+                          const payload = {
+                            ...values,
+                            merchantId,
+                            resetFirstPage: this.resetFirstPage
+                          };
                           this.props.addMerchantCategoryById(payload);
                           this.setState({ cateDialog: false });
                         }}
@@ -337,7 +354,7 @@ class Category extends Component {
                                   <InputLabel
                                     className={
                                       errors.categoryType &&
-                                      touched.categoryType
+                                        touched.categoryType
                                         ? "error-text"
                                         : ""
                                     }
@@ -360,11 +377,11 @@ class Category extends Component {
                                     <MenuItem value="Service">Service</MenuItem>
                                   </Select>
                                   {errors.categoryType &&
-                                  touched.categoryType ? (
-                                    <FormHelperText className="error-text">
-                                      {errors.categoryType}
-                                    </FormHelperText>
-                                  ) : null}
+                                    touched.categoryType ? (
+                                      <FormHelperText className="error-text">
+                                        {errors.categoryType}
+                                      </FormHelperText>
+                                    ) : null}
                                 </FormControl>
                               </Grid>
                               <Grid item xs={12}>
@@ -417,6 +434,7 @@ class Category extends Component {
           </div>
           <div className="merchant-list-container category__container">
             <ReactTable
+              ref={this.refTable}
               data={categoryList}
               columns={columns}
               defaultPageSize={5}

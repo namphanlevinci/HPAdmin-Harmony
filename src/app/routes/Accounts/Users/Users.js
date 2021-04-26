@@ -20,7 +20,7 @@ import ReactTable from "react-table";
 import CheckPermissions from "../../../../util/checkPermission";
 import SearchComponent from "../../../../util/searchComponent";
 import NewButton from "../../../../components/Button/Search";
-import ResetButton from "../../../../components/Button/Reset";
+import { reloadUrl } from '../../../../util/reload';
 
 import "../../Merchants/Merchants.css";
 import "./User.css";
@@ -34,6 +34,7 @@ class Users extends Component {
       loading: false,
       statusValue: -1,
     };
+    this.refTable = React.createRef();
   }
 
   searchUser = debounce((query) => {
@@ -63,9 +64,8 @@ class Users extends Component {
     let pageSize = state?.pageSize ? state?.pageSize : 10;
     const { statusValue, search } = this.state;
 
-    const url = `adminuser?key=${search}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&isDisabled=${statusValue}`;
+    const url = `adminuser?key=${search}&page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -85,6 +85,25 @@ class Users extends Component {
   addAdmin = () => {
     this.props.history.push("/app/accounts/admin/add");
   };
+
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/accounts/admin');
+  }
+
+  componentDidMount() {
+    const { statusAddUser } = this.props;
+    if (statusAddUser == true) {
+      this.props.updateStatusAddUser(false);
+      this.resetFirstPage();
+    }
+  }
+
   render() {
     const { page, statusValue } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
@@ -255,6 +274,7 @@ class Users extends Component {
           </ResetButton>
           <div className="merchant-list-container user_table">
             <ReactTable
+              ref={this.refTable}
               manual
               sortable={false}
               page={page}
@@ -279,6 +299,7 @@ class Users extends Component {
 
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  statusAddUser: state.addUser.statusAddUser
 });
 const mapDispatchToProps = (dispatch) => ({
   getUserByID: (ID, path) => {
@@ -286,6 +307,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
+  },
+  updateStatusAddUser: (payload) => {
+    dispatch({ type: 'UPDATE_STATUS_ADD_USER', payload });
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

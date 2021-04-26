@@ -54,6 +54,7 @@ import {
   updateMerchantSubscriptionByIdReducer,
   packageReducer,
   updateMerchantExtraByIdReducer,
+  deviceReducer,
 } from "./merchantReducer";
 
 // Consumer
@@ -164,6 +165,7 @@ export default (history) =>
     updateSubscription: updateMerchantSubscriptionByIdReducer,
     package: packageReducer,
     updateMerchantExtra: updateMerchantExtraByIdReducer,
+    device : deviceReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,
