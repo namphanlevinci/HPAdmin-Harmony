@@ -136,6 +136,8 @@ class EditSalary extends Component {
       path: "/app/merchants/staff/salary",
     };
 
+    console.log({ payload })
+
     this.props.updateStaffByID(payload);
   };
 
@@ -236,11 +238,11 @@ class EditSalary extends Component {
                                               e.target.value.replace(/,/g, "")
                                             ),
                                             parseFloat(
-                                              commValue.to.replace(/,/g, "")
+                                              commValue?.to?.toString().replace(/,/g, "")
                                             )
-                                          ) ||
+                                          ) ||  
                                           parseFloat(
-                                            commValue.to.replace(/,/g, "")
+                                            commValue?.to?.toString().replace(/,/g, "")
                                           ) === 0
                                         ) {
                                           setFieldValue(
