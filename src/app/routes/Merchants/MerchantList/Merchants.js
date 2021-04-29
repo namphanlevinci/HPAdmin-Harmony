@@ -226,11 +226,26 @@ class Merchants extends React.Component {
       // thiếu expired date
       const expiredDate = rowInfo?.original?.expiredDate;
       const nowDay = moment();
-      const diff = Math.abs(nowDay.diff(expiredDate, 'days'));
+      const diff = moment(expiredDate).diff(nowDay, 'days');
+
       const isDisabled = rowInfo?.original?.isDisabled;
+      if (isDisabled == 1) {
+        return {
+          style: {
+            'background': '#cccccc'
+          }
+        }
+      }
+      if (diff < 31 || diff <= 0) {
+        return {
+          style: {
+            'background': '#ffe8eb'
+          }
+        }
+      }
       return {
         style: {
-          'background': (isDisabled == 1 || diff < 31) ? '#ffd6d9' : 'transparent',
+          'background': 'transparent',
         }
       }
     }
