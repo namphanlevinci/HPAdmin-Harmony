@@ -239,7 +239,7 @@ class Merchants extends React.Component {
       if (diff < 31 || diff <= 0) {
         return {
           style: {
-            'background': '#ffe8eb'
+            'background': '#FBD7DC'
           }
         }
       }
