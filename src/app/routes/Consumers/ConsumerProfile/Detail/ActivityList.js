@@ -87,7 +87,7 @@ class ActivityList extends Component {
         id: "createDate",
         Header: "Date/time",
         accessor: (e) => {
-          return moment.utc(e.createDate).local().format("MM/DD/YYYY HH:mm A");
+          return moment.utc(e.createDate).local().format("MM/DD/YYYY hh:mm A");
         },
       },
       {

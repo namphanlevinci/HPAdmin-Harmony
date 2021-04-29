@@ -24,6 +24,7 @@ import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
 import CheckPermissions from "../../../../util/checkPermission";
 import { reloadUrl } from '../../../../util/reload';
+import moment from 'moment';
 
 import "../Merchants.css";
 import "../PendingList/MerchantReqProfile.css";
@@ -42,7 +43,7 @@ class Merchants extends React.Component {
   componentDidMount() {
     this.setState({ pageLoading: true });
     const { statusAddMerchant } = this.props;
-    if(statusAddMerchant == true){
+    if (statusAddMerchant == true) {
       this.resetFirstPage();
       this.props.updateStatusAddMerchant(false);
     }
@@ -194,6 +195,22 @@ class Merchants extends React.Component {
         ),
         width: 100,
       },
+      {
+        Header: (
+          <div style={{ textAlign: "center" }}>
+            <CustomTableHeader value="Expire Date" />
+          </div>
+        ),
+        id: "expiredDate",
+        accessor: (row) => {
+          return (
+            <Typography variant="subtitle1" className="table__light">
+              {moment(row?.expiredDate).format("MM/DD/YYYY hh:mm A")}
+            </Typography>
+          )
+        },
+        width: 170,
+      },
     ];
     const onRowClick = (state, rowInfo) => {
       return {
@@ -204,6 +221,19 @@ class Merchants extends React.Component {
         },
       };
     };
+
+    const getTrProps = (state, rowInfo) => {
+      // thiếu expired date
+      const expiredDate = rowInfo?.original?.expiredDate;
+      const nowDay = moment();
+      const diff = Math.abs(nowDay.diff(expiredDate, 'days'));
+      const isDisabled = rowInfo?.original?.isDisabled;
+      return {
+        style: {
+          'background': (isDisabled == 1 || diff < 31) ? '#ffd6d9' : 'transparent',
+        }
+      }
+    }
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -295,6 +325,7 @@ class Merchants extends React.Component {
               loading={loading}
               columns={columns}
               getTdProps={onRowClick}
+              getTrProps={getTrProps}
             />
           </div>
         </div>
@@ -305,7 +336,7 @@ class Merchants extends React.Component {
 
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
-  statusAddMerchant : state.addMerchant.statusAddMerchant,
+  statusAddMerchant: state.addMerchant.statusAddMerchant,
 });
 const mapDispatchToProps = (dispatch) => ({
   getMerchantByID: (ID, path) => {
@@ -314,9 +345,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
   },
-  updateStatusAddMerchant : (payload) => {
-    dispatch({ 
-      type : 'UPDATE_STATUS_ADD_MERCHANT',
+  updateStatusAddMerchant: (payload) => {
+    dispatch({
+      type: 'UPDATE_STATUS_ADD_MERCHANT',
       payload
     })
   }

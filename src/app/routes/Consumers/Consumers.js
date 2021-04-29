@@ -53,9 +53,8 @@ class Consumers extends React.Component {
 
     const { search, isVerify } = this.state;
 
-    const url = `user/?key=${search}&isVerify=${isVerify}&sortValue=${sortValue}&sortType=${sortType}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    const url = `user/?key=${search}&isVerify=${isVerify}&sortValue=${sortValue}&sortType=${sortType}&page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -115,7 +114,7 @@ class Consumers extends React.Component {
             Total Rows: {totalRow}
           </Typography>
         ),
-        width: 220,
+        width: 180,
       },
       {
         Header: <CustomTableHeader value=" First Name" />,
@@ -215,14 +214,17 @@ class Consumers extends React.Component {
       {
         id: "lastActivity",
         Header: <CustomTableHeader value="Last Active" />,
-        accessor: (e) => (
-          <Typography
-            variant="subtitle1"
-            className={Number(e.value) > 10000 ? "BIG" : ""}
-          >
-            {e?.lastActivity && moment(e?.lastActivity).fromNow("en")}
-          </Typography>
-        ),
+        accessor: (e) => {
+          return (
+            <Typography
+              variant="subtitle1"
+              className={Number(e.value) > 10000 ? "BIG" : ""}
+            >
+              {e?.lastActivity && moment(e?.lastActivity).format("MM/DD/YYYY hh:mm A")}
+            </Typography>
+          )
+        },
+        width: 180,
       },
       {
         accessor: "stateName",

@@ -198,9 +198,7 @@ class Transactions extends React.Component {
     };
 
     const { range, from, to, page, row } = this.props.batchTimeSet;
-    console.log("render Page", page);
     const { data, loading, pageCount, totalRow, summary } = this.props.apiData;
-
     const columns = [
       {
         Header: <CustomTableHeader value="Date/Time" />,

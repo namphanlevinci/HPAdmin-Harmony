@@ -112,6 +112,8 @@ class Tiket extends Component {
     const { statusValue, page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
 
+    console.log({ data })
+
     const columns = [
       {
         Header: <CustomTableHeader value="ID" />,
