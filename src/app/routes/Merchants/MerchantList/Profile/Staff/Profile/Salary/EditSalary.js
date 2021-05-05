@@ -136,8 +136,6 @@ class EditSalary extends Component {
       path: "/app/merchants/staff/salary",
     };
 
-    console.log({ payload })
-
     this.props.updateStaffByID(payload);
   };
 

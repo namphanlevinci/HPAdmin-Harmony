@@ -80,7 +80,11 @@ class AddTicket extends Component {
     actions.setSubmitting(false);
   };
   handleSubmit = (values, actions) => {
-    this.submitForm(values, actions);
+    let body = {
+      ...values,
+      fileIds : values.fileIds ? values.fileIds : []
+    }
+    this.submitForm(body, actions);
     actions.setSubmitting(false);
   };
   render() {
