@@ -145,12 +145,9 @@ class P2P extends React.Component {
   };
 
   render() {
-    console.log("propssss", this.props);
-
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
-          console.log(rowInfo);
           if (rowInfo !== undefined) {
             const url = `GiftCard/sold/${rowInfo?.original?.merchantId}?date=${rowInfo?.original?.date}`;
             this.props.fetchApiByPage(url);
@@ -169,7 +166,6 @@ class P2P extends React.Component {
       totalRow,
       summary,
     } = this.props.apiData;
-    console.log("total", this.props.apiData);
 
     const columns = [
       {

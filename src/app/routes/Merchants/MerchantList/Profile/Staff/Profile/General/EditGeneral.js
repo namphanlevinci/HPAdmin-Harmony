@@ -111,10 +111,10 @@ export class EditGeneral extends Component {
     let { imagePreviewUrl, loading, showP } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = <Avatar src={imagePreviewUrl} className="avatar_last" />;
+      $imagePreview = <Avatar style={{ width : 130, height : 130 }} src={imagePreviewUrl} className="avatar_last" />;
     } else {
       $imagePreview = (
-        <Avatar className="avatar_last" src={this.state?.imageUrl} />
+        <Avatar style={{ width : 130, height : 130 }} className="avatar_last" src={this.state?.imageUrl} />
       );
     }
 

@@ -1,7 +1,13 @@
 .merchant-device-container{
-    min-height : 25rem;
+    min-height : 20rem;
     padding-bottom : 8rem;
     position :relative;
+}
+
+
+.btn-save-device{
+    position : absolute;
+    bottom : 1.5rem;
 }
 
 .merchant-device-title{
@@ -65,11 +71,6 @@
 .icon-grey-down{
     width : 30px;
     height : 30px;
-}
-
-.btn-save-device{
-    position : absolute;
-    bottom : 0rem;
 }
 
 .terminal-list-container{

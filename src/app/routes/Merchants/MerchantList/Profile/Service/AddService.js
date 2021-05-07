@@ -91,7 +91,6 @@ class AddService extends Component {
     this.setState({ [name]: value });
   };
   handePushValue = (e, values) => {
-    console.log(e);
     this.setState({ extraId: e.id }, () => {
       // values.extras.map((value) => {
       //   if (value?.extraId !== e.id || values.extras.length === 0) {

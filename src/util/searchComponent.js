@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function SearchComponent(props) {
   const classes = useStyles();
-  const { value } = props;
+  const { value , width = '50%' } = props;
   return (
-    <FormControl style={{ width: "100%" }}>
+    <FormControl style={{ width }}>
       <OutlinedInput
         classes={{ notchedOutline: classes.notchedOutline }}
         style={{ height: 36 }}

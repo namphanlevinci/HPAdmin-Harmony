@@ -11,12 +11,13 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-
+import DefaultAvatar from "../../../../avatar.png";
 import "../../Staff.styles.scss";
 
 export class General extends Component {
   render() {
     const Staff = this.props.Staff;
+    const imageUrl = Staff.imageUrl;
     return (
       <Grid container spacing={3} className="content">
         <Grid item xs={12}>
@@ -105,9 +106,8 @@ export class General extends Component {
         <Grid item xs={3} lg={3}>
           <CustomTextLabel value="Avatar" />
           <Avatar
-            src={Staff?.imageUrl}
-            className="avatar_last"
-            alt="staff_avatar"
+            src={Staff.imageUrl || DefaultAvatar}
+            style={{ width : 130, height : 130, marginTop : 30 }}
           />
         </Grid>
 

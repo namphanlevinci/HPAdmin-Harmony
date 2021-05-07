@@ -41,13 +41,6 @@ class Header extends React.Component {
 
     const messaging = firebase.messaging();
 
-    // messaging
-    //   .requestPermission()
-    //   .then((token) => {
-    //     return messaging.getToken();
-    //   })
-    //   .then((token) => console.log(token));
-
     messaging.onMessage((payload) => {
       this.loadNotify();
       this.setState({ appNotificationIcon: false });
@@ -63,7 +56,6 @@ class Header extends React.Component {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
-          console.log({res})
           const data = res.data.data;
           if (data?.length !== 0 && data !== undefined) {
             this.setState({

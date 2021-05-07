@@ -279,6 +279,7 @@ class Merchants extends React.Component {
                       onChange={this.handleChange}
                       onKeyPress={this.keyPressed}
                       onClickIcon={()=>this.setState({ search : "" })}
+                      width='100%'
                     />
                   </Tooltip>
                 </Grid>

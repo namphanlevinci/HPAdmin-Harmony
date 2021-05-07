@@ -67,39 +67,41 @@ class Index extends Component {
             );
         }
         return (
-            <div className="merchant-device-container">
-                <div className="merchant-device-title">Devices</div>
-                {
-                    deviceList.map((obj, key) => (
-                        <DeviceItem
-                            key={key}
-                            selectTerminal={(terminal) => this.selectTerminal(terminal, key)}
-                            indexPopup={this.state.indexPopup}
-                            index={key}
-                            deviceName={obj.deviceId}
-                            terminalName={obj.terminalId}
-                            openPopupTerminal={() => this.openPopupTerminal(key)}
-                            closePopupTerminal={this.closePopupTerminal}
-                        />
-                    ))
-                }
+            <>
+                <div className="merchant-device-container">
+                    <div className="merchant-device-title">Devices</div>
+                    {
+                        deviceList.map((obj, key) => (
+                            <DeviceItem
+                                key={key}
+                                selectTerminal={(terminal) => this.selectTerminal(terminal, key)}
+                                indexPopup={this.state.indexPopup}
+                                index={key}
+                                deviceName={obj.deviceId}
+                                terminalName={obj.terminalId}
+                                openPopupTerminal={() => this.openPopupTerminal(key)}
+                                closePopupTerminal={this.closePopupTerminal}
+                            />
+                        ))
+                    }
+                    {
+                        loading &&
+                        <div className="container-loading-devices">
+                            <FadeLoader color={'#1366AE'} loading={loading} size={20} css={{
+                                display: 'block',
+                                borderColor: 'red',
+                                marginBottom: 100,
+                            }} />
+                        </div>
+                    }
+                </div>
                 <Button
                     className="btn btn-green btn-save-device"
                     onClick={this.save}
                 >
                     save
                 </Button>
-                {
-                    loading &&
-                    <div className="container-loading-devices">
-                        <FadeLoader color={'#1366AE'} loading={loading} size={20} css={{
-                            display: 'block',
-                            borderColor: 'red',
-                            marginBottom: 100,
-                        }} />
-                    </div>
-                }
-            </div>
+            </>
         )
     }
 }
