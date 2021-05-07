@@ -14,10 +14,10 @@ const Delete = ({ open, handleCloseDelete, deleteGeneration, text }) => {
       <Dialog open={open} onClose={handleCloseDelete}>
         <DialogTitle id="alert-dialog-title">
           {/* {`Are you sure you want to DELETE this ${text}?`} */}
-          {`DELETE ${text.toUpperCase()}`}
+          {`ARCHIVE ${text.toUpperCase()}`}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{`Are you sure you want to DELETE this ${text}`}</DialogContentText>
+          <DialogContentText id="alert-dialog-description">{`Are you sure you want to ARCHIVE this ${text}`}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDelete} color="primary">

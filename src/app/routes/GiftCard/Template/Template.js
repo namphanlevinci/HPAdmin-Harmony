@@ -100,16 +100,14 @@ class Template extends Component {
 
   deleteTemplate = () => {
     const templateId = this.state.deleteID;
-    this.props.archiveTemplateByID(templateId);
+    this.props.archiveTemplateByID(templateId, this.fetchApi);
     this.handleCloseDelete();
-    this.fetchApi();
   };
 
   restoreTemplate = () => {
     const templateId = this.state.restoreID;
-    this.props.restoreTemplateByID(templateId);
+    this.props.restoreTemplateByID(templateId, this.fetchApi);
     this.handleCloseRestore();
-    this.fetchApi();
   };
 
   editTemplate = (data) => {
@@ -293,9 +291,6 @@ class Template extends Component {
               </Button>
             )}
           </div>
-          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-            Reset filter
-          </ResetButton>
           <div className="giftcard_content">
             <Delete
               handleCloseDelete={this.handleCloseDelete}
@@ -366,11 +361,11 @@ const mapDispatchToProps = (dispatch) => ({
   viewTemplate: (payload) => {
     dispatch(viewTemplate(payload));
   },
-  archiveTemplateByID: (templateId) => {
-    dispatch(archiveTemplateByID(templateId));
+  archiveTemplateByID: (templateId, action) => {
+    dispatch(archiveTemplateByID(templateId, action));
   },
-  restoreTemplateByID: (templateId) => {
-    dispatch(restoreTemplateByID(templateId));
+  restoreTemplateByID: (templateId, action) => {
+    dispatch(restoreTemplateByID(templateId, action));
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));

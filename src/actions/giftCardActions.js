@@ -259,7 +259,7 @@ export const updateTemplateByID = (payload) => async (dispatch, getState) => {
   }
 };
 
-export const archiveTemplateByID = (templateId, path) => async (
+export const archiveTemplateByID = (templateId, action) => async (
   dispatch,
   getState
 ) => {
@@ -291,10 +291,7 @@ export const archiveTemplateByID = (templateId, path) => async (
       type: SUCCESS_NOTIFICATION,
       payload: data.message,
     });
-
-    if (path) {
-      history.push(path);
-    }
+    action && action();
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
@@ -314,7 +311,7 @@ export const archiveTemplateByID = (templateId, path) => async (
   }
 };
 
-export const restoreTemplateByID = (templateId, path) => async (
+export const restoreTemplateByID = (templateId, action) => async (
   dispatch,
   getState
 ) => {
@@ -347,9 +344,7 @@ export const restoreTemplateByID = (templateId, path) => async (
       payload: data.message,
     });
 
-    if (path) {
-      history.push(path);
-    }
+    action && action();
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
@@ -406,8 +401,8 @@ export const addTemplateByID = (payload) => async (dispatch, getState) => {
     if (path) {
       history.push(path);
       dispatch({
-        type : types.UPDATE_STATUS_ADD_TEMPLATE,
-        payload : true
+        type: types.UPDATE_STATUS_ADD_TEMPLATE,
+        payload: true
       });
     }
   } catch (error) {
