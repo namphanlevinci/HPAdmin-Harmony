@@ -164,9 +164,8 @@ class Transactions extends React.Component {
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
-    const url = `settlement?key=${search}&page=${
-      page + 1
-    }&row=${row}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
+    const url = `settlement?key=${search}&page=${page + 1
+      }&row=${row}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -364,7 +363,7 @@ class Transactions extends React.Component {
                   value={this.state.search}
                   onChange={(e) => this.handleChange(e)}
                   onKeyPress={this.keyPressed}
-                  onClickIcon={this.fetchApi}
+                  onClickIcon={() => this.setState({ search: "" })}
                 />
               </Grid>
               <NewButton style={{ marginLeft: "10px" }} onClick={this.fetchApi}>

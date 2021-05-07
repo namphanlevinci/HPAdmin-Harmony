@@ -223,7 +223,7 @@ class Market extends Component {
                       value={this.state.search}
                       onChange={this.handleChange}
                       onKeyPress={this.keyPressed}
-                      onClickIcon={this.fetchApi}
+                      onClickIcon={() => this.setState({ search: "" })}
                     />
                   </Grid>
                   <NewButton
@@ -253,7 +253,7 @@ class Market extends Component {
               </Grid>
               <NewButton
                 onClick={this.addMarketPlace}
-                style={{ minWidth: 160}}
+                style={{ minWidth: 160 }}
                 blue
               >
                 New brand

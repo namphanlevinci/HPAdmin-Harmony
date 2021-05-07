@@ -110,22 +110,6 @@ class Staff extends Component {
       }
     }
 
-    // const onRowClick = (state, rowInfo, column, instance) => {
-    //   return {
-    //     onClick: (e) => {
-    //       if (rowInfo !== undefined) {
-    //         const StaffId = rowInfo?.original?.staffId;
-
-    //         const MerchantID = this.props.MerchantProfile.merchantId;
-    //         const path = "/app/merchants/staff/general";
-
-    //         this.setState({ isLoading: true });
-    //         this.props.getStaffByID(StaffId, MerchantID, path);
-    //       }
-    //     },
-    //   };
-    // };
-
     const columns = [
       {
         Header: "",
@@ -268,6 +252,7 @@ class Staff extends Component {
               placeholder="Search.."
               value={this.state.search}
               onChange={this.searchMerchant}
+              onClickIcon={() => this.setState({ search: "" })}
             />
 
             <div>
@@ -294,7 +279,6 @@ class Staff extends Component {
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
-            // getTdProps={onRowClick}
             />
 
             {/* ARCHIVE */}

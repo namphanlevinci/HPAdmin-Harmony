@@ -152,13 +152,10 @@ class Transactions extends React.Component {
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
-    const url = `paymentTransaction/search?page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
-      amount ? amount : amountFrom
-    }&amountTo=${
-      amount ? amount : amountTo
-    }&sortValue=${sortValue}&sortType=${sortType}&status=${status}`;
+    const url = `paymentTransaction/search?page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${amount ? amount : amountFrom
+      }&amountTo=${amount ? amount : amountTo
+      }&sortValue=${sortValue}&sortType=${sortType}&status=${status}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -324,7 +321,7 @@ class Transactions extends React.Component {
                   value={this.state.search}
                   onChange={this.handleChange}
                   onKeyDown={this.handEnter}
-                  onClickIcon={this.fetchApi}
+                  onClickIcon={() => this.setState({ search: "" })}
                   name="search"
                 />
               </Grid>

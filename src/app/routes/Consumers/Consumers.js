@@ -265,7 +265,7 @@ class Consumers extends React.Component {
                   value={this.state.search}
                   onChange={this.handleChange}
                   onKeyPress={this.keyPressed}
-                  onClickIcon={this.fetchApi}
+                  onClickIcon = {()=>this.setState({ search : "" })}
                 />
                 <NewButton
                   onClick={this.fetchApi}

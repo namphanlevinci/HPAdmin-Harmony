@@ -125,9 +125,8 @@ class P2P extends React.Component {
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
-    const url = `giftcard/sold?page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
+    const url = `giftcard/sold?page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -248,7 +247,7 @@ class P2P extends React.Component {
                   value={this.state.search}
                   onChange={this.handleChange}
                   onKeyDown={this.handEnter}
-                  onClickIcon={this.fetchApi}
+                  onClickIcon={() => this.setState({ search: "" })}
                   name="search"
                 />
               </Grid>

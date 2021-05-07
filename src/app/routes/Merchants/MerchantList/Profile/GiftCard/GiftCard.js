@@ -131,7 +131,7 @@ class Product extends Component {
             value={this.state.search}
             onChange={this.handleChange}
             onKeyPress={this.keyPressed}
-            onClickIcon={this.fetchApi}
+            onClickIcon = {()=>this.setState({ search : "" })}
           />
           <Button
             className="btn btn-green"

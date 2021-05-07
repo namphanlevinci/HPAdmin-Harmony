@@ -358,6 +358,7 @@ class ExtraTab extends Component {
               placeholder="Search.."
               value={this.state.search}
               onChange={(e) => this.setState({ search: e.target.value })}
+              onClickIcon={()=>this.setState({ search : "" })}
             />
             <div>
               <Button

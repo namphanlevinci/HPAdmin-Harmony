@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import {  Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { debounce } from "lodash";
 import {
   Select,
@@ -231,7 +231,7 @@ class Users extends Component {
                     value={this.state.search}
                     onChange={this.handleChange}
                     onKeyPress={this.keyPressed}
-                    onClickIcon={this.fetchApi}
+                    onClickIcon={() => this.setState({ search: "" })}
                   />
                 </Grid>
                 <NewButton

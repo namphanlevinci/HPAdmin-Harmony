@@ -225,6 +225,7 @@ class Tiket extends Component {
                     value={this.state.search}
                     onChange={(e) => this.setState({ search: e.target.value })}
                     onKeyPress={this.keyPressed}
+                    onClickIcon={()=>this.setState({ search : "" })}
                   />
                 </Grid>
                 <NewButton

@@ -22,6 +22,7 @@ class Pricing extends Component {
     this.state = {
       data: "",
       loading: false,
+      search : "",
     };
   }
 
@@ -100,13 +101,13 @@ class Pricing extends Component {
         <div className="container-fluid">
           <div className="page-heading MerList">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              {/* SEARCH */}
               <div className="search">
                 <SearchComponent
                   placeholder="Search by Name, Group"
-                  // value={this.state.search}
-                  // onChange={(e) => this.setState({ search: e.target.value })}
-                  // onKeyPress={this.keyPressed}
+                  value={this.state.search}
+                  onChange={(e) => this.setState({ search: e.target.value })}
+                  onKeyPress={this.keyPressed}
+                  onClickIcon = {()=>this.setState({ search : "" })}
                 />
               </div>
             </div>
@@ -116,9 +117,7 @@ class Pricing extends Component {
                   defaultPageSize={10}
                   minRows={1}
                   noDataText="NO DATA!"
-                  // loading={this.state.loading}
                   columns={columns}
-                  // getTdProps={onRowClick}
                   data={this.state.data}
                 />
               )}

@@ -140,11 +140,9 @@ class P2P extends React.Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
 
-    const url = `p2pgiftcard/transaction?page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
-      amount ? amount : amountFrom
-    }&amountTo=${amount ? amount : amountTo}`;
+    const url = `p2pgiftcard/transaction?page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${amount ? amount : amountFrom
+      }&amountTo=${amount ? amount : amountTo}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -242,7 +240,7 @@ class P2P extends React.Component {
                   value={this.state.search}
                   onChange={this.handleChange}
                   onKeyDown={this.handEnter}
-                  onClickIcon={this.fetchApi}
+                  onClickIcon={() => this.setState({ search: "" })}
                   name="search"
                 />
               </Grid>
