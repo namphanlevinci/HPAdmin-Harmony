@@ -97,7 +97,7 @@ function Salary(props) {
                           onChange={(e, masked) =>
                             setFieldValue(
                               `salary.commission.value.${index}.from`,
-                              masked
+                              e.target.value
                             )
                           }
                           label="From"
@@ -118,7 +118,7 @@ function Salary(props) {
                           onChange={(e, masked) =>
                             setFieldValue(
                               `salary.commission.value.${index}.to`,
-                              masked
+                              e.target.value
                             )
                           }
                           InputProps={{
@@ -139,7 +139,7 @@ function Salary(props) {
                           onChange={(e, masked) =>
                             setFieldValue(
                               `salary.commission.value.${index}.commission`,
-                              masked
+                              e.target.value
                             )
                           }
                           label="Salary percented (%)"
