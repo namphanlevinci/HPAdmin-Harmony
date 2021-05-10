@@ -80,7 +80,6 @@ class AddStaff extends Component {
     }
   };
 
-  //handle upload avatar
   uploadImage = (event, setFieldValue) => {
     event.stopPropagation();
     event.preventDefault();
@@ -142,22 +141,16 @@ class AddStaff extends Component {
   };
 
   toggleVisibility = (name, value) => {
-    this.setState({
-      [name]: value,
-    });
+    this.setState({ [name]: value });
   };
 
   handleBack = () => {
     const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep - 1,
-    });
+    this.setState({ activeStep: activeStep - 1, });
   };
 
   handleReset = () => {
-    this.setState({
-      activeStep: 0,
-    });
+    this.setState({ activeStep: 0 });
   };
 
   render() {
@@ -181,8 +174,7 @@ class AddStaff extends Component {
                 return (
                   <Step
                     key={label}
-                    className={`horizontal-stepper ${index === activeStep ? "active" : ""
-                      }`}
+                    className={`horizontal-stepper ${index === activeStep ? "active" : ""}`}
                   >
                     <StepLabel className="stepperlabel">{label}</StepLabel>
                   </Step>
@@ -201,26 +193,10 @@ class AddStaff extends Component {
                       validationSchema={currentValidationSchema}
                       onSubmit={this.handleSubmit}
                     >
-                      {({
-                        values,
-                        isSubmitting,
-                        handleChange,
-                        setFieldValue,
-                      }) => (
+                      {({ values, isSubmitting, handleChange, setFieldValue, }) => (
                         <Form noValidate>
-                          {this.getStepContent(
-                            activeStep,
-                            values,
-                            handleChange,
-                            setFieldValue
-                          )}
-                          <div
-                            style={{
-                              paddingTop: "20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
+                          {this.getStepContent(activeStep, values, handleChange, setFieldValue)}
+                          <div className="container-button-addStadd">
                             <span>
                               <Button
                                 disabled={activeStep === 0}
@@ -235,18 +211,16 @@ class AddStaff extends Component {
                                 type="submit"
                                 className="btn btn-green"
                               >
-                                {activeStep === steps.length - 1
-                                  ? "Finish"
-                                  : "Next"}
+                                {
+                                  activeStep === steps.length - 1
+                                    ? "Finish"
+                                    : "Next"
+                                }
                               </Button>
                             </span>
                             <span>
                               <Button
-                                onClick={() =>
-                                  this.props.history.push(
-                                    "/app/merchants/profile/staff"
-                                  )
-                                }
+                                onClick={() => this.props.history.push("/app/merchants/profile/staff")}
                                 className="btn btn-red"
                               >
                                 Cancel
