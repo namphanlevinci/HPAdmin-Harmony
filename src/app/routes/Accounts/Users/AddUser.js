@@ -286,6 +286,7 @@ class addAdmin2 extends Component {
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                           disableToolbar
+                          disableFuture
                           label="Birthday*"
                           variant="inline"
                           format="MM/dd/yyyy"

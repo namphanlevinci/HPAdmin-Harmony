@@ -232,6 +232,7 @@ class Users extends Component {
                     onChange={this.handleChange}
                     onKeyPress={this.keyPressed}
                     onClickIcon={() => this.setState({ search: "" })}
+                    width='100%'
                   />
                 </Grid>
                 <NewButton
