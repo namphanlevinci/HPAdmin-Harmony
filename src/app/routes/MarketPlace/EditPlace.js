@@ -196,11 +196,9 @@ class AddPlace extends Component {
                   <Grid item xs={12}>
                     On Top{" "}
                     <CustomSwitch
-                      // style={{ color: "#fffff" }}
-                      // color="primary"
                       name="onTop"
                       checked={values?.onTop}
-                      onChange={handleChange}
+                      onChange={e => setFieldValue("onTop", e.target.checked)}
                     />
                   </Grid>
                 </Grid>

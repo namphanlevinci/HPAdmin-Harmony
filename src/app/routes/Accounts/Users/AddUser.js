@@ -298,6 +298,7 @@ class addAdmin2 extends Component {
                           }}
                           autoOk={true}
                           fullWidth
+                          InputProps={{ readOnly: true }}
                           error={touched.BirthDate && Boolean(errors.BirthDate)}
                           helperText={touched.BirthDate ? errors.BirthDate : ""}
                         />
