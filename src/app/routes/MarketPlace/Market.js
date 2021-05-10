@@ -152,7 +152,7 @@ class Market extends Component {
         id: "link",
         Header: <CustomTableHeader value="URL" />,
         accessor: (e) => (
-          <a href="/#" target="_blank" rel="noopener noreferrer">
+          <a href={e.link} target="_blank" rel="noopener noreferrer">
             {e.link}
           </a>
         ),
@@ -224,6 +224,7 @@ class Market extends Component {
                       onChange={this.handleChange}
                       onKeyPress={this.keyPressed}
                       onClickIcon={() => this.setState({ search: "" })}
+                      width='100%'
                     />
                   </Grid>
                   <NewButton
