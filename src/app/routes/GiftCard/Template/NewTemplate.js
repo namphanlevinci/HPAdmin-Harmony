@@ -199,7 +199,7 @@ class NewTemplate extends Component {
                         }
                         helperText={
                           errors.giftCardTemplateName &&
-                          touched.giftCardTemplateName
+                            touched.giftCardTemplateName
                             ? errors.giftCardTemplateName
                             : ""
                         }
@@ -266,28 +266,29 @@ class NewTemplate extends Component {
                     <Grid item xs={4}>
                       <h4>Image</h4>
 
-                      {this.state.isUploadImage ? (
-                        <div style={{ padding: "20px", textAlign: "center" }}>
-                          <CircularProgress size={50} />
-                        </div>
-                      ) : (
-                        <div className="image__container">{$imagePreview}</div>
-                      )}
+                      {
+                        this.state.isUploadImage ?
+                          (
+                            <div style={{ padding: "20px", textAlign: "center" }}>
+                              <CircularProgress size={50} />
+                            </div>
+                          )
+                          :
+                          (<div className="image__container">{$imagePreview}</div>)
+                      }
 
                       <input
                         type="file"
                         className="custom-input"
                         accept="image/gif,image/jpeg, image/png"
                         onChange={(e) => this.updateImage(e)}
-                        style={{ width: "100%", border: "none" }}
+                        style={{ width: "100%", border: "none" , marginTop : 20 }}
                       />
                     </Grid>
                     <Grid item xs={8}>
                       <Checkbox
                         id="isConsumer"
-                        onChange={(e) =>
-                          this.setState({ isConsumer: e.target.value })
-                        }
+                        onChange={(e) => this.setState({ isConsumer: e.target.value })}
                         value="1"
                         inputProps={{ "aria-label": "primary checkbox" }}
                         style={{ color: "#0764B0" }}

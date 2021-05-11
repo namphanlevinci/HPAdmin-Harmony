@@ -267,29 +267,26 @@ class Merchants extends React.Component {
               className="search"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <Grid container spacing={0}>
-                <Grid item xs={2}>
-                  <Tooltip
-                    title="Must enter correct MID to search by MID"
-                    aria-label="add"
-                  >
-                    <SearchComponent
-                      placeholder="Search by ID, MID, DBA, Email"
-                      value={this.state.search}
-                      onChange={this.handleChange}
-                      onKeyPress={this.keyPressed}
-                      onClickIcon={()=>this.setState({ search : "" })}
-                      width='100%'
-                    />
-                  </Tooltip>
-                </Grid>
+              <div className="container-search-component">
+                <Tooltip
+                  title="Must enter correct MID to search by MID"
+                  aria-label="add"
+                >
+                  <SearchComponent
+                    placeholder="Search by ID, MID, DBA, Email"
+                    value={this.state.search}
+                    onChange={this.handleChange}
+                    onKeyPress={this.keyPressed}
+                    onClickIcon={() => this.setState({ search: "" })}
+                  />
+                </Tooltip>
                 <NewButton
                   style={{ marginLeft: "10px" }}
                   onClick={this.fetchApi}
                 >
                   Search
                 </NewButton>
-              </Grid>
+              </div>
               <Grid
                 container
                 spacing={0}
@@ -314,7 +311,7 @@ class Merchants extends React.Component {
                 <NewButton
                   blue
                   onClick={this.addMerchant}
-                  style={{ minWidth: 174 }}
+                  style={{ minWidth: 174 , height : 40 }}
                 >
                   Add merchant
                 </NewButton>
