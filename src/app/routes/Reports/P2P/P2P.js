@@ -230,11 +230,11 @@ class P2P extends React.Component {
 
             <Grid
               container
-              spacing={3}
+              spacing={0}
               className="search"
-              style={{ display: "flex", alignItems: "center" }}
+              style={{ marginBottom : 15 }}
             >
-              <Grid item xs={2}>
+              <div className="container-search-component">
                 <SearchComponent
                   placeholder="Search.."
                   value={this.state.search}
@@ -243,10 +243,10 @@ class P2P extends React.Component {
                   onClickIcon={() => this.setState({ search: "" })}
                   name="search"
                 />
-              </Grid>
-              <NewButton onClick={this.fetchApi} style={{ marginLeft: "10px" }}>
-                Search
+                <NewButton onClick={this.fetchApi} style={{ marginLeft: "10px" }}>
+                  Search
               </NewButton>
+              </div>
             </Grid>
           </div>
           <Grid

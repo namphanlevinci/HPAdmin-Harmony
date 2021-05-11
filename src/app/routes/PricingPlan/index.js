@@ -100,17 +100,6 @@ class Pricing extends Component {
         </div>
         <div className="container-fluid">
           <div className="page-heading MerList">
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div className="search">
-                <SearchComponent
-                  placeholder="Search by Name, Group"
-                  value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
-                  onKeyPress={this.keyPressed}
-                  onClickIcon = {()=>this.setState({ search : "" })}
-                />
-              </div>
-            </div>
             <div className="merchant-list-container">
               {this.state.loading && (
                 <ReactTable
