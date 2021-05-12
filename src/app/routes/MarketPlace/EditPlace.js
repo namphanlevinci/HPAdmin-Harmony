@@ -188,7 +188,7 @@ class AddPlace extends Component {
                     On Top{" "}
                     <CustomSwitch
                       name="onTop"
-                      checked={values?.onTop}
+                      checked={values.onTop}
                       onChange={e => setFieldValue("onTop", e.target.checked)}
                     />
                   </Grid>

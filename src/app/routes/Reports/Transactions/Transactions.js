@@ -45,6 +45,7 @@ class Transactions extends React.Component {
       amountTo: -1,
       range: "thisMonth",
       status: -1,
+      page : 0,
     };
   }
 
@@ -58,6 +59,7 @@ class Transactions extends React.Component {
       range: "",
       search: "",
       status: -1,
+      page : 0,
     });
     this.fetchApi();
   };
@@ -156,9 +158,6 @@ class Transactions extends React.Component {
       }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${amount ? amount : amountFrom
       }&amountTo=${amount ? amount : amountTo
       }&sortValue=${sortValue}&sortType=${sortType}&status=${status}`;
-
-    console.log({ url })
-
     this.props.fetchApiByPage(url);
   };
 
@@ -185,8 +184,6 @@ class Transactions extends React.Component {
       totalRow,
       summary,
     } = this.props.apiData;
-    console.log("apiData", this.props.apiData);
-    console.log("state", this.state);
 
     const columns = [
       {
@@ -462,9 +459,11 @@ class Transactions extends React.Component {
               data={data}
               row={pageSize}
               onPageChange={(pageIndex) => {
+                console.log('on page change')
                 this.changePage(pageIndex);
               }}
               onFetchData={(state) => {
+                console.log('fetch data')
                 this.fetchApi(state);
               }}
               defaultPageSize={5}
