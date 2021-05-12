@@ -33,6 +33,15 @@ class AddStaff extends Component {
       showConfirmPin: false,
       progressLoading: false,
     };
+    this.refForm = React.createRef();
+  }
+
+  componentDidMount() {
+    const { MerchantProfile } = this.props;
+    const businessHour = MerchantProfile?.businessHour || null;
+    if (businessHour) {
+      this.refForm.current.setFieldValue('workingTime', businessHour);
+    }
   }
 
   getSteps = () => {
@@ -47,6 +56,7 @@ class AddStaff extends Component {
   };
 
   getStepContent = (stepIndex, values, handleChange, setFieldValue) => {
+    const { MerchantProfile } = this.props;
     switch (stepIndex) {
       case 0:
         return (
@@ -63,7 +73,7 @@ class AddStaff extends Component {
           />
         );
       case 1:
-        return <WorkTime initValue={values} setFieldValue={setFieldValue} />;
+        return <WorkTime initValue={values} setFieldValue={setFieldValue} MerchantProfile={MerchantProfile} />;
       case 2:
         return <Salary initValue={values} setFieldValue={setFieldValue} />;
       case 3:
@@ -192,6 +202,7 @@ class AddStaff extends Component {
                       initialValues={formInitialValues}
                       validationSchema={currentValidationSchema}
                       onSubmit={this.handleSubmit}
+                      innerRef={this.refForm}
                     >
                       {({ values, isSubmitting, handleChange, setFieldValue, }) => (
                         <Form noValidate>

@@ -298,7 +298,7 @@ class addAdmin2 extends Component {
                           }}
                           autoOk={true}
                           fullWidth
-                          InputProps={{ readOnly: true }}
+                          // InputProps={{ readOnly: true }}
                           error={touched.BirthDate && Boolean(errors.BirthDate)}
                           helperText={touched.BirthDate ? errors.BirthDate : ""}
                         />
@@ -496,7 +496,12 @@ const userSchema = Yup.object().shape({
   address: Yup.string().required("Address is required"),
   city: Yup.string().required("City is required"),
   stateID: Yup.string().required("City is required"),
-
   WaRoleId: Yup.string().required("Please choose a State"),
-  BirthDate: Yup.string().required("Date of birth is required").nullable(),
+  BirthDate: Yup.string()
+    .required("Birthday is required")
+    .test("is-greater", "Your birthday can not be later than current day",
+      function (value) {
+        return moment().isSameOrAfter(moment(value));
+      })
+    .nullable(),
 });
