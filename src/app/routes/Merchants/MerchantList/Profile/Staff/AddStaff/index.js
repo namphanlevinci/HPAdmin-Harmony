@@ -17,6 +17,7 @@ import Salary from "./Form/Salary";
 import License from "./Form/License";
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
+import { isEmpty } from 'lodash';
 
 import "../Staff.styles.scss";
 
@@ -124,16 +125,33 @@ class AddStaff extends Component {
     }
   };
 
-  submitForm = (values, actions) => {
+  submitForm = async(values, actions) => {
     const merchantId = this.props.MerchantProfile.merchantId;
     const { activeStep } = this.state;
     const path = "/app/merchants/profile/staff";
-    const payload = { ...values, merchantId, path };
-
+    const payload = await {
+      ...values,
+      merchantId,
+      path,
+      salary: {
+        commission: {
+          isCheck : values.salary.commission.isCheck,
+          value: this.checkComission(values.salary.commission.value)
+        },
+        perHour :  values.salary.perHour
+      }
+    };
     this.props.addStaff(payload);
     actions.setSubmitting(false);
     this.setState({ activeStep: activeStep + 1 });
   };
+
+  checkComission = (comission = []) => {
+    let arrTemp = JSON.parse(JSON.stringify(comission));
+    arrTemp = arrTemp.filter(obj => obj);
+    return arrTemp
+  }
+
 
   handleSubmit = (values, actions) => {
     const { activeStep } = this.state;
