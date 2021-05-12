@@ -26,6 +26,7 @@ import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import QueueIcon from "@material-ui/icons/Queue";
 import * as Yup from "yup";
+import "./style.scss";
 
 const upFile = config.url.upFile;
 
@@ -82,14 +83,7 @@ class AddPlace extends Component {
         />
 
         <div className="page-heading">
-          <div
-            style={{
-              display: "flex",
-              textAlign: "center",
-              alignItems: "center",
-              marginBottom: "20px",
-            }}
-          >
+          <div className="edit-market-page-heading" >
             <QueueIcon style={{ color: "black" }} size={22} />
             <CustomTitle
               value={this.props.info?.name}
@@ -148,20 +142,17 @@ class AddPlace extends Component {
                       Image <span style={{ color: "red" }}>*</span>
                     </label>{" "}
                     <br />
-                    {errors?.fileId && touched?.fileId ? (
-                      <p
-                        style={{
-                          color: "#f44336",
-                        }}
-                      >
-                        {errors.fileId}
-                      </p>
-                    ) : null}
+                    {
+                      errors?.fileId && touched?.fileId ?
+                        (
+                          <p style={{ color: "#f44336" }}>
+                            {errors.fileId}
+                          </p>
+                        ) : null
+                    }
                     <CardMedia
                       component="img"
-                      src={
-                        values?.fileURL === "" ? defaultImg : values?.fileURL
-                      }
+                      src={values?.fileURL === "" ? defaultImg : values?.fileURL}
                       alt="void"
                       style={{ width: "20%" }}
                     />{" "}
@@ -196,11 +187,9 @@ class AddPlace extends Component {
                   <Grid item xs={12}>
                     On Top{" "}
                     <CustomSwitch
-                      // style={{ color: "#fffff" }}
-                      // color="primary"
                       name="onTop"
                       checked={values?.onTop}
-                      onChange={handleChange}
+                      onChange={e => setFieldValue("onTop", e.target.checked)}
                     />
                   </Grid>
                 </Grid>

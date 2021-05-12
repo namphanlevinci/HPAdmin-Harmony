@@ -171,14 +171,14 @@ class AddService extends Component {
     const extrasCondition =
       this.state.render === true
         ? Yup.array().of(
-            Yup.object().shape({
-              name: Yup.string().required("Required"),
-              duration: Yup.string().required("Required"),
-              price: Yup.string().required("Required"),
-              isDisabled: Yup.string().required("Required"),
-              supplyFee: Yup.string().required("Required"),
-            })
-          )
+          Yup.object().shape({
+            name: Yup.string().required("Required"),
+            duration: Yup.string().required("Required"),
+            price: Yup.string().required("Required"),
+            isDisabled: Yup.string().required("Required"),
+            supplyFee: Yup.string().required("Required"),
+          })
+        )
         : "";
 
     const validationSchema = Yup.object().shape({
@@ -194,15 +194,15 @@ class AddService extends Component {
     const ExtraInitialValues =
       this.state.render === true
         ? [
-            {
-              name: "",
-              description: "",
-              duration: "",
-              price: "",
-              isDisabled: 0,
-              supplyFee: "",
-            },
-          ]
+          {
+            name: "",
+            description: "",
+            duration: "",
+            price: "",
+            isDisabled: 0,
+            supplyFee: "",
+          },
+        ]
         : [];
 
     //~ preview image
@@ -227,7 +227,7 @@ class AddService extends Component {
     }
     let { categoryList: category } = this.props.categoryList;
     return (
-      <div>
+      <div className="container-search-component">
         <Button
           className="btn btn-green"
           style={{ marginRight: "10px" }}
@@ -311,7 +311,7 @@ class AddService extends Component {
                         discount,
                         fileId,
                         merchantId,
-                        resetFirstPage : this.props.resetFirstPage,
+                        resetFirstPage: this.props.resetFirstPage,
                       };
                       this.props.addMerchantServiceById(payload);
 
@@ -351,17 +351,17 @@ class AddService extends Component {
                                       options={
                                         category
                                           ? category
-                                              .filter(
-                                                (e) =>
-                                                  e.categoryType !== "Product"
-                                              )
-                                              .map((e) => {
-                                                return {
-                                                  id: e.categoryId,
-                                                  value: e.categoryId,
-                                                  label: e.name,
-                                                };
-                                              })
+                                            .filter(
+                                              (e) =>
+                                                e.categoryType !== "Product"
+                                            )
+                                            .map((e) => {
+                                              return {
+                                                id: e.categoryId,
+                                                value: e.categoryId,
+                                                label: e.name,
+                                              };
+                                            })
                                           : []
                                       }
                                       onChange={(selectedOption) => {
@@ -697,15 +697,15 @@ class AddService extends Component {
                                   options={
                                     extra
                                       ? extra
-                                          .filter((e) => e.isDeleted === 0)
-                                          .map((e) => {
-                                            return {
-                                              id: e.extraId,
-                                              value: e.extraId,
-                                              label: e.name,
-                                              extra: e,
-                                            };
-                                          })
+                                        .filter((e) => e.isDeleted === 0)
+                                        .map((e) => {
+                                          return {
+                                            id: e.extraId,
+                                            value: e.extraId,
+                                            label: e.name,
+                                            extra: e,
+                                          };
+                                        })
                                       : []
                                   }
                                   onChange={(e) => {

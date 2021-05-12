@@ -218,23 +218,21 @@ class Tiket extends Component {
               className="search"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <Grid container spacing={0}>
-                <Grid item xs={2}>
-                  <SearchComponent
-                    placeholder="Search by ID, Title, Application, Client Name"
-                    value={this.state.search}
-                    onChange={(e) => this.setState({ search: e.target.value })}
-                    onKeyPress={this.keyPressed}
-                    onClickIcon={()=>this.setState({ search : "" })}
-                  />
-                </Grid>
+              <div className="container-search-component">
+                <SearchComponent
+                  placeholder="Search by ID, Title, Application, Client Name"
+                  value={this.state.search}
+                  onChange={(e) => this.setState({ search: e.target.value })}
+                  onKeyPress={this.keyPressed}
+                  onClickIcon={() => this.setState({ search: "" })}
+                />
                 <NewButton
                   style={{ marginLeft: "10px" }}
                   onClick={this.fetchApi}
                 >
                   Search
                 </NewButton>
-              </Grid>
+              </div>
               <Grid
                 container
                 spacing={0}

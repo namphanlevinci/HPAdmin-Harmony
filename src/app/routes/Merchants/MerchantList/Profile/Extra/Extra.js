@@ -295,19 +295,19 @@ class ExtraTab extends Component {
                 />
               </Tooltip>
             ) : (
-              <Tooltip title="Restore">
-                <img
-                  alt=""
-                  src={RestoreSVG}
-                  onClick={() =>
-                    this.setState({
-                      extraId: row.original.extraId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
-              </Tooltip>
-            );
+                <Tooltip title="Restore">
+                  <img
+                    alt=""
+                    src={RestoreSVG}
+                    onClick={() =>
+                      this.setState({
+                        extraId: row.original.extraId,
+                        restoreDialog: true,
+                      })
+                    }
+                  />
+                </Tooltip>
+              );
           return (
             <div style={{ textAlign: "center" }}>
               {CheckPermissions("active-extra") && actionsBtn}
@@ -358,9 +358,9 @@ class ExtraTab extends Component {
               placeholder="Search.."
               value={this.state.search}
               onChange={(e) => this.setState({ search: e.target.value })}
-              onClickIcon={()=>this.setState({ search : "" })}
+              onClickIcon={() => this.setState({ search: "" })}
             />
-            <div>
+            <div className="container-search-component">
               <Button
                 className="btn btn-green"
                 style={{ marginRight: "10px" }}

@@ -51,12 +51,12 @@ class Transactions extends React.Component {
   handleResetClick = async () => {
     await this.setState({
       from: moment().startOf("month").format("YYYY-MM-DD"),
-      to: moment().endOf("month").format("YYYY-MM-DD"),
+      to: moment().startOf("month").format("YYYY-MM-DD"),
       amount: "",
       amountFrom: -1,
       amountTo: -1,
       range: "",
-      search: "thisMonth",
+      search: "",
       status: -1,
     });
     this.fetchApi();
@@ -156,6 +156,8 @@ class Transactions extends React.Component {
       }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${amount ? amount : amountFrom
       }&amountTo=${amount ? amount : amountTo
       }&sortValue=${sortValue}&sortType=${sortType}&status=${status}`;
+
+    console.log({ url })
 
     this.props.fetchApiByPage(url);
   };
@@ -311,11 +313,11 @@ class Transactions extends React.Component {
           <div className="TransactionsBox">
             <Grid
               container
-              spacing={3}
+              spacing={0}
               className="BatchSearch"
-              style={{ display: "flex", alignItems: "center" }}
+              style={{ marginBottom: 15 }}
             >
-              <Grid item xs={2}>
+              <div className="container-search-component">
                 <SearchComponent
                   placeholder="Search"
                   value={this.state.search}
@@ -324,13 +326,13 @@ class Transactions extends React.Component {
                   onClickIcon={() => this.setState({ search: "" })}
                   name="search"
                 />
-              </Grid>
-              <NewButton
-                style={{ marginLeft: "10px" }}
-                onClick={() => this.fetchApi()}
-              >
-                Search
+                <NewButton
+                  style={{ marginLeft: "10px" }}
+                  onClick={() => this.fetchApi()}
+                >
+                  Search
               </NewButton>
+              </div>
             </Grid>
           </div>
           <Grid
@@ -459,8 +461,12 @@ class Transactions extends React.Component {
               pages={pageCount}
               data={data}
               row={pageSize}
-              onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchApi(state)}
+              onPageChange={(pageIndex) => {
+                this.changePage(pageIndex);
+              }}
+              onFetchData={(state) => {
+                this.fetchApi(state);
+              }}
               defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"

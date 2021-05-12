@@ -216,24 +216,21 @@ class Market extends Component {
                 className="search"
                 style={{ display: "flex", alignItems: "center" }}
               >
-                <Grid container spacing={0}>
-                  <Grid item xs={2}>
-                    <SearchComponent
-                      placeholder="Search"
-                      value={this.state.search}
-                      onChange={this.handleChange}
-                      onKeyPress={this.keyPressed}
-                      onClickIcon={() => this.setState({ search: "" })}
-                      width='100%'
-                    />
-                  </Grid>
+                <div className="container-search-component">
+                  <SearchComponent
+                    placeholder="Search"
+                    value={this.state.search}
+                    onChange={this.handleChange}
+                    onKeyPress={this.keyPressed}
+                    onClickIcon={() => this.setState({ search: "" })}
+                  />
                   <NewButton
                     onClick={this.fetchApi}
                     style={{ marginLeft: "10px" }}
                   >
                     Search
                   </NewButton>
-                </Grid>
+                </div>
                 <Grid
                   container
                   spacing={0}

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function SearchComponent(props) {
   const classes = useStyles();
-  const { value , width = '50%' } = props;
+  const { value , width = '400px' } = props;
   return (
     <FormControl style={{ width }}>
       <OutlinedInput
