@@ -107,7 +107,7 @@ export class General extends Component {
           <CustomTextLabel value="Avatar" />
           <Avatar
             src={Staff.imageUrl || DefaultAvatar}
-            style={{ width : 130, height : 130, marginTop : 30 }}
+            style={{ width: 130, height: 130, marginTop: 30, objectFit: 'contain', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           />
         </Grid>
 
