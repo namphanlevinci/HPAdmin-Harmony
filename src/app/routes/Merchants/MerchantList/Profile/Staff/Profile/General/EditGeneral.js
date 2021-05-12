@@ -111,10 +111,10 @@ export class EditGeneral extends Component {
     let { imagePreviewUrl, loading, showP } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = <Avatar style={{ width : 130, height : 130 }} src={imagePreviewUrl} className="avatar_last" />;
+      $imagePreview = <Avatar style={{  width : 130, height : 130, marginTop : 30 , objectFit : 'contain' }} src={imagePreviewUrl} className="avatar_last" />;
     } else {
       $imagePreview = (
-        <Avatar style={{ width : 130, height : 130 }} className="avatar_last" src={this.state?.imageUrl} />
+        <Avatar style={{ width : 130, height : 130, marginTop : 30 , objectFit : 'contain' , display : 'flex' , justifyContent : 'center', alignItems : 'center' }} className="avatar_last" src={this.state?.imageUrl} />
       );
     }
 
@@ -324,7 +324,12 @@ export class EditGeneral extends Component {
                       name="pin"
                       type={showP ? "text" : "password"}
                       value={values?.pin}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        const re = /^[0-9\b]+$/;
+                        if (e.target.value === '' || re.test(e.target.value)) {
+                          setFieldValue('pin', e.target.value);
+                        }
+                      }}
                       fullWidth
                       error={errors.pin && touched.pin}
                       helperText={errors.pin && touched.pin ? errors.pin : ""}
@@ -340,8 +345,8 @@ export class EditGeneral extends Component {
                               {this.state.showP ? (
                                 <Visibility />
                               ) : (
-                                <VisibilityOff />
-                              )}
+                                  <VisibilityOff />
+                                )}
                             </p>
                           </InputAdornment>
                         ),
