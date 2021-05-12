@@ -226,7 +226,7 @@ class Users extends Component {
             >
               <div className="container-search-component">
                 <SearchComponent
-                  placeholder="Search by Name, Group"
+                  placeholder="Search by Name , Email"
                   value={this.state.search}
                   onChange={this.handleChange}
                   onKeyPress={this.keyPressed}

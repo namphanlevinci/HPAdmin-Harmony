@@ -123,6 +123,38 @@ class Product extends Component {
       };
     };
 
+    let dataList = data;
+
+    if (data) {
+      if (this.state.search) {
+        dataList = data.filter((e) => {
+          if (e !== null) {
+            return (
+              e.name.toString()
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+                e.createdDate.toString()
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+                e.amount.toString()
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1 ||
+                e.quantity.toString()
+                .trim()
+                .toLowerCase()
+                .indexOf(this.state.search.toLowerCase()) !== -1
+            );
+          }
+          return null;
+        });
+      } else {
+      
+      }
+    }
+
     return (
       <div className="content general-content Staff react-transition swipe-up">
         {exportLoading && <CustomProgress />}
@@ -149,7 +181,7 @@ class Product extends Component {
             manual
             page={page}
             pages={pageCount}
-            data={data}
+            data={dataList}
             row={pageSize}
             onPageChange={(pageIndex) => this.changePage(pageIndex)}
             onFetchData={(state) => this.fetchApi(state)}
