@@ -125,6 +125,7 @@ class EditPendingMerchant extends Component {
 
   render() {
     const e = this.props.Profile;
+    const {merchantState} = this.props;
 
     return (
       <div className=" content-list ">
@@ -261,6 +262,7 @@ class EditPendingMerchant extends Component {
                             name="state"
                             label="State*"
                             initialValue={values.generalInfo.stateId}
+                            data={merchantState}
                             handleChange={(e) =>
                               setFieldValue(
                                 `generalInfo.stateId`,
@@ -280,10 +282,6 @@ class EditPendingMerchant extends Component {
                             name={`generalInfo.zip`}
                             InputProps={{
                               inputComponent: InputCustom,
-                            }}
-                            inputProps={{
-                              block: [5],
-                              numericOnly: true,
                             }}
                             error={
                               errors?.generalInfo?.zip &&
@@ -322,6 +320,7 @@ class EditPendingMerchant extends Component {
                             initialValue={
                               values?.generalInfo?.dbaAddress?.State
                             }
+                            data={merchantState}
                             handleChange={(e) =>
                               setFieldValue(
                                 `generalInfo.dbaAddress.State`,
@@ -341,10 +340,6 @@ class EditPendingMerchant extends Component {
                             name={`generalInfo.dbaAddress.Zip`}
                             InputProps={{
                               inputComponent: InputCustom,
-                            }}
-                            inputProps={{
-                              block: [5],
-                              numericOnly: true,
                             }}
                             error={
                               errors?.generalInfo?.dbaAddress?.Zip &&
@@ -651,7 +646,7 @@ class EditPendingMerchant extends Component {
                                           <SelectField
                                             name={`principalInfo.${index}.stateId`}
                                             label="State*"
-                                            data={State}
+                                            data={merchantState}
                                             fullWidth
                                           />
                                         </Grid>
@@ -661,10 +656,6 @@ class EditPendingMerchant extends Component {
                                             name={`principalInfo.${index}.zip`}
                                             label="Zip Code*"
                                             fullWidth
-                                            options={{
-                                              numericOnly: true,
-                                              blocks: [5],
-                                            }}
                                           />
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
@@ -729,7 +720,7 @@ class EditPendingMerchant extends Component {
                                               )
                                             }
                                             label="State Issued*"
-                                            data={State}
+                                            data={merchantState}
                                             
                                             fullWidth
                                           />
@@ -890,6 +881,7 @@ class EditPendingMerchant extends Component {
 const mapStateToProps = (state) => ({
   Profile: state.merchant.merchant,
   RejectStatus: state.Reject,
+  merchantState : state.merchantState.data
 });
 
 const mapDispatchToProps = (dispatch) => ({

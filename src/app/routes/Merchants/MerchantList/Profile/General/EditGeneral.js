@@ -239,10 +239,6 @@ class General extends Component {
                         InputProps={{
                           inputComponent: InputCustom,
                         }}
-                        inputProps={{
-                          block: [5],
-                          numericOnly: true,
-                        }}
                         error={
                           errors?.dbaAddress?.Zip && touched?.dbaAddress?.Zip
                         }

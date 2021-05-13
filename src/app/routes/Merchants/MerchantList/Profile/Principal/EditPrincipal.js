@@ -110,6 +110,7 @@ class EditPrincipal extends Component {
 
   render() {
     const e = this.props.principalData;
+    const {merchantState} = this.props;
 
     let { imagePreviewUrl } = this.state;
 
@@ -244,6 +245,7 @@ class EditPrincipal extends Component {
                       label="State"
                       name="stateId"
                       initialValue={values.stateId}
+                      data={merchantState}
                       handleChange={(e) =>
                         setFieldValue(`stateId`, e.target.value)
                       }
@@ -263,10 +265,6 @@ class EditPrincipal extends Component {
                       helperText={errors.zip && touched.zip ? errors.zip : ""}
                       InputProps={{
                         inputComponent: InputCustom,
-                      }}
-                      inputProps={{
-                        block: [5],
-                        numericOnly: true,
                       }}
                     />
                   </Grid>
@@ -313,6 +311,7 @@ class EditPrincipal extends Component {
                       label="State Issued*"
                       name="stateIssued"
                       initialValue={values.stateIssued}
+                      data={merchantState}
                       handleChange={(e) =>
                         setFieldValue(`stateIssued`, e.target.value)
                       }
@@ -360,6 +359,7 @@ class EditPrincipal extends Component {
 const mapStateToProps = (state) => ({
   principalData: state.updateMerchantPrincipal.principal,
   MerchantProfile: state.merchant.merchant,
+  merchantState : state.merchantState.data
 });
 const mapDispatchToProps = (dispatch) => ({
   updateMerchantPrincipalById: (payload) => {

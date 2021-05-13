@@ -8,7 +8,6 @@ function CustomSelect(props) {
 
   const renderData = () => {
     const { data } = props;
-    console.log({data})
     if (data) {
       return data.map(obj => (
         <MenuItem value={obj.value}>{obj.label}</MenuItem>

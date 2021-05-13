@@ -17,7 +17,7 @@ import NumberLetterInput from "../../FormFields/NumberLetterInput";
 import "./Principal.css";
 
 export default function Principal(props) {
-  const { values, setFieldValue, uploadFile, handleBack } = props;
+  const { values, setFieldValue, uploadFile, handleBack  , merchantState} = props;
 
   return (
     <div>
@@ -117,7 +117,7 @@ export default function Principal(props) {
                         <SelectField
                           name={`principalInfo.${index}.addressPrincipal.state`}
                           label="State Issued*"
-                          data={State}
+                          data={merchantState}
                           fullWidth
                         />
                       </Grid>
@@ -200,7 +200,7 @@ export default function Principal(props) {
                         <SelectField
                           name={`principalInfo.${index}.stateIssued`}
                           label="State*"
-                          data={State}
+                          data={merchantState}
                           fullWidth
                         />
                       </Grid>
