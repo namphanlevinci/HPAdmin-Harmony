@@ -79,6 +79,7 @@ class EditMerchantRejected extends Component {
   };
 
   render() {
+    const { merchantState } = this.props;
     return (
       <div className="content general-content react-transition swipe-right">
         <ContainerHeader
@@ -214,7 +215,7 @@ class EditMerchantRejected extends Component {
                         margin="normal"
                         label="State*"
                         initialValue={values.stateId}
-                        data={State}
+                        data={merchantState}
                         fullWidth
                       />
                     </Grid>
@@ -228,10 +229,6 @@ class EditMerchantRejected extends Component {
                         name="zip"
                         fullWidth
                         startAdornment
-                        inputProps={{
-                          block: [5],
-                          numericOnly: true,
-                        }}
                         InputProps={{
                           inputComponent: InputCustom,
                         }}
@@ -255,7 +252,7 @@ class EditMerchantRejected extends Component {
                         }
                         helperText={
                           errors.dbaAddress?.Address &&
-                          touched.dbaAddress?.Address
+                            touched.dbaAddress?.Address
                             ? errors.dbaAddress?.Address
                             : ""
                         }
@@ -290,7 +287,7 @@ class EditMerchantRejected extends Component {
                         handleChange={(e) =>
                           setFieldValue(`dbaAddress.State`, e.target.value)
                         }
-                        data={State}
+                        data={merchantState}
                         fullWidth
                         error={
                           errors.dbaAddress?.State && touched.dbaAddress?.State
@@ -313,10 +310,6 @@ class EditMerchantRejected extends Component {
                         name={`dbaAddress.Zip`}
                         fullWidth
                         startAdornment
-                        inputProps={{
-                          block: [5],
-                          numericOnly: true,
-                        }}
                         InputProps={{
                           inputComponent: InputCustom,
                         }}
@@ -456,6 +449,7 @@ class EditMerchantRejected extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
+  merchantState: state.merchantState.data
 });
 const mapDispatchToProps = (dispatch) => ({
   updateMerchantGeneralById: (payload) => {
