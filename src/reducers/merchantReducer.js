@@ -1303,6 +1303,29 @@ const packageReducer = (
   }
 };
 
+const merchantStateReducer = (
+  state = {
+    data: [],
+  },
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_STATE_MERCHANT_SUCCESS:
+      return {
+        ...state,
+        data: payload
+      };
+    case types.GET_STATE_MERCHANT_FAILURE:
+      return {
+        ...state,
+        data: []
+      };
+    default:
+      return state;
+  }
+};
+
+
 const deviceReducer = (
   state = {
     loading: false,
@@ -1319,7 +1342,7 @@ const deviceReducer = (
     case types.GET_DEVICE_FAILURE:
       return {
         ...state,
-        loading: false,  
+        loading: false,
       };
     case types.UPDATE_DEVICE_SUCCESS:
       return {
@@ -1405,4 +1428,5 @@ export {
   updateMerchantSubscriptionByIdReducer,
   packageReducer,
   deviceReducer,
+  merchantStateReducer,
 };

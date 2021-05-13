@@ -36,6 +36,7 @@ class General extends Component {
   }
 
   render() {
+    const { merchantState } = this.props;
     return (
       <div className="content  react-transition swipe-right">
         <div className="container-fluid">
@@ -148,6 +149,7 @@ class General extends Component {
                         name="state"
                         label="State*"
                         initialValue={values.stateId}
+                        data={merchantState}
                         handleChange={(e) =>
                           setFieldValue(`stateId`, e.target.value)
                         }
@@ -189,7 +191,7 @@ class General extends Component {
                         }
                         helperText={
                           errors?.dbaAddress?.Address &&
-                          touched?.dbaAddress?.Address
+                            touched?.dbaAddress?.Address
                             ? errors?.dbaAddress?.Address
                             : ""
                         }
@@ -437,6 +439,7 @@ class General extends Component {
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
+  merchantState: state.merchantState.data,
 });
 const mapDispatchToProps = (dispatch) => ({
   updateMerchantGeneralById: (payload) => {

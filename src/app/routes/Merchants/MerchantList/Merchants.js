@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import { getMerchantByID } from "../../../../actions/merchantActions";
+import { getMerchantByID, getStateMerchant } from "../../../../actions/merchantActions";
 import { debounce } from "lodash";
 import {
   Tooltip,
@@ -47,6 +47,7 @@ class Merchants extends React.Component {
       this.resetFirstPage();
       this.props.updateStatusAddMerchant(false);
     }
+    this.props.getStateMerchant();
   }
 
   fetchApi = async (state) => {
@@ -106,7 +107,6 @@ class Merchants extends React.Component {
     inputs[0].value = 1;
     reloadUrl('app/merchants/list');
   }
-
 
   render() {
     const { page, statusValue } = this.state;
@@ -311,7 +311,7 @@ class Merchants extends React.Component {
                 <NewButton
                   blue
                   onClick={this.addMerchant}
-                  style={{ minWidth: 174 , height : 40 }}
+                  style={{ minWidth: 174, height: 40 }}
                 >
                   Add merchant
                 </NewButton>
@@ -363,6 +363,9 @@ const mapDispatchToProps = (dispatch) => ({
       type: 'UPDATE_STATUS_ADD_MERCHANT',
       payload
     })
-  }
+  },
+  getStateMerchant: (payload) => {
+    dispatch(getStateMerchant(payload))
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Merchants);
