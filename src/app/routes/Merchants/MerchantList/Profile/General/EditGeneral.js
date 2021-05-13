@@ -222,6 +222,7 @@ class General extends Component {
                         name={`dbaAddress.State`}
                         label="State*"
                         initialValue={values.dbaAddress?.State}
+                        data={merchantState}
                         handleChange={(e) =>
                           setFieldValue(`dbaAddress.State`, e.target.value)
                         }
