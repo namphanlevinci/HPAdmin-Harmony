@@ -166,10 +166,6 @@ class General extends Component {
                         InputProps={{
                           inputComponent: InputCustom,
                         }}
-                        inputProps={{
-                          block: [5],
-                          numericOnly: true,
-                        }}
                         error={errors?.zip && touched?.zip}
                         helperText={
                           errors?.zip && touched?.zip ? errors?.zip : ""

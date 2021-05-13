@@ -110,7 +110,7 @@ class EditPrincipal extends Component {
 
   render() {
     const e = this.props.principalData;
-    const {merchantState} = this.props;
+    const { merchantState } = this.props;
 
     let { imagePreviewUrl } = this.state;
 
@@ -257,9 +257,8 @@ class EditPrincipal extends Component {
                       fullWidth
                       label="Zip Code*"
                       name="zip"
-                      type="number"
                       value={values.zip}
-                      onChange={handleChange}
+                      onChange={e => setFieldValue(`zip`, e.target.value)}
                       style={styles.input}
                       error={errors.zip && touched.zip}
                       helperText={errors.zip && touched.zip ? errors.zip : ""}
@@ -359,7 +358,7 @@ class EditPrincipal extends Component {
 const mapStateToProps = (state) => ({
   principalData: state.updateMerchantPrincipal.principal,
   MerchantProfile: state.merchant.merchant,
-  merchantState : state.merchantState.data
+  merchantState: state.merchantState.data
 });
 const mapDispatchToProps = (dispatch) => ({
   updateMerchantPrincipalById: (payload) => {
