@@ -396,6 +396,5 @@ const validationPrincipal = Yup.object().shape({
   mobilePhone: Yup.string().required("Mobile phone is required").nullable(),
   zip: Yup.string()
     .required("Zip code is required")
-    .max(5, "max 5 digit")
     .nullable(),
 });

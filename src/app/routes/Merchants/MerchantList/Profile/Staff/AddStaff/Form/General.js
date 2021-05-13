@@ -78,9 +78,6 @@ function General(props) {
             name={`address.zip`}
             label="Zip Code"
             fullWidth
-            options={{
-              blocks: [5],
-            }}
           />
         </Grid>
         <Grid item xs={12} md={4}>
