@@ -24,8 +24,6 @@ export default function General(props) {
     merchantState
   } = props;
 
-  console.log({merchantState});
-
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -85,9 +83,6 @@ export default function General(props) {
             InputLabelProps={{ shrink: true }}
             name={`generalInfo.businessAddress.zip`}
             label="Zip Code*"
-            options={{
-              blocks: [5],
-            }}
             fullWidth
           />
         </Grid>
@@ -143,9 +138,6 @@ export default function General(props) {
             name={`generalInfo.dbaAddress.zip`}
             label="Zip Code*"
             onBlur={handleBlur}
-            options={{
-              blocks: [5],
-            }}
             fullWidth
           />
         </Grid>

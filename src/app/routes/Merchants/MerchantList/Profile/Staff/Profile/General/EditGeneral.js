@@ -109,12 +109,13 @@ export class EditGeneral extends Component {
 
   render() {
     let { imagePreviewUrl, loading, showP } = this.state;
+    const { merchantState } = this.props;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = <Avatar style={{  width : 130, height : 130, marginTop : 30 , objectFit : 'contain' }} src={imagePreviewUrl} className="avatar_last" />;
+      $imagePreview = <Avatar style={{ width: 130, height: 130, marginTop: 30, objectFit: 'contain' }} src={imagePreviewUrl} className="avatar_last" />;
     } else {
       $imagePreview = (
-        <Avatar style={{ width : 130, height : 130, marginTop : 30 , objectFit : 'contain' , display : 'flex' , justifyContent : 'center', alignItems : 'center' }} className="avatar_last" src={this.state?.imageUrl} />
+        <Avatar style={{ width: 130, height: 130, marginTop: 30, objectFit: 'contain', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="avatar_last" src={this.state?.imageUrl} />
       );
     }
 
@@ -266,6 +267,7 @@ export class EditGeneral extends Component {
                       label="State"
                       name="stateId"
                       initialValue={values.stateId}
+                      data={merchantState}
                       handleChange={(state) =>
                         setFieldValue("stateId", state.target.value)
                       }
@@ -448,6 +450,7 @@ export class EditGeneral extends Component {
 const mapStateToProps = (state) => ({
   Staff: state.staffById.data,
   MerchantData: state.merchant.merchant,
+  merchantState: state.merchantState.data
 });
 
 const mapDispatchToProps = (dispatch) => ({

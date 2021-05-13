@@ -120,6 +120,7 @@ class AddMerchant extends React.Component {
             handleBlur={handleBlur}
             uploadFile={this.uploadFile}
             handleBack={this.handleBack}
+            merchantState={merchantState}
           />
         );
       case 4:
@@ -173,6 +174,7 @@ class AddMerchant extends React.Component {
     const { activeStep } = this.state;
     const path = "/app/merchants/list";
     const payload = { ...values, path };
+
     this.props.addMerchant(payload);
     actions.setSubmitting(false);
 

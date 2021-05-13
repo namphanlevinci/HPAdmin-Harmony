@@ -32,6 +32,7 @@ function General(props) {
     handleShowPin,
     handleConfirmPin,
     showConfirmPin,
+    merchantState,
     initValue: { isActive, roles, isDisabled, isUpload },
   } = props;
 
@@ -67,7 +68,7 @@ function General(props) {
           <SelectField
             name={`address.state`}
             label="State"
-            data={State}
+            data={merchantState}
             fullWidth
           />
         </Grid>

@@ -57,7 +57,7 @@ class AddStaff extends Component {
   };
 
   getStepContent = (stepIndex, values, handleChange, setFieldValue) => {
-    const { MerchantProfile } = this.props;
+    const { MerchantProfile , merchantState} = this.props;
     switch (stepIndex) {
       case 0:
         return (
@@ -71,6 +71,7 @@ class AddStaff extends Component {
             initValue={values}
             handleChange={handleChange}
             setFieldValue={setFieldValue}
+            merchantState={merchantState}
           />
         );
       case 1:
@@ -270,6 +271,7 @@ class AddStaff extends Component {
 }
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
+  merchantState : state.merchantState.data
 });
 
 const mapDispatchToProps = (dispatch) => ({
