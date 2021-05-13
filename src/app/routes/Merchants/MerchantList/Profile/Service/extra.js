@@ -52,7 +52,7 @@ const Extra = ({
               const supplyFee = extras.supplyFee;
               const isDisabled = extras.isDisabled;
               return (
-                <div style={{ marginBottom: 40 }} key={index}>
+                <div style={{ marginBottom: 30 }} key={index}>
                   <div
                     style={{
                       backgroundColor: "#fafafa",
@@ -230,9 +230,22 @@ const Extra = ({
               );
             })
           ) : (
-            <p className="extra-btn" onClick={() => arrayHelpers.push("")}>
-              + Add Extra
-            </p>
+            <>
+              <p
+                style={{
+                  marginLeft: -15,
+                  color: "#4251af",
+                  fontWeight: "600",
+                  fontSize: 14,
+                  marginTop: 30,
+                  cursor: "pointer",
+                  letterSpacing: 0.3,
+                }}
+                onClick={() => arrayHelpers.push("")}
+              >
+                + Add Extra
+              </p>
+            </>
           )}
         </div>
       )}

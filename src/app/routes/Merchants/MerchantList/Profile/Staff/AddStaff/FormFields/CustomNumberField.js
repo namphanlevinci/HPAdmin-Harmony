@@ -19,8 +19,6 @@ function NumberFormatCustom(props) {
 }
 
 export default function CustomNumberField(props) {
-  console.log("props,", props);
-
   const { errorText, ...rest } = props;
   const [field, meta] = useField(props);
 

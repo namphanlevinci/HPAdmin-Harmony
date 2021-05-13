@@ -51,6 +51,7 @@ import GiftCardInfo from "./Profile/GiftCard/GiftCardInfo";
 // Subscription
 import Subscription from "./Profile/Subscription";
 import EditSubscription from "./Profile/Subscription/EditSubscription";
+import Devices from "./Profile/Devices";
 
 import "../PendingList/MerchantReqProfile.css";
 import "./MerchantProfile.css";
@@ -204,6 +205,11 @@ class merchantProfile extends Component {
                         </NavLink>
                       </li>
                       <li>
+                        <NavLink to="/app/merchants/profile/devices">
+                          Devices
+                        </NavLink>
+                      </li>
+                      <li>
                         <NavLink to="/app/merchants/profile/settings">
                           Settings
                         </NavLink>
@@ -319,6 +325,10 @@ class merchantProfile extends Component {
                         <Route
                           path="/app/merchants/profile/settings"
                           component={Settings}
+                        />
+                        <Route
+                          path="/app/merchants/profile/devices"
+                          component={Devices}
                         />
                       </Switch>
                     </div>

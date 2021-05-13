@@ -26,6 +26,7 @@ import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import SearchComponent from "../../../../../../util/searchComponent";
+import { reloadUrl } from '../../../../../../util/reload';
 
 class Product extends Component {
   constructor(props) {
@@ -39,11 +40,17 @@ class Product extends Component {
       productId: "",
       isPopupAddProduct: false,
     };
+    this.refTable = React.createRef();
   }
 
   componentDidMount() {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.getProductByID(merchantId);
+    const { statusAddProduct } = this.props;
+    if (statusAddProduct == true) {
+      this.resetFirstPage();
+      this.props.updateStatusAddProduct(false);
+    }
   }
 
   viewDetail = (payload) => {
@@ -74,6 +81,18 @@ class Product extends Component {
     this.props.restoreProductById(productId, merchantId);
     this.setState({ isOpenReject: false, loading: true });
   };
+
+
+  resetFirstPage = () => {
+    this.handleChangePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/merchants/profile/product');
+  }
+
   render() {
     let { productList, loading } = this.props.product;
 
@@ -205,19 +224,19 @@ class Product extends Component {
                 />
               </Tooltip>
             ) : (
-              <Tooltip title="Restore">
-                <img
-                  alt=""
-                  src={RestoreSVG}
-                  onClick={() =>
-                    this.setState({
-                      productId: row.original.productId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
-              </Tooltip>
-            );
+                <Tooltip title="Restore">
+                  <img
+                    alt=""
+                    src={RestoreSVG}
+                    onClick={() =>
+                      this.setState({
+                        productId: row.original.productId,
+                        restoreDialog: true,
+                      })
+                    }
+                  />
+                </Tooltip>
+              );
           return (
             <div style={{ textAlign: "center" }}>
               {CheckPermissions("active-product") && actionsBtn}
@@ -249,6 +268,7 @@ class Product extends Component {
               placeholder="Search.."
               value={this.state.search}
               onChange={(e) => this.setState({ search: e.target.value })}
+              onClickIcon={() => this.setState({ search: "" })}
             />
 
             <div>
@@ -270,6 +290,7 @@ class Product extends Component {
 
           <div className="merchant-list-container">
             <ReactTable
+              ref={this.refTable}
               page={this.props.page || 0}
               pageSize={this.props.size || 5}
               onPageChange={(pageIndex) => this.handleChangePage(pageIndex)}
@@ -352,6 +373,7 @@ const mapStateToProps = (state) => ({
   product: state.product,
   page: state.updateProduct.page,
   size: state.updateProduct.size,
+  statusAddProduct: state.addProduct.statusAddProduct,
 });
 const mapDispatchToProps = (dispatch) => ({
   viewProduct: (payload) => {
@@ -372,6 +394,12 @@ const mapDispatchToProps = (dispatch) => ({
   setSizeProduct: (size) => {
     dispatch(setSizeProduct(size));
   },
+  updateStatusAddProduct: (payload) => {
+    dispatch({
+      type: 'UPDATE_STATUS_ADD_PRODUCT',
+      payload
+    })
+  }
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
 

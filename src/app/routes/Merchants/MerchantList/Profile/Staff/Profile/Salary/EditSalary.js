@@ -17,6 +17,7 @@ import {
   Input,
   TextField,
 } from "@material-ui/core";
+import "./style.scss";
 
 class EditSalary extends Component {
   constructor(props) {
@@ -54,7 +55,7 @@ class EditSalary extends Component {
       setFieldValue(`commIsCheck`, false);
       setFieldValue(`commValue`, [
         {
-          form: (0).toFixed(2),
+          from: (0).toFixed(2),
           to: (0).toFixed(2),
           commission: (0).toFixed(2),
         },
@@ -83,7 +84,7 @@ class EditSalary extends Component {
       firstName: data.firstName,
       lastName: data.lastName,
       displayName: data.displayName,
-      cashPercent: values?.cashPercent,
+      cashPercent: values?.cashPercent ? values?.cashPercent : "0.00",
       isActive: data.isActive,
       address: {
         street: data.address,
@@ -104,27 +105,27 @@ class EditSalary extends Component {
       tipFee: {
         fixedAmount: {
           isCheck: values?.fixIsCheck,
-          value: values?.fixValue,
+          value: values?.fixValue ? values?.fixValue : "0.00",
         },
         percent: {
           isCheck: values?.tipIsCheck,
-          value: values?.tipValue,
+          value: values?.tipValue ? values?.tipValue : "0.00",
         },
       },
       salary: {
         commission: {
           isCheck: values?.commIsCheck,
-          value: values?.commValue,
+          value: values?.commValue ? values?.commValue : "0.00",
         },
         perHour: {
           isCheck: values?.salaryIsCheck,
-          value: values?.salaryValue,
+          value: values?.salaryValue ? values?.salaryValue : "0.00",
         },
       },
       productSalary: {
         commission: {
           isCheck: values?.prodCommIsCheck,
-          value: values?.prodCommValue,
+          value: values?.prodCommValue ? values?.prodCommValue : "0.00",
         },
       },
       Roles: {
@@ -190,6 +191,7 @@ class EditSalary extends Component {
                             setFieldValue(`salaryValue`, e.target.value);
                           }}
                           inputComponent={CustomCurrencyInput}
+                          placeholder="0.00"
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
                           }
@@ -227,12 +229,31 @@ class EditSalary extends Component {
                                   <Grid item xs={4}>
                                     <CustomCurrencyField
                                       name={`commValue.${index}.from`}
-                                      onChange={(e, masked) =>
-                                        setFieldValue(
-                                          `commValue.${index}.from`,
-                                          e.target.value
-                                        )
-                                      }
+                                      onChange={(e, masked) => {
+                                        if (
+                                          !compareTwoInput(
+                                            parseFloat(
+                                              e.target.value.replace(/,/g, "")
+                                            ),
+                                            parseFloat(
+                                              commValue?.to?.toString().replace(/,/g, "")
+                                            )
+                                          ) ||  
+                                          parseFloat(
+                                            commValue?.to?.toString().replace(/,/g, "")
+                                          ) === 0
+                                        ) {
+                                          setFieldValue(
+                                            `commValue.${index}.from`,
+                                            e.target.value
+                                          );
+                                        } else {
+                                          setFieldValue(
+                                            `commValue.${index}.from`,
+                                            commValue.to
+                                          );
+                                        }
+                                      }}
                                       label="From"
                                       style={styles.textField}
                                       InputProps={{
@@ -250,12 +271,29 @@ class EditSalary extends Component {
                                   <Grid item xs={4}>
                                     <CustomCurrencyField
                                       name={`commValue.${index}.to`}
-                                      onChange={(e, masked) =>
+                                      onChange={(e, masked) => {
+                                        // if (
+                                        //   !compareTwoInput(
+                                        //     parseFloat(
+                                        //       e.target.value.replace(/,/g, "")
+                                        //     ),
+                                        //     parseFloat(
+                                        //       commValue.from.replace(/,/g, "")
+                                        //     )
+                                        //   )
+                                        // ) {
+                                        //   setFieldValue(
+                                        //     `commValue.${index}.to`,
+                                        //     commValue.from
+                                        //   );
+                                        // } else {
+
+                                        // }
                                         setFieldValue(
                                           `commValue.${index}.to`,
                                           e.target.value
-                                        )
-                                      }
+                                        );
+                                      }}
                                       InputProps={{
                                         startAdornment: (
                                           <InputAdornment position="start">
@@ -276,7 +314,7 @@ class EditSalary extends Component {
                                       onChange={(e, masked) =>
                                         setFieldValue(
                                           `commValue.${index}.commission`,
-                                          masked
+                                          e.target.value
                                         )
                                       }
                                       label="Salary percented (%)"
@@ -328,23 +366,23 @@ class EditSalary extends Component {
                               );
                             })
                           ) : (
-                            <Grid>
-                              <p
-                                style={{
-                                  marginLeft: 35,
-                                  color: "#0764B0",
-                                  fontWeight: "600",
-                                  fontSize: 14,
-                                  marginTop: 30,
-                                  cursor: "pointer",
-                                  letterSpacing: 0.3,
-                                }}
-                                onClick={() => arrayHelpers.push("")}
-                              >
-                                + Add more 2
+                              <Grid>
+                                <p
+                                  style={{
+                                    marginLeft: 35,
+                                    color: "#0764B0",
+                                    fontWeight: "600",
+                                    fontSize: 14,
+                                    marginTop: 30,
+                                    cursor: "pointer",
+                                    letterSpacing: 0.3,
+                                  }}
+                                  onClick={() => arrayHelpers.push("")}
+                                >
+                                  + Add more 2
                               </p>
-                            </Grid>
-                          )}
+                              </Grid>
+                            )}
                         </Grid>
                       )}
                     />
@@ -378,6 +416,7 @@ class EditSalary extends Component {
                           setFieldValue(`prodCommValue`, e.target.value)
                         }
                         inputComponent={CustomCurrencyInput}
+                        placeholder="0.00"
                         startAdornment={
                           <InputAdornment position="start">%</InputAdornment>
                         }
@@ -412,6 +451,7 @@ class EditSalary extends Component {
                           setFieldValue(`tipValue`, e.target.value)
                         }
                         inputComponent={CustomCurrencyInput}
+                        placeholder="0.00"
                         startAdornment={
                           <InputAdornment position="start">%</InputAdornment>
                         }
@@ -433,6 +473,7 @@ class EditSalary extends Component {
                       </div>
 
                       <Input
+                        className="inputSalary"
                         style={styles.input}
                         name="fixValue"
                         type="tel"
@@ -442,6 +483,7 @@ class EditSalary extends Component {
                         onChange={(e, masked) =>
                           setFieldValue(`fixValue`, e.target.value)
                         }
+                        placeholder="0.00"
                         inputComponent={CustomCurrencyInput}
                         startAdornment={
                           <InputAdornment position="start">$</InputAdornment>
@@ -501,7 +543,11 @@ const salarySchema = Yup.object().shape({
   commValue: Yup.array().of(
     Yup.object().shape({
       commIsCheck: Yup.boolean(),
-      from: Yup.string().when("commIsCheck", {
+      // from: Yup.string().when("commIsCheck", {
+      //   is: (commIsCheck) => true,
+      //   then: Yup.string().required("Required"),
+      // }),
+      from: Yup.string().when(["commIsCheck", "to"], {
         is: (commIsCheck) => true,
         then: Yup.string().required("Required"),
       }),
@@ -516,6 +562,11 @@ const salarySchema = Yup.object().shape({
     })
   ),
 });
+
+const compareTwoInput = (inputOne, inputTwo) => {
+  if (inputOne > inputTwo) return true;
+  return false;
+};
 
 const mapStateToProps = (state) => ({
   Staff: state.staffById.data,

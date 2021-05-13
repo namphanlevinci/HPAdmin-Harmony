@@ -7,6 +7,7 @@ import {
   restoreServiceById,
   setPage,
   setSize,
+  delService,
 } from "../../../../../../actions/merchantActions";
 
 import Button from "@material-ui/core/Button";
@@ -22,9 +23,11 @@ import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 import SearchComponent from "../../../../../../util/searchComponent";
 import ArchiveSVG from "../../../../../../assets/images/archive.svg";
+import DelSVG from "../../../../../../assets/images/del.svg";
 import EditSVG from "../../../../../../assets/images/edit.svg";
 import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
+import { reloadUrl } from '../../../../../../util/reload';
 
 class Service extends Component {
   constructor(props) {
@@ -35,13 +38,15 @@ class Service extends Component {
       loading: true,
       // Archive & Restore
       dialog: false,
+      delDialog: false,
       restoreDialog: false,
       // Service ID
       serviceId: "",
     };
+    this.refTable = React.createRef();
   }
 
-  getService = () => {};
+  getService = () => { };
 
   componentDidMount() {
     const ID = this.props.MerchantProfile.merchantId;
@@ -84,16 +89,30 @@ class Service extends Component {
     this.props.archiveServiceById(serviceId, MerchantId);
     this.setState({ isOpenReject: false });
   };
+  handleDel = (serviceId) => {
+    const merchantId = this.props.MerchantProfile.merchantId;
+    this.props.delService(serviceId, merchantId);
+  };
 
   handleRestore = (serviceId) => {
     const MerchantId = this.props.MerchantProfile.merchantId;
     this.props.restoreServiceById(serviceId, MerchantId);
     this.setState({ isOpenReject: false });
   };
+
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/merchants/profile/service');
+  }
+
   render() {
     let { serviceList, loading } = this.props.service;
 
-    const { page } = this.state;
     if (serviceList) {
       if (this.state.search) {
         serviceList = serviceList.filter((e) => {
@@ -200,21 +219,27 @@ class Service extends Component {
                 />
               </Tooltip>
             ) : (
-              <Tooltip title="Restore">
-                <img
-                  alt=""
-                  src={RestoreSVG}
-                  onClick={() =>
-                    this.setState({
-                      categoryId: row.original.serviceId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
-              </Tooltip>
-            );
+                <Tooltip title="Restore">
+                  <img
+                    alt=""
+                    src={RestoreSVG}
+                    onClick={() =>
+                      this.setState({
+                        categoryId: row.original.serviceId,
+                        restoreDialog: true,
+                      })
+                    }
+                  />
+                </Tooltip>
+              );
           return (
-            <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               {CheckPermissions("active-service") && actionsBtn}
 
               {CheckPermissions("edit-service") && (
@@ -224,6 +249,22 @@ class Service extends Component {
                       alt=""
                       src={EditSVG}
                       onClick={() => this.handleEdit(row.original)}
+                    />
+                  </Tooltip>
+                </span>
+              )}
+              {CheckPermissions("edit-service") && (
+                <span style={{ paddingLeft: "20px" }}>
+                  <Tooltip title="Delete">
+                    <img
+                      alt=""
+                      src={DelSVG}
+                      onClick={() =>
+                        this.setState({
+                          delDialog: true,
+                          categoryId: row.original.serviceId,
+                        })
+                      }
                     />
                   </Tooltip>
                 </span>
@@ -244,16 +285,21 @@ class Service extends Component {
               placeholder="Search.."
               value={this.state.search}
               onChange={(e) => this.setState({ search: e.target.value })}
+              onClickIcon = {()=>this.setState({ search : "" })}
             />
             <div>
               {CheckPermissions("add-new-service") && (
-                <AddService reload={this.getService} />
+                <AddService
+                  reload={this.getService}
+                  resetFirstPage={this.resetFirstPage}
+                />
               )}
             </div>
           </div>
 
           <div className="merchant-list-container">
             <ReactTable
+              ref={this.refTable}
               page={this.props.page || 0}
               pageSize={this.props.size || 5}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
@@ -298,6 +344,39 @@ class Service extends Component {
                 </Button>
               </DialogActions>
             </Dialog>
+            {/* DELETE */}
+
+            <Dialog open={this.state.delDialog}>
+              <DialogTitle id="alert-dialog-title">
+                {"Delete this Service?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Do you want delete this service ?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() =>
+                    this.setState({ delDialog: false, categoryId: "" })
+                  }
+                  color="primary"
+                >
+                  Disagree
+                </Button>
+                <Button
+                  onClick={() => {
+                    this.handleDel(this.state.categoryId);
+                    this.setState({ delDialog: false, categoryId: "" });
+                  }}
+                  color="primary"
+                  autoFocus
+                >
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
+
             {/* RESTORE */}
             <Dialog open={this.state.restoreDialog}>
               <DialogTitle id="alert-dialog-title">
@@ -361,6 +440,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   restoreServiceById: (serviceId, MerchantID) => {
     dispatch(restoreServiceById(serviceId, MerchantID));
+  },
+  delService: (serviceId, merchantId) => {
+    dispatch(delService(serviceId, merchantId));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Service);

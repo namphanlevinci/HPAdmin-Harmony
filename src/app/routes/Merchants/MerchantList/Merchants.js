@@ -4,23 +4,27 @@ import { Helmet } from "react-helmet";
 import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import { getMerchantByID } from "../../../../actions/merchantActions";
+import { getMerchantByID, getStateMerchant } from "../../../../actions/merchantActions";
 import { debounce } from "lodash";
 import {
-  Button,
   Tooltip,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
+  Grid,
 } from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import NewButton from "../../../../components/Button/Search";
+import ResetButton from "../../../../components/Button/Reset";
+
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
 import CheckPermissions from "../../../../util/checkPermission";
+import { reloadUrl } from '../../../../util/reload';
+import moment from 'moment';
 
 import "../Merchants.css";
 import "../PendingList/MerchantReqProfile.css";
@@ -33,19 +37,25 @@ class Merchants extends React.Component {
       search: "",
       statusValue: -1,
     };
+    this.refTable = React.createRef();
   }
 
   componentDidMount() {
     this.setState({ pageLoading: true });
+    const { statusAddMerchant } = this.props;
+    if (statusAddMerchant == true) {
+      this.resetFirstPage();
+      this.props.updateStatusAddMerchant(false);
+    }
+    this.props.getStateMerchant();
   }
 
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     const { search, statusValue } = this.state;
-    const url = `merchant/search?key=${search}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&isDisabled=${statusValue}`;
+    const url = `merchant/search?key=${search}&page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -87,6 +97,16 @@ class Merchants extends React.Component {
   handleChange = (e) => {
     this.setState({ search: e.target.value });
   };
+
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/merchants/list');
+  }
 
   render() {
     const { page, statusValue } = this.state;
@@ -175,6 +195,22 @@ class Merchants extends React.Component {
         ),
         width: 100,
       },
+      {
+        Header: (
+          <div style={{ textAlign: "center" }}>
+            <CustomTableHeader value="Expire Date" />
+          </div>
+        ),
+        id: "expiredDate",
+        accessor: (row) => {
+          return (
+            <Typography variant="subtitle1" className="table__light">
+              {moment(row?.expiredDate).format("MM/DD/YYYY hh:mm A")}
+            </Typography>
+          )
+        },
+        width: 170,
+      },
     ];
     const onRowClick = (state, rowInfo) => {
       return {
@@ -185,6 +221,34 @@ class Merchants extends React.Component {
         },
       };
     };
+
+    const getTrProps = (state, rowInfo) => {
+      // thiếu expired date
+      const expiredDate = rowInfo?.original?.expiredDate;
+      const nowDay = moment();
+      const diff = moment(expiredDate).diff(nowDay, 'days');
+
+      const isDisabled = rowInfo?.original?.isDisabled;
+      if (isDisabled == 1) {
+        return {
+          style: {
+            'background': '#cccccc'
+          }
+        }
+      }
+      if (diff < 31 || diff <= 0) {
+        return {
+          style: {
+            'background': '#FBD7DC'
+          }
+        }
+      }
+      return {
+        style: {
+          'background': 'transparent',
+        }
+      }
+    }
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -195,54 +259,71 @@ class Merchants extends React.Component {
           title={<IntlMessages id="sidebar.dashboard.MList" />}
           disableBreadcrumb
         />
-        <div className="MerList page-heading " style={{ padding: "10px" }}>
+        <div className="MerList page-heading " style={{ padding: "22px 26px" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Tooltip
-                title="Must enter correct MID to search by MID"
-                aria-label="add"
+            <Grid
+              container
+              spacing={0}
+              className="search"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <div className="container-search-component">
+                <Tooltip
+                  title="Must enter correct MID to search by MID"
+                  aria-label="add"
+                >
+                  <SearchComponent
+                    placeholder="Search by ID, MID, DBA, Email"
+                    value={this.state.search}
+                    onChange={this.handleChange}
+                    onKeyPress={this.keyPressed}
+                    onClickIcon={() => this.setState({ search: "" })}
+                  />
+                </Tooltip>
+                <NewButton
+                  style={{ marginLeft: "10px" }}
+                  onClick={this.fetchApi}
+                >
+                  Search
+                </NewButton>
+              </div>
+              <Grid
+                container
+                spacing={0}
+                className="TransactionSearch"
+                style={{ marginTop: 20 }}
               >
-                <SearchComponent
-                  placeholder="Search by ID, MID, DBA, Email"
-                  value={this.state.search}
-                  onChange={this.handleChange}
-                  onKeyPress={this.keyPressed}
-                  onClickIcon={this.fetchApi}
-                />
-              </Tooltip>
-              <NewButton style={{ marginLeft: "15px" }} onClick={this.fetchApi}>
-                Search
-              </NewButton>
-            </div>
-            <FormControl style={{ width: "20%", marginLeft: "15px" }}>
-              <InputLabel>Status</InputLabel>
-              <Select onChange={this.handleStatus} value={statusValue}>
-                <MenuItem value={-1}>All</MenuItem>
-                <MenuItem value={0}>Active</MenuItem>
-                <MenuItem value={1}>Inactive</MenuItem>
-              </Select>
-            </FormControl>
+                <Grid item xs={2}>
+                  <FormControl style={{ width: "100%" }}>
+                    <InputLabel>Status</InputLabel>
+                    <Select onChange={this.handleStatus} value={statusValue}>
+                      <MenuItem value={-1}>All</MenuItem>
+                      <MenuItem value={0}>Active</MenuItem>
+                      <MenuItem value={1}>Inactive</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Grid>
+
             <div>
               {CheckPermissions("add-new-merchant") && (
-                <Button
-                  style={{
-                    backgroundColor: "#0764B0",
-                    color: "white",
-                    marginTop: "10px",
-                  }}
-                  className="btn btn-red"
+                <NewButton
+                  blue
                   onClick={this.addMerchant}
+                  style={{ minWidth: 174, height: 40 }}
                 >
-                  ADD MERCHANT
-                </Button>
+                  Add merchant
+                </NewButton>
               )}
             </div>
           </div>
-          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-            Reset
-          </NewButton>
+          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container">
             <ReactTable
+              ref={this.refTable}
               manual
               sortable={false}
               page={page}
@@ -257,6 +338,7 @@ class Merchants extends React.Component {
               loading={loading}
               columns={columns}
               getTdProps={onRowClick}
+              getTrProps={getTrProps}
             />
           </div>
         </div>
@@ -267,6 +349,7 @@ class Merchants extends React.Component {
 
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  statusAddMerchant: state.addMerchant.statusAddMerchant,
 });
 const mapDispatchToProps = (dispatch) => ({
   getMerchantByID: (ID, path) => {
@@ -274,6 +357,15 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
+  },
+  updateStatusAddMerchant: (payload) => {
+    dispatch({
+      type: 'UPDATE_STATUS_ADD_MERCHANT',
+      payload
+    })
+  },
+  getStateMerchant: (payload) => {
+    dispatch(getStateMerchant(payload))
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Merchants);

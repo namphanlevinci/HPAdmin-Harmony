@@ -21,6 +21,7 @@ export default function General(props) {
     handleBlur,
     setFieldValue,
     setFieldError,
+    merchantState
   } = props;
 
   return (
@@ -73,7 +74,7 @@ export default function General(props) {
           <SelectField
             name={`generalInfo.businessAddress.state`}
             label="State*"
-            data={State}
+            data={merchantState}
             fullWidth
           />
         </Grid>
@@ -82,9 +83,6 @@ export default function General(props) {
             InputLabelProps={{ shrink: true }}
             name={`generalInfo.businessAddress.zip`}
             label="Zip Code*"
-            options={{
-              blocks: [5],
-            }}
             fullWidth
           />
         </Grid>
@@ -130,7 +128,7 @@ export default function General(props) {
             name={`generalInfo.dbaAddress.state`}
             label="State*"
             onBlur={handleBlur}
-            data={State}
+            data={merchantState}
             fullWidth
           />
         </Grid>
@@ -140,9 +138,6 @@ export default function General(props) {
             name={`generalInfo.dbaAddress.zip`}
             label="Zip Code*"
             onBlur={handleBlur}
-            options={{
-              blocks: [5],
-            }}
             fullWidth
           />
         </Grid>

@@ -22,6 +22,7 @@ class Pricing extends Component {
     this.state = {
       data: "",
       loading: false,
+      search : "",
     };
   }
 
@@ -99,26 +100,13 @@ class Pricing extends Component {
         </div>
         <div className="container-fluid">
           <div className="page-heading MerList">
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              {/* SEARCH */}
-              <div className="search">
-                <SearchComponent
-                  placeholder="Search by Name, Group"
-                  // value={this.state.search}
-                  // onChange={(e) => this.setState({ search: e.target.value })}
-                  // onKeyPress={this.keyPressed}
-                />
-              </div>
-            </div>
             <div className="merchant-list-container">
               {this.state.loading && (
                 <ReactTable
                   defaultPageSize={10}
                   minRows={1}
                   noDataText="NO DATA!"
-                  // loading={this.state.loading}
                   columns={columns}
-                  // getTdProps={onRowClick}
                   data={this.state.data}
                 />
               )}

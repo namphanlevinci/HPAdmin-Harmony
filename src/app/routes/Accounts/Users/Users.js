@@ -4,9 +4,15 @@ import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { CustomTableHeader } from "../../../../util/CustomText";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { debounce } from "lodash";
-import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Grid,
+} from "@material-ui/core";
 
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -14,6 +20,8 @@ import ReactTable from "react-table";
 import CheckPermissions from "../../../../util/checkPermission";
 import SearchComponent from "../../../../util/searchComponent";
 import NewButton from "../../../../components/Button/Search";
+import ResetButton from '../../../../components/Button/Reset'
+import { reloadUrl } from '../../../../util/reload';
 
 import "../../Merchants/Merchants.css";
 import "./User.css";
@@ -27,6 +35,7 @@ class Users extends Component {
       loading: false,
       statusValue: -1,
     };
+    this.refTable = React.createRef();
   }
 
   searchUser = debounce((query) => {
@@ -56,9 +65,8 @@ class Users extends Component {
     let pageSize = state?.pageSize ? state?.pageSize : 10;
     const { statusValue, search } = this.state;
 
-    const url = `adminuser?key=${search}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&isDisabled=${statusValue}`;
+    const url = `adminuser?key=${search}&page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -78,6 +86,25 @@ class Users extends Component {
   addAdmin = () => {
     this.props.history.push("/app/accounts/admin/add");
   };
+
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/accounts/admin');
+  }
+
+  componentDidMount() {
+    const { statusAddUser } = this.props;
+    if (statusAddUser == true) {
+      this.props.updateStatusAddUser(false);
+      this.resetFirstPage();
+    }
+  }
+
   render() {
     const { page, statusValue } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
@@ -165,7 +192,7 @@ class Users extends Component {
           <div style={{ textAlign: "center" }}>
             <Typography variant="subtitle1">
               {e.value === 0 ? "Active" : "Inactive"}
-            </Typography>{" "}
+            </Typography>
           </div>
         ),
         width: 100,
@@ -189,46 +216,65 @@ class Users extends Component {
           match={this.props.match}
           title={<IntlMessages id="sidebar.dashboard.adminUsers" />}
         />
-        <div className="MerList page-heading" style={{ padding: "10px" }}>
+        <div className="MerList page-heading" style={{ padding: "22px 26px" }}>
           <div className="UserSearchBox">
-            <div
+            <Grid
+              container
+              spacing={0}
               className="search"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <SearchComponent
-                placeholder="Search by Name, Group"
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyPress={this.keyPressed}
-                onClickIcon={this.fetchApi}
-              />
-              <NewButton onClick={this.fetchApi} style={{ marginLeft: "10px" }}>
-                Search
-              </NewButton>
-            </div>
-            <FormControl style={{ width: "20%", marginLeft: "15px" }}>
-              <InputLabel>Status</InputLabel>
-              <Select onChange={this.handleStatus} value={statusValue}>
-                <MenuItem value={-1}>All</MenuItem>
-                <MenuItem value={0}>Active</MenuItem>
-                <MenuItem value={1}>Inactive</MenuItem>
-              </Select>
-            </FormControl>
-            {CheckPermissions("add-new-user") && (
-              <Button
-                className="btn btn-green"
-                onClick={this.addAdmin}
-                style={{ margin: "0px" }}
+              <div className="container-search-component">
+                <SearchComponent
+                  placeholder="Search by Name , Email"
+                  value={this.state.search}
+                  onChange={this.handleChange}
+                  onKeyPress={this.keyPressed}
+                  onClickIcon={() => this.setState({ search: "" })}
+                />
+
+                <NewButton
+                  onClick={this.fetchApi}
+                  style={{ marginLeft: "10px" }}
+                >
+                  Search
+                </NewButton>
+              </div>
+              <Grid
+                container
+                spacing={0}
+                className="TransactionSearch"
+                style={{ marginTop: 20 }}
               >
-                ADD NEW USER
-              </Button>
+                <Grid item xs={2}>
+                  <FormControl style={{ width: "100%" }}>
+                    <InputLabel>Status</InputLabel>
+                    <Select onChange={this.handleStatus} value={statusValue}>
+                      <MenuItem value={-1}>All</MenuItem>
+                      <MenuItem value={0}>Active</MenuItem>
+                      <MenuItem value={1}>Inactive</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            {CheckPermissions("add-new-user") && (
+              <NewButton
+                onClick={this.addAdmin}
+                style={{ margin: "0px", minWidth: 160, padding: 10 }}
+                blue
+              >
+                Add new user
+              </NewButton>
             )}
           </div>
-          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-            Reset
-          </NewButton>
+          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container user_table">
             <ReactTable
+              ref={this.refTable}
               manual
               sortable={false}
               page={page}
@@ -253,6 +299,7 @@ class Users extends Component {
 
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  statusAddUser: state.addUser.statusAddUser
 });
 const mapDispatchToProps = (dispatch) => ({
   getUserByID: (ID, path) => {
@@ -260,6 +307,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchApiByPage: (url) => {
     dispatch(fetchApiByPage(url));
+  },
+  updateStatusAddUser: (payload) => {
+    dispatch({ type: 'UPDATE_STATUS_ADD_USER', payload });
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

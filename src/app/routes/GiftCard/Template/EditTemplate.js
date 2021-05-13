@@ -200,12 +200,12 @@ class EditTemplate extends Component {
                       >
                         BACK
                       </Button>
-                      <Button
+                      {/* <Button
                         className="btn btn-green"
                         onClick={() => this.setState({ openDelete: true })}
                       >
-                        DELETE
-                      </Button>
+                        ARCHIVE
+                      </Button> */}
 
                       <Button
                         className="btn btn-red"

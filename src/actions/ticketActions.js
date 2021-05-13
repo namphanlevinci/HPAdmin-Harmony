@@ -53,6 +53,7 @@ export const getTicketByID = (ID, path) => async (dispatch, getState) => {
 
 export const addTicketFile = (payload) => async (dispatch, getState) => {
   try {
+    console.log(' add ticlet action')
     dispatch({ type: types.ADD_TICKET_FILE_REQUEST });
     const { id, fileId } = payload;
     const {
@@ -77,6 +78,10 @@ export const addTicketFile = (payload) => async (dispatch, getState) => {
       payload: data?.message,
     });
     dispatch(getTicketByID(id));
+    dispatch({ 
+      type : types.UPDATE_STATUS_ADD_TICKET,
+      payload : true
+    });
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
@@ -237,6 +242,11 @@ export const addTicket = (payload) => async (dispatch, getState) => {
       if (payload.path) {
         history.push(payload.path);
       }
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data?.message,
+      });
     }
   } catch (error) {
     dispatch({
@@ -249,6 +259,42 @@ export const addTicket = (payload) => async (dispatch, getState) => {
 
     dispatch({
       type: types.ADD_TICKET_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const delTicket = (ticketID) => async (dispatch, getState) => {
+  try {
+    const {
+      verifyUser: { user },
+    } = await getState();
+
+    const { data } = await axios.delete(`${URL}/ticket/${ticketID}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    if (data.codeNumber === 200) {
+      dispatch({
+        type: SUCCESS_NOTIFICATION,
+        payload: data.message,
+      });
+      dispatch(fetchApiByPage(`ticket`));
+      history.push("/app/ticket");
+    } else {
+      dispatch({
+        type: FAILURE_NOTIFICATION,
+        payload: data.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -402,3 +448,15 @@ export const deleteTicketFile = (payload) => async (dispatch, getState) => {
     });
   }
 };
+
+// export const getAllUser = () => async (dispatch, getState) => {
+//   try {
+//     const {
+//       verifyUser: { user },
+//     } = await getState();
+
+//     const { data } = await axios.get(`${URL}/adminuser`, {
+//       headers: { Authorization: `Bearer ${user?.token}` },
+//     });
+//   } catch (error) {}
+// };

@@ -32,6 +32,7 @@ function General(props) {
     handleShowPin,
     handleConfirmPin,
     showConfirmPin,
+    merchantState,
     initValue: { isActive, roles, isDisabled, isUpload },
   } = props;
 
@@ -67,7 +68,7 @@ function General(props) {
           <SelectField
             name={`address.state`}
             label="State"
-            data={State}
+            data={merchantState}
             fullWidth
           />
         </Grid>
@@ -77,9 +78,6 @@ function General(props) {
             name={`address.zip`}
             label="Zip Code"
             fullWidth
-            options={{
-              blocks: [5],
-            }}
           />
         </Grid>
         <Grid item xs={12} md={4}>
@@ -108,6 +106,12 @@ function General(props) {
                 fullWidth
                 autoComplete="new-password"
                 type={showPin ? "text" : "password"}
+                onChange={(e) => {
+                  const re = /^[0-9\b]+$/;
+                  if (e.target.value === '' || re.test(e.target.value)) {
+                    setFieldValue('pin',e.target.value);
+                  }
+                }}
                 inputProps={{ maxLength: 4 }}
                 InputProps={{
                   endAdornment: (
@@ -119,8 +123,8 @@ function General(props) {
                         {showPin ? (
                           <Visibility style={{ fontSize: 18 }} />
                         ) : (
-                          <VisibilityOff style={{ fontSize: 18 }} />
-                        )}
+                            <VisibilityOff style={{ fontSize: 18 }} />
+                          )}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -134,6 +138,12 @@ function General(props) {
                 label="Confirm Pin*"
                 fullWidth
                 type={showConfirmPin ? "text" : "password"}
+                onChange={(e) => {
+                  const re = /^[0-9\b]+$/;
+                  if (e.target.value === '' || re.test(e.target.value)) {
+                    setFieldValue('confirmPin',e.target.value);
+                  }
+                }}
                 inputProps={{ maxLength: 4 }}
                 InputProps={{
                   endAdornment: (
@@ -145,8 +155,8 @@ function General(props) {
                         {showConfirmPin ? (
                           <Visibility style={{ fontSize: 18 }} />
                         ) : (
-                          <VisibilityOff style={{ fontSize: 18 }} />
-                        )}
+                            <VisibilityOff style={{ fontSize: 18 }} />
+                          )}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -213,21 +223,21 @@ function General(props) {
               <LinearProgress />
             </div>
           ) : (
-            <input
-              type="file"
-              style={{
-                marginTop: "20px",
-                width: "100%",
-                fontWeight: "normal",
-                borderBottom: "none",
-              }}
-              className="custom-input"
-              accept="image/gif,image/jpeg, image/png"
-              name="imagePreviewUrl"
-              id="file"
-              onChange={(e) => uploadImage(e, setFieldValue)}
-            />
-          )}
+              <input
+                type="file"
+                style={{
+                  marginTop: "20px",
+                  width: "100%",
+                  fontWeight: "normal",
+                  borderBottom: "none",
+                }}
+                className="custom-input"
+                accept="image/gif,image/jpeg, image/png"
+                name="imagePreviewUrl"
+                id="file"
+                onChange={(e) => uploadImage(e, setFieldValue)}
+              />
+            )}
         </Grid>
       </Grid>
     </div>

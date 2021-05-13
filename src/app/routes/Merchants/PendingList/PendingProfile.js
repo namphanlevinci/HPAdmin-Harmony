@@ -719,7 +719,8 @@ function customLabel(questionId) {
 }
 
 const AcceptSchema = Yup.object().shape({
-  merchantID: Yup.number().min(4, "Min 4 digit").required("Required"),
+  merchantID: Yup.string().matches(/^[0-9]+$/, "Must be only digits")
+  .min(4, "Merchant ID must be from 4 to 20 character.").max(20, "Merchant ID must be from 4 to 20 character.").required("Merchant ID must be a number"),
   fee: Yup.number()
     .typeError("Transaction fee must be a number")
     .required("Transaction fee is required"),

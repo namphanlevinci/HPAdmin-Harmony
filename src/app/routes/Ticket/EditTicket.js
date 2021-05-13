@@ -5,29 +5,26 @@ import { CustomTitle } from "../../../util/CustomText";
 import { Formik, Form } from "formik";
 import {
   Grid,
-  Button,
   TextField,
   Select,
   FormControl,
   InputLabel,
   MenuItem,
-  CardMedia,
-  Switch,
 } from "@material-ui/core";
 
 import { config } from "../../../url/url";
 import { history } from "../../../store";
-import { WARNING_NOTIFICATION } from "../../../constants/notificationConstants";
 import {
   updateTicketById,
   deleteTicketFile,
   addTicketFile,
 } from "../../../actions/ticketActions";
 
-import CancelIcon from "@material-ui/icons/Cancel";
+import NewButton from "../../../components/Button/Search";
 import LinearProgress from "../../../util/linearProgress";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-
+import AddButton from "../../../components/Button/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
 import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
@@ -240,18 +237,20 @@ class EditTicket extends Component {
                       />
                     </div>
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={8}>
                     <label style={{ marginBottom: "10px" }}>Attack files</label>
 
                     <div className="img_area">
                       {ticketAttachFiles.map((item, index) => (
                         <div className="img_item">
-                          <CancelIcon
+                          <DeleteIcon
                             style={{
+                              zIndex: 9999,
                               position: "absolute",
-                              right: -2,
-                              top: -10,
+                              left: 95,
+                              top: -5,
                               cursor: "pointer",
+                              color: "#707070",
                             }}
                             onClick={() => this.handleDel(item.id)}
                           />
@@ -260,8 +259,10 @@ class EditTicket extends Component {
                             key={index}
                             src={item.fileURL}
                             style={{
-                              height: "70px",
-                              width: "70px",
+                              height: "100px",
+                              width: "100px",
+                              padding: 5,
+                              marginBottom: 15,
                             }}
                           />
                         </div>
@@ -270,15 +271,11 @@ class EditTicket extends Component {
                     <div style={{ width: "20%", margin: "5px 5px" }}>
                       {values?.isUpload ? <LinearProgress /> : null}
                     </div>
-                    <input
-                      type="file"
-                      name="image"
-                      id="file"
-                      accept="image/gif,image/jpeg, image/png"
+                    <AddButton
                       onChange={(e) => this.uploadImage(e, setFieldValue)}
                     />
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={4}>
                     <FormControl style={{ width: "100%" }}>
                       <InputLabel id="demo-simple-select-helper-label">
                         Status
@@ -300,15 +297,13 @@ class EditTicket extends Component {
                 </Grid>
 
                 <Grid item xs={12} style={{ paddingTop: "20px" }}>
-                  <Button
-                    className="btn btn-red"
+                  <NewButton
                     onClick={() => history.goBack()}
+                    style={{ marginRight: 15 }}
                   >
-                    CANCEL
-                  </Button>
-                  <Button className="btn btn-green" type="submit">
-                    SAVE
-                  </Button>
+                    Cancel
+                  </NewButton>
+                  <NewButton type="submit">Save</NewButton>
                 </Grid>
               </Form>
             )}

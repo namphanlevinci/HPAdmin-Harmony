@@ -17,6 +17,7 @@ import Salary from "./Form/Salary";
 import License from "./Form/License";
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
+import { isEmpty } from 'lodash';
 
 import "../Staff.styles.scss";
 
@@ -33,6 +34,15 @@ class AddStaff extends Component {
       showConfirmPin: false,
       progressLoading: false,
     };
+    this.refForm = React.createRef();
+  }
+
+  componentDidMount() {
+    const { MerchantProfile } = this.props;
+    const businessHour = MerchantProfile?.businessHour || null;
+    if (businessHour) {
+      this.refForm.current.setFieldValue('workingTime', businessHour);
+    }
   }
 
   getSteps = () => {
@@ -47,6 +57,7 @@ class AddStaff extends Component {
   };
 
   getStepContent = (stepIndex, values, handleChange, setFieldValue) => {
+    const { MerchantProfile , merchantState} = this.props;
     switch (stepIndex) {
       case 0:
         return (
@@ -60,10 +71,11 @@ class AddStaff extends Component {
             initValue={values}
             handleChange={handleChange}
             setFieldValue={setFieldValue}
+            merchantState={merchantState}
           />
         );
       case 1:
-        return <WorkTime initValue={values} setFieldValue={setFieldValue} />;
+        return <WorkTime initValue={values} setFieldValue={setFieldValue} MerchantProfile={MerchantProfile} />;
       case 2:
         return <Salary initValue={values} setFieldValue={setFieldValue} />;
       case 3:
@@ -80,7 +92,6 @@ class AddStaff extends Component {
     }
   };
 
-  //handle upload avatar
   uploadImage = (event, setFieldValue) => {
     event.stopPropagation();
     event.preventDefault();
@@ -115,27 +126,40 @@ class AddStaff extends Component {
     }
   };
 
-  _submitForm = (values, actions) => {
+  submitForm = async(values, actions) => {
     const merchantId = this.props.MerchantProfile.merchantId;
     const { activeStep } = this.state;
     const path = "/app/merchants/profile/staff";
-    const payload = { ...values, merchantId, path };
-
-    this.props.AddMerchantStaffById(payload);
-
+    const payload = await {
+      ...values,
+      merchantId,
+      path,
+      salary: {
+        commission: {
+          isCheck : values.salary.commission.isCheck,
+          value: this.checkComission(values.salary.commission.value)
+        },
+        perHour :  values.salary.perHour
+      }
+    };
+    this.props.addStaff(payload);
     actions.setSubmitting(false);
-
-    this.setState({
-      activeStep: activeStep + 1,
-    });
+    this.setState({ activeStep: activeStep + 1 });
   };
 
-  _handleSubmit = (values, actions) => {
+  checkComission = (comission = []) => {
+    let arrTemp = JSON.parse(JSON.stringify(comission));
+    arrTemp = arrTemp.filter(obj => obj);
+    return arrTemp
+  }
+
+
+  handleSubmit = (values, actions) => {
     const { activeStep } = this.state;
     const steps = this.getSteps();
     const isLastStep = activeStep === steps.length - 1;
     if (isLastStep) {
-      this._submitForm(values, actions);
+      this.submitForm(values, actions);
     } else {
       this.setState({
         activeStep: activeStep + 1,
@@ -146,22 +170,16 @@ class AddStaff extends Component {
   };
 
   toggleVisibility = (name, value) => {
-    this.setState({
-      [name]: value,
-    });
+    this.setState({ [name]: value });
   };
 
   handleBack = () => {
     const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep - 1,
-    });
+    this.setState({ activeStep: activeStep - 1, });
   };
 
   handleReset = () => {
-    this.setState({
-      activeStep: 0,
-    });
+    this.setState({ activeStep: 0 });
   };
 
   render() {
@@ -185,9 +203,7 @@ class AddStaff extends Component {
                 return (
                   <Step
                     key={label}
-                    className={`horizontal-stepper ${
-                      index === activeStep ? "active" : ""
-                    }`}
+                    className={`horizontal-stepper ${index === activeStep ? "active" : ""}`}
                   >
                     <StepLabel className="stepperlabel">{label}</StepLabel>
                   </Step>
@@ -200,69 +216,52 @@ class AddStaff extends Component {
                   <CircularProgress size={50} />
                 </div>
               ) : (
-                <div>
-                  <Formik
-                    initialValues={formInitialValues}
-                    validationSchema={currentValidationSchema}
-                    onSubmit={this._handleSubmit}
-                  >
-                    {({
-                      values,
-                      isSubmitting,
-                      handleChange,
-                      setFieldValue,
-                    }) => (
-                      <Form noValidate>
-                        {this.getStepContent(
-                          activeStep,
-                          values,
-                          handleChange,
-                          setFieldValue
-                        )}
-                        <div
-                          style={{
-                            paddingTop: "20px",
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <span>
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={this.handleBack}
-                              className="btn btn-red"
-                            >
-                              Back
+                  <div>
+                    <Formik
+                      initialValues={formInitialValues}
+                      validationSchema={currentValidationSchema}
+                      onSubmit={this.handleSubmit}
+                      innerRef={this.refForm}
+                    >
+                      {({ values, isSubmitting, handleChange, setFieldValue, }) => (
+                        <Form noValidate>
+                          {this.getStepContent(activeStep, values, handleChange, setFieldValue)}
+                          <div className="container-button-addStadd">
+                            <span>
+                              <Button
+                                disabled={activeStep === 0}
+                                onClick={this.handleBack}
+                                className="btn btn-red"
+                              >
+                                Back
                             </Button>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              type="submit"
-                              className="btn btn-green"
-                            >
-                              {activeStep === steps.length - 1
-                                ? "Finish"
-                                : "Next"}
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                className="btn btn-green"
+                              >
+                                {
+                                  activeStep === steps.length - 1
+                                    ? "Finish"
+                                    : "Next"
+                                }
+                              </Button>
+                            </span>
+                            <span>
+                              <Button
+                                onClick={() => this.props.history.push("/app/merchants/profile/staff")}
+                                className="btn btn-red"
+                              >
+                                Cancel
                             </Button>
-                          </span>
-                          <span>
-                            <Button
-                              onClick={() =>
-                                this.props.history.push(
-                                  "/app/merchants/profile/staff"
-                                )
-                              }
-                              className="btn btn-red"
-                            >
-                              Cancel
-                            </Button>
-                          </span>
-                        </div>{" "}
-                      </Form>
-                    )}
-                  </Formik>
-                </div>
-              )}
+                            </span>
+                          </div>{" "}
+                        </Form>
+                      )}
+                    </Formik>
+                  </div>
+                )}
             </div>
           </div>
         </div>
@@ -272,10 +271,11 @@ class AddStaff extends Component {
 }
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
+  merchantState : state.merchantState.data
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  AddMerchantStaffById: (payload) => {
+  addStaff: (payload) => {
     dispatch(AddMerchantStaffById(payload));
   },
   warningNotify: (message) => {

@@ -72,6 +72,7 @@ class AddMerchant extends React.Component {
     handleBlur,
     setFieldError
   ) => {
+    const { merchantState } = this.props;
     switch (stepIndex) {
       case 0:
         return (
@@ -82,6 +83,7 @@ class AddMerchant extends React.Component {
             touched={touched}
             handleBlur={handleBlur}
             setFieldError={setFieldError}
+            merchantState={merchantState}
           />
         );
       case 1:
@@ -118,6 +120,7 @@ class AddMerchant extends React.Component {
             handleBlur={handleBlur}
             uploadFile={this.uploadFile}
             handleBack={this.handleBack}
+            merchantState={merchantState}
           />
         );
       case 4:
@@ -171,6 +174,7 @@ class AddMerchant extends React.Component {
     const { activeStep } = this.state;
     const path = "/app/merchants/list";
     const payload = { ...values, path };
+
     this.props.addMerchant(payload);
     actions.setSubmitting(false);
 
@@ -231,9 +235,8 @@ class AddMerchant extends React.Component {
                 return (
                   <Step
                     key={label}
-                    className={`horizontal-stepper ${
-                      index === activeStep ? "active" : ""
-                    }`}
+                    className={`horizontal-stepper ${index === activeStep ? "active" : ""
+                      }`}
                   >
                     <StepLabel className="stepperLabel">{label}</StepLabel>
                   </Step>
@@ -246,83 +249,83 @@ class AddMerchant extends React.Component {
                   <CircularProgress size={45} />
                 </div>
               ) : (
-                <Formik
-                  initialValues={formInitialValues}
-                  validationSchema={currentValidationSchema}
-                  onSubmit={this.handleSubmit}
-                >
-                  {({
-                    values,
-                    isSubmitting,
-                    handleChange,
-                    setFieldValue,
-                    errors,
-                    touched,
-                    handleBlur,
-                    setFieldError,
-                  }) => (
-                    <Form>
-                      {this.getStepContent(
-                        activeStep,
-                        values,
-                        handleChange,
-                        setFieldValue,
-                        errors,
-                        touched,
-                        handleBlur,
-                        setFieldError
-                      )}
+                  <Formik
+                    initialValues={formInitialValues}
+                    validationSchema={currentValidationSchema}
+                    onSubmit={this.handleSubmit}
+                  >
+                    {({
+                      values,
+                      isSubmitting,
+                      handleChange,
+                      setFieldValue,
+                      errors,
+                      touched,
+                      handleBlur,
+                      setFieldError,
+                    }) => (
+                      <Form>
+                        {this.getStepContent(
+                          activeStep,
+                          values,
+                          handleChange,
+                          setFieldValue,
+                          errors,
+                          touched,
+                          handleBlur,
+                          setFieldError
+                        )}
 
-                      {this.state.activeStep === 3 ? null : (
-                        <div
-                          style={{
-                            marginTop: "15px",
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <div>
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={this.handleBack}
-                              className="btn btn-red"
-                              style={{ color: "black" }}
-                            >
-                              Back
+                        {this.state.activeStep === 3 ? null : (
+                          <div
+                            style={{
+                              marginTop: "15px",
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <div>
+                              <Button
+                                disabled={activeStep === 0}
+                                onClick={this.handleBack}
+                                className="btn btn-red"
+                                style={{ color: "black" }}
+                              >
+                                Back
                             </Button>
 
-                            <Button
-                              className="btn btn-red"
-                              type="submit"
-                              style={{
-                                backgroundColor: "#0764B0",
-                                color: "white",
-                              }}
-                              disabled={isSubmitting}
-                            >
-                              {activeStep === steps.length - 1
-                                ? "Submit"
-                                : "Next"}
+                              <Button
+                                className="btn btn-red"
+                                type="submit"
+                                style={{
+                                  backgroundColor: "#0764B0",
+                                  color: "white",
+                                }}
+                                disabled={isSubmitting}
+                              >
+                                {activeStep === steps.length - 1
+                                  ? "Submit"
+                                  : "Next"}
+                              </Button>
+                            </div>
+
+                            <div>
+                              <Button
+                                onClick={() =>
+                                  this.props.history.push("/app/merchants/list")
+                                }
+                                className="btn btn-red"
+                                style={{ color: "black" }}
+                              >
+                                Cancel
                             </Button>
+                            </div>
                           </div>
-
-                          <div>
-                            <Button
-                              onClick={() =>
-                                this.props.history.push("/app/merchants/list")
-                              }
-                              className="btn btn-red"
-                              style={{ color: "black" }}
-                            >
-                              Cancel
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </Form>
-                  )}
-                </Formik>
-              )}
+                        )}
+                      </Form>
+                    )}
+                  </Formik>
+                )}
             </div>
           </div>
         </div>
@@ -331,10 +334,14 @@ class AddMerchant extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  merchantState: state.merchantState.data
+});
+
 const mapDispatchToProps = (dispatch) => ({
   addMerchant: (payload) => {
     dispatch(addMerchant(payload));
   },
 });
 
-export default connect(null, mapDispatchToProps)(AddMerchant);
+export default connect(mapStateToProps, mapDispatchToProps)(AddMerchant);

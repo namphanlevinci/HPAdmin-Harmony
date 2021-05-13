@@ -35,7 +35,7 @@ function Salary(props) {
                   setFieldValue("salary.commission.isCheck", !e.target.checked),
                   setFieldValue("salary.commission.value", [
                     {
-                      form: (0).toFixed(2),
+                      from: (0).toFixed(2),
                       to: (0).toFixed(2),
                       commission: (0).toFixed(2),
                     },
@@ -49,7 +49,9 @@ function Salary(props) {
           <CustomCurrencyField
             style={styles.input}
             name="salary.perHour.value"
-            onChange={(e, i) => setFieldValue("salary.perHour.value", i)}
+            onChange={(e, i) => {
+              setFieldValue("salary.perHour.value", e.target.value)
+            }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
@@ -95,7 +97,7 @@ function Salary(props) {
                           onChange={(e, masked) =>
                             setFieldValue(
                               `salary.commission.value.${index}.from`,
-                              masked
+                              e.target.value
                             )
                           }
                           label="From"
@@ -116,7 +118,7 @@ function Salary(props) {
                           onChange={(e, masked) =>
                             setFieldValue(
                               `salary.commission.value.${index}.to`,
-                              masked
+                              e.target.value
                             )
                           }
                           InputProps={{
@@ -137,7 +139,7 @@ function Salary(props) {
                           onChange={(e, masked) =>
                             setFieldValue(
                               `salary.commission.value.${index}.commission`,
-                              masked
+                              e.target.value
                             )
                           }
                           label="Salary percented (%)"
@@ -182,23 +184,23 @@ function Salary(props) {
                   );
                 })
               ) : (
-                <Grid>
-                  <p
-                    style={{
-                      marginLeft: 35,
-                      color: "#0764B0",
-                      fontWeight: "600",
-                      fontSize: 14,
-                      marginTop: 30,
-                      cursor: "pointer",
-                      letterSpacing: 0.3,
-                    }}
-                    onClick={() => arrayHelpers.push("")}
-                  >
-                    + Add more
+                  <Grid>
+                    <p
+                      style={{
+                        marginLeft: 35,
+                        color: "#0764B0",
+                        fontWeight: "600",
+                        fontSize: 14,
+                        marginTop: 30,
+                        cursor: "pointer",
+                        letterSpacing: 0.3,
+                      }}
+                      onClick={() => arrayHelpers.push("")}
+                    >
+                      + Add more
                   </p>
-                </Grid>
-              )}
+                  </Grid>
+                )}
             </Grid>
           )}
         />
@@ -226,7 +228,7 @@ function Salary(props) {
             style={styles.input}
             name="productSalary.commission.value"
             onChange={(e, i) => [
-              setFieldValue("productSalary.commission.value", i),
+              setFieldValue("productSalary.commission.value", e.target.value),
             ]}
             InputProps={{
               startAdornment: (
@@ -265,7 +267,7 @@ function Salary(props) {
             label="Percent"
             style={styles.input}
             name="tipFee.percent.value"
-            onChange={(e, i) => [setFieldValue("tipFee.percent.value", i)]}
+            onChange={(e, i) => [setFieldValue("tipFee.percent.value", e.target.value)]}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">%</InputAdornment>
@@ -295,7 +297,7 @@ function Salary(props) {
             label="Amount"
             style={styles.input}
             name="tipFee.fixedAmount.value"
-            onChange={(e, i) => [setFieldValue("tipFee.fixedAmount.value", i)]}
+            onChange={(e, i) => [setFieldValue("tipFee.fixedAmount.value", e.target.value)]}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
@@ -312,7 +314,7 @@ function Salary(props) {
             label="Percent"
             style={styles.input}
             name="cashPercent"
-            onChange={(e, i) => [setFieldValue("cashPercent", i)]}
+            onChange={(e, i) => [setFieldValue("cashPercent", e.target.value)]}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">%</InputAdornment>

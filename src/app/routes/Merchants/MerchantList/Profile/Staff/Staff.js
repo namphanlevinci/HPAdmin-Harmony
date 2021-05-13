@@ -23,6 +23,7 @@ import CheckPermissions from "../../../../../../util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import CustomProgress from "../../../../../../util/CustomProgress";
+import { reloadUrl } from '../../../../../../util/reload';
 
 import "../Detail.css";
 import "react-table/react-table.css";
@@ -39,10 +40,16 @@ class Staff extends Component {
       goToList: false,
       isLoading: false,
     };
+    this.refTable = React.createRef();
   }
 
   componentDidMount() {
     this.props.getStaff(this.props.MerchantProfile.merchantId);
+    const { statusAddStaff } = this.props.staff;
+    if (statusAddStaff == true) {
+      this.props.updateStatusAddStaff(false);
+      this.resetFirstPage();
+    }
   }
 
   handleArchive = (ID) => {
@@ -66,6 +73,15 @@ class Staff extends Component {
 
     await this.props.getStaffByID(StaffId, MerchantId, path);
   };
+
+  resetFirstPage = () => {
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/merchants/profile/staff');
+  }
 
   render() {
     let { loading, data } = this.props.staff;
@@ -93,22 +109,6 @@ class Staff extends Component {
       } else {
       }
     }
-
-    // const onRowClick = (state, rowInfo, column, instance) => {
-    //   return {
-    //     onClick: (e) => {
-    //       if (rowInfo !== undefined) {
-    //         const StaffId = rowInfo?.original?.staffId;
-
-    //         const MerchantID = this.props.MerchantProfile.merchantId;
-    //         const path = "/app/merchants/staff/general";
-
-    //         this.setState({ isLoading: true });
-    //         this.props.getStaffByID(StaffId, MerchantID, path);
-    //       }
-    //     },
-    //   };
-    // };
 
     const columns = [
       {
@@ -206,19 +206,19 @@ class Staff extends Component {
                 />
               </Tooltip>
             ) : (
-              <Tooltip title="Restore">
-                <img
-                  alt="restore"
-                  src={RestoreSVG}
-                  onClick={() =>
-                    this.setState({
-                      extraId: row.original.staffId,
-                      restoreDialog: true,
-                    })
-                  }
-                />
-              </Tooltip>
-            );
+                <Tooltip title="Restore">
+                  <img
+                    alt="restore"
+                    src={RestoreSVG}
+                    onClick={() =>
+                      this.setState({
+                        extraId: row.original.staffId,
+                        restoreDialog: true,
+                      })
+                    }
+                  />
+                </Tooltip>
+              );
           return (
             <div style={{ textAlign: "center" }}>
               {CheckPermissions("active-staff") && actionsBtn}
@@ -252,6 +252,7 @@ class Staff extends Component {
               placeholder="Search.."
               value={this.state.search}
               onChange={this.searchMerchant}
+              onClickIcon={() => this.setState({ search: "" })}
             />
 
             <div>
@@ -271,13 +272,13 @@ class Staff extends Component {
           <ScaleLoader isLoading={loadingStaff} />
           <div className="merchant-list-container">
             <ReactTable
+              ref={this.refTable}
               data={data}
               columns={columns}
               defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
-              // getTdProps={onRowClick}
             />
 
             {/* ARCHIVE */}
@@ -369,6 +370,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getStaffByID: (StaffID, MerchantId, path) => {
     dispatch(getStaffByID(StaffID, MerchantId, path));
+  },
+  updateStatusAddStaff: (payload) => {
+    dispatch({ type: 'UPDATE_STATUS_ADD_STAFF', payload });
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Staff);

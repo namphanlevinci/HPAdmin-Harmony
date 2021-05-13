@@ -15,6 +15,7 @@ import { fetchApiByPage } from "../../../actions/fetchApiActions";
 import { debounce } from "lodash";
 
 import NewButton from "../../../components/Button/Search";
+import ResetButton from "../../../components/Button/Reset";
 import IntlMessages from "../../../util/IntlMessages";
 import CustomProgress from "../../../util/CustomProgress";
 import ContainerHeader from "../../../components/ContainerHeader/index";
@@ -52,9 +53,8 @@ class Consumers extends React.Component {
 
     const { search, isVerify } = this.state;
 
-    const url = `user/?key=${search}&isVerify=${isVerify}&sortValue=${sortValue}&sortType=${sortType}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    const url = `user/?key=${search}&isVerify=${isVerify}&sortValue=${sortValue}&sortType=${sortType}&page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -114,7 +114,7 @@ class Consumers extends React.Component {
             Total Rows: {totalRow}
           </Typography>
         ),
-        width: 220,
+        width: 180,
       },
       {
         Header: <CustomTableHeader value=" First Name" />,
@@ -214,14 +214,17 @@ class Consumers extends React.Component {
       {
         id: "lastActivity",
         Header: <CustomTableHeader value="Last Active" />,
-        accessor: (e) => (
-          <Typography
-            variant="subtitle1"
-            className={Number(e.value) > 10000 ? "BIG" : ""}
-          >
-            {e?.lastActivity && moment(e?.lastActivity).fromNow("en")}
-          </Typography>
-        ),
+        accessor: (e) => {
+          return (
+            <Typography
+              variant="subtitle1"
+              className={Number(e.value) > 10000 ? "BIG" : ""}
+            >
+              {e?.lastActivity && moment(e?.lastActivity).format("MM/DD/YYYY hh:mm A")}
+            </Typography>
+          )
+        },
+        width: 180,
       },
       {
         accessor: "stateName",
@@ -262,7 +265,7 @@ class Consumers extends React.Component {
                   value={this.state.search}
                   onChange={this.handleChange}
                   onKeyPress={this.keyPressed}
-                  onClickIcon={this.fetchApi}
+                  onClickIcon = {()=>this.setState({ search : "" })}
                 />
                 <NewButton
                   onClick={this.fetchApi}
@@ -284,9 +287,9 @@ class Consumers extends React.Component {
                 </Select>
               </FormControl>
             </div>
-            <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-              Reset
-            </NewButton>
+            <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+              Reset filter
+            </ResetButton>
             <div className="merchant-list-container">
               <ReactTable
                 manual={true}

@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AiFillAppstore } from "react-icons/ai";
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { CustomTableHeader } from "../../../../util/CustomText";
 
 import ContainerHeader from "../../../../components/ContainerHeader/index";
 import IntlMessages from "../../../../util/IntlMessages";
 import ReactTable from "react-table";
-import moment from "moment";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
 import "../../Merchants/Merchants.css";
-
-import PropTypes from "prop-types";
 
 class GiftCardSoldInfo extends Component {
   constructor(props) {

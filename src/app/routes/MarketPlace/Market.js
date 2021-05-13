@@ -6,17 +6,17 @@ import { connect } from "react-redux";
 import { fetchApiByPage } from "../../../actions/fetchApiActions";
 import { getMarketInfoAction } from "../../../actions/marketActions";
 import {
-  Button,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
   Typography,
-  // Switch,
+  Grid,
 } from "@material-ui/core";
 import { history } from "../../../store";
 import { debounce } from "lodash";
 
+import RestButton from "../../../components/Button/Reset";
 import NewButton from "../../../components/Button/Search";
 import CustomSwitch from "./components/Switch";
 import SearchComponent from "../../../util/searchComponent";
@@ -24,6 +24,7 @@ import ContainerHeader from "../../../components/ContainerHeader/index";
 import IntlMessages from "../../../util/IntlMessages";
 import ReactTable from "react-table";
 import axios from "axios";
+import { reloadUrl } from '../../../util/reload';
 
 import "react-table/react-table.css";
 import "../Merchants/Merchants.css";
@@ -38,6 +39,7 @@ class Market extends Component {
       search: "",
       statusValue: -1,
     };
+    this.refTable = React.createRef();
   }
 
   componentDidMount = async () => {
@@ -48,6 +50,11 @@ class Market extends Component {
       );
     } catch (error) {
       console.log("error", error);
+    }
+    const { statusAddMarketPlace } = this.props;
+    if (statusAddMarketPlace) {
+      this.resetFirstPage();
+      this.props.updateStatusAddMarketPlace(false);
     }
   };
 
@@ -89,12 +96,21 @@ class Market extends Component {
     let pageSize = state?.pageSize ? state?.pageSize : 20;
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
-    const url = `MarketPlace/search?page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&quickFilter=${range}&key=${search}&sortValue=${sortValue}&sortType=${sortType}&isDisabled=${statusValue}`;
+    const url = `MarketPlace/search?page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&quickFilter=${range}&key=${search}&sortValue=${sortValue}&sortType=${sortType}&isDisabled=${statusValue}`;
 
     this.props.fetchApiByPage(url);
   };
+
+  resetFirstPage = () => {
+    this.changePage(0);
+    if (this.refTable && this.refTable.current)
+      this.refTable.current.onPageChange(0);
+    const els = document.getElementsByClassName('-pageJump');
+    const inputs = els[0].getElementsByTagName('input');
+    inputs[0].value = 1;
+    reloadUrl('app/market-place/home');
+  }
 
   render() {
     const { page, statusValue } = this.state;
@@ -136,7 +152,7 @@ class Market extends Component {
         id: "link",
         Header: <CustomTableHeader value="URL" />,
         accessor: (e) => (
-          <a href={e?.link} target="_blank" rel="noopener noreferrer">
+          <a href={e.link} target="_blank" rel="noopener noreferrer">
             {e.link}
           </a>
         ),
@@ -191,56 +207,66 @@ class Market extends Component {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                flexWrap: "wrap",
               }}
             >
               {/* SEARCH */}
-              <div
+              <Grid
+                container
+                spacing={0}
                 className="search"
-                style={{ width: "50%", display: "flex", alignItems: "center" }}
+                style={{ display: "flex", alignItems: "center" }}
               >
-                <SearchComponent
-                  placeholder="Search"
-                  value={this.state.search}
-                  onChange={this.handleChange}
-                  onKeyPress={this.keyPressed}
-                  onClickIcon={this.fetchApi}
-                />
-                <NewButton
-                  onClick={this.fetchApi}
-                  style={{ marginLeft: "10px" }}
+                <div className="container-search-component">
+                  <SearchComponent
+                    placeholder="Search"
+                    value={this.state.search}
+                    onChange={this.handleChange}
+                    onKeyPress={this.keyPressed}
+                    onClickIcon={() => this.setState({ search: "" })}
+                  />
+                  <NewButton
+                    onClick={this.fetchApi}
+                    style={{ marginLeft: "10px" }}
+                  >
+                    Search
+                  </NewButton>
+                </div>
+                <Grid
+                  container
+                  spacing={0}
+                  className="TransactionSearch"
+                  style={{ marginTop: 20 }}
                 >
-                  Search
-                </NewButton>
-              </div>
-              <div style={{ width: "50%", textAlign: "right" }}>
-                <Button onClick={this.addMarketPlace} className="btn btn-green">
-                  NEW BRAND
-                </Button>
-              </div>
-
-              <div style={{ width: "45%", marginTop: "15px" }}>
-                <FormControl style={{ width: "40%" }}>
-                  <InputLabel>Status</InputLabel>
-                  <Select onChange={this.handleStatus} value={statusValue}>
-                    <MenuItem value={-1}>All Status</MenuItem>
-                    <MenuItem value={0}>Active</MenuItem>
-                    <MenuItem value={1}>Inactive</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-
-              <NewButton onClick={this.handleResetClick}>Reset</NewButton>
-              {/* <Button
-                style={{ color: "#0764B0", marginTop: "15px" }}
-                onClick={this.handleResetClick}
-                className="btn btn-red"
+                  <Grid item xs={2}>
+                    <FormControl style={{ width: "100%" }}>
+                      <InputLabel>Status</InputLabel>
+                      <Select onChange={this.handleStatus} value={statusValue}>
+                        <MenuItem value={-1}>All Status</MenuItem>
+                        <MenuItem value={0}>Active</MenuItem>
+                        <MenuItem value={1}>Inactive</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <NewButton
+                onClick={this.addMarketPlace}
+                style={{ minWidth: 160 }}
+                blue
               >
-                RESET
-              </Button> */}
+                New brand
+              </NewButton>
             </div>
+            <RestButton
+              onClick={this.handleResetClick}
+              style={{ marginTop: 10 }}
+            >
+              Reset filter
+            </RestButton>
+
             <div className="merchant-list-container">
               <ReactTable
+                ref={this.refTable}
                 manual
                 page={page}
                 pages={pageCount}
@@ -264,6 +290,7 @@ class Market extends Component {
 }
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  statusAddMarketPlace: state.addMarketPlace.statusAddMarketPlace,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -273,6 +300,9 @@ const mapDispatchToProps = (dispatch) => ({
   getMarketInfoAction: (value) => {
     dispatch(getMarketInfoAction(value));
   },
+  updateStatusAddMarketPlace: (payload) => {
+    dispatch({ type: 'UPDATE_STATUS_ADD_MARKET_PLACE', payload });
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Market);

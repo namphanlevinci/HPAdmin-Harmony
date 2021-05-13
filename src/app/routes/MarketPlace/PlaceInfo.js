@@ -7,7 +7,7 @@ import {
   CustomTitle,
 } from "../../../util/CustomText";
 
-import { Grid, Button, CardMedia, Switch } from "@material-ui/core";
+import { Grid, Button, CardMedia } from "@material-ui/core";
 
 import CustomSwitch from "./components/Switch";
 import defaultImg from "./hpadmin2.png";

@@ -84,7 +84,6 @@ class EditSettings extends Component {
     this.props.updateMerchantSettingById(payload);
   };
   render() {
-    console.log("props", this.props.classes.select);
     return (
       <div className="container-fluid ">
         <CustomTitle value="Settings" />

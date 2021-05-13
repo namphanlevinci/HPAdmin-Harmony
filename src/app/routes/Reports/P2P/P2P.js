@@ -8,7 +8,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import {
-  Button,
   FormControl,
   Select,
   MenuItem,
@@ -26,6 +25,7 @@ import moment from "moment";
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
 import NewButton from "../../../../components/Button/Search";
+import ResetButton from "../../../../components/Button/Reset";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
@@ -140,11 +140,9 @@ class P2P extends React.Component {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 10;
 
-    const url = `p2pgiftcard/transaction?page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${
-      amount ? amount : amountFrom
-    }&amountTo=${amount ? amount : amountTo}`;
+    const url = `p2pgiftcard/transaction?page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${amount ? amount : amountFrom
+      }&amountTo=${amount ? amount : amountTo}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -229,144 +227,143 @@ class P2P extends React.Component {
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className=" TransactionsBox">
             {/* SEARCH */}
-            <div className="search">
-              <SearchComponent
-                placeholder="Search.."
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyDown={this.handEnter}
-                onClickIcon={this.fetchApi}
-                name="search"
-              />
-            </div>
 
-            <div>
-              <NewButton onClick={this.fetchApi}>Search</NewButton>
-              <NewButton
-                onClick={this.handleResetClick}
-                style={{ marginLeft: "10px" }}
-              >
-                Reset
+            <Grid
+              container
+              spacing={0}
+              className="search"
+              style={{ marginBottom : 15 }}
+            >
+              <div className="container-search-component">
+                <SearchComponent
+                  placeholder="Search.."
+                  value={this.state.search}
+                  onChange={this.handleChange}
+                  onKeyDown={this.handEnter}
+                  onClickIcon={() => this.setState({ search: "" })}
+                  name="search"
+                />
+                <NewButton onClick={this.fetchApi} style={{ marginLeft: "10px" }}>
+                  Search
               </NewButton>
-              {/* <Button
-                style={{ color: "#0764B0", marginTop: "0" }}
-                onClick={this.handleResetClick}
-                className="btn btn-red"
-              >
-                RESET
-              </Button> */}
-            </div>
+              </div>
+            </Grid>
           </div>
           <Grid
             container
             spacing={3}
             className="TransactionSearch"
-            // style={{ textAlign: "center" }}
+            style={{ marginTop: 5 }}
           >
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid item xs={4}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  label="From"
-                  name="from"
-                  value={from}
-                  onChange={(e) => this.handleDateChange(e, "from")}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                  autoOk={true}
-                  style={{ width: "80%" }}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  label="To"
-                  value={to}
-                  name="to"
-                  onChange={(e) => this.handleDateChange(e, "to")}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                  autoOk={true}
-                  style={{ width: "80%" }}
-                />
-              </Grid>
-              <Grid item xs={4} style={{ marginTop: "16px" }}>
-                <FormControl style={{ width: "80%" }}>
-                  <InputLabel>Time Range</InputLabel>
-                  <Select value={range} onChange={this.timeRange}>
-                    <MenuItem value="all">ALL</MenuItem>
-                    <MenuItem value="today">Today</MenuItem>
-                    <MenuItem value="yesterday">Yesterday</MenuItem>
-                    <MenuItem value="thisWeek">This Week</MenuItem>
-                    <MenuItem value="lastWeek">Last Week</MenuItem>
-                    <MenuItem value="thisMonth">This Month</MenuItem>
-                    <MenuItem value="lastMonth">Last Month</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </MuiPickersUtilsProvider>
-            <Grid item xs={4} style={{ marginTop: "20px" }}>
+            <Grid item xs={2}>
+              <FormControl style={{ width: "100%" }}>
+                <InputLabel>Time Range</InputLabel>
+                <Select value={range} onChange={this.timeRange}>
+                  <MenuItem value="all">ALL</MenuItem>
+                  <MenuItem value="today">Today</MenuItem>
+                  <MenuItem value="yesterday">Yesterday</MenuItem>
+                  <MenuItem value="thisWeek">This Week</MenuItem>
+                  <MenuItem value="lastWeek">Last Week</MenuItem>
+                  <MenuItem value="thisMonth">This Month</MenuItem>
+                  <MenuItem value="lastMonth">Last Month</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            {range === "all" ? (
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid item xs={2}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    label="From"
+                    name="from"
+                    value={from}
+                    onChange={(e) => this.handleDateChange(e, "from")}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    autoOk={true}
+                    style={{ width: "100%", margin: 0 }}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    label="To"
+                    value={to}
+                    name="to"
+                    onChange={(e) => this.handleDateChange(e, "to")}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    autoOk={true}
+                    style={{ width: "100%", margin: 0 }}
+                  />
+                </Grid>{" "}
+              </MuiPickersUtilsProvider>
+            ) : null}
+            <Grid item xs={2}>
               <TextField
                 InputLabelProps={{ shrink: true }}
                 label="Amount ($)"
                 value={amount}
                 onChange={this.handleChange}
                 name="amount"
-                variant="outlined"
                 InputProps={{
                   inputComponent: InputCustom,
                 }}
                 inputProps={{
                   numericOnly: true,
                 }}
-                style={{ width: "80%" }}
+                style={{ width: "100%" }}
               />
             </Grid>
 
-            <Grid item xs={4} style={{ marginTop: "20px" }}>
+            <Grid item xs={2}>
               <TextField
                 InputLabelProps={{ shrink: true }}
                 label="Amount From"
                 value={amountFrom === -1 ? 0 : amountFrom}
                 onChange={this.handleChange}
                 name="amountFrom"
-                variant="outlined"
                 InputProps={{
                   inputComponent: InputCustom,
                 }}
                 inputProps={{
                   numericOnly: true,
                 }}
-                style={{ width: "80%" }}
+                style={{ width: "100%" }}
               />
             </Grid>
 
-            <Grid item xs={4} style={{ marginTop: "20px" }}>
+            <Grid item xs={2}>
               <TextField
                 InputLabelProps={{ shrink: true }}
                 label="Amount To"
                 value={amountTo === -1 ? 0 : amountTo}
                 onChange={this.handleChange}
                 name="amountTo"
-                variant="outlined"
                 InputProps={{
                   inputComponent: InputCustom,
                 }}
                 inputProps={{
                   numericOnly: true,
                 }}
-                style={{ width: "80%" }}
+                style={{ width: "100%" }}
               />
             </Grid>
           </Grid>
+          <ResetButton
+            onClick={this.handleResetClick}
+            style={{ marginTop: "10px" }}
+          >
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual

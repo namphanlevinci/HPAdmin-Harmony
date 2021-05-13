@@ -6,6 +6,8 @@ import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationCo
 import {
   getCategoryByID,
   addMerchantServiceById,
+  exportService,
+  importService,
 } from "../../../../../../actions/merchantActions";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -70,6 +72,7 @@ class AddService extends Component {
       imageUrl: "",
       extras: [],
       supplyFee: 0,
+      extraId: "",
       //~ preview image
       imagePreviewUrl: "",
       render: false,
@@ -86,6 +89,21 @@ class AddService extends Component {
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+  };
+  handePushValue = (e, values) => {
+    this.setState({ extraId: e.id }, () => {
+      // values.extras.map((value) => {
+      //   if (value?.extraId !== e.id || values.extras.length === 0) {
+      //     const newExtra = { ...e.extra };
+      //     values.extras.push(newExtra);
+      //   } else {
+      //   }
+      // });
+    });
+  };
+  handleExport = () => {
+    const ID = this.props.MerchantProfile.merchantId;
+    this.props.exportService(ID);
   };
 
   handleUploadImage = (e) => {
@@ -122,7 +140,19 @@ class AddService extends Component {
       );
     }
   };
+  handleAddTemplate = async (e) => {
+    e.preventDefault();
+    const merchantId = this.props.MerchantProfile.merchantId;
+    let file = await e.target.files[0];
 
+    if (file?.name.toLowerCase().match(/\.(xlsx)$/)) {
+      this.props.importService(merchantId, file);
+    } else {
+      this.props.warningNotify(
+        "Image type is not supported, Please choose another file "
+      );
+    }
+  };
   goBack = () => {
     this.setState({ open: false });
   };
@@ -136,18 +166,19 @@ class AddService extends Component {
       { value: "0", label: "Active" },
       { value: "1", label: "Inactive" },
     ];
+    const extra = this.props.extraList.extraList;
 
     const extrasCondition =
       this.state.render === true
         ? Yup.array().of(
-            Yup.object().shape({
-              name: Yup.string().required("Required"),
-              duration: Yup.string().required("Required"),
-              price: Yup.string().required("Required"),
-              isDisabled: Yup.string().required("Required"),
-              supplyFee: Yup.string().required("Required"),
-            })
-          )
+          Yup.object().shape({
+            name: Yup.string().required("Required"),
+            duration: Yup.string().required("Required"),
+            price: Yup.string().required("Required"),
+            isDisabled: Yup.string().required("Required"),
+            supplyFee: Yup.string().required("Required"),
+          })
+        )
         : "";
 
     const validationSchema = Yup.object().shape({
@@ -163,15 +194,15 @@ class AddService extends Component {
     const ExtraInitialValues =
       this.state.render === true
         ? [
-            {
-              name: "",
-              description: "",
-              duration: "",
-              price: "",
-              isDisabled: 0,
-              supplyFee: "",
-            },
-          ]
+          {
+            name: "",
+            description: "",
+            duration: "",
+            price: "",
+            isDisabled: 0,
+            supplyFee: "",
+          },
+        ]
         : [];
 
     //~ preview image
@@ -196,7 +227,29 @@ class AddService extends Component {
     }
     let { categoryList: category } = this.props.categoryList;
     return (
-      <div>
+      <div className="container-search-component">
+        <Button
+          className="btn btn-green"
+          style={{ marginRight: "10px" }}
+          onClick={() => this.handleExport()}
+        >
+          EXPORT
+        </Button>
+        <div id="upload_button">
+          <label>
+            <input
+              type="file"
+              accept=".xlsx"
+              onChange={(e) => this.handleAddTemplate(e)}
+            />
+            <span
+              style={{ margin: "0px", marginRight: 10 }}
+              className="btn btn-green"
+            >
+              IMPORT
+            </span>
+          </label>
+        </div>
         <Button
           className="btn btn-green"
           style={{ marginRight: "0px" }}
@@ -204,6 +257,7 @@ class AddService extends Component {
         >
           NEW SERVICE
         </Button>
+
         <Dialog
           fullScreen
           open={this.state.open}
@@ -257,6 +311,7 @@ class AddService extends Component {
                         discount,
                         fileId,
                         merchantId,
+                        resetFirstPage: this.props.resetFirstPage,
                       };
                       this.props.addMerchantServiceById(payload);
 
@@ -296,17 +351,17 @@ class AddService extends Component {
                                       options={
                                         category
                                           ? category
-                                              .filter(
-                                                (e) =>
-                                                  e.categoryType !== "Product"
-                                              )
-                                              .map((e) => {
-                                                return {
-                                                  id: e.categoryId,
-                                                  value: e.categoryId,
-                                                  label: e.name,
-                                                };
-                                              })
+                                            .filter(
+                                              (e) =>
+                                                e.categoryType !== "Product"
+                                            )
+                                            .map((e) => {
+                                              return {
+                                                id: e.categoryId,
+                                                value: e.categoryId,
+                                                label: e.name,
+                                              };
+                                            })
                                           : []
                                       }
                                       onChange={(selectedOption) => {
@@ -315,7 +370,6 @@ class AddService extends Component {
                                           selectedOption.value
                                         );
                                       }}
-                                      placeholder="- Select -"
                                       loadingMessage={() => "Fetching Service"}
                                       noOptionsMessage={() =>
                                         "Service appears here!"
@@ -615,6 +669,50 @@ class AddService extends Component {
                                 handleBlur={handleBlur}
                                 touched={touched}
                               />
+                              <p
+                                style={{
+                                  marginLeft: -15,
+                                  color: "#4251af",
+                                  fontWeight: "600",
+                                  fontSize: 14,
+                                  cursor: "pointer",
+                                  letterSpacing: 0.3,
+                                  marginBottom: 0,
+                                }}
+                              >
+                                + Select Extra Existing
+                              </p>
+                              <label
+                                style={{
+                                  textAlign: "left",
+                                  color: "#0764B0",
+                                }}
+                              >
+                                Extra
+                              </label>
+                              <br />
+                              <div>
+                                <Select
+                                  styles={colourStyles}
+                                  options={
+                                    extra
+                                      ? extra
+                                        .filter((e) => e.isDeleted === 0)
+                                        .map((e) => {
+                                          return {
+                                            id: e.extraId,
+                                            value: e.extraId,
+                                            label: e.name,
+                                            extra: e,
+                                          };
+                                        })
+                                      : []
+                                  }
+                                  onChange={(e) => {
+                                    this.handePushValue(e, values);
+                                  }}
+                                />
+                              </div>
                             </div>
                           </div>
 
@@ -651,20 +749,37 @@ class AddService extends Component {
   }
 }
 
+// const findElement = (array, id) => {
+//   for (let i = 0; i < array.length; i++) {
+//     if (array[i]?.extraId === id) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
+// };
+
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   categoryList: state.category,
+  extraList: state.extra,
 });
 
 const mapDispatchToPros = (dispatch) => ({
   warningNotify: (message) => {
-    dispatch(WARNING_NOTIFICATION(message));
+    dispatch({ type: WARNING_NOTIFICATION, payload: message });
   },
   getCategoryByID: (MerchantId) => {
     dispatch(getCategoryByID(MerchantId));
   },
   addMerchantServiceById: (payload) => {
     dispatch(addMerchantServiceById(payload));
+  },
+  exportService: (serviceId) => {
+    dispatch(exportService(serviceId));
+  },
+  importService: (merchantID, file) => {
+    dispatch(importService(merchantID, file));
   },
 });
 

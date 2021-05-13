@@ -404,7 +404,7 @@ const userSchema = Yup.object().shape({
   phone: Yup.string()
     .matches(phoneRegExp, "Phone number is not valid")
     .min(9)
-    .max(16)
+    .max(17)
     .required("Phone number is required"),
   email: Yup.string().email().required("Email is required"),
   address: Yup.string().required("Address is required"),

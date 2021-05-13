@@ -1,1 +1,9 @@
 export const REPORT_MERCHANT_ID = "REPORT_MERCHANT_ID";
+
+export const SET_BATCH_DATE = "SET_BATCH_DATE";
+
+export const SET_BATCH_RANGE = "SET_BATCH_RANGE";
+
+export const SET_BATCH_PAGE = "SET_BATCH_PAGE";
+
+export const SET_BATCH_ROW = "SET_BATCH_ROW";

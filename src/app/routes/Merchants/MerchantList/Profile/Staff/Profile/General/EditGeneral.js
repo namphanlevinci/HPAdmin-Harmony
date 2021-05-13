@@ -109,12 +109,13 @@ export class EditGeneral extends Component {
 
   render() {
     let { imagePreviewUrl, loading, showP } = this.state;
+    const { merchantState } = this.props;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = <Avatar src={imagePreviewUrl} className="avatar_last" />;
+      $imagePreview = <Avatar style={{ width: 130, height: 130, marginTop: 30, objectFit: 'contain' }} src={imagePreviewUrl} className="avatar_last" />;
     } else {
       $imagePreview = (
-        <Avatar className="avatar_last" src={this.state?.imageUrl} />
+        <Avatar style={{ width: 130, height: 130, marginTop: 30, objectFit: 'contain', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="avatar_last" src={this.state?.imageUrl} />
       );
     }
 
@@ -266,6 +267,7 @@ export class EditGeneral extends Component {
                       label="State"
                       name="stateId"
                       initialValue={values.stateId}
+                      data={merchantState}
                       handleChange={(state) =>
                         setFieldValue("stateId", state.target.value)
                       }
@@ -283,10 +285,7 @@ export class EditGeneral extends Component {
                       InputProps={{
                         inputComponent: InputCustom,
                       }}
-                      inputProps={{
-                        block: [5],
-                        numericOnly: true,
-                      }}
+
                     />
                   </Grid>
 
@@ -324,7 +323,12 @@ export class EditGeneral extends Component {
                       name="pin"
                       type={showP ? "text" : "password"}
                       value={values?.pin}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        const re = /^[0-9\b]+$/;
+                        if (e.target.value === '' || re.test(e.target.value)) {
+                          setFieldValue('pin', e.target.value);
+                        }
+                      }}
                       fullWidth
                       error={errors.pin && touched.pin}
                       helperText={errors.pin && touched.pin ? errors.pin : ""}
@@ -340,8 +344,8 @@ export class EditGeneral extends Component {
                               {this.state.showP ? (
                                 <Visibility />
                               ) : (
-                                <VisibilityOff />
-                              )}
+                                  <VisibilityOff />
+                                )}
                             </p>
                           </InputAdornment>
                         ),
@@ -446,6 +450,7 @@ export class EditGeneral extends Component {
 const mapStateToProps = (state) => ({
   Staff: state.staffById.data,
   MerchantData: state.merchant.merchant,
+  merchantState: state.merchantState.data
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -463,5 +468,5 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().required("First name is required"),
   lastName: Yup.string().required("Last name is required"),
   displayName: Yup.string().required("Display name is required"),
-  pin: Yup.string().required("Pin code is required"),
+  pin: Yup.string().min(4).max(4).required("Pin code is required"),
 });

@@ -12,7 +12,6 @@ import {
   InputLabel,
   MenuItem,
   CardMedia,
-  Switch,
 } from "@material-ui/core";
 import { config } from "../../../url/url";
 import { history } from "../../../store";
@@ -27,6 +26,7 @@ import IntlMessages from "../../../util/IntlMessages";
 import ContainerHeader from "../../../components/ContainerHeader/index";
 import QueueIcon from "@material-ui/icons/Queue";
 import * as Yup from "yup";
+import "./style.scss";
 
 const upFile = config.url.upFile;
 
@@ -83,14 +83,7 @@ class AddPlace extends Component {
         />
 
         <div className="page-heading">
-          <div
-            style={{
-              display: "flex",
-              textAlign: "center",
-              alignItems: "center",
-              marginBottom: "20px",
-            }}
-          >
+          <div className="edit-market-page-heading" >
             <QueueIcon style={{ color: "black" }} size={22} />
             <CustomTitle
               value={this.props.info?.name}
@@ -105,120 +98,119 @@ class AddPlace extends Component {
               this.props.editMarketPlaceByIdAction(values);
             }}
           >
-            {({ errors, touched, handleChange, setFieldValue, values }) => (
-              <Form>
-                <Grid container spacing={3}>
-                  <Grid item xs={6} md={4}>
-                    <TextField
-                      label={
-                        <p>
-                          Name <span style={{ color: "red" }}>*</span>
-                        </p>
-                      }
-                      name="name"
-                      type="text"
-                      fullWidth
-                      onChange={handleChange}
-                      value={values.name}
-                      error={errors.name && touched.name}
-                      helperText={
-                        errors.name && touched.name ? errors.name : ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={6} md={4}>
-                    <TextField
-                      label={
-                        <p>
-                          URL <span style={{ color: "red" }}>*</span>
-                        </p>
-                      }
-                      name="link"
-                      type="text"
-                      fullWidth
-                      onChange={handleChange}
-                      value={values.link}
-                      error={errors.link && touched.link}
-                      helperText={
-                        errors.link && touched.link ? errors.link : ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={4} md={12}>
-                    <label style={{ marginBottom: "10px" }}>
-                      Image <span style={{ color: "red" }}>*</span>
-                    </label>{" "}
-                    <br />
-                    {errors?.fileId && touched?.fileId ? (
-                      <p
-                        style={{
-                          color: "#f44336",
-                        }}
-                      >
-                        {errors.fileId}
-                      </p>
-                    ) : null}
-                    <CardMedia
-                      component="img"
-                      src={
-                        values?.fileURL === "" ? defaultImg : values?.fileURL
-                      }
-                      alt="void"
-                      style={{ width: "20%" }}
-                    />{" "}
-                    <div style={{ width: "20%", margin: "15px 0px" }}>
-                      {values?.isUpload ? <LinearProgress /> : null}
-                    </div>
-                    <input
-                      type="file"
-                      name="image"
-                      id="file"
-                      accept="image/gif,image/jpeg, image/png"
-                      onChange={(e) => this.uploadImage(e, setFieldValue)}
-                    />
-                  </Grid>
-                  <Grid item xs={4} md={4}>
-                    <FormControl style={{ width: "100%" }}>
-                      <InputLabel id="demo-simple-select-helper-label">
-                        Status
-                      </InputLabel>
-                      <Select
-                        value={values.isDisabled}
-                        onChange={(e) =>
-                          setFieldValue("isDisabled", e.target.value)
+            {({ errors, touched, handleChange, setFieldValue, values }) => {
+              return (
+                <Form>
+                  <Grid container spacing={3}>
+                    <Grid item xs={6} md={4}>
+                      <TextField
+                        label={
+                          <p>
+                            Name <span style={{ color: "red" }}>*</span>
+                          </p>
                         }
+                        name="name"
+                        type="text"
                         fullWidth
-                      >
-                        <MenuItem value={0}>Active</MenuItem>
-                        <MenuItem value={1}>Inactive</MenuItem>
-                      </Select>
-                    </FormControl>
+                        onChange={handleChange}
+                        value={values.name}
+                        error={errors.name && touched.name}
+                        helperText={
+                          errors.name && touched.name ? errors.name : ""
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={6} md={4}>
+                      <TextField
+                        label={
+                          <p>
+                            URL <span style={{ color: "red" }}>*</span>
+                          </p>
+                        }
+                        name="link"
+                        type="text"
+                        fullWidth
+                        onChange={handleChange}
+                        value={values.link}
+                        error={errors.link && touched.link}
+                        helperText={
+                          errors.link && touched.link ? errors.link : ""
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={4} md={12}>
+                      <label style={{ marginBottom: "10px" }}>
+                        Image <span style={{ color: "red" }}>*</span>
+                      </label>{" "}
+                      <br />
+                      {
+                        errors?.fileId && touched?.fileId ?
+                          (
+                            <p style={{ color: "#f44336" }}>
+                              {errors.fileId}
+                            </p>
+                          ) : null
+                      }
+                      <CardMedia
+                        component="img"
+                        src={values?.fileURL === "" ? defaultImg : values?.fileURL}
+                        alt="void"
+                        style={{ width: "20%" }}
+                      />{" "}
+                      <div style={{ width: "20%", margin: "15px 0px" }}>
+                        {values?.isUpload ? <LinearProgress /> : null}
+                      </div>
+                      <input
+                        type="file"
+                        name="image"
+                        id="file"
+                        accept="image/gif,image/jpeg, image/png"
+                        onChange={(e) => this.uploadImage(e, setFieldValue)}
+                      />
+                    </Grid>
+                    <Grid item xs={4} md={4}>
+                      <FormControl style={{ width: "100%" }}>
+                        <InputLabel id="demo-simple-select-helper-label">
+                          Status
+                      </InputLabel>
+                        <Select
+                          value={values.isDisabled}
+                          onChange={(e) =>
+                            setFieldValue("isDisabled", e.target.value)
+                          }
+                          fullWidth
+                        >
+                          <MenuItem value={0}>Active</MenuItem>
+                          <MenuItem value={1}>Inactive</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                      On Top{" "}
+                      <CustomSwitch
+                        name="onTop"
+                        checked={values.onTop}
+                        onChange={e => {
+                          setFieldValue("onTop", e.target.checked);
+                        }}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12}>
-                    On Top{" "}
-                    <CustomSwitch
-                      // style={{ color: "#fffff" }}
-                      // color="primary"
-                      name="onTop"
-                      checked={values?.onTop}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                </Grid>
 
-                <Grid item xs={12} style={{ paddingTop: "20px" }}>
-                  <Button
-                    className="btn btn-red"
-                    onClick={() => history.goBack()}
-                  >
-                    CANCEL
+                  <Grid item xs={12} style={{ paddingTop: "20px" }}>
+                    <Button
+                      className="btn btn-red"
+                      onClick={() => history.goBack()}
+                    >
+                      CANCEL
                   </Button>
-                  <Button className="btn btn-green" type="submit">
-                    SAVE
+                    <Button className="btn btn-green" type="submit">
+                      SAVE
                   </Button>
-                </Grid>
-              </Form>
-            )}
+                  </Grid>
+                </Form>
+              )
+            }}
           </Formik>
         </div>
       </div>

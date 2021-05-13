@@ -110,6 +110,7 @@ class EditPrincipal extends Component {
 
   render() {
     const e = this.props.principalData;
+    const { merchantState } = this.props;
 
     let { imagePreviewUrl } = this.state;
 
@@ -244,6 +245,7 @@ class EditPrincipal extends Component {
                       label="State"
                       name="stateId"
                       initialValue={values.stateId}
+                      data={merchantState}
                       handleChange={(e) =>
                         setFieldValue(`stateId`, e.target.value)
                       }
@@ -255,18 +257,13 @@ class EditPrincipal extends Component {
                       fullWidth
                       label="Zip Code*"
                       name="zip"
-                      type="number"
                       value={values.zip}
-                      onChange={handleChange}
+                      onChange={e => setFieldValue(`zip`, e.target.value)}
                       style={styles.input}
                       error={errors.zip && touched.zip}
                       helperText={errors.zip && touched.zip ? errors.zip : ""}
                       InputProps={{
                         inputComponent: InputCustom,
-                      }}
-                      inputProps={{
-                        block: [5],
-                        numericOnly: true,
                       }}
                     />
                   </Grid>
@@ -313,6 +310,7 @@ class EditPrincipal extends Component {
                       label="State Issued*"
                       name="stateIssued"
                       initialValue={values.stateIssued}
+                      data={merchantState}
                       handleChange={(e) =>
                         setFieldValue(`stateIssued`, e.target.value)
                       }
@@ -360,6 +358,7 @@ class EditPrincipal extends Component {
 const mapStateToProps = (state) => ({
   principalData: state.updateMerchantPrincipal.principal,
   MerchantProfile: state.merchant.merchant,
+  merchantState: state.merchantState.data
 });
 const mapDispatchToProps = (dispatch) => ({
   updateMerchantPrincipalById: (payload) => {
@@ -397,6 +396,5 @@ const validationPrincipal = Yup.object().shape({
   mobilePhone: Yup.string().required("Mobile phone is required").nullable(),
   zip: Yup.string()
     .required("Zip code is required")
-    .max(5, "max 5 digit")
     .nullable(),
 });

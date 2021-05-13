@@ -9,7 +9,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import {
-  Button,
   FormControl,
   Select,
   MenuItem,
@@ -24,6 +23,8 @@ import ContainerHeader from "../../../../components/ContainerHeader/index";
 import moment from "moment";
 import ReactTable from "react-table";
 import SearchComponent from "../../../../util/searchComponent";
+import NewButton from "../../../../components/Button/Search";
+import ResetButton from "../../../../components/Button/Reset";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
@@ -124,9 +125,8 @@ class P2P extends React.Component {
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
-    const url = `giftcard/sold?page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
+    const url = `giftcard/sold?page=${page === 0 ? 1 : page + 1
+      }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
 
     this.props.fetchApiByPage(url);
   };
@@ -145,12 +145,9 @@ class P2P extends React.Component {
   };
 
   render() {
-    console.log("propssss", this.props);
-
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
-          console.log(rowInfo);
           if (rowInfo !== undefined) {
             const url = `GiftCard/sold/${rowInfo?.original?.merchantId}?date=${rowInfo?.original?.date}`;
             this.props.fetchApiByPage(url);
@@ -169,7 +166,6 @@ class P2P extends React.Component {
       totalRow,
       summary,
     } = this.props.apiData;
-    console.log("total", this.props.apiData);
 
     const columns = [
       {
@@ -177,7 +173,7 @@ class P2P extends React.Component {
         Header: "Date/time",
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
-            {moment.utc(e.date).local().format("MM/DD/YYYY")}
+            {moment.utc(e.date).local().format("MM/DD/YYYY hh:mm A")}
           </Typography>
         ),
         Footer: (
@@ -235,30 +231,38 @@ class P2P extends React.Component {
         <div className="MerList page-heading" style={{ padding: "10px" }}>
           <div className=" TransactionsBox">
             {/* SEARCH */}
-            <div className="search">
-              <SearchComponent
-                placeholder="Search.."
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyDown={this.handEnter}
-                onClickIcon={this.fetchApi}
-                name="search"
-              />
-            </div>
-
-            <div>
-              <Button
-                style={{ color: "#0764B0" }}
-                onClick={() => this.fetchApi()}
-                className="btn btn-red"
-              >
-                SEARCH
-              </Button>
-            </div>
+            <Grid
+              container
+              spacing={0}
+              className="search"
+              style={{ marginBottom: 15 }}
+            >
+              <div className="container-search-component">
+                <SearchComponent
+                  placeholder="Search.."
+                  value={this.state.search}
+                  onChange={this.handleChange}
+                  onKeyDown={this.handEnter}
+                  onClickIcon={() => this.setState({ search: "" })}
+                  name="search"
+                />
+                <NewButton
+                  style={{ marginLeft: "10px" }}
+                  onClick={() => this.fetchApi()}
+                >
+                  Search
+              </NewButton>
+              </div>
+            </Grid>
           </div>
-          <Grid container spacing={3} className="TransactionSearch">
-            <Grid item xs={3} style={{ marginTop: "16px" }}>
-              <FormControl style={{ width: "80%" }}>
+          <Grid
+            container
+            spacing={3}
+            className="TransactionSearch"
+            style={{ marginTop: 10 }}
+          >
+            <Grid item xs={2}>
+              <FormControl style={{ width: "100%" }}>
                 <InputLabel>Time Range</InputLabel>
                 <Select value={range} onChange={this.timeRange}>
                   <MenuItem value="today">Today</MenuItem>
@@ -273,7 +277,7 @@ class P2P extends React.Component {
             </Grid>
 
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 {this.state.range === "custom" && (
                   <KeyboardDatePicker
                     disableToolbar
@@ -288,12 +292,12 @@ class P2P extends React.Component {
                       "aria-label": "change date",
                     }}
                     autoOk={true}
-                    style={{ width: "80%" }}
+                    style={{ width: "100%", margin: 0 }}
                   />
                 )}
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 {this.state.range === "custom" && (
                   <KeyboardDatePicker
                     disableToolbar
@@ -308,7 +312,7 @@ class P2P extends React.Component {
                       "aria-label": "change date",
                     }}
                     autoOk={true}
-                    style={{ width: "80%" }}
+                    style={{ width: "100%", margin: 0 }}
                   />
                 )}
               </Grid>
@@ -322,19 +326,16 @@ class P2P extends React.Component {
                 alignItems: "flex-end",
                 justifyContent: "flex-end",
               }}
-            >
-              <Button
-                style={{
-                  color: "#0764B0",
-                  marginTop: "0",
-                }}
-                onClick={this.handleResetClick}
-                className="btn btn-red"
-              >
-                RESET
-              </Button>
-            </Grid>
+            ></Grid>
           </Grid>
+          <ResetButton
+            style={{
+              marginTop: "10px",
+            }}
+            onClick={this.handleResetClick}
+          >
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual={true}

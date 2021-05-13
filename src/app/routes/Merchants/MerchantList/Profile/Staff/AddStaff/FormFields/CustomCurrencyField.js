@@ -2,7 +2,7 @@ import React from "react";
 import { at } from "lodash";
 import { useField } from "formik";
 import TextField from "@material-ui/core/TextField";
-import CurrencyInput from "react-currency-masked-input";
+// import CurrencyInput from "react-currency-masked-input";
 import CurrencyFormat from "react-currency-format";
 
 // function CurrencyFormat(props) {

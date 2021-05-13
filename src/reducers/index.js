@@ -54,6 +54,8 @@ import {
   updateMerchantSubscriptionByIdReducer,
   packageReducer,
   updateMerchantExtraByIdReducer,
+  deviceReducer,
+  merchantStateReducer,
 } from "./merchantReducer";
 
 // Consumer
@@ -93,7 +95,7 @@ import {
 } from "./giftCardReducer";
 
 // Report
-import { viewReportMerchantReducer } from "./reportReducer";
+import { viewReportMerchantReducer, setViewBatchDate } from "./reportReducer";
 
 // Market Place
 import {
@@ -164,6 +166,7 @@ export default (history) =>
     updateSubscription: updateMerchantSubscriptionByIdReducer,
     package: packageReducer,
     updateMerchantExtra: updateMerchantExtraByIdReducer,
+    device : deviceReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,
@@ -207,6 +210,7 @@ export default (history) =>
     // Report
     reportMerchant: viewReportMerchantReducer,
     adminUser: allUserReducer,
+    batchTime: setViewBatchDate,
 
     // Market Place
     addMarketPlace: addMarketPlaceReducer,
@@ -225,4 +229,5 @@ export default (history) =>
     deleteFile: delTicketFileReducer,
     addFile: addTicketFile,
     changeTicketStatus: changeTicketStatusReducer,
+    merchantState : merchantStateReducer
   });

@@ -73,20 +73,27 @@ const sendCommentReducer = (state = { loading: false }, { type, payload }) => {
   }
 };
 
-const addTicketReducer = (state = { loading: false }, { type, payload }) => {
+const addTicketReducer = (state = { loading: false , statusAddTicket : false }, { type, payload }) => {
   switch (type) {
     case types.GET_TICKET_BY_ID_REQUEST:
-      return { loading: true };
+      return { ...state ,loading: true };
     case types.GET_TICKET_BY_ID_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: payload,
       };
     case types.GET_TICKET_BY_ID_FAILURE:
       return {
+        ...state,
         loading: false,
         data: payload,
       };
+    case types.UPDATE_STATUS_ADD_TICKET:
+      return{
+        ...state,
+        statusAddTicket : payload
+      }
     default:
       return state;
   }
@@ -110,7 +117,7 @@ const addTicketFile = (state = { loading: false }, { type, payload }) => {
       return { loading: true };
     case types.ADD_TICKET_FILE_SUCCESS:
       return { loading: false, data: payload };
-    case types.ADD_TICKET_FILE_REQUEST:
+    case types.ADD_TICKET_FILE_FAILURE:
       return { loading: false, data: payload };
     default:
       return state;

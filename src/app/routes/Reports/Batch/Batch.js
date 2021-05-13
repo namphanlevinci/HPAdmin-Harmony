@@ -1,13 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getReportMerchantId } from "../../../../actions/reportActions";
+import {
+  getReportMerchantId,
+  setBatchDate,
+  setBatchRange,
+  setBatchPage,
+  setBatchRow,
+} from "../../../../actions/reportActions";
 import { fetchApiByPage } from "../../../../actions/fetchApiActions";
 import { CustomTableHeader } from "../../../../util/CustomText";
-import { Typography } from "@material-ui/core";
+import {
+  FormControl,
+  Select,
+  MenuItem,
+  Grid,
+  InputLabel,
+  Typography,
+} from "@material-ui/core";
 import { Helmet } from "react-helmet";
 import { debounce } from "lodash";
-
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import NewButton from "../../../../../src/components/Button/Search";
+import ResetButton from "../../../../../src/components/Button/Reset";
+
 import SearchComponent from "../../../../util/searchComponent";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -24,36 +43,135 @@ class Transactions extends React.Component {
     super(props);
     this.state = {
       search: "",
+      amount: "",
+      amountFrom: -1,
+      amountTo: -1,
+      status: -1,
+      page: 0,
+      row: 5,
     };
+  }
+
+  componentDidMount() {
+    const { batchTimeSet } = this.props;
+    this.setState({
+      page: batchTimeSet.page,
+      row: batchTimeSet.row,
+    });
   }
 
   searchMerchantBatch = debounce((query) => {
     this.fetchApi();
   }, 1000);
-  handleReset = debounce((e) => {
-    this.setState({ search: "" });
-    this.fetchApi();
-  }, 1000);
+  handleReset = (e) => {
+    this.setState(
+      {
+        search: "",
+      },
+      () => {
+        this.fetchApi();
+      }
+    );
+    this.props.setBatchPage(0);
+    this.props.setBatchDate({
+      from: moment().startOf("month").format("YYYY-MM-DD"),
+      to: moment().endOf("month").format("YYYY-MM-DD"),
+    });
+    this.props.setBatchRange("thisMonth");
+  };
+
+  handleDateChange = async (e, name) => {
+    const value = moment(e).format("MM/DD/YYYY");
+    this.setState({
+      [name]: value,
+    });
+    const payload = { [name]: value };
+    this.props.setBatchDate(payload);
+  };
   handleChange = (e) => {
     this.setState({ search: e.target.value });
   };
+  timeRange = async (e) => {
+    const value = e.target.value;
+    this.setState({
+      page: 0,
+      row: 5,
+    });
+    this.props.setBatchPage(0);
 
+    this.props.setBatchRange(value);
+
+    switch (value) {
+      case "today":
+        this.setState({
+          from: moment().startOf("day").format("YYYY-MM-DD"),
+          to: moment().startOf("day").format("YYYY-MM-DD"),
+        });
+        return;
+      case "yesterday":
+        this.setState({
+          from: moment().subtract(1, "day").format("YYYY-MM-DD"),
+          to: moment().subtract(1, "day").format("YYYY-MM-DD"),
+        });
+        return;
+      case "thisWeek":
+        this.setState({
+          from: moment().startOf("week").format("YYYY-MM-DD"),
+          to: moment().endOf("week").format("YYYY-MM-DD"),
+        });
+        return;
+      case "lastWeek":
+        this.setState({
+          from: moment().subtract(1, "week").format("YYYY-MM-DD"),
+          to: moment().subtract(1, "week").endOf("week").format("YYYY-MM-DD"),
+        });
+        return;
+      case "thisMonth":
+        this.setState({
+          from: moment().startOf("month").format("YYYY-MM-DD"),
+          to: moment().endOf("month").format("YYYY-MM-DD"),
+        });
+        return;
+      case "lastMonth":
+        this.setState({
+          from: moment()
+            .subtract(1, "month")
+            .startOf("month")
+            .format("YYYY-MM-DD"),
+          to: moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
+        });
+        return;
+      default:
+        return;
+    }
+  };
+  changePage = async (pageIndex) => {
+    await this.props.setBatchPage(pageIndex);
+    this.setState({ page: this.props.batchTimeSet.page });
+  };
+  changePageSize = async (row) => {
+    await this.props.setBatchRow(row);
+    console.log("row", this.props.batchTimeSet.row);
+    this.setState({ row: this.props.batchTimeSet.row });
+  };
   fetchApi = async (state) => {
     const { search } = this.state;
-    let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 10;
 
-    const url = `settlement?key=${search}&page=${
-      page === 0 ? 1 : page + 1
-    }&row=${pageSize}`;
+    console.log("state", state);
+    const { range, from, to } = await this.props.batchTimeSet;
+    const { page, row } = this.state;
+    console.log("asdawdasgawgasas", page);
+    const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
+    const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
+
+    const url = `settlement?key=${search}&page=${page + 1
+      }&row=${row}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
 
     this.props.fetchApiByPage(url);
   };
 
-  changePage = (pageIndex) => {
-    this.setState({
-      page: pageIndex,
-    });
+  resetpage = () => {
+    this.props.setBatchPage(0);
   };
 
   keyPressed = (event) => {
@@ -78,16 +196,8 @@ class Transactions extends React.Component {
       };
     };
 
-    const { page } = this.state;
-    const {
-      data,
-      loading,
-      pageSize,
-      pageCount,
-      totalRow,
-      summary,
-    } = this.props.apiData;
-
+    const { range, from, to, page, row } = this.props.batchTimeSet;
+    const { data, loading, pageCount, totalRow, summary } = this.props.apiData;
     const columns = [
       {
         Header: <CustomTableHeader value="Date/Time" />,
@@ -117,6 +227,15 @@ class Transactions extends React.Component {
         id: "merchantId",
         accessor: (e) => (
           <Typography variant="subtitle1">{e.merchantId}</Typography>
+        ),
+      },
+      {
+        Header: <CustomTableHeader value="Terminal" />,
+        id: "serialNumber",
+        accessor: (e) => (
+          <Typography variant="subtitle1">
+            {e.serialNumber && `#${e.serialNumber}`}
+          </Typography>
         ),
       },
       {
@@ -232,39 +351,110 @@ class Transactions extends React.Component {
           style={{ padding: "10px" }}
         >
           <div className=" TransactionsBox">
-            <div
+            <Grid
+              container
+              spacing={0}
               className="BatchSearch"
-              style={{ display: "flex", alignItems: "center" }}
+              style={{ marginBottom: 15 }}
             >
-              <SearchComponent
-                placeholder="Search"
-                value={this.state.search}
-                onChange={this.handleChange}
-                onKeyPress={this.keyPressed}
-                onClickIcon={this.fetchApi}
-              />
-              <NewButton style={{ marginLeft: "10px" }} onClick={this.fetchApi}>
-                Search
+              <div className="container-search-component">
+                <SearchComponent
+                  placeholder="Search"
+                  value={this.state.search}
+                  onChange={(e) => this.handleChange(e)}
+                  onKeyPress={this.keyPressed}
+                  onClickIcon={() => this.setState({ search: "" })}
+                />
+                <NewButton style={{ marginLeft: "10px" }} onClick={this.fetchApi}>
+                  Search
               </NewButton>
-            </div>
+              </div>
+            </Grid>
           </div>
-          <NewButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
-            Reset
-          </NewButton>
+
+          <Grid
+            container
+            spacing={3}
+            className="TransactionSearch"
+            style={{ marginTop: 5 }}
+          >
+            <Grid item xs={2}>
+              <FormControl style={{ width: "100%" }}>
+                <InputLabel>Time Range</InputLabel>
+                <Select
+                  value={this.props.batchTimeSet.range}
+                  onChange={this.timeRange}
+                >
+                  <MenuItem value="today">Today</MenuItem>
+                  <MenuItem value="yesterday">Yesterday</MenuItem>
+                  <MenuItem value="thisWeek">This Week</MenuItem>
+                  <MenuItem value="lastWeek">Last Week</MenuItem>
+                  <MenuItem value="thisMonth">This Month</MenuItem>
+                  <MenuItem value="lastMonth">Last Month</MenuItem>
+                  <MenuItem value="all">Custom</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            {range === "all" ? (
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid item xs={2}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    label="From"
+                    name="from"
+                    value={from}
+                    onChange={(e) => this.handleDateChange(e, "from")}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    autoOk={true}
+                    style={{ width: "100%", margin: 0 }}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    label="To"
+                    value={to}
+                    name="to"
+                    onChange={(e) => this.handleDateChange(e, "to")}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    autoOk={true}
+                    style={{ width: "100%", margin: 0 }}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
+            ) : null}
+          </Grid>
+          <ResetButton style={{ marginTop: "10px" }} onClick={this.handleReset}>
+            Reset filter
+          </ResetButton>
           <div className="merchant-list-container Transactions">
             <ReactTable
-              manual
+              manual={true}
+              pageSize={row}
               page={page}
               pages={pageCount}
               data={data}
-              row={pageSize}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onFetchData={(state) => this.fetchApi(state)}
-              defaultPageSize={20}
+              onPageSizeChange={(size) => this.changePageSize(size)}
+              onFetchData={(state) => {
+                this.fetchApi(state, page);
+              }}
+              defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
               columns={columns}
+              showPageJump={false}
               getTdProps={onRowClick}
             />
           </div>
@@ -276,6 +466,7 @@ class Transactions extends React.Component {
 
 const mapStateToProps = (state) => ({
   apiData: state.fetchApi,
+  batchTimeSet: state.batchTime,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchApiByPage: (url) => {
@@ -283,6 +474,18 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getReportMerchantId: (id) => {
     dispatch(getReportMerchantId(id));
+  },
+  setBatchDate: (payload) => {
+    dispatch(setBatchDate(payload));
+  },
+  setBatchRange: (payload) => {
+    dispatch(setBatchRange(payload));
+  },
+  setBatchPage: (page) => {
+    dispatch(setBatchPage(page));
+  },
+  setBatchRow: (row) => {
+    dispatch(setBatchRow(row));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

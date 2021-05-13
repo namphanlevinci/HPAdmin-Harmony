@@ -23,11 +23,11 @@ const middlewares = [routeMiddleware, thunk];
 
 let enhancers = [applyMiddleware(...middlewares)];
 
-if (process.env.NODE_ENV === "development") {
-  enhancers.push(
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  );
-}
+// if (process.env.NODE_ENV === "development") {
+//   enhancers.push(
+//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//   );
+// }
 
 // function configureStore(initialState) {
 //   if (module.hot) {
