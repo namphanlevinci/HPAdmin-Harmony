@@ -1313,7 +1313,10 @@ const merchantStateReducer = (
     case types.GET_STATE_MERCHANT_SUCCESS:
       return {
         ...state,
-        data: payload
+        data: payload.map(obj=>({
+          value : obj.stateId,
+          label : obj.name
+        }))
       };
     case types.GET_STATE_MERCHANT_FAILURE:
       return {

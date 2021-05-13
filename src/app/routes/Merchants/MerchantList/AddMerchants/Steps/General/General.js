@@ -24,6 +24,8 @@ export default function General(props) {
     merchantState
   } = props;
 
+  console.log({merchantState});
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -74,7 +76,7 @@ export default function General(props) {
           <SelectField
             name={`generalInfo.businessAddress.state`}
             label="State*"
-            data={State}
+            data={merchantState}
             fullWidth
           />
         </Grid>
