@@ -122,7 +122,7 @@ export default function Principal(props) {
                         />
                       </Grid>
                       <Grid item xs={12} sm={4}>
-                        <CustomNumberField
+                        <InputField
                           InputLabelProps={{ shrink: true }}
                           name={`principalInfo.${index}.addressPrincipal.zip`}
                           label="Zip Code*"

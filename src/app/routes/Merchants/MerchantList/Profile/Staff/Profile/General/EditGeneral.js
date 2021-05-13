@@ -283,10 +283,7 @@ export class EditGeneral extends Component {
                       InputProps={{
                         inputComponent: InputCustom,
                       }}
-                      inputProps={{
-                        block: [5],
-                        numericOnly: true,
-                      }}
+
                     />
                   </Grid>
 
