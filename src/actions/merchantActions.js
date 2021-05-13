@@ -2911,7 +2911,6 @@ export const getStateMerchant = () => async (dispatch, getState) => {
   try {
     dispatch({ type: types.GET_STATE_MERCHANT_REQUEST });
     const { data } = await axios.get(`${URL}/state`);
-    console.log({data})
     dispatch({
       type: types.GET_STATE_MERCHANT_SUCCESS,
       payload: data.data,

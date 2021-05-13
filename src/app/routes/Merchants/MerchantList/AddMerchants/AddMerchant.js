@@ -174,9 +174,7 @@ class AddMerchant extends React.Component {
     const { activeStep } = this.state;
     const path = "/app/merchants/list";
     const payload = { ...values, path };
-    console.log({
-      payload
-     });
+
     this.props.addMerchant(payload);
     actions.setSubmitting(false);
 
