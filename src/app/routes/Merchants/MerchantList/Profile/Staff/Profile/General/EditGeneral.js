@@ -465,5 +465,5 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().required("First name is required"),
   lastName: Yup.string().required("Last name is required"),
   displayName: Yup.string().required("Display name is required"),
-  pin: Yup.string().required("Pin code is required"),
+  pin: Yup.string().min(4).max(4).required("Pin code is required"),
 });

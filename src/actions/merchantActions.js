@@ -2906,3 +2906,30 @@ export const getPackageAction = () => async (dispatch, getState) => {
     });
   }
 };
+
+export const getStateMerchant = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: types.GET_STATE_MERCHANT_REQUEST });
+    const { data } = await axios.get(`${URL}/state`);
+    dispatch({
+      type: types.GET_STATE_MERCHANT_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FAILURE_NOTIFICATION,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+
+    dispatch({
+      type: types.GET_STATE_MERCHANT_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

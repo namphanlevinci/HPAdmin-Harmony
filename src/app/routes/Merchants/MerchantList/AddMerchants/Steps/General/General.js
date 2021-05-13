@@ -21,6 +21,7 @@ export default function General(props) {
     handleBlur,
     setFieldValue,
     setFieldError,
+    merchantState
   } = props;
 
   return (
@@ -130,7 +131,7 @@ export default function General(props) {
             name={`generalInfo.dbaAddress.state`}
             label="State*"
             onBlur={handleBlur}
-            data={State}
+            data={merchantState}
             fullWidth
           />
         </Grid>

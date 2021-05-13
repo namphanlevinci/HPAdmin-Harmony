@@ -55,6 +55,7 @@ import {
   packageReducer,
   updateMerchantExtraByIdReducer,
   deviceReducer,
+  merchantStateReducer,
 } from "./merchantReducer";
 
 // Consumer
@@ -228,4 +229,5 @@ export default (history) =>
     deleteFile: delTicketFileReducer,
     addFile: addTicketFile,
     changeTicketStatus: changeTicketStatusReducer,
+    merchantState : merchantStateReducer
   });
