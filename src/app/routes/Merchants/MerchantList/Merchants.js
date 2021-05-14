@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { Typography } from "@material-ui/core";
-import { CustomTableHeader } from "../../../../util/CustomText";
-import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import { getMerchantByID, getStateMerchant } from "../../../../actions/merchantActions";
+import { CustomTableHeader } from "@/util/CustomText";
+import { fetchApiByPage } from "@/actions/fetchApiActions";
+import { getMerchantByID, getStateMerchant } from "@/actions/merchantActions";
 import { debounce } from "lodash";
 import {
   Tooltip,
@@ -15,15 +15,15 @@ import {
   Grid,
 } from "@material-ui/core";
 
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import NewButton from "../../../../components/Button/Search";
-import ResetButton from "../../../../components/Button/Reset";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@/components/ContainerHeader/index";
+import NewButton from "@/components/Button/Search";
+import ResetButton from "@/components/Button/Reset";
 
 import ReactTable from "react-table";
-import SearchComponent from "../../../../util/searchComponent";
-import CheckPermissions from "../../../../util/checkPermission";
-import { reloadUrl } from '../../../../util/reload';
+import SearchComponent from "@/util/searchComponent";
+import CheckPermissions from "@/util/checkPermission";
+import { reloadUrl } from '@/util/reload';
 import moment from 'moment';
 
 import "../Merchants.css";
