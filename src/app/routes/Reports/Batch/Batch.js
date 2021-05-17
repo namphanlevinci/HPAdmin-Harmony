@@ -58,7 +58,9 @@ class Transactions extends React.Component {
       row: batchTimeSet.row,
     });
     window.onpopstate = (e) => {
-      this.handleButtonBack();
+      setTimeout(() => {
+        this.handleButtonBack();        
+      }, 300);
     }
   }
 
@@ -462,10 +464,11 @@ class Transactions extends React.Component {
               pages={pageCount}
               data={data}
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onPageSizeChange={(size) => this.changePageSize(size)}
+              onPageSizeChange={(size) => {
+                console.log('change page size')
+                this.changePageSize(size);
+              }}
               onFetchData={(state) => {
-                const info = JSON.parse(localStorage.getItem('infoSearch'));
-                if (!info)
                   this.fetchApi(state, page);
               }}
               defaultPageSize={5}
