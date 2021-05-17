@@ -132,7 +132,6 @@ class EditService extends Component {
     const merchantId = this.props.MerchantProfile.merchantId;
     const path = "/app/merchants/profile/service";
     const payload = { ...this.state, extraId: "", merchantId, path };
-    console.log("payloaddddddd", JSON.stringify(payload));
 
     this.props.updateMerchantServiceById(payload);
   };
@@ -140,7 +139,6 @@ class EditService extends Component {
   render() {
     const service = this.props.updateService;
     const extra = this.props.extraList.extraList;
-    console.log("PROPSSS", this.props);
     let { categoryList: category } = this.props.categoryList;
 
     //~ preview image

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { fetchApiByPage } from "@/actions/fetchApiActions";
 import { Helmet } from "react-helmet";
 import {
   FormControl,
@@ -20,14 +20,14 @@ import {
 } from "@material-ui/pickers";
 
 import DateFnsUtils from "@date-io/date-fns";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@/components/ContainerHeader/index";
 import moment from "moment";
 import ReactTable from "react-table";
-import SearchComponent from "../../../../util/searchComponent";
-import InputCustom from "../../../../util/CustomInput";
-import NewButton from "../../../../components/Button/Search";
-import ResetButton from "../../../../components/Button/Reset";
+import SearchComponent from "@/util/searchComponent";
+import InputCustom from "@/util/CustomInput";
+import NewButton from "@/components/Button/Search";
+import ResetButton from "@/components/Button/Reset";
 
 import "./Transactions.css";
 import "react-table/react-table.css";
@@ -45,7 +45,7 @@ class Transactions extends React.Component {
       amountTo: -1,
       range: "thisMonth",
       status: -1,
-      page : 0,
+      page: 0,
     };
   }
 
@@ -59,7 +59,7 @@ class Transactions extends React.Component {
       range: "",
       search: "",
       status: -1,
-      page : 0,
+      page: 0,
     });
     this.fetchApi();
   };

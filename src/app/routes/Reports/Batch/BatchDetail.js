@@ -1,14 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AiFillAppstore } from "react-icons/ai";
-import { CustomTableHeader } from "../../../../util/CustomText";
+import { CustomTableHeader } from "@/util/CustomText";
 import { Button, Typography } from "@material-ui/core";
 
 import moment from "moment";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@/components/ContainerHeader/index";
 import ReactTable from "react-table";
-import CreditCardIcon from "../../../../util/CreditCardIcon";
+import CreditCardIcon from "@/util/CreditCardIcon";
 
 import "../Transactions/Transactions.css";
 import "../../Merchants/Merchants.css";

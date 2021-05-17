@@ -8,7 +8,7 @@ import {
   setPage,
   setSize,
   delService,
-} from "../../../../../../actions/merchantActions";
+} from "@/actions/merchantActions";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -19,15 +19,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import ReactTable from "react-table";
 import defaultImage from "../Extra/hpadmin2.png";
 import AddService from "./AddService";
-import CheckPermissions from "../../../../../../util/checkPermission";
+import CheckPermissions from "@/util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-import SearchComponent from "../../../../../../util/searchComponent";
-import ArchiveSVG from "../../../../../../assets/images/archive.svg";
-import DelSVG from "../../../../../../assets/images/del.svg";
-import EditSVG from "../../../../../../assets/images/edit.svg";
-import RestoreSVG from "../../../../../../assets/images/restore.svg";
+import SearchComponent from "@/util/searchComponent";
+import ArchiveSVG from "@/assets/images/archive.svg";
+import DelSVG from "@/assets/images/del.svg";
+import EditSVG from "@/assets/images/edit.svg";
+import RestoreSVG from "@/assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
-import { reloadUrl } from '../../../../../../util/reload';
+import { reloadUrl } from '@/util/reload';
 
 class Service extends Component {
   constructor(props) {

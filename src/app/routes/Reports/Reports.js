@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import asyncComponent from "../../../util/asyncComponent";
+import asyncComponent from "@/util/asyncComponent";
 
 const Reports = ({ match }) => (
   <div className="app-wrapper">
