@@ -24,11 +24,10 @@ class Transactions extends React.Component {
     };
   }
   goBack = () => {
-    this.props.history.push("/app/reports/batchs");
+    this.props.history.goBack();
   };
   render() {
     const { data, loading, pageSize, summary } = this.props.apiData;
-    console.log("data", this.props.apiData);
     const columns = [
       {
         Header: <CustomTableHeader value="Transaction ID" />,
