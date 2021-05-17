@@ -6,9 +6,9 @@ import {
   setBatchRange,
   setBatchPage,
   setBatchRow,
-} from "../../../../actions/reportActions";
-import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import { CustomTableHeader } from "../../../../util/CustomText";
+} from "@/actions/reportActions";
+import { fetchApiByPage } from "@/actions/fetchApiActions";
+import { CustomTableHeader } from "@/util/CustomText";
 import {
   FormControl,
   Select,
@@ -24,12 +24,12 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import NewButton from "../../../../../src/components/Button/Search";
-import ResetButton from "../../../../../src/components/Button/Reset";
+import NewButton from "@components/Button/Search";
+import ResetButton from "@components/Button/Reset";
 
-import SearchComponent from "../../../../util/searchComponent";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
+import SearchComponent from "@/util/searchComponent";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@/components/ContainerHeader/index";
 import ReactTable from "react-table";
 import moment from "moment";
 
@@ -64,13 +64,13 @@ class Transactions extends React.Component {
   }
 
   saveBatch = (search, page, row, from, to, range, sortValue, sortType, url) => {
-    if (search) localStorage.setItem('inifoSearch', JSON.stringify({
+    if (search) localStorage.setItem('infoSearch', JSON.stringify({
       search, page, row, from, to, range, sortValue, sortType, url
     }));
   }
 
   handleButtonBack = () => {
-    const info = JSON.parse(localStorage.getItem('inifoSearch'));
+    const info = JSON.parse(localStorage.getItem('infoSearch'));
     if (info) {
       const { search, page, row, from, to, range, sortValue, sortType, url } = info;
       this.props.fetchApiByPage(url);
