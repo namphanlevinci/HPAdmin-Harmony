@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../../../url/url";
+import { config } from "@/url/url";
 import { Formik, Form } from "formik";
-import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
+import { WARNING_NOTIFICATION } from "@/constants/notificationConstants";
 import {
   getCategoryByID,
   addMerchantServiceById,
   exportService,
   importService,
-} from "../../../../../../actions/merchantActions";
+} from "@/actions/merchantActions";
 import { AiOutlineClose } from "react-icons/ai";
 
 import DialogContent from "@material-ui/core/DialogContent";
@@ -20,7 +20,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
-import LinearProgress from "../../../../../../util/linearProgress";
+import LinearProgress from "@/util/linearProgress";
 import CurrencyInput from "react-currency-masked-input";
 
 import "../../MerchantProfile.css";
@@ -748,16 +748,6 @@ class AddService extends Component {
     );
   }
 }
-
-// const findElement = (array, id) => {
-//   for (let i = 0; i < array.length; i++) {
-//     if (array[i]?.extraId === id) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-// };
 
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,

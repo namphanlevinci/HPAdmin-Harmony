@@ -58,11 +58,27 @@ class Transactions extends React.Component {
       page: batchTimeSet.page,
       row: batchTimeSet.row,
     });
+    window.onpopstate = (e) => {
+      this.handleButtonBack();
+    }
   }
 
-  searchMerchantBatch = debounce((query) => {
-    this.fetchApi();
-  }, 1000);
+  saveBatch = (search, page, row, from, to, range, sortValue, sortType, url) => {
+    if (search) localStorage.setItem('inifoSearch', JSON.stringify({
+      search, page, row, from, to, range, sortValue, sortType, url
+    }));
+  }
+
+  handleButtonBack = () => {
+    const info = JSON.parse(localStorage.getItem('inifoSearch'));
+    if (info) {
+      const { search, page, row, from, to, range, sortValue, sortType, url } = info;
+      this.props.fetchApiByPage(url);
+      this.setState({ search, page, row, from, to });
+      localStorage.removeItem('url');
+    }
+  }
+
   handleReset = (e) => {
     this.setState(
       {
@@ -88,9 +104,11 @@ class Transactions extends React.Component {
     const payload = { [name]: value };
     this.props.setBatchDate(payload);
   };
+
   handleChange = (e) => {
     this.setState({ search: e.target.value });
   };
+
   timeRange = async (e) => {
     const value = e.target.value;
     this.setState({
@@ -145,28 +163,28 @@ class Transactions extends React.Component {
         return;
     }
   };
+
   changePage = async (pageIndex) => {
     await this.props.setBatchPage(pageIndex);
     this.setState({ page: this.props.batchTimeSet.page });
   };
+
   changePageSize = async (row) => {
     await this.props.setBatchRow(row);
-    console.log("row", this.props.batchTimeSet.row);
     this.setState({ row: this.props.batchTimeSet.row });
   };
+
   fetchApi = async (state) => {
     const { search } = this.state;
 
-    console.log("state", state);
     const { range, from, to } = await this.props.batchTimeSet;
     const { page, row } = this.state;
-    console.log("asdawdasgawgasas", page);
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
     const url = `settlement?key=${search}&page=${page + 1
       }&row=${row}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
-
+    this.saveBatch(search, page, row, from, to, range, sortValue, sortType, url);
     this.props.fetchApiByPage(url);
   };
 
@@ -447,7 +465,9 @@ class Transactions extends React.Component {
               onPageChange={(pageIndex) => this.changePage(pageIndex)}
               onPageSizeChange={(size) => this.changePageSize(size)}
               onFetchData={(state) => {
-                this.fetchApi(state, page);
+                const info = JSON.parse(localStorage.getItem('infoSearch'));
+                if (!info)
+                  this.fetchApi(state, page);
               }}
               defaultPageSize={5}
               minRows={1}

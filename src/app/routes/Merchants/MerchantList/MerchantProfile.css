@@ -11,6 +11,7 @@ input[type="number"]::-webkit-outer-spin-button {
   padding-left: 10px;
   display: flex;
   background-color: #0764B0;
+  border-radius: 3px;
 }
 
 ul.detail-tab li {
@@ -20,15 +21,15 @@ ul.detail-tab li {
   text-align: left;
 }
 ul.detail-tab li a {
-  opacity: 0.6;
+  opacity: 0.7;
   font-weight: 300;
   display: block;
   padding: 10px 20px 5px 20px;
   background: #0764B0;
   color: white;
-  font-size: 19px;
   border: none;
   margin-right: 5px;
+  font-size : 1.2rem;
 }
 ul.detail-tab .active {
   opacity: 1;
@@ -36,6 +37,7 @@ ul.detail-tab .active {
   color: white;
   border-bottom: 3px solid yellow;
   background: #0764B0;
+  font-size : 1.2rem;
   /* padding: 10px;
   padding-bottom : 2px; */
 }

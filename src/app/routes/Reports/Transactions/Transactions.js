@@ -19,6 +19,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
+// import { browser } from 'react-router-dom';
+
 import DateFnsUtils from "@date-io/date-fns";
 import IntlMessages from "../../../../util/IntlMessages";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
@@ -67,7 +69,17 @@ class Transactions extends React.Component {
       from: moment().startOf("month").format("YYYY-MM-DD"),
       to: moment().endOf("month").format("YYYY-MM-DD"),
     });
+    // this.backListener = browserHistory.listen(location => {
+    //   if (location.action === "POP") {
+    //     console.log('handle back')
+    //     // Do your stuff
+    //   }
+    // });
   }
+
+  // componentWillUnmount(){
+  //   this.backListener();
+  // }
 
   searchTransaction = debounce((query) => {
     this.fetchApi();
@@ -157,8 +169,6 @@ class Transactions extends React.Component {
       }&amountTo=${amount ? amount : amountTo
       }&sortValue=${sortValue}&sortType=${sortType}&status=${status}`;
 
-    console.log({ url })
-
     this.props.fetchApiByPage(url);
   };
 
@@ -185,8 +195,6 @@ class Transactions extends React.Component {
       totalRow,
       summary,
     } = this.props.apiData;
-    console.log("apiData", this.props.apiData);
-    console.log("state", this.state);
 
     const columns = [
       {
