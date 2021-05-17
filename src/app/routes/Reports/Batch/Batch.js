@@ -75,7 +75,7 @@ class Transactions extends React.Component {
       const { search, page, row, from, to, range, sortValue, sortType, url } = info;
       this.props.fetchApiByPage(url);
       this.setState({ search, page, row, from, to });
-      localStorage.removeItem('url');
+      localStorage.removeItem('infoSearch');
     }
   }
 
@@ -184,6 +184,8 @@ class Transactions extends React.Component {
 
     const url = `settlement?key=${search}&page=${page + 1
       }&row=${row}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
+      console.log('fetch api');
+      console.log({url});
     this.saveBatch(search, page, row, from, to, range, sortValue, sortType, url);
     this.props.fetchApiByPage(url);
   };
