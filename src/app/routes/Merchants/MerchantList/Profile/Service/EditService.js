@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Formik } from "formik";
-import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
+import { WARNING_NOTIFICATION } from "@/constants/notificationConstants";
 import {
   getServiceByID,
   updateMerchantServiceById,
-} from "../../../../../../actions/merchantActions";
+} from "@/actions/merchantActions";
 import {
   Button,
   Grid,
@@ -15,12 +15,12 @@ import {
   FormControl,
   InputLabel,
 } from "@material-ui/core";
-import { CustomTitle } from "../../../../../../util/CustomText";
+import { CustomTitle } from "@/util/CustomText";
 import Extra from "./extra";
 import axios from "axios";
-import { config } from "../../../../../../url/url";
+import { config } from "@/url/url";
 import * as Yup from "yup";
-import LinearProgress from "../../../../../../util/linearProgress";
+import LinearProgress from "@/util/linearProgress";
 
 import "./service.style.scss";
 

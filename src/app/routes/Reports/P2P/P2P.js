@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import { debounce } from "lodash";
+import { fetchApiByPage } from "@/actions/fetchApiActions";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -18,14 +17,14 @@ import {
 } from "@material-ui/core";
 
 import DateFnsUtils from "@date-io/date-fns";
-import InputCustom from "../../../../util/CustomInput";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
+import InputCustom from "@/util/CustomInput";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@components/ContainerHeader/index";
 import moment from "moment";
 import ReactTable from "react-table";
-import SearchComponent from "../../../../util/searchComponent";
-import NewButton from "../../../../components/Button/Search";
-import ResetButton from "../../../../components/Button/Reset";
+import SearchComponent from "@/util/searchComponent";
+import NewButton from "@components/Button/Search";
+import ResetButton from "@components/Button/Reset";
 
 import "react-table/react-table.css";
 import "../Transactions/Transactions.css";
@@ -64,9 +63,20 @@ class P2P extends React.Component {
     });
   }
 
-  searchTransaction = debounce((query) => {
-    this.fetchApi();
-  }, 1000);
+  handleDateChange = (date, kind) => {
+    switch (kind) {
+      case 'from':
+        this.setState({ from: moment(date).format("YYYY-MM-DD") });
+        break;
+
+      case 'to':
+        this.setState({ to: moment(date).format("YYYY-MM-DD") });
+        break;
+
+      default:
+        break;
+    }
+  }
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -232,7 +242,7 @@ class P2P extends React.Component {
               container
               spacing={0}
               className="search"
-              style={{ marginBottom : 15 }}
+              style={{ marginBottom: 15 }}
             >
               <div className="container-search-component">
                 <SearchComponent
@@ -259,7 +269,7 @@ class P2P extends React.Component {
               <FormControl style={{ width: "100%" }}>
                 <InputLabel>Time Range</InputLabel>
                 <Select value={range} onChange={this.timeRange}>
-                  <MenuItem value="all">ALL</MenuItem>
+                  <MenuItem value="all">Custom</MenuItem>
                   <MenuItem value="today">Today</MenuItem>
                   <MenuItem value="yesterday">Yesterday</MenuItem>
                   <MenuItem value="thisWeek">This Week</MenuItem>
@@ -307,22 +317,6 @@ class P2P extends React.Component {
                 </Grid>{" "}
               </MuiPickersUtilsProvider>
             ) : null}
-            <Grid item xs={2}>
-              <TextField
-                InputLabelProps={{ shrink: true }}
-                label="Amount ($)"
-                value={amount}
-                onChange={this.handleChange}
-                name="amount"
-                InputProps={{
-                  inputComponent: InputCustom,
-                }}
-                inputProps={{
-                  numericOnly: true,
-                }}
-                style={{ width: "100%" }}
-              />
-            </Grid>
 
             <Grid item xs={2}>
               <TextField

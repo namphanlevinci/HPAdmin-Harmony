@@ -90,6 +90,7 @@ class AddService extends Component {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
+
   handePushValue = (e, values) => {
     this.setState({ extraId: e.id }, () => {
       // values.extras.map((value) => {
@@ -101,6 +102,7 @@ class AddService extends Component {
       // });
     });
   };
+
   handleExport = () => {
     const ID = this.props.MerchantProfile.merchantId;
     this.props.exportService(ID);
@@ -153,6 +155,7 @@ class AddService extends Component {
       );
     }
   };
+  
   goBack = () => {
     this.setState({ open: false });
   };

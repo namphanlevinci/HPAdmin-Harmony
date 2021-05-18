@@ -285,7 +285,7 @@ class Service extends Component {
               placeholder="Search.."
               value={this.state.search}
               onChange={(e) => this.setState({ search: e.target.value })}
-              onClickIcon = {()=>this.setState({ search : "" })}
+              onClickIcon={() => this.setState({ search: "" })}
             />
             <div>
               {CheckPermissions("add-new-service") && (
@@ -302,8 +302,12 @@ class Service extends Component {
               ref={this.refTable}
               page={this.props.page || 0}
               pageSize={this.props.size || 5}
-              onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onPageSizeChange={(size) => this.changePageSize(size)}
+              onPageChange={(pageIndex) => {
+                this.changePage(pageIndex);
+              }}
+              onPageSizeChange={(size) => {
+                this.changePageSize(size);
+              }}
               data={serviceList}
               columns={columns}
               defaultPageSize={5}
