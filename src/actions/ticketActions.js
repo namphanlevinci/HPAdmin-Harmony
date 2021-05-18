@@ -351,7 +351,7 @@ export const updateTicketById = (payload) => async (dispatch, getState) => {
   try {
     dispatch({ type: types.UPDATE_TICKET_REQUEST });
 
-    const { clientApp, clientName, title, status, description, id } = payload;
+    const { clientApp, clientName, title, status, description, id, requestBy, requestedBy } = payload;
 
     const { verifyUser: { user } } = await getState();
 
@@ -363,6 +363,7 @@ export const updateTicketById = (payload) => async (dispatch, getState) => {
         title,
         status,
         description,
+        requestBy : requestBy ? requestBy : requestedBy
       },
       {
         headers: {
