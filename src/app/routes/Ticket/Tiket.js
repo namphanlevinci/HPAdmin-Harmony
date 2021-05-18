@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { CustomTableHeader } from "../../../util/CustomText";
+import { CustomTableHeader } from "@/util/CustomText";
 import { Typography } from "@material-ui/core";
-import { fetchApiByPage } from "../../../actions/fetchApiActions";
+import { fetchApiByPage } from "@/actions/fetchApiActions";
 import {
   getTicketByID,
   getTicketCommentById,
   getTicketLogById,
-} from "../../../actions/ticketActions";
-import { getAllUser } from "../../../actions/userActions";
+} from "@/actions/ticketActions";
+import { getAllUser } from "@/actions/userActions";
 
 import {
   Select,
@@ -20,16 +20,16 @@ import {
 } from "@material-ui/core";
 import { debounce } from "lodash";
 
-import NewButton from "../../../components/Button/Search";
-import ResetButton from "../../../components/Button/Reset";
-import Status from "./components/Status";
-import SearchComponent from "../../../util/searchComponent";
-import ContainerHeader from "../../../components/ContainerHeader/index";
-import IntlMessages from "../../../util/IntlMessages";
+import NewButton from "@components/Button/Search";
+import ResetButton from "@components/Button/Reset";
+import SearchComponent from "@/util/searchComponent";
+import ContainerHeader from "@components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
 import ReactTable from "react-table";
-import CheckPermissions from "../../../util/checkPermission";
+import CheckPermissions from "@/util/checkPermission";
+import Status from "./components/Status";
 import moment from "moment";
-import { reloadUrl } from '../../../util/reload';
+import { reloadUrl } from '@/util/reload';
 
 import "react-table/react-table.css";
 import "../Merchants/Merchants.css";

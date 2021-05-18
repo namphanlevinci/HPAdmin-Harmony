@@ -53,6 +53,7 @@ class EditTicket extends Component {
       id: ticketInfo.data.id,
     });
   }
+
   uploadImage = (e, setFieldValue) => {
     e.preventDefault();
     let reader = new FileReader();
@@ -72,7 +73,6 @@ class EditTicket extends Component {
         .post(upFile, formData, config)
         .then((res) => {
           reader.readAsDataURL(file);
-          console.log("res", res);
           reader.onloadend = () => {
             setFieldValue(`imageUrl`, reader.result);
             this.setState({
@@ -101,21 +101,22 @@ class EditTicket extends Component {
       alert("Image type is not supported, Please choose another image ");
     }
   };
+
   handleDel = (id) => {
     const { ticketInfo } = this.props;
     const payload = { id: ticketInfo.data.id, fileId: id };
     this.props.deleteTicketFile(payload);
   };
+
   handleSubmit = (values) => {
     const path = "/app/ticket/detail";
     const payload = { ...values, path };
     this.props.updateTicketById(payload);
   };
+  
   render() {
     const { ticketInfo } = this.props;
-    console.log("state", this.state);
     const { ticketAttachFiles } = ticketInfo.data;
-    console.log("ticketInfo", ticketInfo.data.ticketAttachFiles);
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>

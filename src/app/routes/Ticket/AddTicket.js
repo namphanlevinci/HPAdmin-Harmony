@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { CustomTitle } from "../../../util/CustomText";
+import { CustomTitle } from "@/util/CustomText";
 import { Formik, Form } from "formik";
 import {
   Grid,
@@ -11,19 +11,22 @@ import {
   InputLabel,
   MenuItem,
 } from "@material-ui/core";
-import { config } from "../../../url/url";
-import { history } from "../../../store";
-import { WARNING_NOTIFICATION } from "../../../constants/notificationConstants";
-import { addTicket } from "../../../actions/ticketActions";
+import { config } from "@/url/url";
+import { history } from "@/store";
+import { WARNING_NOTIFICATION } from "@/constants/notificationConstants";
+import { addTicket } from "@/actions/ticketActions";
 
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import NewButton from "../../../components/Button/Search";
-import AddButton from "../../../components/Button/Add";
-import LinearProgress from "../../../util/linearProgress";
+import NewButton from "@components/Button/Search";
+import AddButton from "@components/Button/Add";
+import LinearProgress from "@/util/linearProgress";
+import { CustomText } from "@/util/CustomText";
+import CustomSelect from "@components/Select/index";
 import axios from "axios";
-import IntlMessages from "../../../util/IntlMessages";
-import ContainerHeader from "../../../components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@components/ContainerHeader/index";
 import QueueIcon from "@material-ui/icons/Queue";
+import { listUserArray } from "@/util/userList";
 import * as Yup from "yup";
 import "./Ticket.css";
 const upFile = config.url.upFile;
@@ -31,8 +34,18 @@ const upFile = config.url.upFile;
 class AddTicket extends Component {
   constructor(props) {
     super(props);
-    this.state = { fileIds: [], imgUrl: [] };
+    this.state = { fileIds: [], imgUrl: [], userRequestId: '' };
   }
+
+  componentDidMount() {
+    const { currentUser } = this.props;
+    this.setState({ userRequestId: currentUser.waUserId });
+  }
+
+  onChangeUserRequest = (e) => {
+    this.setState({ userRequestId: e.target.value });
+  }
+
   uploadImage = (e, setFieldValue) => {
     e.preventDefault();
     let reader = new FileReader();
@@ -62,34 +75,35 @@ class AddTicket extends Component {
           setFieldValue(`fileIds`, this.state.fileIds);
         })
         .catch((err) => {
-          console.log(err);
           setFieldValue(`isUpload`, false);
         });
     } else {
-      // this.props.warningNotify(
-      //   "Image type is not supported, Please choose another image "
-      // );
       alert("Image type is not supported, Please choose another image ");
     }
   };
 
   submitForm = (values, actions) => {
+    const { userRequestId } = this.state;
     const path = "/app/ticket";
-    const payload = { ...values, path };
+    const payload = { ...values, path, requestBy: userRequestId };
     this.props.addTicket(payload);
     actions.setSubmitting(false);
   };
+
   handleSubmit = (values, actions) => {
     let body = {
       ...values,
-      fileIds : values.fileIds ? values.fileIds : []
+      fileIds: values.fileIds ? values.fileIds : []
     }
     this.submitForm(body, actions);
     actions.setSubmitting(false);
   };
+
   render() {
     const { imgUrl } = this.state || [];
-    console.log("imgURL", this.state.imgUrl);
+    const { userRequestId } = this.state;
+    const { userList: { userList } } = this.props;
+
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -116,7 +130,6 @@ class AddTicket extends Component {
             onSubmit={this.handleSubmit}
           >
             {({ errors, touched, handleChange, setFieldValue, values }) => {
-              console.log({ errors, touched });
               return (
                 <Form>
                   <Grid container spacing={3}>
@@ -161,6 +174,18 @@ class AddTicket extends Component {
                         </Grid>
                       </Grid>
 
+                      <Grid item xs={12} md={12}>
+                        <div className={'row_select_requestBy'}>
+                          <CustomText value="Request by : " styles={{ marginRight: 15 }} />
+                          <CustomSelect
+                            label="Request by"
+                            style={{ width: "175px" }}
+                            valuesArr={listUserArray(userList)}
+                            value={userRequestId}
+                            onChange={this.onChangeUserRequest}
+                          />
+                        </div>
+                      </Grid>
                       <Grid item xs={12} md={12}>
                         <TextField
                           label={
@@ -291,11 +316,7 @@ class AddTicket extends Component {
                           ))}
                         </div>
                         {errors?.fileId && touched?.fileId ? (
-                          <p
-                            style={{
-                              color: "#f44336",
-                            }}
-                          >
+                          <p style={{ color: "#f44336" }}>
                             {errors.fileId}
                           </p>
                         ) : null}
@@ -343,6 +364,7 @@ class AddTicket extends Component {
     );
   }
 }
+
 const MarketPlaceSchema = Yup.object().shape({
   title: Yup.string()
     .min(2, "Too Short!")
@@ -370,7 +392,10 @@ const MarketPlaceSchema = Yup.object().shape({
   //   fileId: Yup.string().required("Image is required"),
 });
 AddTicket.propTypes = {};
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  userList: state.adminUser,
+  currentUser: state.verifyUser.user.userAdmin,
+});
 const mapDispatchToProps = (dispatch) => ({
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));

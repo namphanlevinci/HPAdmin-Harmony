@@ -2,29 +2,29 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import { AiFillAppstore } from "react-icons/ai";
 import { Grid, Button } from "@material-ui/core";
-import { CustomText, CustomTextLabel } from "../../../util/CustomText";
-import { config } from "../../../url/url";
+import { CustomText, CustomTextLabel } from "@/util/CustomText";
+import { config } from "@/url/url";
 import { Tabs } from "antd";
-import { getAllUser } from "../../../actions/userActions";
+import { getAllUser } from "@/actions/userActions";
 
 import {
   changeStatus,
   addTicketFile,
   delTicket,
-} from "../../../actions/ticketActions";
+} from "@/actions/ticketActions";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import LinearProgress from "../../../util/linearProgress";
-import IntlMessages from "../../../util/IntlMessages";
-import ContainerHeader from "../../../components/ContainerHeader/index";
+import LinearProgress from "@/util/linearProgress";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@components/ContainerHeader/index";
 import SliderShow from "./SliderShow/index";
-import NewButton from "../../../components/Button/Search";
-import AddButton from "../../../components/Button/Add";
+import NewButton from "@components/Button/Search";
+import AddButton from "@components/Button/Add";
 
-import CustomSelect from "../../../components/Select/index";
+import CustomSelect from "@components/Select/index";
 import Log from "./Active/Log";
 import Comment from "./Active/Comment";
 import moment from "moment";
@@ -48,12 +48,15 @@ class TicketInfo extends Component {
       defaultIndex: 0,
     };
   }
+
   handleClickOpen = (index) => {
     this.setState({ isOpen: true, defaultIndex: index });
   };
+
   handleClose = () => {
     this.setState({ isOpen: false });
   };
+  
   EditPage = () => {
     this.props.history.push("/app/ticket/edit");
   };
@@ -62,9 +65,11 @@ class TicketInfo extends Component {
     const { data } = this.props.ticketInfo;
     this.props.changeStatus({ id: data.id, status: e.target.value });
   };
+
   handleDel = (ticketID) => {
     this.props.delTicket(ticketID);
   };
+  
   uploadImage = (e, setFieldValue) => {
     e.preventDefault();
     const { data } = this.props.ticketInfo;
@@ -84,7 +89,6 @@ class TicketInfo extends Component {
         .post(upFile, formData, config)
         .then((res) => {
           reader.readAsDataURL(file);
-          console.log("res", res);
           reader.onloadend = () => {
             // setFieldValue(`imageUrl`, reader.result);
             this.setState({
@@ -192,7 +196,7 @@ class TicketInfo extends Component {
                   label="Request by"
                   style={{ width: "200px" }}
                   valuesArr={listUserArray(userList)}
-                  value={70}
+                  value={data.requestedBy}
                 />
               </div>
             </Grid>
