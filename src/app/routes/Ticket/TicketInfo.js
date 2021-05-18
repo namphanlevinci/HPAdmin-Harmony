@@ -11,6 +11,7 @@ import {
   changeStatus,
   addTicketFile,
   delTicket,
+  updateTicketById
 } from "@/actions/ticketActions";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -30,6 +31,7 @@ import Comment from "./Active/Comment";
 import moment from "moment";
 
 import axios from "axios";
+import { listUserArray } from "@/util/userList";
 
 // routes\Consumers\ConsumerProfile\Detail\Consumer.css
 // D:\levinci\HarmonyPay\Hpadmin\src\app\routes\Merchants\PendingList\MerchantReqProfile.css
@@ -46,7 +48,26 @@ class TicketInfo extends Component {
       delDialog: false,
       isOpen: false,
       defaultIndex: 0,
+      userRequestId: ''
     };
+  }
+
+  componentDidMount() {
+    const { data: { requestedBy } } = this.props.ticketInfo;
+    this.setState({ userRequestId: requestedBy })
+  }
+
+  onChangeUserRequest = async(e) => {
+    await this.setState({ userRequestId: e.target.value });
+    await this.editTicket();
+  }
+
+  editTicket = () => {
+    const path = "/app/ticket/detail";
+    const { userRequestId } = this.state;
+    const { data } = this.props.ticketInfo;
+    const payload = { ...data, path, requestBy: userRequestId };
+    this.props.updateTicketById(payload);
   }
 
   handleClickOpen = (index) => {
@@ -56,7 +77,7 @@ class TicketInfo extends Component {
   handleClose = () => {
     this.setState({ isOpen: false });
   };
-  
+
   EditPage = () => {
     this.props.history.push("/app/ticket/edit");
   };
@@ -69,7 +90,7 @@ class TicketInfo extends Component {
   handleDel = (ticketID) => {
     this.props.delTicket(ticketID);
   };
-  
+
   uploadImage = (e, setFieldValue) => {
     e.preventDefault();
     const { data } = this.props.ticketInfo;
@@ -119,6 +140,7 @@ class TicketInfo extends Component {
       alert("Image type is not supported, Please choose another image ");
     }
   };
+
   render() {
     const { data } = this.props.ticketInfo;
     const { userList } = this.props.userList;
@@ -126,6 +148,7 @@ class TicketInfo extends Component {
     const { userAdmin } = this.props.verifyUser.user;
     const { ticketComment, ticketLog } = this.props;
     const { TabPane } = Tabs;
+    const { userRequestId } = this.state;
     return (
       <div className="container-fluid userProfile">
         <ContainerHeader
@@ -196,7 +219,8 @@ class TicketInfo extends Component {
                   label="Request by"
                   style={{ width: "200px" }}
                   valuesArr={listUserArray(userList)}
-                  value={data.requestedBy}
+                  onChange={this.onChangeUserRequest}
+                  value={userRequestId}
                 />
               </div>
             </Grid>
@@ -243,12 +267,12 @@ class TicketInfo extends Component {
                 <CustomText value="Last update:" />
                 {moment(data.modifiedDate).format("MMM DD, YYYY") !==
                   "Jan 01, 0001" && (
-                  <CustomTextLabel
-                    value={moment(data.modifiedDate).format(
-                      "MMM DD, YYYY, h:mm:ss A"
-                    )}
-                  />
-                )}
+                    <CustomTextLabel
+                      value={moment(data.modifiedDate).format(
+                        "MMM DD, YYYY, h:mm:ss A"
+                      )}
+                    />
+                  )}
                 {/* <CustomTextLabel
                   value={moment(data.modifiedDate).format(
                     "MMM DD, YYYY, h:mm:ss A"
@@ -370,19 +394,6 @@ class TicketInfo extends Component {
   }
 }
 
-const listUserArray = (list = []) => {
-  let newArray = [];
-
-  list.map((item) => {
-    let userItem = {
-      title: `${item.firstName} ${item.lastName}`,
-      value: item.waUserId,
-    };
-    return newArray.push(userItem);
-  });
-  return newArray;
-};
-
 TicketInfo.propTypes = {};
 const mapStateToProps = (state) => ({
   ticketInfo: state.getTicketById,
@@ -403,6 +414,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getAllUser: (url) => {
     dispatch(getAllUser(url));
+  },
+  updateTicketById: (payload) => {
+    dispatch(updateTicketById(payload));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(TicketInfo);
