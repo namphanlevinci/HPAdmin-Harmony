@@ -63,10 +63,9 @@ class TicketInfo extends Component {
   }
 
   editTicket = () => {
-    const path = "/app/ticket/detail";
     const { userRequestId } = this.state;
     const { data } = this.props.ticketInfo;
-    const payload = { ...data, path, requestBy: userRequestId };
+    const payload = { ...data , requestBy: userRequestId };
     this.props.updateTicketById(payload);
   }
 
