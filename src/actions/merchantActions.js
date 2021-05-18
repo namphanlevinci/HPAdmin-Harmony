@@ -1021,9 +1021,7 @@ export const addMerchantServiceById = (payload) => async (
   getState
 ) => {
   try {
-    dispatch({
-      type: types.ADD_MERCHANT_SERVICE_REQUEST,
-    });
+    dispatch({ type: types.ADD_MERCHANT_SERVICE_REQUEST });
 
     const {
       verifyUser: { user },
@@ -1051,9 +1049,9 @@ export const addMerchantServiceById = (payload) => async (
       type: SUCCESS_NOTIFICATION,
       payload: data?.message,
     });
-    resetFirstPage();
-
-    // dispatch(getServiceByID(merchantId));
+    // resetFirstPage();
+    dispatch(getServiceByID(merchantId));
+    
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
