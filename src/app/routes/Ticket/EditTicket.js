@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { CustomTitle } from "../../../util/CustomText";
+import { CustomTitle } from "@/util/CustomText";
 import { Formik, Form } from "formik";
 import {
   Grid,
@@ -12,22 +12,22 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
-import { config } from "../../../url/url";
-import { history } from "../../../store";
+import { config } from "@/url/url";
+import { history } from "@/store";
 import {
   updateTicketById,
   deleteTicketFile,
   addTicketFile,
-} from "../../../actions/ticketActions";
+} from "@/actions/ticketActions";
 
-import NewButton from "../../../components/Button/Search";
-import LinearProgress from "../../../util/linearProgress";
+import NewButton from "@components/Button/Search";
+import LinearProgress from "@/util/linearProgress";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import AddButton from "../../../components/Button/Add";
+import AddButton from "@components/Button/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
-import IntlMessages from "../../../util/IntlMessages";
-import ContainerHeader from "../../../components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@components/ContainerHeader/index";
 import QueueIcon from "@material-ui/icons/Queue";
 import * as Yup from "yup";
 
@@ -53,6 +53,7 @@ class EditTicket extends Component {
       id: ticketInfo.data.id,
     });
   }
+
   uploadImage = (e, setFieldValue) => {
     e.preventDefault();
     let reader = new FileReader();
@@ -72,7 +73,6 @@ class EditTicket extends Component {
         .post(upFile, formData, config)
         .then((res) => {
           reader.readAsDataURL(file);
-          console.log("res", res);
           reader.onloadend = () => {
             setFieldValue(`imageUrl`, reader.result);
             this.setState({
@@ -101,21 +101,22 @@ class EditTicket extends Component {
       alert("Image type is not supported, Please choose another image ");
     }
   };
+
   handleDel = (id) => {
     const { ticketInfo } = this.props;
     const payload = { id: ticketInfo.data.id, fileId: id };
     this.props.deleteTicketFile(payload);
   };
+
   handleSubmit = (values) => {
     const path = "/app/ticket/detail";
     const payload = { ...values, path };
     this.props.updateTicketById(payload);
   };
+  
   render() {
     const { ticketInfo } = this.props;
-    console.log("state", this.state);
     const { ticketAttachFiles } = ticketInfo.data;
-    console.log("ticketInfo", ticketInfo.data.ticketAttachFiles);
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
