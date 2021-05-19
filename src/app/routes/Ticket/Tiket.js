@@ -58,6 +58,7 @@ class Tiket extends Component {
       this.props.updateStatusAddTicket(false);
     }
   };
+
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
@@ -67,6 +68,7 @@ class Tiket extends Component {
 
     this.props.fetchApiByPage(url);
   };
+
   handleReset = debounce((e) => {
     this.setState({ search: "", statusValue: "all" });
     this.fetchApi();
@@ -77,11 +79,13 @@ class Tiket extends Component {
     this.props.getTicketCommentById(ID);
     this.props.getTicketLogById(ID);
   };
+
   changePage = (pageIndex) => {
     this.setState({
       page: pageIndex,
     });
   };
+
   keyPressed = (event) => {
     if (event.key === "Enter") {
       // event.preventDefault();
@@ -93,6 +97,7 @@ class Tiket extends Component {
   addTicket = () => {
     this.props.history.push("/app/ticket/add-ticket");
   };
+
   handleStatus = debounce((e) => {
     this.setState({ statusValue: e.target.value });
     this.fetchApi();
@@ -111,8 +116,6 @@ class Tiket extends Component {
   render() {
     const { statusValue, page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
-
-    console.log({ data })
 
     const columns = [
       {

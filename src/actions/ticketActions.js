@@ -378,12 +378,8 @@ export const updateTicketById = (payload) => async (dispatch, getState) => {
       type: SUCCESS_NOTIFICATION,
       payload: data.message,
     });
-    dispatch(getTicketByID(id));
+    dispatch(getTicketByID(id,payload.path));
     dispatch(getTicketLogById(id));
-
-    if (payload.path) {
-      history.push(payload.path);
-    }
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,

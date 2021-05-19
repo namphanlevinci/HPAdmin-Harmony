@@ -6,10 +6,6 @@ import { Formik, Form } from "formik";
 import {
   Grid,
   TextField,
-  Select,
-  FormControl,
-  InputLabel,
-  MenuItem,
 } from "@material-ui/core";
 import { config } from "@/url/url";
 import { history } from "@/store";
@@ -20,7 +16,6 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import NewButton from "@components/Button/Search";
 import AddButton from "@components/Button/Add";
 import LinearProgress from "@/util/linearProgress";
-import { CustomText } from "@/util/CustomText";
 import CustomSelect from "@components/Select/index";
 import axios from "axios";
 import IntlMessages from "@/util/IntlMessages";
@@ -151,32 +146,35 @@ class AddTicket extends Component {
                             />
                           </div>
                         </Grid>
-                        <Grid item xs={12} md={4}>
-                          <FormControl style={{ width: "100%" }}>
-                            <InputLabel id="demo-simple-select-helper-label">
-                              Status
-                            </InputLabel>
-                            <Select
-                              value={values.status}
-                              fullWidth
-                              onChange={(e) =>
-                                setFieldValue("status", e.target.value)
-                              }
-                            >
-                              <MenuItem value="backlog">Backlog</MenuItem>
-                              <MenuItem value="inprogress">
-                                In Progress
-                              </MenuItem>
-                              <MenuItem value="waiting">Waiting</MenuItem>
-                              <MenuItem value="complete">Complete</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </Grid>
                       </Grid>
 
                       <Grid item xs={12} md={12}>
                         <div className={'row_select_requestBy'}>
-                          <CustomText value="Request by : " styles={{ marginRight: 15 }} />
+                          <label className="lbl-addTicket">
+                            Status :
+                          </label>
+                          <CustomSelect
+                            label="Status"
+                            style={{ width: "175px" }}
+                            valuesArr={[
+                              { title: "Backlog", value: "backlog" },
+                              { title: "In progress", value: "inprogress" },
+                              { title: "Waiting", value: "waiting" },
+                              { title: "Complete", value: "complete" },
+                            ]}
+                            value={values.status}
+                            onChange={(e) =>
+                              setFieldValue("status", e.target.value)
+                            }
+                          />
+                        </div>
+                      </Grid>
+
+                      <Grid item xs={12} md={12}>
+                        <div className={'row_select_requestBy'}>
+                          <label className="lbl-addTicket">
+                            Request by :
+                          </label>
                           <CustomSelect
                             label="Request by"
                             style={{ width: "175px" }}
@@ -252,22 +250,12 @@ class AddTicket extends Component {
                         <div
                           style={{ display: "flex", flexDirection: "column" }}
                         >
-                          <label
-                            style={{
-                              fontSize: 16,
-                              fontWeight: 400,
-                              color: "rbga(0,0,0,0.54)",
-                            }}
-                          >
+                          <label className="txtDescription-addTicket">
                             Description <span style={{ color: "red" }}>*</span>
                           </label>
                           {/* <br /> */}
                           {errors?.description && touched?.description ? (
-                            <p
-                              style={{
-                                color: "#f44336",
-                              }}
-                            >
+                            <p style={{ color: "#f44336" }}>
                               {errors.description}
                             </p>
                           ) : null}

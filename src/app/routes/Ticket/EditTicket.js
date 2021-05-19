@@ -29,6 +29,8 @@ import axios from "axios";
 import IntlMessages from "@/util/IntlMessages";
 import ContainerHeader from "@components/ContainerHeader/index";
 import QueueIcon from "@material-ui/icons/Queue";
+import CustomSelect from "@components/Select/index";
+import { listUserArray } from "@/util/userList";
 import * as Yup from "yup";
 
 import "./Ticket.css";
@@ -38,7 +40,7 @@ const upFile = config.url.upFile;
 class EditTicket extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: false, imgUrl: [] };
+    this.state = { loading: false, imgUrl: [], userRequestId: '' };
   }
 
   componentWillMount() {
@@ -51,7 +53,12 @@ class EditTicket extends Component {
       description: ticketInfo.data.description,
       ticketAttachFiles: ticketInfo.data.ticketAttachFiles,
       id: ticketInfo.data.id,
+      userRequestId: ticketInfo.data.requestedBy
     });
+  }
+
+  onChangeUserRequest = (e) => {
+    this.setState({ userRequestId: e.target.value });
   }
 
   uploadImage = (e, setFieldValue) => {
@@ -95,9 +102,6 @@ class EditTicket extends Component {
           setFieldValue(`isUpload`, false);
         });
     } else {
-      // this.props.warningNotify(
-      //   "Image type is not supported, Please choose another image "
-      // );
       alert("Image type is not supported, Please choose another image ");
     }
   };
@@ -110,13 +114,16 @@ class EditTicket extends Component {
 
   handleSubmit = (values) => {
     const path = "/app/ticket/detail";
-    const payload = { ...values, path };
+    const { userRequestId } = this.state;
+    const payload = { ...values, requestBy: userRequestId, path };
     this.props.updateTicketById(payload);
   };
-  
+
   render() {
     const { ticketInfo } = this.props;
     const { ticketAttachFiles } = ticketInfo.data;
+    const { userList: { userList } } = this.props;
+    const { userRequestId } = this.state;
     return (
       <div className="container-fluid react-transition swipe-right">
         <Helmet>
@@ -248,7 +255,7 @@ class EditTicket extends Component {
                             style={{
                               zIndex: 9999,
                               position: "absolute",
-                              left: 95,
+                              left: 90,
                               top: -5,
                               cursor: "pointer",
                               color: "#707070",
@@ -272,28 +279,31 @@ class EditTicket extends Component {
                     <div style={{ width: "20%", margin: "5px 5px" }}>
                       {values?.isUpload ? <LinearProgress /> : null}
                     </div>
-                    <AddButton
-                      onChange={(e) => this.uploadImage(e, setFieldValue)}
-                    />
+                    <AddButton onChange={(e) => this.uploadImage(e, setFieldValue)} />
                   </Grid>
+
                   <Grid item xs={12} md={4}>
-                    <FormControl style={{ width: "100%" }}>
-                      <InputLabel id="demo-simple-select-helper-label">
-                        Status
-                      </InputLabel>
-                      <Select
-                        value={values.status}
-                        fullWidth
-                        onChange={(e) =>
-                          setFieldValue("status", e.target.value)
-                        }
-                      >
-                        <MenuItem value="backlog">Backlog</MenuItem>
-                        <MenuItem value="inprogress">In Progress</MenuItem>
-                        <MenuItem value="waiting">Waiting</MenuItem>
-                        <MenuItem value="complete">Complete</MenuItem>
-                      </Select>
-                    </FormControl>
+                    <CustomSelect
+                      label="Status"
+                      style={{ width: "150px", marginBottom: 30 }}
+                      valuesArr={[
+                        { title: "Backlog", value: "backlog" },
+                        { title: "In progress", value: "inprogress" },
+                        { title: "Waiting", value: "waiting" },
+                        { title: "Complete", value: "complete" },
+                      ]}
+                      value={values.status}
+                      onChange={(e) =>
+                        setFieldValue("status", e.target.value)
+                      }
+                    />
+                    <CustomSelect
+                      label="Request by"
+                      style={{ width: "150px" }}
+                      valuesArr={listUserArray(userList)}
+                      value={userRequestId}
+                      onChange={this.onChangeUserRequest}
+                    />
                   </Grid>
                 </Grid>
 
@@ -336,6 +346,7 @@ EditTicket.propTypes = {};
 
 const mapStateToProps = (state) => ({
   ticketInfo: state.getTicketById,
+  userList: state.adminUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   updateTicketById: (payload) => {
