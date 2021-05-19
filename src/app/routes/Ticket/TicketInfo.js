@@ -33,8 +33,6 @@ import moment from "moment";
 import axios from "axios";
 import { listUserArray } from "@/util/userList";
 
-// routes\Consumers\ConsumerProfile\Detail\Consumer.css
-// D:\levinci\HarmonyPay\Hpadmin\src\app\routes\Merchants\PendingList\MerchantReqProfile.css
 import "antd/dist/antd.css";
 import "./Ticket.css";
 
@@ -54,7 +52,7 @@ class TicketInfo extends Component {
 
   componentDidMount() {
     const { data: { requestedBy } } = this.props.ticketInfo;
-    this.setState({ userRequestId: requestedBy })
+    this.setState({ userRequestId: requestedBy });
   }
 
   onChangeUserRequest = async(e) => {
@@ -77,7 +75,7 @@ class TicketInfo extends Component {
     this.setState({ isOpen: false });
   };
 
-  EditPage = () => {
+  editPage = () => {
     this.props.history.push("/app/ticket/edit");
   };
 
@@ -346,7 +344,7 @@ class TicketInfo extends Component {
               Add file
             </AddButton>
             <NewButton
-              onClick={() => this.EditPage()}
+              onClick={() => this.editPage()}
               style={{ marginTop: 10 }}
               blue
             >
