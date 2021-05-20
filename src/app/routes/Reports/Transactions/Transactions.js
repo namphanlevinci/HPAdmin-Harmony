@@ -48,6 +48,7 @@ class Transactions extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialState;
+    this.refTable = React.createRef();
   }
 
   handleResetClick = async () => {
@@ -80,9 +81,7 @@ class Transactions extends React.Component {
 
   timeRange = async (e) => {
     const value = e.target.value;
-    await this.setState({
-      range: value,
-    });
+    await this.setState({ range: value });
 
     switch (value) {
       case "today":
@@ -91,30 +90,35 @@ class Transactions extends React.Component {
           to: moment().startOf("day").format("YYYY-MM-DD"),
         });
         return;
+
       case "yesterday":
         this.setState({
           from: moment().subtract(1, "day").format("YYYY-MM-DD"),
           to: moment().subtract(1, "day").format("YYYY-MM-DD"),
         });
         return;
+
       case "thisWeek":
         this.setState({
           from: moment().startOf("week").format("YYYY-MM-DD"),
           to: moment().endOf("week").format("YYYY-MM-DD"),
         });
         return;
+
       case "lastWeek":
         this.setState({
           from: moment().subtract(1, "week").format("YYYY-MM-DD"),
           to: moment().subtract(1, "week").endOf("week").format("YYYY-MM-DD"),
         });
         return;
+
       case "thisMonth":
         this.setState({
           from: moment().startOf("month").format("YYYY-MM-DD"),
           to: moment().endOf("month").format("YYYY-MM-DD"),
         });
         return;
+
       case "lastMonth":
         this.setState({
           from: moment()
@@ -123,6 +127,7 @@ class Transactions extends React.Component {
             .format("YYYY-MM-DD"),
           to: moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
         });
+
         return;
       default:
         return;
@@ -150,7 +155,6 @@ class Transactions extends React.Component {
       }&amountTo=${amount ? amount : amountTo
       }&sortValue=${sortValue}&sortType=${sortType}&status=${status}`;
 
-    console.log({url});
     this.props.fetchApiByPage(url);
   };
 
@@ -177,6 +181,8 @@ class Transactions extends React.Component {
       totalRow,
       summary,
     } = this.props.apiData;
+
+    console.log({page})
 
     const columns = [
       {
@@ -446,7 +452,8 @@ class Transactions extends React.Component {
           </ResetButton>
           <div className="merchant-list-container Transactions">
             <ReactTable
-              manual={true}
+              ref={this.refTable}
+              manual={false}
               page={page}
               pages={pageCount}
               data={data}
