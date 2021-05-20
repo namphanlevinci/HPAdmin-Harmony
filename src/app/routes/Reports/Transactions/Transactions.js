@@ -33,32 +33,25 @@ import "./Transactions.css";
 import "react-table/react-table.css";
 import "../../Merchants/Merchants.css";
 
+const initialState = {
+  search: "",
+  from: "",
+  to: "",
+  amount: "",
+  amountFrom: -1,
+  amountTo: -1,
+  range: "thisMonth",
+  status: -1,
+}
+
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      search: "",
-      from: "",
-      to: "",
-      amount: "",
-      amountFrom: -1,
-      amountTo: -1,
-      range: "thisMonth",
-      status: -1,
-    };
+    this.state = initialState;
   }
 
   handleResetClick = async () => {
-    await this.setState({
-      from: moment().startOf("month").format("YYYY-MM-DD"),
-      to: moment().startOf("month").format("YYYY-MM-DD"),
-      amount: "",
-      amountFrom: -1,
-      amountTo: -1,
-      range: "",
-      search: "",
-      status: -1,
-    });
+    await this.setState(initialState);
     this.fetchApi();
   };
 
@@ -157,6 +150,7 @@ class Transactions extends React.Component {
       }&amountTo=${amount ? amount : amountTo
       }&sortValue=${sortValue}&sortType=${sortType}&status=${status}`;
 
+    console.log({url});
     this.props.fetchApiByPage(url);
   };
 
