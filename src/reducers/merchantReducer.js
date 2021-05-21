@@ -54,6 +54,7 @@ const getStaffReducer = (
   state = {
     loading: false,
     statusAddStaff: false,
+    data : [],
   },
   { type, payload }
 ) => {

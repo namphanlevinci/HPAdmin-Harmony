@@ -10,7 +10,7 @@ import {
   exportCategory,
   importCategory,
   delCategory,
-} from "../../../../../../actions/merchantActions";
+} from "@/actions/merchantActions";
 import {
   Select,
   TextField,
@@ -20,7 +20,7 @@ import {
   FormHelperText,
 } from "@material-ui/core";
 
-import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
+import { WARNING_NOTIFICATION } from "@/constants/notificationConstants";
 import MenuItem from "@material-ui/core/MenuItem";
 import ReactTable from "react-table";
 import Button from "@material-ui/core/Button";
@@ -29,18 +29,16 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import CheckPermissions from "../../../../../../util/checkPermission";
+import CheckPermissions from "@/util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-import ArchiveSVG from "../../../../../../assets/images/archive.svg";
-import DelSVG from "../../../../../../assets/images/del.svg";
-import EditSVG from "../../../../../../assets/images/edit.svg";
-import RestoreSVG from "../../../../../../assets/images/restore.svg";
+import ArchiveSVG from "@/assets/images/archive.svg";
+import DelSVG from "@/assets/images/del.svg";
+import EditSVG from "@/assets/images/edit.svg";
+import RestoreSVG from "@/assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import EditCategory from "./EditCategory";
-import SearchComponent from "../../../../../../util/searchComponent";
+import SearchComponent from "@/util/searchComponent";
 import Pagination from "@/components/Pagination";
-
-import { reloadUrl } from '../../../../../../util/reload';
 
 import "./category.styles.scss";
 
@@ -104,10 +102,12 @@ class Category extends Component {
       );
     }
   };
+
   handleRestore = (categoryID) => {
     const merchantID = this.props.MerchantProfile.merchantId;
     this.props.restoreCategoryById(categoryID, merchantID);
   };
+  
   handleDel = (categoryID) => {
     const merchantID = this.props.MerchantProfile.merchantId;
     this.props.delCategory(categoryID, merchantID);

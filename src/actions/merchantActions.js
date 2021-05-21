@@ -147,6 +147,7 @@ export const getStaff = (MerchantID, path) => async (dispatch, getState) => {
         payload: true
       })
     }
+
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
@@ -698,7 +699,7 @@ export const viewCategory = (payload) => async (dispatch) => {
   });
 };
 
-export const getCategoryByID = (MerchantID, path , action) => async (
+export const getCategoryByID = (MerchantID, path, action) => async (
   dispatch,
   getState
 ) => {
@@ -728,7 +729,7 @@ export const getCategoryByID = (MerchantID, path , action) => async (
     if (path) {
       history.push(path);
     }
-    if(action){
+    if (action) {
       action();
     }
   } catch (error) {
@@ -1054,7 +1055,7 @@ export const addMerchantServiceById = (payload) => async (
       payload: data?.message,
     });
 
-    dispatch(getServiceByID(merchantId ,null, gotoLastPage));
+    dispatch(getServiceByID(merchantId, null, gotoLastPage));
 
   } catch (error) {
     dispatch({
