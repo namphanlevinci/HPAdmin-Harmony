@@ -27,6 +27,7 @@ import DelSVG from "@/assets/images/del.svg";
 import EditSVG from "@/assets/images/edit.svg";
 import RestoreSVG from "@/assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
+import Pagination from "@/components/Pagination";
 import { reloadUrl } from '@/util/reload';
 
 class Service extends Component {
@@ -35,6 +36,7 @@ class Service extends Component {
     this.state = {
       search: "",
       data: [],
+      dataList: [],
       loading: true,
       // Archive & Restore
       dialog: false,
@@ -42,8 +44,11 @@ class Service extends Component {
       restoreDialog: false,
       // Service ID
       serviceId: "",
+      row: 5,
+      page: 1,
     };
     this.refTable = React.createRef();
+    this.pagination = React.createRef();
   }
 
   getService = () => { };
@@ -89,6 +94,7 @@ class Service extends Component {
     this.props.archiveServiceById(serviceId, MerchantId);
     this.setState({ isOpenReject: false });
   };
+
   handleDel = (serviceId) => {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.delService(serviceId, merchantId);
@@ -110,9 +116,16 @@ class Service extends Component {
     reloadUrl('app/merchants/profile/service');
   }
 
-  render() {
-    let { serviceList, loading } = this.props.service;
+  updatePagination = () => {
+    const page = this.pagination.current.state.page;
+    const row = this.pagination.current.state.rowSelected;
+    this.setState({ page, row });
+  }
 
+  render() {
+    let { serviceList, loading, data } = this.props.service;
+    const { row, page } = this.state;
+    serviceList = serviceList.slice((page - 1) * row, (page - 1) * row + row);
     if (serviceList) {
       if (this.state.search) {
         serviceList = serviceList.filter((e) => {
@@ -300,20 +313,18 @@ class Service extends Component {
           <div className="merchant-list-container">
             <ReactTable
               ref={this.refTable}
-              page={this.props.page || 0}
-              pageSize={this.props.size || 5}
-              onPageChange={(pageIndex) => {
-                this.changePage(pageIndex);
-              }}
-              onPageSizeChange={(size) => {
-                this.changePageSize(size);
-              }}
               data={serviceList}
               columns={columns}
-              defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
+              PaginationComponent={() => <div />}
+            />
+
+            <Pagination
+              ref={this.pagination}
+              fetchApi={this.updatePagination}
+              pageCount={8}
             />
 
             {/* ARCHIVE */}
