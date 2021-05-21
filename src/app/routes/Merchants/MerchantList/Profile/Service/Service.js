@@ -27,7 +27,7 @@ import DelSVG from "@/assets/images/del.svg";
 import EditSVG from "@/assets/images/edit.svg";
 import RestoreSVG from "@/assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
-import { reloadUrl } from '@/util/reload';
+import Pagination from "@/components/Pagination";
 
 class Service extends Component {
   constructor(props) {
@@ -42,8 +42,11 @@ class Service extends Component {
       restoreDialog: false,
       // Service ID
       serviceId: "",
+      row: 5,
+      page: 1,
     };
     this.refTable = React.createRef();
+    this.pagination = React.createRef();
   }
 
   getService = () => { };
@@ -57,15 +60,18 @@ class Service extends Component {
     await this.props.viewService(e);
     this.props.history.push("/app/merchants/profile/service/edit");
   };
+
   changePage = async (pageIndex) => {
     this.setState({
       page: pageIndex,
     });
     await this.props.setPage(pageIndex);
   };
+
   changePageSize = async (size) => {
     await this.props.setSize(size);
   };
+
   handleCloseEdit = () => {
     this.setState({ openEdit: false });
   };
@@ -74,7 +80,6 @@ class Service extends Component {
     this.setState({ isOpenReject: false });
   };
 
-  // EDIT SERVICE
   goBackEdit = () => {
     this.setState({ openEdit: false });
     this.props.history.push("/app/merchants/profile/service");
@@ -89,6 +94,7 @@ class Service extends Component {
     this.props.archiveServiceById(serviceId, MerchantId);
     this.setState({ isOpenReject: false });
   };
+
   handleDel = (serviceId) => {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.delService(serviceId, merchantId);
@@ -100,18 +106,24 @@ class Service extends Component {
     this.setState({ isOpenReject: false });
   };
 
-  resetFirstPage = () => {
-    this.changePage(0);
-    if (this.refTable && this.refTable.current)
-      this.refTable.current.onPageChange(0);
-    const els = document.getElementsByClassName('-pageJump');
-    const inputs = els[0].getElementsByTagName('input');
-    inputs[0].value = 1;
-    reloadUrl('app/merchants/profile/service');
+  gotoLastPage = () => {
+    const { row } = this.state;
+    const pageCount = Math.ceil(this.props.service.serviceList.length / row);
+    this.pagination.current.changePage(pageCount);
+    this.setState({ page: pageCount });
+  }
+
+  updatePagination = () => {
+    const page = this.pagination.current.state.page;
+    const row = this.pagination.current.state.rowSelected;
+    this.setState({ page, row });
   }
 
   render() {
     let { serviceList, loading } = this.props.service;
+    const { row, page } = this.state;
+    serviceList = serviceList.slice((page - 1) * row, (page - 1) * row + row);
+    const pageCount = Math.ceil(this.props.service.serviceList.length / row);
 
     if (serviceList) {
       if (this.state.search) {
@@ -291,7 +303,7 @@ class Service extends Component {
               {CheckPermissions("add-new-service") && (
                 <AddService
                   reload={this.getService}
-                  resetFirstPage={this.resetFirstPage}
+                  gotoLastPage={this.gotoLastPage}
                 />
               )}
             </div>
@@ -300,20 +312,18 @@ class Service extends Component {
           <div className="merchant-list-container">
             <ReactTable
               ref={this.refTable}
-              page={this.props.page || 0}
-              pageSize={this.props.size || 5}
-              onPageChange={(pageIndex) => {
-                this.changePage(pageIndex);
-              }}
-              onPageSizeChange={(size) => {
-                this.changePageSize(size);
-              }}
               data={serviceList}
               columns={columns}
-              defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
+              PaginationComponent={() => <div />}
+            />
+
+            <Pagination
+              ref={this.pagination}
+              fetchApi={this.updatePagination}
+              pageCount={pageCount}
             />
 
             {/* ARCHIVE */}

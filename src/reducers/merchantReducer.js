@@ -54,6 +54,7 @@ const getStaffReducer = (
   state = {
     loading: false,
     statusAddStaff: false,
+    data : [],
   },
   { type, payload }
 ) => {
@@ -325,6 +326,7 @@ const updateMerchantPrincipalByIdReducer = (
 const getMerchantCategoryByIdReducer = (
   state = {
     loading: false,
+    categoryList : [],
   },
   { type, payload }
 ) => {
@@ -464,21 +466,25 @@ const restoreMerchantCategoryByIdReducer = (
 const getMerchantServiceByIdReducer = (
   state = {
     loading: false,
+    serviceList: [],
   },
   { type, payload }
 ) => {
   switch (type) {
     case types.GET_MERCHANT_SERVICE_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case types.GET_MERCHANT_SERVICE_SUCCESS:
       return {
+        ...state,
         loading: false,
         serviceList: payload,
       };
     case types.GET_MERCHANT_SERVICE_FAILURE:
       return {
+        ...state,
         loading: false,
       };
     default:
@@ -604,6 +610,7 @@ const restoreMerchantServiceByIdReducer = (
 const getMerchantProductByIdReducer = (
   state = {
     loading: false,
+    productList : [],
   },
   { type, payload }
 ) => {
@@ -1313,9 +1320,9 @@ const merchantStateReducer = (
     case types.GET_STATE_MERCHANT_SUCCESS:
       return {
         ...state,
-        data: payload.map(obj=>({
-          value : obj.stateId,
-          label : obj.name
+        data: payload.map(obj => ({
+          value: obj.stateId,
+          label: obj.name
         }))
       };
     case types.GET_STATE_MERCHANT_FAILURE:

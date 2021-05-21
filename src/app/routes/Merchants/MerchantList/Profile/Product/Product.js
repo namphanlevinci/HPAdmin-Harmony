@@ -7,7 +7,7 @@ import {
   restoreProductById,
   setPageProduct,
   setSizeProduct,
-} from "../../../../../../actions/merchantActions";
+} from "@/actions/merchantActions";
 import {
   Button,
   Dialog,
@@ -19,14 +19,15 @@ import {
 
 import ReactTable from "react-table";
 import defaultImage from "../Extra/hpadmin2.png";
-import CheckPermissions from "../../../../../../util/checkPermission";
+import CheckPermissions from "@/util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
-import ArchiveSVG from "../../../../../../assets/images/archive.svg";
-import EditSVG from "../../../../../../assets/images/edit.svg";
-import RestoreSVG from "../../../../../../assets/images/restore.svg";
+import ArchiveSVG from "@/assets/images/archive.svg";
+import EditSVG from "@/assets/images/edit.svg";
+import RestoreSVG from "@/assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
-import SearchComponent from "../../../../../../util/searchComponent";
-import { reloadUrl } from '../../../../../../util/reload';
+import SearchComponent from "@/util/searchComponent";
+import Pagination from "@/components/Pagination";
+import { reloadUrl } from '@/util/reload';
 
 class Product extends Component {
   constructor(props) {
@@ -39,17 +40,21 @@ class Product extends Component {
       restoreDialog: false,
       productId: "",
       isPopupAddProduct: false,
+      page: 1,
+      row: 5,
     };
     this.refTable = React.createRef();
+    this.pagination = React.createRef();
   }
 
   componentDidMount() {
     const merchantId = this.props.MerchantProfile.merchantId;
-    this.props.getProductByID(merchantId);
     const { statusAddProduct } = this.props;
     if (statusAddProduct == true) {
-      this.resetFirstPage();
+      this.gotoLastPage();
       this.props.updateStatusAddProduct(false);
+    } else {
+      this.props.getProductByID(merchantId);
     }
   }
 
@@ -64,12 +69,15 @@ class Product extends Component {
   handleCloseReject = () => {
     this.setState({ isOpenReject: false });
   };
+
   handleChangePage = async (pageIndex) => {
     await this.props.setPageProduct(pageIndex);
   };
+
   handleChangeSize = async (pageSize) => {
     await this.props.setSizeProduct(pageSize);
   };
+
   handleArchive = (productId) => {
     const merchantId = this.props.MerchantProfile.merchantId;
     this.props.archiveProductById(productId, merchantId);
@@ -83,18 +91,30 @@ class Product extends Component {
   };
 
 
-  resetFirstPage = () => {
-    this.handleChangePage(0);
-    if (this.refTable && this.refTable.current)
-      this.refTable.current.onPageChange(0);
-    const els = document.getElementsByClassName('-pageJump');
-    const inputs = els[0].getElementsByTagName('input');
-    inputs[0].value = 1;
-    reloadUrl('app/merchants/profile/product');
+  gotoLastPage = () => {
+    const { row } = this.state;
+    const pageCount = Math.ceil(this.props.product.productList.length / row);
+    this.pagination.current.changePage(pageCount);
+    this.setState({ page: pageCount });
+  }
+
+  updatePagination = () => {
+    const page = this.pagination.current.state.page;
+    const row = this.pagination.current.state.rowSelected;
+    this.setState({ page, row });
   }
 
   render() {
     let { productList, loading } = this.props.product;
+
+    const { row, page } = this.state;
+    productList = productList?.slice((page - 1) * row, (page - 1) * row + row) || [];
+
+    const pageCount =
+      (this.props.product.productList && this.props.product.productList.length)
+        ?
+        Math.ceil(this.props.product.productList.length / row)
+        : 1;
 
     if (productList) {
       if (this.state.search) {
@@ -291,16 +311,17 @@ class Product extends Component {
           <div className="merchant-list-container">
             <ReactTable
               ref={this.refTable}
-              page={this.props.page || 0}
-              pageSize={this.props.size || 5}
-              onPageChange={(pageIndex) => this.handleChangePage(pageIndex)}
-              onPageSizeChange={(size) => this.handleChangeSize(size)}
               data={productList}
               columns={columns}
-              defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
+              PaginationComponent={() => <div />}
+            />
+            <Pagination
+              ref={this.pagination}
+              fetchApi={this.updatePagination}
+              pageCount={pageCount}
             />
           </div>
 
