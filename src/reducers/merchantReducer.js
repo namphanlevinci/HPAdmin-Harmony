@@ -610,6 +610,7 @@ const restoreMerchantServiceByIdReducer = (
 const getMerchantProductByIdReducer = (
   state = {
     loading: false,
+    productList : [],
   },
   { type, payload }
 ) => {
