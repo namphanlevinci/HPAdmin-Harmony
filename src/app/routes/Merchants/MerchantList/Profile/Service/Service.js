@@ -61,15 +61,18 @@ class Service extends Component {
     await this.props.viewService(e);
     this.props.history.push("/app/merchants/profile/service/edit");
   };
+
   changePage = async (pageIndex) => {
     this.setState({
       page: pageIndex,
     });
     await this.props.setPage(pageIndex);
   };
+
   changePageSize = async (size) => {
     await this.props.setSize(size);
   };
+
   handleCloseEdit = () => {
     this.setState({ openEdit: false });
   };
@@ -78,7 +81,6 @@ class Service extends Component {
     this.setState({ isOpenReject: false });
   };
 
-  // EDIT SERVICE
   goBackEdit = () => {
     this.setState({ openEdit: false });
     this.props.history.push("/app/merchants/profile/service");
@@ -105,14 +107,11 @@ class Service extends Component {
     this.setState({ isOpenReject: false });
   };
 
-  resetFirstPage = () => {
-    this.changePage(0);
-    if (this.refTable && this.refTable.current)
-      this.refTable.current.onPageChange(0);
-    const els = document.getElementsByClassName('-pageJump');
-    const inputs = els[0].getElementsByTagName('input');
-    inputs[0].value = 1;
-    reloadUrl('app/merchants/profile/service');
+  gotoLastPage = () => {
+    const { row } = this.state;
+    const pageCount = Math.ceil(this.props.service.serviceList.length / row);
+    this.pagination.current.changePage(pageCount);
+    this.setState({ page: pageCount });
   }
 
   updatePagination = () => {
@@ -305,7 +304,7 @@ class Service extends Component {
               {CheckPermissions("add-new-service") && (
                 <AddService
                   reload={this.getService}
-                  resetFirstPage={this.resetFirstPage}
+                  gotoLastPage={this.gotoLastPage}
                 />
               )}
             </div>

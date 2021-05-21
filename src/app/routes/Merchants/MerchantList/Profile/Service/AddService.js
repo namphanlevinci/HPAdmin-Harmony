@@ -314,7 +314,7 @@ class AddService extends Component {
                         discount,
                         fileId,
                         merchantId,
-                        resetFirstPage: this.props.resetFirstPage,
+                        gotoLastPage: this.props.gotoLastPage,
                       };
                       this.props.addMerchantServiceById(payload);
 

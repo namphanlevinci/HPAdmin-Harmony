@@ -967,7 +967,7 @@ export const restoreCategoryById = (categoryID, MerchantID) => async (
   }
 };
 
-export const getServiceByID = (MerchantID, path) => async (
+export const getServiceByID = (MerchantID, path, action) => async (
   dispatch,
   getState
 ) => {
@@ -996,6 +996,9 @@ export const getServiceByID = (MerchantID, path) => async (
 
     if (path) {
       history.push(path);
+    }
+    if (action) {
+      action();
     }
   } catch (error) {
     dispatch({
@@ -1027,8 +1030,8 @@ export const addMerchantServiceById = (payload) => async (
       verifyUser: { user },
     } = await getState();
 
-    const { merchantId, resetFirstPage } = payload;
-    delete payload.resetFirstPage;
+    const { merchantId, gotoLastPage } = payload;
+    delete payload.gotoLastPage;
 
     const { data } = await axios.post(
       `${URL}/service`,
@@ -1049,9 +1052,9 @@ export const addMerchantServiceById = (payload) => async (
       type: SUCCESS_NOTIFICATION,
       payload: data?.message,
     });
-    // resetFirstPage();
-    dispatch(getServiceByID(merchantId));
-    
+
+    dispatch(getServiceByID(merchantId ,null, gotoLastPage));
+
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
