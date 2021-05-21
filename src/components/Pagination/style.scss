@@ -29,6 +29,9 @@
     &_button{
         @include button_pagination();
     }
+    &_button:hover{
+        background : #1c609c;
+    }
     &_button_inactive{
         @include button_pagination();
         color : #404040;
