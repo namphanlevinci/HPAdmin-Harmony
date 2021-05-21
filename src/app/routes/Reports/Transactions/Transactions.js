@@ -28,47 +28,39 @@ import SearchComponent from "@/util/searchComponent";
 import InputCustom from "@/util/CustomInput";
 import NewButton from "@/components/Button/Search";
 import ResetButton from "@/components/Button/Reset";
+import Pagination from "@/components/Pagination";
 
 import "./Transactions.css";
 import "react-table/react-table.css";
 import "../../Merchants/Merchants.css";
 
+const initialState = {
+  search: "",
+  from: moment().startOf("month").format("YYYY-MM-DD"),
+  to: moment().endOf("month").format("YYYY-MM-DD"),
+  amount: "",
+  amountFrom: -1,
+  amountTo: -1,
+  range: "thisMonth",
+  status: -1,
+}
+
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      search: "",
-      from: "",
-      to: "",
-      amount: "",
-      amountFrom: -1,
-      amountTo: -1,
-      range: "thisMonth",
-      status: -1,
-      page: 0,
-    };
+    this.state = initialState;
+    this.refTable = React.createRef();
+    this.pagination = React.createRef();
   }
 
   handleResetClick = async () => {
-    await this.setState({
-      from: moment().startOf("month").format("YYYY-MM-DD"),
-      to: moment().startOf("month").format("YYYY-MM-DD"),
-      amount: "",
-      amountFrom: -1,
-      amountTo: -1,
-      range: "",
-      search: "",
-      status: -1,
-      page: 0,
-    });
+    await this.setState(initialState);
+    await this.pagination.current.changePage(1);
     this.fetchApi();
   };
 
   componentDidMount() {
-    this.setState({
-      from: moment().startOf("month").format("YYYY-MM-DD"),
-      to: moment().endOf("month").format("YYYY-MM-DD"),
-    });
+    this.fetchApi();
   }
 
   searchTransaction = debounce((query) => {
@@ -89,9 +81,7 @@ class Transactions extends React.Component {
 
   timeRange = async (e) => {
     const value = e.target.value;
-    await this.setState({
-      range: value,
-    });
+    await this.setState({ range: value });
 
     switch (value) {
       case "today":
@@ -100,30 +90,35 @@ class Transactions extends React.Component {
           to: moment().startOf("day").format("YYYY-MM-DD"),
         });
         return;
+
       case "yesterday":
         this.setState({
           from: moment().subtract(1, "day").format("YYYY-MM-DD"),
           to: moment().subtract(1, "day").format("YYYY-MM-DD"),
         });
         return;
+
       case "thisWeek":
         this.setState({
           from: moment().startOf("week").format("YYYY-MM-DD"),
           to: moment().endOf("week").format("YYYY-MM-DD"),
         });
         return;
+
       case "lastWeek":
         this.setState({
           from: moment().subtract(1, "week").format("YYYY-MM-DD"),
           to: moment().subtract(1, "week").endOf("week").format("YYYY-MM-DD"),
         });
         return;
+
       case "thisMonth":
         this.setState({
           from: moment().startOf("month").format("YYYY-MM-DD"),
           to: moment().endOf("month").format("YYYY-MM-DD"),
         });
         return;
+
       case "lastMonth":
         this.setState({
           from: moment()
@@ -132,11 +127,17 @@ class Transactions extends React.Component {
             .format("YYYY-MM-DD"),
           to: moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
         });
+
         return;
       default:
         return;
     }
   };
+
+  search = async() =>{
+    await this.pagination.current.changePage(1);
+    await this.fetchApi();
+  }
 
   fetchApi = async (state) => {
     const {
@@ -149,13 +150,12 @@ class Transactions extends React.Component {
       amountTo,
       status,
     } = this.state;
-    let page = state?.page ? state?.page : 0;
-    let pageSize = state?.pageSize ? state?.pageSize : 5;
+    let page = this.pagination.current.state.page;
+    let row = this.pagination.current.state.rowSelected;
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
-    const url = `paymentTransaction/search?page=${page === 0 ? 1 : page + 1
-      }&row=${pageSize}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${amount ? amount : amountFrom
+    const url = `paymentTransaction/search?page=${page}&row=${row}&quickFilter=${range}&key=${search}&timeStart=${from}&timeEnd=${to}&amountFrom=${amount ? amount : amountFrom
       }&amountTo=${amount ? amount : amountTo
       }&sortValue=${sortValue}&sortType=${sortType}&status=${status}`;
     this.props.fetchApiByPage(url);
@@ -325,7 +325,7 @@ class Transactions extends React.Component {
                 />
                 <NewButton
                   style={{ marginLeft: "10px" }}
-                  onClick={() => this.fetchApi()}
+                  onClick={this.search}
                 >
                   Search
               </NewButton>
@@ -352,6 +352,7 @@ class Transactions extends React.Component {
                 </Select>
               </FormControl>
             </Grid>
+
             {range === "all" ? (
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid item xs={2} style={{}}>
@@ -445,32 +446,29 @@ class Transactions extends React.Component {
               />
             </Grid>
           </Grid>
+
           <ResetButton
             onClick={this.handleResetClick}
             style={{ marginTop: "10px" }}
           >
             Reset filter
           </ResetButton>
+
           <div className="merchant-list-container Transactions">
             <ReactTable
-              manual={true}
-              page={page}
-              pages={pageCount}
+              ref={this.refTable}
+              manual={false}
               data={data}
-              row={pageSize}
-              onPageChange={(pageIndex) => {
-                console.log('on page change')
-                this.changePage(pageIndex);
-              }}
-              onFetchData={(state) => {
-                console.log('fetch data')
-                this.fetchApi(state);
-              }}
-              defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
               columns={columns}
+              PaginationComponent={() => <div />}
+            />
+            <Pagination
+              ref={this.pagination}
+              fetchApi={this.fetchApi}
+              pageCount={pageCount}
             />
           </div>
         </div>

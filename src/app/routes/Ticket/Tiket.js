@@ -73,6 +73,7 @@ class Tiket extends Component {
     this.setState({ search: "", statusValue: "all" });
     this.fetchApi();
   }, 1000);
+  
   ticketInfo = (ID) => {
     const path = "/app/ticket/detail";
     this.props.getTicketByID(ID, path);
