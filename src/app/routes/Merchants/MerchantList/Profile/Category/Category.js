@@ -38,6 +38,8 @@ import RestoreSVG from "../../../../../../assets/images/restore.svg";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import EditCategory from "./EditCategory";
 import SearchComponent from "../../../../../../util/searchComponent";
+import Pagination from "@/components/Pagination";
+
 import { reloadUrl } from '../../../../../../util/reload';
 
 import "./category.styles.scss";
@@ -59,9 +61,11 @@ class Category extends Component {
       // Category ID để update
       categoryId: "",
       edit: false,
-      page: 0,
+      page: 1,
+      row: 5,
     };
     this.refTable = React.createRef();
+    this.pagination = React.createRef();
   }
 
   getCategory = () => {
@@ -86,6 +90,7 @@ class Category extends Component {
     const merchantID = this.props.MerchantProfile.merchantId;
     this.props.archiveCategoryById(categoryID, merchantID);
   };
+
   handleAddTemplate = async (e) => {
     e.preventDefault();
     const merchantId = this.props.MerchantProfile.merchantId;
@@ -112,17 +117,24 @@ class Category extends Component {
     this.props.exportCategory(merchantID);
   };
 
-  resetFirstPage = () => {
-    if (this.refTable && this.refTable.current)
-      this.refTable.current.onPageChange(0);
-    const els = document.getElementsByClassName('-pageJump');
-    const inputs = els[0].getElementsByTagName('input');
-    inputs[0].value = 1;
-    reloadUrl('app/merchants/profile/category');
+  gotoLastPage = () => {
+    const { row } = this.state;
+    const pageCount = Math.ceil(this.props.categoryList.categoryList.length / row);
+    this.pagination.current.changePage(pageCount);
+    this.setState({ page: pageCount });
+  }
+
+  updatePagination = () => {
+    const page = this.pagination.current.state.page;
+    const row = this.pagination.current.state.rowSelected;
+    this.setState({ page, row });
   }
 
   render() {
     let { categoryList, loading } = this.props.categoryList;
+    const { row, page } = this.state;
+    categoryList = categoryList.slice((page - 1) * row, (page - 1) * row + row);
+    const pageCount = Math.ceil(this.props.categoryList.categoryList.length / row);
 
     if (categoryList) {
       if (this.state.search) {
@@ -268,7 +280,7 @@ class Category extends Component {
               placeholder="Search.."
               value={this.state.search}
               onChange={(e) => this.setState({ search: e.target.value })}
-              onClickIcon={()=>this.setState({ search : "" })}
+              onClickIcon={() => this.setState({ search: "" })}
             />
 
             <div>
@@ -332,7 +344,7 @@ class Category extends Component {
                           const payload = {
                             ...values,
                             merchantId,
-                            resetFirstPage: this.resetFirstPage
+                            gotoLastPage: this.gotoLastPage
                           };
                           this.props.addMerchantCategoryById(payload);
                           this.setState({ cateDialog: false });
@@ -438,11 +450,18 @@ class Category extends Component {
               ref={this.refTable}
               data={categoryList}
               columns={columns}
-              defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
+              PaginationComponent={() => <div />}
             />
+
+            <Pagination
+              ref={this.pagination}
+              fetchApi={this.updatePagination}
+              pageCount={pageCount}
+            />
+
 
             {/* ARCHIVE */}
             <Dialog open={this.state.dialog}>

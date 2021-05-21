@@ -325,6 +325,7 @@ const updateMerchantPrincipalByIdReducer = (
 const getMerchantCategoryByIdReducer = (
   state = {
     loading: false,
+    categoryList : [],
   },
   { type, payload }
 ) => {

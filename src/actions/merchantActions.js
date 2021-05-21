@@ -698,7 +698,7 @@ export const viewCategory = (payload) => async (dispatch) => {
   });
 };
 
-export const getCategoryByID = (MerchantID, path) => async (
+export const getCategoryByID = (MerchantID, path , action) => async (
   dispatch,
   getState
 ) => {
@@ -727,6 +727,9 @@ export const getCategoryByID = (MerchantID, path) => async (
 
     if (path) {
       history.push(path);
+    }
+    if(action){
+      action();
     }
   } catch (error) {
     dispatch({
@@ -816,8 +819,8 @@ export const addMerchantCategoryById = (payload) => async (
       verifyUser: { user },
     } = await getState();
 
-    const { merchantId, resetFirstPage } = payload;
-    delete payload.resetFirstPage;
+    const { merchantId, gotoLastPage } = payload;
+    delete payload.gotoLastPage;
 
     const { data } = await axios.post(
       `${URL}/category`,
@@ -839,9 +842,7 @@ export const addMerchantCategoryById = (payload) => async (
       payload: data?.message,
     });
 
-    resetFirstPage();
-
-    // dispatch(getCategoryByID(merchantId));
+    dispatch(getCategoryByID(merchantId, null, gotoLastPage));
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,
