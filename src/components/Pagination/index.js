@@ -52,11 +52,11 @@ export default class index extends Component {
 
     render() {
         const { isPopupRows, rowSelected, page } = this.state;
-        const { pageCount } = this.props;
+        const { pageCount, loading = false } = this.props;
         return (
             <div className="container_pagination">
                 <Button
-                    isDisabled={page == 1}
+                    isDisabled={page == 1 || loading}
                     onClick={this.previousPage}
                 >
                     Previous
@@ -81,7 +81,7 @@ export default class index extends Component {
                 </div>
 
                 <Button
-                    isDisabled={parseInt(page) >= parseInt(pageCount)}
+                    isDisabled={parseInt(page) >= parseInt(pageCount) || loading}
                     onClick={this.nextPage}
                 >
                     Next
