@@ -36,7 +36,6 @@ class Service extends Component {
     this.state = {
       search: "",
       data: [],
-      dataList: [],
       loading: true,
       // Archive & Restore
       dialog: false,
@@ -123,9 +122,11 @@ class Service extends Component {
   }
 
   render() {
-    let { serviceList, loading, data } = this.props.service;
+    let { serviceList, loading } = this.props.service;
     const { row, page } = this.state;
     serviceList = serviceList.slice((page - 1) * row, (page - 1) * row + row);
+    const pageCount = Math.ceil(this.props.service.serviceList.length / row);
+
     if (serviceList) {
       if (this.state.search) {
         serviceList = serviceList.filter((e) => {
@@ -324,7 +325,7 @@ class Service extends Component {
             <Pagination
               ref={this.pagination}
               fetchApi={this.updatePagination}
-              pageCount={8}
+              pageCount={pageCount}
             />
 
             {/* ARCHIVE */}
