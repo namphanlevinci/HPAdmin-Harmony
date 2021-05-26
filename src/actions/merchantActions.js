@@ -7,6 +7,7 @@ import {
 import axios from "axios";
 import { config } from "../url/url";
 import { history } from "../store/index";
+import moment from "moment";
 
 const URL = config.url.URL;
 
@@ -638,7 +639,6 @@ export const updateMerchantPrincipalById = (payload) => async (
   getState
 ) => {
   try {
-
     dispatch({
       type: types.UPDATE_MERCHANT_PRINCIPAL_REQUEST,
     });
@@ -651,7 +651,7 @@ export const updateMerchantPrincipalById = (payload) => async (
 
     const { data } = await axios.put(
       `${URL}/merchant/principal/${principalID}`,
-      { ...payload },
+      { ...payload , birthDate : moment(payload.birthDate).format('MM-DD-YYYY') },
       {
         headers: {
           Authorization: `Bearer ${user?.token}`,
