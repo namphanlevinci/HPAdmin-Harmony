@@ -638,7 +638,7 @@ export const updateMerchantPrincipalById = (payload) => async (
   getState
 ) => {
   try {
-    console.log({payload});
+
     dispatch({
       type: types.UPDATE_MERCHANT_PRINCIPAL_REQUEST,
     });
