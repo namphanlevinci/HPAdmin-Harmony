@@ -196,8 +196,7 @@ class Transactions extends React.Component {
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.setState({ loading: true });
-      this.fetchApi();
+      this.search();
     }
   };
 
