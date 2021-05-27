@@ -28,7 +28,8 @@ class PrincipalProfile extends Component {
 
   render() {
     const e = this.props.principalData;
-    console.log({e});
+    let ssn = e.ssn.toString().replace(/-/g, '');
+    
     return (
       <Grid
         container
@@ -67,7 +68,7 @@ class PrincipalProfile extends Component {
           </Grid>
           <Grid item xs={4}>
             <CustomTextLabel value="Social Security Number* (SSN)" />
-            <CustomText value={"********" + e.ssn.toString().replace(/-/g, '').slice(e.ssn.toString().length - 6)} />
+            <CustomText value={"********" + ssn.slice(ssn.length - 4)} />
           </Grid>
           <Grid item xs={4}>
             <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />
