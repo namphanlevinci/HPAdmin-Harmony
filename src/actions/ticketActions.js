@@ -213,10 +213,7 @@ export const sendComment = (payload, ID) => async (dispatch, getState) => {
 export const addTicket = (payload) => async (dispatch, getState) => {
   try {
     dispatch({ type: types.ADD_TICKET_REQUEST });
-
-    const {
-      verifyUser: { user },
-    } = await getState();
+    const { verifyUser: { user }  } = await getState();
 
     const { data } = await axios.post(
       `${URL}/ticket`,
@@ -238,7 +235,6 @@ export const addTicket = (payload) => async (dispatch, getState) => {
         payload: data?.message,
       });
       dispatch(fetchApiByPage(`ticket`));
-      // dispatch(getTicketByID(data.data));
       if (payload.path) {
         history.push(payload.path);
       }
@@ -355,11 +351,9 @@ export const updateTicketById = (payload) => async (dispatch, getState) => {
   try {
     dispatch({ type: types.UPDATE_TICKET_REQUEST });
 
-    const { clientApp, clientName, title, status, description, id } = payload;
+    const { clientApp, clientName, title, status, description, id, requestBy, requestedBy } = payload;
 
-    const {
-      verifyUser: { user },
-    } = await getState();
+    const { verifyUser: { user } } = await getState();
 
     const { data } = await axios.put(
       `${URL}/ticket/${id}`,
@@ -369,6 +363,7 @@ export const updateTicketById = (payload) => async (dispatch, getState) => {
         title,
         status,
         description,
+        requestBy : requestBy ? requestBy : requestedBy
       },
       {
         headers: {
@@ -383,12 +378,8 @@ export const updateTicketById = (payload) => async (dispatch, getState) => {
       type: SUCCESS_NOTIFICATION,
       payload: data.message,
     });
-    dispatch(getTicketByID(id));
+    dispatch(getTicketByID(id,payload.path));
     dispatch(getTicketLogById(id));
-
-    if (payload.path) {
-      history.push(payload.path);
-    }
   } catch (error) {
     dispatch({
       type: FAILURE_NOTIFICATION,

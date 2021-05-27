@@ -1,40 +1,40 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { CustomTableHeader } from "../../../../util/CustomText";
-import { fetchApiByPage } from "../../../../actions/fetchApiActions";
+import { CustomTableHeader } from "@/util/CustomText";
+import { fetchApiByPage } from "@/actions/fetchApiActions";
 import {
   viewTemplate,
   archiveTemplateByID,
   restoreTemplateByID,
-} from "../../../../actions/giftCardActions";
+} from "@/actions/giftCardActions";
 import { Typography, Button } from "@material-ui/core";
 import { debounce } from "lodash";
 
-import SearchComponent from "../../../../util/searchComponent";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import IntlMessages from "../../../../util/IntlMessages";
+import SearchComponent from "@/util/searchComponent";
+import ContainerHeader from "@/components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
 import ReactTable from "react-table";
 import Checkbox from "@material-ui/core/Checkbox";
 import Delete from "../DeleteGeneration";
-import CheckPermissions from "../../../../util/checkPermission";
+import CheckPermissions from "@/util/checkPermission";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Tooltip from "@material-ui/core/Tooltip";
-import ArchiveSVG from "../../../../assets/images/archive.svg";
-import EditSVG from "../../../../assets/images/edit.svg";
-import RestoreSVG from "../../../../assets/images/restore.svg";
-import NewButton from "../../../../components/Button/Search";
-import ResetButton from "../../../../components/Button/Reset";
+import ArchiveSVG from "@/assets/images/archive.svg";
+import EditSVG from "@/assets/images/edit.svg";
+import RestoreSVG from "@/assets/images/restore.svg";
+import NewButton from "@/components/Button/Search";
+import ResetButton from "@/components/Button/Reset";
 
-import { reloadUrl } from '../../../../util/reload';
+import { reloadUrl } from '@/util/reload';
 
 import "../Generation/generation.styles.scss";
 import "react-table/react-table.css";
-import { UPDATE_STATUS_ADD_STAFF } from "../../../../constants/merchantConstants";
+import { UPDATE_STATUS_ADD_STAFF } from "@/constants/merchantConstants";
 
 class Template extends Component {
   constructor(props) {
@@ -272,7 +272,7 @@ class Template extends Component {
                 value={this.state.search}
                 onChange={this.handleChange}
                 onKeyPress={this.keyPressed}
-                onClickIcon={this.fetchApi}
+                onClickIcon={()=>this.setState({ search : "" })}
               />
               <NewButton onClick={this.fetchApi} style={{ marginLeft: "10px" }}>
                 Search

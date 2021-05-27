@@ -1,0 +1,113 @@
+
+@mixin button_pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding : 0.7rem;
+    border-radius: 5px;
+    width: 25%;
+    color : white;
+    font-size: 1rem;
+    font-weight : 500;
+    background : #1366AE;
+    cursor : pointer;
+}
+
+@mixin row_pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container_pagination{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem;
+    margin-bottom : 1rem;
+    &_button{
+        @include button_pagination();
+    }
+    &_button:hover{
+        background : #1c609c;
+    }
+    &_button_inactive{
+        @include button_pagination();
+        color : #404040;
+        background : #E5E5E5;
+    }
+    &_row{
+        @include row_pagination();
+        &>span{
+            color: #404040;
+        }
+    }
+    &_input{
+        @include row_pagination();
+        border-radius: 5px;
+        border : 1px solid #dddddd;
+        padding : 0.4rem;
+        width: 4rem;
+        margin : 0px 1rem;
+        cursor: pointer;
+        color : #404040;
+    }
+    &_input_row{
+        margin-left : 4rem;
+        position : relative;
+        width: 5.8rem;
+        justify-content : flex-start;
+        padding-left : 10px;
+    }
+    &_arrow{
+        position: absolute;
+        right : 2px;
+        top : 7px;
+        transform: rotate(90deg);
+        width: 22px;
+        height : 22px;
+    }
+}
+
+.popup_rows{
+    position: absolute;
+    top : 2.5rem;
+    left : 0px;
+    right : 0px;
+    background : white;
+    z-index : 99999;
+    border : 1px solid #333333;
+    box-shadow: 0 5px 24px rgba(65,11,16,.15);
+    &_per{
+        padding-left : 10px;
+        font-size: 0.85rem;
+    }
+    &_per:hover{
+        background : #E5E5E5;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .container_pagination{
+        &_input_row{
+            margin-left : 1rem;
+            margin-top : 0.5rem;
+        }
+        &_button{
+            width: 20%;
+        }
+        &_button_inactive{
+            width : 20%;
+        }
+        &_button{
+            width: 28%;
+        }
+        &_button_inactive{
+            width: 28%;
+        }
+    }
+    .row_per_page_pagination{
+        flex-direction: column;
+    }
+}

@@ -1,14 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AiFillAppstore } from "react-icons/ai";
-import { CustomTableHeader } from "../../../../util/CustomText";
+import { CustomTableHeader } from "@/util/CustomText";
 import { Button, Typography } from "@material-ui/core";
 
 import moment from "moment";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@/components/ContainerHeader/index";
 import ReactTable from "react-table";
-import CreditCardIcon from "../../../../util/CreditCardIcon";
+import CreditCardIcon from "@/util/CreditCardIcon";
 
 import "../Transactions/Transactions.css";
 import "../../Merchants/Merchants.css";
@@ -24,11 +24,10 @@ class Transactions extends React.Component {
     };
   }
   goBack = () => {
-    this.props.history.push("/app/reports/batchs");
+    this.props.history.goBack();
   };
   render() {
     const { data, loading, pageSize, summary } = this.props.apiData;
-    console.log("data", this.props.apiData);
     const columns = [
       {
         Header: <CustomTableHeader value="Transaction ID" />,

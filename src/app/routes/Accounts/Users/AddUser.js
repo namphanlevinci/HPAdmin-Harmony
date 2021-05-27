@@ -6,25 +6,25 @@ import {
 import { Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { config } from "../../../../url/url";
+import { config } from "@/url/url";
 import { Select, Avatar } from "@material-ui/core";
-import { addUser } from "../../../../actions/userActions";
+import { addUser } from "@/actions/userActions";
 import { TextField, Grid, Button } from "@material-ui/core";
-import { WARNING_NOTIFICATION } from "../../../../constants/notificationConstants";
+import { WARNING_NOTIFICATION } from "@/constants/notificationConstants";
 
 import * as Yup from "yup";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
-import CustomStateSelect from "../../../../util/CustomStateSelect";
+import CustomStateSelect from "@/util/CustomStateSelect";
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import moment from "moment";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
-import IntlMessages from "../../../../util/IntlMessages";
+import ContainerHeader from "@components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
 import DefaultAvatar from "./avatar.png";
 
 import "date-fns";

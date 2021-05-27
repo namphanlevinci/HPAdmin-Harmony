@@ -52,6 +52,7 @@ class AddStaff extends Component {
   handleShowPin = () => {
     this.setState({ showPin: !this.state.showPin });
   };
+  
   handleConfirmPin = () => {
     this.setState({ showConfirmPin: !this.state.showConfirmPin });
   };

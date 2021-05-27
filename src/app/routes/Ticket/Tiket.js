@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { CustomTableHeader } from "../../../util/CustomText";
+import { CustomTableHeader } from "@/util/CustomText";
 import { Typography } from "@material-ui/core";
-import { fetchApiByPage } from "../../../actions/fetchApiActions";
+import { fetchApiByPage } from "@/actions/fetchApiActions";
 import {
   getTicketByID,
   getTicketCommentById,
   getTicketLogById,
-} from "../../../actions/ticketActions";
-import { getAllUser } from "../../../actions/userActions";
+} from "@/actions/ticketActions";
+import { getAllUser } from "@/actions/userActions";
 
 import {
   Select,
@@ -20,16 +20,16 @@ import {
 } from "@material-ui/core";
 import { debounce } from "lodash";
 
-import NewButton from "../../../components/Button/Search";
-import ResetButton from "../../../components/Button/Reset";
-import Status from "./components/Status";
-import SearchComponent from "../../../util/searchComponent";
-import ContainerHeader from "../../../components/ContainerHeader/index";
-import IntlMessages from "../../../util/IntlMessages";
+import NewButton from "@components/Button/Search";
+import ResetButton from "@components/Button/Reset";
+import SearchComponent from "@/util/searchComponent";
+import ContainerHeader from "@components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
 import ReactTable from "react-table";
-import CheckPermissions from "../../../util/checkPermission";
+import CheckPermissions from "@/util/checkPermission";
+import Status from "./components/Status";
 import moment from "moment";
-import { reloadUrl } from '../../../util/reload';
+import { reloadUrl } from '@/util/reload';
 
 import "react-table/react-table.css";
 import "../Merchants/Merchants.css";
@@ -58,6 +58,7 @@ class Tiket extends Component {
       this.props.updateStatusAddTicket(false);
     }
   };
+
   fetchApi = async (state) => {
     let page = state?.page ? state?.page : 0;
     let pageSize = state?.pageSize ? state?.pageSize : 20;
@@ -67,21 +68,25 @@ class Tiket extends Component {
 
     this.props.fetchApiByPage(url);
   };
+
   handleReset = debounce((e) => {
     this.setState({ search: "", statusValue: "all" });
     this.fetchApi();
   }, 1000);
+  
   ticketInfo = (ID) => {
     const path = "/app/ticket/detail";
     this.props.getTicketByID(ID, path);
     this.props.getTicketCommentById(ID);
     this.props.getTicketLogById(ID);
   };
+
   changePage = (pageIndex) => {
     this.setState({
       page: pageIndex,
     });
   };
+
   keyPressed = (event) => {
     if (event.key === "Enter") {
       // event.preventDefault();
@@ -93,6 +98,7 @@ class Tiket extends Component {
   addTicket = () => {
     this.props.history.push("/app/ticket/add-ticket");
   };
+
   handleStatus = debounce((e) => {
     this.setState({ statusValue: e.target.value });
     this.fetchApi();
@@ -111,8 +117,6 @@ class Tiket extends Component {
   render() {
     const { statusValue, page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
-
-    console.log({ data })
 
     const columns = [
       {

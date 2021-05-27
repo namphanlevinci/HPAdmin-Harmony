@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../../../url/url";
+import { config } from "@/url/url";
 import { Formik } from "formik";
 import { BsGridFill } from "react-icons/bs";
 import {
   getCategoryByID,
   addMerchantProductById,
-} from "../../../../../../actions/merchantActions";
+} from "@/actions/merchantActions";
 import {
   Grid,
   TextField,
@@ -20,11 +20,11 @@ import Button from "@material-ui/core/Button";
 import ServiceImg from "./hpadmin2.png";
 import axios from "axios";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import IntlMessages from "../../../../../../util/IntlMessages";
-import ContainerHeader from "../../../../../../components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@/components/ContainerHeader/index";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import CustomCurrencyInput from "../../../../../../util/CustomCurrencyInput";
+import CustomCurrencyInput from "@/util/CustomCurrencyInput";
 
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";

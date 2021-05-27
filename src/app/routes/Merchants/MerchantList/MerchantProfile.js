@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, NavLink, Switch } from "react-router-dom";
-import { deleteMerchantById } from "../../../../actions/merchantActions";
+import { deleteMerchantById } from "@/actions/merchantActions";
 import {
   Dialog,
   DialogActions,
@@ -12,8 +12,8 @@ import {
   Grid,
 } from "@material-ui/core";
 
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@/components/ContainerHeader/index";
 import General from "./Profile/General/General";
 import EditGeneral from "./Profile/General/EditGeneral";
 // import Business from "./Profile/Business";
@@ -42,7 +42,7 @@ import AddStaff2 from "./Profile/Staff/AddStaff/index.js";
 import ExtraTab from "./Profile/Extra/Extra";
 // REPORT SETTLEMENT
 import ExportSettlement from "./Profile/ExportSettlement/export-settlement";
-import CheckPermissions from "../../../../util/checkPermission";
+import CheckPermissions from "@/util/checkPermission";
 import PrivateRoute from "../../../PrivateRoute";
 // Gift Card
 import GiftCard from "./Profile/GiftCard/GiftCard";

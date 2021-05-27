@@ -6,11 +6,11 @@ import {
   restoreStaffById,
   getStaff,
   getStaffByID,
-} from "../../../../../../actions/merchantActions";
-import ArchiveSVG from "../../../../../../assets/images/archive.svg";
-import EditSVG from "../../../../../../assets/images/edit.svg";
-import RestoreSVG from "../../../../../../assets/images/restore.svg";
-import SearchComponent from "../../../../../../util/searchComponent";
+} from "@/actions/merchantActions";
+import ArchiveSVG from "@/assets/images/archive.svg";
+import EditSVG from "@/assets/images/edit.svg";
+import RestoreSVG from "@/assets/images/restore.svg";
+import SearchComponent from "@/util/searchComponent";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import ReactTable from "react-table";
 import Dialog from "@material-ui/core/Dialog";
@@ -18,12 +18,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import ScaleLoader from "../../../../../../util/scaleLoader";
-import CheckPermissions from "../../../../../../util/checkPermission";
+import ScaleLoader from "@/util/scaleLoader";
+import CheckPermissions from "@/util/checkPermission";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import CustomProgress from "../../../../../../util/CustomProgress";
-import { reloadUrl } from '../../../../../../util/reload';
+import CustomProgress from "@/util/CustomProgress";
+import Pagination from "@/components/Pagination";
 
 import "../Detail.css";
 import "react-table/react-table.css";
@@ -39,16 +39,21 @@ class Staff extends Component {
       restoreDialog: false,
       goToList: false,
       isLoading: false,
+      page: 1,
+      row: 5,
     };
     this.refTable = React.createRef();
+    this.pagination = React.createRef();
   }
 
   componentDidMount() {
-    this.props.getStaff(this.props.MerchantProfile.merchantId);
     const { statusAddStaff } = this.props.staff;
+    const { MerchantProfile: { merchantId } } = this.props
     if (statusAddStaff == true) {
       this.props.updateStatusAddStaff(false);
-      this.resetFirstPage();
+      this.gotoLastPage();
+    } else {
+      this.props.getStaff(merchantId);
     }
   }
 
@@ -74,13 +79,17 @@ class Staff extends Component {
     await this.props.getStaffByID(StaffId, MerchantId, path);
   };
 
-  resetFirstPage = () => {
-    if (this.refTable && this.refTable.current)
-      this.refTable.current.onPageChange(0);
-    const els = document.getElementsByClassName('-pageJump');
-    const inputs = els[0].getElementsByTagName('input');
-    inputs[0].value = 1;
-    reloadUrl('app/merchants/profile/staff');
+  gotoLastPage = () => {
+    const { row } = this.state;
+    const pageCount = Math.ceil(this.props.staff.data.length / row);
+    this.pagination.current.changePage(pageCount);
+    this.setState({ page: pageCount });
+  }
+
+  updatePagination = () => {
+    const page = this.pagination.current.state.page;
+    const row = this.pagination.current.state.rowSelected;
+    this.setState({ page, row });
   }
 
   render() {
@@ -88,6 +97,11 @@ class Staff extends Component {
     const { loading: loadingArchive } = this.props.archiveStaff;
     const { loading: loadingRestore } = this.props.restoreStaff;
     const { loading: loadingStaff } = this.props.staffById;
+
+    const { row, page } = this.state;
+    data = data?.slice((page - 1) * row, (page - 1) * row + row) || [];
+    const pageCount = this.props.staff.data && this.props.staff.data.length ? Math.ceil(this.props.staff.data.length / row) : 1;
+
     if (data) {
       if (this.state.search) {
         data = data.filter((e) => {
@@ -275,10 +289,16 @@ class Staff extends Component {
               ref={this.refTable}
               data={data}
               columns={columns}
-              defaultPageSize={10}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
+              PaginationComponent={() => <div />}
+            />
+
+            <Pagination
+              ref={this.pagination}
+              fetchApi={this.updatePagination}
+              pageCount={pageCount}
             />
 
             {/* ARCHIVE */}

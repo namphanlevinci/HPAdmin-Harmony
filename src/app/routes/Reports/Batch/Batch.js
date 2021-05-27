@@ -6,9 +6,9 @@ import {
   setBatchRange,
   setBatchPage,
   setBatchRow,
-} from "../../../../actions/reportActions";
-import { fetchApiByPage } from "../../../../actions/fetchApiActions";
-import { CustomTableHeader } from "../../../../util/CustomText";
+} from "@/actions/reportActions";
+import { fetchApiByPage } from "@/actions/fetchApiActions";
+import { CustomTableHeader } from "@/util/CustomText";
 import {
   FormControl,
   Select,
@@ -18,18 +18,18 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Helmet } from "react-helmet";
-import { debounce } from "lodash";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import NewButton from "../../../../../src/components/Button/Search";
-import ResetButton from "../../../../../src/components/Button/Reset";
+import NewButton from "@components/Button/Search";
+import ResetButton from "@components/Button/Reset";
+import Pagination from "@/components/Pagination";
 
-import SearchComponent from "../../../../util/searchComponent";
-import IntlMessages from "../../../../util/IntlMessages";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
+import SearchComponent from "@/util/searchComponent";
+import IntlMessages from "@/util/IntlMessages";
+import ContainerHeader from "@/components/ContainerHeader/index";
 import ReactTable from "react-table";
 import moment from "moment";
 
@@ -50,6 +50,7 @@ class Transactions extends React.Component {
       page: 0,
       row: 5,
     };
+    this.pagination = React.createRef();
   }
 
   componentDidMount() {
@@ -58,26 +59,40 @@ class Transactions extends React.Component {
       page: batchTimeSet.page,
       row: batchTimeSet.row,
     });
+    this.fetchApi();
+    window.onpopstate = (e) => {
+      setTimeout(() => {
+        this.handleButtonBack();
+      }, 300);
+    }
   }
 
-  searchMerchantBatch = debounce((query) => {
-    this.fetchApi();
-  }, 1000);
-  handleReset = (e) => {
-    this.setState(
-      {
-        search: "",
-      },
-      () => {
-        this.fetchApi();
-      }
-    );
-    this.props.setBatchPage(0);
-    this.props.setBatchDate({
+  saveBatch = (search, page, row, from, to, range, sortValue, sortType, url) => {
+    if (search) localStorage.setItem('infoSearch', JSON.stringify({
+      search, page, row, from, to, range, sortValue, sortType, url
+    }));
+  }
+
+  handleButtonBack = () => {
+    const info = JSON.parse(localStorage.getItem('infoSearch'));
+    if (info) {
+      const { search, page, row, from, to, range, sortValue, sortType, url } = info;
+      this.props.fetchApiByPage(url);
+      this.setState({ search, page, row, from, to });
+      localStorage.removeItem('infoSearch');
+    }
+  }
+
+  handleReset = async (e) => {
+    await this.pagination.current.changePage(1);
+    await this.setState({ search: "" });
+    await this.props.setBatchPage(0);
+    await this.props.setBatchDate({
       from: moment().startOf("month").format("YYYY-MM-DD"),
       to: moment().endOf("month").format("YYYY-MM-DD"),
     });
-    this.props.setBatchRange("thisMonth");
+    await this.props.setBatchRange("thisMonth");
+    await this.fetchApi();
   };
 
   handleDateChange = async (e, name) => {
@@ -88,9 +103,11 @@ class Transactions extends React.Component {
     const payload = { [name]: value };
     this.props.setBatchDate(payload);
   };
+
   handleChange = (e) => {
     this.setState({ search: e.target.value });
   };
+
   timeRange = async (e) => {
     const value = e.target.value;
     this.setState({
@@ -145,28 +162,30 @@ class Transactions extends React.Component {
         return;
     }
   };
+
   changePage = async (pageIndex) => {
     await this.props.setBatchPage(pageIndex);
     this.setState({ page: this.props.batchTimeSet.page });
   };
+
   changePageSize = async (row) => {
     await this.props.setBatchRow(row);
-    console.log("row", this.props.batchTimeSet.row);
     this.setState({ row: this.props.batchTimeSet.row });
   };
+
   fetchApi = async (state) => {
     const { search } = this.state;
 
-    console.log("state", state);
     const { range, from, to } = await this.props.batchTimeSet;
-    const { page, row } = this.state;
-    console.log("asdawdasgawgasas", page);
+
+    let page = this.pagination.current.state.page;
+    let row = this.pagination.current.state.rowSelected;
     const sortType = state?.sorted?.[0]?.desc ? "desc" : "asc";
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
-    const url = `settlement?key=${search}&page=${page + 1
-      }&row=${row}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
+    const url = `settlement?key=${search}&page=${page}&row=${row}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
 
+    this.saveBatch(search, page, row, from, to, range, sortValue, sortType, url);
     this.props.fetchApiByPage(url);
   };
 
@@ -177,10 +196,14 @@ class Transactions extends React.Component {
   keyPressed = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      this.setState({ loading: true });
-      this.fetchApi();
+      this.search();
     }
   };
+
+  search = async () => {
+    await this.pagination.current.changePage(1);
+    await this.fetchApi();
+  }
 
   render() {
     const onRowClick = (state, rowInfo, column, instance) => {
@@ -365,9 +388,9 @@ class Transactions extends React.Component {
                   onKeyPress={this.keyPressed}
                   onClickIcon={() => this.setState({ search: "" })}
                 />
-                <NewButton style={{ marginLeft: "10px" }} onClick={this.fetchApi}>
+                <NewButton style={{ marginLeft: "10px" }} onClick={this.search}>
                   Search
-              </NewButton>
+                </NewButton>
               </div>
             </Grid>
           </div>
@@ -440,22 +463,20 @@ class Transactions extends React.Component {
           <div className="merchant-list-container Transactions">
             <ReactTable
               manual={true}
-              pageSize={row}
-              page={page}
-              pages={pageCount}
               data={data}
-              onPageChange={(pageIndex) => this.changePage(pageIndex)}
-              onPageSizeChange={(size) => this.changePageSize(size)}
-              onFetchData={(state) => {
-                this.fetchApi(state, page);
-              }}
-              defaultPageSize={5}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
               columns={columns}
               showPageJump={false}
               getTdProps={onRowClick}
+              PaginationComponent={() => <div />}
+            />
+            <Pagination
+              ref={this.pagination}
+              fetchApi={this.fetchApi}
+              pageCount={pageCount}
+              loading={loading}
             />
           </div>
         </div>

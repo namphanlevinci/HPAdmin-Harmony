@@ -1,24 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { config } from "../../../../../../url/url";
-import { updateMerchantPrincipalById } from "../../../../../../actions/merchantActions";
-import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
+import { config } from "@/url/url";
+import { updateMerchantPrincipalById } from "@/actions/merchantActions";
+import { WARNING_NOTIFICATION } from "@/constants/notificationConstants";
 import { Grid, Button, TextField } from "@material-ui/core";
-import {
-  CustomText,
-  CustomTextLabel,
-  CustomTitle,
-} from "../../../../../../util/CustomText";
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { CustomTitle } from "@/util/CustomText";
 import { Formik } from "formik";
 
-import InputCustom from "../../../../../../util/CustomInput";
-import CustomSelect from "../../../../../../util/getState";
-import LinearProgress from "../../../../../../util/linearProgress";
+import InputCustom from "@/util/CustomInput";
+import CustomSelect from "@/util/getState";
+import LinearProgress from "@/util/linearProgress";
 import moment from "moment";
 import axios from "axios";
 import * as Yup from "yup";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
-import NumberFormat from "react-number-format";
+import DateFnsUtils from "@date-io/date-fns";
+import CustomNumberField from "../../AddMerchants/FormFields/CustomNumberField";
 
 import "./principal.styles.scss";
 import "../../MerchantProfile.css";
@@ -31,6 +29,7 @@ class EditPrincipal extends Component {
     super(props);
     this.state = {
       loading: false,
+      imageUrl : null,
     };
   }
 
@@ -63,6 +62,7 @@ class EditPrincipal extends Component {
               file: file,
               imagePreviewUrl: reader.result,
               loadingProgress: false,
+              imageUrl : res.data.data.url
             });
           };
           reader.readAsDataURL(file);
@@ -76,36 +76,8 @@ class EditPrincipal extends Component {
       );
     }
   };
-  _goBack = () => {
+  goBack = () => {
     this.props.history.push("/app/merchants/profile/principal/info");
-  };
-  updatePrincipal = () => {
-    const principalID = this.props.principalData.principalId;
-    const ID = this.props.MerchantProfile.merchantId;
-
-    const {
-      Address,
-      FileId,
-      DriverNumber,
-      HomePhone,
-      MobilePhone,
-      StateId,
-      email,
-    } = this.state;
-
-    const payload = {
-      Address,
-      FileId,
-      DriverNumber,
-      HomePhone,
-      MobilePhone,
-      StateId,
-      email,
-      ID,
-      principalID,
-    };
-
-    this.props.UPDATE_MERCHANT_PRINCIPAL(payload);
   };
 
   render() {
@@ -144,7 +116,10 @@ class EditPrincipal extends Component {
               const principalID = this.props.principalData.principalId;
               const ID = this.props.MerchantProfile.merchantId;
               const path = "/app/merchants/profile/principal/info";
-              const payload = { ...values, principalID, ID, path };
+              const payload = { 
+                ...values, principalID, ID, path , 
+              imageUrl : this.state.imageUrl ? this.state.imageUrl : values.imageUrl 
+              };
               this.props.updateMerchantPrincipalById(payload);
             }}
           >
@@ -160,17 +135,68 @@ class EditPrincipal extends Component {
             }) => (
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={3} className="edit-principal">
+                  <Grid item xs={2}>
+                    <TextField
+                      label="First name*"
+                      fullWidth
+                      name="firstName"
+                      value={values.firstName}
+                      onChange={handleChange}
+                      style={styles.input}
+                      error={errors.firstName && touched.firstName}
+                      helperText={
+                        errors.firstName && touched.firstName ? errors.firstName : ""
+                      }
+                    />
+                  </Grid>
+
+                  <Grid item xs={2}>
+                    <TextField
+                      label="Last name*"
+                      fullWidth
+                      name="lastName"
+                      value={values.lastName}
+                      onChange={handleChange}
+                      style={styles.input}
+                      error={errors.lastName && touched.lastName}
+                      helperText={
+                        errors.lastName && touched.lastName ? errors.lastName : ""
+                      }
+                    />
+                  </Grid>
+
                   <Grid item xs={4}>
-                    <CustomTextLabel value="Name*" />
-                    <CustomText value={e.firstName + " " + e.lastName} />
+                    <TextField
+                      label="Title/Position*"
+                      fullWidth
+                      name="title"
+                      value={values.title}
+                      onChange={handleChange}
+                      style={styles.input}
+                      error={errors.title && touched.title}
+                      helperText={
+                        errors.title && touched.title ? errors.title : ""
+                      }
+                    />
                   </Grid>
                   <Grid item xs={4}>
-                    <CustomTextLabel value="Title/Position*" />
-                    <CustomText value={e.title} />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <CustomTextLabel value="Ownership* (%)" />
-                    <CustomText value={`${e.ownerShip}%`} />
+                    <CustomNumberField
+                      InputLabelProps={{ shrink: true }}
+                      name={`ownerShip`}
+                      label="Ownership* (%)"
+                      fullWidth
+                      value={values.ownerShip}
+                      onChange={handleChange}
+                      options={{
+                        numericOnly: true,
+                        blocks: [4],
+                      }}
+                      style={{ marginTop: 6 }}
+                      error={errors.ownerShip && touched.ownerShip}
+                      helperText={
+                        errors.ownerShip && touched.ownerShip ? errors.ownerShip : ""
+                      }
+                    />
                   </Grid>
                   <Grid item xs={4}>
                     <MaterialUiPhoneNumber
@@ -269,23 +295,46 @@ class EditPrincipal extends Component {
                   </Grid>
 
                   <Grid item xs={4}>
-                    <CustomTextLabel value="Social Security Number* (SSN)" />
-                    <NumberFormat
-                      value={e.ssn}
-                      displayType={"text"}
+
+                    <TextField
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      label="Social Security Number* (SSN)"
+                      name="ssn"
+                      value={values.ssn}
+                      onChange={e => setFieldValue(`ssn`, e.target.value)}
                       style={styles.input}
-                      disabled
-                      thousandSeparator={true}
-                      format="***-**-####"
-                      mask="_"
-                      renderText={(value) => <CustomText value={value} />}
+                      error={errors.ssn && touched.ssn}
+                      helperText={errors.ssn && touched.ssn ? errors.ssn : ""}
+                      InputProps={{
+                        inputComponent: InputCustom,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={3}>
-                    <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />
-                    <CustomText
-                      value={moment(e.birthDate).format("MM/DD/YYYY")}
-                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        style={{ marginTop: 6.1 }}
+                        disableToolbar
+                        disableFuture
+                        label="Date of Birth* (mm/dd/yy)"
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        placeholder="MM/DD/YYYY"
+                        value={moment(values.birthDate).format('MM/DD/YYYY')}
+                        onChange={(date) => {
+                          console.log({ date })
+                          setFieldValue("birthDate", date)
+                        }}
+                        KeyboardButtonProps={{
+                          "aria-label": "change date",
+                        }}
+                        autoOk={true}
+                        fullWidth
+                        error={touched.birthDate && Boolean(errors.birthDate)}
+                        helperText={touched.birthDate ? errors.birthDate : ""}
+                      />
+                    </MuiPickersUtilsProvider>
                   </Grid>
 
                   <Grid item xs={3}>
@@ -336,12 +385,11 @@ class EditPrincipal extends Component {
                     <Button
                       className="btn btn-green"
                       type="submit"
-                      // onClick={this.updatePrincipal}
                       disabled={isSubmitting}
                     >
                       SAVE
                     </Button>
-                    <Button className="btn btn-red" onClick={this._goBack}>
+                    <Button className="btn btn-red" onClick={this.goBack}>
                       CANCEL
                     </Button>
                   </Grid>
@@ -396,5 +444,17 @@ const validationPrincipal = Yup.object().shape({
   mobilePhone: Yup.string().required("Mobile phone is required").nullable(),
   zip: Yup.string()
     .required("Zip code is required")
+    .nullable(),
+  firstName: Yup.string().required("First name is required").nullable(),
+  lastName: Yup.string().required("Last name is required").nullable(),
+  ssn: Yup.string().required("ssn is required").nullable(),
+  ownerShip: Yup.string().required("OwnerShip is required").nullable(),
+  title: Yup.string().required("Title is required").nullable(),
+  birthDate: Yup.string()
+    .required("Birthday is required")
+    .test("is-greater", "Your birthday can not be later than current day",
+      function (value) {
+        return moment().isSameOrAfter(moment(value));
+      })
     .nullable(),
 });

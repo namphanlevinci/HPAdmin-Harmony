@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { viewPrincipal } from "../../../../../../actions/merchantActions";
+import { viewPrincipal } from "@/actions/merchantActions";
 import { Grid, Button } from "@material-ui/core";
 import {
   CustomText,
   CustomTextLabel,
   CustomTitle,
-} from "../../../../../../util/CustomText";
+} from "@/util/CustomText";
 
 import moment from "moment";
-import CheckPermissions from "../../../../../../util/checkPermission";
+import CheckPermissions from "@/util/checkPermission";
 import NumberFormat from "react-number-format";
-import getStateNameById from "../../../../../../util/FormatState";
+import getStateNameById from "@/util/FormatState";
 
 import "./principal.styles.scss";
 import "../../MerchantProfile.css";
@@ -28,6 +28,7 @@ class PrincipalProfile extends Component {
 
   render() {
     const e = this.props.principalData;
+    console.log({e});
     return (
       <Grid
         container
@@ -66,14 +67,7 @@ class PrincipalProfile extends Component {
           </Grid>
           <Grid item xs={4}>
             <CustomTextLabel value="Social Security Number* (SSN)" />
-            <NumberFormat
-              value={e.ssn}
-              displayType={"text"}
-              thousandSeparator={true}
-              format="***-**-####"
-              mask="_"
-              renderText={(value) => <CustomText value={value} />}
-            />
+            <CustomText value={"********" + e.ssn.toString().replace(/-/g, '').slice(e.ssn.toString().length - 6)} />
           </Grid>
           <Grid item xs={4}>
             <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />
@@ -130,44 +124,44 @@ class PrincipalProfile extends Component {
         </Grid>
         {e?.arrayOldData !== undefined
           ? e?.arrayOldData.map((e, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <hr />
-                  <Grid item xs={4}>
-                    <CustomTextLabel value="Home Phone" />
-                    <CustomText value={e.homePhone} />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <CustomTextLabel value="Mobile Phone*" />
-                    <CustomText value={e.mobilePhone} />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <CustomTextLabel value="Address*" />
-                    <CustomText value={e.address} />
-                  </Grid>
+            return (
+              <React.Fragment key={index}>
+                <hr />
+                <Grid item xs={4}>
+                  <CustomTextLabel value="Home Phone" />
+                  <CustomText value={e.homePhone} />
+                </Grid>
+                <Grid item xs={4}>
+                  <CustomTextLabel value="Mobile Phone*" />
+                  <CustomText value={e.mobilePhone} />
+                </Grid>
+                <Grid item xs={4}>
+                  <CustomTextLabel value="Address*" />
+                  <CustomText value={e.address} />
+                </Grid>
 
-                  <Grid item xs={4}>
-                    <CustomTextLabel value="State Issued*" />
-                    <CustomText value={e?.stateName} />
-                  </Grid>
+                <Grid item xs={4}>
+                  <CustomTextLabel value="State Issued*" />
+                  <CustomText value={e?.stateName} />
+                </Grid>
 
-                  <Grid item xs={6}>
-                    <CustomTextLabel value="Driver License Number*" />
-                    <CustomText value={e.driverNumber} />
+                <Grid item xs={6}>
+                  <CustomTextLabel value="Driver License Number*" />
+                  <CustomText value={e.driverNumber} />
+                </Grid>
+                {e?.ImageUrl !== null ? (
+                  <Grid item xs={3} lg={3}>
+                    <CustomTextLabel value="Driver License Picture*" />
+                    <img
+                      className="bankVoid"
+                      src={`${e?.ImageUrl}`}
+                      alt="driver license"
+                    />
                   </Grid>
-                  {e?.ImageUrl !== null ? (
-                    <Grid item xs={3} lg={3}>
-                      <CustomTextLabel value="Driver License Picture*" />
-                      <img
-                        className="bankVoid"
-                        src={`${e?.ImageUrl}`}
-                        alt="driver license"
-                      />
-                    </Grid>
-                  ) : null}
-                </React.Fragment>
-              );
-            })
+                ) : null}
+              </React.Fragment>
+            );
+          })
           : null}
       </Grid>
     );
