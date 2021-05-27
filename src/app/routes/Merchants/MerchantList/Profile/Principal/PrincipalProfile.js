@@ -26,9 +26,19 @@ class PrincipalProfile extends Component {
     this.props.history.push("/app/merchants/profile/principal/edit");
   };
 
+  get4Last = (ssn) =>{
+    let tempt = '';
+    for(let i = ssn.length - 1 ; i >= ssn.length - 4 ; i--){
+      tempt += ssn[i];
+    }
+    return tempt;
+  }
+
   render() {
     const e = this.props.principalData;
     let ssn = e.ssn.toString().replace(/-/g, '');
+
+    const temptSsn = this.get4Last(ssn);
     
     return (
       <Grid
@@ -68,7 +78,7 @@ class PrincipalProfile extends Component {
           </Grid>
           <Grid item xs={4}>
             <CustomTextLabel value="Social Security Number* (SSN)" />
-            <CustomText value={"********" + ssn.slice(ssn.length - 4)} />
+            <CustomText value={"********" + temptSsn} />
           </Grid>
           <Grid item xs={4}>
             <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />
