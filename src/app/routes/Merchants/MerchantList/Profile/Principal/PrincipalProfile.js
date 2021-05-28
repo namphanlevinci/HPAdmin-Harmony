@@ -78,7 +78,7 @@ class PrincipalProfile extends Component {
           </Grid>
           <Grid item xs={4}>
             <CustomTextLabel value="Social Security Number* (SSN)" />
-            <CustomText value={"********" + temptSsn} />
+            <CustomText value={"***-**-" + temptSsn} />
           </Grid>
           <Grid item xs={4}>
             <CustomTextLabel value="Date of Birth* (mm/dd/yy)" />

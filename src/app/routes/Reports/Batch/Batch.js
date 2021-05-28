@@ -49,8 +49,15 @@ class Transactions extends React.Component {
       status: -1,
       page: 0,
       row: 5,
+      temptPage: 1,
+      temptRow: 5,
+      temptUrl: '',
     };
     this.pagination = React.createRef();
+  }
+
+  componentWillMount(){
+    this.fetchApi();
   }
 
   componentDidMount() {
@@ -59,27 +66,44 @@ class Transactions extends React.Component {
       page: batchTimeSet.page,
       row: batchTimeSet.row,
     });
-    this.fetchApi();
+
     window.onpopstate = (e) => {
       setTimeout(() => {
         this.handleButtonBack();
-      }, 300);
+      }, 400);
     }
   }
 
-  saveBatch = (search, page, row, from, to, range, sortValue, sortType, url) => {
-    if (search) localStorage.setItem('infoSearch', JSON.stringify({
-      search, page, row, from, to, range, sortValue, sortType, url
-    }));
+  saveBatch = async () => {
+    const { search, temptPage, temptRow, temptUrl } = this.state;
+    const { range, from, to } = await this.props.batchTimeSet;
+    if (search) {
+      localStorage.setItem('infoSearch', JSON.stringify({
+        search, page: temptPage, row: temptRow, from, to, range, url: temptUrl
+      }));
+    }
   }
 
   handleButtonBack = () => {
     const info = JSON.parse(localStorage.getItem('infoSearch'));
     if (info) {
-      const { search, page, row, from, to, range, sortValue, sortType, url } = info;
+      const { search, page, row, from, to, range, url } = info;
       this.props.fetchApiByPage(url);
-      this.setState({ search, page, row, from, to });
+      this.setState({
+        search, page, row, from, to,
+        temptPage: page,
+        temptRow: row,
+        temptUrl: url
+      });
+      this.changePagination(page, row);
       localStorage.removeItem('infoSearch');
+    }
+  }
+
+  changePagination = (page, row) => {
+    if (this.pagination && this.pagination.current) {
+      this.pagination.current.changePage(page);
+      this.pagination.current.changeRow(row);
     }
   }
 
@@ -184,8 +208,8 @@ class Transactions extends React.Component {
     const sortValue = state?.sorted?.[0]?.id ? state?.sorted[0]?.id : "";
 
     const url = `settlement?key=${search}&page=${page}&row=${row}&timeStart=${from}&quickFilter=${range}&timeEnd=${to}&sortValue=${sortValue}&sortType=${sortType}`;
-
-    this.saveBatch(search, page, row, from, to, range, sortValue, sortType, url);
+    this.setState({ temptPage: page, temptRow: row, temptUrl: url })
+    // this.saveBatch(search, page, row, from, to, range, sortValue, sortType, url);
     this.props.fetchApiByPage(url);
   };
 
@@ -206,10 +230,13 @@ class Transactions extends React.Component {
   }
 
   render() {
+    const { search } = this.state;
+    console.log('keyword search : ', { search });
     const onRowClick = (state, rowInfo, column, instance) => {
       return {
         onClick: (e) => {
           if (rowInfo !== undefined) {
+            this.saveBatch();
             const url = `settlement/${rowInfo?.original?.settlementId}`;
             this.props.fetchApiByPage(url);
             this.props.getReportMerchantId(rowInfo?.original);

@@ -11,6 +11,7 @@ import axios from "axios";
 const URL = config.url.URL;
 
 export const fetchApiByPage = (url) => async (dispatch, getState) => {
+
   try {
     dispatch({
       type: FETCH_API_REQUEST,

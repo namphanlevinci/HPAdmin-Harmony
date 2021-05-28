@@ -175,7 +175,7 @@ class MerchantReqProfile extends Component {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextLabel value="State Issued*" />
-                <CustomText value={getStateNameById(e?.stateIssued)} />
+                <CustomText value={e?.stateIssuedName} />
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={3} lg={3}>
