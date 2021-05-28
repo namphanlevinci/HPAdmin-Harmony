@@ -56,20 +56,21 @@ class Transactions extends React.Component {
     this.pagination = React.createRef();
   }
 
+  componentWillUnmount(){
+    this.fetchApi();
+  }
+
   componentDidMount() {
     const { batchTimeSet } = this.props;
     this.setState({
       page: batchTimeSet.page,
       row: batchTimeSet.row,
     });
-    const info = JSON.parse(localStorage.getItem('infoSearch'));
-    
-    this.fetchApi();
 
     window.onpopstate = (e) => {
       setTimeout(() => {
         this.handleButtonBack();
-      }, 300);
+      }, 400);
     }
   }
 
@@ -94,13 +95,13 @@ class Transactions extends React.Component {
         temptRow: row,
         temptUrl: url
       });
-      this.changePagination(page,row);
+      this.changePagination(page, row);
       localStorage.removeItem('infoSearch');
     }
   }
 
-  changePagination = (page,row)=>{
-    if(this.pagination && this.pagination.current){
+  changePagination = (page, row) => {
+    if (this.pagination && this.pagination.current) {
       this.pagination.current.changePage(page);
       this.pagination.current.changeRow(row);
     }
