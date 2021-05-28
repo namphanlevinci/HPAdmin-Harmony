@@ -29,7 +29,7 @@ class EditPrincipal extends Component {
     super(props);
     this.state = {
       loading: false,
-      imageUrl : null,
+      imageUrl: null,
     };
   }
 
@@ -62,7 +62,7 @@ class EditPrincipal extends Component {
               file: file,
               imagePreviewUrl: reader.result,
               loadingProgress: false,
-              imageUrl : res.data.data.url
+              imageUrl: res.data.data.url
             });
           };
           reader.readAsDataURL(file);
@@ -116,9 +116,9 @@ class EditPrincipal extends Component {
               const principalID = this.props.principalData.principalId;
               const ID = this.props.MerchantProfile.merchantId;
               const path = "/app/merchants/profile/principal/info";
-              const payload = { 
-                ...values, principalID, ID, path , 
-              imageUrl : this.state.imageUrl ? this.state.imageUrl : values.imageUrl 
+              const payload = {
+                ...values, principalID, ID, path,
+                imageUrl: this.state.imageUrl ? this.state.imageUrl : values.imageUrl
               };
               this.props.updateMerchantPrincipalById(payload);
             }}
@@ -295,19 +295,18 @@ class EditPrincipal extends Component {
                   </Grid>
 
                   <Grid item xs={4}>
-
-                    <TextField
+                    <CustomNumberField
+                      style={{ marginTop : 6 }}
                       InputLabelProps={{ shrink: true }}
-                      fullWidth
+                      name={`ssn`}
                       label="Social Security Number* (SSN)"
-                      name="ssn"
                       value={values.ssn}
                       onChange={e => setFieldValue(`ssn`, e.target.value)}
-                      style={styles.input}
-                      error={errors.ssn && touched.ssn}
-                      helperText={errors.ssn && touched.ssn ? errors.ssn : ""}
-                      InputProps={{
-                        inputComponent: InputCustom,
+                      fullWidth
+                      options={{
+                        numericOnly: true,
+                        blocks: [3, 2, 4],
+                        delimiter: "-",
                       }}
                     />
                   </Grid>
