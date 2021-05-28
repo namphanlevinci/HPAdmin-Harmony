@@ -56,7 +56,7 @@ class Transactions extends React.Component {
     this.pagination = React.createRef();
   }
 
-  componentWillUnmount(){
+  componentWillMount(){
     this.fetchApi();
   }
 

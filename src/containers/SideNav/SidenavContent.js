@@ -358,7 +358,7 @@ class SidenavContent extends Component {
                 )}
                 {CheckPermissions("view-merchant-batch-settlement") && (
                   <li>
-                    <NavLink onClick={()=>localStorage.removeItem('infoSearch')} className="prepend-icon" to="/app/reports/batchs">
+                    <NavLink className="prepend-icon" to="/app/reports/batchs">
                       <span className="nav-text">
                         <IntlMessages id="sidebar.dashboard.Batch" />
                       </span>
