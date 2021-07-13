@@ -169,7 +169,7 @@ export class TimeRange extends React.Component {
                                     "aria-label": "change date",
                                 }}
                                 autoOk={true}
-                                style={{ width: "100%", margin: 0 }}
+                                style={{ width: "100%", margin: 0 , marginTop : 5.2 }}
                             />
                         </Grid>
                         <Grid item xs={2} style={{}}>
@@ -186,7 +186,7 @@ export class TimeRange extends React.Component {
                                     "aria-label": "change date",
                                 }}
                                 autoOk={true}
-                                style={{ width: "100%", margin: 0 }}
+                                style={{ width: "100%", margin: 0 , marginTop : 5.2 }}
                             />
                         </Grid>
                     </MuiPickersUtilsProvider>
