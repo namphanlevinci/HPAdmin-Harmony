@@ -66,7 +66,7 @@ export class TimeRange extends React.Component {
         this.state = {
             from: moment().startOf("month").format("YYYY-MM-DD"),
             to: moment().endOf("month").format("YYYY-MM-DD"),
-            range: "thisMonth",
+            range: "thisWeek",
         }
     }
 

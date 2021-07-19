@@ -15,10 +15,10 @@ export default class PopupConfirmRefund extends Component {
             >
                 <div style={{ position: 'relative' }} className="invoice_popup">
                     <div className="invoice_popup_title">
-                        Refund confirmation
+                        Refund Confirmation
                     </div>
                     <div className="invoice_popup_content">
-                        Are you sure want to refund this invoice?
+                        Are you sure yout want to refund this invoice?
                     </div>
                     <div className="invoice_popup_containerButton">
                         <div onClick={actionYes}>Yes</div>
@@ -29,7 +29,7 @@ export default class PopupConfirmRefund extends Component {
                         loadingRefund &&
                         <div className="loading_refund_invoice">
                             <ReactLoading
-                                type={'spin'}
+                                type={'spin'} d
                                 height={'50px'}
                                 width={'50px'}
                                 color="#1366AE"
