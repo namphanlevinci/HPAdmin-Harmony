@@ -18,7 +18,7 @@ export default class PopupConfirmRefund extends Component {
                         Refund Confirmation
                     </div>
                     <div className="invoice_popup_content">
-                        Are you sure yout want to refund this invoice?
+                        Are you sure you want to refund this invoice?
                     </div>
                     <div className="invoice_popup_containerButton">
                         <div onClick={actionYes}>Yes</div>
