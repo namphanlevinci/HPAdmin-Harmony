@@ -7,7 +7,9 @@ import Step from "@material-ui/core/Step";
 import { withRouter } from "react-router-dom";
 import MerchantDevice from "./MerchantDevice";
 import axios from "axios";
+import { isEmpty } from "lodash";
 import { config } from "../../../../url/url";
+import FadeLoader from "react-spinners/FadeLoader";
 import "./style.scss";
 
 const URL = config.url.URL;
@@ -41,6 +43,7 @@ class Index extends Component {
     }
 
     getMerchantListBasic = async () => {
+        this.setState({ isLoading: true });
         const { user } = this.props;
         const url = `merchant/basicList`;
         const { data } = await axios.get(`${URL}/${url}`, {
@@ -48,10 +51,11 @@ class Index extends Component {
                 Authorization: `Bearer ${user?.token}`,
             },
         });
-        this.setState({ merchantList: data.data || [] })
+        this.setState({ merchantList: data.data || [], isLoading: false });
     }
 
     getDeviceOfMerchant = async (merchantId) => {
+        this.setState({ isLoading: true });
         const { user } = this.props;
         const url = `merchant/${merchantId}/device-terminal`;
         const { data } = await axios.get(`${URL}/${url}`, {
@@ -59,10 +63,11 @@ class Index extends Component {
                 Authorization: `Bearer ${user?.token}`,
             },
         });
-        this.setState({ deviceList: data.data || [] })
+        this.setState({ deviceList: data.data || [], isLoading: false });
     }
 
     getSerialOfDevice = async (device) => {
+        this.setState({ isLoading: true });
         const { merchantSelected } = this.state;
         const { user } = this.props;
         const url = `settlement/ssnByDevice?merchantId=${merchantSelected.merchantid}&deviceId=${device.deviceId}`;
@@ -71,14 +76,13 @@ class Index extends Component {
                 Authorization: `Bearer ${user?.token}`,
             },
         });
-        this.setState({ serialList: data.data || [] })
+        this.setState({ serialSelected: isEmpty(data?.data) ? "" : data?.data, isLoading: false });
     }
 
     selectMerchant = (merchant) => {
         this.setState({
             merchantSelected: merchant,
             deviceList: [],
-            serialList: [],
             deviceSelected: '',
             serialSelected: '',
         });
@@ -88,10 +92,25 @@ class Index extends Component {
     selectDevice = (device) => {
         this.setState({
             deviceSelected: device,
-            serialList: [],
             serialSelected: '',
         });
         this.getSerialOfDevice(device);
+    }
+
+    nextMerchantDevice = () => {
+        const { merchantSelected, deviceSelected } = this.state;
+        if (isEmpty(merchantSelected)) {
+            alert('Pleaee select merchant');
+            return;
+        }
+        if (isEmpty(deviceSelected)) {
+            alert('Pleaee select device');
+            return;
+        }
+    }
+
+    cancelMerchantDevice = () => {
+        this.props.history.push("/app/reports/batchs");
     }
 
     render() {
@@ -102,12 +121,13 @@ class Index extends Component {
             serialList,
             merchantSelected,
             deviceSelected,
-            serialSelected
+            serialSelected,
+            isLoading,
         } = this.state;
 
         const steps = this.getSteps();
         return (
-            <div className="container-fluid react-transition swipe-right">
+            <div style={{ position: 'relative' }} className="container-fluid react-transition swipe-right">
                 <ContainerHeader
                     match={this.props.match}
                     title={'Close Settlement'}
@@ -142,8 +162,21 @@ class Index extends Component {
                         deviceSelected={deviceSelected}
                         selectMerchant={this.selectMerchant}
                         selectDevice={this.selectDevice}
+                        next={this.nextMerchantDevice}
+                        cancel={this.cancelMerchantDevice}
                     />
                 </div>
+                {
+                    isLoading && <div className="container-loading-settlement">
+                        <FadeLoader
+                            color={'#1366AE'}
+                            loading={isLoading}
+                            size={20} css={{
+                                display: 'block',
+                                borderColor: 'red',
+                            }} />
+                    </div>
+                }
             </div>
         );
     }

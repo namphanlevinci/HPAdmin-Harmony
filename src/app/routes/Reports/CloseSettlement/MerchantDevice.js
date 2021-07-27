@@ -14,9 +14,13 @@ import "./style.scss";
 
 export default class MerchantDevice extends Component {
 
-    onNext = () => { }
+    onNext = () => {
+        this.props.next();
+    }
 
-    onCancel = () => { }
+    onCancel = () => {
+        this.props.cancel();
+    }
 
     changeMerchant = (merchant) => {
         this.props.selectMerchant(merchant);
@@ -27,7 +31,7 @@ export default class MerchantDevice extends Component {
     }
 
     render() {
-        const { merchantList, deviceList, merchantSelected, deviceSelected, } = this.props;
+        const { merchantList, deviceList, merchantSelected, deviceSelected, serialSelected } = this.props;
 
         return (
             <div style={{ height: 400, position: 'relative' }}>
@@ -75,7 +79,7 @@ export default class MerchantDevice extends Component {
                                     deviceList.map((m) => {
                                         return (
                                             <MenuItem
-                                                key={m.deviceId + 'deviceId'}
+                                                key={m.deviceId + ' ' + m.id + 'deviceId'}
                                                 value={m}
                                             >
                                                 {m.terminalId}
@@ -94,7 +98,7 @@ export default class MerchantDevice extends Component {
                             InputLabelProps={{ shrink: true }}
                             label="Serial number"
                             placeholder="Device serial number"
-                            value={""}
+                            value={serialSelected}
                             onChange={() => { }}
                             name="serialDevice"
                             style={{ width: "100%" }}
@@ -102,26 +106,16 @@ export default class MerchantDevice extends Component {
                     </Grid>
                 </Grid>
 
-                <GroupButton
-                    onNext={this.onNext}
-                    onCancel={this.onCancel}
-                />
+                <div className="group-button-merchant-device">
+                    <NewButton blue={true} onClick={this.onNext}>
+                        Next
+                    </NewButton>
+
+                    <NewButton onClick={this.onCancel}>
+                        Cancel
+                    </NewButton>
+                </div>
             </div>
         )
     }
-}
-
-
-const GroupButton = (onNext = () => { }, onCancel = () => { }) => {
-    return (
-        <div className="group-button-merchant-device">
-            <NewButton blue={true} onClick={onNext}>
-                Next
-            </NewButton>
-
-            <NewButton onClick={onCancel}>
-                Cancel
-            </NewButton>
-        </div>
-    )
 }
