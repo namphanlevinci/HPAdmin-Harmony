@@ -102,7 +102,8 @@ class Index extends Component {
         });
         this.setState({
             settlementWaitng: data.data || [],
-            isLoading: false
+            isLoading: false,
+            activeStep : 1
         });
     }
 
@@ -134,8 +135,6 @@ class Index extends Component {
             alert('Pleaee select device');
             return;
         }
-
-        this.setState({ activeStep: 1 });
         this.getSettlementWaiting();
     }
 
@@ -197,7 +196,7 @@ class Index extends Component {
                     </Stepper>
 
                     {
-                        parseInt(activeStep) === 1 && 
+                        parseInt(activeStep) === 0 && 
                         <MerchantDevice
                             merchantList={merchantList}
                             deviceList={deviceList}
@@ -213,7 +212,7 @@ class Index extends Component {
                     }
 
                     {
-                        parseInt(activeStep) === 0 &&
+                        parseInt(activeStep) === 1 &&
                         <SettlementWaiting
                             submitCloseSettlement={this.submitCloseSettlement}
                             back={this.backToMerchantDevice}

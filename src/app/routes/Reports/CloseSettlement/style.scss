@@ -49,3 +49,25 @@
   max-height : 200px;
   overflow-y: scroll;
 }
+
+.row_transaction_settlement_header{
+  display : flex;
+  &>div{
+    width: 20%;
+    padding: 10px;
+    padding-left: 20px;
+    background : #F1F1F1;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+.row_transaction_settlement{
+  display : flex;
+  &>div{
+    width: 20%;
+    padding: 10px;
+    padding-left: 27px;
+    font-size: 1rem;
+  }
+}
