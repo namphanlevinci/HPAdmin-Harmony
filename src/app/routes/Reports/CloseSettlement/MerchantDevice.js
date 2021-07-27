@@ -22,8 +22,12 @@ export default class MerchantDevice extends Component {
         this.props.selectMerchant(merchant);
     }
 
+    changeDevice = (device) => {
+        this.props.selectDevice(device);
+    }
+
     render() {
-        const { merchantList, merchantSelected } = this.props;
+        const { merchantList, deviceList, merchantSelected, deviceSelected, } = this.props;
 
         return (
             <div style={{ height: 400, position: 'relative' }}>
@@ -39,16 +43,22 @@ export default class MerchantDevice extends Component {
                     <Grid item xs={3} style={{}}>
                         <FormControl style={{ width: "100%" }}>
                             <InputLabel>Merchant</InputLabel>
-                            <Select value={merchantSelected} onChange={e => this.changeMerchant(e.target.value)}>
+                            <Select
+                                value={merchantSelected}
+                                onChange={e => this.changeMerchant(e.target.value)}
+                            >
                                 {
-                                    merchantList.map((m) => (
-                                        <MenuItem
-                                            key={m.merchantId + 'merchantId'}
-                                            value={m}
-                                        >
-                                            {m.businessname}
-                                        </MenuItem>
-                                    ))
+                                    merchantList.map((m) => {
+                                        return (
+                                            <MenuItem
+                                                key={m.merchantid + 'merchantId'}
+                                                value={m}
+                                            >
+                                                {m.businessname}
+                                            </MenuItem>
+                                        )
+                                    }
+                                    )
                                 }
                             </Select>
                         </FormControl>
@@ -57,14 +67,23 @@ export default class MerchantDevice extends Component {
                     <Grid item xs={3} style={{}}>
                         <FormControl style={{ width: "100%" }}>
                             <InputLabel>Device</InputLabel>
-                            <Select value={""} onChange={() => { }}>
-                                <MenuItem value="today">Today</MenuItem>
-                                <MenuItem value="yesterday">Yesterday</MenuItem>
-                                <MenuItem value="thisWeek">This Week</MenuItem>
-                                <MenuItem value="lastWeek">Last Week</MenuItem>
-                                <MenuItem value="thisMonth">This Month</MenuItem>
-                                <MenuItem value="lastMonth">Last Month</MenuItem>
-                                <MenuItem value="all">Custom</MenuItem>
+                            <Select
+                                value={deviceSelected}
+                                onChange={e => this.changeDevice(e.target.value)}
+                            >
+                                {
+                                    deviceList.map((m) => {
+                                        return (
+                                            <MenuItem
+                                                key={m.deviceId + 'deviceId'}
+                                                value={m}
+                                            >
+                                                {m.terminalId}
+                                            </MenuItem>
+                                        )
+                                    }
+                                    )
+                                }
                             </Select>
                         </FormControl>
                     </Grid>
@@ -96,7 +115,7 @@ export default class MerchantDevice extends Component {
 const GroupButton = (onNext = () => { }, onCancel = () => { }) => {
     return (
         <div className="group-button-merchant-device">
-            <NewButton blue onClick={onNext}>
+            <NewButton blue={true} onClick={onNext}>
                 Next
             </NewButton>
 

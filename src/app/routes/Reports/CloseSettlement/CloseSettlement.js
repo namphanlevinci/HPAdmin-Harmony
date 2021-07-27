@@ -19,11 +19,12 @@ class Index extends Component {
         this.state = {
             activeStep: 0,
             merchantList: [],
-            deviceList : [],
-            serialList : [],
+            deviceList: [],
+            serialList: [],
             merchantSelected: '',
-            deviceId: '',
-            serialDevice: '',
+            deviceSelected: '',
+            serialSelected: '',
+            isLoading: false,
         };
     }
 
@@ -50,16 +51,60 @@ class Index extends Component {
         this.setState({ merchantList: data.data || [] })
     }
 
-    getDeviceOfMerchant = () => {
-
+    getDeviceOfMerchant = async (merchantId) => {
+        const { user } = this.props;
+        const url = `merchant/${merchantId}/device-terminal`;
+        const { data } = await axios.get(`${URL}/${url}`, {
+            headers: {
+                Authorization: `Bearer ${user?.token}`,
+            },
+        });
+        this.setState({ deviceList: data.data || [] })
     }
 
-    getSerialOfDevice = () => {
+    getSerialOfDevice = async (device) => {
+        const { merchantSelected } = this.state;
+        const { user } = this.props;
+        const url = `settlement/ssnByDevice?merchantId=${merchantSelected.merchantid}&deviceId=${device.deviceId}`;
+        const { data } = await axios.get(`${URL}/${url}`, {
+            headers: {
+                Authorization: `Bearer ${user?.token}`,
+            },
+        });
+        this.setState({ serialList: data.data || [] })
+    }
 
+    selectMerchant = (merchant) => {
+        this.setState({
+            merchantSelected: merchant,
+            deviceList: [],
+            serialList: [],
+            deviceSelected: '',
+            serialSelected: '',
+        });
+        this.getDeviceOfMerchant(merchant.merchantid);
+    }
+
+    selectDevice = (device) => {
+        this.setState({
+            deviceSelected: device,
+            serialList: [],
+            serialSelected: '',
+        });
+        this.getSerialOfDevice(device);
     }
 
     render() {
-        const { activeStep, merchantList, merchantSelected } = this.state;
+        const {
+            activeStep,
+            merchantList,
+            deviceList,
+            serialList,
+            merchantSelected,
+            deviceSelected,
+            serialSelected
+        } = this.state;
+
         const steps = this.getSteps();
         return (
             <div className="container-fluid react-transition swipe-right">
@@ -90,8 +135,13 @@ class Index extends Component {
 
                     <MerchantDevice
                         merchantList={merchantList}
+                        deviceList={deviceList}
+                        serialList={serialList}
+                        serialSelected={serialSelected}
                         merchantSelected={merchantSelected}
-                        selectMerchant={merchantSelected => this.setState({ merchantSelected })}
+                        deviceSelected={deviceSelected}
+                        selectMerchant={this.selectMerchant}
+                        selectDevice={this.selectDevice}
                     />
                 </div>
             </div>
