@@ -44,6 +44,7 @@ export default class MerchantDevice extends Component {
                     className="TransactionSearch"
                     style={{ marginTop: 5 }}
                 >
+                {/***************** MERCHANT LIST ****************/}
                     <Grid item xs={3} style={{}}>
                         <FormControl style={{ width: "100%" }}>
                             <InputLabel>Merchant</InputLabel>
@@ -68,6 +69,7 @@ export default class MerchantDevice extends Component {
                         </FormControl>
                     </Grid>
 
+                {/***************** DEVICE LIST ****************/}
                     <Grid item xs={3} style={{}}>
                         <FormControl style={{ width: "100%" }}>
                             <InputLabel>Device</InputLabel>
@@ -93,6 +95,7 @@ export default class MerchantDevice extends Component {
                     </Grid>
 
 
+                {/***************** SERIAL NUMBER ****************/}
                     <Grid item xs={3} style={{}}>
                         <TextField
                             InputLabelProps={{ shrink: true }}

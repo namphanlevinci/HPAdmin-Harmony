@@ -3,7 +3,7 @@
   color: #1366AE !important;
 }
 
-.group-button-merchant-device{
+.group-button-merchant-device, .group-button-settlement-wating{
   position: absolute;
   bottom : 0px;
   display: flex;
@@ -12,6 +12,10 @@
   align-items: center;
   left : 0px;
   right: 0px;
+}
+
+.group-button-settlement-wating{
+  justify-content: flex-start;
 }
 
 .container-loading-settlement{
@@ -25,4 +29,23 @@
   align-items: center;
   background: transparent;
   z-index: 9999999999;
+}
+
+.rowInfo_settlement{
+  display : flex;
+  align-items : center;
+  justify-content: space-between;
+  padding: 12px;
+  font-size: 1.05rem;
+}
+
+.note-settlement{
+  width: 100%;
+  border: 1px solid #dddddd;
+  padding: 15px;
+  font-size: 1.05rem;
+  color: grey;
+  min-height: 70px;
+  max-height : 200px;
+  overflow-y: scroll;
 }

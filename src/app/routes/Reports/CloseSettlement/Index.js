@@ -6,6 +6,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Step from "@material-ui/core/Step";
 import { withRouter } from "react-router-dom";
 import MerchantDevice from "./MerchantDevice";
+import SettlementWaiting from "./SettlementWaiting";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import { config } from "../../../../url/url";
@@ -27,6 +28,7 @@ class Index extends Component {
             deviceSelected: '',
             serialSelected: '',
             isLoading: false,
+            settlementWaitng: null,
         };
     }
 
@@ -42,6 +44,7 @@ class Index extends Component {
         this.getMerchantListBasic();
     }
 
+    /***************** get Merchant List *****************/
     getMerchantListBasic = async () => {
         this.setState({ isLoading: true });
         const { user } = this.props;
@@ -54,6 +57,7 @@ class Index extends Component {
         this.setState({ merchantList: data.data || [], isLoading: false });
     }
 
+    /***************** get Device Mecrchant Selected *****************/
     getDeviceOfMerchant = async (merchantId) => {
         this.setState({ isLoading: true });
         const { user } = this.props;
@@ -66,6 +70,7 @@ class Index extends Component {
         this.setState({ deviceList: data.data || [], isLoading: false });
     }
 
+    /***************** get Serial number from device *****************/
     getSerialOfDevice = async (device) => {
         this.setState({ isLoading: true });
         const { merchantSelected } = this.state;
@@ -77,6 +82,28 @@ class Index extends Component {
             },
         });
         this.setState({ serialSelected: isEmpty(data?.data) ? "" : data?.data, isLoading: false });
+    }
+
+
+    /***************** get data settlement *****************/
+    getSettlementWaiting = async () => {
+        this.setState({ isLoading: true });
+        const { deviceSelected, merchantSelected, serialSelected } = this.state;
+
+        let url = `settlement/waiting?sn=${serialSelected}&merchantId=${merchantSelected.merchantid}&deviceId=${deviceSelected.deviceId}`;
+        if (isEmpty(serialSelected)) {
+            url = `settlement/waiting?sn=&merchantId=${merchantSelected.merchantid}&deviceId=${deviceSelected.deviceId}`;
+        }
+        const { user } = this.props;
+        const { data } = await axios.get(`${URL}/${url}`, {
+            headers: {
+                Authorization: `Bearer ${user?.token}`,
+            },
+        });
+        this.setState({
+            settlementWaitng: data.data || [],
+            isLoading: false
+        });
     }
 
     selectMerchant = (merchant) => {
@@ -107,10 +134,24 @@ class Index extends Component {
             alert('Pleaee select device');
             return;
         }
+
+        this.setState({ activeStep: 1 });
+        this.getSettlementWaiting();
     }
 
     cancelMerchantDevice = () => {
         this.props.history.push("/app/reports/batchs");
+    }
+
+    backToMerchantDevice = () => {
+        this.setState({
+            activeStep: 0,
+            settlementWaitng: null,
+        });
+    }
+
+    submitCloseSettlement = () => {
+
     }
 
     render() {
@@ -123,9 +164,11 @@ class Index extends Component {
             deviceSelected,
             serialSelected,
             isLoading,
+            settlementWaitng
         } = this.state;
 
         const steps = this.getSteps();
+
         return (
             <div style={{ position: 'relative' }} className="container-fluid react-transition swipe-right">
                 <ContainerHeader
@@ -153,18 +196,30 @@ class Index extends Component {
                         })}
                     </Stepper>
 
-                    <MerchantDevice
-                        merchantList={merchantList}
-                        deviceList={deviceList}
-                        serialList={serialList}
-                        serialSelected={serialSelected}
-                        merchantSelected={merchantSelected}
-                        deviceSelected={deviceSelected}
-                        selectMerchant={this.selectMerchant}
-                        selectDevice={this.selectDevice}
-                        next={this.nextMerchantDevice}
-                        cancel={this.cancelMerchantDevice}
-                    />
+                    {
+                        parseInt(activeStep) === 1 && 
+                        <MerchantDevice
+                            merchantList={merchantList}
+                            deviceList={deviceList}
+                            serialList={serialList}
+                            serialSelected={serialSelected}
+                            merchantSelected={merchantSelected}
+                            deviceSelected={deviceSelected}
+                            selectMerchant={this.selectMerchant}
+                            selectDevice={this.selectDevice}
+                            next={this.nextMerchantDevice}
+                            cancel={this.cancelMerchantDevice}
+                        />
+                    }
+
+                    {
+                        parseInt(activeStep) === 0 &&
+                        <SettlementWaiting
+                            submitCloseSettlement={this.submitCloseSettlement}
+                            back={this.backToMerchantDevice}
+                            settlementWaitng={settlementWaitng}
+                        />
+                    }
                 </div>
                 {
                     isLoading && <div className="container-loading-settlement">
