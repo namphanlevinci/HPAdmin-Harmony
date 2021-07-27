@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import asyncComponent from "@/util/asyncComponent";
+import CloseSettlement from "./CloseSettlement/CloseSettlement";
 
 const Reports = ({ match }) => (
   <div className="app-wrapper">
@@ -54,6 +55,11 @@ const Reports = ({ match }) => (
       <Route
         path={`${match.url}/gift-card-sold`}
         component={asyncComponent(() => import("./GiftCardSold/GiftCardSold"))}
+      />
+
+      <Route
+        path={`${match.url}/batchs/close-settlement`}
+        component={CloseSettlement}
       />
 
       <Route

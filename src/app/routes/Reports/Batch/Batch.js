@@ -56,7 +56,7 @@ class Transactions extends React.Component {
     this.pagination = React.createRef();
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.fetchApi();
   }
 
@@ -405,7 +405,7 @@ class Transactions extends React.Component {
               container
               spacing={0}
               className="BatchSearch"
-              style={{ marginBottom: 15 }}
+              style={{ marginBottom: 15, justifyContent: 'space-between' }}
             >
               <div className="container-search-component">
                 <SearchComponent
@@ -419,6 +419,11 @@ class Transactions extends React.Component {
                   Search
                 </NewButton>
               </div>
+              <NewButton blue onClick={() => {
+                this.props.history.push("/app/reports/batchs/close-settlement");
+              }}>
+                Close Settlement
+              </NewButton>
             </Grid>
           </div>
 
