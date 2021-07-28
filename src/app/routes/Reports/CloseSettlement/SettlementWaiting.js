@@ -119,9 +119,12 @@ export default class SettlementWaiting extends Component {
                     <NewButton onClick={() => this.props.back()}>
                         Back
                     </NewButton>
-                    <NewButton style={{ marginLeft: 16 }} blue={true} onClick={() => this.props.submitCloseSettlement()}>
-                        Close Settlement
-                    </NewButton>
+                    {
+                        settlementWaitng?.checkout && settlementWaitng?.checkout.length > 0 &&
+                        <NewButton style={{ marginLeft: 16 }} blue={true} onClick={() => this.props.submitCloseSettlement()}>
+                            Close Settlement
+                        </NewButton>
+                    }
                 </div>
             </div>
         )

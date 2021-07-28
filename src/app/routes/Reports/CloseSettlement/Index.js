@@ -14,22 +14,23 @@ import "./style.scss";
 
 const URL = config.url.URL;
 
+const initialState = {
+    activeStep: 0,
+    merchantList: [],
+    deviceList: [],
+    serialList: [],
+    merchantSelected: 'Select merchant',
+    deviceSelected: 'Select device',
+    serialSelected: '',
+    isLoading: false,
+    settlementWaitng: null,
+    isSuccess: false,
+}
 
 class Index extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            activeStep: 0,
-            merchantList: [],
-            deviceList: [],
-            serialList: [],
-            merchantSelected: 'Select merchant',
-            deviceSelected: 'Select device',
-            serialSelected: '',
-            isLoading: false,
-            settlementWaitng: null,
-            isSuccess: false,
-        };
+        this.state = initialState;
     }
 
     componentDidMount = () => {
@@ -141,8 +142,59 @@ class Index extends Component {
         });
     }
 
-    submitCloseSettlement = () => {
+    /***************** CLOSE SETTLEMENT *****************/
+    submitCloseSettlement = async () => {
+        try {
+            this.setState({ isLoading: true });
+            const { merchantSelected, settlementWaitng, deviceSelected } = this.state;
+            const { user } = this.props;
+            const url = `settlement/`;
+            const body = {
+                merchantId: merchantSelected.merchantid,
+                TerminalId: deviceSelected.terminalId,
+                paymentByHarmony: settlementWaitng.paymentByHarmony,
+                paymentByCreditCard: settlementWaitng.paymentByCreditCard,
+                paymentByCash: settlementWaitng.paymentByCash,
+                otherPayment: settlementWaitng.otherPayment,
+                total: settlementWaitng.total,
+                note: settlementWaitng.note,
+                checkout: settlementWaitng.checkout,
+                discount: settlementWaitng.discount,
+                paymentByCashStatistic: settlementWaitng.paymentByCashStatistic,
+                otherPaymentStatistic: settlementWaitng.otherPaymentStatistic,
+                isConnectPax: settlementWaitng.isConnectPax
+            }
+            const { data } = await axios.post(
+                `${URL}/${url}`,
+                body,
+                {
+                    headers: {
+                        Authorization: `Bearer ${user?.token}`,
+                    },
+                }
+            );
 
+            if (data && parseInt(data.codeNumber) === 200) {
+                this.setState({
+                    isLoading: false,
+                    isSuccess: true
+                });
+            }
+
+
+        } catch (err) {
+            alert(err);
+            this.setState({ isLoading: false })
+        }
+    }
+
+    onClickOKSuccess = () => {
+        this.resetState();
+        this.getMerchantListBasic();
+    }
+
+    resetState = () => {
+        this.setState(initialState)
     }
 
     render() {
@@ -228,7 +280,7 @@ class Index extends Component {
                 </div>
                 <PopupSuccess
                     isPopup={isSuccess}
-                    actionOK={() => { }}
+                    actionOK={this.onClickOKSuccess}
                 />
             </>
         );
