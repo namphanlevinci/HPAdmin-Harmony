@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ContainerHeader from "../../../../components/ContainerHeader/index";
-import Stepper from "@material-ui/core/Stepper";
-import StepLabel from "@material-ui/core/StepLabel";
-import Step from "@material-ui/core/Step";
 import { withRouter } from "react-router-dom";
 import MerchantDevice from "./MerchantDevice";
 import SettlementWaiting from "./SettlementWaiting";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import { config } from "../../../../url/url";
-import FadeLoader from "react-spinners/FadeLoader";
+import FadeLoader from "react-spinners/PulseLoader";
+import { Stepper } from 'react-form-stepper';
 import "./style.scss";
 
 const URL = config.url.URL;
@@ -24,21 +22,13 @@ class Index extends Component {
             merchantList: [],
             deviceList: [],
             serialList: [],
-            merchantSelected: '',
-            deviceSelected: '',
+            merchantSelected: 'Select merchant',
+            deviceSelected: 'Select device',
             serialSelected: '',
             isLoading: false,
             settlementWaitng: null,
         };
     }
-
-
-    getSteps = () => {
-        return [
-            "Merchant & Device",
-            "Submit",
-        ];
-    };
 
     componentDidMount = () => {
         this.getMerchantListBasic();
@@ -103,7 +93,7 @@ class Index extends Component {
         this.setState({
             settlementWaitng: data.data || [],
             isLoading: false,
-            activeStep : 1
+            activeStep: 1
         });
     }
 
@@ -111,7 +101,7 @@ class Index extends Component {
         this.setState({
             merchantSelected: merchant,
             deviceList: [],
-            deviceSelected: '',
+            deviceSelected: 'Select device',
             serialSelected: '',
         });
         this.getDeviceOfMerchant(merchant.merchantid);
@@ -127,11 +117,11 @@ class Index extends Component {
 
     nextMerchantDevice = () => {
         const { merchantSelected, deviceSelected } = this.state;
-        if (isEmpty(merchantSelected)) {
+        if (merchantSelected === "Select merchant") {
             alert('Pleaee select merchant');
             return;
         }
-        if (isEmpty(deviceSelected)) {
+        if (deviceSelected === "Select device") {
             alert('Pleaee select device');
             return;
         }
@@ -166,8 +156,6 @@ class Index extends Component {
             settlementWaitng
         } = this.state;
 
-        const steps = this.getSteps();
-
         return (
             <div style={{ position: 'relative' }} className="container-fluid react-transition swipe-right">
                 <ContainerHeader
@@ -179,24 +167,24 @@ class Index extends Component {
                     style={{ padding: "20px", background: "white" }}
                 >
                     <Stepper
+                        steps={[{ label: 'Merchant & Device' }, { label: 'Submit' }]}
                         activeStep={activeStep}
-                        alternativeLabel
-                        className="horizontal-stepper-linear"
-                    >
-                        {steps.map((label, index) => {
-                            return (
-                                <Step
-                                    key={label}
-                                    className={`horizontal-stepper ${index === activeStep ? "active" : ""}`}
-                                >
-                                    <StepLabel className="stepperLabel">{label}</StepLabel>
-                                </Step>
-                            );
-                        })}
-                    </Stepper>
+                        connectorStateColors={true}
+                        connectorStyleConfig={{
+                            activeColor: '#1366AE',
+                            size: 2,
+                        }}
+                        styleConfig={{
+                            activeBgColor: '#1366AE',
+                            activeTextColor: 'white',
+                            inactiveBgColor: '#DDDDDD',
+                            completedBgColor: '#1366AE',
+                            fontWeight: '600'
+                        }}
+                    />
 
                     {
-                        parseInt(activeStep) === 0 && 
+                        parseInt(activeStep) === 0 &&
                         <MerchantDevice
                             merchantList={merchantList}
                             deviceList={deviceList}
@@ -222,13 +210,15 @@ class Index extends Component {
                 </div>
                 {
                     isLoading && <div className="container-loading-settlement">
-                        <FadeLoader
-                            color={'#1366AE'}
-                            loading={isLoading}
-                            size={20} css={{
-                                display: 'block',
-                                borderColor: 'red',
-                            }} />
+                        <div className="loader-settlement">
+                            <FadeLoader
+                                color={'white'}
+                                loading={isLoading}
+                                size={10}
+                                css={{
+                                    display: 'block',
+                                }} />
+                        </div>
                     </div>
                 }
             </div>

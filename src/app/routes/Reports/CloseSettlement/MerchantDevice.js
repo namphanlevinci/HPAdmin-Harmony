@@ -44,7 +44,7 @@ export default class MerchantDevice extends Component {
                     className="TransactionSearch"
                     style={{ marginTop: 5 }}
                 >
-                {/***************** MERCHANT LIST ****************/}
+                    {/***************** MERCHANT LIST ****************/}
                     <Grid item xs={3} style={{}}>
                         <FormControl style={{ width: "100%" }}>
                             <InputLabel>Merchant</InputLabel>
@@ -52,6 +52,12 @@ export default class MerchantDevice extends Component {
                                 value={merchantSelected}
                                 onChange={e => this.changeMerchant(e.target.value)}
                             >
+                                <MenuItem
+                                    value={"Select merchant"}
+                                >
+                                    {"Select merchant"}
+                                </MenuItem>
+                                        )
                                 {
                                     merchantList.map((m) => {
                                         return (
@@ -69,7 +75,7 @@ export default class MerchantDevice extends Component {
                         </FormControl>
                     </Grid>
 
-                {/***************** DEVICE LIST ****************/}
+                    {/***************** DEVICE LIST ****************/}
                     <Grid item xs={3} style={{}}>
                         <FormControl style={{ width: "100%" }}>
                             <InputLabel>Device</InputLabel>
@@ -77,6 +83,11 @@ export default class MerchantDevice extends Component {
                                 value={deviceSelected}
                                 onChange={e => this.changeDevice(e.target.value)}
                             >
+                                <MenuItem
+                                    value={"Select device"}
+                                >
+                                    {"Select device"}
+                                </MenuItem>
                                 {
                                     deviceList.map((m) => {
                                         return (
@@ -95,7 +106,7 @@ export default class MerchantDevice extends Component {
                     </Grid>
 
 
-                {/***************** SERIAL NUMBER ****************/}
+                    {/***************** SERIAL NUMBER ****************/}
                     <Grid item xs={3} style={{}}>
                         <TextField
                             InputLabelProps={{ shrink: true }}

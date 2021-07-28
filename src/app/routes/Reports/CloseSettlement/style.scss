@@ -67,7 +67,45 @@
   &>div{
     width: 20%;
     padding: 10px;
-    padding-left: 27px;
+    padding-left: 23px;
     font-size: 1rem;
   }
+}
+
+.transaction_data::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+.transaction_data{
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none; 
+}
+
+.note-settlement::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+.note-settlement{
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none; 
+}
+
+.container-settlement-waiting{
+  min-height: 680px;
+}
+
+@media screen and (max-width: 1280px) {
+  .container-settlement-waiting{
+    min-height: 1250px !important;
+  }
+}
+
+.loader-settlement{
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background : rgba(0,0,0,0.4);
+  border-radius : 10px;
 }

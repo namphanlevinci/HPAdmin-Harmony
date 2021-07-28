@@ -52,6 +52,7 @@
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.5",
     "react-fittext": "^1.0.0",
+    "react-form-stepper": "^1.4.3",
     "react-helmet": "^6.1.0",
     "react-hot-loader": "^4.9.0",
     "react-icons": "^3.7.0",
