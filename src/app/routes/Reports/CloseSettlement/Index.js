@@ -9,6 +9,7 @@ import { isEmpty } from "lodash";
 import { config } from "../../../../url/url";
 import FadeLoader from "react-spinners/PulseLoader";
 import { Stepper } from 'react-form-stepper';
+import PopupSuccess from "./PopupSuccess";
 import "./style.scss";
 
 const URL = config.url.URL;
@@ -27,6 +28,7 @@ class Index extends Component {
             serialSelected: '',
             isLoading: false,
             settlementWaitng: null,
+            isSuccess: false,
         };
     }
 
@@ -153,75 +155,82 @@ class Index extends Component {
             deviceSelected,
             serialSelected,
             isLoading,
-            settlementWaitng
+            settlementWaitng,
+            isSuccess,
         } = this.state;
 
         return (
-            <div style={{ position: 'relative' }} className="container-fluid react-transition swipe-right">
-                <ContainerHeader
-                    match={this.props.match}
-                    title={'Close Settlement'}
-                />
-                <div
-                    className="MerList page-heading"
-                    style={{ padding: "20px", background: "white" }}
-                >
-                    <Stepper
-                        steps={[{ label: 'Merchant & Device' }, { label: 'Submit' }]}
-                        activeStep={activeStep}
-                        connectorStateColors={true}
-                        connectorStyleConfig={{
-                            activeColor: '#1366AE',
-                            size: 2,
-                        }}
-                        styleConfig={{
-                            activeBgColor: '#1366AE',
-                            activeTextColor: 'white',
-                            inactiveBgColor: '#DDDDDD',
-                            completedBgColor: '#1366AE',
-                            fontWeight: '600'
-                        }}
+            <>
+                <div style={{ position: 'relative' }} className="container-fluid react-transition swipe-right">
+                    <ContainerHeader
+                        match={this.props.match}
+                        title={'Close Settlement'}
                     />
-
-                    {
-                        parseInt(activeStep) === 0 &&
-                        <MerchantDevice
-                            merchantList={merchantList}
-                            deviceList={deviceList}
-                            serialList={serialList}
-                            serialSelected={serialSelected}
-                            merchantSelected={merchantSelected}
-                            deviceSelected={deviceSelected}
-                            selectMerchant={this.selectMerchant}
-                            selectDevice={this.selectDevice}
-                            next={this.nextMerchantDevice}
-                            cancel={this.cancelMerchantDevice}
+                    <div
+                        className="MerList page-heading"
+                        style={{ padding: "20px", background: "white" }}
+                    >
+                        <Stepper
+                            steps={[{ label: 'Merchant & Device' }, { label: 'Submit' }]}
+                            activeStep={activeStep}
+                            connectorStateColors={true}
+                            connectorStyleConfig={{
+                                activeColor: '#1366AE',
+                                size: 2,
+                            }}
+                            styleConfig={{
+                                activeBgColor: '#1366AE',
+                                activeTextColor: 'white',
+                                inactiveBgColor: '#DDDDDD',
+                                completedBgColor: '#1366AE',
+                                fontWeight: '600'
+                            }}
                         />
-                    }
 
+                        {
+                            parseInt(activeStep) === 0 &&
+                            <MerchantDevice
+                                merchantList={merchantList}
+                                deviceList={deviceList}
+                                serialList={serialList}
+                                serialSelected={serialSelected}
+                                merchantSelected={merchantSelected}
+                                deviceSelected={deviceSelected}
+                                selectMerchant={this.selectMerchant}
+                                selectDevice={this.selectDevice}
+                                next={this.nextMerchantDevice}
+                                cancel={this.cancelMerchantDevice}
+                            />
+                        }
+
+                        {
+                            parseInt(activeStep) === 1 &&
+                            <SettlementWaiting
+                                submitCloseSettlement={this.submitCloseSettlement}
+                                back={this.backToMerchantDevice}
+                                settlementWaitng={settlementWaitng}
+                            />
+                        }
+                    </div>
                     {
-                        parseInt(activeStep) === 1 &&
-                        <SettlementWaiting
-                            submitCloseSettlement={this.submitCloseSettlement}
-                            back={this.backToMerchantDevice}
-                            settlementWaitng={settlementWaitng}
-                        />
+                        isLoading && <div className="container-loading-settlement">
+                            <div className="loader-settlement">
+                                <FadeLoader
+                                    color={'white'}
+                                    loading={isLoading}
+                                    size={10}
+                                    css={{
+                                        display: 'block',
+                                    }} />
+                            </div>
+                        </div>
                     }
                 </div>
-                {
-                    isLoading && <div className="container-loading-settlement">
-                        <div className="loader-settlement">
-                            <FadeLoader
-                                color={'white'}
-                                loading={isLoading}
-                                size={10}
-                                css={{
-                                    display: 'block',
-                                }} />
-                        </div>
-                    </div>
-                }
-            </div>
+                <PopupSuccess
+                    isPopup={isSuccess}
+                    actionOK={() => { }}
+                />
+            </>
         );
     }
 }
