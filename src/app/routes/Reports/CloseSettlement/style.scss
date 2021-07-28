@@ -43,11 +43,13 @@
   width: 100%;
   border: 1px solid #dddddd;
   padding: 15px;
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: grey;
   min-height: 70px;
   max-height : 200px;
   overflow-y: scroll;
+  font-style: italic;
+  font-weight: 300;
 }
 
 .row_transaction_settlement_header{
