@@ -54,7 +54,7 @@ const getStaffReducer = (
   state = {
     loading: false,
     statusAddStaff: false,
-    data : [],
+    data: [],
   },
   { type, payload }
 ) => {
@@ -326,7 +326,7 @@ const updateMerchantPrincipalByIdReducer = (
 const getMerchantCategoryByIdReducer = (
   state = {
     loading: false,
-    categoryList : [],
+    categoryList: [],
   },
   { type, payload }
 ) => {
@@ -610,7 +610,7 @@ const restoreMerchantServiceByIdReducer = (
 const getMerchantProductByIdReducer = (
   state = {
     loading: false,
-    productList : [],
+    productList: [],
   },
   { type, payload }
 ) => {
@@ -1382,7 +1382,8 @@ const deviceReducer = (
 const checkTerminal = (terminal, deviceList = []) => {
   for (let index = 0; index < deviceList.length; index++) {
     if (deviceList[index].terminalId == terminal) {
-      deviceList[index].terminalId = '';
+      if (deviceList[index].terminalId !== "SUPPORT ONLY")
+        deviceList[index].terminalId = '';
     }
   }
   return deviceList;

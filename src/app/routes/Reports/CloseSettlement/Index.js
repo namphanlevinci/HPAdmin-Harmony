@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ContainerHeader from "../../../../components/ContainerHeader/index";
 import { withRouter } from "react-router-dom";
 import MerchantDevice from "./MerchantDevice";
 import SettlementWaiting from "./SettlementWaiting";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import { config } from "../../../../url/url";
+import ContainerHeader from "../../../../components/ContainerHeader/index";
 import FadeLoader from "react-spinners/PulseLoader";
 import { Stepper } from 'react-form-stepper';
 import PopupSuccess from "./PopupSuccess";
