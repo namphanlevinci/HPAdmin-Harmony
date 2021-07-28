@@ -35,7 +35,7 @@ export default class SettlementWaiting extends Component {
 
 
     render() {
-        const { settlementWaitng } = this.props;
+        const { settlementWaitng, onChangeNote, note } = this.props;
 
         return (
             <div className="container-settlement-waiting" style={{ position: 'relative' }}>
@@ -87,7 +87,7 @@ export default class SettlementWaiting extends Component {
                             color="#53D769"
                             background="#DDF7FE"
                         />
-                        <Note value={settlementWaitng?.note || ""} />
+                        <Note value={note || ""} onChangeNote={onChangeNote} />
                     </Grid>
 
                     <Grid item xs={12} lg={6} style={{ height: 500 }}>
@@ -131,10 +131,15 @@ export default class SettlementWaiting extends Component {
     }
 }
 
-const Note = ({ value = '' }) => (
+const Note = ({ value = '' , onChangeNote }) => (
     <>
         <p style={{ fontSize: '1.05rem', fontWeight: '600', marginTop: 40 }}>Note:</p>
-        <div className="note-settlement">{value}</div>
+        <div className="note-settlement">
+            <textarea 
+                value={value}
+                onChange={onChangeNote}
+            />
+        </div>
     </>
 )
 
@@ -177,7 +182,7 @@ const RowTransaction = ({ isHeader = false, payment, icon }) => (
             <div style={{ display: 'flex' }}>
                 <img
                     src={icon}
-                    style={{ width: 32, height: 32, marginRight: 6, objectFit: 'contain' , marginTop: -5 }}
+                    style={{ width: 32, height: 32, marginRight: 6, objectFit: 'contain', marginTop: -5 }}
                     alt="imgcard"
                 />
                 x{payment.paymentData.card_number}

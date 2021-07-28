@@ -25,6 +25,7 @@ const initialState = {
     isLoading: false,
     settlementWaitng: null,
     isSuccess: false,
+    note: "",
 }
 
 class Index extends Component {
@@ -60,7 +61,15 @@ class Index extends Component {
                 Authorization: `Bearer ${user?.token}`,
             },
         });
-        this.setState({ deviceList: data.data || [], isLoading: false });
+        if (data && parseInt(data.codeNumber) === 200) {
+            this.setState({
+                deviceList: data?.data ? data?.data?.filter(d => !isEmpty(d.deviceId)) : [],
+                isLoading: false
+            });
+        } else {
+            alert(data.message);
+            this.setState({ isLoading: false })
+        }
     }
 
     /***************** get Serial number from device *****************/
@@ -74,7 +83,15 @@ class Index extends Component {
                 Authorization: `Bearer ${user?.token}`,
             },
         });
-        this.setState({ serialSelected: isEmpty(data?.data) ? "" : data?.data, isLoading: false });
+        if (data && parseInt(data.codeNumber) === 200) {
+            this.setState({
+                serialSelected: isEmpty(data?.data) ? "" : data?.data,
+                isLoading: false
+            });
+        } else {
+            alert(data.message);
+            this.setState({ isLoading: false })
+        }
     }
 
 
@@ -93,11 +110,19 @@ class Index extends Component {
                 Authorization: `Bearer ${user?.token}`,
             },
         });
-        this.setState({
-            settlementWaitng: data.data || [],
-            isLoading: false,
-            activeStep: 1
-        });
+
+        if (data && parseInt(data.codeNumber) === 200) {
+            this.setState({
+                settlementWaitng: data.data || [],
+                note: data?.data?.note || "",
+                isLoading: false,
+                activeStep: 1
+            });
+        } else {
+            alert(data.message);
+            this.setState({ isLoading: false })
+        }
+
     }
 
     selectMerchant = (merchant) => {
@@ -157,13 +182,14 @@ class Index extends Component {
                 paymentByCash: settlementWaitng.paymentByCash,
                 otherPayment: settlementWaitng.otherPayment,
                 total: settlementWaitng.total,
-                note: settlementWaitng.note,
+                note: this.state.note,
                 checkout: settlementWaitng.checkout,
                 discount: settlementWaitng.discount,
                 paymentByCashStatistic: settlementWaitng.paymentByCashStatistic,
                 otherPaymentStatistic: settlementWaitng.otherPaymentStatistic,
                 isConnectPax: settlementWaitng.isConnectPax
             }
+
             const { data } = await axios.post(
                 `${URL}/${url}`,
                 body,
@@ -195,6 +221,10 @@ class Index extends Component {
 
     resetState = () => {
         this.setState(initialState)
+    }
+
+    onChangeNote = (e) => {
+        this.setState({ note: e.target.value });
     }
 
     render() {
@@ -261,6 +291,8 @@ class Index extends Component {
                                 submitCloseSettlement={this.submitCloseSettlement}
                                 back={this.backToMerchantDevice}
                                 settlementWaitng={settlementWaitng}
+                                note={this.state.note}
+                                onChangeNote={this.onChangeNote}
                             />
                         }
                     </div>

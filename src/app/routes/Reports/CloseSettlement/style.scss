@@ -50,6 +50,16 @@
   overflow-y: scroll;
   font-style: italic;
   font-weight: 300;
+  display : flex;
+  &>textarea{
+    flex: 1;
+    border: none;
+    outline: none;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1rem;
+    color: grey;
+  }
 }
 
 .row_transaction_settlement_header{
