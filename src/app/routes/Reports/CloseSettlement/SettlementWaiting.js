@@ -174,10 +174,10 @@ const RowTransaction = ({ isHeader = false, payment, icon }) => (
         <div className="row_transaction_settlement">
             <div>#{payment.transactionId}</div>
             <div>#{payment.checkoutId}</div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex' }}>
                 <img
                     src={icon}
-                    style={{ width: 32, height: 32, marginRight: 6, objectFit: 'contain' }}
+                    style={{ width: 32, height: 32, marginRight: 6, objectFit: 'contain' , marginTop: -5 }}
                     alt="imgcard"
                 />
                 x{payment.paymentData.card_number}

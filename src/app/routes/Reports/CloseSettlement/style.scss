@@ -128,3 +128,17 @@
     margin-top: 1.5rem;
   }
 }
+
+@media screen and (max-width: 543px) {
+  .row_transaction_settlement{
+    &>div{
+      font-size: 0.7rem;
+    }
+  }
+  .row_transaction_settlement_header{
+    &>div{
+      font-size: 0.7rem;
+    }
+  }
+  
+}
