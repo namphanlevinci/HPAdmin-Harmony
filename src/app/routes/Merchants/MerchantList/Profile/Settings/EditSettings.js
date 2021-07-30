@@ -39,6 +39,7 @@ class EditSettings extends Component {
       pointRate: "",
       turnAmount: "",
       timezone: "",
+      isTest : false
     };
   }
   handleChange = (event) => {
@@ -60,6 +61,7 @@ class EditSettings extends Component {
       pointRate: data?.pointRate,
       turnAmount: data?.turnAmount,
       isTop: data.isTop,
+      isTest: data.isTest,
       timezone: data.timezone,
       loading: true,
     });
@@ -206,7 +208,14 @@ class EditSettings extends Component {
                   <MenuItem value="manual">Manual</MenuItem>
                 </Select> */}
               </Grid>
-              <Grid item xs={6} md={12}>
+              <Grid item xs={12} sm={6} md={3}>
+
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -220,6 +229,22 @@ class EditSettings extends Component {
                     />
                   }
                   label="Top Store"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="isTop"
+                      checked={this.state.isTest}
+                      style={{ color: "#0764B0" }}
+                      color="primary"
+                      onChange={(e) =>
+                        this.setState({ isTest: e.target.checked })
+                      }
+                    />
+                  }
+                  label="Test Merchant"
                 />
               </Grid>
               <Grid item xs={12}>

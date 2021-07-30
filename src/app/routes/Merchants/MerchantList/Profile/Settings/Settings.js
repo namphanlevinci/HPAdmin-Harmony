@@ -36,7 +36,6 @@ import CheckPermissions from "../../../../../../util/checkPermission";
 import CustomProgress from "../../../../../../util/CustomProgress";
 import FadeLoader from "react-spinners/PulseLoader";
 import PopupBookingLink from "./PopupBookingLink";
-import { isEmpty } from "lodash";
 
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
@@ -363,7 +362,13 @@ class Settings extends Component {
                 value={data.timezone}
               />
             </Grid>
-            <Grid item xs={6} md={12}>
+            <Grid item xs={6} md={3}>
+
+            </Grid>
+            <Grid item xs={12} sm={3} md={3}>
+
+            </Grid>
+            <Grid item xs={6} md={3}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -373,6 +378,18 @@ class Settings extends Component {
                   />
                 }
                 label="Top Store"
+              />
+            </Grid>
+            <Grid item xs={12} sm={3} md={3}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={data.isTest}
+                    style={{ color: "#0764B0" }}
+                    color="primary"
+                  />
+                }
+                label="Test Merchant"
               />
             </Grid>
             <Grid item xs={12}>
