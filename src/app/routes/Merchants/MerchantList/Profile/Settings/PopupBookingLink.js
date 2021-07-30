@@ -8,7 +8,7 @@ export default class PopupBookingLink extends Component {
     openLink = () => {
         const { link } = this.props;
         if (link)
-            window.location.href = link;
+            window.open(link, '_blank');
     }
 
     copyToClipboard = (e) => {
