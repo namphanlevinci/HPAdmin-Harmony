@@ -104,3 +104,27 @@
 		  font-weight: bold !important;
 	  }
   }
+
+  .container-loading-settlement{
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	background: transparent;
+	z-index: 9999999999;
+  }
+
+  .loader-settlement{
+	width: 5rem;
+	height: 5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background : rgba(0,0,0,0.4);
+	border-radius : 10px;
+  }
+  

@@ -54,16 +54,22 @@ import EditSubscription from "./Profile/Subscription/EditSubscription";
 import Devices from "./Profile/Devices";
 import Invoice from "./Profile/Invoice";
 import InvoiceDetail from "../../Merchants/MerchantList/Profile/InvoiceDetail";
+import FadeLoader from "react-spinners/PulseLoader";
+import axios from "axios";
+import { config } from "@/url/url";
 
 import "../PendingList/MerchantReqProfile.css";
 import "./MerchantProfile.css";
 import "bootstrap/js/src/collapse.js";
+
+const URL = config.url.URL;
 
 class merchantProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       openDelete: false,
+      isLoading: false
     };
   }
 
@@ -78,273 +84,307 @@ class merchantProfile extends Component {
     this.setState({ openDelete: false });
   };
 
+  cloneMerchant = async () => {
+    this.setState({ isLoading: true });
+    const { merchantId } = this.props.MerchantProfile;
+    const { user } = this.props;
+    const url = `merchant/clone/${merchantId}`;
+    const { data } = await axios.post(`${URL}/${url}`, {}, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+    if (data && parseInt(data.codeNumber) === 200) {
+      this.setState({ isLoading: false });
+      this.props.notification_success(data.message);
+    } else {
+      alert(data.message);
+      this.setState({ isLoading: false })
+    }
+  }
+
   render() {
+    const { isLoading } = this.state;
     const e = this.props.MerchantProfile;
 
+    const { user } = this.props;
+
     return (
-      <div>
-        <div className="container-fluid content-list">
-          <ContainerHeader
-            match={this.props.match}
-            title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
-            disableBreadcrumb={true}
-          />
-          <div className="content-body page-heading">
-            <Grid container>
-              <Grid item xs={2}>
-                <h3>ID: {e?.merchantId}</h3>
-              </Grid>
-              <Grid item xs={10}>
-                <span style={{ display: "flex", justifyContent: "flex-end" }}>
-                  {CheckPermissions("delete-merchant") && (
+      <>
+        <div>
+          <div className="container-fluid content-list">
+            <ContainerHeader
+              match={this.props.match}
+              title={<IntlMessages id="sidebar.dashboard.merchantProfile" />}
+              disableBreadcrumb={true}
+            />
+            <div className="content-body page-heading">
+              <Grid container>
+                <Grid item xs={2}>
+                  <h3>ID: {e?.merchantId}</h3>
+                </Grid>
+                <Grid item xs={10}>
+                  <span style={{ display: "flex", justifyContent: "flex-end" }}>
+                    {
+                      user?.userAdmin?.roleName === "Administrator" &&
+                      <Button
+                        style={{ color: "white", backgroundColor: "#1366AE" }}
+                        className="btn btn-green"
+                        onClick={this.cloneMerchant}
+                      >
+                        Clone merchant
+                    </Button>
+                    }
+                    {CheckPermissions("delete-merchant") && (
+                      <Button
+                        style={{ color: "#0764B0", backgroundColor: "white" }}
+                        className="btn btn-green"
+                        onClick={() => this.setState({ openDelete: true })}
+                      >
+                        DELETE
+                      </Button>
+                    )}
+                    {CheckPermissions("export-settlement") && (
+                      <span style={{ marginRight: "20px" }}>
+                        <ExportSettlement
+                          MerchantId={e?.merchantId}
+                          Token={this.props.userLogin}
+                        />
+                      </span>
+                    )}
+
                     <Button
                       style={{ color: "#0764B0", backgroundColor: "white" }}
                       className="btn btn-green"
-                      onClick={() => this.setState({ openDelete: true })}
+                      onClick={this.goBack}
                     >
-                      DELETE
-                    </Button>
-                  )}
-                  {CheckPermissions("export-settlement") && (
-                    <span style={{ marginRight: "20px" }}>
-                      <ExportSettlement
-                        MerchantId={e?.merchantId}
-                        Token={this.props.userLogin}
-                      />
-                    </span>
-                  )}
-
-                  <Button
-                    style={{ color: "#0764B0", backgroundColor: "white" }}
-                    className="btn btn-green"
-                    onClick={this.goBack}
-                  >
-                    BACK
+                      BACK
                   </Button>
-                </span>
+                  </span>
+                </Grid>
               </Grid>
-            </Grid>
-            <hr />
-            <div className="content">
-              <div className="container-fluid" style={{ padding: "10px" }}>
-                <div className="">
-                  <Dialog open={this.state.openDelete}>
-                    <DialogTitle id="alert-dialog-title">
-                      {"Delete Merchant?"}
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        This Merchant will be remove from the app. You can not
-                        restore this Merchant, Are you sure you want to do
-                        this?.
+              <hr />
+              <div className="content">
+                <div className="container-fluid" style={{ padding: "10px" }}>
+                  <div className="">
+                    <Dialog open={this.state.openDelete}>
+                      <DialogTitle id="alert-dialog-title">
+                        {"Delete Merchant?"}
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          This Merchant will be remove from the app. You can not
+                          restore this Merchant, Are you sure you want to do
+                          this?.
                       </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button
-                        onClick={() => this.setState({ openDelete: false })}
-                        color="primary"
-                      >
-                        Disagree
+                      </DialogContent>
+                      <DialogActions>
+                        <Button
+                          onClick={() => this.setState({ openDelete: false })}
+                          color="primary"
+                        >
+                          Disagree
                       </Button>
-                      <Button
-                        onClick={this.handleDeleteMerchant}
-                        color="primary"
-                        autoFocus
-                      >
-                        Agree
+                        <Button
+                          onClick={this.handleDeleteMerchant}
+                          color="primary"
+                          autoFocus
+                        >
+                          Agree
                       </Button>
-                    </DialogActions>
-                  </Dialog>
+                      </DialogActions>
+                    </Dialog>
 
-                  <div className="profile-nav content-body">
-                    <ul className="detail-tab">
-                      <li>
-                        <NavLink to="/app/merchants/profile/general">
-                          General
+                    <div className="profile-nav content-body">
+                      <ul className="detail-tab">
+                        <li>
+                          <NavLink to="/app/merchants/profile/general">
+                            General
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/bank">Bank</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/principal">
-                          Principal
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/bank">Bank</NavLink>
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/principal">
+                            Principal
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/subscriptions">
-                          Subscription
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/subscriptions">
+                            Subscription
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/staff">
-                          Staff
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/staff">
+                            Staff
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/category">
-                          Category
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/category">
+                            Category
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/service">
-                          Service
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/service">
+                            Service
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/product">
-                          Product
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/product">
+                            Product
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/extra">
-                          Extra
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/extra">
+                            Extra
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/gift-card">
-                          Gift Card
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/gift-card">
+                            Gift Card
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/invoice">
-                          Invoice
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/invoice">
+                            Invoice
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/devices">
-                          Devices
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/devices">
+                            Devices
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/settings">
-                          Settings
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/settings">
+                            Settings
                         </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/app/merchants/profile/activities">
-                          Activities
+                        </li>
+                        <li>
+                          <NavLink to="/app/merchants/profile/activities">
+                            Activities
                         </NavLink>
-                      </li>
-                    </ul>
-                    <div className="detail-content">
-                      <Switch>
-                        <Route
-                          path="/app/merchants/profile/general/edit"
-                          component={EditGeneral}
-                        />
-                        <Route
-                          path="/app/merchants/profile/general"
-                          component={General}
-                        />
-                        <Route
-                          path="/app/merchants/profile/bank/edit"
-                          component={EditBank}
-                        />
-                        <Route
-                          path="/app/merchants/profile/bank"
-                          component={Bank}
-                        />
-                        <Route
-                          path="/app/merchants/profile/principal/info"
-                          component={PrincipalProfile}
-                        />
-                        <Route
-                          path="/app/merchants/profile/principal/edit"
-                          component={EditPrincipal}
-                        />
-                        <Route
-                          path="/app/merchants/profile/principal"
-                          component={PrincipalList}
-                        />
-                        <Route
-                          path="/app/merchants/profile/subscriptions/edit"
-                          component={EditSubscription}
-                        />
-                        <Route
-                          path="/app/merchants/profile/subscriptions"
-                          component={Subscription}
-                        />
-                        <Route
-                          path="/app/merchants/profile/category/edit"
-                          component={EditCategory}
-                        />
-                        <Route
-                          path="/app/merchants/profile/category"
-                          component={Category}
-                        />
-                        <Route
-                          path="/app/merchants/profile/service/edit"
-                          component={EditService}
-                        />
-                        <Route
-                          path="/app/merchants/profile/service"
-                          component={Service}
-                        />
-                        <Route
-                          path="/app/merchants/profile/product/edit"
-                          component={ProductEdit}
-                        />
-                        <Route
-                          path="/app/merchants/profile/product/profile"
-                          component={ProductDetail}
-                        />
-                        <Route
-                          path="/app/merchants/profile/product"
-                          component={Product}
-                        />
-                        <Route
-                          path="/app/merchants/profile/extra"
-                          component={ExtraTab}
-                        />
-                        <Route
-                          exact
-                          path="/app/merchants/profile/gift-card/add"
-                          component={AddGiftCard}
-                        />
-                        <Route
-                          exact
-                          path="/app/merchants/profile/gift-card/:id"
-                          component={GiftCardInfo}
-                        />
-                        <Route
-                          path="/app/merchants/profile/gift-card"
-                          component={GiftCard}
-                        />
-                        <Route
-                          path="/app/merchants/profile/invoiceDetail"
-                          component={InvoiceDetail}
-                        />
-                        <Route
-                          path="/app/merchants/profile/invoice"
-                          component={Invoice}
-                        />
-                        <PrivateRoute
-                          permissionID={15}
-                          path="/app/merchants/profile/staff/add"
-                          component={AddStaff2}
-                        />
-                        <Route
-                          path="/app/merchants/profile/staff"
-                          component={Staff}
-                        />
-                        <Route
-                          path="/app/merchants/profile/activities"
-                          component={MerchantActi}
-                        />
-                        <Route
-                          path="/app/merchants/profile/settings/edit"
-                          component={EditSettings}
-                        />
-                        <Route
-                          path="/app/merchants/profile/settings"
-                          component={Settings}
-                        />
-                        <Route
-                          path="/app/merchants/profile/devices"
-                          component={Devices}
-                        />
-                      </Switch>
+                        </li>
+                      </ul>
+                      <div className="detail-content">
+                        <Switch>
+                          <Route
+                            path="/app/merchants/profile/general/edit"
+                            component={EditGeneral}
+                          />
+                          <Route
+                            path="/app/merchants/profile/general"
+                            component={General}
+                          />
+                          <Route
+                            path="/app/merchants/profile/bank/edit"
+                            component={EditBank}
+                          />
+                          <Route
+                            path="/app/merchants/profile/bank"
+                            component={Bank}
+                          />
+                          <Route
+                            path="/app/merchants/profile/principal/info"
+                            component={PrincipalProfile}
+                          />
+                          <Route
+                            path="/app/merchants/profile/principal/edit"
+                            component={EditPrincipal}
+                          />
+                          <Route
+                            path="/app/merchants/profile/principal"
+                            component={PrincipalList}
+                          />
+                          <Route
+                            path="/app/merchants/profile/subscriptions/edit"
+                            component={EditSubscription}
+                          />
+                          <Route
+                            path="/app/merchants/profile/subscriptions"
+                            component={Subscription}
+                          />
+                          <Route
+                            path="/app/merchants/profile/category/edit"
+                            component={EditCategory}
+                          />
+                          <Route
+                            path="/app/merchants/profile/category"
+                            component={Category}
+                          />
+                          <Route
+                            path="/app/merchants/profile/service/edit"
+                            component={EditService}
+                          />
+                          <Route
+                            path="/app/merchants/profile/service"
+                            component={Service}
+                          />
+                          <Route
+                            path="/app/merchants/profile/product/edit"
+                            component={ProductEdit}
+                          />
+                          <Route
+                            path="/app/merchants/profile/product/profile"
+                            component={ProductDetail}
+                          />
+                          <Route
+                            path="/app/merchants/profile/product"
+                            component={Product}
+                          />
+                          <Route
+                            path="/app/merchants/profile/extra"
+                            component={ExtraTab}
+                          />
+                          <Route
+                            exact
+                            path="/app/merchants/profile/gift-card/add"
+                            component={AddGiftCard}
+                          />
+                          <Route
+                            exact
+                            path="/app/merchants/profile/gift-card/:id"
+                            component={GiftCardInfo}
+                          />
+                          <Route
+                            path="/app/merchants/profile/gift-card"
+                            component={GiftCard}
+                          />
+                          <Route
+                            path="/app/merchants/profile/invoiceDetail"
+                            component={InvoiceDetail}
+                          />
+                          <Route
+                            path="/app/merchants/profile/invoice"
+                            component={Invoice}
+                          />
+                          <PrivateRoute
+                            permissionID={15}
+                            path="/app/merchants/profile/staff/add"
+                            component={AddStaff2}
+                          />
+                          <Route
+                            path="/app/merchants/profile/staff"
+                            component={Staff}
+                          />
+                          <Route
+                            path="/app/merchants/profile/activities"
+                            component={MerchantActi}
+                          />
+                          <Route
+                            path="/app/merchants/profile/settings/edit"
+                            component={EditSettings}
+                          />
+                          <Route
+                            path="/app/merchants/profile/settings"
+                            component={Settings}
+                          />
+                          <Route
+                            path="/app/merchants/profile/devices"
+                            component={Devices}
+                          />
+                        </Switch>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -352,7 +392,20 @@ class merchantProfile extends Component {
             </div>
           </div>
         </div>
-      </div>
+        {
+          isLoading && <div className="container-loading-settlement">
+            <div className="loader-settlement">
+              <FadeLoader
+                color={'white'}
+                loading={isLoading}
+                size={10}
+                css={{
+                  display: 'block',
+                }} />
+            </div>
+          </div>
+        }
+      </>
     );
   }
 }
@@ -360,12 +413,19 @@ class merchantProfile extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   userLogin: state.verifyUser.user.token,
+  user: state.verifyUser.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   deleteMerchantById: (ID, path) => {
     dispatch(deleteMerchantById(ID, path));
   },
+  notification_success: (payload) => {
+    dispatch({ type: 'SUCCESS_NOTIFICATION', payload })
+  },
+  notification_fail: (payload) => {
+    dispatch({ type: 'FAILURE_NOTIFICATION', payload })
+  }
 });
 
 export default withRouter(
