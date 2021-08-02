@@ -30,6 +30,7 @@ import LinearProgress from "@/util/linearProgress";
 import CustomSelect from "@/util/getState";
 import InputCustom from "@/util/CustomInput";
 import update from "immutability-helper";
+import { merchantTypes } from "@/util/merchantType";
 
 import "./MerchantReqProfile.css";
 import "bootstrap/js/src/collapse.js";
@@ -114,6 +115,7 @@ class EditPendingMerchant extends Component {
           DiscountRate: 10,
         },
         packagePricing: "3",
+        type: Profile.type
       },
       () => this.setState({ loading: true })
     );
@@ -125,7 +127,7 @@ class EditPendingMerchant extends Component {
 
   render() {
     const e = this.props.Profile;
-    const {merchantState} = this.props;
+    const { merchantState } = this.props;
 
     return (
       <div className=" content-list ">
@@ -199,7 +201,7 @@ class EditPendingMerchant extends Component {
                         <Grid item xs={12}>
                           <CustomTitle value="General Information" />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <InputField
                             name={`generalInfo.legalBusinessName`}
                             label="Legal Business Name*"
@@ -207,7 +209,7 @@ class EditPendingMerchant extends Component {
                           />
                         </Grid>
 
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <InputField
                             name={`generalInfo.doBusinessName`}
                             label="Doing Business As* (DBA)"
@@ -215,7 +217,24 @@ class EditPendingMerchant extends Component {
                           />
                         </Grid>
 
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
+                          <CustomSelect
+                            name={`type`}
+                            label="Merchant type*"
+                            initialValue={
+                              values?.type
+                            }
+                            data={merchantTypes}
+                            handleChange={(e) =>
+                              setFieldValue(
+                                `type`,
+                                e.target.value
+                              )
+                            }
+                          />
+                        </Grid>
+
+                        <Grid item xs={3}>
                           <TextField
                             InputLabelProps={{ shrink: true }}
                             label="Federal Tax ID*"
@@ -235,7 +254,7 @@ class EditPendingMerchant extends Component {
                             }
                             helperText={
                               errors?.generalInfo?.tax &&
-                              touched?.generalInfo?.tax
+                                touched?.generalInfo?.tax
                                 ? errors?.generalInfo?.tax
                                 : ""
                             }
@@ -289,7 +308,7 @@ class EditPendingMerchant extends Component {
                             }
                             helperText={
                               errors?.generalInfo?.zip &&
-                              touched?.generalInfo?.zip
+                                touched?.generalInfo?.zip
                                 ? errors?.generalInfo?.zip
                                 : ""
                             }
@@ -347,7 +366,7 @@ class EditPendingMerchant extends Component {
                             }
                             helperText={
                               errors?.generalInfo?.dbaAddress?.Zip &&
-                              touched?.generalInfo?.dbaAddress?.Zip
+                                touched?.generalInfo?.dbaAddress?.Zip
                                 ? errors?.generalInfo?.dbaAddress?.Zip
                                 : ""
                             }
@@ -412,7 +431,7 @@ class EditPendingMerchant extends Component {
                             }
                             helperText={
                               errors?.generalInfo?.phoneContact &&
-                              touched?.generalInfo?.phoneContact
+                                touched?.generalInfo?.phoneContact
                                 ? errors?.generalInfo?.phoneContact
                                 : ""
                             }
@@ -461,7 +480,7 @@ class EditPendingMerchant extends Component {
                             }
                             helperText={
                               errors?.bankInfo?.routingNumber &&
-                              touched?.bankInfo?.routingNumber
+                                touched?.bankInfo?.routingNumber
                                 ? errors?.bankInfo?.routingNumber
                                 : ""
                             }
@@ -489,7 +508,7 @@ class EditPendingMerchant extends Component {
                             }
                             helperText={
                               errors?.bankInfo?.accountNumber &&
-                              touched?.bankInfo?.accountNumber
+                                touched?.bankInfo?.accountNumber
                                 ? errors?.bankInfo?.accountNumber
                                 : ""
                             }
@@ -542,311 +561,311 @@ class EditPendingMerchant extends Component {
                           {(arrayHelpers) => (
                             <div style={{ margin: "0px 23px" }}>
                               {values.principalInfo &&
-                              values.principalInfo.length > 0 ? (
-                                values.principalInfo.map((principal, index) => {
-                                  return (
-                                    <React.Fragment key={index}>
-                                      <Grid
-                                        item
-                                        xs={12}
-                                        className="principal-title"
-                                      >
-                                        <CustomTitle
-                                          styles={{ padding: "10px 0px" }}
-                                          value={`Principal ${index + 1}`}
-                                        />
-                                        {index === 1 ? (
-                                          <CancelIcon
-                                            size={32}
-                                            onClick={() =>
-                                              arrayHelpers.remove(index)
-                                            }
-                                            className="remove-principal"
+                                values.principalInfo.length > 0 ? (
+                                  values.principalInfo.map((principal, index) => {
+                                    return (
+                                      <React.Fragment key={index}>
+                                        <Grid
+                                          item
+                                          xs={12}
+                                          className="principal-title"
+                                        >
+                                          <CustomTitle
+                                            styles={{ padding: "10px 0px" }}
+                                            value={`Principal ${index + 1}`}
                                           />
-                                        ) : null}
-                                      </Grid>
-                                      <Grid container spacing={6}>
-                                        <Grid item xs={12} sm={4}>
-                                          <InputField
-                                            name={`principalInfo.${index}.firstName`}
-                                            label="Fist Name*"
-                                            fullWidth
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <InputField
-                                            name={`principalInfo.${index}.lastName`}
-                                            label="Last Name*"
-                                            fullWidth
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <InputField
-                                            name={`principalInfo.${index}.title`}
-                                            label="Title/Position*"
-                                            fullWidth
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <CustomNumberField
-                                            InputLabelProps={{ shrink: true }}
-                                            name={`principalInfo.${index}.ownerShip`}
-                                            label="Ownership* (%)"
-                                            fullWidth
-                                            options={{
-                                              numericOnly: true,
-                                              blocks: [3],
-                                            }}
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <CustomPhoneField
-                                            label="Home Phone"
-                                            fullWidth
-                                            name={`principalInfo.${index}.homePhone`}
-                                            onChange={(e) =>
-                                              setFieldValue(
-                                                `principalInfo.${index}.homePhone`,
-                                                e
-                                              )
-                                            }
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <CustomPhoneField
-                                            label="Mobile Phone*"
-                                            fullWidth
-                                            name={`principalInfo.${index}.mobilePhone`}
-                                            onChange={(e) =>
-                                              setFieldValue(
-                                                `principalInfo.${index}.mobilePhone`,
-                                                e
-                                              )
-                                            }
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <InputField
-                                          style={{paddingTop: '6px'}}
-                                            name={`principalInfo.${index}.address`}
-                                            label="Address*"
-                                            fullWidth
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <InputField
-                                          style={{paddingTop: '6px'}}
-                                            name={`principalInfo.${index}.city`}
-                                            label="City*"
-                                            fullWidth
-                                          />
-                                        </Grid>
-
-                                        <Grid item xs={12} sm={4}>
-                                          <SelectField
-                                            name={`principalInfo.${index}.stateId`}
-                                            label="State*"
-                                            data={merchantState}
-                                            fullWidth
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <CustomNumberField
-                                            InputLabelProps={{ shrink: true }}
-                                            name={`principalInfo.${index}.zip`}
-                                            label="Zip Code*"
-                                            fullWidth
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <CustomNumberField
-                                            InputLabelProps={{ shrink: true }}
-                                            name={`principalInfo.${index}.yearAddress`}
-                                            label="Year at this Address*"
-                                            fullWidth
-                                            options={{
-                                              numericOnly: true,
-                                              blocks: [2],
-                                            }}
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <CustomNumberField
-                                            InputLabelProps={{ shrink: true }}
-                                            name={`principalInfo.${index}.ssn`}
-                                            label="Social Security Number* (SSN)"
-                                            fullWidth
-                                            options={{
-                                              numericOnly: true,
-                                              blocks: [3, 2, 4],
-                                              delimiter: "-",
-                                            }}
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <DatePickerField
-                                            name={`principalInfo.${index}.DateOfBirth`}
-                                            label="Date of Birth*"
-                                            format="MM/dd/yyyy"
-                                            fullWidth
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <InputField
-                                            name={`principalInfo.${index}.email`}
-                                            label="Email Address*"
-                                            fullWidth
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <CustomNumberField
-                                            InputLabelProps={{ shrink: true }}
-                                            name={`principalInfo.${index}.driverNumber`}
-                                            label="Driver License Number*"
-                                            fullWidth
-                                            options={{
-                                              numericOnly: true,
-                                              blocks: [20],
-                                            }}
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={4}>
-                                          <SelectField
-                                            name={`principalInfo.${index}.stateIssued`}
-                                            onChange={(e) =>
-                                              setFieldValue(
-                                                `principalInfo.${index}.stateIssued`,
-                                                Number(e.target.value)
-                                              )
-                                            }
-                                            label="State Issued*"
-                                            data={merchantState}
-                                            
-                                            fullWidth
-                                          />
-                                        </Grid>
-                                      </Grid>
-                                      <Grid container spacing={6}>
-                                        <Grid item xs={6} sm={4} lg={3}>
-                                          <label>Driver License Picture*</label>
-
-                                          <div
-                                            style={{
-                                              width: "100%",
-                                              marginTop: "10px",
-                                            }}
-                                          >
-                                            {principal?.imageUrl ? (
-                                              <img
-                                                src={principal?.imageUrl}
-                                                alt="avatar"
-                                                style={{
-                                                  width: "100%",
-                                                  objectFit: "cover",
-                                                }}
-                                              />
-                                            ) : (
-                                              <img
-                                                src={defaultImage}
-                                                alt="avatar"
-                                                style={{ width: "100%" }}
-                                              />
-                                            )}
-                                          </div>
-                                          {
-                                            <span className="error-message">
-                                              <ErrorMessage
-                                                name={`principalInfo.${index}.fileId`}
-                                              />
-                                            </span>
-                                          }
-                                          <input
-                                            type="file"
-                                            style={{
-                                              marginTop: "10px",
-                                              width: "100%",
-                                              fontWeight: "normal",
-                                            }}
-                                            className="custom-input"
-                                            name={`principalInfo.${index}.fileId`}
-                                            id="file"
-                                            accept="image/gif,image/jpeg, image/png"
-                                            onChange={(e) =>
-                                              this.uploadFile(
-                                                e,
-                                                setFieldValue,
-                                                `principalInfo.${index}.fileId`,
-                                                `principalInfo.${index}.imageUrl`
-                                              )
-                                            }
-                                          />
-                                        </Grid>
-                                      </Grid>
-
-                                      <div>
-                                        {values.principalInfo.length >=
-                                        2 ? null : (
-                                          <Grid
-                                            container
-                                            direction="row"
-                                            alignItems="center"
-                                            style={{
-                                              marginTop: 20,
-                                            }}
-                                          >
-                                            <Grid item>
-                                              <AddCircleIcon
-                                                onClick={() =>
-                                                  arrayHelpers.insert(1, "")
-                                                }
-                                                className="add-principal"
-                                              />
-                                            </Grid>
-                                            <Typography
-                                              variant="subtitle2"
-                                              item
+                                          {index === 1 ? (
+                                            <CancelIcon
+                                              size={32}
                                               onClick={() =>
-                                                arrayHelpers.insert(1, "")
+                                                arrayHelpers.remove(index)
                                               }
-                                              style={{
-                                                marginBottom: "3px",
-                                                fontWeight: "600",
-                                              }}
-                                              className="add-principal"
-                                            >
-                                              ADD PRINCIPAL
-                                            </Typography>
+                                              className="remove-principal"
+                                            />
+                                          ) : null}
+                                        </Grid>
+                                        <Grid container spacing={6}>
+                                          <Grid item xs={12} sm={4}>
+                                            <InputField
+                                              name={`principalInfo.${index}.firstName`}
+                                              label="Fist Name*"
+                                              fullWidth
+                                            />
                                           </Grid>
-                                        )}
-                                      </div>
-                                    </React.Fragment>
-                                  );
-                                })
-                              ) : (
-                                <Grid
-                                  container
-                                  direction="row"
-                                  alignItems="center"
-                                >
-                                  <Grid item>
-                                    <AddCircleIcon
-                                      onClick={() => arrayHelpers.push()}
-                                      className="add-principal"
-                                    />
-                                  </Grid>
-                                  <Typography
-                                    variant="subtitle2"
-                                    item
-                                    onClick={() => arrayHelpers.push()}
-                                    style={{
-                                      marginBottom: "3px",
-                                    }}
-                                    className="add-principal"
+                                          <Grid item xs={12} sm={4}>
+                                            <InputField
+                                              name={`principalInfo.${index}.lastName`}
+                                              label="Last Name*"
+                                              fullWidth
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <InputField
+                                              name={`principalInfo.${index}.title`}
+                                              label="Title/Position*"
+                                              fullWidth
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <CustomNumberField
+                                              InputLabelProps={{ shrink: true }}
+                                              name={`principalInfo.${index}.ownerShip`}
+                                              label="Ownership* (%)"
+                                              fullWidth
+                                              options={{
+                                                numericOnly: true,
+                                                blocks: [3],
+                                              }}
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <CustomPhoneField
+                                              label="Home Phone"
+                                              fullWidth
+                                              name={`principalInfo.${index}.homePhone`}
+                                              onChange={(e) =>
+                                                setFieldValue(
+                                                  `principalInfo.${index}.homePhone`,
+                                                  e
+                                                )
+                                              }
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <CustomPhoneField
+                                              label="Mobile Phone*"
+                                              fullWidth
+                                              name={`principalInfo.${index}.mobilePhone`}
+                                              onChange={(e) =>
+                                                setFieldValue(
+                                                  `principalInfo.${index}.mobilePhone`,
+                                                  e
+                                                )
+                                              }
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <InputField
+                                              style={{ paddingTop: '6px' }}
+                                              name={`principalInfo.${index}.address`}
+                                              label="Address*"
+                                              fullWidth
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <InputField
+                                              style={{ paddingTop: '6px' }}
+                                              name={`principalInfo.${index}.city`}
+                                              label="City*"
+                                              fullWidth
+                                            />
+                                          </Grid>
+
+                                          <Grid item xs={12} sm={4}>
+                                            <SelectField
+                                              name={`principalInfo.${index}.stateId`}
+                                              label="State*"
+                                              data={merchantState}
+                                              fullWidth
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <CustomNumberField
+                                              InputLabelProps={{ shrink: true }}
+                                              name={`principalInfo.${index}.zip`}
+                                              label="Zip Code*"
+                                              fullWidth
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <CustomNumberField
+                                              InputLabelProps={{ shrink: true }}
+                                              name={`principalInfo.${index}.yearAddress`}
+                                              label="Year at this Address*"
+                                              fullWidth
+                                              options={{
+                                                numericOnly: true,
+                                                blocks: [2],
+                                              }}
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <CustomNumberField
+                                              InputLabelProps={{ shrink: true }}
+                                              name={`principalInfo.${index}.ssn`}
+                                              label="Social Security Number* (SSN)"
+                                              fullWidth
+                                              options={{
+                                                numericOnly: true,
+                                                blocks: [3, 2, 4],
+                                                delimiter: "-",
+                                              }}
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <DatePickerField
+                                              name={`principalInfo.${index}.DateOfBirth`}
+                                              label="Date of Birth*"
+                                              format="MM/dd/yyyy"
+                                              fullWidth
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <InputField
+                                              name={`principalInfo.${index}.email`}
+                                              label="Email Address*"
+                                              fullWidth
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <CustomNumberField
+                                              InputLabelProps={{ shrink: true }}
+                                              name={`principalInfo.${index}.driverNumber`}
+                                              label="Driver License Number*"
+                                              fullWidth
+                                              options={{
+                                                numericOnly: true,
+                                                blocks: [20],
+                                              }}
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={4}>
+                                            <SelectField
+                                              name={`principalInfo.${index}.stateIssued`}
+                                              onChange={(e) =>
+                                                setFieldValue(
+                                                  `principalInfo.${index}.stateIssued`,
+                                                  Number(e.target.value)
+                                                )
+                                              }
+                                              label="State Issued*"
+                                              data={merchantState}
+
+                                              fullWidth
+                                            />
+                                          </Grid>
+                                        </Grid>
+                                        <Grid container spacing={6}>
+                                          <Grid item xs={6} sm={4} lg={3}>
+                                            <label>Driver License Picture*</label>
+
+                                            <div
+                                              style={{
+                                                width: "100%",
+                                                marginTop: "10px",
+                                              }}
+                                            >
+                                              {principal?.imageUrl ? (
+                                                <img
+                                                  src={principal?.imageUrl}
+                                                  alt="avatar"
+                                                  style={{
+                                                    width: "100%",
+                                                    objectFit: "cover",
+                                                  }}
+                                                />
+                                              ) : (
+                                                  <img
+                                                    src={defaultImage}
+                                                    alt="avatar"
+                                                    style={{ width: "100%" }}
+                                                  />
+                                                )}
+                                            </div>
+                                            {
+                                              <span className="error-message">
+                                                <ErrorMessage
+                                                  name={`principalInfo.${index}.fileId`}
+                                                />
+                                              </span>
+                                            }
+                                            <input
+                                              type="file"
+                                              style={{
+                                                marginTop: "10px",
+                                                width: "100%",
+                                                fontWeight: "normal",
+                                              }}
+                                              className="custom-input"
+                                              name={`principalInfo.${index}.fileId`}
+                                              id="file"
+                                              accept="image/gif,image/jpeg, image/png"
+                                              onChange={(e) =>
+                                                this.uploadFile(
+                                                  e,
+                                                  setFieldValue,
+                                                  `principalInfo.${index}.fileId`,
+                                                  `principalInfo.${index}.imageUrl`
+                                                )
+                                              }
+                                            />
+                                          </Grid>
+                                        </Grid>
+
+                                        <div>
+                                          {values.principalInfo.length >=
+                                            2 ? null : (
+                                              <Grid
+                                                container
+                                                direction="row"
+                                                alignItems="center"
+                                                style={{
+                                                  marginTop: 20,
+                                                }}
+                                              >
+                                                <Grid item>
+                                                  <AddCircleIcon
+                                                    onClick={() =>
+                                                      arrayHelpers.insert(1, "")
+                                                    }
+                                                    className="add-principal"
+                                                  />
+                                                </Grid>
+                                                <Typography
+                                                  variant="subtitle2"
+                                                  item
+                                                  onClick={() =>
+                                                    arrayHelpers.insert(1, "")
+                                                  }
+                                                  style={{
+                                                    marginBottom: "3px",
+                                                    fontWeight: "600",
+                                                  }}
+                                                  className="add-principal"
+                                                >
+                                                  ADD PRINCIPAL
+                                            </Typography>
+                                              </Grid>
+                                            )}
+                                        </div>
+                                      </React.Fragment>
+                                    );
+                                  })
+                                ) : (
+                                  <Grid
+                                    container
+                                    direction="row"
+                                    alignItems="center"
                                   >
-                                    ADD PRINCIPAL
+                                    <Grid item>
+                                      <AddCircleIcon
+                                        onClick={() => arrayHelpers.push()}
+                                        className="add-principal"
+                                      />
+                                    </Grid>
+                                    <Typography
+                                      variant="subtitle2"
+                                      item
+                                      onClick={() => arrayHelpers.push()}
+                                      style={{
+                                        marginBottom: "3px",
+                                      }}
+                                      className="add-principal"
+                                    >
+                                      ADD PRINCIPAL
                                   </Typography>
-                                </Grid>
-                              )}
+                                  </Grid>
+                                )}
                             </div>
                           )}
                         </FieldArray>
@@ -881,7 +900,7 @@ class EditPendingMerchant extends Component {
 const mapStateToProps = (state) => ({
   Profile: state.merchant.merchant,
   RejectStatus: state.Reject,
-  merchantState : state.merchantState.data
+  merchantState: state.merchantState.data
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -919,6 +938,7 @@ const styles = {
 };
 
 const validationSchema = Yup.object().shape({
+  type: Yup.string().required(),
   generalInfo: Yup.object().shape({
     legalBusinessName: Yup.string()
       .required("Business name is required")

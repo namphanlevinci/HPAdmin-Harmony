@@ -5,6 +5,7 @@ const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?
 export default [
   // General
   Yup.object().shape({
+    type: Yup.string().required("Merchant type is required"),
     generalInfo: Yup.object().shape({
       businessName: Yup.string().required("Business name is required"),
       doingBusiness: Yup.string().required("Doing Business name is required"),

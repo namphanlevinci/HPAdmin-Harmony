@@ -1,5 +1,6 @@
 export default {
   sameAsBusiness: false,
+  type: "",
   // General
   generalInfo: {
     businessName: "",

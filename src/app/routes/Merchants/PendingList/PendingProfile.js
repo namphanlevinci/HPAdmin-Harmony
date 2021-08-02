@@ -45,6 +45,13 @@ import "./MerchantReqProfile.css";
 
 const URL = config.url.URL;
 
+const convertType = {
+  SalonPos : "Salon POS",
+  Retailer : "Retailer",
+  Restaurant : "Table management",
+  StaffOne : "Staff One",
+}
+
 // PENDING MERCHANT PROFILE
 class MerchantReqProfile extends Component {
   constructor(props) {
@@ -542,15 +549,19 @@ class MerchantReqProfile extends Component {
               <Grid item xs={12}>
                 <CustomTitle value="General Information" />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <CustomTextLabel value="Legal Business Name*" />
                 <CustomText value={e?.general?.legalBusinessName} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <CustomTextLabel value="Doing Business As* (DBA)" />
                 <CustomText value={e?.general?.doBusinessName} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
+                <CustomTextLabel value="Merchant type" />
+                <CustomText value={convertType[e?.type]} />
+              </Grid>
+              <Grid item xs={3}>
                 <CustomTextLabel value="Federal Tax ID*" />
                 <CustomText value={e?.taxId} />
               </Grid>

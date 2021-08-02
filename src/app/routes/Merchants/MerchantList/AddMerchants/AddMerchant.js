@@ -184,18 +184,23 @@ class AddMerchant extends React.Component {
   };
 
   handleSubmit = (values, actions) => {
-    const { activeStep } = this.state;
-    const steps = this.getSteps();
-    const isLastStep = activeStep === steps.length - 1;
 
-    if (isLastStep) {
-      this.submitForm(values, actions);
+    const { activeStep } = this.state;
+    if (activeStep === 0 && values.type === "MerchantType") {
+      alert("please select merchant type");
     } else {
-      this.setState({
-        activeStep: activeStep + 1,
-      });
-      actions.setTouched({});
-      actions.setSubmitting(false);
+      const steps = this.getSteps();
+      const isLastStep = activeStep === steps.length - 1;
+
+      if (isLastStep) {
+        this.submitForm(values, actions);
+      } else {
+        this.setState({
+          activeStep: activeStep + 1,
+        });
+        actions.setTouched({});
+        actions.setSubmitting(false);
+      }
     }
   };
 
