@@ -1,0 +1,156 @@
+
+.MuiStepIcon-root.MuiStepIcon-active{
+  color: #1366AE !important;
+}
+
+.group-button-merchant-device, .group-button-settlement-wating{
+  position: absolute;
+  bottom : 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  left : 0px;
+  right: 0px;
+}
+
+.group-button-settlement-wating{
+  justify-content: flex-start;
+}
+
+.container-loading-settlement{
+  position:absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  background: transparent;
+  z-index: 9999999999;
+}
+
+.rowInfo_settlement{
+  display : flex;
+  align-items : center;
+  justify-content: space-between;
+  padding: 12px;
+  font-size: 1.05rem;
+}
+
+.note-settlement{
+  width: 100%;
+  border: 1px solid #dddddd;
+  padding: 15px;
+  font-size: 1rem;
+  color: grey;
+  min-height: 70px;
+  max-height : 200px;
+  overflow-y: scroll;
+  font-style: italic;
+  font-weight: 300;
+  display : flex;
+  &>textarea{
+    flex: 1;
+    border: none;
+    outline: none;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1rem;
+    color: grey;
+  }
+}
+
+.row_transaction_settlement_header{
+  display : flex;
+  &>div{
+    width: 20%;
+    padding: 10px;
+    padding-left: 20px;
+    background : #F1F1F1;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+.row_transaction_settlement{
+  display : flex;
+  &>div{
+    width: 20%;
+    padding: 10px;
+    padding-left: 23px;
+    font-size: 1rem;
+  }
+}
+
+.transaction_data::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+.transaction_data{
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none; 
+}
+
+.note-settlement::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+.note-settlement{
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none; 
+}
+
+.container-settlement-waiting{
+  min-height: 680px;
+}
+
+@media screen and (max-width: 1280px) {
+  .container-settlement-waiting{
+    min-height: 1250px !important;
+  }
+}
+
+.loader-settlement{
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background : rgba(0,0,0,0.4);
+  border-radius : 10px;
+}
+
+.close_settlement_popup{
+  padding: 0.8rem;
+  .title{
+    font-size : 1.1rem;
+    color : #333;
+    font-weight: 500;
+  }
+  .content{
+    color : #707070;
+    margin-top: 1.2rem;
+    font-size: 1rem;
+  }
+  .containerButton{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 543px) {
+  .row_transaction_settlement{
+    &>div{
+      font-size: 0.7rem;
+    }
+  }
+  .row_transaction_settlement_header{
+    &>div{
+      font-size: 0.7rem;
+    }
+  }
+  
+}

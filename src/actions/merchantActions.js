@@ -1342,7 +1342,7 @@ export const addMerchantProductById = (payload) => async (
 
     const { merchantId, path, sku } = payload;
 
-    const { data } = await axios.get(`${URL}/product/checksku?sku=${sku}`, {
+    const { data } = await axios.get(`${URL}/product/checksku?sku=${sku}&merchantId=${merchantId}`, {
       headers: {
         Authorization: `Bearer ${user?.token}`,
       },

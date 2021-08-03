@@ -56,7 +56,6 @@ class Merchants extends React.Component {
     const { search, statusValue } = this.state;
     const url = `merchant/search?key=${search}&page=${page === 0 ? 1 : page + 1
       }&row=${pageSize}&isDisabled=${statusValue}`;
-
     this.props.fetchApiByPage(url);
   };
 

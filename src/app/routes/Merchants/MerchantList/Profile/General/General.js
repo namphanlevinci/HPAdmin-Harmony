@@ -22,6 +22,15 @@ import CheckPermissions from "../../../../../../util/checkPermission";
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
 import "../Detail.css";
+
+const convertType = {
+  SalonPos: 'Salon POS',
+  Retailer: 'Retailer',
+  Restaurent: 'Table management',
+  StaffOne: 'Staff one',
+};
+
+
 class General extends Component {
   constructor(props) {
     super(props);
@@ -63,21 +72,29 @@ class General extends Component {
       latitude,
     } = this.props.MerchantProfile.general;
 
+    const { type } = this.props.MerchantProfile;
+
+    const merchantType = convertType[type];
+
     const renderGeneral = (
       <Grid container spacing={3} className="container-fluid">
         <Grid item xs={12}>
           <CustomTitle value="General Information" />
         </Grid>
 
-        <Grid item xs={6} md={4}>
+        <Grid item xs={6} md={3}>
           <CustomTextLabel value="Legal Business Name*" />
           <CustomText value={legalBusinessName} />
         </Grid>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={6} md={3}>
           <CustomTextLabel value="Doing Business As* (DBA)" />
           <CustomText value={doBusinessName} />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={6} md={3}>
+          <CustomTextLabel value="Merchant type" />
+          <CustomText value={merchantType} />
+        </Grid>
+        <Grid item xs={12} md={3}>
           <CustomTextLabel value="Federal Tax ID*" />
           <CustomText value={tax} />
         </Grid>
@@ -199,8 +216,8 @@ class General extends Component {
           );
         })
       ) : (
-        <label>&nbsp;- NO BUSINESS INFORMATION</label>
-      );
+          <label>&nbsp;- NO BUSINESS INFORMATION</label>
+        );
     return (
       <Grid
         container

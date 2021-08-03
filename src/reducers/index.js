@@ -118,6 +118,8 @@ import {
   changeTicketStatusReducer,
 } from "./ticketReducer";
 
+import { invoiceReducer } from "./invoiceReducer";
+
 export default (history) =>
   combineReducers({
     router: connectRouter(history),
@@ -166,7 +168,7 @@ export default (history) =>
     updateSubscription: updateMerchantSubscriptionByIdReducer,
     package: packageReducer,
     updateMerchantExtra: updateMerchantExtraByIdReducer,
-    device : deviceReducer,
+    device: deviceReducer,
 
     // Staff
     restoreStaff: restoreStaffReducer,
@@ -229,5 +231,8 @@ export default (history) =>
     deleteFile: delTicketFileReducer,
     addFile: addTicketFile,
     changeTicketStatus: changeTicketStatusReducer,
-    merchantState : merchantStateReducer
+    merchantState: merchantStateReducer,
+
+    //Invoice
+    invoiceReducer,
   });

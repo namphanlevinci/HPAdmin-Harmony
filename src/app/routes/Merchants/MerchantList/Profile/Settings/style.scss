@@ -1,0 +1,25 @@
+
+.booking_link{
+    padding-left : 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    .title{
+        text-align: left !important;
+        color: #333 !important;
+        font-size: 1.3rem !important;
+    }
+
+    .content{
+        margin-top: 1rem;
+        color: #1366AE;
+        font-size: 1rem;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .containerButton{
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+}

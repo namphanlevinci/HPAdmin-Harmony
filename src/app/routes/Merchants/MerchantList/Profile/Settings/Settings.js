@@ -4,6 +4,8 @@ import { Formik, Form } from "formik";
 
 import { withStyles } from "@material-ui/core/styles";
 import { WARNING_NOTIFICATION } from "../../../../../../constants/notificationConstants";
+import { config } from "@/url/url";
+import axios from "axios";
 
 import {
   TextField,
@@ -32,10 +34,14 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckPermissions from "../../../../../../util/checkPermission";
 import CustomProgress from "../../../../../../util/CustomProgress";
+import FadeLoader from "react-spinners/PulseLoader";
+import PopupBookingLink from "./PopupBookingLink";
 
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
 import "../Detail.css";
+
+const URL = config.url.URL;
 
 class Settings extends Component {
   constructor(props) {
@@ -44,6 +50,7 @@ class Settings extends Component {
       ID: "",
       openActive: false,
       open: false,
+      linkBooking: '',
     };
   }
   goToEditPage = () => {
@@ -80,9 +87,31 @@ class Settings extends Component {
     }
   };
 
+  generateBookingLink = async () => {
+    this.setState({ isLoading: true });
+
+    const { MerchantProfile, user } = this.props;
+
+    const { merchantId } = MerchantProfile;
+
+    let url = `merchant/bookingLink/${merchantId}`;
+    const { data } = await axios.get(`${URL}/${url}`, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    if (data && parseInt(data.codeNumber) === 200) {
+      this.setState({
+        isLoading: false,
+        linkBooking: data?.data || ""
+      });
+    }
+  }
+
   render() {
     const data = this.props.MerchantProfile;
-    console.log("DAta", data);
+
     const styles = (theme) => ({
       root: {
         margin: 0,
@@ -194,73 +223,73 @@ class Settings extends Component {
           </Dialog>
         </>
       ) : (
-        <>
-          <Button className="btn btn-green" onClick={this.handleOpenActive}>
-            ACTIVE
+          <>
+            <Button className="btn btn-green" onClick={this.handleOpenActive}>
+              ACTIVE
           </Button>
-          <Dialog
-            open={this.state.openActive}
-            onClose={this.handleOpenActive}
-            className="merchant_btn_container"
-          >
-            <Formik
-              initialValues={{ archiveReason: "" }}
-              onSubmit={(values, { setSubmitting }) => {
-                this.props.restoreMerchantById(this.state.ID);
-                this.setState({ openActive: false, open: false });
-              }}
+            <Dialog
+              open={this.state.openActive}
+              onClose={this.handleOpenActive}
+              className="merchant_btn_container"
             >
-              {({ values, isSubmitting, handleChange, errors, touched }) => (
-                <div className="rejectInput">
-                  <DialogTitle
-                    className="setting_title"
-                    onClose={this.handleOpenActive}
-                  >
-                    Confirmation
+              <Formik
+                initialValues={{ archiveReason: "" }}
+                onSubmit={(values, { setSubmitting }) => {
+                  this.props.restoreMerchantById(this.state.ID);
+                  this.setState({ openActive: false, open: false });
+                }}
+              >
+                {({ values, isSubmitting, handleChange, errors, touched }) => (
+                  <div className="rejectInput">
+                    <DialogTitle
+                      className="setting_title"
+                      onClose={this.handleOpenActive}
+                    >
+                      Confirmation
                   </DialogTitle>
 
-                  <DialogContent
-                    style={{
-                      paddingTop: 70,
+                    <DialogContent
+                      style={{
+                        paddingTop: 70,
 
-                      width: "510px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Form style={styles.Form}>
-                      <CustomText value=" Are you sure you want to enable this Merchant?" />
+                        width: "510px",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Form style={styles.Form}>
+                        <CustomText value=" Are you sure you want to enable this Merchant?" />
 
-                      <Grid container spacing={0}>
-                        <Grid item xs={12} style={{ textAlign: "start" }}>
-                          <CustomText value=" Why disabled:" />
+                        <Grid container spacing={0}>
+                          <Grid item xs={12} style={{ textAlign: "start" }}>
+                            <CustomText value=" Why disabled:" />
+                          </Grid>
+                          <Grid item xs={12} style={{ textAlign: "start" }}>
+                            <CustomTextLabel value={data?.disabledReason} />
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} style={{ textAlign: "start" }}>
-                          <CustomTextLabel value={data?.disabledReason} />
-                        </Grid>
-                      </Grid>
-                      <div
-                        style={{ padding: "10px 0px" }}
-                        className="general-content"
-                      >
-                        <Button type="submit" className="btn btn-green">
-                          CONFIRM
-                        </Button>
-
-                        <Button
-                          onClick={this.handleOpenActive}
-                          className="btn btn-red"
+                        <div
+                          style={{ padding: "10px 0px" }}
+                          className="general-content"
                         >
-                          CANCEL
+                          <Button type="submit" className="btn btn-green">
+                            CONFIRM
                         </Button>
-                      </div>
-                    </Form>
-                  </DialogContent>
-                </div>
-              )}
-            </Formik>
-          </Dialog>
-        </>
-      );
+
+                          <Button
+                            onClick={this.handleOpenActive}
+                            className="btn btn-red"
+                          >
+                            CANCEL
+                        </Button>
+                        </div>
+                      </Form>
+                    </DialogContent>
+                  </div>
+                )}
+              </Formik>
+            </Dialog>
+          </>
+        );
 
     return (
       <React.Fragment>
@@ -333,7 +362,13 @@ class Settings extends Component {
                 value={data.timezone}
               />
             </Grid>
-            <Grid item xs={6} md={12}>
+            <Grid item xs={6} md={3}>
+
+            </Grid>
+            <Grid item xs={12} sm={3} md={3}>
+
+            </Grid>
+            <Grid item xs={6} md={3}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -343,6 +378,18 @@ class Settings extends Component {
                   />
                 }
                 label="Top Store"
+              />
+            </Grid>
+            <Grid item xs={12} sm={3} md={3}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={data.isTest}
+                    style={{ color: "#0764B0" }}
+                    color="primary"
+                  />
+                }
+                label="Test Merchant"
               />
             </Grid>
             <Grid item xs={12}>
@@ -361,7 +408,7 @@ class Settings extends Component {
                 Download Customer Template
               </Button>
 
-              <div id="upload_button">
+              <div style={{ marginRight: 15 }} id="upload_button">
                 <label>
                   <input
                     type="file"
@@ -373,10 +420,35 @@ class Settings extends Component {
                   </span>
                 </label>
               </div>
+
+              <Button
+                className="btn btn-green"
+                style={{ width: 250 }}
+                onClick={this.generateBookingLink}
+              >
+                {
+                  this.state.isLoading ?
+                    <FadeLoader
+                      color={'white'}
+                      loading={true}
+                      size={10}
+                      css={{
+                        display: 'block',
+                      }} /> :
+                    `Generate Booking link`
+                }
+              </Button>
+
             </Grid>
           </Grid>
           <br />
         </div>
+
+        <PopupBookingLink
+          link={this.state.linkBooking}
+          close={() => this.setState({ linkBooking: "" })}
+        />
+
       </React.Fragment>
     );
   }
@@ -386,6 +458,7 @@ const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   Template: state.downloadTemplate,
   AddMerchantTemplate: state.addTemplate,
+  user: state.verifyUser.user
 });
 const mapDispatchToProps = (dispatch) => ({
   archiveMerchantById: (merchantId, reason) => {

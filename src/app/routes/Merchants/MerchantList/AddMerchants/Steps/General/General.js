@@ -6,16 +6,21 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
+  InputLabel,
+  MenuItem,
+  Select,
 } from "@material-ui/core";
+
 import InputField from "../../FormFields/InputField";
 import CustomNumberField from "../../FormFields/CustomNumberField";
 import SelectField from "../../FormFields/SelectField";
 import State from "../../../../../../../util/InitialState";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
+import { merchantTypes } from "@/util/merchantType";
 
 export default function General(props) {
   const {
-    values: { generalInfo, sameAsBusiness },
+    values: { generalInfo, sameAsBusiness, type },
     touched,
     errors,
     handleBlur,
@@ -30,21 +35,29 @@ export default function General(props) {
         General Information
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
           <InputField
             name={`generalInfo.businessName`}
             label="Legal Business Name*"
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
           <InputField
             name={`generalInfo.doingBusiness`}
             label="Doing Business As* (DBA)"
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
+          <SelectField
+            name={`type`}
+            label="Merchant type*"
+            data={merchantTypes}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={3}>
           <CustomNumberField
             InputLabelProps={{ shrink: true }}
             name={`generalInfo.tax`}
