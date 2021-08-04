@@ -291,7 +291,7 @@ class Transactions extends React.Component {
         Header: "Status",
         accessor: (e) => (
           <Typography variant="subtitle1" className="table__light">
-            {e?.status === 1 ? "Success" : "Fail"}
+            {e?.status || ""}
           </Typography>
         ),
       },
