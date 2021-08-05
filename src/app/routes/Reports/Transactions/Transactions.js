@@ -175,6 +175,22 @@ class Transactions extends React.Component {
     });
   };
 
+  getTrProps = (state, rowInfo) => {
+    const isRefund = rowInfo?.original?.isRefund;
+    if (isRefund) {
+      return {
+        style: {
+          'background': '#FBD7DC'
+        }
+      }
+    }
+    return {
+      style: {
+        'background': 'transparent',
+      }
+    }
+  }
+
   render() {
     const { page, from, to, amountTo, amountFrom, range, status } = this.state;
     const {
@@ -270,12 +286,7 @@ class Transactions extends React.Component {
       {
         id: "amount",
         Header: "Amount",
-        accessor: (e) => e.isRefund ?
-          <Typography style={{ color: 'red' }}
-            variant="subtitle1">
-            {`$ ${e.amount}`}
-          </Typography>
-          :
+        accessor: (e) =>
           <Typography
             variant="subtitle1">
             $ ${e.amount}
@@ -472,6 +483,7 @@ class Transactions extends React.Component {
               noDataText="NO DATA!"
               loading={loading}
               columns={columns}
+              getTrProps={this.getTrProps}
               PaginationComponent={() => <div />}
             />
             <Pagination
