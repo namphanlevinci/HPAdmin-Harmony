@@ -18,6 +18,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { isEmpty } from "lodash";
 
 import DateFnsUtils from "@date-io/date-fns";
 import IntlMessages from "@/util/IntlMessages";
@@ -134,7 +135,7 @@ class Transactions extends React.Component {
     }
   };
 
-  search = async() =>{
+  search = async () => {
     await this.pagination.current.changePage(1);
     await this.fetchApi();
   }
@@ -270,7 +271,11 @@ class Transactions extends React.Component {
         id: "amount",
         Header: "Amount",
         accessor: (e) => e.amount,
-        Cell: (e) => <Typography variant="subtitle1">${e.value}</Typography>,
+        Cell: (e) =>
+          <Typography style={{ color: isEmpty(e.isRefund) ? "#404040" : 'red' }}
+            variant="subtitle1">
+            { isEmpty(e.isRefund) ? `$ ${e.value}` : `-$ ${e.value}` }
+          </Typography>,
         Footer: (
           <Typography variant="subtitle1" className="table__light">
             ${summary?.amount}
@@ -296,6 +301,8 @@ class Transactions extends React.Component {
         ),
       },
     ];
+
+    console.log({ data })
 
     return (
       <div className="container-fluid react-transition swipe-right">
