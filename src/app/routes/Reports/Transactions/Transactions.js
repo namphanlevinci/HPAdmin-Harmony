@@ -270,11 +270,15 @@ class Transactions extends React.Component {
       {
         id: "amount",
         Header: "Amount",
-        accessor: (e) => e.amount,
-        Cell: (e) =>
-          <Typography style={{ color: isEmpty(e.isRefund) ? "#404040" : 'red' }}
+        accessor: (e) => e.isRefund ?
+          <Typography style={{ color: 'red' }}
             variant="subtitle1">
-            { isEmpty(e.isRefund) ? `$ ${e.value}` : `-$ ${e.value}` }
+            {`$ ${e.amount}`}
+          </Typography>
+          :
+          <Typography
+            variant="subtitle1">
+            $ ${e.amount}
           </Typography>,
         Footer: (
           <Typography variant="subtitle1" className="table__light">
@@ -301,8 +305,6 @@ class Transactions extends React.Component {
         ),
       },
     ];
-
-    console.log({ data })
 
     return (
       <div className="container-fluid react-transition swipe-right">
