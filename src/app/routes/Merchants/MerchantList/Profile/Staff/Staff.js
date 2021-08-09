@@ -290,6 +290,7 @@ class Staff extends Component {
               data={data}
               columns={columns}
               minRows={1}
+              defaultPageSize={200}
               noDataText="NO DATA!"
               loading={loading}
               PaginationComponent={() => <div />}

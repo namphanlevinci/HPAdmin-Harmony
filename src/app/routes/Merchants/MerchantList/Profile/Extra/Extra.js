@@ -399,7 +399,7 @@ class ExtraTab extends Component {
               onPageSizeChange={(size) => this.handleChangeSize(size)}
               data={extraList}
               columns={columns}
-              defaultPageSize={5}
+              defaultPageSize={200}
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}

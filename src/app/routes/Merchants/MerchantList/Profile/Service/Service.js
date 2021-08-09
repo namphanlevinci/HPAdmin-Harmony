@@ -116,12 +116,14 @@ class Service extends Component {
   updatePagination = () => {
     const page = this.pagination.current.state.page;
     const row = this.pagination.current.state.rowSelected;
+    console.log({ page , row });
     this.setState({ page, row });
   }
 
   render() {
     let { serviceList, loading } = this.props.service;
     const { row, page } = this.state;
+    console.log({ row, page })
     serviceList = serviceList.slice((page - 1) * row, (page - 1) * row + row);
     const pageCount = Math.ceil(this.props.service.serviceList.length / row);
 
@@ -144,6 +146,8 @@ class Service extends Component {
         });
       }
     }
+
+    console.log({ serviceList })
 
     const columns = [
       {
@@ -314,7 +318,8 @@ class Service extends Component {
               ref={this.refTable}
               data={serviceList}
               columns={columns}
-              minRows={1}
+              minRows={5}
+              defaultPageSize={200}
               noDataText="NO DATA!"
               loading={loading}
               PaginationComponent={() => <div />}
