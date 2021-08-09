@@ -91,7 +91,7 @@ const columns = (totalRow, summary) => [
         accessor: (e) =>
             <Typography
                 variant="subtitle1">
-                $ ${e.amount}
+                ${e.amount}
             </Typography>,
         Footer: (
             <Typography variant="subtitle1" className="table__light">
