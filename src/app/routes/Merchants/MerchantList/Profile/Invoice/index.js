@@ -262,6 +262,7 @@ class Index extends React.Component {
                             data={invoiceList}
                             columns={columns}
                             minRows={1}
+                            defaultPageSize={200}
                             noDataText="NO DATA!"
                             loading={loading}
                             getTdProps={this.onRowClick}

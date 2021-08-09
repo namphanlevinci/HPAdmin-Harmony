@@ -316,6 +316,7 @@ class Product extends Component {
               minRows={1}
               noDataText="NO DATA!"
               loading={loading}
+              defaultPageSize={200}
               PaginationComponent={() => <div />}
             />
             <Pagination

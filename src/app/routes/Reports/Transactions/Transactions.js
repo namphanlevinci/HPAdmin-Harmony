@@ -364,6 +364,7 @@ class Transactions extends React.Component {
               manual={false}
               data={data}
               minRows={1}
+              defaultPageSize={200}
               noDataText="NO DATA!"
               loading={loading}
               columns={columns(totalRow,summary)}
