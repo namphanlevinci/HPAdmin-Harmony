@@ -2,6 +2,7 @@ import {
   FETCH_API_REQUEST,
   FETCH_API_SUCCESS,
   FETCH_API_FAILURE,
+  COUNT_FETCH_API,
 } from "../constants/fetchApiConstants";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   pageSize: 0,
   summary: {},
   totalRow: 0,
+  countFetchApi: 0
 };
 
 const fetchApiReducer = (state = initialState, { type, payload }) => {
@@ -21,6 +23,7 @@ const fetchApiReducer = (state = initialState, { type, payload }) => {
       };
     case FETCH_API_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: payload.data ? payload.data : [],
         pageCount: payload.pages,
@@ -31,10 +34,19 @@ const fetchApiReducer = (state = initialState, { type, payload }) => {
 
     case FETCH_API_FAILURE:
       return {
+        ...state,
         loading: false,
         error: payload,
         data: [],
       };
+
+    case COUNT_FETCH_API:
+      console.log('count_fetch_api : ', payload)
+      return {
+        ...state,
+        countFetchApi: payload
+      }
+
     default:
       return state;
   }
