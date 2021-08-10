@@ -258,3 +258,23 @@ h4 {
     font-size: 15px;
   }
 }
+
+.btn-remove-principal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 45px;
+  border-radius: 3px;
+  border : 1px solid #dddddd;
+  color : red;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 20px;
+} 
+
+.btn-remove-principal > img{
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}

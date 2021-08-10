@@ -60,6 +60,7 @@ class PendingList extends Component {
     const path = "/app/merchants/pending/profile";
     this.props.getMerchantByID(ID, path);
   };
+  
   render() {
     const { page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
@@ -141,6 +142,7 @@ class PendingList extends Component {
         ),
       },
     ];
+
     const onRowClick = (state, rowInfo) => {
       return {
         onClick: (e) => {
@@ -150,6 +152,7 @@ class PendingList extends Component {
         },
       };
     };
+
     return (
       <div className="container-fluid  react-transition swipe-right">
         <Helmet>

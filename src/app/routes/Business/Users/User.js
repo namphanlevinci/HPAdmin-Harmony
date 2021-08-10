@@ -24,6 +24,7 @@ class Users extends React.Component {
       PaginationFilter: false,
     };
   }
+
   onChangePage = (data) => {
     this.setState({
       pageLimit: data.pageLimit,
@@ -77,6 +78,7 @@ class Users extends React.Component {
       } else {
       }
     }
+
     const renderConsumerList = ConsumerList.slice(startIndex, endIndex + 1).map(
       (e) => {
         const birthday = moment(e.birthDate).format("DD/MM/YYYY");
@@ -104,6 +106,7 @@ class Users extends React.Component {
         />
         <div className=" TransactionsBox">
           {/* SEARCH */}
+
           <div className="search">
             <form>
               <input title="Search" value="" className="button" readOnly />
@@ -116,6 +119,7 @@ class Users extends React.Component {
               />
             </form>
           </div>
+
           {/* THANH CHUYỂN TRANGz */}
           <div className="paginating-table">
             <Pagination
