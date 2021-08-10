@@ -579,15 +579,7 @@ class EditPendingMerchant extends Component {
                                               styles={{ padding: "10px 0px" }}
                                               value={`Principal ${index + 1}`}
                                             />
-                                            {index === 1 ? (
-                                              <CancelIcon
-                                                size={32}
-                                                onClick={() =>
-                                                  arrayHelpers.remove(index)
-                                                }
-                                                className="remove-principal"
-                                              />
-                                            ) : null}
+                                           
                                           </Grid>
                                           <Grid container spacing={6}>
                                             <Grid item xs={12} sm={4}>
