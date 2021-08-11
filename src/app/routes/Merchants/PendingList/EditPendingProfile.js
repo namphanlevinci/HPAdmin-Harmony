@@ -806,7 +806,7 @@ class EditPendingMerchant extends Component {
                                               direction="row"
                                               alignItems="center"
                                               style={{
-                                                marginTop: 20,
+                                                marginTop: 40,
                                               }}
                                             >
                                               <Grid item>

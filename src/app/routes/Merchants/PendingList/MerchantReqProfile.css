@@ -266,11 +266,11 @@ h4 {
   width: 200px;
   height: 45px;
   border-radius: 3px;
-  border : 1px solid #dddddd;
   color : red;
   font-weight: 700;
   cursor: pointer;
   margin-left: 20px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
 } 
 
 .btn-remove-principal > img{
