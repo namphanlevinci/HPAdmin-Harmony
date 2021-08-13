@@ -37,8 +37,6 @@ function General(props) {
     merchantState,
     isSelectAllCategories,
     initValue: { isActive, roles, isDisabled, isUpload },
-    serviceList = [],
-    categoryList = [],
     categories = [],
     selectAllCategories = () => { },
     selectCategories = () => { },

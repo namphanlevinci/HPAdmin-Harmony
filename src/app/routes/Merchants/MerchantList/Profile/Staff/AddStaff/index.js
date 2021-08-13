@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { WARNING_NOTIFICATION } from "../../../../../../../constants/notificationConstants";
+import { WARNING_NOTIFICATION } from "@/constants/notificationConstants";
 import { Formik, Form } from "formik";
-import { config } from "../../../../../../../url/url";
-import { AddMerchantStaffById } from "../../../../../../../actions/merchantActions";
+import { config } from "@/url/url";
+import { AddMerchantStaffById } from "@/actions/merchantActions";
 
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -17,6 +17,7 @@ import Salary from "./Form/Salary";
 import License from "./Form/License";
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
+import FadeLoader from "react-spinners/PulseLoader";
 
 import "../Staff.styles.scss";
 
@@ -37,6 +38,7 @@ class AddStaff extends Component {
       categoryList: [],
       categories: [],
       isSelectAllCategories: true,
+      isLoading : false,
     };
     this.refForm = React.createRef();
   }
@@ -85,12 +87,14 @@ class AddStaff extends Component {
       this.setState({
         serviceList: data.data,
         categories,
+        isLoading : false
       });
     }
 
   }
 
   getCategoryList = async () => {
+    this.setState({ isLoading : true });
     const { user, MerchantProfile } = this.props;
     const { merchantId } = MerchantProfile;
     const url = `${URL}/category/getbymerchant/${merchantId}`;
@@ -274,7 +278,7 @@ class AddStaff extends Component {
 
   submitForm = async (values, actions) => {
     const merchantId = this.props.MerchantProfile.merchantId;
-    const { activeStep , categories } = this.state;
+    const { activeStep, categories } = this.state;
     const path = "/app/merchants/profile/staff";
     const payload = await {
       ...values,
@@ -331,7 +335,7 @@ class AddStaff extends Component {
 
   render() {
     const steps = this.getSteps();
-    const { activeStep } = this.state;
+    const { activeStep , isLoading } = this.state;
     const currentValidationSchema = validationSchema[activeStep];
 
     return (
@@ -412,6 +416,20 @@ class AddStaff extends Component {
             </div>
           </div>
         </div>
+
+        {
+          isLoading && <div className="container-loading-settlement">
+            <div className="loader-settlement">
+              <FadeLoader
+                color={'white'}
+                loading={isLoading}
+                size={10}
+                css={{
+                  display: 'block',
+                }} />
+            </div>
+          </div>
+        }
       </div>
     );
   }
