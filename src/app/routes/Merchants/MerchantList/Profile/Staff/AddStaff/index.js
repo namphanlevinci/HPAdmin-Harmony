@@ -17,10 +17,10 @@ import Salary from "./Form/Salary";
 import License from "./Form/License";
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
-import { isEmpty } from 'lodash';
 
 import "../Staff.styles.scss";
 
+const URL = config.url.URL;
 const upFile = config.url.upFile;
 
 class AddStaff extends Component {
@@ -33,15 +33,78 @@ class AddStaff extends Component {
       showPin: false,
       showConfirmPin: false,
       progressLoading: false,
+      serviceList: [],
+      categoryList: [],
+      categories: [],
+      isSelectAllCategories: true,
     };
     this.refForm = React.createRef();
   }
 
   componentDidMount() {
     const { MerchantProfile } = this.props;
+    const { merchantId } = MerchantProfile;
+    this.getServiceList();
+    this.getCategoryList();
     const businessHour = MerchantProfile?.businessHour || null;
     if (businessHour) {
       this.refForm.current.setFieldValue('workingTime', businessHour);
+    }
+  }
+
+  getServiceList = async () => {
+    const { categoryList, serviceList } = this.state;
+    const { user, MerchantProfile } = this.props;
+    const { merchantId } = MerchantProfile;
+    const url = `${URL}/service/getbymerchant/${merchantId}`;
+    const { data } = await axios.get(
+      url,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+    if (data && parseInt(data.codeNumber) === 200) {
+
+      let categories = categoryList.map((cate) => ({
+        selected: true,
+        categoryId: cate.categoryId,
+        name: cate.name,
+        staffServices:
+          data.data
+            .filter(sv => sv.categoryId === cate.categoryId)
+            .map((sv) => ({
+              selected: true,
+              name: sv.name,
+              serviceId: sv.serviceId,
+              categoryId: sv.categoryId
+            }))
+      }));
+
+      this.setState({
+        serviceList: data.data,
+        categories,
+      });
+    }
+
+  }
+
+  getCategoryList = async () => {
+    const { user, MerchantProfile } = this.props;
+    const { merchantId } = MerchantProfile;
+    const url = `${URL}/category/getbymerchant/${merchantId}`;
+    const { data } = await axios.get(
+      url,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+    if (data && parseInt(data.codeNumber) === 200) {
+      this.setState({ categoryList: data.data })
+      this.getServiceList();
     }
   }
 
@@ -52,13 +115,88 @@ class AddStaff extends Component {
   handleShowPin = () => {
     this.setState({ showPin: !this.state.showPin });
   };
-  
+
   handleConfirmPin = () => {
     this.setState({ showConfirmPin: !this.state.showConfirmPin });
   };
 
+  selectAllCategories = () => {
+    let { categories, isSelectAllCategories } = this.state;
+    let status = !isSelectAllCategories;
+    categories = categories.map((cate) => ({
+      ...cate,
+      selected: status,
+      staffServices:
+        cate.staffServices
+          .filter(sv => sv.categoryId === cate.categoryId)
+          .map((sv) => ({
+            ...sv,
+            selected: status,
+          }))
+    }));
+
+    this.setState({
+      isSelectAllCategories: status,
+      categories,
+    });
+  }
+
+  selectCategories = (category) => {
+    let { categories } = this.state;
+    const { selected, categoryId } = category;
+    categories = categories.map((cate) => ({
+      ...cate,
+      selected: cate.categoryId === categoryId ? !selected : cate.selected,
+      staffServices:
+        cate.staffServices
+          .filter(sv => sv.categoryId === cate.categoryId)
+          .map((sv) => ({
+            ...sv,
+            selected: sv.categoryId === categoryId ? !selected : sv.selected
+          }))
+    }));
+    this.setState({ categories });
+  }
+
+  selectServiceOfCategories = (service) => {
+    let { categories } = this.state;
+    const { selected, categoryId, serviceId } = service;
+
+    categories = categories.map(cate => {
+      let { staffServices } = cate;
+      return ({
+        ...cate,
+        selected: this.checkStatuCategory(staffServices, selected, categoryId, cate),
+        staffServices:
+          cate.staffServices
+            .filter(sv => sv.categoryId === cate.categoryId)
+            .map((sv) => ({
+              ...sv,
+              selected: sv.serviceId === serviceId ? !selected : sv.selected
+            }))
+      })
+    })
+    this.setState({ categories });
+  }
+
+  checkStatuCategory = (staffServices = [], selected, categoryId, cate) => {
+    if (cate.categoryId === categoryId) {
+      let status = !selected;
+      if (status) {
+        return true
+      } else {
+        const arrTrue = staffServices.filter(sv => sv.selected === true);
+        if (arrTrue.length === 1) {
+          return false
+        }
+      }
+    }
+    return cate.selected;
+  }
+
   getStepContent = (stepIndex, values, handleChange, setFieldValue) => {
-    const { MerchantProfile , merchantState} = this.props;
+    const { MerchantProfile, merchantState } = this.props;
+    const { serviceList, categoryList, categories, isSelectAllCategories } = this.state;
     switch (stepIndex) {
       case 0:
         return (
@@ -73,6 +211,13 @@ class AddStaff extends Component {
             handleChange={handleChange}
             setFieldValue={setFieldValue}
             merchantState={merchantState}
+            serviceList={serviceList}
+            categoryList={categoryList}
+            categories={categories}
+            selectAllCategories={this.selectAllCategories}
+            isSelectAllCategories={isSelectAllCategories}
+            selectCategories={this.selectCategories}
+            selectServiceOfCategories={this.selectServiceOfCategories}
           />
         );
       case 1:
@@ -127,20 +272,21 @@ class AddStaff extends Component {
     }
   };
 
-  submitForm = async(values, actions) => {
+  submitForm = async (values, actions) => {
     const merchantId = this.props.MerchantProfile.merchantId;
-    const { activeStep } = this.state;
+    const { activeStep , categories } = this.state;
     const path = "/app/merchants/profile/staff";
     const payload = await {
       ...values,
       merchantId,
       path,
+      categories,
       salary: {
         commission: {
-          isCheck : values.salary.commission.isCheck,
+          isCheck: values.salary.commission.isCheck,
           value: this.checkComission(values.salary.commission.value)
         },
-        perHour :  values.salary.perHour
+        perHour: values.salary.perHour
       }
     };
     this.props.addStaff(payload);
@@ -272,7 +418,8 @@ class AddStaff extends Component {
 }
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
-  merchantState : state.merchantState.data
+  merchantState: state.merchantState.data,
+  user: state.verifyUser.user
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -23,6 +23,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 import DefaultAvatar from "../../../../avatar.png";
 import Avatar from "@material-ui/core/Avatar";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import AccorditionSevice from "@/components/AccorditionService";
+import check_box from "@/assets/images/check_box.png";
+import check_box_empty from "@/assets/images/check_box_empty.png";
 
 function General(props) {
   const {
@@ -33,7 +36,14 @@ function General(props) {
     handleConfirmPin,
     showConfirmPin,
     merchantState,
+    isSelectAllCategories,
     initValue: { isActive, roles, isDisabled, isUpload },
+    serviceList = [],
+    categoryList = [],
+    categories = [],
+    selectAllCategories = () => { },
+    selectCategories = () => { },
+    selectServiceOfCategories = () => { },
   } = props;
 
   return (
@@ -109,7 +119,7 @@ function General(props) {
                 onChange={(e) => {
                   const re = /^[0-9\b]+$/;
                   if (e.target.value === '' || re.test(e.target.value)) {
-                    setFieldValue('pin',e.target.value);
+                    setFieldValue('pin', e.target.value);
                   }
                 }}
                 inputProps={{ maxLength: 4 }}
@@ -141,7 +151,7 @@ function General(props) {
                 onChange={(e) => {
                   const re = /^[0-9\b]+$/;
                   if (e.target.value === '' || re.test(e.target.value)) {
-                    setFieldValue('confirmPin',e.target.value);
+                    setFieldValue('confirmPin', e.target.value);
                   }
                 }}
                 inputProps={{ maxLength: 4 }}
@@ -204,6 +214,7 @@ function General(props) {
             </FormGroup>
           </FormControl>
         </Grid>
+
         <Grid item xs={12} md={4} lg={3}>
           <label>Image</label>
           <br />
@@ -239,6 +250,36 @@ function General(props) {
               />
             )}
         </Grid>
+
+        <Grid style={{ marginTop: 15 }} item xs={12} md={12}>
+          <div style={{ fontSize: '1.25rem', fontWeight:'500', color : '#1366AE' }}>Services</div>
+          <div style={{ fontSize: '1.1rem', fontWeight:'400', color : '#404040',marginTop: 10, marginBottom: 20 }}>
+              Assign services this staff can be perform
+          </div>
+          <div
+            style={{ display: 'flex', alignItems: 'center', marginBottom: 22 }}>
+            <img
+              onClick={selectAllCategories}
+              style={{ width: 25, height: 25 }}
+              src={isSelectAllCategories ? check_box : check_box_empty}
+            />
+            <span style={{ fontSize: "1.1rem", marginLeft: 10, fontWeight: "500", color: "#1366AE" }}>
+              Select all
+            </span>
+          </div>
+          {
+            categories.map((cate) => {
+              return (
+                <AccorditionSevice
+                  category={cate}
+                  key={cate.categoryId + "assignService"}
+                  selectServiceOfCategories={selectServiceOfCategories}
+                  selectCategories={selectCategories}
+                />
+              )
+            })
+          }
+        </Grid>
       </Grid>
     </div>
   );
@@ -254,5 +295,9 @@ const role = [
   {
     value: "staff",
     label: "Staff",
+  },
+  {
+    value: "manager",
+    label: "Manager",
   },
 ];

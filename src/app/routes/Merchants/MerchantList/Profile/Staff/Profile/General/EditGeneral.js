@@ -29,6 +29,11 @@ import axios from "axios";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
+import AccorditionSevice from "@/components/AccorditionService";
+import check_box from "@/assets/images/check_box.png";
+import check_box_empty from "@/assets/images/check_box_empty.png";
+
+
 import "react-phone-input-2/lib/high-res.css";
 import "../../Staff.styles.scss";
 
@@ -41,6 +46,8 @@ export class EditGeneral extends Component {
       showPin: true,
       loading: false,
       loadingProgress: false,
+      categories: [],
+      isSelectAllCategories: false,
     };
   }
 
@@ -64,10 +71,31 @@ export class EditGeneral extends Component {
         zip: data?.zip,
         imageUrl: data?.imageUrl,
         fileId: data?.fileId,
+        categories: data?.categories || [],
+        isSelectAllCategories : this.checkAllCategories(),
       },
       () => this.setState({ loading: true })
     );
   }
+
+  checkAllCategories = () => {
+    let flag = true;
+    const data = this.props.Staff;
+    const { categories } = data;
+
+    for (let i = 0; i < categories.length; i++) {
+      const staffServices = categories[i].staffServices ? categories[i].staffServices : [];
+      for (let j = 0; j < staffServices.length; j++) {
+        if (staffServices[j].selected === false) {
+          flag = false;
+          return false;
+        }
+      }
+    }
+
+    return flag;
+  }
+
   showPin = () => {
     this.setState({ showPin: !this.state.showPin });
   };
@@ -107,8 +135,82 @@ export class EditGeneral extends Component {
     }
   };
 
+  selectAllCategories = () => {
+    let { categories, isSelectAllCategories } = this.state;
+    let status = !isSelectAllCategories;
+    categories = categories.map((cate) => ({
+      ...cate,
+      selected: status,
+      staffServices:
+        cate.staffServices
+          .filter(sv => sv.categoryId === cate.categoryId)
+          .map((sv) => ({
+            ...sv,
+            selected: status,
+          }))
+    }));
+
+    this.setState({
+      isSelectAllCategories: status,
+      categories,
+    });
+  }
+
+  selectCategories = (category) => {
+    let { categories } = this.state;
+    const { selected, categoryId } = category;
+    categories = categories.map((cate) => ({
+      ...cate,
+      selected: cate.categoryId === categoryId ? !selected : cate.selected,
+      staffServices:
+        cate.staffServices
+          .filter(sv => sv.categoryId === cate.categoryId)
+          .map((sv) => ({
+            ...sv,
+            selected: sv.categoryId === categoryId ? !selected : sv.selected
+          }))
+    }));
+    this.setState({ categories });
+  }
+
+  selectServiceOfCategories = (service) => {
+    let { categories } = this.state;
+    const { selected, categoryId, serviceId } = service;
+
+    categories = categories.map(cate => {
+      let { staffServices } = cate;
+      return ({
+        ...cate,
+        selected: this.checkStatuCategory(staffServices, selected, categoryId, cate),
+        staffServices:
+          cate.staffServices
+            .filter(sv => sv.categoryId === cate.categoryId)
+            .map((sv) => ({
+              ...sv,
+              selected: sv.serviceId === serviceId ? !selected : sv.selected
+            }))
+      })
+    })
+    this.setState({ categories });
+  }
+
+  checkStatuCategory = (staffServices = [], selected, categoryId, cate) => {
+    if (cate.categoryId === categoryId) {
+      let status = !selected;
+      if (status) {
+        return true
+      } else {
+        const arrTrue = staffServices.filter(sv => sv.selected === true);
+        if (arrTrue.length === 1) {
+          return false
+        }
+      }
+    }
+    return cate.selected;
+  }
+
   render() {
-    let { imagePreviewUrl, loading, showP } = this.state;
+    let { imagePreviewUrl, loading, showP, categories, isSelectAllCategories } = this.state;
     const { merchantState } = this.props;
     let $imagePreview = null;
     if (imagePreviewUrl) {
@@ -130,6 +232,8 @@ export class EditGeneral extends Component {
               const data = this.props.Staff;
               const StaffID = this.props.Staff.staffId;
               const MerchantID = this.props.MerchantData.merchantId;
+
+              const { categories } = this.state;
 
               const payload = {
                 ...values,
@@ -153,6 +257,7 @@ export class EditGeneral extends Component {
                 Roles: {
                   NameRole: values.roleName,
                 },
+                categories,
                 MerchantID,
                 StaffID,
                 path: "/app/merchants/staff/general",
@@ -422,6 +527,38 @@ export class EditGeneral extends Component {
                         style={{ width: "100%" }}
                       />
                     </Grid>
+                  </Grid>
+
+                  <Grid style={{ marginTop: 15 }} item xs={12} md={12}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: '500', color: '#1366AE' }}>Services</div>
+                    <div style={{ fontSize: '1.1rem', fontWeight: '400', color: '#404040', marginTop: 10, marginBottom: 20 }}>
+                      Assign services this staff can be perform
+                    </div>
+                    <div
+                      style={{ display: 'flex', alignItems: 'center', marginBottom: 22 }}>
+                      <img
+                        onClick={this.selectAllCategories}
+                        style={{ width: 25, height: 25 }}
+                        src={isSelectAllCategories ? check_box : check_box_empty}
+                      />
+                      <span style={{ fontSize: "1.1rem", marginLeft: 10, fontWeight: "500", color: "#1366AE" }}>
+                        Select all
+                      </span>
+                    </div>
+                    {
+                      categories &&
+                      categories.length > 0 &&
+                      categories.map((cate) => {
+                        return (
+                          <AccorditionSevice
+                            category={cate}
+                            key={cate.categoryId + "assignService"}
+                            selectServiceOfCategories={this.selectServiceOfCategories}
+                            selectCategories={this.selectCategories}
+                          />
+                        )
+                      })
+                    }
                   </Grid>
 
                   <Grid item xs={12}>

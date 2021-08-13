@@ -1,0 +1,33 @@
+
+.accordition_category, .accordition_service{
+    width: 100%;
+    background-color: #fafafa;
+    padding: 15px;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    color : #1B68AC;
+    font-weight: 500;
+    &>img{
+        width: 27px;
+        height: 27px;
+        margin-right: 15px;
+    }
+}
+
+.accordition_category{
+    position: relative;
+}
+
+.accordition_service{
+    padding-left: 45px;
+}
+
+.arrow_down_accortion{
+    position: absolute;
+    right: 5px;
+    top: 20px;
+    width: 13px !important;
+    height: 13px !important;
+}
