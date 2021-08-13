@@ -18,7 +18,6 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import State from "../../../../../../../../util/InitialState";
 import Checkbox from "@material-ui/core/Checkbox";
 import DefaultAvatar from "../../../../avatar.png";
 import Avatar from "@material-ui/core/Avatar";
@@ -289,15 +288,15 @@ export default General;
 
 const role = [
   {
-    value: "admin",
+    value: "Admin",
     label: "Admin",
   },
   {
-    value: "staff",
+    value: "Staff",
     label: "Staff",
   },
   {
-    value: "manager",
+    value: "Manager",
     label: "Manager",
   },
 ];

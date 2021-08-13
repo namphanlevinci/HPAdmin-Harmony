@@ -491,6 +491,7 @@ export class EditGeneral extends Component {
                           >
                             <MenuItem value="Admin">Admin</MenuItem>
                             <MenuItem value="Staff">Staff</MenuItem>
+                            <MenuItem value="Manager">Manager</MenuItem>
                           </Select>
                         </FormControl>
                       </Grid>
