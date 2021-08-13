@@ -137,3 +137,17 @@ label {
 .search_input {
   padding: 50px;
 }
+
+.react-slidedown.my-dropdown-slidedown {
+  transition-duration: 0.5s !important;
+  transition-timing-function: cubic-bezier(0.1, 0.7, 1, 0.1);
+}
+
+.react-slidedown {
+  transition-duration: 0.16s !important;
+  transition-timing-function: ease-in-out;
+}
+
+.react-slidedown.transitioning {
+  overflow-x: hidden !important;
+}

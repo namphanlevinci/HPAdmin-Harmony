@@ -12,11 +12,50 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import DefaultAvatar from "../../../../avatar.png";
+import AccorditionSevice from "@/components/AccorditionService";
+import check_box from "@/assets/images/check_box.png";
+import check_box_empty from "@/assets/images/check_box_empty.png";
+
 import "../../Staff.styles.scss";
 
 export class General extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSelectAllCategories: false,
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      isSelectAllCategories: this.checkAllCategories(),
+    })
+  }
+
+
+  checkAllCategories = () => {
+    let flag = true;
+    const data = this.props.Staff;
+    const { categories } = data;
+
+    for (let i = 0; i < categories.length; i++) {
+      const staffServices = categories[i].staffServices ? categories[i].staffServices : [];
+      for (let j = 0; j < staffServices.length; j++) {
+        if (staffServices[j].selected === false) {
+          flag = false;
+          return false;
+        }
+      }
+    }
+
+    return flag;
+  }
+
   render() {
     const Staff = this.props.Staff;
+    const { categories } = Staff;
+    const { isSelectAllCategories } = this.state;
     const imageUrl = Staff.imageUrl;
     return (
       <Grid container spacing={3} className="content">
@@ -92,7 +131,7 @@ export class General extends Component {
         </Grid>
         <Grid item xs={4}></Grid>
         <Grid item xs={4}>
-          <CustomTextLabel value="Role" />
+          <CustomTextLabel value="Roles" />
           <CustomText value={Staff?.roleName} />
         </Grid>
 
@@ -109,6 +148,37 @@ export class General extends Component {
             src={Staff.imageUrl || DefaultAvatar}
             style={{ width: 130, height: 130, marginTop: 30, objectFit: 'contain', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           />
+        </Grid>
+
+
+        <Grid style={{ marginTop: 15 }} item xs={12} md={12}>
+          <div style={{ fontSize: '1.25rem', fontWeight: '500', color: '#1366AE' }}>Services</div>
+          <div style={{ fontSize: '1.1rem', fontWeight: '400', color: '#404040', marginTop: 10, marginBottom: 20 }}>
+            Assign services this staff can be perform
+          </div>
+          <div
+            style={{ display: 'flex', alignItems: 'center', marginBottom: 22 }}>
+            <img
+              onClick={() => { }}
+              style={{ width: 25, height: 25 }}
+              src={isSelectAllCategories ? check_box : check_box_empty}
+            />
+            <span style={{ fontSize: "1.1rem", marginLeft: 10, fontWeight: "500", color: "#1366AE" }}>
+              Select all
+                      </span>
+          </div>
+          {
+            categories && categories.length > 0 && categories.map((cate) => {
+              return (
+                <AccorditionSevice
+                  category={cate}
+                  key={cate.categoryId + "assignService"}
+                  selectServiceOfCategories={() => { }}
+                  selectCategories={() => { }}
+                />
+              )
+            })
+          }
         </Grid>
 
         <Grid item xs={12} style={{ marginTop: "25px" }}>

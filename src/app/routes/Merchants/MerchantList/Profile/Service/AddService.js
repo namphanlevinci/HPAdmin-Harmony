@@ -155,7 +155,7 @@ class AddService extends Component {
       );
     }
   };
-  
+
   goBack = () => {
     this.setState({ open: false });
   };
@@ -672,50 +672,46 @@ class AddService extends Component {
                                 handleBlur={handleBlur}
                                 touched={touched}
                               />
-                              <p
-                                style={{
-                                  marginLeft: -15,
-                                  color: "#4251af",
-                                  fontWeight: "600",
-                                  fontSize: 14,
-                                  cursor: "pointer",
-                                  letterSpacing: 0.3,
-                                  marginBottom: 0,
-                                }}
-                              >
-                                + Select Extra Existing
-                              </p>
-                              <label
-                                style={{
-                                  textAlign: "left",
-                                  color: "#0764B0",
-                                }}
-                              >
-                                Extra
-                              </label>
-                              <br />
-                              <div>
-                                <Select
-                                  styles={colourStyles}
-                                  options={
-                                    extra
-                                      ? extra
-                                        .filter((e) => e.isDeleted === 0)
-                                        .map((e) => {
-                                          return {
-                                            id: e.extraId,
-                                            value: e.extraId,
-                                            label: e.name,
-                                            extra: e,
-                                          };
-                                        })
-                                      : []
-                                  }
-                                  onChange={(e) => {
-                                    this.handePushValue(e, values);
-                                  }}
-                                />
-                              </div>
+                              {
+                                extra && extra.length > 0 &&
+                                <>
+                                  <p
+                                    style={{
+                                      marginLeft: -15,
+                                      marginTop: 30,
+                                      color: "#0764B0",
+                                      fontWeight: "600",
+                                      fontSize: 20,
+                                      letterSpacing: 0.3,
+                                      marginBottom: 0,
+                                    }}
+                                  >
+                                    Select Extra Existing
+                                  </p>
+                                  <br />
+                                  <div>
+                                    <Select
+                                      styles={colourStyles}
+                                      options={
+                                        extra
+                                          ? extra
+                                            .filter((e) => e.isDeleted === 0)
+                                            .map((e) => {
+                                              return {
+                                                id: e.extraId,
+                                                value: e.extraId,
+                                                label: e.name,
+                                                extra: e,
+                                              };
+                                            })
+                                          : []
+                                      }
+                                      onChange={(e) => {
+                                        this.handePushValue(e, values);
+                                      }}
+                                    />
+                                  </div>
+                                </>}
                             </div>
                           </div>
 

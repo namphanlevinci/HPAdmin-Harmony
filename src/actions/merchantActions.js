@@ -246,6 +246,7 @@ export const updateStaffByID = (payload) => async (dispatch, getState) => {
       MerchantID,
       path,
       StaffID,
+      categories
     } = payload;
 
     const {
@@ -276,6 +277,7 @@ export const updateStaffByID = (payload) => async (dispatch, getState) => {
         productSalary,
         Roles: { NameRole },
         MerchantID,
+        categories,
       },
       {
         headers: {
