@@ -69,7 +69,7 @@ class AddStaff extends Component {
     );
     if (data && parseInt(data.codeNumber) === 200) {
 
-      let categories = categoryList.map((cate) => ({
+      let categories = categoryList.filter(obj=>obj.categoryType.toString().toLowerCase() === "service").map((cate) => ({
         selected: true,
         categoryId: cate.categoryId,
         name: cate.name,

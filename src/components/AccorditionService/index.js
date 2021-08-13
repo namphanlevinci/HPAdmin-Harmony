@@ -46,10 +46,13 @@ export default class Index extends Component {
                     </div>
 
                     <img
+                        onClick={this.toggle}
                         style={{
-                            transform: isOpenService ? "rotate(180deg)" : "rotate(0deg)"
+                            transform: isOpenService ? "rotate(180deg)" : "rotate(0deg)",
+                            cursor: 'pointer'
                         }}
                         src={arrow_down} className="arrow_down_accortion"
+                        alt="img"
                     />
                 </div>
                 <SlideDown>
