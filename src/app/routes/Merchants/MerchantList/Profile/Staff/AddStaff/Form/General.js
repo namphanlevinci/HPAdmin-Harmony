@@ -176,7 +176,7 @@ function General(props) {
           <SelectField
             name={`roles.nameRole`}
             value={roles.nameRole}
-            label="Role"
+            label="Roles"
             data={role}
             fullWidth
           />

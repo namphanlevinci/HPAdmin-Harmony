@@ -481,7 +481,7 @@ export class EditGeneral extends Component {
                     <Grid container spacing={3}>
                       <Grid item xs={6} md={4}>
                         <FormControl style={{ width: "100%" }}>
-                          <InputLabel>Role</InputLabel>
+                          <InputLabel>Roles</InputLabel>
                           <Select
                             fullWidth
                             value={values.roleName}

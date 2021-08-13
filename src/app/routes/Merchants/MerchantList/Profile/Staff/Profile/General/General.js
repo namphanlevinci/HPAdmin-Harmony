@@ -131,7 +131,7 @@ export class General extends Component {
         </Grid>
         <Grid item xs={4}></Grid>
         <Grid item xs={4}>
-          <CustomTextLabel value="Role" />
+          <CustomTextLabel value="Roles" />
           <CustomText value={Staff?.roleName} />
         </Grid>
 
