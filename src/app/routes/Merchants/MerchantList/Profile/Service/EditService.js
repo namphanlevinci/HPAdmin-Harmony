@@ -437,7 +437,7 @@ class EditService extends Component {
                     />
                     {
                       extra && extra.length > 0 &&
-                      <p style={{ marginLeft : -15 }} className="btn-add-extra">
+                      <p style={{ marginLeft: -15 }} className="btn-add-extra">
                         Select Extra Existing
                       </p>
                     }
@@ -446,23 +446,28 @@ class EditService extends Component {
                       (
                         <FormControl
                           style={{
-                            width : '100%',
+                            width: '100%',
                             marginTop: 0,
                             marginLeft: "-15px",
                           }}
                         >
                           <InputLabel>Extra</InputLabel>
                           <Select
-                            style={{ width : '100%' }}
+                            style={{ width: '100%' }}
                             value={this.state.extraId}
                             onChange={(e) => {
+                              console.log({ value: e.target.value });
+                              const tempValues = e.target.value;
                               this.setState({ extraId: e.target.value });
                               const newExtra = {
-                                ...e.target.value,
-                                position: 0,
-                                imageUrl: null,
-                                fileId: 0,
-                                status: 1,
+                                description: tempValues.description,
+                                duration: tempValues.duration,
+                                isDisabled: tempValues.isDisabled,
+                                name: tempValues.name,
+                                price: tempValues.price,
+                                supplyFee: tempValues.supplyFee
+
+
                               };
                               values.extras.push(newExtra);
                             }}
