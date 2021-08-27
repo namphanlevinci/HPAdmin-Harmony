@@ -233,6 +233,7 @@ class AddService extends Component {
       );
     }
     let { categoryList: category } = this.props.categoryList;
+
     return (
       <div className="container-search-component">
         <Button
@@ -365,6 +366,7 @@ class AddService extends Component {
                                             .filter(
                                               (e) =>
                                                 e.categoryType !== "Product"
+                                                && e.isDisabled === 0
                                             )
                                             .map((e) => {
                                               return {
