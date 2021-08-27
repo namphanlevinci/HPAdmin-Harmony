@@ -222,7 +222,7 @@ class EditService extends Component {
                     >
                       {category
                         ? category
-                          .filter((e) => e.categoryType !== "Product")
+                          .filter((e) => e.categoryType !== "Product" && e.isDisabled === 0)
                           .map((e) => (
                             <MenuItem key={e.categoryId} value={e.categoryId}>
                               {e.name}
