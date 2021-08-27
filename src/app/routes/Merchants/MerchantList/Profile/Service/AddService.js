@@ -318,6 +318,9 @@ class AddService extends Component {
                         discount,
                         fileId,
                         merchantId,
+                        price : values.price.toString(),
+                        openTime : values.openTime ? values.openTime.toString() : "0",
+                        secondTime : values.secondTime ? values.secondTime.toString() : "0",
                         gotoLastPage: this.props.gotoLastPage,
                       };
 
