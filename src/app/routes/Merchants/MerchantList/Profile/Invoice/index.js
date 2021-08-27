@@ -84,7 +84,6 @@ class Index extends React.Component {
     searchAction = async () => {
         await this.pagination.current.changePage(1);
         let { from, to, range, status, search, paymentMethod, page, row } = this.state;
-        if (range === "all") range = "";
         if (range !== "all") {
             from = "";
             to = "";
@@ -108,6 +107,7 @@ class Index extends React.Component {
     fetchApi = async (from, to, range, status, search, paymentMethod, page, row) => {
         const { MerchantProfile: { merchantId } } = this.props;
         const url = `checkout?page=${page}&row=${row}&merchantId=${merchantId}&method=${paymentMethod}&status=${status}&timeStart=${from}&timeEnd=${to}&key=${search}&quickFilter=${range}`;
+        console.log({ url })
         this.props.getListInvoice(url);
     };
 

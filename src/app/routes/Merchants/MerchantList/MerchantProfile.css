@@ -12,6 +12,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   background-color: #0764B0;
   border-radius: 3px;
+  flex-wrap: wrap;
 }
 
 ul.detail-tab li {
@@ -35,7 +36,7 @@ ul.detail-tab .active {
   opacity: 1;
   font-weight: 500;
   color: white;
-  border-bottom: 3px solid yellow;
+  border-bottom: 3px solid white;
   background: #0764B0;
   font-size : 1.2rem;
   /* padding: 10px;

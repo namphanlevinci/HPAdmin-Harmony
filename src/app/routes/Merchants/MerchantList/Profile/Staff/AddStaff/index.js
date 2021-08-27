@@ -293,6 +293,7 @@ class AddStaff extends Component {
         perHour: values.salary.perHour
       }
     };
+    console.log({ payload });
     this.props.addStaff(payload);
     actions.setSubmitting(false);
     this.setState({ activeStep: activeStep + 1 });

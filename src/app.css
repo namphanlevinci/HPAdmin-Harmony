@@ -151,3 +151,19 @@ label {
 .react-slidedown.transitioning {
   overflow-x: hidden !important;
 }
+
+.input_field::-webkit-input-placeholder { /* Edge */
+  color: red;
+}
+
+.input_field:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: red;
+}
+
+.input_field::placeholder {
+  color: red;
+}
+
+.input_number_duration::placeholder{
+  font-size: 1rem !important;
+}
