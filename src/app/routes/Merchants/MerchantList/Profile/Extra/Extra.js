@@ -382,6 +382,7 @@ class ExtraTab extends Component {
               </div>
             </div>
           </div>
+          
           <EditExtra
             getExtra={this.props.getExtraByID}
             edit={this.state.edit}
@@ -391,6 +392,7 @@ class ExtraTab extends Component {
             merchantId={this.props.MerchantProfile.merchantId}
             updateExtra={this.props.updateMerchantExtraById}
           />
+
           <div className="merchant-list-container">
             <ReactTable
               page={this.props.page || 0}

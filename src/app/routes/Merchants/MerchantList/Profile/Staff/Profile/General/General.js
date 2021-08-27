@@ -57,6 +57,7 @@ export class General extends Component {
     const { categories } = Staff;
     const { isSelectAllCategories } = this.state;
     const imageUrl = Staff.imageUrl;
+
     return (
       <Grid container spacing={3} className="content">
         <Grid item xs={12}>

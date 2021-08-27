@@ -8,6 +8,7 @@ import {
   setPage,
   setSize,
   delService,
+  getExtraByID,
 } from "@/actions/merchantActions";
 
 import Button from "@material-ui/core/Button";
@@ -54,6 +55,7 @@ class Service extends Component {
   componentDidMount() {
     const ID = this.props.MerchantProfile.merchantId;
     this.props.getServiceByID(ID);
+    this.props.getExtraByID(ID);
   }
 
   handleEdit = async (e) => {
@@ -123,7 +125,6 @@ class Service extends Component {
   render() {
     let { serviceList, loading } = this.props.service;
     const { row, page } = this.state;
-    console.log({ row, page })
     serviceList = serviceList.slice((page - 1) * row, (page - 1) * row + row);
     const pageCount = Math.ceil(this.props.service.serviceList.length / row);
 
@@ -462,6 +463,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   delService: (serviceId, merchantId) => {
     dispatch(delService(serviceId, merchantId));
+  },
+  getExtraByID: (merchantId) => {
+    dispatch(getExtraByID(merchantId));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Service);

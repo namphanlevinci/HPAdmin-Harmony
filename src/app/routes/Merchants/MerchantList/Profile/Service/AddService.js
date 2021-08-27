@@ -21,12 +21,14 @@ import * as Yup from "yup";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
 import LinearProgress from "@/util/linearProgress";
-import CurrencyInput from "react-currency-masked-input";
+import InputNumber from "./InputNumber";
+import CurrencyInput from "react-currency-input";
 
 import "../../MerchantProfile.css";
 import "../../../PendingList/MerchantReqProfile.css";
 import "../../../Merchants.css";
 import "../Detail.css";
+import "./service.style.scss";
 
 const colourStyles = {
   control: (styles) => ({
@@ -34,12 +36,14 @@ const colourStyles = {
     borderWidth: 0,
     borderBottomWidth: 1,
     borderRadius: 0,
+    cursor: 'pointer'
   }),
   input: (styles) => ({
     ...styles,
     borderWidth: 0,
     fontSize: 16,
     paddingLeft: 0,
+    cursor: 'pointer'
   }),
   placeholder: (styles) => ({ ...styles }),
 };
@@ -215,7 +219,7 @@ class AddService extends Component {
       $imagePreview = (
         <img
           src={imagePreviewUrl}
-          style={{ width: 220, height: 160, marginBottom: "15px" }}
+          style={{ width: 220, height: 220, marginBottom: "15px" }}
           alt="service 1"
         />
       );
@@ -223,7 +227,7 @@ class AddService extends Component {
       $imagePreview = (
         <img
           src={ServiceImg}
-          style={{ width: 220, height: 160, marginBottom: "15px" }}
+          style={{ width: 220, height: 220, marginBottom: "15px" }}
           alt="service"
         />
       );
@@ -314,8 +318,12 @@ class AddService extends Component {
                         discount,
                         fileId,
                         merchantId,
+                        price : values.price.toString(),
+                        openTime : values.openTime ? values.openTime.toString() : "0",
+                        secondTime : values.secondTime ? values.secondTime.toString() : "0",
                         gotoLastPage: this.props.gotoLastPage,
                       };
+
                       this.props.addMerchantServiceById(payload);
 
                       this.setState({ open: false, imagePreviewUrl: "" });
@@ -480,21 +488,15 @@ class AddService extends Component {
                                   </label>
                                   <br />
                                   <div className="input-box">
-                                    <input
+
+                                    <InputNumber
                                       name="duration"
                                       type="number"
                                       onChange={handleChange}
-                                      onBlur={handleBlur}
                                       value={values.duration}
                                       style={{
-                                        borderBottomColor: "#dddddd",
-                                        borderBottomWidth: 1,
+                                        borderBottom : "1px solid #dddddd",
                                       }}
-                                      className={
-                                        errors.duration && touched.duration
-                                          ? "text-input error"
-                                          : "text-input"
-                                      }
                                     />
                                     <span className="unit">Min</span>
                                   </div>
@@ -515,16 +517,13 @@ class AddService extends Component {
                                   </label>
                                   <br />
                                   <div className="input-box">
-                                    <input
+                                    <InputNumber
                                       name="openTime"
                                       type="number"
                                       onChange={handleChange}
-                                      onBlur={handleBlur}
                                       value={values.openTime}
-                                      // placeholder="Min"
                                       style={{
-                                        borderBottomColor: "#dddddd",
-                                        borderBottomWidth: 1,
+                                        borderBottom : "1px solid #dddddd",
                                       }}
                                     />
                                     <span className="unit">Min</span>
@@ -542,16 +541,13 @@ class AddService extends Component {
                                   </label>
                                   <br />
                                   <div className="input-box">
-                                    <input
+                                    <InputNumber
                                       name="secondTime"
                                       type="number"
                                       onChange={handleChange}
-                                      onBlur={handleBlur}
                                       value={values.secondTime}
-                                      // placeholder="Min"
                                       style={{
-                                        borderBottomColor: "#dddddd",
-                                        borderBottomWidth: 1,
+                                        borderBottom : "1px solid #dddddd",
                                       }}
                                     />
                                     <span className="unit">Min</span>
@@ -571,7 +567,7 @@ class AddService extends Component {
                                       name="price"
                                       type="tel"
                                       onChange={(e, masked) => [
-                                        setFieldValue("price", e.target.value),
+                                        setFieldValue("price", masked),
                                       ]}
                                       onBlur={handleBlur}
                                       value={values.price}
@@ -633,7 +629,7 @@ class AddService extends Component {
                                       onChange={(e, masked) => [
                                         setFieldValue(
                                           "supplyFee",
-                                          e.target.value
+                                          masked
                                         ),
                                       ]}
                                       type="tel"
@@ -675,20 +671,12 @@ class AddService extends Component {
                               {
                                 extra && extra.length > 0 &&
                                 <>
-                                  <p
-                                    style={{
-                                      marginLeft: -15,
-                                      marginTop: 30,
-                                      color: "#0764B0",
-                                      fontWeight: "600",
-                                      fontSize: 20,
-                                      letterSpacing: 0.3,
-                                      marginBottom: 0,
-                                    }}
-                                  >
+                                  <p className="title_select_extra">
                                     Select Extra Existing
                                   </p>
+
                                   <br />
+
                                   <div>
                                     <Select
                                       styles={colourStyles}
@@ -707,11 +695,20 @@ class AddService extends Component {
                                           : []
                                       }
                                       onChange={(e) => {
-                                        this.handePushValue(e, values);
+                                        this.setState({ extraId: e.extra });
+                                        const newExtra = {
+                                          ...e.extra,
+                                          position: 0,
+                                          imageUrl: null,
+                                          fileId: 0,
+                                          status: 1,
+                                        };
+                                        values.extras.push(newExtra);
                                       }}
                                     />
                                   </div>
-                                </>}
+                                </>
+                              }
                             </div>
                           </div>
 
@@ -719,7 +716,7 @@ class AddService extends Component {
                             <Button
                               className="btn btn-green"
                               style={{
-                                backgroundColor: "#4154B3",
+                                backgroundColor: "#1366AE",
                                 color: "white",
                               }}
                               type="submit"

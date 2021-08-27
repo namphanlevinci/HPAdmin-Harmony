@@ -21,10 +21,15 @@ import axios from "axios";
 import { config } from "@/url/url";
 import * as Yup from "yup";
 import LinearProgress from "@/util/linearProgress";
+import InputNumber from "./InputNumber";
+import CurrencyInput from "react-currency-input";
+import InputCustom from "./InputCustom";
+import InputCustomPrice from "./InputCustomPrice";
 
 import "./service.style.scss";
 
 const upFile = config.url.upFile;
+
 
 class EditService extends Component {
   constructor(props) {
@@ -53,6 +58,7 @@ class EditService extends Component {
       imageProgress: false,
     };
   }
+
   componentDidMount() {
     const ID = this.props.MerchantProfile.merchantId;
 
@@ -124,6 +130,7 @@ class EditService extends Component {
       );
     }
   };
+
   goBack = () => {
     this.props.history.push("/app/merchants/profile/service");
   };
@@ -141,7 +148,6 @@ class EditService extends Component {
     const extra = this.props.extraList.extraList;
     let { categoryList: category } = this.props.categoryList;
 
-    //~ preview image
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
@@ -163,25 +169,23 @@ class EditService extends Component {
     }
 
     const validationSchema =
-      service.extras.length > 0
-        ? Yup.object().shape({
-            extras: Yup.array().of(
-              Yup.object().shape({
-                name: Yup.string().min(3, "too short").required("Required"),
-                duration: Yup.string().required("Required"),
-                price: Yup.string().required("Required"),
-                isDisabled: Yup.string().required("Required"),
-              })
-            ),
+      Yup.object().shape({
+        extras: Yup.array().of(
+          Yup.object().shape({
+            name: Yup.string().min(3, "too short").required("Required"),
+            duration: Yup.string().required("Required"),
+            price: Yup.string().required("Required"),
+            isDisabled: Yup.string().required("Required"),
           })
-        : null;
-
+        ),
+      })
     //FORMIK VALIDATE
 
     const extraItem =
       service?.extras.length !== 0
         ? service?.extras.filter((e) => e?.isDeleted !== 1)
         : [];
+
     return (
       <div
         className="react-transition swipe-up service-container"
@@ -203,29 +207,34 @@ class EditService extends Component {
 
           <Grid item xs={7}>
             <Grid item xs={6}>
-              {this.state.loading && (
-                <FormControl style={{ width: "100%", marginTop: "16px" }}>
-                  <InputLabel>Category*</InputLabel>
-                  <Select
-                    value={this.state.categoryId}
-                    onChange={(e) => {
-                      this.setState({ categoryId: e.target.value });
-                    }}
-                  >
-                    {category
-                      ? category
+              {
+                this.state.loading && (
+                  <FormControl style={{ width: "100%", marginTop: "16px" }}>
+                    <InputLabel style={{ fontSize: 22, fontWeight: '500' }}>
+                      Category*
+                  </InputLabel>
+                    <Select
+                      value={this.state.categoryId}
+                      onChange={(e) => {
+                        this.setState({ categoryId: e.target.value });
+                      }}
+                      style={{ marginTop: 30 }}
+                    >
+                      {category
+                        ? category
                           .filter((e) => e.categoryType !== "Product")
                           .map((e) => (
                             <MenuItem key={e.categoryId} value={e.categoryId}>
                               {e.name}
                             </MenuItem>
                           ))
-                      : []}
-                  </Select>
-                </FormControl>
-              )}
+                        : []}
+                    </Select>
+                  </FormControl>
+                )}
             </Grid>
-            <Grid item xs={6}>
+
+            <Grid style={{ marginTop: 8 }} item xs={6}>
               <TextField
                 label="Service Name*"
                 fullWidth
@@ -238,9 +247,14 @@ class EditService extends Component {
                   borderBottomColor: "#dddddd",
                   borderBottomWidth: 1,
                 }}
+                InputLabelProps={{ style: { fontSize: 22, fontWeight: '500', marginBottom: 15 } }}
+                inputProps={{
+                  style: { marginTop: 15 }
+                }}
               />
             </Grid>
-            <Grid item xs={8}>
+
+            <Grid style={{ marginTop: 10 }} item xs={8}>
               <TextField
                 label="Description"
                 margin="normal"
@@ -252,9 +266,13 @@ class EditService extends Component {
                 rows={4}
                 value={this.state.description}
                 onChange={this.handleChange}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontSize: 16, fontWeight: '500', marginBottom: 15 }
+                }}
               />
             </Grid>
+
             <Grid item xs={6} lg={4}>
               <label
                 style={{
@@ -287,134 +305,89 @@ class EditService extends Component {
                 onChange={this.uploadImage}
               />
             </Grid>
+
+            <label style={{ color: "#0764B0", marginTop: "10px", fontSize: 16, fontWeight: '500' }}>
+              Duration
+            </label>{" "}
+            <br />
+
             <Grid item xs={12}>
-              <label style={{ color: "#0764B0", marginTop: "10px" }}>
-                Duration
-              </label>{" "}
-              <br />
-              <TextField
-                style={styles.duration}
-                label="Minutes*"
-                name="duration"
-                type="number"
-                margin="normal"
-                value={this.state.duration}
-                onChange={this.handleChange}
-                placeholder="Min"
-                InputProps={{
-                  startAdornment: (
-                    <span
-                      style={{
-                        paddingRight: "10px",
-                      }}
-                    >
-                      Min
-                    </span>
-                  ),
-                }}
-              />
-              <TextField
-                style={styles.duration}
-                label="Open Time"
-                name="openTime"
-                type="number"
-                margin="normal"
-                value={this.state.openTime}
-                onChange={this.handleChange}
-                placeholder="Min"
-                InputProps={{
-                  startAdornment: (
-                    <span
-                      style={{
-                        paddingRight: "10px",
-                      }}
-                    >
-                      Min
-                    </span>
-                  ),
-                }}
-              />
-              <TextField
-                style={styles.duration}
-                label="Second Time"
-                name="secondTime"
-                type="number"
-                margin="normal"
-                value={this.state.secondTime}
-                onChange={this.handleChange}
-                placeholder="Min"
-                InputProps={{
-                  startAdornment: (
-                    <span
-                      style={{
-                        paddingRight: "10px",
-                      }}
-                    >
-                      Min
-                    </span>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={9}>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <TextField
-                    label="Price*"
-                    name="price"
-                    margin="normal"
-                    fullWidth
-                    value={this.state.price}
-                    onChange={this.handleChange}
-                    placeholder="$"
-                    InputProps={{
-                      startAdornment: (
-                        <span
-                          style={{
-                            paddingRight: "10px",
-                          }}
-                        >
-                          $
-                        </span>
-                      ),
-                    }}
+
+                  <InputCustom
+                    style={styles.duration}
+                    value={this.state.duration}
+                    onChange={e => this.setState({ duration: e.target.value })}
+                    label="Minutes"
+                    placeholder=""
+                    isRequired
                   />
                 </Grid>
+
                 <Grid item xs={4}>
-                  {this.state.loading && (
-                    <FormControl style={{ width: "100%", marginTop: "16px" }}>
-                      <InputLabel>Status</InputLabel>
-                      <Select
-                        value={this.state.isDisabled}
-                        onChange={(e) => {
-                          this.setState({ isDisabled: e.target.value });
-                        }}
-                      >
-                        <MenuItem value={0}>Active</MenuItem>
-                        <MenuItem value={1}>Inactive</MenuItem>
-                      </Select>
-                    </FormControl>
-                  )}
+
+                  <InputCustom
+                    style={styles.duration}
+                    value={this.state.openTime}
+                    onChange={e => this.setState({ openTime: e.target.value })}
+                    label="Open Time"
+                    placeholder=""
+                  />
                 </Grid>
+
                 <Grid item xs={4}>
-                  <TextField
-                    label="Surcharged"
-                    name="supplyFee"
-                    margin="normal"
-                    fullWidth
-                    value={this.state.supplyFee}
-                    onChange={this.handleChange}
-                    InputProps={{
-                      startAdornment: (
-                        <span
-                          style={{
-                            paddingRight: "10px",
+                  <InputCustom
+                    style={styles.duration}
+                    value={this.state.secondTime}
+                    onChange={e => this.setState({ secondTime: e.target.value })}
+                    label="Second Time"
+                    placeholder=""
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Grid item xs={12}>
+
+              <Grid container spacing={3}>
+                <Grid item xs={4}>
+                  <InputCustomPrice
+                    style={{ marginTop: 11 }}
+                    value={this.state.price}
+                    onChange={value => this.setState({ price: value })}
+                    label="Price"
+                    isRequired
+                    placeholder=""
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  {
+                    this.state.loading && (
+                      <FormControl style={{ width: "100%", marginTop: "12px" }}>
+                        <InputLabel>Status</InputLabel>
+                        <Select
+                          value={this.state.isDisabled}
+                          onChange={(e) => {
+                            this.setState({ isDisabled: e.target.value });
                           }}
                         >
-                          $
-                        </span>
-                      ),
-                    }}
+                          <MenuItem value={0}>Active</MenuItem>
+                          <MenuItem value={1}>Inactive</MenuItem>
+                        </Select>
+                      </FormControl>
+                    )
+                  }
+                </Grid>
+
+                <Grid item xs={4}>
+                  <InputCustomPrice
+                    style={{ marginTop: 11 }}
+                    value={this.state.supplyFee}
+                    onChange={value => this.setState({ supplyFee: value })}
+                    label="Surcharged"
+                    placeholder=""
                   />
                 </Grid>
               </Grid>
@@ -437,8 +410,8 @@ class EditService extends Component {
                 }
 
                 this.updateService();
-                // console.log(values);
               }}
+              innerRef={p => this.refExtraForm = p}
             >
               {({
                 values,
@@ -449,86 +422,87 @@ class EditService extends Component {
                 handleSubmit,
                 isSubmitting,
                 setFieldValue,
-              }) => (
-                <form onSubmit={handleSubmit}>
-                  <Extra
-                    setFieldValue={setFieldValue}
-                    validationSchema={validationSchema}
-                    errors={errors}
-                    values={values}
-                    handleChange={handleChange}
-                    handleBlur={handleBlur}
-                    touched={touched}
-                    loading={this.state.loading}
-                  />
-                  <p
-                    style={{
-                      marginLeft: -15,
-                      color: "#4251af",
-                      fontWeight: "600",
-                      fontSize: 14,
-                      cursor: "pointer",
-                      letterSpacing: 0.3,
-                      marginBottom: 0,
-                    }}
-                  >
-                    + Select Extra Existing
-                  </p>
-                  {this.state.loading && (
-                    <FormControl
-                      style={{
-                        width: "80%",
-                        marginTop: 0,
-                        marginLeft: "-15px",
-                      }}
-                    >
-                      <InputLabel>Extra</InputLabel>
-                      <Select
-                        value={this.state.extraId}
-                        onChange={(e) => {
-                          this.setState({ extraId: e.target.value });
-                          const newExtra = {
-                            ...e.target.value,
-                            position: 0,
-                            imageUrl: null,
-                            fileId: 0,
-                            status: 1,
-                          };
-                          console.log(values);
-                          values.extras.push(newExtra);
+              }) => {
+                return (
+                  <form onSubmit={handleSubmit}>
+                    <Extra
+                      setFieldValue={setFieldValue}
+                      validationSchema={validationSchema}
+                      errors={errors}
+                      values={values}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      touched={touched}
+                      loading={this.state.loading}
+                    />
+                    {
+                      extra && extra.length > 0 &&
+                      <p style={{ marginLeft : -15 }} className="btn-add-extra">
+                        Select Extra Existing
+                      </p>
+                    }
+                    {
+                      extra && extra.length > 0 &&
+                      (
+                        <FormControl
+                          style={{
+                            width : '100%',
+                            marginTop: 0,
+                            marginLeft: "-15px",
+                          }}
+                        >
+                          <InputLabel>Extra</InputLabel>
+                          <Select
+                            style={{ width : '100%' }}
+                            value={this.state.extraId}
+                            onChange={(e) => {
+                              this.setState({ extraId: e.target.value });
+                              const newExtra = {
+                                ...e.target.value,
+                                position: 0,
+                                imageUrl: null,
+                                fileId: 0,
+                                status: 1,
+                              };
+                              values.extras.push(newExtra);
+                            }}
+                          >
+                            {
+                              extra
+                                ? extra
+                                  .filter((e) => e.isDeleted === 0)
+                                  .map((e) => (
+                                    <MenuItem key={e.extraId} value={e}>
+                                      {e.name}
+                                    </MenuItem>
+                                  ))
+                                : []
+                            }
+                          </Select>
+                        </FormControl>
+                      )
+                    }
+
+                    <div style={{ marginBottom: 10 }} className="Save-fixed-bottom">
+                      <Button
+                        className="btn btn-green"
+                        type="submit"
+                        style={{
+                          backgroundColor: "#0764B0",
+                          color: "white",
                         }}
+                        disabled={isSubmitting}
+                        onClick={handleSubmit}
                       >
-                        {extra
-                          ? extra
-                              .filter((e) => e.isDeleted === 0)
-                              .map((e) => (
-                                <MenuItem key={e.extraId} value={e}>
-                                  {e.name}
-                                </MenuItem>
-                              ))
-                          : []}
-                      </Select>
-                    </FormControl>
-                  )}
-                  <div className="Save-fixed-bottom">
-                    <Button
-                      className="btn btn-green"
-                      type="submit"
-                      style={{
-                        backgroundColor: "#0764B0",
-                        color: "white",
-                      }}
-                      disabled={isSubmitting}
-                      onClick={handleSubmit}
-                    >
-                      SAVE
+                        SAVE
                     </Button>
-                    <Button className="btn btn-red" onClick={this.goBack}>
-                      CANCEL
+                      <Button className="btn btn-red" onClick={this.goBack}>
+                        CANCEL
                     </Button>
-                  </div>
-                </form>
-              )}
+                    </div>
+                  </form>
+                )
+              }}
             </Formik>
           </Grid>
         </Grid>
@@ -536,6 +510,7 @@ class EditService extends Component {
     );
   }
 }
+
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   service: state.service,
