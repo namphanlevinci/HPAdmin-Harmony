@@ -38,7 +38,7 @@ class AddStaff extends Component {
       categoryList: [],
       categories: [],
       isSelectAllCategories: true,
-      isLoading : false,
+      isLoading: false,
     };
     this.refForm = React.createRef();
   }
@@ -69,7 +69,7 @@ class AddStaff extends Component {
     );
     if (data && parseInt(data.codeNumber) === 200) {
 
-      let categories = categoryList.filter(obj=>obj.categoryType.toString().toLowerCase() === "service").map((cate) => ({
+      let categories = categoryList.filter(obj => obj.categoryType.toString().toLowerCase() === "service").map((cate) => ({
         selected: true,
         categoryId: cate.categoryId,
         name: cate.name,
@@ -87,14 +87,14 @@ class AddStaff extends Component {
       this.setState({
         serviceList: data.data,
         categories,
-        isLoading : false
+        isLoading: false
       });
     }
 
   }
 
   getCategoryList = async () => {
-    this.setState({ isLoading : true });
+    this.setState({ isLoading: true });
     const { user, MerchantProfile } = this.props;
     const { merchantId } = MerchantProfile;
     const url = `${URL}/category/getbymerchant/${merchantId}`;
@@ -159,6 +159,9 @@ class AddStaff extends Component {
             selected: sv.categoryId === categoryId ? !selected : sv.selected
           }))
     }));
+    if (selected === true) {
+      this.setState({ isSelectAllCategories: false })
+    }
     this.setState({ categories });
   }
 
@@ -179,7 +182,10 @@ class AddStaff extends Component {
               selected: sv.serviceId === serviceId ? !selected : sv.selected
             }))
       })
-    })
+    });
+    if (selected === true) {
+      this.setState({ isSelectAllCategories: false })
+    }
     this.setState({ categories });
   }
 
@@ -293,7 +299,6 @@ class AddStaff extends Component {
         perHour: values.salary.perHour
       }
     };
-    console.log({ payload });
     this.props.addStaff(payload);
     actions.setSubmitting(false);
     this.setState({ activeStep: activeStep + 1 });
@@ -334,10 +339,21 @@ class AddStaff extends Component {
     this.setState({ activeStep: 0 });
   };
 
+  checkPincode = (pincode) => {
+    const { staffList } = this.props;
+    for (let i = 0; i < staffList.length; i++) {
+      if (pincode === staffList[i].pin) {
+        return false;
+      }
+    }
+    return true
+  }
+
   render() {
     const steps = this.getSteps();
-    const { activeStep , isLoading } = this.state;
-    const currentValidationSchema = validationSchema[activeStep];
+    const { activeStep, isLoading } = this.state;
+    const currentValidationSchema = validationSchema(this.checkPincode)[activeStep];
+    const { staffList } = this.props;
 
     return (
       <div className="container-fluid react-transition swipe-right add-staff">
@@ -438,7 +454,8 @@ class AddStaff extends Component {
 const mapStateToProps = (state) => ({
   MerchantProfile: state.merchant.merchant,
   merchantState: state.merchantState.data,
-  user: state.verifyUser.user
+  user: state.verifyUser.user,
+  staffList: state.staff.data,
 });
 
 const mapDispatchToProps = (dispatch) => ({

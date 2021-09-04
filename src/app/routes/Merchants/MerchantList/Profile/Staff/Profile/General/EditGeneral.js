@@ -170,6 +170,9 @@ export class EditGeneral extends Component {
             selected: sv.categoryId === categoryId ? !selected : sv.selected
           }))
     }));
+    if(selected === true){
+      this.setState({ isSelectAllCategories : false })
+    }
     this.setState({ categories });
   }
 
@@ -191,6 +194,9 @@ export class EditGeneral extends Component {
             }))
       })
     })
+    if(selected === true){
+      this.setState({ isSelectAllCategories : false })
+    }
     this.setState({ categories });
   }
 
@@ -504,8 +510,8 @@ export class EditGeneral extends Component {
                               setFieldValue(`isDisabled`, e.target.value)
                             }
                           >
-                            <MenuItem value={0}>Available</MenuItem>
-                            <MenuItem value={1}>Disabled</MenuItem>
+                            <MenuItem value={0}>Active</MenuItem>
+                            <MenuItem value={1}>Inactive</MenuItem>
                           </Select>
                         </FormControl>
                       </Grid>

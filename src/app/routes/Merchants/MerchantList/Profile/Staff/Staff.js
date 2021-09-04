@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Typography } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import {
   archiveStaffById,
   restoreStaffById,
   getStaff,
   getStaffByID,
 } from "@/actions/merchantActions";
-import ArchiveSVG from "@/assets/images/archive.svg";
-import EditSVG from "@/assets/images/edit.svg";
-import RestoreSVG from "@/assets/images/restore.svg";
+
 import SearchComponent from "@/util/searchComponent";
-import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 import ReactTable from "react-table";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -20,10 +17,10 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ScaleLoader from "@/util/scaleLoader";
 import CheckPermissions from "@/util/checkPermission";
-import Tooltip from "@material-ui/core/Tooltip";
 
 import CustomProgress from "@/util/CustomProgress";
 import Pagination from "@/components/Pagination";
+import columns from "./columns";
 
 import "../Detail.css";
 import "react-table/react-table.css";
@@ -92,6 +89,19 @@ class Staff extends Component {
     this.setState({ page, row });
   }
 
+
+  onRowClick = (state, rowInfo, column, instance) => {
+    return {
+      onClick: (e) => {
+        e.stopPropagation();
+        if (rowInfo && column.id !== "actions") {
+          this.viewStaff(rowInfo.original)
+        }
+      },
+    };
+  };
+
+
   render() {
     let { loading, data } = this.props.staff;
     const { loading: loadingArchive } = this.props.archiveStaff;
@@ -124,137 +134,6 @@ class Staff extends Component {
       }
     }
 
-    const columns = [
-      {
-        Header: "",
-        id: "none",
-        accessor: "none",
-        Cell: (row) => {
-          row.styles["paddingLeft"] = "0px";
-          return <DragIndicatorOutlinedIcon />;
-        },
-        width: 40,
-      },
-      {
-        Header: "Staff ID",
-        id: "staffId",
-        accessor: (d) => (
-          <Typography variant="subtitle1" className="table__light">
-            {`${d.staffId}`}
-          </Typography>
-        ),
-        width: 80,
-      },
-      {
-        Header: "Name",
-        id: "fullName",
-        accessor: (d) => (
-          <Typography variant="subtitle1">
-            {`${d.firstName} ${d.lastName}`}
-          </Typography>
-        ),
-      },
-      {
-        id: "Display",
-        Header: "Display Name",
-        accessor: (d) => (
-          <Typography variant="subtitle1" className="table__light">
-            {`${d.displayName}`}
-          </Typography>
-        ),
-      },
-      {
-        Header: "Phone",
-        id: "Phone",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {row?.phone}
-          </Typography>
-        ),
-      },
-      {
-        Header: "Email",
-        id: "email",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {row?.email}
-          </Typography>
-        ),
-        width: 220,
-      },
-      {
-        Header: "Role",
-        id: "roleName",
-        accessor: (row) => (
-          <Typography variant="subtitle1">{row?.roleName}</Typography>
-        ),
-        width: 80,
-      },
-      {
-        Header: "Status",
-        accessor: "isDisabled",
-        Cell: (e) => (
-          <Typography variant="subtitle1">
-            {e.value === 1 ? "Inactive" : "Active"}
-          </Typography>
-        ),
-        width: 80,
-      },
-      {
-        Header: () => <div style={{ textAlign: "center" }}> Actions </div>,
-        sortable: false,
-        accessor: "actions",
-        Cell: (row) => {
-          const actionsBtn =
-            row.original.isDisabled !== 1 ? (
-              <Tooltip title="Archive">
-                <img
-                  alt="archive"
-                  src={ArchiveSVG}
-                  onClick={() => [
-                    this.setState({
-                      extraId: row.original.staffId,
-                      dialog: true,
-                    }),
-                  ]}
-                />
-              </Tooltip>
-            ) : (
-                <Tooltip title="Restore">
-                  <img
-                    alt="restore"
-                    src={RestoreSVG}
-                    onClick={() =>
-                      this.setState({
-                        extraId: row.original.staffId,
-                        restoreDialog: true,
-                      })
-                    }
-                  />
-                </Tooltip>
-              );
-          return (
-            <div style={{ textAlign: "center" }}>
-              {CheckPermissions("active-staff") && actionsBtn}
-
-              {CheckPermissions("edit-staff") && (
-                <span style={{ paddingLeft: "15px" }}>
-                  <Tooltip title="Edit">
-                    <img
-                      alt="edit"
-                      src={EditSVG}
-                      size={20}
-                      style={{ color: "#575757" }}
-                      onClick={() => this.viewStaff(row.original)}
-                    />
-                  </Tooltip>
-                </span>
-              )}
-            </div>
-          );
-        },
-      },
-    ];
     return (
       <div className="content general-content react-transition swipe-up Staff">
         {loadingArchive && <CustomProgress />}
@@ -270,17 +149,18 @@ class Staff extends Component {
             />
 
             <div>
-              {CheckPermissions("add-new-staff") && (
-                <Button
-                  className="btn btn-green"
-                  style={{ marginRight: "0px" }}
-                  onClick={() =>
-                    this.props.history.push("/app/merchants/profile/staff/add")
-                  }
-                >
-                  NEW STAFF
-                </Button>
-              )}
+              {
+                CheckPermissions("add-new-staff") && (
+                  <Button
+                    className="btn btn-green"
+                    style={{ marginRight: "0px" }}
+                    onClick={() =>
+                      this.props.history.push("/app/merchants/profile/staff/add")
+                    }
+                  >
+                    NEW STAFF
+                  </Button>
+                )}
             </div>
           </div>
           <ScaleLoader isLoading={loadingStaff} />
@@ -288,11 +168,15 @@ class Staff extends Component {
             <ReactTable
               ref={this.refTable}
               data={data}
-              columns={columns}
+              columns={columns(this.viewStaff, (staffId) => this.setState({
+                extraId: staffId,
+                restoreDialog: true,
+              }))}
               minRows={1}
               defaultPageSize={200}
               noDataText="NO DATA!"
               loading={loading}
+              getTdProps={this.onRowClick}
               PaginationComponent={() => <div />}
             />
 

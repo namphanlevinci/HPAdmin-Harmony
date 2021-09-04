@@ -139,7 +139,7 @@ export class General extends Component {
         <Grid item xs={4}>
           <CustomTextLabel value="Status" />
           <CustomText
-            value={Staff?.isDisabled === 0 ? "Available" : "Not Available"}
+            value={Staff?.isDisabled === 0 ? "Active" : "Inactive"}
           />
         </Grid>
         <Grid item xs={4}></Grid>
@@ -166,7 +166,7 @@ export class General extends Component {
             />
             <span style={{ fontSize: "1.1rem", marginLeft: 10, fontWeight: "500", color: "#1366AE" }}>
               Select all
-                      </span>
+            </span>
           </div>
           {
             categories && categories.length > 0 && categories.map((cate) => {

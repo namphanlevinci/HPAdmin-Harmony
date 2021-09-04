@@ -1,12 +1,19 @@
 import * as Yup from "yup";
 
-export default [
+const validation = (checkPincode) => [
   // General
   Yup.object().shape({
     firstName: Yup.string().required("First name is required"),
     lastName: Yup.string().required("Last name is required"),
     displayName: Yup.string().required("Display name is required"),
-    pin: Yup.string().max(4).min(4).required("Pin code is required"),
+    pin: Yup.string()
+    .max(4)
+    .min(4)
+    .required("Pin code is required")
+    .test('checkPincode',"Pincode is exists.", function(pin){
+      return pin && checkPincode(pin);
+    })
+    ,
     confirmPin: Yup.string()
       .max(4)
       .min(4)
@@ -44,3 +51,5 @@ export default [
   //   }),
   // }),
 ];
+
+export default validation;
