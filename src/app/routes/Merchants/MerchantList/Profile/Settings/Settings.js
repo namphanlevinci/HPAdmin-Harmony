@@ -111,6 +111,7 @@ class Settings extends Component {
 
   render() {
     const data = this.props.MerchantProfile;
+    const {showNotification} = this.props;
 
     const styles = (theme) => ({
       root: {
@@ -447,6 +448,7 @@ class Settings extends Component {
         <PopupBookingLink
           link={this.state.linkBooking}
           close={() => this.setState({ linkBooking: "" })}
+          showNotification={showNotification}
         />
 
       </React.Fragment>
@@ -476,5 +478,11 @@ const mapDispatchToProps = (dispatch) => ({
   warningNotify: (message) => {
     dispatch(WARNING_NOTIFICATION(message));
   },
+  showNotification : (message) => {
+    dispatch({
+      type : 'SUCCESS_NOTIFICATION',
+      payload : message
+    });
+  }
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

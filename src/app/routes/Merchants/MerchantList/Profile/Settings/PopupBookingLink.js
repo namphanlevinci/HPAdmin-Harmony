@@ -15,7 +15,9 @@ export default class PopupBookingLink extends Component {
         this.linkBooking.select();
         document.execCommand('copy');
         e.target.focus();
+        this.props.showNotification("COPY SUCCESS");
     };
+
     render() {
         const { link, close } = this.props;
 
