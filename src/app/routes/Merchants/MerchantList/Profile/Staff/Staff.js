@@ -130,8 +130,7 @@ class Staff extends Component {
           }
           return null;
         });
-      } else {
-      }
+      } 
     }
 
     return (

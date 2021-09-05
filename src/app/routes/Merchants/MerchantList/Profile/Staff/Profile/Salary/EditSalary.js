@@ -18,11 +18,14 @@ import {
   TextField,
 } from "@material-ui/core";
 import "./style.scss";
+import { isEmpty } from "lodash"
 
 class EditSalary extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isSubmit: false
+    };
   }
 
   componentDidMount() {
@@ -148,8 +151,10 @@ class EditSalary extends Component {
             initialValues={this.state}
             validationSchema={salarySchema}
             onSubmit={(values, { setSubmitting }) => {
+              console.log({ values });
               this.handleUpdateStaff(values);
             }}
+            validator={() => ({})}
           >
             {({
               setFieldValue,
@@ -159,19 +164,55 @@ class EditSalary extends Component {
               handleChange,
               handleBlur,
               handleSubmit,
-              isSubmitting,
-            }) => (
-              <Form onSubmit={handleSubmit} noValidate>
-                <div className="container Salary">
-                  <CustomTitle value="Salary" />
+              isSubmitting
+            }) => {
+              return (
+                <form onSubmit={handleSubmit}>
+                  <div className="container Salary">
+                    <CustomTitle value="Salary" />
 
-                  <Grid container spacing={1} style={{ paddingTop: "10px" }}>
-                    <Grid container>
-                      <Grid item xs={12} sm={6} md={6}>
+                    <Grid container spacing={1} style={{ paddingTop: "10px" }}>
+
+                      <Grid container>
+                        <Grid item xs={12} sm={6} md={6}>
+                          <div className="checkbox">
+                            <Checkbox
+                              name="salaryIsCheck"
+                              checked={values?.salaryIsCheck}
+                              onChange={(e) =>
+                                this.handleCheckBox(e, setFieldValue)
+                              }
+                              inputProps={{
+                                "aria-label": "primary checkbox",
+                              }}
+                            />
+                            <label>Salary Per Hour</label>
+                          </div>
+                          <Input
+                            name="salaryValue"
+                            type="tel"
+                            style={styles.input}
+                            value={values?.salaryValue}
+                            disabled={values?.commIsCheck ? true : false}
+                            onChange={(e, masked) => {
+                              setFieldValue(`salaryValue`, e.target.value);
+                            }}
+                            inputComponent={CustomCurrencyInput}
+                            placeholder="0.00"
+                            startAdornment={
+                              <InputAdornment position="start">$</InputAdornment>
+                            }
+                          />
+                        </Grid>
+                      </Grid>
+
+
+                      {/************************************* SALARY BY INCOMES  *************************************/}
+                      <Grid item xs={12} sm={6} md={6} style={{ paddingTop: 10 }}>
                         <div className="checkbox">
                           <Checkbox
-                            name="salaryIsCheck"
-                            checked={values?.salaryIsCheck}
+                            name="commIsCheck"
+                            checked={values?.commIsCheck}
                             onChange={(e) =>
                               this.handleCheckBox(e, setFieldValue)
                             }
@@ -179,359 +220,313 @@ class EditSalary extends Component {
                               "aria-label": "primary checkbox",
                             }}
                           />
-                          <label>Salary Per Hour</label>
+                          <label>Salary By Incomes</label>
                         </div>
+                      </Grid>
+
+                      <FieldArray
+                        name="commValue"
+                        render={(arrayHelpers) => (
+                          <Grid item xs={12}>
+                            {
+                              values?.commValue && values?.commValue.length > 0 ? (
+                                values?.commValue?.map((commValue, index) => {
+                                  console.log({ commValue });
+                                  return (
+                                    <Grid
+                                      container
+                                      spacing={1}
+                                      key={index}
+                                      className={index !== 0 && "salary_padding"}
+                                    >
+                                      <Grid item xs={4}>
+                                        <CustomCurrencyField
+                                          name={`commValue.${index}.from`}
+                                          onChange={(e, masked) => {
+                                            this.setState({ isSubmit: false });
+                                            if (
+                                              !compareTwoInput(
+                                                parseFloat(
+                                                  e.target.value.replace(/,/g, "")
+                                                ),
+                                                parseFloat(
+                                                  commValue?.to?.toString().replace(/,/g, "")
+                                                )
+                                              ) ||
+                                              parseFloat(
+                                                commValue?.to?.toString().replace(/,/g, "")
+                                              ) === 0
+                                            ) {
+                                              setFieldValue(
+                                                `commValue.${index}.from`,
+                                                e.target.value
+                                              );
+                                            } else {
+                                              setFieldValue(
+                                                `commValue.${index}.from`,
+                                                commValue.to
+                                              );
+                                            }
+                                          }}
+                                          label="From"
+                                          style={styles.textField}
+                                          InputProps={{
+                                            startAdornment: (
+                                              <InputAdornment position="start">
+                                                $
+                                              </InputAdornment>
+                                            ),
+                                          }}
+                                          disabled={
+                                            values?.salaryIsCheck ? true : false
+                                          }
+                                          isSubmitting={this.state.isSubmit}
+                                        />
+                                      </Grid>
+                                      <Grid item xs={4}>
+                                        <CustomCurrencyField
+                                          name={`commValue.${index}.to`}
+                                          onChange={(e, masked) => {
+                                            this.setState({ isSubmit: false });
+                                            setFieldValue(
+                                              `commValue.${index}.to`,
+                                              e.target.value
+                                            );
+                                          }}
+                                          InputProps={{
+                                            startAdornment: (
+                                              <InputAdornment position="start">
+                                                $
+                                              </InputAdornment>
+                                            ),
+                                          }}
+                                          style={styles.textField}
+                                          label="To"
+                                          disabled={
+                                            values?.salaryIsCheck ? true : false
+                                          }
+                                          isSubmitting={this.state.isSubmit}
+                                        />
+                                      </Grid>
+
+                                      <Grid item xs={3}>
+                                        <CustomCurrencyField
+                                          name={`commValue.${index}.commission`}
+                                          onChange={(e, masked) => {
+                                            this.setState({ isSubmit: false });
+                                            setFieldValue(
+                                              `commValue.${index}.commission`,
+                                              e.target.value
+                                            )
+                                          }}
+                                          label="Salary percented (%)"
+                                          style={styles.textField}
+                                          InputProps={{
+                                            startAdornment: (
+                                              <InputAdornment position="start">
+                                                %
+                                              </InputAdornment>
+                                            ),
+                                          }}
+                                          disabled={values?.salaryIsCheck ? true : false}
+                                          isSubmitting={this.state.isSubmit}
+                                        />
+                                      </Grid>
+
+                                      {
+                                        index !== 0 && (
+                                          <Grid item xs={1}>
+                                            <DeleteForeverIcon
+                                              onClick={() => arrayHelpers.remove(index)}
+                                              className="delete_icon"
+                                            />
+                                          </Grid>
+                                        )}
+
+                                      {
+                                        values?.commValue.length - 1 === index &&
+                                        values?.commIsCheck && (
+                                          <Grid>
+                                            <p
+                                              className="btn-add-more-salary"
+                                              onClick={() =>
+                                                arrayHelpers.insert(index + 1, "")
+                                              }
+                                            >
+                                              + Add more
+                                        </p>
+                                          </Grid>
+                                        )}
+                                    </Grid>
+                                  );
+                                })
+                              ) : values?.commIsCheck && (
+                                <Grid>
+                                  <p
+                                    className="btn-add-more-salary"
+                                    onClick={() => arrayHelpers.push("")}
+                                  >
+                                    + Add more
+                              </p>
+                                </Grid>
+                              )}
+                          </Grid>
+                        )}
+                      />
+
+                      {/************************************* PRODUCT SALARY  *************************************/}
+                      <Grid item xs={12}>
+                        <CustomTitle value="Product Salary" />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6} md={6}>
+                        <div className="checkbox">
+                          <Checkbox
+                            name="prodCommIsCheck"
+                            checked={values?.prodCommIsCheck}
+                            onChange={(e) =>
+                              this.handleCheckBox(e, setFieldValue)
+                            }
+                            value="true"
+                            inputProps={{
+                              "aria-label": "primary checkbox",
+                            }}
+                          />
+                          <label>Product Commission</label>
+                        </div>
+
                         <Input
-                          name="salaryValue"
                           type="tel"
+                          name="prodCommValue"
+                          value={values?.prodCommValue}
+                          separator="."
                           style={styles.input}
-                          value={values?.salaryValue}
-                          disabled={values?.commIsCheck ? true : false}
-                          onChange={(e, masked) => {
-                            setFieldValue(`salaryValue`, e.target.value);
-                          }}
+                          disabled={values?.prodCommIsCheck ? false : true}
+                          onChange={(e, masked) =>
+                            setFieldValue(`prodCommValue`, e.target.value)
+                          }
                           inputComponent={CustomCurrencyInput}
                           placeholder="0.00"
+                          startAdornment={
+                            <InputAdornment position="start">%</InputAdornment>
+                          }
+                        />
+                      </Grid>
+
+                      {/************************************* TIP FEE  *************************************/}
+                      <Grid item xs={12} style={{ paddingTop: "10px" }}>
+                        <CustomTitle value="Tip Fee" />
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={6}>
+                        <div className="checkbox">
+                          <Checkbox
+                            name="tipIsCheck"
+                            checked={values?.tipIsCheck}
+                            onChange={(e) =>
+                              this.handleCheckBox(e, setFieldValue)
+                            }
+                            inputProps={{
+                              "aria-label": "primary checkbox",
+                            }}
+                          />
+                          <label>Tip Percent</label>
+                        </div>
+
+                        <Input
+                          type="tel"
+                          name="tipValue"
+                          value={values?.tipValue}
+                          style={styles.input}
+                          separator="."
+                          disabled={values?.fixIsCheck ? true : false}
+                          onChange={(e, masked) =>
+                            setFieldValue(`tipValue`, e.target.value)
+                          }
+                          inputComponent={CustomCurrencyInput}
+                          placeholder="0.00"
+                          startAdornment={
+                            <InputAdornment position="start">%</InputAdornment>
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={6}>
+                        <div className="checkbox">
+                          <Checkbox
+                            name="fixIsCheck"
+                            checked={values?.fixIsCheck}
+                            onChange={(e) =>
+                              this.handleCheckBox(e, setFieldValue)
+                            }
+                            inputProps={{
+                              "aria-label": "primary checkbox",
+                            }}
+                          />
+                          <label>Tip Fixed Amount</label>
+                        </div>
+
+                        <Input
+                          className="inputSalary"
+                          style={styles.input}
+                          name="fixValue"
+                          type="tel"
+                          separator="."
+                          value={values?.fixValue}
+                          disabled={values?.tipIsCheck ? true : false}
+                          onChange={(e, masked) =>
+                            setFieldValue(`fixValue`, e.target.value)
+                          }
+                          placeholder="0.00"
+                          inputComponent={CustomCurrencyInput}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
                           }
                         />
                       </Grid>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6} style={{ paddingTop: 10 }}>
-                      <div className="checkbox">
-                        <Checkbox
-                          name="commIsCheck"
-                          checked={values?.commIsCheck}
-                          onChange={(e) =>
-                            this.handleCheckBox(e, setFieldValue)
+
+                      {/************************************* PAYOUT WITHOUT CASH  *************************************/}
+                      <Grid item xs={12} style={{ paddingTop: 10 }}>
+                        <CustomTitle value="Payout with Cash" />
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={6}>
+                        <TextField
+                          style={styles.input}
+                          name="cashPercent"
+                          value={values?.cashPercent}
+                          onChange={(e, masked) =>
+                            setFieldValue(`cashPercent`, e.target.value)
                           }
-                          inputProps={{
-                            "aria-label": "primary checkbox",
+                          min="0"
+                          max="100"
+                          type="tel"
+                          separator="."
+                          label="Percent"
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">%</InputAdornment>
+                            ),
+                            inputComponent: CustomCurrencyInput,
                           }}
                         />
-                        <label>Salary By Incomes</label>
-                      </div>
+                      </Grid>
                     </Grid>
-                    <FieldArray
-                      name="commValue"
-                      render={(arrayHelpers) => (
-                        <Grid item xs={12}>
-                          {values?.commValue && values?.commValue.length > 0 ? (
-                            values?.commValue?.map((commValue, index) => {
-                              return (
-                                <Grid
-                                  container
-                                  spacing={1}
-                                  key={index}
-                                  className={index !== 0 && "salary_padding"}
-                                >
-                                  <Grid item xs={4}>
-                                    <CustomCurrencyField
-                                      name={`commValue.${index}.from`}
-                                      onChange={(e, masked) => {
-                                        if (
-                                          !compareTwoInput(
-                                            parseFloat(
-                                              e.target.value.replace(/,/g, "")
-                                            ),
-                                            parseFloat(
-                                              commValue?.to?.toString().replace(/,/g, "")
-                                            )
-                                          ) ||  
-                                          parseFloat(
-                                            commValue?.to?.toString().replace(/,/g, "")
-                                          ) === 0
-                                        ) {
-                                          setFieldValue(
-                                            `commValue.${index}.from`,
-                                            e.target.value
-                                          );
-                                        } else {
-                                          setFieldValue(
-                                            `commValue.${index}.from`,
-                                            commValue.to
-                                          );
-                                        }
-                                      }}
-                                      label="From"
-                                      style={styles.textField}
-                                      InputProps={{
-                                        startAdornment: (
-                                          <InputAdornment position="start">
-                                            $
-                                          </InputAdornment>
-                                        ),
-                                      }}
-                                      disabled={
-                                        values?.salaryIsCheck ? true : false
-                                      }
-                                    />
-                                  </Grid>
-                                  <Grid item xs={4}>
-                                    <CustomCurrencyField
-                                      name={`commValue.${index}.to`}
-                                      onChange={(e, masked) => {
-                                        // if (
-                                        //   !compareTwoInput(
-                                        //     parseFloat(
-                                        //       e.target.value.replace(/,/g, "")
-                                        //     ),
-                                        //     parseFloat(
-                                        //       commValue.from.replace(/,/g, "")
-                                        //     )
-                                        //   )
-                                        // ) {
-                                        //   setFieldValue(
-                                        //     `commValue.${index}.to`,
-                                        //     commValue.from
-                                        //   );
-                                        // } else {
 
-                                        // }
-                                        setFieldValue(
-                                          `commValue.${index}.to`,
-                                          e.target.value
-                                        );
-                                      }}
-                                      InputProps={{
-                                        startAdornment: (
-                                          <InputAdornment position="start">
-                                            $
-                                          </InputAdornment>
-                                        ),
-                                      }}
-                                      style={styles.textField}
-                                      label="To"
-                                      disabled={
-                                        values?.salaryIsCheck ? true : false
-                                      }
-                                    />
-                                  </Grid>
-                                  <Grid item xs={3}>
-                                    <CustomCurrencyField
-                                      name={`commValue.${index}.commission`}
-                                      onChange={(e, masked) =>
-                                        setFieldValue(
-                                          `commValue.${index}.commission`,
-                                          e.target.value
-                                        )
-                                      }
-                                      label="Salary percented (%)"
-                                      style={styles.textField}
-                                      InputProps={{
-                                        startAdornment: (
-                                          <InputAdornment position="start">
-                                            %
-                                          </InputAdornment>
-                                        ),
-                                      }}
-                                      disabled={
-                                        values?.salaryIsCheck ? true : false
-                                      }
-                                    />
-                                  </Grid>
-                                  {index !== 0 && (
-                                    <Grid item xs={1}>
-                                      <DeleteForeverIcon
-                                        onClick={() =>
-                                          arrayHelpers.remove(index)
-                                        }
-                                        className="delete_icon"
-                                      />
-                                    </Grid>
-                                  )}
-                                  {values?.commValue.length - 1 === index &&
-                                    values?.commIsCheck && (
-                                      <Grid>
-                                        <p
-                                          style={{
-                                            marginLeft: 35,
-                                            color: "#0764B0",
-                                            fontWeight: "600",
-                                            fontSize: 14,
-                                            marginTop: 30,
-                                            cursor: "pointer",
-                                            letterSpacing: 0.3,
-                                          }}
-                                          onClick={() =>
-                                            arrayHelpers.insert(index + 1, "")
-                                          }
-                                        >
-                                          + Add more
-                                        </p>
-                                      </Grid>
-                                    )}
-                                </Grid>
-                              );
-                            })
-                          ) : (
-                              <Grid>
-                                <p
-                                  style={{
-                                    marginLeft: 35,
-                                    color: "#0764B0",
-                                    fontWeight: "600",
-                                    fontSize: 14,
-                                    marginTop: 30,
-                                    cursor: "pointer",
-                                    letterSpacing: 0.3,
-                                  }}
-                                  onClick={() => arrayHelpers.push("")}
-                                >
-                                  + Add more 2
-                              </p>
-                              </Grid>
-                            )}
-                        </Grid>
-                      )}
-                    />
-                    <Grid item xs={12}>
-                      <CustomTitle value="Product Salary" />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
-                      <div className="checkbox">
-                        <Checkbox
-                          name="prodCommIsCheck"
-                          checked={values?.prodCommIsCheck}
-                          onChange={(e) =>
-                            this.handleCheckBox(e, setFieldValue)
-                          }
-                          value="true"
-                          inputProps={{
-                            "aria-label": "primary checkbox",
-                          }}
-                        />
-                        <label>Product Commission</label>
-                      </div>
-
-                      <Input
-                        type="tel"
-                        name="prodCommValue"
-                        value={values?.prodCommValue}
-                        separator="."
-                        style={styles.input}
-                        disabled={values?.prodCommIsCheck ? false : true}
-                        onChange={(e, masked) =>
-                          setFieldValue(`prodCommValue`, e.target.value)
-                        }
-                        inputComponent={CustomCurrencyInput}
-                        placeholder="0.00"
-                        startAdornment={
-                          <InputAdornment position="start">%</InputAdornment>
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12} style={{ paddingTop: "10px" }}>
-                      <CustomTitle value="Tip Fee" />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
-                      <div className="checkbox">
-                        <Checkbox
-                          name="tipIsCheck"
-                          checked={values?.tipIsCheck}
-                          onChange={(e) =>
-                            this.handleCheckBox(e, setFieldValue)
-                          }
-                          inputProps={{
-                            "aria-label": "primary checkbox",
-                          }}
-                        />
-                        <label>Tip Percent</label>
-                      </div>
-
-                      <Input
-                        type="tel"
-                        name="tipValue"
-                        value={values?.tipValue}
-                        style={styles.input}
-                        separator="."
-                        disabled={values?.fixIsCheck ? true : false}
-                        onChange={(e, masked) =>
-                          setFieldValue(`tipValue`, e.target.value)
-                        }
-                        inputComponent={CustomCurrencyInput}
-                        placeholder="0.00"
-                        startAdornment={
-                          <InputAdornment position="start">%</InputAdornment>
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
-                      <div className="checkbox">
-                        <Checkbox
-                          name="fixIsCheck"
-                          checked={values?.fixIsCheck}
-                          onChange={(e) =>
-                            this.handleCheckBox(e, setFieldValue)
-                          }
-                          inputProps={{
-                            "aria-label": "primary checkbox",
-                          }}
-                        />
-                        <label>Tip Fixed Amount</label>
-                      </div>
-
-                      <Input
-                        className="inputSalary"
-                        style={styles.input}
-                        name="fixValue"
-                        type="tel"
-                        separator="."
-                        value={values?.fixValue}
-                        disabled={values?.tipIsCheck ? true : false}
-                        onChange={(e, masked) =>
-                          setFieldValue(`fixValue`, e.target.value)
-                        }
-                        placeholder="0.00"
-                        inputComponent={CustomCurrencyInput}
-                        startAdornment={
-                          <InputAdornment position="start">$</InputAdornment>
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12} style={{ paddingTop: 10 }}>
-                      <CustomTitle value="Payout with Cash" />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
-                      <TextField
-                        style={styles.input}
-                        name="cashPercent"
-                        value={values?.cashPercent}
-                        onChange={(e, masked) =>
-                          setFieldValue(`cashPercent`, e.target.value)
-                        }
-                        min="0"
-                        max="100"
-                        type="tel"
-                        separator="."
-                        label="Percent"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">%</InputAdornment>
-                          ),
-                          inputComponent: CustomCurrencyInput,
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <div style={styles.div}>
-                    <Button className="btn btn-green" type="submit">
-                      SAVE
+                    <div style={styles.div}>
+                      <Button onClick={() => this.setState({ isSubmit: true })} className="btn btn-green" type="submit">
+                        SAVE
                     </Button>
-                    <Button
-                      className="btn btn-red"
-                      onClick={() =>
-                        this.props.history.push("/app/merchants/staff/salary")
-                      }
-                    >
-                      CANCEL
+                      <Button
+                        className="btn btn-red"
+                        onClick={() =>
+                          this.props.history.push("/app/merchants/staff/salary")
+                        }
+                      >
+                        CANCEL
                     </Button>
+                    </div>
                   </div>
-                </div>
-              </Form>
-            )}
+                </form>
+              )
+            }}
           </Formik>
         )}
       </div>
@@ -539,21 +534,27 @@ class EditSalary extends Component {
   }
 }
 
+export const FormatPrice = (price) => {
+  const checkPrice = price ? price + "" : "0";
+  const formatPrice = checkPrice.replace(",", "");
+  return parseFloat(formatPrice);
+};
+
 const salarySchema = Yup.object().shape({
   commValue: Yup.array().of(
     Yup.object().shape({
       commIsCheck: Yup.boolean(),
-      // from: Yup.string().when("commIsCheck", {
-      //   is: (commIsCheck) => true,
-      //   then: Yup.string().required("Required"),
-      // }),
       from: Yup.string().when(["commIsCheck", "to"], {
         is: (commIsCheck) => true,
         then: Yup.string().required("Required"),
       }),
-      to: Yup.string().when("commIsCheck", {
+      to: Yup.string()
+      .when("commIsCheck", {
         is: (commIsCheck) => true,
         then: Yup.string().required("Required"),
+      })
+      .test("compareTo", "From value can not be higher than To value ", function (to) {
+        return this.parent.from && this.parent.to && (parseInt(FormatPrice(to)) >= parseInt(FormatPrice(this.parent.from)))
       }),
       commission: Yup.string().when("commIsCheck", {
         is: (commIsCheck) => true,
