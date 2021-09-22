@@ -114,7 +114,8 @@ export const refundInvoice = ({ checkoutId, invoiceDetail, callBack }) => async 
         const { merchantId } = merchant;
         const { paymentInformation, paymentMethod } = invoiceDetail;
         const body = {
-            responseData: paymentMethod !== "credit_card" ? null : paymentInformation[0].responseData
+            responseData: paymentMethod !== "credit_card" ? null : paymentInformation[0].responseData,
+            paymentTerminal: paymentInformation[0]?.paymentTerminal,
         }
 
         const { data } = await axios.put(`${URL}/checkout/paymentvoidrefundtransaction/${checkoutId}`, body, {

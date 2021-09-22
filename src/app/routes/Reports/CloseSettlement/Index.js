@@ -187,7 +187,8 @@ class Index extends Component {
                 discount: settlementWaitng.discount,
                 paymentByCashStatistic: settlementWaitng.paymentByCashStatistic,
                 otherPaymentStatistic: settlementWaitng.otherPaymentStatistic,
-                isConnectPax: settlementWaitng.isConnectPax
+                isConnectPax: settlementWaitng.isConnectPax,
+                paymentTerminal : settlementWaitng.paymentTerminal
             }
 
             const { data } = await axios.post(
