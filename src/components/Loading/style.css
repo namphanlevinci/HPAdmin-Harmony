@@ -1,0 +1,16 @@
+.loading_container{
+    position: absolute;
+    top : 0px;
+    left : 0px;
+    right : 0px;
+    bottom : 0px;
+    background : rgba(255,255,255,0.2);
+    z-index: 99999;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    color : #585858;
+    font-size : 1.3rem;
+    font-weight : 400;
+    font-style: italic;
+  }

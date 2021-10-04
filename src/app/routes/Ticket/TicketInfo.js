@@ -183,7 +183,7 @@ class TicketInfo extends Component {
                   Delete
                 </NewButton>
                 <NewButton
-                  onClick={() => this.props.history.push("/app/ticket")}
+                  onClick={() => this.props.history.goBack()}
                 >
                   Back
                 </NewButton>
@@ -227,7 +227,7 @@ class TicketInfo extends Component {
                 <CustomText value="Description:" />
                 <CustomTextLabel
                   value={data.description}
-                  styles={{ textAlign: "justify" }}
+                  styles={{ textAlign: "justify", wordBreak: "break-all" }}
                 />
               </div>
             </Grid>

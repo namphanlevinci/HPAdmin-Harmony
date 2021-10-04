@@ -280,6 +280,8 @@ export const userLogin = (email, password, path) => async (dispatch) => {
       password,
     });
 
+    console.log({ data })
+
     if (Number(data.codeNumber) !== 400) {
       dispatch({
         type: types.USER_LOGIN_SUCCESS,
@@ -299,6 +301,7 @@ export const userLogin = (email, password, path) => async (dispatch) => {
       });
     }
   } catch (error) {
+    console.log({ error })
     dispatch({
       type: FAILURE_NOTIFICATION,
       payload: error.message,

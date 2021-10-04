@@ -154,6 +154,7 @@ class EditTicket extends Component {
             initialValues={this.state}
             validationSchema={MarketPlaceSchema}
             onSubmit={(values) => this.handleSubmit(values)}
+            
           >
             {({ errors, touched, handleChange, setFieldValue, values }) => (
               <Form>

@@ -236,7 +236,7 @@ export const addTicket = (payload) => async (dispatch, getState) => {
       });
       dispatch(fetchApiByPage(`ticket`));
       if (payload.path) {
-        history.push(payload.path);
+        history.goBack();
       }
     } else {
       dispatch({
@@ -281,7 +281,7 @@ export const delTicket = (ticketID) => async (dispatch, getState) => {
         payload: data.message,
       });
       dispatch(fetchApiByPage(`ticket`));
-      history.push("/app/ticket");
+      history.goBack();
     } else {
       dispatch({
         type: FAILURE_NOTIFICATION,
