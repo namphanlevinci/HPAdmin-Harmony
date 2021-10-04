@@ -86,14 +86,16 @@ class Ticket extends Component {
 
     updateItem = (result) => {
         const { destination, source, draggableId } = result;
-        if(destination.droppableId !== source.droppableId){
-            let { data } = this.state;
-            const index = data.findIndex(ticket => parseInt(ticket.id) === parseInt(draggableId));
-            if (index !== -1) {
-                data[index].status = destination.droppableId;
+        if(destination){
+            if(destination.droppableId !== source.droppableId){
+                let { data } = this.state;
+                const index = data.findIndex(ticket => parseInt(ticket.id) === parseInt(draggableId));
+                if (index !== -1) {
+                    data[index].status = destination.droppableId;
+                }
+                this.setState({ data });
+                this.changeStatus(draggableId, destination.droppableId);
             }
-            this.setState({ data });
-            this.changeStatus(draggableId, destination.droppableId);
         }
     }
 
