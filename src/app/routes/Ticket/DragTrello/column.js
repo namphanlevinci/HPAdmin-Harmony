@@ -71,7 +71,7 @@ export default class Column extends Component {
     const { getTicketDetail } = this.props;
 
     return (
-      <Draggable draggableId={title} index={index}>
+      <Draggable isDragDisabled={true} draggableId={title} index={index}>
         {(provided, snapshot) => {
           return (
             <Container ref={provided.innerRef} {...provided.draggableProps}>

@@ -133,6 +133,7 @@ export default class QuoteList extends React.Component {
         ignoreContainerClipping={ignoreContainerClipping}
         isDropDisabled={isDropDisabled}
         isCombineEnabled={isCombineEnabled}
+        isDragDisabled={true}
       >
         {(dropProvided, dropSnapshot) => (
           <Wrapper
