@@ -141,12 +141,12 @@ class Ticket extends Component {
                             placeholder="Search by ID, Title, Application, Client Name"
                             value={this.state.search}
                             onChange={(e) => this.setState({ searchValue: e.target.value })}
-                            onKeyPress={() => this.fetchTicket(currentPage)}
+                            onKeyPress={() => this.fetchApi(currentPage)}
                             onClickIcon={() => this.setState({ searchValue: "" })}
                         />
                         <NewButton
                             style={{ marginLeft: "10px" }}
-                            onClick={() => this.fetchTicket(currentPage)}
+                            onClick={() => this.fetchApi(currentPage)}
                         >
                             Search
                         </NewButton>
