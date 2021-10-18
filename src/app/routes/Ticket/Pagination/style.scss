@@ -1,0 +1,23 @@
+.pagination_container {
+  margin-top: 2rem;
+}
+
+.page-item.active .page-link {
+  background-color: #1366ae !important;
+  border-color: #1366ae !important;
+  color: white !important;
+}
+
+.page-item a.page-link {
+  color: #333 !important;
+  box-shadow: none !important;
+}
+
+a {
+  color: #000;
+}
+
+.icon-pagination {
+  width: 12px;
+  height: 12px;
+}

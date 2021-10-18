@@ -1,0 +1,18 @@
+
+.iconButton{
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    padding : 8px 16px 8px 16px;
+    border : 1px solid #dddddd;
+    cursor: pointer;
+    height : 45px;
+    width : 150px;
+}
+
+.iconButton > img{
+    width : 25px;
+    height : 25px;
+    object-fit : contain;
+    margin-right : 8px;
+}

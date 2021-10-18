@@ -57,3 +57,11 @@
   font-weight: 400; 
   font-size: 16px;
 }
+
+.row_title_ticket_column{
+  display: flex; 
+  flex-direction: row; 
+  align-items: center; 
+  justify-content : space-between;
+   padding : 16px 0px 0px 0px;
+}

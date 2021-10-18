@@ -24,10 +24,13 @@ import Accounts from "./routes/Accounts/Accounts";
 import Settings from "./routes/AdminSettings/Settings";
 import Business from "./routes/Business/Business";
 // import Dashboard from "./routes/dashboard/dashboard";
+import DashboardChart from "./routes/DashboardChart";
 import Consumers from "./routes/Consumers/index";
 import Reports from "./routes/Reports/Reports";
 import GiftCard from "./routes/GiftCard/index";
 import MarketPlace from "./routes/MarketPlace";
+import Ticket from "./routes/Ticket";
+import ColumnView from "./routes/Ticket/ColumnView";
 
 class App extends React.Component {
   constructor(props) {
@@ -61,8 +64,8 @@ class App extends React.Component {
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "fixed-drawer"
       : drawerType.includes(COLLAPSED_DRAWER)
-      ? "collapsible-drawer"
-      : "mini-drawer";
+        ? "collapsible-drawer"
+        : "mini-drawer";
 
     //set default height and overflow for iOS mobile Safari 10+ support.
     if (isIOS && isMobile) {
@@ -76,11 +79,10 @@ class App extends React.Component {
         <Sidebar />
         <div className="app-main-container">
           <div
-            className={`app-header ${
-              navigationStyle === HORIZONTAL_NAVIGATION
+            className={`app-header ${navigationStyle === HORIZONTAL_NAVIGATION
                 ? "app-header-horizontal"
                 : ""
-            }`}
+              }`}
           >
             {navigationStyle === HORIZONTAL_NAVIGATION &&
               horizontalNavPosition === ABOVE_THE_HEADER && (
@@ -91,7 +93,7 @@ class App extends React.Component {
               horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
           </div>
           <main className="app-main-content-wrapper">
-            <div className="app-main-content">
+          <div className="app-main-content">
               <Switch>
                 <Route
                   path={`${match.url}/merchants`}
@@ -114,7 +116,7 @@ class App extends React.Component {
                   )}
                 />
                 <Route path={`${match.url}/business`} component={Business} />
-                {/* <Route path={`${match.url}/dashboard`} component={Dashboard} /> */}
+                <Route path={`${match.url}/dashboard`} component={DashboardChart} />
                 <Route path={`${match.url}/consumers`} component={Consumers} />
                 <Route path={`${match.url}/reports`} component={Reports} />
                 <Route path={`${match.url}/giftcard`} component={GiftCard} />
@@ -130,7 +132,12 @@ class App extends React.Component {
                 />
                 <Route
                   path={`${match.url}/ticket`}
-                  component={asyncComponent(() => import("./routes/Ticket"))}
+                  component={Ticket}
+                />
+
+                <Route
+                  path={`${match.url}/ticketColumn`}
+                  component={ColumnView}
                 />
 
                 <Route

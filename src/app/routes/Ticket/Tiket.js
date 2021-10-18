@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import { CustomTableHeader } from "@/util/CustomText";
-import { Typography } from "@material-ui/core";
 import { fetchApiByPage } from "@/actions/fetchApiActions";
 import {
   getTicketByID,
@@ -21,14 +19,14 @@ import {
 import { debounce } from "lodash";
 
 import NewButton from "@components/Button/Search";
+import IconButton from "@components/IconButton";
 import ResetButton from "@components/Button/Reset";
 import SearchComponent from "@/util/searchComponent";
 import ContainerHeader from "@components/ContainerHeader/index";
 import IntlMessages from "@/util/IntlMessages";
 import ReactTable from "react-table";
 import CheckPermissions from "@/util/checkPermission";
-import Status from "./components/Status";
-import moment from "moment";
+import columns from "./columns";
 import { reloadUrl } from '@/util/reload';
 
 import "react-table/react-table.css";
@@ -73,7 +71,7 @@ class Tiket extends Component {
     this.setState({ search: "", statusValue: "all" });
     this.fetchApi();
   }, 1000);
-  
+
   ticketInfo = (ID) => {
     const path = "/app/ticket/detail";
     this.props.getTicketByID(ID, path);
@@ -114,86 +112,14 @@ class Tiket extends Component {
     reloadUrl('app/ticket');
   }
 
+  switchColumnView = () => {
+    this.props.history.push("/app/ticketColumn");
+  }
+
   render() {
     const { statusValue, page } = this.state;
     const { data, loading, pageSize, pageCount } = this.props.apiData;
 
-    const columns = [
-      {
-        Header: <CustomTableHeader value="ID" />,
-        id: "id",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {row?.id}
-          </Typography>
-        ),
-        width: 60,
-      },
-      {
-        Header: <CustomTableHeader value="Title" />,
-        id: "title",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {row?.title}
-          </Typography>
-        ),
-      },
-      {
-        Header: <CustomTableHeader value="Application" />,
-        id: "app",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {row?.clientApp}
-          </Typography>
-        ),
-      },
-      {
-        Header: <CustomTableHeader value="Client Name" />,
-        id: "clientName",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {row?.clientName}
-          </Typography>
-        ),
-      },
-      {
-        Header: <CustomTableHeader value="Created by" />,
-        id: "createBy",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {row?.createdUserName}
-          </Typography>
-        ),
-      },
-      {
-        Header: <CustomTableHeader value="Last Updated" />,
-        id: "lastUpdate",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {moment(row?.modifiedDate).format("MM/DD/YYYY") !== "01/01/0001" &&
-              moment(row?.modifiedDate).format("MM/DD/YYYY")}
-          </Typography>
-        ),
-      },
-      {
-        Header: <CustomTableHeader value="Modified by" />,
-        id: "modifiedBy",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            {row?.modifiedUserName}
-          </Typography>
-        ),
-      },
-      {
-        Header: <CustomTableHeader value="Status" />,
-        id: "status",
-        accessor: (row) => (
-          <Typography variant="subtitle1" className="table__light">
-            <Status status={row?.status}>{row?.status}</Status>
-          </Typography>
-        ),
-      },
-    ];
     const onRowClick = (state, rowInfo) => {
       return {
         onClick: (e) => {
@@ -204,6 +130,7 @@ class Tiket extends Component {
         },
       };
     };
+
     return (
       <div className="container-fluid react-transition swipe-right ">
         <Helmet>
@@ -215,7 +142,6 @@ class Tiket extends Component {
         />
         <div className="page-heading MerList">
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* SEARCH */}
             <Grid
               container
               spacing={0}
@@ -269,13 +195,18 @@ class Tiket extends Component {
             )}
           </div>
 
-          <div>
+          <div style={{ display : "flex", alignItems : "center", marginTop : 16, justifyContent : "space-between" }}>
             <ResetButton
-              style={{ marginTop: "10px" }}
+              style={{ marginRight : 16 }}
               onClick={this.handleReset}
             >
               Reset filter
             </ResetButton>
+
+            <IconButton
+              title="Column view"
+              onPress={this.switchColumnView}
+            />
           </div>
           <div className="merchant-list-container">
             <ReactTable

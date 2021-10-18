@@ -20,6 +20,7 @@ class SignIn extends React.Component {
 
   onSubmit = (e) => {
     const { email, password } = this.state;
+    console.log({ email, password });
     const path = "/verify";
     this.props.userLogin(email, password, path);
   };
