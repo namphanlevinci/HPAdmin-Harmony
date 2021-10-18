@@ -95,14 +95,14 @@ class SidenavContent extends Component {
             <IntlMessages id="sidebar.main" />
           </li>
           {/* DASHBOARD */}
-          <li className="menu no-arrow">
+          {/* <li className="menu no-arrow">
             <NavLink to="/app/dashboard">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">
                 <IntlMessages id="sidebar.dashboard.dashboard" />
               </span>
             </NavLink>
-          </li>
+          </li> */}
           {/*REQUEST MANAGEMENT */}
           {CheckPermissions("view-request-management") ? (
             <li className="menu collapse-box">
