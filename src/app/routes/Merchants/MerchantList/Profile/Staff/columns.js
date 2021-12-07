@@ -88,6 +88,7 @@ const columns = (viewStaff, restore) => [
     sortable: false,
     accessor: "actions",
     Cell: (row) => {
+      console.log({ row })
       const actionsBtn =
         row.original.isDisabled !== 1 ? (
           <Tooltip title="Archive">
@@ -95,7 +96,7 @@ const columns = (viewStaff, restore) => [
               alt="archive"
               src={ArchiveSVG}
               onClick={() => [
-                restore(row.original.staffId)
+                restore(row.original.staffId,row.original.isDisabled)
               ]}
             />
           </Tooltip>
@@ -103,7 +104,7 @@ const columns = (viewStaff, restore) => [
             <Tooltip
               onClick={(e) => {
                 e.stopPropagation();
-                restore(row.original.staffId);
+                restore(row.original.staffId, row.original.isDisabled);
               }}
               title="Restore">
               <img
