@@ -112,6 +112,7 @@ class Staff extends Component {
     data = data?.slice((page - 1) * row, (page - 1) * row + row) || [];
     const pageCount = this.props.staff.data && this.props.staff.data.length ? Math.ceil(this.props.staff.data.length / row) : 1;
 
+    console.log({ staffId: this.state.extraId })
     if (data) {
       if (this.state.search) {
         data = data.filter((e) => {
@@ -132,6 +133,8 @@ class Staff extends Component {
         });
       } 
     }
+
+    console.log({ data })
 
     return (
       <div className="content general-content react-transition swipe-up Staff">
@@ -167,9 +170,10 @@ class Staff extends Component {
             <ReactTable
               ref={this.refTable}
               data={data}
-              columns={columns(this.viewStaff, (staffId) => this.setState({
+              columns={columns(this.viewStaff, (staffId, isDisabled) => this.setState({
                 extraId: staffId,
-                restoreDialog: true,
+                restoreDialog: isDisabled == 1 ? true : false,
+                dialog: isDisabled == 1 ? false : true,
               }))}
               minRows={1}
               defaultPageSize={200}
