@@ -58,6 +58,7 @@ class EditSubscription extends Component {
 
   handleSubPlan = (e, amount, subName) => {
     const { name, value } = e.target;
+
     if (+value !== 3) {
       this.setState({ additionStaff: 0 });
     }
@@ -125,6 +126,8 @@ class EditSubscription extends Component {
 
     const totalAmount = defaultAmount + staffPrice;
 
+    console.log({ packageList })
+
     return (
       <div className="react-transition swipe-up">
         <Grid container spacing={3} className="container-fluid">
@@ -135,21 +138,46 @@ class EditSubscription extends Component {
           <Grid item xs={3}>
             <CustomTextLabel value="Subscription Plan" />
           </Grid>
+
+          {/* {
+            packageList && packageList.reverse().map((obj, key) => (
+              <Grid key={"package" + key} item xs={3}>
+                <FormControlLabel
+                  checked={packageId == obj?.packageId}
+                  onChange={(e) =>
+                    this.handleSubPlan(
+                      e,
+                      obj.pricing,
+                      obj.packageName
+                    )
+                  }
+                  value={1}
+                  name="packageId"
+                  inputProps={{ "aria-label": "B" }}
+                  control={<Radio style={{ color: "#0764B0" }} />}
+                  label={obj.packageName}
+                  labelPlacement="right"
+                />
+              </Grid>
+            ))
+          } */}
+
+
           <Grid item xs={3}>
             <FormControlLabel
               checked={Number(packageId) === 1}
               onChange={(e) =>
                 this.handleSubPlan(
                   e,
-                  packageList?.[2]?.pricing,
-                  packageList?.[2]?.packageName
+                  packageList?.[4]?.pricing,
+                  packageList?.[4]?.packageName
                 )
               }
               value={1}
               name="packageId"
               inputProps={{ "aria-label": "B" }}
               control={<Radio style={{ color: "#0764B0" }} />}
-              label={packageList?.[2]?.packageName}
+              label={packageList?.[4]?.packageName}
               labelPlacement="right"
             />
           </Grid>
@@ -159,15 +187,15 @@ class EditSubscription extends Component {
               onChange={(e) =>
                 this.handleSubPlan(
                   e,
-                  packageList?.[1]?.pricing,
-                  packageList?.[1]?.packageName
+                  packageList?.[3]?.pricing,
+                  packageList?.[3]?.packageName
                 )
               }
               value={2}
               name="packageId"
               inputProps={{ "aria-label": "B" }}
               control={<Radio style={{ color: "#0764B0" }} />}
-              label={packageList?.[1]?.packageName}
+              label={packageList?.[3]?.packageName}
               labelPlacement="right"
             />
           </Grid>
@@ -177,11 +205,48 @@ class EditSubscription extends Component {
               onChange={(e) =>
                 this.handleSubPlan(
                   e,
+                  packageList?.[2]?.pricing,
+                  packageList?.[2]?.packageName
+                )
+              }
+              value={3}
+              name="packageId"
+              inputProps={{ "aria-label": "B" }}
+              control={<Radio style={{ color: "#0764B0" }} />}
+              label={packageList?.[2]?.packageName}
+              labelPlacement="right"
+            />
+          </Grid>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={3}>
+            <FormControlLabel
+              checked={Number(packageId) === 4}
+              onChange={(e) =>
+                this.handleSubPlan(
+                  e,
+                  packageList?.[1]?.pricing,
+                  packageList?.[1]?.packageName
+                )
+              }
+              value={4}
+              name="packageId"
+              inputProps={{ "aria-label": "B" }}
+              control={<Radio style={{ color: "#0764B0" }} />}
+              label={packageList?.[1]?.packageName}
+              labelPlacement="right"
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <FormControlLabel
+              checked={Number(packageId) === 5}
+              onChange={(e) =>
+                this.handleSubPlan(
+                  e,
                   packageList?.[0]?.pricing,
                   packageList?.[0]?.packageName
                 )
               }
-              value={3}
+              value={5}
               name="packageId"
               inputProps={{ "aria-label": "B" }}
               control={<Radio style={{ color: "#0764B0" }} />}
@@ -189,30 +254,25 @@ class EditSubscription extends Component {
               labelPlacement="right"
             />
           </Grid>
-          <Grid item xs={12} style={{ paddingTop: "0px" }}>
-            <Grid
-              container
-              style={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <Grid item xs={3} style={{ paddingLeft: "2rem" }}>
-                {Number(packageId) === 3 && (
-                  <TextField
-                    label="Addition Staff"
-                    InputLabelProps={{ shrink: true }}
-                    value={additionStaff}
-                    onChange={this.handleAdditionStaff}
-                    fullWidth
-                    name="additionStaff"
-                    InputProps={{
-                      inputComponent: InputCustom,
-                    }}
-                    inputProps={{
-                      numericOnly: true,
-                    }}
-                  />
-                )}
-              </Grid>
-            </Grid>
+
+          <Grid item xs={3} >
+            {Number(packageId) === 3 && (
+              <TextField
+                label="Addition Staff"
+                InputLabelProps={{ shrink: true }}
+                value={additionStaff}
+                onChange={this.handleAdditionStaff}
+                fullWidth
+                name="additionStaff"
+                InputProps={{
+                  inputComponent: InputCustom,
+                }}
+                inputProps={{
+                  numericOnly: true,
+                }}
+                style={{ marginTop : -17 }}
+              />
+            )}
           </Grid>
 
           <Grid item xs={3}>

@@ -44,6 +44,18 @@ function PricingPlan(props) {
             control={<Radio color="primary" />}
             label="Advanced"
           />
+            <FormControlLabel
+            // checked={value === 1}
+            value={4}
+            control={<Radio color="primary" />}
+            label="Solo"
+          />
+          <FormControlLabel
+            // checked={value === 2}
+            value={5}
+            control={<Radio color="primary" />}
+            label="Duo"
+          />
         </RadioGroup>
       </FormControl>
     </div>

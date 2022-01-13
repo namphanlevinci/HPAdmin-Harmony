@@ -185,6 +185,8 @@ class AddMerchant extends React.Component {
 
   handleSubmit = (values, actions) => {
 
+    console.log({ values })
+
     const { activeStep } = this.state;
     if (activeStep === 0 && values.type === "MerchantType") {
       alert("please select merchant type");
