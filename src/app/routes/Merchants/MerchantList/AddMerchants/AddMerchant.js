@@ -76,14 +76,15 @@ class AddMerchant extends React.Component {
     switch (stepIndex) {
       case 0:
         return (
-          <Question
-          values={values}
-          setFieldValue={setFieldValue}
-          handleChange={handleChange}
-          errors={errors}
-          touched={touched}
-          handleBlur={handleBlur}
-        />
+          <General
+            values={values}
+            setFieldValue={setFieldValue}
+            errors={errors}
+            touched={touched}
+            handleBlur={handleBlur}
+            setFieldError={setFieldError}
+            merchantState={merchantState}
+          />
         );
       case 1:
         return (
