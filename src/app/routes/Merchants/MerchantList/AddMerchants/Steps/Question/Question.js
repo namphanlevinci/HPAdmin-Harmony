@@ -15,6 +15,7 @@ export default function Question(props) {
     },
     setFieldValue,
   } = props;
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -117,6 +118,17 @@ export default function Question(props) {
               label="Yes"
             />
           </RadioGroup>
+          <InputField
+              style={{ marginTop: "0px", width: "90%", float: "right" }}
+              name={`businessInfo.question3.desc`}
+              type="text"
+              margin="normal"
+              fullWidth
+              placeholder=""
+              onChange={(e) =>
+                setFieldValue("businessInfo.question3.desc", e.target.value)
+              }
+            />
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="subtitle1" gutterBottom>

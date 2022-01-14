@@ -76,15 +76,14 @@ class AddMerchant extends React.Component {
     switch (stepIndex) {
       case 0:
         return (
-          <General
-            values={values}
-            setFieldValue={setFieldValue}
-            errors={errors}
-            touched={touched}
-            handleBlur={handleBlur}
-            setFieldError={setFieldError}
-            merchantState={merchantState}
-          />
+          <Question
+          values={values}
+          setFieldValue={setFieldValue}
+          handleChange={handleChange}
+          errors={errors}
+          touched={touched}
+          handleBlur={handleBlur}
+        />
         );
       case 1:
         return (
@@ -185,7 +184,6 @@ class AddMerchant extends React.Component {
 
   handleSubmit = (values, actions) => {
 
-    console.log({ values })
 
     const { activeStep } = this.state;
     if (activeStep === 0 && values.type === "MerchantType") {

@@ -41,6 +41,7 @@ class EditSubscription extends Component {
   componentDidMount = () => {
     this.props.getPackage();
     const sub = this.props.subscription;
+    console.log({ sub })
     const packageList = this.props.package;
 
     this.setState({
