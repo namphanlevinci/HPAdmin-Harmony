@@ -12,7 +12,9 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   background-color: #0764B0;
   border-radius: 3px;
-  flex-wrap: wrap;
+  flex-direction: row;
+  overflow-x: scroll;
+  /* flex-wrap: wrap; */
 }
 
 ul.detail-tab li {
